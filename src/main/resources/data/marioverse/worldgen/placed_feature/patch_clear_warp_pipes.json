@@ -1,5 +1,5 @@
 {
-  "feature": "marioverse:patch_clear_marioverse",
+  "feature": "marioverse:patch_clear_warp_pipes",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

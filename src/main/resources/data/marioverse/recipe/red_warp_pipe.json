@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "marioverse",
+  "group": "marioverse:warp_pipes",
   "key": {
     "I": {
       "tag": "c:ingots/copper"

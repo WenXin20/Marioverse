@@ -118,7 +118,7 @@
                         0,
                         0
                       ],
-                      "tag": "marioverse:marioverse"
+                      "tag": "marioverse:warp_pipes"
                     },
                     {
                       "type": "minecraft:matching_block_tag",
@@ -127,7 +127,7 @@
                         0,
                         0
                       ],
-                      "tag": "marioverse:marioverse"
+                      "tag": "marioverse:warp_pipes"
                     },
                     {
                       "type": "minecraft:matching_block_tag",
@@ -136,7 +136,7 @@
                         0,
                         1
                       ],
-                      "tag": "marioverse:marioverse"
+                      "tag": "marioverse:warp_pipes"
                     },
                     {
                       "type": "minecraft:matching_block_tag",
@@ -145,7 +145,7 @@
                         0,
                         -1
                       ],
-                      "tag": "marioverse:marioverse"
+                      "tag": "marioverse:warp_pipes"
                     }
                   ]
                 }

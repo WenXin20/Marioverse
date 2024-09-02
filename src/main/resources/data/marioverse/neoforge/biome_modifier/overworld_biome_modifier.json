@@ -1,11 +1,11 @@
 {
   "type": "neoforge:add_features",
   "biomes": "#minecraft:is_overworld",
-  "features": ["marioverse:patch_clear_marioverse", "marioverse:patch_black_marioverse", "marioverse:patch_blue_marioverse",
-    "marioverse:patch_brown_marioverse", "marioverse:patch_cyan_marioverse", "marioverse:patch_gray_marioverse",
-    "marioverse:patch_green_marioverse", "marioverse:patch_light_blue_marioverse", "marioverse:patch_light_gray_marioverse",
-    "marioverse:patch_lime_marioverse", "marioverse:patch_magenta_marioverse", "marioverse:patch_orange_marioverse",
-    "marioverse:patch_pink_marioverse", "marioverse:patch_purple_marioverse", "marioverse:patch_red_marioverse",
-    "marioverse:patch_white_marioverse", "marioverse:patch_yellow_marioverse" ],
+  "features": [ "marioverse:patch_clear_warp_pipes", "marioverse:patch_black_warp_pipes", "marioverse:patch_blue_warp_pipes",
+    "marioverse:patch_brown_warp_pipes", "marioverse:patch_cyan_warp_pipes", "marioverse:patch_gray_warp_pipes",
+    "marioverse:patch_green_warp_pipes", "marioverse:patch_light_blue_warp_pipes", "marioverse:patch_light_gray_warp_pipes",
+    "marioverse:patch_lime_warp_pipes", "marioverse:patch_magenta_warp_pipes", "marioverse:patch_orange_warp_pipes",
+    "marioverse:patch_pink_warp_pipes", "marioverse:patch_purple_warp_pipes", "marioverse:patch_red_warp_pipes",
+    "marioverse:patch_white_warp_pipes", "marioverse:patch_yellow_warp_pipes" ],
   "step": "underground_decoration"
 }

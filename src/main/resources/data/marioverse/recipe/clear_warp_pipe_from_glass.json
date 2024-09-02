@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "clear_marioverse",
+  "group": "marioverse:clear_warp_pipes",
   "ingredients": [
     {
       "tag": "marioverse:dyeable_marioverse"

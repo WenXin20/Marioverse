@@ -229,7 +229,7 @@
         },
         {
           "type": "minecraft:tag",
-          "name": "marioverse:marioverse",
+          "name": "marioverse:warp_pipes",
           "expand": true,
           "weight": 10,
           "functions": [

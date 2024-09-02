@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "marioverse_from_dye",
+  "group": "marioverse:warp_pipes_from_dye",
   "ingredients": [
     {
       "tag": "c:dyes/brown"

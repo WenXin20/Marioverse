@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "pipe_wrench",
+  "group": "marioverse:pipe_wrench",
   "key": {
     "C": {
       "tag": "c:ingots/copper"
