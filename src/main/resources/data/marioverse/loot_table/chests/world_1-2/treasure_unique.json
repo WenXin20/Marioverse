@@ -2,7 +2,8 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "rolls": 2,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -27,7 +28,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:diamond",
-          "weight": 3,
+          "weight": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -43,7 +44,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:amethyst_shard",
-          "weight": 4,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -61,8 +62,7 @@
           "name": "minecraft:skull_banner_pattern",
           "weight": 2
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ],
   "random_sequence": "marioverse:chests/world_1-2/treasure_unique"

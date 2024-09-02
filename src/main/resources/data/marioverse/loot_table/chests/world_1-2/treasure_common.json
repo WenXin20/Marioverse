@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 2,
       "bonus_rolls": 0,
       "entries": [
         {
@@ -58,7 +58,7 @@
       "entries": [
         {
           "type": "minecraft:tag",
-          "name": "marioverse:warp_pipes",
+          "name": "marioverse:marioverse",
           "expand": true,
           "weight": 1,
           "functions": [
