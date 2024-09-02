@@ -59,27 +59,27 @@ side="BOTH"
 [[dependencies.marioverse]]
 modId="geckolib"
 type="required"
-versionRange="${geckolib_version_range}"
+versionRange="[4.6,)"
 ordering="NONE"
 side="CLIENT"
 
 [[dependencies.marioverse]]
 modId="pehkui"
 type="required"
-versionRange="${pehkui_version_range}"
+versionRange="[3.8.3+1.21-neoforge,)"
 ordering="NONE"
-side="CLIENT"
+side="BOTH"
 
 [[dependencies.marioverse]]
 modId="ctm"
 type="optional"
-versionRange="${ctm_version_range}"
+versionRange="[1.2.0,)"
 ordering="AFTER"
 side="CLIENT"
 
 [[dependencies.marioverse]]
 modId="fusion"
 type="optional"
-versionRange="${fusion_version_range}"
+versionRange="[1.1.1+a,)"
 ordering="AFTER"
 side="CLIENT"

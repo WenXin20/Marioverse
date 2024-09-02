@@ -42,11 +42,13 @@ dependencies {
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     implementation "curse.maven:ctm-${ctm_version}"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
+    implementation "curse.maven:geckolib-${geckolib_version}"
+    implementation "curse.maven:pehkui-${pehkui_version}"
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
 
-    implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
-    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    // implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
+    // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // implementation "curse.maven:jei-${jei_version}"
     // implementation "curse.maven:selene-${moonlight_version}"
@@ -142,16 +144,16 @@ publishing {
         maven {
             url "file://${project.projectDir}/repo"
         }
-        maven {
-            name = 'GeckoLib'
-            url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-            content {
-                includeGroup("software.bernie.geckolib")
-            }
-        }
-        maven {
-            url = "https://jitpack.io"
-        }
+//        maven {
+//            name = 'GeckoLib'
+//            url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+//            content {
+//                includeGroup("software.bernie.geckolib")
+//            }
+//        }
+//        maven {
+//            url = "https://jitpack.io"
+//        }
     }
 }
 
