@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.sounds;
 
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
-import com.wenxin2.marioverse.init.ModRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AmbientSoundHandler;
 import net.minecraft.sounds.SoundEvents;
@@ -25,11 +25,11 @@ public class PipeBubblesSoundHandler implements AmbientSoundHandler {
         Level world = this.player.level();
         BlockState stateLoaded = world.getBlockStatesIfLoaded(this.player.getBoundingBox()
                 .inflate(0.0D, (double)-0.4F, 0.0D).deflate(1.0E-6D)).filter((state) -> {
-            return state.is(ModRegistry.PIPE_BUBBLES.get());
+            return state.is(BlockRegistry.PIPE_BUBBLES.get());
         }).findFirst().orElse(null);
         if (stateLoaded != null) {
             if (!this.wasInBubbleColumn && !this.firstTick && !this.player.isSpectator()
-                    && (stateLoaded.is(ModRegistry.PIPE_BUBBLES.get()) || stateLoaded.is(ModRegistry.WATER_SPOUT.get()))) {
+                    && (stateLoaded.is(BlockRegistry.PIPE_BUBBLES.get()) || stateLoaded.is(BlockRegistry.WATER_SPOUT.get()))) {
                 boolean flag = stateLoaded.getValue(PipeBubblesBlock.DRAG_DOWN);
                 if (flag) {
                     this.player.playSound(SoundEvents.BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 1.0F, 1.0F);

@@ -5,7 +5,7 @@ import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
-import com.wenxin2.marioverse.init.ModRegistry;
+import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.UUID;
@@ -90,7 +90,7 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
 
     public WarpPipeBlockEntity(final BlockPos pos, final BlockState state)
     {
-        this(ModRegistry.WARP_PIPE_BLOCK_ENTITY.get(), pos, state);
+        this(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), pos, state);
     }
 
     public WarpPipeBlockEntity(final BlockEntityType<?> tileEntity, BlockPos pos, BlockState state) {

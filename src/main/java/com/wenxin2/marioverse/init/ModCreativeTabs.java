@@ -21,45 +21,45 @@ public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Marioverse.MODID);
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> WARP_PIPES_TAB = TABS.register("marioverse_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.marioverse"))
-            .icon(() -> new ItemStack(ModRegistry.WARP_PIPES.get(DyeColor.GREEN).get())).build());
+            .icon(() -> new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get())).build());
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == WARP_PIPES_TAB.getKey()) {
-            add(event, ModRegistry.PIPE_WRENCH.get());
+            add(event, ItemRegistry.PIPE_WRENCH.get());
 
-            add(event, ModRegistry.CLEAR_WARP_PIPE.get());
+            add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
-            for (DeferredHolder<Block, Block> pipe : ModRegistry.WARP_PIPES.values()) {
+            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
                 add(event, pipe.get());
             }
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            addAfter(event, Items.FISHING_ROD, ModRegistry.PIPE_WRENCH.get());
+            addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            addBefore(event, Items.SHIELD, ModRegistry.PIPE_WRENCH.get());
+            addBefore(event, Items.SHIELD, ItemRegistry.PIPE_WRENCH.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
-            addAfter(event, Items.REDSTONE_LAMP, ModRegistry.CLEAR_WARP_PIPE.get());
-            addAfter(event, Items.REDSTONE_LAMP, ModRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
+            addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.CLEAR_WARP_PIPE.get());
+            addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
-            add(event, ModRegistry.CLEAR_WARP_PIPE.get());
+            add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
-            for (DeferredHolder<Block, Block> pipe : ModRegistry.WARP_PIPES.values()) {
+            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
                 add(event, pipe.get());
             }
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
-            addAfter(event, Items.RESPAWN_ANCHOR, ModRegistry.CLEAR_WARP_PIPE.get());
+            addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
 
-            for (DeferredHolder<Block, Block> pipe : ModRegistry.WARP_PIPES.values()) {
-                addAfter(event, ModRegistry.CLEAR_WARP_PIPE.get(), pipe.get());
+            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
+                addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), pipe.get());
             }
 
 //            addAfter(event, ModRegistry.CLEAR_WARP_PIPE.get(), ModRegistry.WARP_PIPES.get(DyeColor.WHITE).get());

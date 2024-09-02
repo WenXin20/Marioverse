@@ -1,9 +1,8 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.Config;
-import com.wenxin2.marioverse.init.ModRegistry;
-import java.nio.channels.Pipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -172,7 +171,7 @@ public class PipeBubblesBlock extends BubbleColumnBlock implements BucketPickup 
             return Blocks.WATER.defaultBlockState();
         }
 
-        if (!state.canSurvive(worldAccessor, pos) && !neighborState.is(ModRegistry.PIPE_BUBBLES.get())
+        if (!state.canSurvive(worldAccessor, pos) && !neighborState.is(BlockRegistry.PIPE_BUBBLES.get())
                 && canExistIn(worldAccessor, pos)) {
             worldAccessor.scheduleTick(pos, this, 3);
         }
@@ -190,17 +189,17 @@ public class PipeBubblesBlock extends BubbleColumnBlock implements BucketPickup 
         BlockState stateEast = worldReader.getBlockState(pos.below());
         BlockState stateWest = worldReader.getBlockState(pos.below());
 
-        if (state.getValue(FACING) == Direction.UP && stateBelow.is(ModRegistry.PIPE_BUBBLES.get()))
+        if (state.getValue(FACING) == Direction.UP && stateBelow.is(BlockRegistry.PIPE_BUBBLES.get()))
             return true;
-        else if (state.getValue(FACING) == Direction.DOWN && stateAbove.is(ModRegistry.PIPE_BUBBLES.get()))
+        else if (state.getValue(FACING) == Direction.DOWN && stateAbove.is(BlockRegistry.PIPE_BUBBLES.get()))
             return true;
-        else if (state.getValue(FACING) == Direction.NORTH && stateSouth.is(ModRegistry.PIPE_BUBBLES.get()))
+        else if (state.getValue(FACING) == Direction.NORTH && stateSouth.is(BlockRegistry.PIPE_BUBBLES.get()))
             return true;
-        else if (state.getValue(FACING) == Direction.SOUTH && stateNorth.is(ModRegistry.PIPE_BUBBLES.get()))
+        else if (state.getValue(FACING) == Direction.SOUTH && stateNorth.is(BlockRegistry.PIPE_BUBBLES.get()))
             return true;
-        else if (state.getValue(FACING) == Direction.EAST && stateWest.is(ModRegistry.PIPE_BUBBLES.get()))
+        else if (state.getValue(FACING) == Direction.EAST && stateWest.is(BlockRegistry.PIPE_BUBBLES.get()))
             return true;
-        else if (state.getValue(FACING) == Direction.WEST && stateEast.is(ModRegistry.PIPE_BUBBLES.get()))
+        else if (state.getValue(FACING) == Direction.WEST && stateEast.is(BlockRegistry.PIPE_BUBBLES.get()))
             return true;
         else if (state.getValue(FACING) == Direction.UP && stateBelow.getBlock() instanceof WarpPipeBlock
                 && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && stateBelow.getValue(WarpPipeBlock.BUBBLES))
@@ -254,7 +253,7 @@ public class PipeBubblesBlock extends BubbleColumnBlock implements BucketPickup 
     }
 
     public static boolean canExistIn(LevelAccessor worldAccessor, BlockPos pos) {
-        return worldAccessor.getBlockState(pos).is(ModRegistry.PIPE_BUBBLES.get())
+        return worldAccessor.getBlockState(pos).is(BlockRegistry.PIPE_BUBBLES.get())
                 || worldAccessor.getBlockState(pos).is(Blocks.WATER)
                 && worldAccessor.getBlockState(pos).getFluidState().isSource();
     }
@@ -265,10 +264,10 @@ public class PipeBubblesBlock extends BubbleColumnBlock implements BucketPickup 
             posMutable.setWithOffset(pos, direction);
         }
 
-        if (state.is(ModRegistry.PIPE_BUBBLES.get())) {
+        if (state.is(BlockRegistry.PIPE_BUBBLES.get())) {
             return state;
         } else if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED) && state.getValue(WarpPipeBlock.BUBBLES)) {
-            return ModRegistry.PIPE_BUBBLES.get().defaultBlockState().setValue(DRAG_DOWN, Boolean.FALSE)
+            return BlockRegistry.PIPE_BUBBLES.get().defaultBlockState().setValue(DRAG_DOWN, Boolean.FALSE)
                     .setValue(FACING, state.getValue(FACING));
         }
         return Blocks.WATER.defaultBlockState();

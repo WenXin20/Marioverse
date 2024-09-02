@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.Config;
-import com.wenxin2.marioverse.init.ModRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
@@ -102,7 +102,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         Item item = stack.getItem();
 
-        if (state.getValue(ENTRANCE) && player.getItemInHand(hand).getItem() == ModRegistry.PIPE_WRENCH.get()) {
+        if (state.getValue(ENTRANCE) && player.getItemInHand(hand).getItem() == ItemRegistry.PIPE_WRENCH.get()) {
             if (blockEntity instanceof WarpPipeBlockEntity) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new WarpPipeMenu(id,
                         playerInventory, ContainerLevelAccess.create(world, pos), pos), ((WarpPipeBlockEntity) blockEntity).getDisplayName()));

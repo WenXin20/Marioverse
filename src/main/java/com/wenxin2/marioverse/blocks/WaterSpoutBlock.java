@@ -1,8 +1,8 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.Config;
-import com.wenxin2.marioverse.init.ModRegistry;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -99,7 +99,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             return Blocks.AIR.defaultBlockState();
         }
 
-        if (stateAbove.getBlock() != ModRegistry.WATER_SPOUT.get()) {
+        if (stateAbove.getBlock() != BlockRegistry.WATER_SPOUT.get()) {
             return state.setValue(TOP, Boolean.TRUE);
         }
         else return state.setValue(TOP, Boolean.FALSE);
@@ -109,7 +109,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     public boolean canSurvive(BlockState state, LevelReader worldReader, BlockPos pos) {
         BlockState stateBelow = worldReader.getBlockState(pos.below());
 
-        if (stateBelow.is(ModRegistry.WATER_SPOUT.get()))
+        if (stateBelow.is(BlockRegistry.WATER_SPOUT.get()))
             return true;
         else if ((stateBelow.is(Blocks.WATER) && stateBelow.getFluidState().getAmount() >= 8 && stateBelow.getFluidState().isSource()))
             return true;
@@ -125,22 +125,22 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     }
 
     public static boolean canExistIn(LevelAccessor worldAccessor, BlockPos pos) {
-        return worldAccessor.getBlockState(pos).is(ModRegistry.WATER_SPOUT.get()) ||  worldAccessor.getBlockState(pos).isAir();
+        return worldAccessor.getBlockState(pos).is(BlockRegistry.WATER_SPOUT.get()) ||  worldAccessor.getBlockState(pos).isAir();
     }
 
     public static BlockState setBlockState(BlockState state, LevelAccessor worldAccessor, BlockPos pos) {
         BlockState stateAbove = worldAccessor.getBlockState(pos.above());
-        if (state.isAir() || state.is(ModRegistry.WATER_SPOUT.get())
+        if (state.isAir() || state.is(BlockRegistry.WATER_SPOUT.get())
                 || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.WATER_SPOUT) && !state.getValue(WarpPipeBlock.CLOSED))) {
-            if (state.is(ModRegistry.WATER_SPOUT.get())) {
-                if (!stateAbove.is(ModRegistry.WATER_SPOUT.get()))
+            if (state.is(BlockRegistry.WATER_SPOUT.get())) {
+                if (!stateAbove.is(BlockRegistry.WATER_SPOUT.get()))
                     return state.setValue(TOP, Boolean.TRUE);
                 else return state.setValue(TOP, Boolean.FALSE);
             } else if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.FACING) == Direction.UP
                     && state.getValue(WarpPipeBlock.WATER_SPOUT) && !state.getValue(WarpPipeBlock.CLOSED)) {
-                if (!stateAbove.is(ModRegistry.WATER_SPOUT.get()))
-                    return ModRegistry.WATER_SPOUT.get().defaultBlockState().setValue(TOP, Boolean.TRUE);
-                else return ModRegistry.WATER_SPOUT.get().defaultBlockState().setValue(TOP, Boolean.FALSE);
+                if (!stateAbove.is(BlockRegistry.WATER_SPOUT.get()))
+                    return BlockRegistry.WATER_SPOUT.get().defaultBlockState().setValue(TOP, Boolean.TRUE);
+                else return BlockRegistry.WATER_SPOUT.get().defaultBlockState().setValue(TOP, Boolean.FALSE);
             }
         }
         return Blocks.AIR.defaultBlockState();
@@ -257,11 +257,11 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             BlockState stateAbove = worldAccessor.getBlockState(mutablePos.above());
 
             if (pipeColumnState.getBlock() instanceof WaterSpoutBlock) {
-                if (stateAbove.getBlock() != ModRegistry.WATER_SPOUT.get()) {
+                if (stateAbove.getBlock() != BlockRegistry.WATER_SPOUT.get()) {
                     worldAccessor.setBlock(pos, pipeColumnState.setValue(TOP, Boolean.TRUE), 2);
                 } else worldAccessor.setBlock(pos, pipeColumnState.setValue(TOP, Boolean.FALSE), 2);
             } else worldAccessor.setBlock(pos, pipeColumnState, 2);
-            worldAccessor.scheduleTick(pos, ModRegistry.WATER_SPOUT.get(), 3);
+            worldAccessor.scheduleTick(pos, BlockRegistry.WATER_SPOUT.get(), 3);
 
             // Used 4 - 1 since this somehow places one more block than intended
             while (WaterSpoutBlock.canExistIn(worldAccessor, mutablePos) && initialDistance < spoutHeight - 1) {

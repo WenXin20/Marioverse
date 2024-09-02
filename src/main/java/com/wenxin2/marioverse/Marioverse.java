@@ -2,10 +2,13 @@ package com.wenxin2.marioverse;
 
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
+import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ClientSetupHandler;
 import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ModCreativeTabs;
-import com.wenxin2.marioverse.init.ModRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
 import net.minecraft.core.registries.Registries;
@@ -50,7 +53,10 @@ public class Marioverse
         LinkerDataComponents.COMPONENTS.register(bus);
         ModCreativeTabs.TABS.register(bus);
 
-        ModRegistry.init();
+        BlockRegistry.init();
+        BlockEntityRegistry.init();
+        ItemRegistry.init();
+        MenuRegistry.init();
         SoundRegistry.init();
         Config.register(container);
 

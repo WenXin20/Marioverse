@@ -3,8 +3,8 @@ package com.wenxin2.marioverse.blocks;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.Config;
-import com.wenxin2.marioverse.init.ModRegistry;
 import com.wenxin2.marioverse.init.ModTags;
 import com.wenxin2.marioverse.items.LinkerItem;
 import java.util.Collection;
@@ -203,7 +203,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof LinkerItem
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
-                            || player.getItemInHand(player.getUsedItemHand()).getItem() == ModRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
+                            || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
                         shape = Shapes.or(shape, PIPE_ALL);
                     }
                 }
@@ -217,7 +217,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof LinkerItem
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
-                        || player.getItemInHand(player.getUsedItemHand()).getItem() == ModRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
+                        || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
                     shape = Shapes.or(shape, PIPE_ALL);
                 }
             }

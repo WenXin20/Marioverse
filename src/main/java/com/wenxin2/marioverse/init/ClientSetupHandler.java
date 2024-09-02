@@ -18,15 +18,15 @@ public class ClientSetupHandler {
         event.register((state, world, pos, tintIndex) -> {
             return world != null && pos != null ? BiomeColors.getAverageWaterColor(world, pos) | 0xFF0000cc
                     : 0xFFFFFFFF;
-        }, ModRegistry.WATER_SPOUT.get());
+        }, BlockRegistry.WATER_SPOUT.get());
     }
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(ModRegistry.WARP_PIPE_MENU.get(), WarpPipeScreen::new);
+        event.register(MenuRegistry.WARP_PIPE_MENU.get(), WarpPipeScreen::new);
     }
 
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModRegistry.WARP_PIPE_BLOCK_ENTITY.get(), WarpPipeBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), WarpPipeBlockEntityRenderer::new);
     }
 }

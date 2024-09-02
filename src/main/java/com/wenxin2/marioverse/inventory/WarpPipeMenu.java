@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.inventory;
 
-import com.wenxin2.marioverse.init.ModRegistry;
+import com.wenxin2.marioverse.init.MenuRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public WarpPipeMenu(int id, Inventory inventory, final ContainerLevelAccess levelAccess, final BlockPos pos)
     {
-        super(ModRegistry.WARP_PIPE_MENU.get(), id);
+        super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
         this.pos = pos;
 
@@ -36,7 +36,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public WarpPipeMenu(int id, Inventory inventory, final ContainerLevelAccess levelAccess)
     {
-        super(ModRegistry.WARP_PIPE_MENU.get(), id);
+        super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
 
         for(int k = 0; k < 3; ++k) {
