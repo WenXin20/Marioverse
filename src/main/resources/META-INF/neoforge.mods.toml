@@ -56,3 +56,10 @@ type="required"
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies.marioverse]]
+modId="geckolib"
+type="required"
+versionRange="${geckolib_version_range}"
+ordering="NONE"
+side="CLIENT"
