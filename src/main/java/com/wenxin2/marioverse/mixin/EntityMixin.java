@@ -152,7 +152,7 @@ public abstract class EntityMixin {
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp((Entity) (Object) this, warpPos, world, stateAboveEntity);
-                    else if (warpPipeBE.getUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
+                    else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp((Entity) (Object) this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, stateAboveEntity);
                     this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
                 }
@@ -187,12 +187,12 @@ public abstract class EntityMixin {
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
             }
 
-            if (this.marioverse$getWarpCooldown() == 0 && warpPipeBE.hasDestinationPos()) {
+            if (this.marioverse$getWarpCooldown() == 0) {
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && (entityY > blockY - 1)
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp((Entity) (Object) this, warpPos, world, state);
-                    else if (warpPipeBE.getUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
+                    else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp((Entity) (Object) this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
                     this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
                 }
@@ -200,7 +200,7 @@ public abstract class EntityMixin {
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp((Entity) (Object) this, warpPos, world, state);
-                    else if (warpPipeBE.getUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
+                    else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp((Entity) (Object) this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
                     this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
                 }
@@ -208,7 +208,7 @@ public abstract class EntityMixin {
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ)) {
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp((Entity) (Object) this, warpPos, world, state);
-                    else if (warpPipeBE.getUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
+                    else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp((Entity) (Object) this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
                     this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
                 }
@@ -216,7 +216,7 @@ public abstract class EntityMixin {
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp((Entity) (Object) this, warpPos, world, state);
-                    else if (warpPipeBE.getUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
+                    else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp((Entity) (Object) this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
                     this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
                 }
@@ -224,7 +224,7 @@ public abstract class EntityMixin {
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp((Entity) (Object) this, warpPos, world, state);
-                    else if (warpPipeBE.getUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
+                    else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp((Entity) (Object) this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
                     this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
                 }
