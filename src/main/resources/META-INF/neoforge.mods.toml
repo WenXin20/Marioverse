@@ -52,7 +52,6 @@ side="BOTH"
 [[dependencies.marioverse]]
 modId="minecraft"
 type="required"
-# This version range declares a minimum of the current minecraft version up to but not including the next major version
 versionRange="${minecraft_version_range}"
 ordering="NONE"
 side="BOTH"
@@ -62,4 +61,11 @@ modId="geckolib"
 type="required"
 versionRange="${geckolib_version_range}"
 ordering="NONE"
+side="CLIENT"
+
+[[dependencies.marioverse]]
+modId="fusion"
+type="optional"
+versionRange="${fusion_version_range}"
+ordering="AFTER"
 side="CLIENT"
