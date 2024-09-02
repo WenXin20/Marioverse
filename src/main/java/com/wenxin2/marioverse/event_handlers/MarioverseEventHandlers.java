@@ -11,22 +11,39 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MODID)
 public class MarioverseEventHandlers {
 
     @SubscribeEvent
-    public static void onJoinWorld(EntityJoinLevelEvent event)
-    {
+    public static void onJoinWorld(EntityJoinLevelEvent event) {
         CompoundTag tag = event.getEntity().getPersistentData();
         if (!(event.getEntity() instanceof LivingEntity) && !(event.getEntity() instanceof Player)) return;
 
-        if (event.getEntity() != null && tag.contains("marioverse:can_warp") && tag.getBoolean("marioverse:can_warp") == Boolean.FALSE)
-            tag.putBoolean("marioverse:prevent_warp", true);
-
-        if (event.getEntity() != null && !tag.contains("marioverse:prevent_warp"))
+        if (!tag.contains("marioverse:prevent_warp"))
             tag.putBoolean("marioverse:prevent_warp", false);
+
+        if (!tag.contains("marioverse:has_mega_mushroom"))
+            tag.putBoolean("marioverse:has_mega_mushroom", false);
+    }
+
+    @SubscribeEvent
+    public static void onEntityDamaged(LivingIncomingDamageEvent event) {
+        CompoundTag tag = event.getEntity().getPersistentData();
+
+        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
+            tag.putBoolean("marioverse:has_mega_mushroom", false);
+            ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+            ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+            ScaleTypes.JUMP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+            ScaleTypes.STEP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+            ScaleTypes.REACH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+            ScaleTypes.ATTACK.getScaleData(event.getEntity()).setTargetScale(1.0F);
+        }
     }
 
     @SubscribeEvent

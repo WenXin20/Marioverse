@@ -14,18 +14,28 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleModifiers;
+import virtuoel.pehkui.api.ScaleTypes;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
+    @Shadow @Final private AttributeMap attributes;
+
+    @Shadow public abstract void tick();
+
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique
@@ -60,6 +70,15 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (this.marioverse$warpCooldown > 0) {
             --this.marioverse$warpCooldown;
+        }
+
+        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
+            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
+            ScaleTypes.HEIGHT.getScaleData(this).setTargetScale(5.0F);
+            ScaleTypes.JUMP_HEIGHT.getScaleData(this).setTargetScale(20.0F);
+            ScaleTypes.STEP_HEIGHT.getScaleData(this).setTargetScale(5.0F);
+            ScaleTypes.REACH.getScaleData(this).setTargetScale(5.0F);
+            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
         }
     }
 

@@ -6,7 +6,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +21,9 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.Tags;
 
@@ -33,6 +37,25 @@ public class WrenchItem extends LinkerItem {
     public WrenchItem(Item.Properties properties, Tier tier, Tool toolComponentData) {
         super(properties.component(DataComponents.TOOL, toolComponentData), tier);
         this.tier = tier;
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext useOnContext) {
+        Player player = useOnContext.getPlayer();
+        Level world = useOnContext.getLevel();
+        BlockPos pos = useOnContext.getClickedPos();
+        BlockState state = world.getBlockState(pos);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        ItemStack stack = useOnContext.getItemInHand();
+        String dimension = world.dimension().location().toString();
+        if (player != null) {
+            CompoundTag tag = player.getPersistentData();
+
+            if (!tag.getBoolean("marioverse:has_mega_mushroom"))
+                tag.putBoolean("marioverse:has_mega_mushroom", true);
+            return InteractionResult.sidedSuccess(world.isClientSide);
+        }
+        return super.useOn(useOnContext);
     }
 
     @Override
