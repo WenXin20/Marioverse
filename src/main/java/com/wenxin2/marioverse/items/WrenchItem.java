@@ -40,25 +40,6 @@ public class WrenchItem extends LinkerItem {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext useOnContext) {
-        Player player = useOnContext.getPlayer();
-        Level world = useOnContext.getLevel();
-        BlockPos pos = useOnContext.getClickedPos();
-        BlockState state = world.getBlockState(pos);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        ItemStack stack = useOnContext.getItemInHand();
-        String dimension = world.dimension().location().toString();
-        if (player != null) {
-            CompoundTag tag = player.getPersistentData();
-
-            if (!tag.getBoolean("marioverse:has_mega_mushroom"))
-                tag.putBoolean("marioverse:has_mega_mushroom", true);
-            return InteractionResult.sidedSuccess(world.isClientSide);
-        }
-        return super.useOn(useOnContext);
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
 
         list.add(Component.literal(""));

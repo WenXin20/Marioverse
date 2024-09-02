@@ -11,10 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MODID)
 public class MarioverseEventHandlers {
@@ -31,20 +28,20 @@ public class MarioverseEventHandlers {
             tag.putBoolean("marioverse:has_mega_mushroom", false);
     }
 
-    @SubscribeEvent
-    public static void onEntityDamaged(LivingIncomingDamageEvent event) {
-        CompoundTag tag = event.getEntity().getPersistentData();
-
-        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
-            tag.putBoolean("marioverse:has_mega_mushroom", false);
-            ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
-            ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-            ScaleTypes.JUMP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-            ScaleTypes.STEP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-            ScaleTypes.REACH.getScaleData(event.getEntity()).setTargetScale(1.0F);
-            ScaleTypes.ATTACK.getScaleData(event.getEntity()).setTargetScale(1.0F);
-        }
-    }
+//    @SubscribeEvent
+//    public static void onEntityDamaged(LivingIncomingDamageEvent event) {
+//        CompoundTag tag = event.getEntity().getPersistentData();
+//
+//        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
+//            tag.putBoolean("marioverse:has_mega_mushroom", false);
+//            ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+//            ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+//            ScaleTypes.JUMP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+//            ScaleTypes.STEP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+//            ScaleTypes.REACH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+//            ScaleTypes.ATTACK.getScaleData(event.getEntity()).setTargetScale(1.0F);
+//        }
+//    }
 
     @SubscribeEvent
     public static void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
