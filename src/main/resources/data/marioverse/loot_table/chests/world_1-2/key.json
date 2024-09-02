@@ -111,18 +111,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:tripwire_hook",
+          "name": "minecraft:trial_key",
           "functions": [
             {
               "function": "minecraft:set_name",
               "name": "Castle Key"
-            },
-            {
-              "function": "minecraft:set_enchantments",
-              "enchantments": {
-                "minecraft:unbreaking": 1
-              },
-              "add": false
             }
           ]
         }
