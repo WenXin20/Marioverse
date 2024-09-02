@@ -64,6 +64,13 @@ ordering="NONE"
 side="CLIENT"
 
 [[dependencies.marioverse]]
+modId="ctm"
+type="optional"
+versionRange="${ctm_version_range}"
+ordering="AFTER"
+side="CLIENT"
+
+[[dependencies.marioverse]]
 modId="fusion"
 type="optional"
 versionRange="${fusion_version_range}"
