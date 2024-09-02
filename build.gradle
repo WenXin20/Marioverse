@@ -45,6 +45,7 @@ dependencies {
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
 
+    implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // implementation "curse.maven:jei-${jei_version}"
@@ -147,6 +148,9 @@ publishing {
             content {
                 includeGroup("software.bernie.geckolib")
             }
+        }
+        maven {
+            url = "https://jitpack.io"
         }
     }
 }

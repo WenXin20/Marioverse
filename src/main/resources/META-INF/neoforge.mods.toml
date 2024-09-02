@@ -64,6 +64,13 @@ ordering="NONE"
 side="CLIENT"
 
 [[dependencies.marioverse]]
+modId="pehkui"
+type="required"
+versionRange="${pehkui_version_range}"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.marioverse]]
 modId="ctm"
 type="optional"
 versionRange="${ctm_version_range}"
