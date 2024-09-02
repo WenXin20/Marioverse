@@ -38,6 +38,7 @@ dependencies {
     compileOnly "org.spongepowered:mixin:0.8.5"
 
     // Imports
+    implementation "curse.maven:accessories-${accessories_version}"
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     implementation "curse.maven:ctm-${ctm_version}"
