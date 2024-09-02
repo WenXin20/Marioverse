@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/yellow"
+    },
+    {
+      "tag": "marioverse:dyeable_marioverse"
+    }
+  ],
+  "result": {
+    "id": "marioverse:yellow_warp_pipe"
+  }
+}

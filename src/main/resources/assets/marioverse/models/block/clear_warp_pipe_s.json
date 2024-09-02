@@ -1,0 +1,70 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side",
+		"side": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side",
+		"side_n": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_n",
+		"side_s": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_s",
+		"side_e": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_e",
+		"side_w": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_w",
+		"inner": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner",
+		"inner_n": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_n",
+		"inner_s": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_s",
+		"inner_e": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_e",
+		"inner_w": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_w"
+	},
+	"elements": [
+		{
+			"name": "up",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#side_s", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#inner_n"}
+			}
+		},
+		{
+			"name": "north",
+			"from": [0, 0, 0],
+			"to": [16, 16, 3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "north"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#inner"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side_w", "cullface": "east"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#inner_e"}
+			}
+		},
+		{
+			"name": "west",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#inner_w"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#side_e", "cullface": "west"}
+			}
+		},
+		{
+			"name": "down",
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#inner_s"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#side_n", "cullface": "down"}
+			}
+		}
+	]
+}

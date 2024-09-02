@@ -1,0 +1,44 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side",
+		"side_ns": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_ns",
+		"side_sew": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_sew",
+		"inner_ns": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_ns",
+		"inner_sew": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_sew"
+	},
+	"elements": [
+		{
+			"name": "up",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#side_ns", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#inner_ns"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side_sew", "cullface": "east"},
+				"west": {"uv": [16, 0, 0, 16], "texture": "#inner_sew"}
+			}
+		},
+		{
+			"name": "west",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#inner_sew"},
+				"west": {"uv": [16, 0, 0, 16], "texture": "#side_sew", "cullface": "west"}
+			}
+		}
+	]
+}

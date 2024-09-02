@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "top=true": { "model": "marioverse:block/water_spout_top" },
+    "top=false": { "model": "marioverse:block/water_spout" }
+  }
+}

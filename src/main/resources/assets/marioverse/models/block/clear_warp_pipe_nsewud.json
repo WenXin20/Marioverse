@@ -1,0 +1,6 @@
+{
+	"render_type": "cutout",
+	"textures": {
+		"particle": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side"
+	}
+}

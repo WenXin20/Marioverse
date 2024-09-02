@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "clear_marioverse",
+  "ingredients": [
+    {
+      "tag": "marioverse:dyeable_marioverse"
+    },
+    {
+      "item": "minecraft:glass"
+    }
+  ],
+  "result": {
+    "id": "marioverse:clear_warp_pipe"
+  }
+}

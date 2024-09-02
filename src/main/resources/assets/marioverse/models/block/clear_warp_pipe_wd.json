@@ -1,0 +1,58 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side",
+		"side_s": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_s",
+		"side_w": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_w",
+		"side_se": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_se",
+		"side_sw": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_sw",
+		"inner_s": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_s",
+		"inner_w": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_w",
+		"inner_se": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_se",
+		"inner_sw": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_sw"
+	},
+	"elements": [
+		{
+			"name": "up",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#side_w", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#inner_w"}
+			}
+		},
+		{
+			"name": "north",
+			"from": [0, 0, 0],
+			"to": [16, 16, 3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#side_se", "cullface": "north"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#inner_sw"}
+			}
+		},
+		{
+			"name": "south",
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#inner_se"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#side_sw", "cullface": "south"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side_s", "cullface": "east"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#inner_s"}
+			}
+		}
+	]
+}

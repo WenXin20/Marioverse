@@ -56,7 +56,7 @@ runs {
     configureEach {
         systemProperty 'forge.logging.markers', 'REGISTRIES'
         systemProperty 'forge.logging.console.level', 'debug'
-        programArguments '-mixin.config=warp_pipes.mixins.json'
+        programArguments '-mixin.config=marioverse.mixins.json'
 
         modSource project.sourceSets.main
     }
@@ -96,7 +96,7 @@ runs {
         dataGenerator true
         gameTest false
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-        programArguments.addAll '--mod', 'warp_pipes', '--all', '--output',
+        programArguments.addAll '--mod', 'marioverse', '--all', '--output',
                 file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }

@@ -6,20 +6,20 @@ loaderVersion="${loader_version_range}"
 # The license for you mod.
 license="${mod_license}"
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/WenXin20/WarpPipes/issues"
+issueTrackerURL="https://github.com/WenXin20/Marioverse/issues"
 
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 # The modid of the mod
-modId="warp_pipes"
+modId="marioverse"
 # The version number of the mod
 version="${minecraft_version}-${mod_version}"
 # A display name for the mod
 displayName="${mod_name}"
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://github.com/WenXin20/Warp-Pipes" #optional
+displayURL="https://github.com/WenXin20/Marioverse" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="warp_pipes_banner.png"
+logoFile="marioverse_banner.png"
 # A text field displayed in the mod UI
 credits="Made by WenXin2"
 # A text field displayed in the mod UI
@@ -32,10 +32,10 @@ description='''${mod_description}'''
 file="META-INF/accesstransformer.cfg"
 
 [[mixins]]
-config="warp_pipes.mixins.json"
+config="marioverse.mixins.json"
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.warp_pipes]] #optional
+[[dependencies.marioverse]] #optional
 # the modid of the dependency
 modId="neoforge"
 # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
@@ -49,7 +49,7 @@ ordering="NONE"
 # Side this dependency is applied on - BOTH, CLIENT or SERVER
 side="BOTH"
 
-[[dependencies.warp_pipes]]
+[[dependencies.marioverse]]
 modId="minecraft"
 type="required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version

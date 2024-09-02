@@ -1,0 +1,82 @@
+{
+  "variants": {
+    "facing=up,entrance=true,closed=false": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance"
+    },
+    "facing=down,entrance=true,closed=false": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance",
+      "x": 180
+    },
+    "facing=north,entrance=true,closed=false": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance",
+      "x": 90
+    },
+    "facing=south,entrance=true,closed=false": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,entrance=true,closed=false": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,entrance=true,closed=false": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,entrance=true,closed=true": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance_closed"
+    },
+    "facing=down,entrance=true,closed=true": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance_closed",
+      "x": 180
+    },
+    "facing=north,entrance=true,closed=true": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance_closed",
+      "x": 90
+    },
+    "facing=south,entrance=true,closed=true": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance_closed",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,entrance=true,closed=true": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance_closed",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,entrance=true,closed=true": {
+      "model": "marioverse:block/magenta_warp_pipe_entrance_closed",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,entrance=false": {
+      "model": "marioverse:block/magenta_warp_pipe"
+    },
+    "facing=down,entrance=false": {
+      "model": "marioverse:block/magenta_warp_pipe",
+      "x": 180
+    },
+    "facing=north,entrance=false": {
+      "model": "marioverse:block/magenta_warp_pipe",
+      "x": 90
+    },
+    "facing=south,entrance=false": {
+      "model": "marioverse:block/magenta_warp_pipe",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,entrance=false": {
+      "model": "marioverse:block/magenta_warp_pipe",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,entrance=false": {
+      "model": "marioverse:block/magenta_warp_pipe",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

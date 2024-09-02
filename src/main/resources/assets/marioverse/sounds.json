@@ -1,0 +1,45 @@
+{
+  "block.pipes_linked": {"category": "block", "sounds": [{ "name": "block/amethyst_cluster/break1", "stream": false },
+    { "name": "block/amethyst_cluster/break2", "stream": false },
+    { "name": "block/amethyst_cluster/break3", "stream": false },
+    { "name": "block/amethyst_cluster/break4", "stream": false }], "subtitle": "subtitles.marioverse.block.pipes_linked" },
+
+  "block.pipe_opens": {"category": "block", "sounds": [{ "name": "block/iron_trapdoor/open1", "stream": false },
+    { "name": "block/iron_trapdoor/open2", "stream": false },
+    { "name": "block/iron_trapdoor/open3", "stream": false },
+    { "name": "block/iron_trapdoor/open4", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_opens" },
+
+  "block.pipe_closes": {"category": "block", "sounds": [{ "name": "block/iron_trapdoor/close1", "stream": false },
+    { "name": "block/iron_trapdoor/close2", "stream": false },
+    { "name": "block/iron_trapdoor/close3", "stream": false },
+    { "name": "block/iron_trapdoor/close4", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_closes" },
+
+  "block.pipe_warps": {"category": "block", "sounds": [{ "name": "mob/endermen/portal", "stream": false },
+    { "name": "mob/endermen/portal2", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_warps" },
+
+  "block.water_spout.break": {"category": "block", "sounds": [{ "name": "item/bucket/fill1", "stream": false },
+    { "name": "item/bucket/fill2", "stream": false },
+    { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.break" },
+
+  "block.water_spout.fall": {"category": "block", "sounds": [{ "name": "item/bucket/fill1", "stream": false },
+    { "name": "item/bucket/fill2", "stream": false },
+    { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.fall" },
+
+  "block.water_spout.hit": {"category": "block", "sounds": [{ "name": "item/bucket/fill1", "stream": false },
+    { "name": "item/bucket/fill2", "stream": false },
+    { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.hit" },
+
+  "block.water_spout.place": {"category": "block", "sounds": [{ "name": "item/bucket/empty1", "stream": false },
+    { "name": "item/bucket/empty2", "stream": false },
+    { "name": "item/bucket/empty3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.place" },
+
+  "block.water_spout.step": {"category": "block", "sounds": [{ "name": "item/bucket/fill1", "stream": false },
+    { "name": "item/bucket/fill2", "stream": false },
+    { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.step" },
+
+
+  "item.wrench_bound": {"category": "player", "sounds": [{ "name": "block/amethyst_cluster/break1", "stream": false },
+    { "name": "block/amethyst_cluster/break2", "stream": false },
+    { "name": "block/amethyst_cluster/break3", "stream": false },
+    { "name": "block/amethyst_cluster/break4", "stream": false }], "subtitle": "subtitles.marioverse.item.wrench_bound" }
+}

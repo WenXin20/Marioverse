@@ -1,0 +1,263 @@
+{
+  "parent": "marioverse:configure_pipes",
+  "display": {
+    "icon": {
+      "item": "marioverse:red_warp_pipe"
+    },
+    "title": {
+      "translate": "advancements.adventure.marioverse.dyeable_marioverse.title"
+    },
+    "description": {
+      "translate": "advancements.adventure.marioverse.dyeable_marioverse.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "white_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:white_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "light_gray_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:light_gray_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "gray_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:gray_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "black_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:black_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "brown_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:brown_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "red_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:red_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "orange_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:orange_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "yellow_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:yellow_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "lime_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:lime_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "green_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:green_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "cyan_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:cyan_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "light_blue_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:light_blue_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "blue_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:blue_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "purple_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:purple_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "magenta_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:magenta_warp_pipe"
+            ]
+          }
+        ]
+      }
+    },
+    "pink_warp_pipe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "marioverse:pink_warp_pipe"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "white_warp_pipe"
+    ],
+    [
+      "light_gray_warp_pipe"
+    ],
+    [
+      "gray_warp_pipe"
+    ],
+    [
+      "black_warp_pipe"
+    ],
+    [
+      "brown_warp_pipe"
+    ],
+    [
+      "red_warp_pipe"
+    ],
+    [
+      "orange_warp_pipe"
+    ],
+    [
+      "yellow_warp_pipe"
+    ],
+    [
+      "lime_warp_pipe"
+    ],
+    [
+      "green_warp_pipe"
+    ],
+    [
+      "cyan_warp_pipe"
+    ],
+    [
+      "light_blue_warp_pipe"
+    ],
+    [
+      "blue_warp_pipe"
+    ],
+    [
+      "purple_warp_pipe"
+    ],
+    [
+      "magenta_warp_pipe"
+    ],
+    [
+      "pink_warp_pipe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

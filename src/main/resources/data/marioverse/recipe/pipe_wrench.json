@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pipe_wrench",
+  "key": {
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "C C",
+    " C ",
+    " I "
+  ],
+  "result": {
+    "id": "marioverse:pipe_wrench",
+    "count": 1
+  }
+}

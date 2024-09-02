@@ -1,0 +1,57 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side",
+		"side_n": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_n",
+		"side_ne": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_ne",
+		"side_sw": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_nw",
+		"inner_n": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_n",
+		"inner_s": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_s",
+		"inner_ne": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_ne",
+		"inner_nw": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_inner_nw"
+	},
+	"elements": [
+		{
+			"name": "north",
+			"from": [0, 0, 0],
+			"to": [16, 16, 3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#side_n", "cullface": "north"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#inner_n"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side_sw", "cullface": "east"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#inner_ne"}
+			}
+		},
+		{
+			"name": "west",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#inner_nw"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#side_ne", "cullface": "west"}
+			}
+		},
+		{
+			"name": "down",
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#inner_s"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#side_n", "cullface": "down"}
+			}
+		}
+	]
+}

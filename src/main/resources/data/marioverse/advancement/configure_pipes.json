@@ -1,0 +1,49 @@
+{
+  "parent": "marioverse:obtain_pipe_wrench",
+  "display": {
+    "icon": {
+      "item": "marioverse:green_warp_pipe"
+    },
+    "title": {
+      "translate": "advancements.adventure.marioverse.configure_pipes.title"
+    },
+    "description": {
+      "translate": "advancements.adventure.marioverse.configure_pipes.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "configure_pipes": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "marioverse:marioverse"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "marioverse:pipe_wrench"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "configure_pipes"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

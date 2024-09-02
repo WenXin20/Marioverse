@@ -1,0 +1,136 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "connections": {
+    "bottom": {
+      "type": "or",
+      "predicates": [
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["up"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["down"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["north"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["south"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["east"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["west"] }
+        }
+      ]
+    },
+    "side": {
+      "type": "or",
+      "predicates": [
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["up"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["down"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["north"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["south"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["east"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["west"] }
+        }
+      ]
+    },
+    "top": {
+      "type": "or",
+      "predicates": [
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["up"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["down"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["north"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["south"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["east"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:blue_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["west"] }
+        }
+      ]
+    },
+    "default": { "type": "is_same_block" }
+  },
+  "textures": {
+    "bottom": "marioverse:block/blue_warp_pipe_bottom",
+    "side": "marioverse:block/blue_warp_pipe_side",
+    "top": "marioverse:block/blue_warp_pipe_bottom"
+  }
+}

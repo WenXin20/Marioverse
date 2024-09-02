@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": ["marioverse:patch_clear_marioverse", "marioverse:patch_black_marioverse", "marioverse:patch_blue_marioverse",
+    "marioverse:patch_brown_marioverse", "marioverse:patch_cyan_marioverse", "marioverse:patch_gray_marioverse",
+    "marioverse:patch_green_marioverse", "marioverse:patch_light_blue_marioverse", "marioverse:patch_light_gray_marioverse",
+    "marioverse:patch_lime_marioverse", "marioverse:patch_magenta_marioverse", "marioverse:patch_orange_marioverse",
+    "marioverse:patch_pink_marioverse", "marioverse:patch_purple_marioverse", "marioverse:patch_red_marioverse",
+    "marioverse:patch_white_marioverse", "marioverse:patch_yellow_marioverse" ],
+  "step": "underground_decoration"
+}

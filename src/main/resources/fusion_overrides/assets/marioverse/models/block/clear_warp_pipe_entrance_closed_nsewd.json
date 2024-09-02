@@ -1,0 +1,40 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"loader": "fusion:model",
+	"type": "connecting",
+	"connections": {
+		"top": {
+			"type": "match_state",
+			"block": "marioverse:clear_warp_pipe",
+			"properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
+				"water_spout": ["true", "false"], "waterlogged": ["true", "false"],
+				"north": ["true", "false"], "south": ["true", "false"],
+				"east": ["true", "false"], "west": ["true", "false"],
+				"up": ["true", "false"], "down": ["true", "false"] }
+		},
+		"default": { "type": "is_same_block" }
+	},
+	"textures": {
+		"particle": "marioverse:block/clear_warp_pipe/entrance/clear_warp_pipe_top_closed",
+		"top": "marioverse:block/clear_warp_pipe/entrance/clear_warp_pipe_top_closed",
+		"closed": "marioverse:block/clear_warp_pipe/entrance/clear_warp_pipe_entrance_side_closed"
+	},
+	"elements": [
+		{
+			"name": "up",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 3], "texture": "#closed", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 3], "texture": "#closed", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 3], "texture": "#closed", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 3], "texture": "#closed", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#top"}
+			}
+		}
+	]
+}

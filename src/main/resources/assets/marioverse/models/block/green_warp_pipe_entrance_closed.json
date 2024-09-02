@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/green_warp_pipe_bottom",
+    "side": "marioverse:block/green_warp_pipe_entrance_side",
+    "top": "marioverse:block/green_warp_pipe_top_closed"
+  }
+}

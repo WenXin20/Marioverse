@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    { "id": "warp_pipes:pipe_wrench", "required": false }
+    { "id": "marioverse:pipe_wrench", "required": false }
   ]
 }

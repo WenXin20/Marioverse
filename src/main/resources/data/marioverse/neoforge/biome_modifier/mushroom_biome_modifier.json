@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#c:is_mushroom",
+  "features": ["marioverse:patch_mushroom_brown_marioverse", "marioverse:patch_mushroom_red_marioverse", "marioverse:patch_mushroom_white_marioverse"],
+  "step": "underground_decoration"
+}
