@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 @EventBusSubscriber(modid = Marioverse.MODID)
-public class WarpEventHandlers {
+public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event)

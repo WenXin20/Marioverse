@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.mojang.logging.LogUtils;
-import com.wenxin2.marioverse.event_handlers.WarpEventHandlers;
+import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.init.ClientSetupHandler;
 import com.wenxin2.marioverse.init.Config;
 import com.wenxin2.marioverse.init.ModCreativeTabs;
@@ -63,7 +63,7 @@ public class Marioverse
         // PipeBubblesSoundHandler.init();
 
         // Register ourselves for server and other game events we are interested in
-        NeoForge.EVENT_BUS.addListener(WarpEventHandlers::onJoinWorld);
-        NeoForge.EVENT_BUS.addListener(WarpEventHandlers::onPlayerRightClick);
+        NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
+        NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
     }
 }
