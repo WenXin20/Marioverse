@@ -1,0 +1,6 @@
+{
+	"render_type": "cutout",
+	"textures": {
+		"particle": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_entrance_side"
+	}
+}

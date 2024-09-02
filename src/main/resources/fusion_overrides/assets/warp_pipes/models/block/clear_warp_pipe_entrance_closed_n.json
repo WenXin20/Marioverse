@@ -1,0 +1,81 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"loader": "fusion:model",
+	"type": "connecting",
+	"connections": {
+		"top": {
+			"type": "match_state",
+			"block": "warp_pipes:clear_warp_pipe",
+			"properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
+				"water_spout": ["true", "false"], "waterlogged": ["true", "false"],
+				"north": ["true", "false"], "south": ["true", "false"],
+				"east": ["true", "false"], "west": ["true", "false"],
+				"up": ["true", "false"], "down": ["true", "false"] }
+		},
+		"default": { "type": "is_same_block" }
+	},
+	"textures": {
+		"bottom": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_bottom_s",
+		"bottom_inner": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_bottom_inner",
+		"particle": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_entrance_side",
+		"side": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_entrance_side",
+		"side_inner": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_entrance_side_inner",
+		"top": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_top_closed",
+		"closed": "warp_pipes:block/clear_warp_pipe/entrance/clear_warp_pipe_entrance_side_closed"
+	},
+	"elements": [
+		{
+			"name": "up",
+			"from": [0, 13, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 3], "texture": "#closed", "cullface": "north"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#top", "cullface": "up"}
+			}
+		},
+		{
+			"name": "south",
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#side_inner"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "south"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "east"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#side_inner"}
+			}
+		},
+		{
+			"name": "west",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side_inner"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "west"}
+			}
+		},
+		{
+			"name": "down",
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#bottom_inner"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down"}
+			}
+		}
+	]
+}

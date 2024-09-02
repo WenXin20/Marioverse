@@ -1,0 +1,9 @@
+{
+    "pack": {
+        "description": "Warp Pipes",
+        "pack_format": 48
+    },
+    "fusion": {
+        "overrides_folder": "fusion_overrides"
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "warp_pipes:world_1-2/flag",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "warp_pipes:world_1-2/flag",
+        "element_type": "minecraft:single_pool_element",
+        "processors": "warp_pipes:path_decay",
+        "projection": "terrain_matching"
+      }
+    }
+  ]
+}

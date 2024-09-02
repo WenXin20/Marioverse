@@ -1,0 +1,49 @@
+{
+  "parent": "warp_pipes:configure_pipes",
+  "display": {
+    "icon": {
+      "item": "minecraft:brush"
+    },
+    "title": {
+      "translate": "advancements.adventure.warp_pipes.brush_a_pipe.title"
+    },
+    "description": {
+      "translate": "advancements.adventure.warp_pipes.brush_a_pipe.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "brush_a_pipe": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "warp_pipes:warp_pipes"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:brush"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "brush_a_pipe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

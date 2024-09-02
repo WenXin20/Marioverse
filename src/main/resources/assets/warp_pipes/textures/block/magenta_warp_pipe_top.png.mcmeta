@@ -1,0 +1,14 @@
+{
+    "ctm":{
+        "ctm_version": 1,
+        "type":"ctm",
+        "layer":"SOLID",
+        "textures":[
+            "warp_pipes:block/magenta_warp_pipe_top_ctm"
+        ],
+        "extra":{
+        	"ignore_states":false,
+        	"connect_inside":false
+        }
+    }
+}

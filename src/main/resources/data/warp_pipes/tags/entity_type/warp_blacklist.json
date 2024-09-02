@@ -1,0 +1,11 @@
+{
+  "_comment": "Blacklist to prevent entities from using the warp pipes to teleport",
+  "replace": false,
+  "values": [
+    "minecraft:elder_guardian",
+    "minecraft:ender_dragon",
+    "minecraft:wither",
+    { "id": "#forge:bosses", "required": false },
+    { "id": "#twilightforest:bosses", "required": false }
+  ]
+}

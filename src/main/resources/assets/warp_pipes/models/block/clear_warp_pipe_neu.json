@@ -1,0 +1,45 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"side_ne": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_ne",
+		"side_nw": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_nw",
+		"side_se": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_se",
+		"inner_ne": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_inner_ne",
+		"inner_nw": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_inner_nw",
+		"particle": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side"
+	},
+	"elements": [
+		{
+			"name": "south",
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#inner_nw"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#side_ne", "cullface": "south"}
+			}
+		},
+		{
+			"name": "west",
+			"from": [0, 0, 0],
+			"to": [3, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#inner_ne"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#side_nw", "cullface": "west"}
+			}
+		},
+		{
+			"name": "down",
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#inner_ne"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#side_se", "cullface": "down"}
+			}
+		}
+	]
+}

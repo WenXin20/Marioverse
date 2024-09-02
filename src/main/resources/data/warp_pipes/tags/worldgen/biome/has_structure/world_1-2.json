@@ -1,0 +1,17 @@
+{
+  "values": [
+    "#c:is_mushroom",
+    "#c:is_plains",
+    "#c:is_spooky",
+    "#c:is_swamp",
+    "#minecraft:is_forest",
+    "#minecraft:is_hill",
+    "#minecraft:is_jungle",
+    "#minecraft:is_savanna",
+    "#minecraft:is_taiga",
+    "minecraft:mushroom_fields",
+    "minecraft:plains",
+    "minecraft:snowy_plains",
+    "minecraft:sunflower_plains"
+  ]
+}

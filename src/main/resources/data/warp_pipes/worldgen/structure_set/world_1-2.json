@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "salt": 1966658293,
+    "spacing": 48,
+    "separation": 4,
+    "type": "minecraft:random_spread"
+  },
+  "structures": [
+    {
+      "structure": "warp_pipes:world_1-2",
+      "weight": 1
+    }
+  ]
+}

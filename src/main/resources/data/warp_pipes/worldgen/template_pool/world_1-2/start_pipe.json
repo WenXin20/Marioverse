@@ -1,0 +1,15 @@
+{
+  "name": "warp_pipes:world_1-2/start_pipe",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "warp_pipes:world_1-2/start_pipe",
+        "element_type": "minecraft:single_pool_element",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      }
+    }
+  ]
+}

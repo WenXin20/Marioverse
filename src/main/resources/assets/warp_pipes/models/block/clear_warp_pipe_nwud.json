@@ -1,0 +1,34 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"side_nsw": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_nsw",
+		"side_nse": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_nse",
+		"inner_nsw": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_inner_nsw",
+		"inner_nse": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_inner_nse",
+		"particle": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side"
+	},
+	"elements": [
+		{
+			"name": "south",
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#inner_nse"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#side_nsw", "cullface": "south"}
+			}
+		},
+		{
+			"name": "east",
+			"from": [13, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "texture": "#side_nse", "cullface": "east"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#inner_nsw"}
+			}
+		}
+	]
+}

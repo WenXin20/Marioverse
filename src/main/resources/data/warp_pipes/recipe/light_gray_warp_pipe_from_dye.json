@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "warp_pipes_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/light_gray"
+    },
+    {
+      "tag": "warp_pipes:dyeable_warp_pipes"
+    }
+  ],
+  "result": {
+    "id": "warp_pipes:light_gray_warp_pipe"
+  }
+}

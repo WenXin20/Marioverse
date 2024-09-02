@@ -1,0 +1,32 @@
+{
+  "parent": "warp_pipes:obtain_all_dyeable_pipes",
+  "display": {
+    "icon": {
+      "item": "warp_pipes:clear_warp_pipe"
+    },
+    "title": {
+      "translate": "advancements.adventure.warp_pipes.travel_in_clear_pipe.title"
+    },
+    "description": {
+      "translate": "advancements.adventure.warp_pipes.travel_in_clear_pipe.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "travel_in_clear_warp_pipe": {
+      "trigger": "minecraft:enter_block",
+      "conditions": {
+        "block": "warp_pipes:clear_warp_pipe"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "travel_in_clear_warp_pipe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

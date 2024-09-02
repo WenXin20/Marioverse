@@ -1,0 +1,33 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"render_type": "cutout",
+	"textures": {
+		"side_new": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_new",
+		"side_sew": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_sew",
+		"inner_new": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side_inner_new",
+		"particle": "warp_pipes:block/clear_warp_pipe/clear_warp_pipe_side"
+	},
+	"elements": [
+		{
+			"name": "south",
+			"from": [0, 0, 13],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [16, 0, 0, 16], "texture": "#inner_new"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#side_new", "cullface": "south"}
+			}
+		},
+		{
+			"name": "down",
+			"from": [0, 0, 0],
+			"to": [16, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#inner_new"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#side_sew", "cullface": "down"}
+			}
+		}
+	]
+}

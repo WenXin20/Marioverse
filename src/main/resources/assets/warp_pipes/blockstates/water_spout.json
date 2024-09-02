@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "top=true": { "model": "warp_pipes:block/water_spout_top" },
+    "top=false": { "model": "warp_pipes:block/water_spout" }
+  }
+}

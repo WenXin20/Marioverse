@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": ["warp_pipes:patch_clear_warp_pipes", "warp_pipes:patch_black_warp_pipes", "warp_pipes:patch_blue_warp_pipes",
+    "warp_pipes:patch_brown_warp_pipes", "warp_pipes:patch_cyan_warp_pipes", "warp_pipes:patch_gray_warp_pipes",
+    "warp_pipes:patch_green_warp_pipes", "warp_pipes:patch_light_blue_warp_pipes", "warp_pipes:patch_light_gray_warp_pipes",
+    "warp_pipes:patch_lime_warp_pipes", "warp_pipes:patch_magenta_warp_pipes", "warp_pipes:patch_orange_warp_pipes",
+    "warp_pipes:patch_pink_warp_pipes", "warp_pipes:patch_purple_warp_pipes", "warp_pipes:patch_red_warp_pipes",
+    "warp_pipes:patch_white_warp_pipes", "warp_pipes:patch_yellow_warp_pipes" ],
+  "step": "underground_decoration"
+}

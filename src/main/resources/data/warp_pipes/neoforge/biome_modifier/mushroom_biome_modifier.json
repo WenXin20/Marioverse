@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#c:is_mushroom",
+  "features": ["warp_pipes:patch_mushroom_brown_warp_pipes", "warp_pipes:patch_mushroom_red_warp_pipes", "warp_pipes:patch_mushroom_white_warp_pipes"],
+  "step": "underground_decoration"
+}

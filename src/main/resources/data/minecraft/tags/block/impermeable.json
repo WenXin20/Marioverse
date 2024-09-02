@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "warp_pipes:clear_warp_pipe", "required": false }
+  ]
+}
