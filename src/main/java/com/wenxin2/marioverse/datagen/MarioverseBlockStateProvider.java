@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.data;
+package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.init.BlockRegistry;
