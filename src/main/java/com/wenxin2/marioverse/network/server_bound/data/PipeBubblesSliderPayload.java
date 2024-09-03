@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record PipeBubblesSliderPayload(BlockPos pos, int bubblesDistance) implements CustomPacketPayload {
-    public static final Type<PipeBubblesSliderPayload> BUBBLES_DISTANCE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "bubbles_distance_payload"));
+    public static final Type<PipeBubblesSliderPayload> BUBBLES_DISTANCE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "bubbles_distance_payload"));
 
     @NotNull
     @Override

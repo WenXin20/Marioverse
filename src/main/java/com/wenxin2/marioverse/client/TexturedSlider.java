@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 
 public class TexturedSlider extends ExtendedSlider {
-    public static final ResourceLocation SLIDER_LOCATION = ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "textures/gui/slider.png");
+    public static final ResourceLocation SLIDER_LOCATION = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/slider.png");
 
     /**
      * @param x x position of upper left corner

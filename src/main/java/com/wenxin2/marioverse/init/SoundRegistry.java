@@ -23,25 +23,25 @@ public class SoundRegistry {
 
     static {
         PIPES_LINKED = Marioverse.SOUNDS.register("block.pipes_linked",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.pipes_linked")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipes_linked")));
         PIPE_CLOSES = Marioverse.SOUNDS.register("block.pipe_closes",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.pipe_closes")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipe_closes")));
         PIPE_OPENS = Marioverse.SOUNDS.register("block.pipe_opens",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.pipe_opens")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipe_opens")));
         PIPE_WARPS = Marioverse.SOUNDS.register("block.pipe_warps",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.pipe_warps")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipe_warps")));
         WATER_SPOUT_BREAK = Marioverse.SOUNDS.register("block.water_spout.break",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.water_spout.break")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.break")));
         WATER_SPOUT_FALL = Marioverse.SOUNDS.register("block.water_spout.fall",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.water_spout.fall")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.fall")));
         WATER_SPOUT_HIT = Marioverse.SOUNDS.register("block.water_spout.hit",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.water_spout.hit")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.hit")));
         WATER_SPOUT_PLACE = Marioverse.SOUNDS.register("block.water_spout.place",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.water_spout.place")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.place")));
         WATER_SPOUT_STEP = Marioverse.SOUNDS.register("block.water_spout.step",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "block.water_spout.step")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.step")));
         WRENCH_BOUND = Marioverse.SOUNDS.register("item.wrench_bound",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "item.wrench_bound")));
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_bound")));
     }
 
     public static void init()

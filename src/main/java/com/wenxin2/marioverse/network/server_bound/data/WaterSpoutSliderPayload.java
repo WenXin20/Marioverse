@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record WaterSpoutSliderPayload(BlockPos pos, int waterSpoutHeight) implements CustomPacketPayload {
-    public static final Type<WaterSpoutSliderPayload> SPOUT_HEIGHT_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "spout_height_payload"));
+    public static final Type<WaterSpoutSliderPayload> SPOUT_HEIGHT_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spout_height_payload"));
 
     @Override
     public Type<WaterSpoutSliderPayload> type() {

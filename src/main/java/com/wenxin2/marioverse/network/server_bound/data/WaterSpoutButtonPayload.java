@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record WaterSpoutButtonPayload(BlockPos pos, Boolean hasWaterSpout) implements CustomPacketPayload {
-    public static final Type<WaterSpoutButtonPayload> SPOUT_STATE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "spout_state_payload"));
+    public static final Type<WaterSpoutButtonPayload> SPOUT_STATE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spout_state_payload"));
 
     @NotNull
     @Override

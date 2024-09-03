@@ -37,7 +37,7 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.lwjgl.glfw.GLFW;
 
 public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
-    public static ResourceLocation WARP_PIPE_GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "textures/gui/warp_pipe.png");
+    public static ResourceLocation WARP_PIPE_GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
     Button bubblesButton;
     Button closeButton;
     Button renameButton;

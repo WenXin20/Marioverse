@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record ClosePipeButtonPayload(BlockPos pos, Boolean closePipe) implements CustomPacketPayload {
-    public static final Type<ClosePipeButtonPayload> CLOSE_STATE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MODID, "close_state_payload"));
+    public static final Type<ClosePipeButtonPayload> CLOSE_STATE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "close_state_payload"));
 
     @NotNull
     @Override

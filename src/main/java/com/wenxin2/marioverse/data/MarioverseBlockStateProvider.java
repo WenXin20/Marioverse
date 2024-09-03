@@ -11,7 +11,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class MarioverseBlockStateProvider extends BlockStateProvider {
     public MarioverseBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, Marioverse.MODID, existingFileHelper);
+        super(output, Marioverse.MOD_ID, existingFileHelper);
     }
 
     @Override
