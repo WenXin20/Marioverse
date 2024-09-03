@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
@@ -34,12 +35,18 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
+    public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
     static
     {
+        COIN = registerBlock("coin",
+                () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.NETHERITE_BLOCK).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                        .strength(0.5F, 0.5F).instabreak().noCollission()));
+
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                         .sound(SoundType.GLASS).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
