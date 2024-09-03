@@ -57,7 +57,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class CoinBlockEntity extends BlockEntity implements GeoBlockEntity {
-    protected static final RawAnimation DEPLOY_ANIM = RawAnimation.begin().thenPlay("misc.deploy").thenLoop("misc.idle");
+    protected static final RawAnimation DEPLOY_ANIM = RawAnimation.begin().thenPlay("misc.deploy").thenLoop("animation.coin.spin");
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -72,7 +72,7 @@ public class CoinBlockEntity extends BlockEntity implements GeoBlockEntity {
 
     protected <E extends GeoAnimatable> PlayState deployAnimController(final AnimationState<E> state) {
         state.getController().setAnimation(RawAnimation.begin().thenLoop("animation.coin.spin"));
-        return state.setAndContinue(DEPLOY_ANIM);
+        return PlayState.CONTINUE;
     }
 
     @Override
