@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.blocks.client.renderers.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.blocks.client.renderers.WarpPipeBlockEntityRenderer;
 import net.minecraft.client.renderer.BiomeColors;
 import net.neoforged.api.distmarker.Dist;
@@ -26,7 +27,9 @@ public class ClientSetupHandler {
         event.register(MenuRegistry.WARP_PIPE_MENU.get(), WarpPipeScreen::new);
     }
 
+    @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), WarpPipeBlockEntityRenderer::new);
     }
 }

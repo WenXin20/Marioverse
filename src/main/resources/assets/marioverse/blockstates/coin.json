@@ -1,64 +1,7 @@
 {
   "variants": {
-    "rotation=0": {
-      "model": "marioverse:block/coin/coin"
-    },
-    "rotation=1": {
-      "model": "marioverse:block/coin/coin_22"
-    },
-    "rotation=2": {
-      "model": "marioverse:block/coin/coin_45"
-    },
-    "rotation=3": {
-      "model": "marioverse:block/coin/coin_67"
-    },
-    "rotation=4": {
-      "model": "marioverse:block/coin/coin",
-      "y": 90
-    },
-    "rotation=5": {
-      "model": "marioverse:block/coin/coin_22",
-      "y": 90
-    },
-    "rotation=6": {
-      "model": "marioverse:block/coin/coin_45",
-      "y": 90
-    },
-    "rotation=7": {
-      "model": "marioverse:block/coin/coin_67",
-      "y": 90
-    },
-    "rotation=8": {
-      "model": "marioverse:block/coin/coin",
-      "y": 180
-    },
-    "rotation=9": {
-      "model": "marioverse:block/coin/coin_22",
-      "y": 180
-    },
-    "rotation=10": {
-      "model": "marioverse:block/coin/coin_45",
-      "y": 180
-    },
-    "rotation=11": {
-      "model": "marioverse:block/coin/coin_67",
-      "y": 180
-    },
-    "rotation=12": {
-      "model": "marioverse:block/coin/coin",
-      "y": 270
-    },
-    "rotation=13": {
-      "model": "marioverse:block/coin/coin_22",
-      "y": 270
-    },
-    "rotation=14": {
-      "model": "marioverse:block/coin/coin_45",
-      "y": 270
-    },
-    "rotation=15": {
-      "model": "marioverse:block/coin/coin_67",
-      "y": 270
+    "": {
+      "model": "marioverse:block/coin"
     }
   }
 }

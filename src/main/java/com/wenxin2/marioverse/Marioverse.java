@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.mojang.logging.LogUtils;
+import com.wenxin2.marioverse.blocks.client.renderers.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
@@ -17,8 +18,10 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
@@ -61,7 +64,7 @@ public class Marioverse
         Config.register(container);
 
         if (dist.isClient()) {
-            bus.addListener(ClientSetupHandler::registerBlockEntityRenderers);
+//            bus.addListener(ClientSetupHandler::registerBlockEntityRenderers);
             Config.registerClient(container);
         }
 
