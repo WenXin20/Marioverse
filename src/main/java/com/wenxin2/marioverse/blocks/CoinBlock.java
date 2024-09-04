@@ -5,8 +5,10 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    protected static final VoxelShape COIN_SHAPE = Block.box(4.0, 4.0, 4.0, 8.0, 8.0, 8.0).optimize();
+    protected static final VoxelShape COIN_SHAPE = Block.box(4.0, 4.0, 4.0, 12.0, 12.0, 12.0).optimize();
 
     public CoinBlock(Properties properties) {
         super(properties);
@@ -70,28 +72,34 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        double motionX = (world.random.nextDouble() - 0.5) * 0.1;
-        double motionY = world.random.nextDouble() * 0.1;
-        double motionZ = (world.random.nextDouble() - 0.5) * 0.1;
 
         ItemStack coinItem = new ItemStack(this.asItem());
 
         if (entity instanceof Player player) {
-            world.removeBlock(pos, Boolean.TRUE);
-            player.addItem(coinItem);
             world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
             if (!world.isClientSide) {
                 for (int i = 0; i < 5; i++) {
-                    world.addParticle(ParticleTypes.SCRAPE, pos.getX(), pos.getY(), pos.getZ(), motionX, motionY, motionZ);
+                    double motionX = (world.random.nextDouble() - 0.5) * 0.1;
+                    double motionY = world.random.nextDouble() * 0.1;
+                    double motionZ = (world.random.nextDouble() - 0.5) * 0.1;
+
+                    world.addParticle(ParticleTypes.SCRAPE, player.getX() + 0.5, player.getY() + 0.5, player.getZ() + 0.5, motionX, motionY, motionZ);
                 }
             }
+
+            world.removeBlock(pos, false);
+            player.addItem(coinItem);
 
             if (!player.addItem(coinItem)) {
                 player.drop(coinItem, false);
             }
         }
         super.entityInside(state, world, pos, entity);
+    }
+
+    @Override
+    public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
+        super.tick(state, serverWorld, pos, random);
     }
 
     @NotNull

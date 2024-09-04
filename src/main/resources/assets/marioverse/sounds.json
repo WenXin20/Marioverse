@@ -1,5 +1,5 @@
 {
-  "block.coin_pickup": {"category": "block", "sounds": [{ "name": "block/coin_pickup", "stream": false }],
+  "block.coin_pickup": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },
 
   "block.pipes_linked": {"category": "block", "sounds": [{ "name": "block/amethyst_cluster/break1", "stream": false },
