@@ -26,6 +26,7 @@ public class ModCreativeTabs {
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == WARP_PIPES_TAB.getKey()) {
+            add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
