@@ -68,8 +68,8 @@ public abstract class PlayerMixin extends Entity {
 
         if (stateAboveEntity.is(BlockRegistry.QUESTION_BLOCK) && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
         {
-            stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE);
-//            world.destroyBlock(pos.above(Math.round(this.getBbHeight())), true);
+            world.destroyBlock(pos.above(Math.round(this.getBbHeight())), true);
+            world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
         }
     }
 
