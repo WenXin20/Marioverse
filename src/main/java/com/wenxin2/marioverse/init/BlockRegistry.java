@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
@@ -34,7 +35,7 @@ public class BlockRegistry {
     {
         COIN = registerBlock("coin",
                 () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.NETHERITE_BLOCK).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                        .sound(MarioverseSoundTypes.COIN_TYPE).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
@@ -54,7 +55,7 @@ public class BlockRegistry {
                         .replaceable().noCollission().noLootTable().liquid()));
 
         WATER_SPOUT = registerNoItemBlock("water_spout",
-                () -> new WaterSpoutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).sound(SoundRegistry.WATER_SPOUT)
+                () -> new WaterSpoutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).sound(MarioverseSoundTypes.WATER_SPOUT_TYPE)
                         .pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlockRegistry::never)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .replaceable().noCollission().noLootTable()));

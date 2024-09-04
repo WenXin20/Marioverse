@@ -3,14 +3,11 @@ package com.wenxin2.marioverse.init;
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.block.SoundType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SoundRegistry {
-    public static final SoundType WATER_SPOUT = new SoundType(1.0F, 1.0F, SoundEvents.BUCKET_FILL,
-            SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY, SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_FILL);
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPES_LINKED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
@@ -25,6 +22,8 @@ public class SoundRegistry {
     static {
         COIN_PICKUP = Marioverse.SOUNDS.register("block.coin_pickup",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_pickup")));
+        COIN_PLACE = Marioverse.SOUNDS.register("block.coin_place",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_place")));
         PIPES_LINKED = Marioverse.SOUNDS.register("block.pipes_linked",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipes_linked")));
         PIPE_CLOSES = Marioverse.SOUNDS.register("block.pipe_closes",

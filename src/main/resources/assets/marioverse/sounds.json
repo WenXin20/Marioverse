@@ -2,6 +2,9 @@
   "block.coin_pickup": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },
 
+  "block.coin_place": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_place", "stream": false }],
+    "subtitle": "subtitles.marioverse.block.coin_place" },
+
   "block.pipes_linked": {"category": "block", "sounds": [{ "name": "block/amethyst_cluster/break1", "stream": false },
     { "name": "block/amethyst_cluster/break2", "stream": false },
     { "name": "block/amethyst_cluster/break3", "stream": false },
