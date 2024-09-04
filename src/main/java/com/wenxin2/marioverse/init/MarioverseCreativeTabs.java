@@ -29,6 +29,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
+            add(event, BlockRegistry.QUESTION_BLOCK.get());
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
