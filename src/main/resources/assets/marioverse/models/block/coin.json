@@ -9,16 +9,16 @@
 	"elements": [
 		{
 			"name": "coin",
-			"from": [3, 3, 7],
-			"to": [13, 15, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 9, 8]},
+			"from": [4, 4, 7.5],
+			"to": [12, 12, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 10, 8.5]},
 			"faces": {
-				"north": {"uv": [3, 2, 13, 14], "texture": "#coin"},
-				"east": {"uv": [0, 2, 2, 14], "texture": "#coin"},
-				"south": {"uv": [13, 2, 3, 14], "texture": "#coin"},
-				"west": {"uv": [14, 2, 16, 14], "texture": "#coin"},
-				"up": {"uv": [3, 0, 13, 2], "rotation": 180, "texture": "#coin"},
-				"down": {"uv": [3, 14, 13, 16], "rotation": 180, "texture": "#coin"}
+				"north": {"uv": [4, 4, 12, 12], "texture": "#coin"},
+				"east": {"uv": [4, 4, 5, 12], "texture": "#coin"},
+				"south": {"uv": [12, 4, 4, 12], "texture": "#coin"},
+				"west": {"uv": [11, 4, 12, 12], "texture": "#coin"},
+				"up": {"uv": [4, 4, 12, 5], "rotation": 180, "texture": "#coin"},
+				"down": {"uv": [4, 11, 12, 12], "rotation": 180, "texture": "#coin"}
 			}
 		}
 	]
