@@ -1,14 +1,12 @@
 package com.wenxin2.marioverse;
 
 import com.mojang.logging.LogUtils;
-import com.wenxin2.marioverse.blocks.client.renderers.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.ClientSetupHandler;
 import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.init.MenuRegistry;
-import com.wenxin2.marioverse.init.ModCreativeTabs;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
@@ -18,10 +16,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
@@ -54,7 +50,7 @@ public class Marioverse
         MENUS.register(bus);
         SOUNDS.register(bus);
         LinkerDataComponents.COMPONENTS.register(bus);
-        ModCreativeTabs.TABS.register(bus);
+        MarioverseCreativeTabs.TABS.register(bus);
 
         BlockRegistry.init();
         BlockEntityRegistry.init();
