@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
@@ -41,8 +42,8 @@ public class BlockRegistry {
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
 
         QUESTION_BLOCK = registerBlock("question_block",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",

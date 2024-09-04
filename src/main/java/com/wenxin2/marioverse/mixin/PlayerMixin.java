@@ -1,7 +1,9 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.Config;
 import com.wenxin2.marioverse.init.ModTags;
 import net.minecraft.ChatFormatting;
@@ -64,10 +66,11 @@ public abstract class PlayerMixin extends Entity {
         }
         super.baseTick();
 
-//        if (stateAboveEntity.is(Blocks.BRICKS) && this.getDeltaMovement().y > 0)
-//        {
+        if (stateAboveEntity.is(BlockRegistry.QUESTION_BLOCK) && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
+        {
+            stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE);
 //            world.destroyBlock(pos.above(Math.round(this.getBbHeight())), true);
-//        }
+        }
     }
 
     @Unique

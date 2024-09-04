@@ -3,11 +3,13 @@
 
   "menu.marioverse.warp_pipe": "Warp Pipe",
 
+  "block.marioverse.coin": "Coin",
+  "block.marioverse.question_block": "Question Block",
+
   "block.marioverse.black_warp_pipe": "Black Warp Pipe",
   "block.marioverse.blue_warp_pipe": "Blue Warp Pipe",
   "block.marioverse.brown_warp_pipe": "Brown Warp Pipe",
   "block.marioverse.clear_warp_pipe": "Clear Warp Pipe",
-  "block.marioverse.coin": "Coin",
   "block.marioverse.cyan_warp_pipe": "Cyan Warp Pipe",
   "block.marioverse.gray_warp_pipe": "Gray Warp Pipe",
   "block.marioverse.green_warp_pipe": "Green Warp Pipe",

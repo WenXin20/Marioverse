@@ -97,11 +97,6 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
         super.entityInside(state, world, pos, entity);
     }
 
-    @Override
-    public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
-        super.tick(state, serverWorld, pos, random);
-    }
-
     @NotNull
     @Override
     public FluidState getFluidState(final BlockState state)
