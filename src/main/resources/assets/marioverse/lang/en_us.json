@@ -37,6 +37,7 @@
   "item.marioverse.pipe_wrench.tooltip.right_click": "Right-click: Opens pipe GUI",
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "Shift-right-click: Binds pipes",
 
+  "subtitles.marioverse.block.coin_pickup": "Coin picked up",
   "subtitles.marioverse.block.pipes_linked": "Pipes linked",
   "subtitles.marioverse.block.pipe_closes": "Pipe closes",
   "subtitles.marioverse.block.pipe_opens": "Pipe opens",

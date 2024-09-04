@@ -1,8 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +26,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,11 +70,22 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+        double motionX = (world.random.nextDouble() - 0.5) * 0.1;
+        double motionY = world.random.nextDouble() * 0.1;
+        double motionZ = (world.random.nextDouble() - 0.5) * 0.1;
+
         ItemStack coinItem = new ItemStack(this.asItem());
 
         if (entity instanceof Player player) {
             world.removeBlock(pos, Boolean.TRUE);
             player.addItem(coinItem);
+            world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            if (!world.isClientSide) {
+                for (int i = 0; i < 5; i++) {
+                    world.addParticle(ParticleTypes.SCRAPE, pos.getX(), pos.getY(), pos.getZ(), motionX, motionY, motionZ);
+                }
+            }
 
             if (!player.addItem(coinItem)) {
                 player.drop(coinItem, false);
