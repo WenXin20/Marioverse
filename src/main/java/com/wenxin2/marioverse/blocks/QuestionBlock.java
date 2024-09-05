@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -74,6 +75,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                     return ItemInteractionResult.SUCCESS;
                 } else if (player.isCreative() && heldItem.isEmpty()) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+//                    questionBlockEntity = (QuestionBlockEntity) world.getBlockEntity(pos);
                     ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
                     player.addItem(droppedItem);
                     questionBlockEntity.removeOneItem();

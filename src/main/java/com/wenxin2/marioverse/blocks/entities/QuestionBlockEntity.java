@@ -19,7 +19,7 @@ public class QuestionBlockEntity extends BlockEntity {
     }
 
     public ItemStackHandler getItems() {
-        return new ItemStackHandler(1);
+        return items;
     }
 
     public ItemStack getStackInSlot() {
@@ -46,9 +46,9 @@ public class QuestionBlockEntity extends BlockEntity {
     public void addItem(Player player, ItemStack stack) {
         ItemStack existingStack = items.getStackInSlot(0);
         if (existingStack.isEmpty()) {
-            items.setStackInSlot(0, stack.split(64));
+            items.setStackInSlot(0, stack.split(stack.getMaxStackSize()));
         } else if (ItemStack.isSameItemSameComponents(existingStack, stack)) {
-            int countToAdd = Math.min(64 - existingStack.getCount(), stack.getCount());
+            int countToAdd = Math.min(stack.getMaxStackSize() - existingStack.getCount(), stack.getCount());
             existingStack.grow(countToAdd);
         }
     }

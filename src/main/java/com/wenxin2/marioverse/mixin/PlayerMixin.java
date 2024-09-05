@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.Config;
 import com.wenxin2.marioverse.init.ModTags;
 import javax.annotation.Nullable;
@@ -99,7 +100,8 @@ public abstract class PlayerMixin extends Entity {
 
 //                if (removedItem) {
 
-                    ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
+//                questionBlockEntity = (QuestionBlockEntity) world.getBlockEntity(pos);
+                ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
 
                     if (!stateAboveEntityAndBlock.isSolid()) {
                         marioverse$dropItem(world, posAboveEntityAndBlock, droppedItem);
