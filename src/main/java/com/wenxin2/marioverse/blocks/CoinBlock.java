@@ -5,10 +5,8 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    protected static final VoxelShape COIN_SHAPE = Block.box(4.0, 4.0, 4.0, 12.0, 12.0, 12.0).optimize();
+    protected static final VoxelShape COIN_SHAPE = Block.box(4.0, 3.5, 4.0, 12.0, 12.5, 12.0).optimize();
 
     public CoinBlock(Properties properties) {
         super(properties);
