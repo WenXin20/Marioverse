@@ -98,7 +98,6 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
     @Override
     public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hit) {
-        RandomSource random = world.getRandom();
         BlockEntity blockEntity = world.getBlockEntity(pos);
         Item item = stack.getItem();
 
@@ -303,7 +302,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-                                  LevelAccessor worldAccessor, BlockPos pos, BlockPos pos2) {
+                                  LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
         Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
         Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
         Block blockNorth = worldAccessor.getBlockState(pos.north()).getBlock();

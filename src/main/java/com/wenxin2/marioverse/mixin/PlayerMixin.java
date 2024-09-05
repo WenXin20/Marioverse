@@ -2,22 +2,29 @@ package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.Config;
 import com.wenxin2.marioverse.init.ModTags;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,6 +34,10 @@ public abstract class PlayerMixin extends Entity {
     @Shadow protected abstract float getBlockSpeedFactor();
 
     @Shadow public abstract void displayClientMessage(Component component, boolean isAboveHotbar);
+
+    @Shadow @Nullable public abstract ItemEntity drop(ItemStack p_36177_, boolean p_36178_);
+
+    @Shadow public abstract Inventory getInventory();
 
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 40;
@@ -42,8 +53,13 @@ public abstract class PlayerMixin extends Entity {
     public void baseTick() {
         Level world = this.level();
         BlockPos pos = this.blockPosition();
+        BlockPos posAboveEntity = pos.above(Math.round(this.getBbHeight()));
+        BlockPos posAboveEntityAndBlock = pos.above(Math.round(this.getBbHeight())).above();
+        BlockPos posAboveEntityAndBelowBlock = pos.above(Math.round(this.getBbHeight())).below();
         BlockState state = world.getBlockState(pos);
-        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(this.getBbHeight())));
+        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
+        BlockState stateAboveEntityAndBelowBlock = world.getBlockState(posAboveEntity.below());
+        BlockState stateAboveEntityAndBlock = world.getBlockState(posAboveEntity.above());
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -66,11 +82,43 @@ public abstract class PlayerMixin extends Entity {
         }
         super.baseTick();
 
-        if (stateAboveEntity.is(BlockRegistry.QUESTION_BLOCK) && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
+//        if (stateAboveEntity.is(BlockRegistry.QUESTION_BLOCK) && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
+//        {
+//            world.destroyBlock(pos.above(Math.round(this.getBbHeight())), true);
+//            world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+//            world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+//        }
+
+        if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
+                && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
         {
-            world.destroyBlock(pos.above(Math.round(this.getBbHeight())), true);
-            world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+            if (!world.isClientSide) {
+                boolean removedItem = questionBlockEntity.removeOneItem();
+                world.playSound(null, posAboveEntity, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+
+//                if (removedItem) {
+
+                    ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
+
+                    if (!stateAboveEntityAndBlock.isSolid()) {
+                        marioverse$dropItem(world, posAboveEntityAndBlock, droppedItem);
+                        questionBlockEntity.setChanged();
+                    } else {
+                        marioverse$dropItem(world, posAboveEntityAndBelowBlock, droppedItem);
+                        questionBlockEntity.setChanged();
+                    }
+                    world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+//                }
+                world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+            }
         }
+    }
+
+    @Unique
+    private void marioverse$dropItem(Level world, BlockPos pos, ItemStack itemStack) {
+        ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack);
+        world.addFreshEntity(itemEntity);
     }
 
     @Unique
