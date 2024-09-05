@@ -65,7 +65,8 @@ public class QuestionBlock extends Block implements EntityBlock {
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
             if (blockEntity instanceof QuestionBlockEntity questionBlockEntity) {
-                if (!heldItem.isEmpty() && (heldItem == questionBlockEntity.getStackInSlot() || questionBlockEntity.getStackInSlot().isEmpty())) {
+                ItemStack blockStack = questionBlockEntity.getStackInSlot();
+                if (!heldItem.isEmpty() && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.addItem(player, heldItem);
                     questionBlockEntity.setChanged();

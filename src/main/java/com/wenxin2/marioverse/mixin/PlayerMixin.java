@@ -105,10 +105,14 @@ public abstract class PlayerMixin extends Entity {
 
                     if (!stateAboveEntityAndBlock.isSolid()) {
                         marioverse$dropItem(world, posAboveEntityAndBlock, droppedItem);
+                        questionBlockEntity.removeOneItem();
                         questionBlockEntity.setChanged();
+                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                     } else {
                         marioverse$dropItem(world, posAboveEntityAndBelowBlock, droppedItem);
+                        questionBlockEntity.removeOneItem();
                         questionBlockEntity.setChanged();
+                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                     }
                     world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
 //                }
