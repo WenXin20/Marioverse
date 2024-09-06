@@ -12,7 +12,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_WARPS;
-    public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS
+    public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_BREAK;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_FALL;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_HIT;

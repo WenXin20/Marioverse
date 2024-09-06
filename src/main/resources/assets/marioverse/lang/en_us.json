@@ -152,6 +152,7 @@
   "configuration.marioverse.require_creative_water_spouts": "Water Spouts Creative Only",
   "configuration.marioverse.question_spawns_mobs": "Question Blocks Spawn Mobs",
   "configuration.marioverse.question_add_items": "Add Items to Question Blocks in Survival",
+  "configuration.marioverse.question_remove_items": "Activate Question Blocks by Right-Click",
   "configuration.marioverse.teleport_mobs": "Teleport Mobs",
   "configuration.marioverse.teleport_non_mobs": "Teleport Non-Living Entities",
   "configuration.marioverse.teleport_players": "Teleport Players",

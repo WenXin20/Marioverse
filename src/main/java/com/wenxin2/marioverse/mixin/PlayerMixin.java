@@ -91,7 +91,8 @@ public abstract class PlayerMixin extends Entity {
             if (!storedItem.isEmpty()) {
                 questionBlock.spawnEntity(world, this, pos.above(), storedItem, false);
 
-                questionBlockEntity.removeItems(1);
+                questionBlock.playSoundEffect(world, this, pos, storedItem);
+                questionBlockEntity.removeItems();
                 questionBlockEntity.setChanged();
                 world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
             }

@@ -52,11 +52,9 @@ public class QuestionBlockEntity extends BlockEntity {
         }
     }
 
-    public boolean removeItems(int removeAmount) {
+    public boolean removeItems() {
         ItemStack storedStack = items.getStackInSlot(0);
         if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
-            storedStack.shrink(removeAmount);  // Remove one item
-//            items.setStackInSlot(0, storedStack);
             return true;
         }
         return false;
