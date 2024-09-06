@@ -68,7 +68,6 @@ public class QuestionBlock extends Block implements EntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, 
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-//        if (!world.isClientSide) {
             ItemStack heldItem = player.getItemInHand(hand);
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
@@ -83,27 +82,14 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                     return ItemInteractionResult.SUCCESS;
                 } else if (player.isCreative() && heldItem.isEmpty()) {
-//                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-////                    questionBlockEntity = (QuestionBlockEntity) world.getBlockEntity(pos);
-//                    ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
-//                    player.addItem(droppedItem.split(1));
-//                    questionBlockEntity.removeOneItem();
-//                    questionBlockEntity.setChanged();
-//
-//                    if (!player.addItem(droppedItem)) {
-//                        player.drop(droppedItem, false);
-//                    }
                     ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
 
                     if (!droppedItem.isEmpty()) {
-                        // Spawn the stored item/entity above the block
-                        if (world.getBlockState(pos.above()).isAir() && !world.isClientSide)
-                            spawnEntity(world, pos.above(), droppedItem, false);
-                        else if (!world.isClientSide) spawnEntity(world, pos.below(), droppedItem, false);
+                        if (!world.isClientSide)
+                            spawnEntity(world, pos, droppedItem, false);
 
                         questionBlockEntity.removeOneItem();
                         questionBlockEntity.setChanged();
-
                         world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                     }
 
@@ -113,7 +99,6 @@ public class QuestionBlock extends Block implements EntityBlock {
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.CONSUME;
             }
-//        }
         return ItemInteractionResult.CONSUME;
     }
 
@@ -131,12 +116,18 @@ public class QuestionBlock extends Block implements EntityBlock {
         // Check if the item is armor stand
         else if (stack.getItem() == Items.ARMOR_STAND) {
             ArmorStand armorStand = new ArmorStand(EntityType.ARMOR_STAND, world);
-            armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+            armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
             world.addFreshEntity(armorStand);
         }
         else if (dropEntireStack) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack);
-            world.addFreshEntity(itemEntity);
+            if (world.getBlockState(pos.above()).isAir()) {
+                itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack);
+                world.addFreshEntity(itemEntity);
+            } else {
+                itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() - itemEntity.getBbHeight(), pos.getZ() + 0.5D, stack);
+                world.addFreshEntity(itemEntity);
+            }
         }
         else {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.split(1));
