@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -92,31 +93,33 @@ public abstract class PlayerMixin extends Entity {
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
-        {
-            if (!world.isClientSide) {
-                boolean removedItem = questionBlockEntity.removeOneItem();
-                world.playSound(null, posAboveEntity, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-                world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+            this.marioverse$hitQuestionBlock(world, state, posAboveEntity, questionBlockEntity);
+    }
 
-//                if (removedItem) {
+    @Unique
+    private void marioverse$hitQuestionBlock(Level world, BlockState state, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+        BlockPos posAboveEntity = pos.above(Math.round(this.getBbHeight()));
+        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
 
-//                questionBlockEntity = (QuestionBlockEntity) world.getBlockEntity(pos);
-                ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
+        if (!world.isClientSide && world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
+            boolean removedItem = questionBlockEntity.removeOneItem();
+            world.playSound(null, pos, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+//            world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+            ItemStack storedItem = questionBlockEntity.getItems().getStackInSlot(0);
+            if (!storedItem.isEmpty()) {
+                if (world.getBlockState(pos.above()).isAir())
+                    questionBlock.spawnEntity(world, pos.above(), storedItem, false);
+                else questionBlock.spawnEntity(world, pos.below(), storedItem, false);
 
-                    if (!stateAboveEntityAndBlock.isSolid()) {
-                        marioverse$dropItem(world, posAboveEntityAndBlock, droppedItem);
-                        questionBlockEntity.removeOneItem();
-                        questionBlockEntity.setChanged();
-                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                    } else {
-                        marioverse$dropItem(world, posAboveEntityAndBelowBlock, droppedItem);
-                        questionBlockEntity.removeOneItem();
-                        questionBlockEntity.setChanged();
-                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                    }
-                    world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-//                }
-                world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+                questionBlockEntity.removeOneItem();
+                questionBlockEntity.setChanged();
+                world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
+
+            if (storedItem.isEmpty() && world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
+                BlockState currentState = world.getBlockState(pos);
+                if (currentState.getBlock() instanceof QuestionBlock)
+                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
             }
         }
     }

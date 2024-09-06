@@ -4,7 +4,6 @@ import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,7 +42,7 @@ public class QuestionBlockEntity extends BlockEntity {
         items.deserializeNBT(provider, tag.getCompound(INVENTORY));
     }
 
-    public void addItem(Player player, ItemStack stack) {
+    public void addItem(ItemStack stack) {
         ItemStack existingStack = items.getStackInSlot(0);
         if (existingStack.isEmpty()) {
             items.setStackInSlot(0, stack.split(stack.getMaxStackSize()));
@@ -57,7 +56,7 @@ public class QuestionBlockEntity extends BlockEntity {
         ItemStack storedStack = items.getStackInSlot(0);
         if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
             storedStack.shrink(1);  // Remove one item
-            items.setStackInSlot(0, storedStack);
+//            items.setStackInSlot(0, storedStack);
             return true;
         }
         return false;

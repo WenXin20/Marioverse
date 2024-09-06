@@ -1,13 +1,21 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -60,7 +68,7 @@ public class QuestionBlock extends Block implements EntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, 
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (!world.isClientSide) {
+//        if (!world.isClientSide) {
             ItemStack heldItem = player.getItemInHand(hand);
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
@@ -68,27 +76,71 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
                 if (!heldItem.isEmpty() && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-                    questionBlockEntity.addItem(player, heldItem);
+                    questionBlockEntity.addItem(heldItem);
                     questionBlockEntity.setChanged();
                     if(!player.isCreative())
                         stack.shrink(heldItem.getCount());
 
                     return ItemInteractionResult.SUCCESS;
                 } else if (player.isCreative() && heldItem.isEmpty()) {
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-//                    questionBlockEntity = (QuestionBlockEntity) world.getBlockEntity(pos);
+//                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+////                    questionBlockEntity = (QuestionBlockEntity) world.getBlockEntity(pos);
+//                    ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
+//                    player.addItem(droppedItem.split(1));
+//                    questionBlockEntity.removeOneItem();
+//                    questionBlockEntity.setChanged();
+//
+//                    if (!player.addItem(droppedItem)) {
+//                        player.drop(droppedItem, false);
+//                    }
                     ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
-                    player.addItem(droppedItem);
-                    questionBlockEntity.removeOneItem();
-                    questionBlockEntity.setChanged();
 
-                    if (!player.addItem(droppedItem)) {
-                        player.drop(droppedItem, false);
+                    if (!droppedItem.isEmpty()) {
+                        // Spawn the stored item/entity above the block
+                        if (world.getBlockState(pos.above()).isAir() && !world.isClientSide)
+                            spawnEntity(world, pos.above(), droppedItem, false);
+                        else if (!world.isClientSide) spawnEntity(world, pos.below(), droppedItem, false);
+
+                        questionBlockEntity.removeOneItem();
+                        questionBlockEntity.setChanged();
+
+                        world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    }
+
+                    if (droppedItem.isEmpty()) {
+                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                     }
                     return ItemInteractionResult.SUCCESS;
-                } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                } else return ItemInteractionResult.CONSUME;
+            }
+//        }
+        return ItemInteractionResult.CONSUME;
+    }
+
+    public void spawnEntity(Level world, BlockPos pos, ItemStack stack, Boolean dropEntireStack) {
+
+        // Check if the item is a spawn egg (for mobs)
+        if (stack.getItem() instanceof SpawnEggItem spawnEgg) {
+            EntityType<?> entityType = spawnEgg.getType(stack);
+            if (world instanceof ServerLevel serverWorld) { // Check this
+                if (world.getBlockState(pos.above()).isAir())
+                    entityType.spawn(serverWorld, stack, null, pos.above(2), MobSpawnType.SPAWN_EGG, true, true);
+                else entityType.spawn(serverWorld, stack, null, pos.below((int) entityType.getHeight()), MobSpawnType.SPAWN_EGG, true, true);
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        // Check if the item is armor stand
+        else if (stack.getItem() == Items.ARMOR_STAND) {
+            ArmorStand armorStand = new ArmorStand(EntityType.ARMOR_STAND, world);
+            armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+            world.addFreshEntity(armorStand);
+        }
+        else if (dropEntireStack) {
+            ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack);
+            world.addFreshEntity(itemEntity);
+        }
+        else {
+            ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.split(1));
+            world.addFreshEntity(itemEntity);
+        }
     }
 }
