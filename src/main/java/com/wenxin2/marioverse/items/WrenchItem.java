@@ -1,14 +1,12 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.init.ModTags;
+import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,9 +19,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.Tags;
 
@@ -77,7 +73,7 @@ public class WrenchItem extends LinkerItem {
     }
 
     public static Tool createToolProperties() {
-        return new Tool(List.of(Tool.Rule.overrideSpeed(ModTags.WRENCH_EFFICIENT, 1.5F)), 1.0F, 2);
+        return new Tool(List.of(Tool.Rule.overrideSpeed(TagRegistry.WRENCH_EFFICIENT, 1.5F)), 1.0F, 2);
     }
 
     public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {

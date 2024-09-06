@@ -45,7 +45,7 @@ public class QuestionBlockEntity extends BlockEntity {
     public void addItem(ItemStack stack) {
         ItemStack existingStack = items.getStackInSlot(0);
         if (existingStack.isEmpty()) {
-            items.setStackInSlot(0, stack);
+            items.setStackInSlot(0, stack.split(stack.getMaxStackSize()));
         } else if (ItemStack.isSameItemSameComponents(existingStack, stack)) {
             int countToAdd = Math.min(stack.getMaxStackSize() - existingStack.getCount(), stack.getCount());
             existingStack.grow(countToAdd);

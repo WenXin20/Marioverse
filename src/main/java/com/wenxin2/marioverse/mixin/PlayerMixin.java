@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.ModTags;
+import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -140,7 +140,7 @@ public abstract class PlayerMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
@@ -183,7 +183,7 @@ public abstract class PlayerMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
 //            WarpData warpData = WarpProxy.getInstance().getWarp(warpPipeBE.warpUuid);
             warpPos = warpPipeBE.destinationPos;
@@ -251,7 +251,7 @@ public abstract class PlayerMixin extends Entity {
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
-        } else if (!state.getValue(WarpPipeBlock.CLOSED) && (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(ModTags.WARP_BLACKLIST))) {
+        } else if (!state.getValue(WarpPipeBlock.CLOSED) && (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(TagRegistry.WARP_BLACKLIST))) {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && this.isShiftKeyDown() && (entityY + this.getBbHeight() >= blockY - 1)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.marioverse$displayNoTeleportMessage();
@@ -296,7 +296,7 @@ public abstract class PlayerMixin extends Entity {
 
     @Unique
     public void marioverse$displayNoTeleportMessage() {
-        if (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(ModTags.WARP_BLACKLIST)) {
+        if (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(TagRegistry.WARP_BLACKLIST)) {
             this.displayClientMessage(Component.translatable("display.marioverse.players_cannot_teleport")
                     .withStyle(ChatFormatting.RED), true);
         }
