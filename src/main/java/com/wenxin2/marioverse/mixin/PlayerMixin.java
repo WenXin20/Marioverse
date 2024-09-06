@@ -141,7 +141,7 @@ public abstract class PlayerMixin extends Entity {
 
         if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
                 && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
-                && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                && !this.getPersistentData().getBoolean("marioverse:prevent_warp") && stateAboveEntity.getBlock() instanceof WarpPipeBlock pipeBlock) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
@@ -155,6 +155,7 @@ public abstract class PlayerMixin extends Entity {
             if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN && this.getDeltaMovement().y > 0
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
+                    pipeBlock.teleportEntityIfConnected(world, pos, this);
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp(this, warpPos, world, stateAboveEntity);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
@@ -184,8 +185,7 @@ public abstract class PlayerMixin extends Entity {
 
         if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
                 && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
-                && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-//            WarpData warpData = WarpProxy.getInstance().getWarp(warpPipeBE.warpUuid);
+                && !this.getPersistentData().getBoolean("marioverse:prevent_warp") && state.getBlock() instanceof WarpPipeBlock pipeBlock) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
@@ -199,6 +199,7 @@ public abstract class PlayerMixin extends Entity {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && this.isShiftKeyDown() && (entityY + this.getBbHeight() >= blockY - 1)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
+                    pipeBlock.teleportEntityIfConnected(world, pos, this);
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
@@ -210,6 +211,7 @@ public abstract class PlayerMixin extends Entity {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.SOUTH
                     && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
+                    pipeBlock.teleportEntityIfConnected(world, pos, this);
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
@@ -221,6 +223,7 @@ public abstract class PlayerMixin extends Entity {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.NORTH
                     && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
+                    pipeBlock.teleportEntityIfConnected(world, pos, this);
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
@@ -232,6 +235,7 @@ public abstract class PlayerMixin extends Entity {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.WEST
                     && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
+                    pipeBlock.teleportEntityIfConnected(world, pos, this);
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
@@ -243,6 +247,7 @@ public abstract class PlayerMixin extends Entity {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.EAST
                     && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
+                    pipeBlock.teleportEntityIfConnected(world, pos, this);
                     if (warpPos != null && world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock)
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
