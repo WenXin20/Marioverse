@@ -32,6 +32,9 @@ public class Config
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
+    public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
+    public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
+    public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -108,6 +111,18 @@ public class Config
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_QUESTION_BLOCK);
+            QUESTION_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.question_spawns_mobs")
+                    .comment("Allow question blocks to spawn mobs.")
+                    .comment("§9[Default: true]")
+                    .define("question_spawns_mobs", true);
+            QUESTION_ADD_ITEMS = BUILDER.translation("configuration.marioverse.question_add_items")
+                    .comment("Allow players to add items to questions blocks using right-click.")
+                    .comment("§9[Default: true]")
+                    .define("question_add_items", true);
+            QUESTION_REMOVE_ITEMS = BUILDER.translation("configuration.marioverse.question_remove_items")
+                    .comment("Allow players to activate questions blocks using right-click.")
+                    .comment("§9[Default: true]")
+                    .define("question_remove_items", true);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_WATER_SPOUTS);

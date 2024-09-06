@@ -23,6 +23,9 @@
   "block.pipe_warps": {"category": "block", "sounds": [{ "name": "mob/endermen/portal", "stream": false },
     { "name": "mob/endermen/portal2", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_warps" },
 
+  "block.power_up_spawns": {"category": "block", "sounds": [{ "name": "marioverse:block/power_up_spawns", "stream": false }],
+    "subtitle": "subtitles.marioverse.block.power_up_spawns" },
+
   "block.water_spout.break": {"category": "block", "sounds": [{ "name": "item/bucket/fill1", "stream": false },
     { "name": "item/bucket/fill2", "stream": false },
     { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.break" },

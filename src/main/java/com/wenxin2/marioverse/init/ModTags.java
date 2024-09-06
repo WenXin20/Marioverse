@@ -15,6 +15,7 @@ public class ModTags {
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "dyeable_marioverse");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "marioverse");
     public static final TagKey<EntityType<?>> WARP_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "warp_blacklist");
+    public static final TagKey<EntityType<?>> QUESTION_BLOCK_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<EntityType<?>> QUICK_TRAVEL_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "quick_travel_blacklist");
 
     public static TagKey<Block> blockTags(String id, String name) {

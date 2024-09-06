@@ -75,7 +75,7 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
         if (entity instanceof Player player) {
             world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (!world.isClientSide) {
+            if (world.isClientSide) {
                 for (int i = 0; i < 5; i++) {
                     double motionX = (world.random.nextDouble() - 0.5) * 0.1;
                     double motionY = world.random.nextDouble() * 0.1;

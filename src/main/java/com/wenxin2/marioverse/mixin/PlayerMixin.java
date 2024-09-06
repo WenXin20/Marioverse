@@ -83,15 +83,15 @@ public abstract class PlayerMixin extends Entity {
     }
 
     @Unique
-    private void marioverse$hitQuestionBlock(Level world, BlockState state, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+    public void marioverse$hitQuestionBlock(Level world, BlockState state, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
 
         if (!world.isClientSide && world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             world.playSound(null, pos, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
             ItemStack storedItem = questionBlockEntity.getItems().getStackInSlot(0);
             if (!storedItem.isEmpty()) {
-                questionBlock.spawnEntity(world, pos.above(), storedItem, false);
+                questionBlock.spawnEntity(world, this, pos.above(), storedItem, false);
 
-                questionBlockEntity.removeOneItem();
+                questionBlockEntity.removeItems(1);
                 questionBlockEntity.setChanged();
                 world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
