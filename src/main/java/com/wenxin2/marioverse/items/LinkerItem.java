@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
 import java.util.List;
@@ -46,7 +46,7 @@ public class LinkerItem extends TieredItem {
         ItemStack stack = useOnContext.getItemInHand();
         String dimension = world.dimension().location().toString();
 
-        if (player != null && !player.isCreative() && Config.CREATIVE_WRENCH_PIPE_LINKING.get()) {
+        if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get()) {
             player.displayClientMessage(Component.translatable("display.marioverse.linker.requires_creative")
                     .withStyle(), true);
             return InteractionResult.sidedSuccess(world.isClientSide);

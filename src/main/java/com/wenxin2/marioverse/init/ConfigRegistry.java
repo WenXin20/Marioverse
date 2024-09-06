@@ -6,9 +6,9 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-public class Config
+public class ConfigRegistry
 {
-    public static final Config INSTANCE = new Config();
+    public static final ConfigRegistry INSTANCE = new ConfigRegistry();
 
     public static final String CATEGORY_CLIENT = "client";
     public static final String CATEGORY_COMMON = "common";
@@ -47,7 +47,7 @@ public class Config
     public static ModConfigSpec.BooleanValue WAX_DISABLES_RENAMING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
-    private Config() {
+    private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
         BUILDER.push(CATEGORY_CLIENT);
         DISABLE_TEXT = BUILDER.translation("configuration.marioverse.disable_text")

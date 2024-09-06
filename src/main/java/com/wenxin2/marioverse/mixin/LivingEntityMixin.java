@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ModTags;
 import java.util.Collection;
 import net.minecraft.core.BlockPos;
@@ -127,7 +127,7 @@ public abstract class LivingEntityMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && this.getType() != EntityType.PLAYER && Config.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && this.getType() != EntityType.PLAYER && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
@@ -146,7 +146,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, stateAboveEntity);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, stateAboveEntity);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 }
             }
         }
@@ -168,7 +168,7 @@ public abstract class LivingEntityMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && this.getType() != EntityType.PLAYER
-                && !warpPipeBE.preventWarp && Config.TELEPORT_MOBS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_MOBS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
@@ -187,7 +187,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
@@ -195,7 +195,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ)) {
@@ -203,7 +203,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -211,7 +211,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -219,7 +219,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 }
             }
         }

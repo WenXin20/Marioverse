@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.client;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -55,7 +55,7 @@ public class WaterSpoutSlider extends TexturedSlider {
     }
 
     public boolean requiresCreativeWaterSpout(LocalPlayer player) {
-        return !player.isCreative() && Config.CREATIVE_WATER_SPOUT.get();
+        return !player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get();
     }
 
     public boolean waxDisablesWaterSpouts(Minecraft minecraft) {
@@ -64,7 +64,7 @@ public class WaterSpoutSlider extends TexturedSlider {
             BlockEntity blockEntity = minecraft.level.getBlockEntity(pos);
 
             if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                return pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get();
+                return pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get();
             }
         }
         return false;

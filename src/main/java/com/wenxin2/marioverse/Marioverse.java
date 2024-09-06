@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
@@ -57,11 +57,11 @@ public class Marioverse
         ItemRegistry.init();
         MenuRegistry.init();
         SoundRegistry.init();
-        Config.register(container);
+        ConfigRegistry.register(container);
 
         if (dist.isClient()) {
 //            bus.addListener(ClientSetupHandler::registerBlockEntityRenderers);
-            Config.registerClient(container);
+            ConfigRegistry.registerClient(container);
         }
 
 //        WarpEventHandlers.register();

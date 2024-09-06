@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -60,9 +60,9 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
-            if ((player.hasPermissions(1) && player.isCreative() && Config.DEBUG_WATER_SPOUT_SELECTION_BOX.get())
+            if ((player.hasPermissions(1) && player.isCreative() && ConfigRegistry.DEBUG_WATER_SPOUT_SELECTION_BOX.get())
                     || (((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                    && Config.WATER_SPOUTS_BUCKETABLE.get())
+                    && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem))) {
                 if (state.getValue(TOP)) {
                     return SPOUT_TOP;
@@ -278,7 +278,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
 
     @Override
     public ItemStack pickupBlock(@Nullable Player player, LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
-        if (Config.WATER_SPOUTS_BUCKETABLE.get()) {
+        if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get()) {
             worldAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             return new ItemStack(Items.WATER_BUCKET);
         } else return ItemStack.EMPTY;

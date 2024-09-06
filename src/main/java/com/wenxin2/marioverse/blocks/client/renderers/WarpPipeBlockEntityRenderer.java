@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.PipeText;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -36,7 +36,7 @@ public class WarpPipeBlockEntityRenderer implements BlockEntityRenderer<WarpPipe
 
     @Override
     public void render(WarpPipeBlockEntity blockEntity, float partialTick, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        if (!Config.DISABLE_TEXT.get()) this.renderPipeWithText(blockEntity, stack, buffer, packedLight);
+        if (!ConfigRegistry.DISABLE_TEXT.get()) this.renderPipeWithText(blockEntity, stack, buffer, packedLight);
     }
 
     void renderPipeWithText(WarpPipeBlockEntity pipeBlockEntity, PoseStack stack, MultiBufferSource buffer, int packedLight) {

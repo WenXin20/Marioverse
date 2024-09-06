@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ModTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -140,7 +140,7 @@ public abstract class PlayerMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && Config.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
@@ -159,7 +159,7 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, stateAboveEntity);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, stateAboveEntity);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
@@ -183,7 +183,7 @@ public abstract class PlayerMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && Config.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(ModTags.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
 //            WarpData warpData = WarpProxy.getInstance().getWarp(warpPipeBE.warpUuid);
             warpPos = warpPipeBE.destinationPos;
@@ -203,7 +203,7 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
@@ -214,7 +214,7 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
@@ -225,7 +225,7 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
@@ -236,7 +236,7 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
@@ -247,11 +247,11 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(Config.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
                 displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
             }
-        } else if (!state.getValue(WarpPipeBlock.CLOSED) && (!Config.TELEPORT_PLAYERS.get() || this.getType().is(ModTags.WARP_BLACKLIST))) {
+        } else if (!state.getValue(WarpPipeBlock.CLOSED) && (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(ModTags.WARP_BLACKLIST))) {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && this.isShiftKeyDown() && (entityY + this.getBbHeight() >= blockY - 1)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.marioverse$displayNoTeleportMessage();
@@ -284,8 +284,8 @@ public abstract class PlayerMixin extends Entity {
 
     public void marioverse$displayCooldownMessage() {
         if (this.marioverse$getWarpCooldown() >= 10) {
-            if (Config.WARP_COOLDOWN_MESSAGE.get()) {
-                if (Config.WARP_COOLDOWN_MESSAGE_TICKS.get())
+            if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
+                if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                     this.displayClientMessage(Component.translatable("display.marioverse.warp_cooldown.ticks",
                             this.marioverse$getWarpCooldown()).withStyle(ChatFormatting.RED), true);
                 else this.displayClientMessage(Component.translatable("display.marioverse.warp_cooldown")
@@ -296,7 +296,7 @@ public abstract class PlayerMixin extends Entity {
 
     @Unique
     public void marioverse$displayNoTeleportMessage() {
-        if (!Config.TELEPORT_PLAYERS.get() || this.getType().is(ModTags.WARP_BLACKLIST)) {
+        if (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(ModTags.WARP_BLACKLIST)) {
             this.displayClientMessage(Component.translatable("display.marioverse.players_cannot_teleport")
                     .withStyle(ChatFormatting.RED), true);
         }

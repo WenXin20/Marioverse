@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ModTags;
 import com.wenxin2.marioverse.items.LinkerItem;
 import java.util.Collection;
@@ -198,7 +198,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                         (state.getValue(UP) && state.getValue(DOWN) && state.getValue(NORTH) && state.getValue(SOUTH) && state.getValue(EAST) &&
                                 state.getValue(ENTRANCE) && state.getValue(FACING) == Direction.WEST)) {
 
-                    if ((player.isCreative() && Config.DEBUG_SELECTION_BOX_CREATIVE.get() || Config.DEBUG_SELECTION_BOX.get())
+                    if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                             || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof LinkerItem
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
@@ -212,7 +212,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             if (!state.getValue(ENTRANCE) && state.getValue(UP) && state.getValue(DOWN) && state.getValue(NORTH)
                     && state.getValue(SOUTH) && state.getValue(EAST) && state.getValue(WEST)) {
 
-                if ((player.isCreative() && Config.DEBUG_SELECTION_BOX_CREATIVE.get() || Config.DEBUG_SELECTION_BOX.get())
+                if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                         || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof LinkerItem
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
@@ -416,13 +416,13 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (!entity.isShiftKeyDown() && Config.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(ModTags.QUICK_TRAVEL_BLACKLIST))
+        if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(ModTags.QUICK_TRAVEL_BLACKLIST))
             entity.setSwimming(true);
 
         if ((entityY < blockY + 0.98 && entityY > blockY + 0.02)
                 && (entityX < blockX + 0.98 && entityX > blockX + 0.02)
                 && (entityZ < blockZ + 0.98 && entityZ > blockZ + 0.02)
-                && !entity.isShiftKeyDown() && Config.ALLOW_FAST_TRAVEL.get()
+                && !entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get()
                 && !entity.getType().is(ModTags.QUICK_TRAVEL_BLACKLIST)) {
             this.moveEntityInPipe(entity);
 

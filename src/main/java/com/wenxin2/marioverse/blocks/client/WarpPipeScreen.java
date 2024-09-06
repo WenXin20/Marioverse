@@ -7,7 +7,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.client.BubblesSlider;
 import com.wenxin2.marioverse.client.WaterSpoutSlider;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.ClosePipeButtonPayload;
@@ -88,93 +88,93 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             BlockState state = world.getBlockState(this.getClickedPos());
 
             if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                if (this.renameButton.isHoveredOrFocused() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_RENAMING.get())
+                if (this.renameButton.isHoveredOrFocused() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_RENAMING.get())
                     graphics.blit(WARP_PIPE_GUI, x + 7, y + 18, 177, 170, 24, 24);
-                else if (this.renameButton.isHoveredOrFocused() && !Config.WAX_DISABLES_RENAMING.get())
+                else if (this.renameButton.isHoveredOrFocused() && !ConfigRegistry.WAX_DISABLES_RENAMING.get())
                     graphics.blit(WARP_PIPE_GUI, x + 7, y + 18, 177, 170, 24, 24);
-                else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_RENAMING.get())
+                else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_RENAMING.get())
                     graphics.blit(WARP_PIPE_GUI, x + 7, y + 18, 177, 194, 24, 24);
                 else graphics.blit(WARP_PIPE_GUI, x + 7, y + 18, 177, 146, 24, 24);
 
-                if (this.renameBox.visible && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_RENAMING.get())
+                if (this.renameBox.visible && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_RENAMING.get())
                     graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
-                else if (this.renameBox.visible && !Config.WAX_DISABLES_RENAMING.get())
+                else if (this.renameBox.visible && !ConfigRegistry.WAX_DISABLES_RENAMING.get())
                     graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
 
                 if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.CLOSED)) {
-                    if ((this.closeButton.isHoveredOrFocused() && !Config.CREATIVE_CLOSE_PIPES.get() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
-                            || (this.closeButton.isHoveredOrFocused() && Config.CREATIVE_CLOSE_PIPES.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get()))
+                    if ((this.closeButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
+                            || (this.closeButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 202, 24, 24, 24);
-                    else if ((this.closeButton.isHoveredOrFocused() && !Config.CREATIVE_CLOSE_PIPES.get() && !Config.WAX_DISABLES_CLOSING.get())
-                            || (this.closeButton.isHoveredOrFocused() && Config.CREATIVE_CLOSE_PIPES.get() && player.isCreative() && !Config.WAX_DISABLES_CLOSING.get()))
+                    else if ((this.closeButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && !ConfigRegistry.WAX_DISABLES_CLOSING.get())
+                            || (this.closeButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && player.isCreative() && !ConfigRegistry.WAX_DISABLES_CLOSING.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 202, 24, 24, 24);
-                    else if (!player.isCreative() && Config.CREATIVE_CLOSE_PIPES.get())
+                    else if (!player.isCreative() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get())
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 202, 48, 24, 24);
-                    else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
+                    else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 202, 48, 24, 24);
                     else graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 202, 0, 24, 24);
                 } else {
-                    if ((this.closeButton.isHoveredOrFocused() && !Config.CREATIVE_CLOSE_PIPES.get() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
-                            || (this.closeButton.isHoveredOrFocused() && Config.CREATIVE_CLOSE_PIPES.get() && player.isCreative()) && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
+                    if ((this.closeButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
+                            || (this.closeButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && player.isCreative()) && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 177, 24, 24, 24);
-                    else if ((this.closeButton.isHoveredOrFocused() && !Config.CREATIVE_CLOSE_PIPES.get() && !Config.WAX_DISABLES_CLOSING.get())
-                            || (this.closeButton.isHoveredOrFocused() && Config.CREATIVE_CLOSE_PIPES.get() && player.isCreative()) && !Config.WAX_DISABLES_CLOSING.get())
+                    else if ((this.closeButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && !ConfigRegistry.WAX_DISABLES_CLOSING.get())
+                            || (this.closeButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && player.isCreative()) && !ConfigRegistry.WAX_DISABLES_CLOSING.get())
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 177, 24, 24, 24);
-                    else if (!player.isCreative() && Config.CREATIVE_CLOSE_PIPES.get())
+                    else if (!player.isCreative() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get())
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 177, 48, 24, 24);
-                    else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
+                    else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
                         graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 177, 48, 24, 24);
                     else graphics.blit(WARP_PIPE_GUI, x + 7, y + 45, 177, 0, 24, 24);
                 }
 
                 if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.WATER_SPOUT)) {
-                    if ((this.waterSpoutButton.isHoveredOrFocused() && !Config.CREATIVE_WATER_SPOUT.get() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
-                            || (this.waterSpoutButton.isHoveredOrFocused() && Config.CREATIVE_WATER_SPOUT.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get()))
+                    if ((this.waterSpoutButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_WATER_SPOUT.get() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
+                            || (this.waterSpoutButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_WATER_SPOUT.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 202, 97, 24, 24);
-                    else if ((this.waterSpoutButton.isHoveredOrFocused() && !Config.CREATIVE_WATER_SPOUT.get() && !Config.WAX_DISABLES_WATER_SPOUTS.get())
-                            || (this.waterSpoutButton.isHoveredOrFocused() && Config.CREATIVE_WATER_SPOUT.get() && player.isCreative() && !Config.WAX_DISABLES_WATER_SPOUTS.get()))
+                    else if ((this.waterSpoutButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_WATER_SPOUT.get() && !ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
+                            || (this.waterSpoutButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_WATER_SPOUT.get() && player.isCreative() && !ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 202, 97, 24, 24);
-                    else if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get())
+                    else if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 202, 121, 24, 24);
-                    else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
+                    else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 202, 121, 24, 24);
                     else graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 202, 73, 24, 24);
                 } else {
-                    if ((this.waterSpoutButton.isHoveredOrFocused() && !Config.CREATIVE_WATER_SPOUT.get() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
-                            || (this.waterSpoutButton.isHoveredOrFocused() && Config.CREATIVE_WATER_SPOUT.get() && player.isCreative()) && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
+                    if ((this.waterSpoutButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_WATER_SPOUT.get() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
+                            || (this.waterSpoutButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_WATER_SPOUT.get() && player.isCreative()) && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 177, 97, 24, 24);
-                    else if ((this.waterSpoutButton.isHoveredOrFocused() && !Config.CREATIVE_WATER_SPOUT.get() && !Config.WAX_DISABLES_WATER_SPOUTS.get())
-                            || (this.waterSpoutButton.isHoveredOrFocused() && Config.CREATIVE_WATER_SPOUT.get() && player.isCreative()) && !Config.WAX_DISABLES_WATER_SPOUTS.get())
+                    else if ((this.waterSpoutButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_WATER_SPOUT.get() && !ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
+                            || (this.waterSpoutButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_WATER_SPOUT.get() && player.isCreative()) && !ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 177, 97, 24, 24);
-                    else if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get())
+                    else if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 177, 121, 24, 24);
-                    else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
+                    else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 177, 121, 24, 24);
                     else graphics.blit(WARP_PIPE_GUI, x + 34, y + 18, 177, 73, 24, 24);
                 }
 
                 if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.BUBBLES)) {
-                    if ((this.bubblesButton.isHoveredOrFocused() && !Config.CREATIVE_BUBBLES.get() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
-                            || (this.bubblesButton.isHoveredOrFocused() && Config.CREATIVE_BUBBLES.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get()))
+                    if ((this.bubblesButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_BUBBLES.get() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
+                            || (this.bubblesButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_BUBBLES.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 97, 24, 24);
-                    else if ((this.bubblesButton.isHoveredOrFocused() && !Config.CREATIVE_BUBBLES.get() && !Config.WAX_DISABLES_BUBBLES.get())
-                            || (this.bubblesButton.isHoveredOrFocused() && Config.CREATIVE_BUBBLES.get() && player.isCreative() && !Config.WAX_DISABLES_BUBBLES.get()))
+                    else if ((this.bubblesButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_BUBBLES.get() && !ConfigRegistry.WAX_DISABLES_BUBBLES.get())
+                            || (this.bubblesButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_BUBBLES.get() && player.isCreative() && !ConfigRegistry.WAX_DISABLES_BUBBLES.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 97, 24, 24);
-                    else if (!player.isCreative() && Config.CREATIVE_BUBBLES.get())
+                    else if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 121, 24, 24);
-                    else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
+                    else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 121, 24, 24);
                     else graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 73, 24, 24);
                 } else {
-                    if ((this.bubblesButton.isHoveredOrFocused() && !Config.CREATIVE_BUBBLES.get() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
-                            || (this.bubblesButton.isHoveredOrFocused() && Config.CREATIVE_BUBBLES.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get()))
+                    if ((this.bubblesButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_BUBBLES.get() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
+                            || (this.bubblesButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_BUBBLES.get() && player.isCreative() && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 24, 24, 24);
-                    else if ((this.bubblesButton.isHoveredOrFocused() && !Config.CREATIVE_BUBBLES.get() && !Config.WAX_DISABLES_BUBBLES.get())
-                            || (this.bubblesButton.isHoveredOrFocused() && Config.CREATIVE_BUBBLES.get() && player.isCreative() && !Config.WAX_DISABLES_BUBBLES.get()))
+                    else if ((this.bubblesButton.isHoveredOrFocused() && !ConfigRegistry.CREATIVE_BUBBLES.get() && !ConfigRegistry.WAX_DISABLES_BUBBLES.get())
+                            || (this.bubblesButton.isHoveredOrFocused() && ConfigRegistry.CREATIVE_BUBBLES.get() && player.isCreative() && !ConfigRegistry.WAX_DISABLES_BUBBLES.get()))
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 24, 24, 24);
-                    else if (!player.isCreative() && Config.CREATIVE_BUBBLES.get())
+                    else if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 48, 24, 24);
-                    else if (pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
+                    else if (pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
                         graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 48, 24, 24);
                     else graphics.blit(WARP_PIPE_GUI, x + 34, y + 45, 227, 0, 24, 24);
                 }
@@ -272,7 +272,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
         Player player = this.inventory.player;
 
-        if (this.getClickedPos() != null && blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_RENAMING.get())
+        if (this.getClickedPos() != null && blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_RENAMING.get())
             tooltip = Component.translatable("menu.marioverse.warp_pipe.rename_button_waxed.tooltip");
         else tooltip = Component.translatable("menu.marioverse.warp_pipe.rename_button.tooltip");
         this.renameButton.setTooltip(Tooltip.create(tooltip));
@@ -280,14 +280,14 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.getClickedPos() != null) {
             BlockState state = world.getBlockState(this.getClickedPos());
             if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.CLOSED)) {
-                if (!player.isCreative() && Config.CREATIVE_CLOSE_PIPES.get())
+                if (!player.isCreative() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.open_button_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
                     tooltip = Component.translatable("menu.marioverse.warp_pipe.open_button_waxed.tooltip");
                 else tooltip = Component.translatable("menu.marioverse.warp_pipe.open_button.tooltip");
-            } else if (!player.isCreative() && Config.CREATIVE_CLOSE_PIPES.get())
+            } else if (!player.isCreative() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.close_button_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.close_button_waxed.tooltip");
             else tooltip = Component.translatable("menu.marioverse.warp_pipe.close_button.tooltip");
         }
@@ -296,23 +296,23 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.getClickedPos() != null) {
             BlockState state = world.getBlockState(this.getClickedPos());
             if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.WATER_SPOUT)) {
-                if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get())
+                if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_off_button_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                     tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_off_button_waxed.tooltip");
                 else tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_off_button.tooltip");
-            } else if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get())
+            } else if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_on_button_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_on_button_waxed.tooltip");
             else  tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_on_button.tooltip");
         }
         this.waterSpoutButton.setTooltip(Tooltip.create(tooltip));
 
         if (this.getClickedPos() != null) {
-            if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_slider_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_slider_waxed.tooltip");
             else tooltip = Component.translatable("menu.marioverse.warp_pipe.water_spout_slider.tooltip");
         }
@@ -321,23 +321,23 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.getClickedPos() != null) {
             BlockState state = world.getBlockState(this.getClickedPos());
             if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.BUBBLES)) {
-                if (!player.isCreative() && Config.CREATIVE_BUBBLES.get())
+                if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get())
                     tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_off_button_creative.tooltip");
-                else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
+                else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
                     tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_off_button_waxed.tooltip");
                 else tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_off_button.tooltip");
-            } else if (!player.isCreative() && Config.CREATIVE_BUBBLES.get())
+            } else if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_on_button_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_on_button_waxed.tooltip");
             else  tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_on_button.tooltip");
         }
         this.bubblesButton.setTooltip(Tooltip.create(tooltip));
 
         if (this.getClickedPos() != null) {
-            if (!player.isCreative() && Config.CREATIVE_BUBBLES.get())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider_creative.tooltip");
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get())
                 tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider_waxed.tooltip");
             else tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider.tooltip");
         }
@@ -401,7 +401,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
 
         if (this.getClickedPos() != null) {
-            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_RENAMING.get())
+            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_RENAMING.get())
                 player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
             else if (!pipeRename.equals(this.pipeName) && this.renameBox.visible && this.renameBox.isFocused()) {
                 PacketHandler.sendToServer(new RenamePipePayload(this.getClickedPos(), this.renameBox.getValue()));
@@ -409,9 +409,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             }
         }
 
-        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && !pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_RENAMING.get())
+        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && !pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_RENAMING.get())
             this.renameBox.setVisible(!this.renameBox.visible);
-        else if (!Config.WAX_DISABLES_RENAMING.get())
+        else if (!ConfigRegistry.WAX_DISABLES_RENAMING.get())
             this.renameBox.setVisible(!this.renameBox.visible);
     }
 
@@ -422,9 +422,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (world != null && this.getClickedPos() != null) {
             BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
 
-            if (!player.isCreative() && Config.CREATIVE_CLOSE_PIPES.get() && world.isClientSide())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_CLOSE_PIPES.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.close_pipes.requires_creative").withStyle(ChatFormatting.RED), true);
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_CLOSING.get() && world.isClientSide())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_CLOSING.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
             else PacketHandler.sendToServer(new ClosePipeButtonPayload(this.getClickedPos(), Boolean.TRUE));
         }
@@ -437,9 +437,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (world != null && this.getClickedPos() != null) {
             BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
 
-            if (!player.isCreative() && Config.CREATIVE_BUBBLES.get() && world.isClientSide())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.pipe_bubbles.requires_creative").withStyle(ChatFormatting.RED), true);
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get() && world.isClientSide())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
             else PacketHandler.sendToServer(new PipeBubblesButtonPayload(this.getClickedPos(), Boolean.TRUE));
         }
@@ -452,9 +452,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (world != null && this.getClickedPos() != null) {
             BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
 
-            if (!player.isCreative() && Config.CREATIVE_BUBBLES.get() && world.isClientSide())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.pipe_bubbles.requires_creative").withStyle(ChatFormatting.RED), true);
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_BUBBLES.get() && world.isClientSide())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
             else if (bubblesSlider.isFocused()) {
                 int bubblesDistance = bubblesSlider.getValueInt();
@@ -471,13 +471,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (world != null && this.getClickedPos() != null) {
             BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
 
-            if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get() && world.isClientSide())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.water_spouts.requires_creative").withStyle(ChatFormatting.RED), true);
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get() && world.isClientSide())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
             else PacketHandler.sendToServer(new WaterSpoutButtonPayload(this.getClickedPos(), Boolean.TRUE));
 
-            if (!Config.CREATIVE_WATER_SPOUT.get() || Config.CREATIVE_WATER_SPOUT.get() && !player.isCreative()) {
+            if (!ConfigRegistry.CREATIVE_WATER_SPOUT.get() || ConfigRegistry.CREATIVE_WATER_SPOUT.get() && !player.isCreative()) {
                 BlockState state = world.getBlockState(this.getClickedPos());
                 if (state.getBlock() instanceof ClearWarpPipeBlock && state.getValue(WarpPipeBlock.WATER_SPOUT) && !state.getValue(ClearWarpPipeBlock.WATERLOGGED)) {
                     player.displayClientMessage(Component.translatable("display.marioverse.water_spouts.requires_waterlogging").withStyle(ChatFormatting.RED), true);
@@ -493,9 +493,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (world != null && this.getClickedPos() != null) {
             BlockEntity blockEntity = world.getBlockEntity(this.getClickedPos());
 
-            if (!player.isCreative() && Config.CREATIVE_WATER_SPOUT.get() && world.isClientSide())
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_WATER_SPOUT.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.water_spouts.requires_creative").withStyle(ChatFormatting.RED), true);
-            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && Config.WAX_DISABLES_WATER_SPOUTS.get() && world.isClientSide())
+            else if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity && pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get() && world.isClientSide())
                 player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
             else if (waterSpoutSlider.isFocused()) {
                 int spoutHeight = waterSpoutSlider.getValueInt();

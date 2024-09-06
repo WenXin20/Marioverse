@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.init.Config;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ModTags;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
@@ -78,7 +78,7 @@ public class QuestionBlock extends Block implements EntityBlock {
 
             if (blockEntity instanceof QuestionBlockEntity questionBlockEntity) {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
-                if (!heldItem.isEmpty() && (Config.QUESTION_ADD_ITEMS.get() || player.isCreative())
+                if (!heldItem.isEmpty() && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
                         && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.addItem(heldItem);
@@ -86,7 +86,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                     if(!player.isCreative())
                         stack.shrink(heldItem.getCount());
                     return ItemInteractionResult.SUCCESS;
-                } else if (heldItem.isEmpty() && (Config.QUESTION_REMOVE_ITEMS.get() || player.isCreative())) {
+                } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())) {
                     ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
 
                     if (!droppedItem.isEmpty()) {
@@ -110,7 +110,7 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     public void spawnEntity(Level world, Entity entity, BlockPos pos, ItemStack stack, Boolean dropEntireStack) {
-        if (stack.getItem() instanceof SpawnEggItem spawnEgg && Config.QUESTION_SPAWNS_MOBS.get()) {
+        if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
             EntityType<?> entityType = spawnEgg.getType(stack);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(ModTags.QUESTION_BLOCK_BLACKLIST)) { // Check this
