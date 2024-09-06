@@ -86,7 +86,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                     if(!player.isCreative())
                         stack.shrink(heldItem.getCount());
                     return ItemInteractionResult.SUCCESS;
-                } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())) {
+                } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
+                        && !state.getValue(EMPTY)) {
                     ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
 
                     if (!droppedItem.isEmpty()) {
