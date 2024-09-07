@@ -1,4 +1,7 @@
 {
+  "block.block_bonk": {"category": "block", "sounds": [{ "name": "marioverse:block/block_bonk", "stream": false }],
+    "subtitle": "subtitles.marioverse.block.block_bonk" },
+
   "block.coin_pickup": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },
 

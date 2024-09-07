@@ -35,7 +35,6 @@ public class QuestionBlockEntity extends BlockEntity {
         tag.put(INVENTORY, items.serializeNBT(provider));
     }
 
-    // Load data from NBT
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
@@ -54,9 +53,8 @@ public class QuestionBlockEntity extends BlockEntity {
 
     public boolean removeItems() {
         ItemStack storedStack = items.getStackInSlot(0);
-        if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
+        if (!storedStack.isEmpty() && storedStack.getCount() > 0)
             return true;
-        }
         return false;
     }
 }
