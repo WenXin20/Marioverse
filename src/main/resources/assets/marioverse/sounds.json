@@ -24,7 +24,7 @@
     { "name": "block/iron_trapdoor/close4", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_closes" },
 
   "block.pipe_warps": {"category": "block", "sounds": [{ "name": "marioverse:block/pipe_warps", "stream": false },
-    { "name": "mmarioverse:block/pipe_warps", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_warps" },
+    { "name": "marioverse:block/pipe_warps_64", "stream": false, "pitch": 1.0, "volume": 0.5 }], "subtitle": "subtitles.marioverse.block.pipe_warps" },
 
   "block.power_up_spawns": {"category": "block", "sounds": [{ "name": "marioverse:block/power_up_spawns", "stream": false }],
     "subtitle": "subtitles.marioverse.block.power_up_spawns" },
