@@ -8,9 +8,7 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -744,71 +742,6 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
             }
         }
         return closestPos;
-    }
-
-    public void teleportEntityIfConnected(Level world, BlockPos currentPos, Entity entity) {
-        // Check if the current pipe is a valid entrance
-        BlockState currentState = world.getBlockState(currentPos);
-        if (currentState.getBlock() instanceof WarpPipeBlock && currentState.getValue(WarpPipeBlock.ENTRANCE)) {
-
-            // Search for the connected pipe
-            BlockPos targetPos = findConnectedPipe(currentPos, world);
-
-            if (targetPos != null) {
-                // Teleport the player to the target pipe's position
-                teleportEntityToPos(entity, targetPos);
-            }
-        }
-    }
-
-    // Finds the other pipe with Entrance = true
-    private BlockPos findConnectedPipe(BlockPos pos, Level world) {
-        Set<BlockPos> visited = new HashSet<>();
-        return searchForTargetPipe(pos, world, visited);
-    }
-
-    // Recursively search for the target pipe (Entrance = true)
-    private BlockPos searchForTargetPipe(BlockPos pos, Level world, Set<BlockPos> visited) {
-        if (visited.contains(pos)) {
-            return null;
-        }
-        visited.add(pos);
-
-        BlockState state = world.getBlockState(pos);
-        if (!(state.getBlock() instanceof WarpPipeBlock)) {
-            return null;
-        }
-
-        // Check if this pipe is an entrance
-        if (state.getValue(WarpPipeBlock.ENTRANCE)) {
-            return pos;
-        }
-
-        // Continue searching adjacent pipes
-        for (Direction direction : Direction.values()) {
-            BlockPos adjacentPos = pos.relative(direction);
-            BlockState adjacentState = world.getBlockState(adjacentPos);
-
-            // Only continue through pipes with Entrance = false
-            if (adjacentState.getBlock() instanceof WarpPipeBlock && !adjacentState.getValue(WarpPipeBlock.ENTRANCE)) {
-                BlockPos result = searchForTargetPipe(adjacentPos, world, visited);
-                if (result != null) {
-                    return result;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    // Teleport the player to the given BlockPos
-    private void teleportEntityToPos(Entity entity, BlockPos targetPos) {
-        double x = targetPos.getX() + 0.5; // Center of the block
-        double y = targetPos.getY() + 1;   // Slightly above the block
-        double z = targetPos.getZ() + 0.5; // Center of the block
-
-        // Set the player's position and teleport
-        entity.teleportTo(x, y, z);
     }
 
     public void dyedDustParticles(WarpPipeBlockEntity pipeBlockEntity, Level world, BlockPos pos, Direction direction) {
