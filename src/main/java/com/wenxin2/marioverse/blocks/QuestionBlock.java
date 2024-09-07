@@ -94,7 +94,10 @@ public class QuestionBlock extends Block implements EntityBlock {
                         if (!world.isClientSide)
                             this.spawnEntity(world, pos, storedItem);
 
-                        this.playSoundEffect(world, player, pos, storedItem);
+                        if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                            this.playCoinSound(world, player, pos);
+                        else this.playPowerUpSound(world, player, pos);
+
                         questionBlockEntity.removeItems();
                         questionBlockEntity.setChanged();
                         world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -141,15 +144,11 @@ public class QuestionBlock extends Block implements EntityBlock {
         }
     }
 
-    public void playSoundEffect(Level world, Entity entity, BlockPos pos, ItemStack stack) {
-        if (stack.getItem() instanceof BlockItem blockItem) {
-            if (blockItem.getBlock() instanceof CoinBlock) {
-                world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            } else {
-                world.playSound(entity, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
-        } else {
-            world.playSound(entity, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
+    public void playPowerUpSound(Level world, Entity entity, BlockPos pos) {
+        world.playSound(entity, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    public void playCoinSound(Level world, Entity entity, BlockPos pos) {
+        world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

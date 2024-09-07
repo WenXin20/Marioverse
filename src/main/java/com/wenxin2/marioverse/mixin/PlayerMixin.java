@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
@@ -18,6 +19,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -92,7 +94,11 @@ public abstract class PlayerMixin extends Entity {
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 if (!world.isClientSide)
                     questionBlock.spawnEntity(world, pos, storedItem);
-                questionBlock.playSoundEffect(world, this, pos, storedItem);
+
+                if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                    questionBlock.playCoinSound(world, this, pos);
+                else questionBlock.playPowerUpSound(world, this, pos);
+
                 questionBlockEntity.removeItems();
                 questionBlockEntity.setChanged();
                 world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);

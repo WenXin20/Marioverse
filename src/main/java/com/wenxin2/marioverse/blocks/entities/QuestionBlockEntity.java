@@ -53,8 +53,12 @@ public class QuestionBlockEntity extends BlockEntity {
 
     public boolean removeItems() {
         ItemStack storedStack = items.getStackInSlot(0);
-        if (!storedStack.isEmpty() && storedStack.getCount() > 0)
+        if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
+            items.setStackInSlot(0, storedStack);
+            storedStack.shrink(1);  // Remove one item
+            this.setChanged();
             return true;
+        }
         return false;
     }
 }
