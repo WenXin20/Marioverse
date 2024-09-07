@@ -708,7 +708,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
             WarpPipeBlock.markEntityTeleported(entity);
         }
         world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
-        world.playSound(null, warpPos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, warpPos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
     }
 
     public static BlockPos findMatchingUUID(UUID uuid, Level world, BlockPos pos) {

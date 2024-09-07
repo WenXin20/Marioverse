@@ -76,7 +76,7 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
         ItemStack coinItem = new ItemStack(this.asItem());
 
         if (entity instanceof Player player) {
-            world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
             ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(1, 1));
             world.removeBlock(pos, false);
             player.addItem(coinItem);
