@@ -2,7 +2,7 @@
   "block.block_bonk": {"category": "block", "sounds": [{ "name": "marioverse:block/block_bonk", "stream": false }],
     "subtitle": "subtitles.marioverse.block.block_bonk" },
 
-  "block.coin_pickup": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false }],
+  "block.coin_pickup": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },
 
   "block.coin_place": {"category": "block", "sounds": [{ "name": "marioverse:block/coin_place", "stream": false }],
@@ -23,8 +23,8 @@
     { "name": "block/iron_trapdoor/close3", "stream": false },
     { "name": "block/iron_trapdoor/close4", "stream": false }], "subtitle": "subtitles.marioverse.block.pipe_closes" },
 
-  "block.pipe_warps": {"category": "block", "sounds": [{ "name": "marioverse:block/pipe_warps", "stream": false, "pitch": 1.0, "volume": 1.25 },
-    { "name": "marioverse:block/pipe_warps_64", "stream": false, "pitch": 1.0, "volume": 0.5 }], "subtitle": "subtitles.marioverse.block.pipe_warps" },
+  "block.pipe_warps": {"category": "block", "sounds": [{ "name": "marioverse:block/pipe_warps", "stream": false, "pitch": 1.0, "volume": 3.0 }],
+    "subtitle": "subtitles.marioverse.block.pipe_warps" },
 
   "block.power_up_spawns": {"category": "block", "sounds": [{ "name": "marioverse:block/power_up_spawns", "stream": false }],
     "subtitle": "subtitles.marioverse.block.power_up_spawns" },
