@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -95,7 +96,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                     return ItemInteractionResult.SUCCESS;
                 } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
                         && !state.getValue(EMPTY)) {
-                    ItemStack storedItem = questionBlockEntity.getItems().getStackInSlot(0);
+                    ItemStack storedItem = questionBlockEntity.getItems().getFirst();
 
                     if (!storedItem.isEmpty()) {
                         if (!world.isClientSide)

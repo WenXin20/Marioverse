@@ -3,48 +3,80 @@ package com.wenxin2.marioverse.blocks.entities;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
-public class QuestionBlockEntity extends BlockEntity {
-    private final ItemStackHandler items = new ItemStackHandler(1);
+public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
+    private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     public static final String INVENTORY = "Inventory";
 
     public QuestionBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
     }
 
-    public ItemStackHandler getItems() {
+    public NonNullList<ItemStack> getItems() {
         return items;
     }
 
+    @Override
+    protected void setItems(NonNullList<ItemStack> p_332640_) {
+
+    }
+
+    @Override
+    protected AbstractContainerMenu createMenu(int p_58627_, Inventory p_58628_) {
+        return null;
+    }
+
     public ItemStack getStackInSlot() {
-        return items.getStackInSlot(0);
+        return items.getFirst();
     }
 
     public boolean hasItems() {
-        return !items.getStackInSlot(0).isEmpty();
+        return !items.getFirst().isEmpty();
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 1;
+    }
+
+    @NotNull
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("menu.marioverse.question_block");
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        tag.put(INVENTORY, items.serializeNBT(provider));
+        if (!this.trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, this.items, provider);
+        }
     }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        items.deserializeNBT(provider, tag.getCompound(INVENTORY));
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(tag)) {
+            ContainerHelper.loadAllItems(tag, this.items, provider);
+        }
     }
 
     public void addItem(ItemStack stack) {
-        ItemStack existingStack = items.getStackInSlot(0);
+        ItemStack existingStack = items.getFirst();
         if (existingStack.isEmpty()) {
-            items.setStackInSlot(0, stack.split(stack.getMaxStackSize()));
+            items.set(0, stack.split(stack.getMaxStackSize()));
         } else if (ItemStack.isSameItemSameComponents(existingStack, stack)) {
             int countToAdd = Math.min(stack.getMaxStackSize() - existingStack.getCount(), stack.getCount());
             existingStack.grow(countToAdd);
@@ -52,9 +84,9 @@ public class QuestionBlockEntity extends BlockEntity {
     }
 
     public boolean removeItems() {
-        ItemStack storedStack = items.getStackInSlot(0);
+        ItemStack storedStack = items.getFirst();
         if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
-            items.setStackInSlot(0, storedStack);
+            items.set(0, storedStack);
             storedStack.shrink(1);  // Remove one item
             this.setChanged();
             return true;
