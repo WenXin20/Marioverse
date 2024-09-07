@@ -12,12 +12,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-    public static final String INVENTORY = "Inventory";
+    private boolean lootTableProcessed = false;
 
     public QuestionBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
@@ -28,8 +27,8 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> p_332640_) {
-
+    protected void setItems(NonNullList<ItemStack> items) {
+        this.items = items;
     }
 
     @Override
@@ -56,12 +55,17 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         return Component.translatable("menu.marioverse.question_block");
     }
 
+    public boolean hasLootTableBeenProcessed() {
+        return lootTableProcessed;
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         if (!this.trySaveLootTable(tag)) {
             ContainerHelper.saveAllItems(tag, this.items, provider);
         }
+        tag.putBoolean("LootTableProcessed", lootTableProcessed);
     }
 
     @Override
@@ -71,6 +75,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.tryLoadLootTable(tag)) {
             ContainerHelper.loadAllItems(tag, this.items, provider);
         }
+        lootTableProcessed = tag.getBoolean("LootTableProcessed");
     }
 
     public void addItem(ItemStack stack) {
@@ -92,5 +97,9 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
             return true;
         }
         return false;
+    }
+
+    public void unpackLootTable() {
+        lootTableProcessed = true;
     }
 }

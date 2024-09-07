@@ -89,7 +89,9 @@ public abstract class PlayerMixin extends Entity {
     public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
 
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
-            world.playSound(null, pos, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            questionBlock.unpackLootTable(world, world.getBlockState(pos), pos, questionBlockEntity, this);
+
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 if (!world.isClientSide)

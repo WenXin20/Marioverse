@@ -71,7 +71,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                                   LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
         QuestionBlockEntity questionBlockEntity = (QuestionBlockEntity) worldAccessor.getBlockEntity(pos);
 
-        if (questionBlockEntity != null && questionBlockEntity.hasItems()) {
+        if (questionBlockEntity != null && (questionBlockEntity.hasItems() || questionBlockEntity.hasLootTableBeenProcessed())) {
             return state.setValue(EMPTY, Boolean.FALSE);
         }
         else return state.setValue(EMPTY, Boolean.TRUE);
@@ -86,6 +86,7 @@ public class QuestionBlock extends Block implements EntityBlock {
 
             if (blockEntity instanceof QuestionBlockEntity questionBlockEntity) {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
+
                 if (!heldItem.isEmpty() && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
                         && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
@@ -97,6 +98,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
                         && !state.getValue(EMPTY)) {
                     ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+
+                    this.unpackLootTable(world, world.getBlockState(pos), pos, questionBlockEntity, player);
 
                     if (!storedItem.isEmpty()) {
                         if (!world.isClientSide)
@@ -158,5 +161,12 @@ public class QuestionBlock extends Block implements EntityBlock {
 
     public void playCoinSound(Level world, Entity entity, BlockPos pos) {
         world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    public void unpackLootTable(Level world, BlockState state, BlockPos pos, QuestionBlockEntity questionBlockEntity, Entity entity) {
+        if (!questionBlockEntity.hasLootTableBeenProcessed() && entity instanceof Player player) {
+            questionBlockEntity.unpackLootTable(player);
+            world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+        }
     }
 }
