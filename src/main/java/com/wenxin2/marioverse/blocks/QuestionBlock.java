@@ -88,20 +88,19 @@ public class QuestionBlock extends Block implements EntityBlock {
                     return ItemInteractionResult.SUCCESS;
                 } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
                         && !state.getValue(EMPTY)) {
-                    ItemStack droppedItem = questionBlockEntity.getItems().getStackInSlot(0);
+                    ItemStack storedItem = questionBlockEntity.getItems().getStackInSlot(0);
 
-                    if (!droppedItem.isEmpty()) {
+                    if (!storedItem.isEmpty()) {
                         if (!world.isClientSide)
-                            this.spawnEntity(world, player, pos, droppedItem, false);
+                            this.spawnEntity(world, pos, storedItem);
 
-
-                        this.playSoundEffect(world, player, pos, droppedItem);
+                        this.playSoundEffect(world, player, pos, storedItem);
                         questionBlockEntity.removeItems();
                         questionBlockEntity.setChanged();
                         world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                     }
 
-                    if (droppedItem.isEmpty()) {
+                    if (storedItem.isEmpty()) {
                         world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                     }
                     return ItemInteractionResult.SUCCESS;
@@ -110,7 +109,7 @@ public class QuestionBlock extends Block implements EntityBlock {
         return ItemInteractionResult.CONSUME;
     }
 
-    public void spawnEntity(Level world, Entity entity, BlockPos pos, ItemStack stack, Boolean dropEntireStack) {
+    public void spawnEntity(Level world, BlockPos pos, ItemStack stack) {
         if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
             EntityType<?> entityType = spawnEgg.getType(stack);
 
@@ -143,9 +142,13 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     public void playSoundEffect(Level world, Entity entity, BlockPos pos, ItemStack stack) {
-        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-            world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else {
+        if (stack.getItem() instanceof BlockItem blockItem) {
+            if (blockItem.getBlock() instanceof CoinBlock) {
+                world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            } else {
+                world.playSound(entity, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
+        } else {
             world.playSound(entity, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }

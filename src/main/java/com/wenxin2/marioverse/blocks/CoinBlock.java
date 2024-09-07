@@ -7,6 +7,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -75,15 +77,16 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
         if (entity instanceof Player player) {
             world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (world.isClientSide) {
-                for (int i = 0; i < 5; i++) {
-                    double motionX = (world.random.nextDouble() - 0.5) * 0.1;
-                    double motionY = world.random.nextDouble() * 0.1;
-                    double motionZ = (world.random.nextDouble() - 0.5) * 0.1;
-
-                    world.addParticle(ParticleTypes.SCRAPE, player.getX() + 0.5, player.getY() + 0.5, player.getZ() + 0.5, motionX, motionY, motionZ);
-                }
-            }
+            ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(1, 1));
+//            if (world.isClientSide) {
+//                for (int i = 0; i < 5; i++) {
+//                    double motionX = (world.random.nextDouble() - 0.5) * 0.1;
+//                    double motionY = world.random.nextDouble() * 0.1;
+//                    double motionZ = (world.random.nextDouble() - 0.5) * 0.1;
+//
+//                    world.addParticle(ParticleTypes.WAX_OFF, player.getX() + 0.5, player.getY() + 0.5, player.getZ() + 0.5, motionX, motionY, motionZ);
+//                }
+//            }
 
             world.removeBlock(pos, false);
             player.addItem(coinItem);

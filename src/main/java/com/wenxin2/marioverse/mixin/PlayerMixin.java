@@ -79,32 +79,32 @@ public abstract class PlayerMixin extends Entity {
 //        }
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
-                && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
-            this.marioverse$hitQuestionBlock(world, state, posAboveEntity, questionBlockEntity);
+                && this.getDeltaMovement().y > 0)
+            this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
     }
 
     @Unique
-    public void marioverse$hitQuestionBlock(Level world, BlockState state, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+    public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
 
-        if (!world.isClientSide && world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
+        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             world.playSound(null, pos, SoundEvents.CHISELED_BOOKSHELF_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
             ItemStack storedItem = questionBlockEntity.getItems().getStackInSlot(0);
-            if (!storedItem.isEmpty()) {
-                questionBlock.spawnEntity(world, this, pos.above(), storedItem, false);
-
+            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                if (!world.isClientSide)
+                    questionBlock.spawnEntity(world, pos, storedItem);
                 questionBlock.playSoundEffect(world, this, pos, storedItem);
                 questionBlockEntity.removeItems();
                 questionBlockEntity.setChanged();
                 world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
 
-            if (storedItem.isEmpty() && world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
+            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 BlockState currentState = world.getBlockState(pos);
                 if (currentState.getBlock() instanceof QuestionBlock)
                     world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
             }
 
-            if (state.getValue(QuestionBlock.EMPTY))
+            if (world.getBlockState(pos).getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
