@@ -9,7 +9,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -72,7 +71,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                                   LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
         QuestionBlockEntity questionBlockEntity = (QuestionBlockEntity) worldAccessor.getBlockEntity(pos);
 
-        if (questionBlockEntity != null && (questionBlockEntity.hasItems() || questionBlockEntity.hasLootTableBeenProcessed())) {
+        if (questionBlockEntity != null && (questionBlockEntity.getLootTable() != null || questionBlockEntity.hasItems())) {
             return state.setValue(EMPTY, Boolean.FALSE);
         }
         else return state.setValue(EMPTY, Boolean.TRUE);
@@ -87,6 +86,7 @@ public class QuestionBlock extends Block implements EntityBlock {
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
     }
+
     @NotNull
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, 
@@ -96,6 +96,8 @@ public class QuestionBlock extends Block implements EntityBlock {
 
             if (blockEntity instanceof QuestionBlockEntity questionBlockEntity) {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
+                if (questionBlockEntity.getLootTable() != null)
+                    this.unpackLootTable(player, questionBlockEntity);
 
                 if (!heldItem.isEmpty() && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
                         && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
@@ -108,8 +110,6 @@ public class QuestionBlock extends Block implements EntityBlock {
                 } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
                         && !state.getValue(EMPTY)) {
                     ItemStack storedItem = questionBlockEntity.getItems().getFirst();
-
-                    this.unpackLootTable(world, world.getBlockState(pos), pos, questionBlockEntity, player);
 
                     if (!storedItem.isEmpty()) {
                         if (!world.isClientSide)
@@ -140,7 +140,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir())
                     entityType.spawn(serverWorld, stack, null, pos.above(2), MobSpawnType.SPAWN_EGG, true, true);
-                else entityType.spawn(serverWorld, stack, null, pos.below((int) -entityType.getHeight()), MobSpawnType.SPAWN_EGG, true, true);
+                else entityType.spawn(serverWorld, stack, null, pos.below(1).below((int) -entityType.getHeight()), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
             } else if (world.getBlockState(pos.above()).isAir()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
@@ -173,10 +173,9 @@ public class QuestionBlock extends Block implements EntityBlock {
         world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
-    public void unpackLootTable(Level world, BlockState state, BlockPos pos, QuestionBlockEntity questionBlockEntity, Entity entity) {
-        if (!questionBlockEntity.hasLootTableBeenProcessed() && entity instanceof Player player) {
+    public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
+        if (entity instanceof Player player) {
             questionBlockEntity.unpackLootTable(player);
-            world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -16,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-    private boolean lootTableProcessed = false;
 
     public QuestionBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
@@ -55,8 +55,13 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         return Component.translatable("menu.marioverse.question_block");
     }
 
-    public boolean hasLootTableBeenProcessed() {
-        return lootTableProcessed;
+    @Override
+    public void setChanged() {
+        if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock
+                && (this.getLootTable() != null || this.hasItems())) {
+            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+        }
+        super.setChanged();
     }
 
     @Override
@@ -65,7 +70,6 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.trySaveLootTable(tag)) {
             ContainerHelper.saveAllItems(tag, this.items, provider);
         }
-        tag.putBoolean("LootTableProcessed", lootTableProcessed);
     }
 
     @Override
@@ -75,7 +79,6 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.tryLoadLootTable(tag)) {
             ContainerHelper.loadAllItems(tag, this.items, provider);
         }
-        lootTableProcessed = tag.getBoolean("LootTableProcessed");
     }
 
     public void addItem(ItemStack stack) {
@@ -97,9 +100,5 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
             return true;
         }
         return false;
-    }
-
-    public void unpackLootTable() {
-        lootTableProcessed = true;
     }
 }
