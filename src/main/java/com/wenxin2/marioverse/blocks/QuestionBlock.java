@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -54,6 +55,9 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     @Override
+    protected void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean moved) {
+        Containers.dropContentsOnDestroy(oldState, newState, world, pos);
+        super.onRemove(oldState, world, pos, newState, moved);
     }
 
     @Override
