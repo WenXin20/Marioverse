@@ -1,4 +1,5 @@
 {
+  "_comment": "Blocks that will break faster with the wrench",
   "replace": false,
   "values": []
 }

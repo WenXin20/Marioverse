@@ -1,5 +1,5 @@
 {
-  "_comment": "Blacklist to prevent entities from using the warp pipes to teleport",
+  "_comment": "Blacklist to prevent entities spawning from Question Blocks",
   "replace": false,
   "values": []
 }

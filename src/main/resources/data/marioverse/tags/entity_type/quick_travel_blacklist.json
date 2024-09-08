@@ -1,5 +1,5 @@
 {
-  "_comment": "Blacklist to prevent quick travel for entities",
+  "_comment": "Blacklist to prevent quick travel for entities in the Clear Warp Pipe",
   "replace": false,
   "values": []
 }

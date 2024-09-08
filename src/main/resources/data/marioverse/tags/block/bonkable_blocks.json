@@ -1,4 +1,5 @@
 {
+  "_comment": "Blocks that will make a Bonk sound when jumped into",
   "replace": false,
   "values": [
     { "id": "marioverse:question_block", "required": false }
