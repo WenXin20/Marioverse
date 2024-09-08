@@ -72,10 +72,6 @@ public class QuestionBlock extends Block implements EntityBlock {
             boolean isPowered = world.hasNeighborSignal(pos);
             if (isPowered && !state.getValue(EMPTY) && !questionBlockEntity.isLastPowered()) {
                 ItemStack storedItem = questionBlockEntity.getItems().getFirst();
-                Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
-
-                if (questionBlockEntity.getLootTable() != null)
-                    this.unpackLootTable(nearestPlayer, questionBlockEntity);
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
@@ -93,6 +89,12 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                 if (storedItem.isEmpty()) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                }
+
+                Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
+                if (questionBlockEntity.getLootTable() != null && nearestPlayer != null) {
+                    this.unpackLootTable(nearestPlayer, questionBlockEntity);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                 }
             }
             questionBlockEntity.setLastPowered(isPowered);
