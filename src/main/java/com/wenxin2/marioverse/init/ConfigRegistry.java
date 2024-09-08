@@ -117,15 +117,15 @@ public class ConfigRegistry
                     .comment("§9[Default: true]")
                     .define("question_spawns_mobs", true);
             QUESTION_ADD_ITEMS = BUILDER.translation("configuration.marioverse.question_add_items")
-                    .comment("Allow players to add items to questions blocks using right-click.")
+                    .comment("Allow players to add items to question blocks using right-click.")
                     .comment("§9[Default: true]")
                     .define("question_add_items", true);
             QUESTION_REMOVE_ITEMS = BUILDER.translation("configuration.marioverse.question_remove_items")
-                    .comment("Allow players to activate questions blocks using right-click.")
+                    .comment("Allow players to activate question blocks using right-click.")
                     .comment("§9[Default: true]")
                     .define("question_remove_items", true);
             REDSTONE_OPENS_QUESTION = BUILDER.translation("configuration.marioverse.redstone_opens_question")
-                    .comment("Allow redstone to activate questions blocks.")
+                    .comment("Allow redstone to activate question blocks.")
                     .comment("§9[Default: true]")
                     .define("redstone_opens_question", true);
             BUILDER.pop();
