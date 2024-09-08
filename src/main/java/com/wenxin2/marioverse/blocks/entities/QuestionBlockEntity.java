@@ -63,18 +63,16 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
 
     }
 
-//    @Override
-//    public void setChanged() {
-//        boolean hasUnprocessedLoot = this.getLootTable() != null && !this.hasLootTableBeenProcessed();
-//
-//        if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
-//            if (hasUnprocessedLoot || !this.items.isEmpty())
-//                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-//            else
-//                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-//        }
-//        super.setChanged();
-//    }
+    @Override
+    public void setChanged() {
+        if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
+            if (this.getLootTable() != null || !this.items.getFirst().isEmpty())
+                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+            else
+                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+        }
+        super.setChanged();
+    }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {

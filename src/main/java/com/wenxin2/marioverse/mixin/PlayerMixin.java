@@ -116,10 +116,8 @@ public abstract class PlayerMixin extends Entity {
 
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
 
-            if (questionBlockEntity.getLootTable() != null) {
+            if (questionBlockEntity.getLootTable() != null)
                 questionBlock.unpackLootTable(this, questionBlockEntity);
-                world.setBlock(pos, world.getBlockState(pos).setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-            }
 
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {

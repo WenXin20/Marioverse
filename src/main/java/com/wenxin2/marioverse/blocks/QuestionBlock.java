@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -67,39 +66,6 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
-        super.onPlace(state, world, pos, oldState, isMoving);
-        if (world.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity) {
-            boolean hasUnprocessedLoot = questionBlockEntity.getLootTable() != null && !questionBlockEntity.hasLootTableBeenProcessed();
-            if (hasUnprocessedLoot || !questionBlockEntity.hasItems())
-                state.setValue(QuestionBlock.EMPTY, Boolean.FALSE);
-            else state.setValue(QuestionBlock.EMPTY, Boolean.TRUE);
-        }
-    }
-
-    @Override
-    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos neighborPos, boolean moved) {
-        super.neighborChanged(state, world, pos, block, neighborPos, moved);
-        if (world.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity) {
-            boolean hasUnprocessedLoot = questionBlockEntity.getLootTable() != null && !questionBlockEntity.hasLootTableBeenProcessed();
-            if (hasUnprocessedLoot || !questionBlockEntity.hasItems())
-                state.setValue(QuestionBlock.EMPTY, Boolean.FALSE);
-            else state.setValue(QuestionBlock.EMPTY, Boolean.TRUE);
-        }
-    }
-
-    @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-                                  LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
-        QuestionBlockEntity questionBlockEntity = (QuestionBlockEntity) worldAccessor.getBlockEntity(pos);
-
-        if (questionBlockEntity != null && (questionBlockEntity.getLootTable() != null || questionBlockEntity.hasItems())) {
-            return state.setValue(EMPTY, Boolean.FALSE);
-        }
-        else return state.setValue(EMPTY, Boolean.TRUE);
-    }
-
-    @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
@@ -116,14 +82,13 @@ public class QuestionBlock extends Block implements EntityBlock {
             ItemStack heldItem = player.getItemInHand(hand);
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
-            if (blockEntity instanceof QuestionBlockEntity questionBlockEntity) {
+            if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.QUESTION_BLOCK_ITEM_BLACKLIST)) {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
-                if (questionBlockEntity.getLootTable() != null) {
+                if (questionBlockEntity.getLootTable() != null)
                     this.unpackLootTable(player, questionBlockEntity);
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                }
 
-                if (!heldItem.isEmpty() && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
+                if (!heldItem.isEmpty() && questionBlockEntity.getLootTable() == null/* && !heldItem.is(TagRegistry.QUESTION_BLOCK_ITEM_BLACKLIST)*/
+                        && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
                         && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.addItem(heldItem);
@@ -132,7 +97,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                         stack.shrink(heldItem.getCount());
                     return ItemInteractionResult.SUCCESS;
                 } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
-                        && (!state.getValue(EMPTY) || !questionBlockEntity.hasLootTableBeenProcessed())) {
+                        && !state.getValue(EMPTY)) {
                     ItemStack storedItem = questionBlockEntity.getItems().getFirst();
 
                     if (!storedItem.isEmpty()) {
@@ -153,16 +118,16 @@ public class QuestionBlock extends Block implements EntityBlock {
                         world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                     }
                     return ItemInteractionResult.SUCCESS;
-                } else return ItemInteractionResult.CONSUME;
+                } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
-        return ItemInteractionResult.CONSUME;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public void spawnEntity(Level world, BlockPos pos, ItemStack stack) {
         if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
             EntityType<?> entityType = spawnEgg.getType(stack);
 
-            if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_BLACKLIST)) {
+            if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir())
                     entityType.spawn(serverWorld, stack, null, pos.above(2), MobSpawnType.SPAWN_EGG, true, true);
                 else entityType.spawn(serverWorld, stack, null, pos.below(Math.round(entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
