@@ -96,8 +96,8 @@ public abstract class PlayerMixin extends Entity {
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    questionBlock.playCoinSound(world, this, pos);
-                else questionBlock.playPowerUpSound(world, this, pos);
+                    questionBlock.playCoinSound(world, pos);
+                else questionBlock.playPowerUpSound(world, pos);
 
                 if (!world.isClientSide)
                     questionBlock.spawnEntity(world, pos, storedItem);

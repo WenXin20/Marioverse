@@ -11,17 +11,21 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
+    private boolean lootTableProcessed = false;
 
     public QuestionBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
     }
 
+    @NotNull
     public NonNullList<ItemStack> getItems() {
         return items;
     }
@@ -32,7 +36,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int p_58627_, Inventory p_58628_) {
+    protected AbstractContainerMenu createMenu(int slots, Inventory inventory) {
         return null;
     }
 
@@ -55,14 +59,22 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         return Component.translatable("menu.marioverse.question_block");
     }
 
-    @Override
-    public void setChanged() {
-        if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock
-                && (this.getLootTable() != null || this.hasItems())) {
-            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-        }
-        super.setChanged();
+    public static void serverTick(Level p_155014_, BlockPos p_155015_, BlockState p_155016_) {
+
     }
+
+//    @Override
+//    public void setChanged() {
+//        boolean hasUnprocessedLoot = this.getLootTable() != null && !this.hasLootTableBeenProcessed();
+//
+//        if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
+//            if (hasUnprocessedLoot || !this.items.isEmpty())
+//                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+//            else
+//                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+//        }
+//        super.setChanged();
+//    }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
@@ -70,6 +82,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.trySaveLootTable(tag)) {
             ContainerHelper.saveAllItems(tag, this.items, provider);
         }
+        tag.putBoolean("LootTableProcessed", lootTableProcessed);
     }
 
     @Override
@@ -79,6 +92,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.tryLoadLootTable(tag)) {
             ContainerHelper.loadAllItems(tag, this.items, provider);
         }
+        lootTableProcessed = tag.getBoolean("LootTableProcessed");
     }
 
     public void addItem(ItemStack stack) {
@@ -100,5 +114,13 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
             return true;
         }
         return false;
+    }
+
+    public boolean hasLootTableBeenProcessed() {
+        return lootTableProcessed;
+    }
+
+    public void processLootTable() {
+        lootTableProcessed = true;
     }
 }

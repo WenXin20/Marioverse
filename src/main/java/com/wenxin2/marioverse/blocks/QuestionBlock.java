@@ -165,12 +165,12 @@ public class QuestionBlock extends Block implements EntityBlock {
         }
     }
 
-    public void playPowerUpSound(Level world, Entity entity, BlockPos pos) {
-        world.playSound(entity, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+    public void playPowerUpSound(Level world, BlockPos pos) {
+        world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
-    public void playCoinSound(Level world, Entity entity, BlockPos pos) {
-        world.playSound(entity, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+    public void playCoinSound(Level world, BlockPos pos) {
+        world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
