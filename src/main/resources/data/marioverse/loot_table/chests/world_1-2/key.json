@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:gold_ingot",
+          "name": "marioverse:coin",
           "weight": 3,
           "functions": [
             {
@@ -22,10 +22,6 @@
                 "max": 5
               },
               "add": false
-            },
-            {
-              "function": "minecraft:set_name",
-              "name": "Coin"
             }
           ]
         },
