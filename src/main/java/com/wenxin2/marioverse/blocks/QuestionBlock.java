@@ -5,7 +5,6 @@ import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
@@ -24,7 +23,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -120,14 +118,15 @@ public class QuestionBlock extends Block implements EntityBlock {
 
             if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.QUESTION_BLOCK_ITEM_BLACKLIST)) {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
+
                 if (questionBlockEntity.getLootTable() != null)
                     this.unpackLootTable(player, questionBlockEntity);
 
                 if (!heldItem.isEmpty() && questionBlockEntity.getLootTable() == null
                         && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
                         && (!questionBlockEntity.hasItems() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.addItem(heldItem);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.setChanged();
                     if(!player.isCreative())
                         stack.shrink(heldItem.getCount());
@@ -166,7 +165,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir())
                     entityType.spawn(serverWorld, stack, null, pos.above(2), MobSpawnType.SPAWN_EGG, true, true);
-                else entityType.spawn(serverWorld, stack, null, pos.below(Math.round(entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
+                else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
             } else if (world.getBlockState(pos.above()).isAir()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
@@ -208,10 +207,12 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
+        ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+
         if (entity instanceof Player player) {
             questionBlockEntity.unpackLootTable(player);
-            questionBlockEntity.processLootTable();
-            questionBlockEntity.setChanged();
         }
+        questionBlockEntity.processLootTable();
+        questionBlockEntity.setChanged();
     }
 }

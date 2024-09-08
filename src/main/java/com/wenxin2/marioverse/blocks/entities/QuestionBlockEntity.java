@@ -11,8 +11,6 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -60,17 +58,18 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         return Component.translatable("menu.marioverse.question_block");
     }
 
-    public static void serverTick(Level p_155014_, BlockPos p_155015_, BlockState p_155016_) {
-
-    }
-
     @Override
     public void setChanged() {
         if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
-            if (this.getLootTable() != null || !this.items.getFirst().isEmpty())
+            if (this.getLootTable() != null || this.hasItems())
                 this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
             else
                 this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+
+            if (!this.level.isClientSide()) {
+                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+                this.level.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
+            }
         }
         super.setChanged();
     }
@@ -104,13 +103,18 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
             int countToAdd = Math.min(stack.getMaxStackSize() - existingStack.getCount(), stack.getCount());
             existingStack.grow(countToAdd);
         }
+        this.setChanged();
     }
 
     public boolean removeItems() {
         ItemStack storedStack = items.getFirst();
         if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
-            items.set(0, storedStack);
             storedStack.shrink(1);  // Remove one item
+            if (storedStack.isEmpty()) {
+                items.set(0, ItemStack.EMPTY);
+                if (!this.hasItems() && this.hasLootTableBeenProcessed())
+                    this.clearLootTable();
+            }
             this.setChanged();
             return true;
         }
@@ -124,6 +128,11 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     public void processLootTable() {
         lootTableProcessed = true;
     }
+
+    public void clearLootTable() {
+        this.lootTable = null;
+    }
+
     public boolean isLastPowered() {
         return lastPowered;
     }
