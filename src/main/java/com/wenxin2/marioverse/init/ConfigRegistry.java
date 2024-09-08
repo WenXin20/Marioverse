@@ -35,6 +35,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
+    public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -123,6 +124,10 @@ public class ConfigRegistry
                     .comment("Allow players to activate questions blocks using right-click.")
                     .comment("§9[Default: true]")
                     .define("question_remove_items", true);
+            REDSTONE_OPENS_QUESTION = BUILDER.translation("configuration.marioverse.redstone_opens_question")
+                    .comment("Allow redstone to activate questions blocks.")
+                    .comment("§9[Default: true]")
+                    .define("redstone_opens_question", true);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_WATER_SPOUTS);

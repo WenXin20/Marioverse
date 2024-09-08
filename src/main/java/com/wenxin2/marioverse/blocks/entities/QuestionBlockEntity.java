@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     private boolean lootTableProcessed = false;
+    private boolean lastPowered = false;
 
     public QuestionBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
@@ -80,6 +81,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.trySaveLootTable(tag)) {
             ContainerHelper.saveAllItems(tag, this.items, provider);
         }
+        tag.putBoolean("LastPowered", lastPowered);
         tag.putBoolean("LootTableProcessed", lootTableProcessed);
     }
 
@@ -90,6 +92,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.tryLoadLootTable(tag)) {
             ContainerHelper.loadAllItems(tag, this.items, provider);
         }
+        lastPowered = tag.getBoolean("LastPowered");
         lootTableProcessed = tag.getBoolean("LootTableProcessed");
     }
 
@@ -120,5 +123,12 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
 
     public void processLootTable() {
         lootTableProcessed = true;
+    }
+    public boolean isLastPowered() {
+        return lastPowered;
+    }
+
+    public void setLastPowered(boolean powered) {
+        this.lastPowered = powered;
     }
 }

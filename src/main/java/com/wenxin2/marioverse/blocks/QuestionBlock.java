@@ -66,6 +66,40 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     @Override
+    protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
+            boolean isPowered = world.hasNeighborSignal(pos);
+            if (isPowered && !state.getValue(EMPTY) && !questionBlockEntity.isLastPowered()) {
+                ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+                Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
+
+                if (questionBlockEntity.getLootTable() != null)
+                    this.unpackLootTable(nearestPlayer, questionBlockEntity);
+
+                if (!storedItem.isEmpty()) {
+                    if (!world.isClientSide)
+                        this.spawnEntity(world, pos, storedItem);
+
+                    if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                        this.playCoinSound(world, pos);
+                    else if (storedItem.getItem() instanceof SpawnEggItem)
+                        this.playMobSound(world, pos);
+                    else this.playItemSound(world, pos);
+
+                    questionBlockEntity.removeItems();
+                    questionBlockEntity.setChanged();
+                }
+
+                if (storedItem.isEmpty()) {
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                }
+            }
+            questionBlockEntity.setLastPowered(isPowered);
+        }
+    }
+
+    @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
