@@ -9,11 +9,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class TagRegistry {
-    public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "dyeable_marioverse");
-    public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "marioverse");
+    public static final TagKey<Block> BONKABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "bonkable_blocks");
+    public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
+    public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "warp_pipes");
+    public static final TagKey<Block> QUESTION_BLOCK_BLOCKS = blockTags(Marioverse.MOD_ID, "question_blocks");
+    public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags(Marioverse.MOD_ID, "question_blocks");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags(Marioverse.MOD_ID, "wrench_efficient");
-    public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "dyeable_marioverse");
-    public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "marioverse");
+    public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
+    public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
     public static final TagKey<EntityType<?>> WARP_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "warp_blacklist");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<EntityType<?>> QUICK_TRAVEL_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "quick_travel_blacklist");

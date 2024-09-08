@@ -21,6 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -83,39 +84,10 @@ public abstract class PlayerMixin extends Entity {
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && this.getDeltaMovement().y > 0)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
-    }
 
-    @Unique
-    public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
-
-        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
-
-            if (questionBlockEntity.getLootTable() != null)
-                questionBlock.unpackLootTable(this, questionBlockEntity);
-
-            ItemStack storedItem = questionBlockEntity.getItems().getFirst();
-            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    questionBlock.playCoinSound(world, pos);
-                else questionBlock.playPowerUpSound(world, pos);
-
-                if (!world.isClientSide)
-                    questionBlock.spawnEntity(world, pos, storedItem);
-
-                questionBlockEntity.removeItems();
-                questionBlockEntity.setChanged();
-                world.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
-            }
-
-            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                BlockState currentState = world.getBlockState(pos);
-                if (currentState.getBlock() instanceof QuestionBlock)
-                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-            }
-
-            if (world.getBlockState(pos).getValue(QuestionBlock.EMPTY))
+        if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS) && this.getDeltaMovement().y > 0)
+            if (stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
     }
 
     @Unique
@@ -137,6 +109,39 @@ public abstract class PlayerMixin extends Entity {
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
         this.marioverse$warpCooldown = cooldown;
+    }
+
+    @Unique
+    public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+
+        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
+
+            if (questionBlockEntity.getLootTable() != null) {
+                questionBlock.unpackLootTable(this, questionBlockEntity);
+                world.setBlock(pos, world.getBlockState(pos).setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+            }
+
+            ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                    questionBlock.playCoinSound(world, pos);
+                else if (storedItem.getItem() instanceof SpawnEggItem)
+                    questionBlock.playMobSound(world, pos);
+                else questionBlock.playItemSound(world, pos);
+
+                if (!world.isClientSide)
+                    questionBlock.spawnEntity(world, pos, storedItem);
+
+                questionBlockEntity.removeItems();
+                questionBlockEntity.setChanged();
+            }
+
+            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                BlockState currentState = world.getBlockState(pos);
+                if (currentState.getBlock() instanceof QuestionBlock)
+                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+            }
+        }
     }
 
     @Unique
