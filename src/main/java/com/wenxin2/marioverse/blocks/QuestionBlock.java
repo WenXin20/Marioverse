@@ -121,9 +121,9 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (questionBlockEntity.getLootTable() != null)
                     this.unpackLootTable(player, questionBlockEntity);
 
-                if (!heldItem.isEmpty() && questionBlockEntity.getLootTable() == null/* && !heldItem.is(TagRegistry.QUESTION_BLOCK_ITEM_BLACKLIST)*/
+                if (!heldItem.isEmpty() && questionBlockEntity.getLootTable() == null
                         && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
-                        && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
+                        && (!questionBlockEntity.hasItems() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.addItem(heldItem);
                     questionBlockEntity.setChanged();
