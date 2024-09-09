@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -12,6 +13,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
     public static final DeferredItem<Item> PIPE_WRENCH;
+    public static final DeferredItem<Item> MUSHROOM;
 
     static
     {
@@ -19,6 +21,8 @@ public class ItemRegistry {
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
+        MUSHROOM = registerItem("mushroom",
+                () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 11366765, 8538184, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)
