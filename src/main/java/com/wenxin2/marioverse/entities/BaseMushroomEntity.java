@@ -48,11 +48,14 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        this.level().addParticle(ParticleTypes.POOF,
-                this.getX(0.5), this.getY(0.5), this.getZ(0.5),
-                0.0, 0.0, 0.0);
-
-        // Immediately remove the entity
+        // Poof particle effect
+        if (!this.level().isClientSide) {
+            for (int i = 0; i < 10; i++) {
+                this.level().addParticle(ParticleTypes.POOF,
+                        this.getX(0.5), this.getY(0.5), this.getZ(0.5),
+                        0.0, 0.0, 0.0);
+            }
+        }
         this.remove(RemovalReason.KILLED);
         return true;
     }

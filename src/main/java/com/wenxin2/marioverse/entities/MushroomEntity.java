@@ -2,10 +2,12 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -74,12 +76,12 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
     @Override
     public void handleCollision(Entity entity) {
-        if (!this.level().isClientSide && !(entity instanceof BasePowerUpEntity)) {
+        if (!this.level().isClientSide) {
             this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            if (entity instanceof Player player) {
-                if (player.getHealth() <= ConfigRegistry.HEALTH_SHRINK_PLAYER.get()) {
-                    if (ConfigRegistry.DAMAGE_SHRINKS_PLAYER.get()) {
+            if (entity instanceof Player player && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+                if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
+                    if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                         ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
                         ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
                     }
@@ -87,11 +89,24 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 }
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                // Poof particle
+                this.level().broadcastEntityEvent(this, (byte) 20);
+                this.remove(Entity.RemovalReason.KILLED);
+            } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
+                    && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+                    if (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
+                        ScaleTypes.HEIGHT.getScaleData(livingEntity).setTargetScale(1.0F);
+                        ScaleTypes.WIDTH.getScaleData(livingEntity).setTargetScale(1.0F);
+                    }
+                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                }
+                if (livingEntity.getHealth() < livingEntity.getMaxHealth())
+                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                // Poof particle
+                this.level().broadcastEntityEvent(this, (byte) 20);
+                this.remove(Entity.RemovalReason.KILLED);
             }
-
-            // Poof particle
-            this.level().broadcastEntityEvent(this, (byte) 20);
-            this.remove(Entity.RemovalReason.KILLED);
         }
     }
 }

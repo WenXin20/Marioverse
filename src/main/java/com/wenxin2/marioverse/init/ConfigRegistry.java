@@ -28,13 +28,15 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
     public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_PIPE_LINKING;
-    public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_PLAYER;
+    public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_PLAYERS;
     public static ModConfigSpec.BooleanValue DEBUG_PIPE_BUBBLES_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_WATER_SPOUT_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
-    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYER;
+    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
+    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
@@ -171,18 +173,26 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_GAMEPLAY);
-            DAMAGE_SHRINKS_PLAYER = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
+            DAMAGE_SHRINKS_PLAYERS = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
                     .comment("Allow damage to shrink players.")
                     .comment("§9[Default: true]")
                     .define("damage_shrinks_players", true);
+            DAMAGE_SHRINKS_ALL_MOBS = BUILDER.translation("configuration.marioverse.damage_shrinks_all_mobs")
+                    .comment("Allow damage to shrink all mobs.")
+                    .comment("§9[Default: false]")
+                    .define("damage_shrinks_all_mobs", false);
             MUSHROOM_HEAL_AMT = BUILDER.translation("configuration.marioverse.mushroom_heal_amount")
                     .comment("Amount of health Mushrooms heals.")
                     .comment("§9[Default: 2.5F]§b")
                     .defineInRange("mushroom_heal_amount", 2.5F, 0.0F, 100.0F);
-            HEALTH_SHRINK_PLAYER = BUILDER.translation("configuration.marioverse.health_shrink_player")
+            HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
                     .comment("Health to shrink player at.")
                     .comment("§9[Default: 10.0F]§b")
-                    .defineInRange("health_shrink_player", 10.0F, 0.0F, 100.0F);
+                    .defineInRange("health_shrink_players", 10.0F, 0.0F, 100.0F);
+            HEALTH_SHRINK_MOBS = BUILDER.translation("configuration.marioverse.health_shrink_mobs")
+                    .comment("Health in percent to shrink mobs at.")
+                    .comment("§9[Default: 0.2%]§b")
+                    .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
             BUILDER.pop();
 
         BUILDER.pop();

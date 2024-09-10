@@ -2,13 +2,11 @@ package com.wenxin2.marioverse.init.compat;
 
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.fml.common.EventBusSubscriber;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleModifiers;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 
-@EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ScaleRegistry {
     public static final ScaleType MUSHROOM_SCALE;
 

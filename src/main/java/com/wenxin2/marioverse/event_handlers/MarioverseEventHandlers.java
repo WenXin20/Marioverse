@@ -1,10 +1,10 @@
 package com.wenxin2.marioverse.event_handlers;
 
-import com.ibm.icu.number.Scale;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,8 +43,22 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
             tag.putBoolean("marioverse:has_mushroom", false);
-            if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYER.get()) {
-                if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYER.get()) {
+            if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
+                if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
+                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+                }
+            }
+        } else if (event.getEntity() instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
+            float maxHealth = livingEntity.getMaxHealth();
+            float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
+            float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();
+
+            tag.putBoolean("marioverse:has_mushroom", false);
+            if (healthAfterDamage <= threshold) {
+                if (!tag.getBoolean("marioverse:has_mushroom")
+                && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
                 }
@@ -66,10 +80,19 @@ public class MarioverseEventHandlers {
     public static void onEntityHeal(LivingHealEvent event) {
         CompoundTag tag = event.getEntity().getPersistentData();
 
-        if (event.getEntity() instanceof Player player && player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYER.get()) {
+        if (event.getEntity() instanceof Player player && player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
             if (!tag.getBoolean("marioverse:has_mushroom")) {
                 tag.putBoolean("marioverse:has_mushroom", true);
-                if (ConfigRegistry.DAMAGE_SHRINKS_PLAYER.get()) {
+                if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                }
+            }
+        } else if (event.getEntity() instanceof LivingEntity livingEntity
+                && livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+            if (!tag.getBoolean("marioverse:has_mushroom")) {
+                tag.putBoolean("marioverse:has_mushroom", true);
+                if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
                 }

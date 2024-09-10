@@ -1,0 +1,7 @@
+{
+  "_comment": "Blacklist to prevent entities from shrinking when damaged",
+  "replace": false,
+  "values": [
+    { "id": "#marioverse:power_ups", "required": false }
+  ]
+}

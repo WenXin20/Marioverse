@@ -1,0 +1,7 @@
+{
+  "_comment": "Tag for all power up items",
+  "replace": false,
+  "values": [
+    { "id": "marioverse:mushroom", "required": false }
+  ]
+}
