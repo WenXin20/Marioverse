@@ -35,6 +35,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
+    public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
@@ -112,6 +113,10 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_QUESTION_BLOCK);
+            QUESTION_SPAWNS_POWER_UPS = BUILDER.translation("configuration.marioverse.question_spawns_power_ups")
+                    .comment("Allow question blocks to spawn power ups.")
+                    .comment("§9[Default: true]")
+                    .define("question_spawns_power_ups", true);
             QUESTION_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.question_spawns_mobs")
                     .comment("Allow question blocks to spawn mobs.")
                     .comment("§9[Default: true]")

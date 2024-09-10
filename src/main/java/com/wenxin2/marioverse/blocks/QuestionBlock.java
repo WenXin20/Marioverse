@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.entities.BasePowerUpEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -159,12 +161,33 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     public void spawnEntity(Level world, BlockPos pos, ItemStack stack) {
-        if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
-            EntityType<?> entityType = spawnEgg.getType(stack);
+        if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get()) {
+            EntityType<?> entityType = powerUpItem.getType(stack);
+            Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
-                if (world.getBlockState(pos.above()).isAir())
-                    entityType.spawn(serverWorld, stack, null, pos.above(2), MobSpawnType.SPAWN_EGG, true, true);
+                if (world.getBlockState(pos.above()).isAir()) {
+                    if (entity != null)
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.25, 0));
+                }
+                else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
+                stack.copyWithCount(1);
+            } else if (world.getBlockState(pos.above()).isAir()) {
+                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
+                world.addFreshEntity(itemEntity);
+            } else {
+                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() - 0.5D, pos.getZ() + 0.5D, stack.copyWithCount(1));
+                world.addFreshEntity(itemEntity);
+            }
+        } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
+            EntityType<?> entityType = spawnEgg.getType(stack);
+            Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
+
+            if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
+                if (world.getBlockState(pos.above()).isAir()) {
+                    if (entity != null)
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.25, 0));
+                }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
             } else if (world.getBlockState(pos.above()).isAir()) {
