@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import java.util.List;
 import net.minecraft.sounds.SoundSource;
@@ -77,13 +78,15 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
             this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             if (entity instanceof Player player) {
-                if (player.getHealth() <= 10) {
-                    ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
-                    ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
+                if (player.getHealth() <= ConfigRegistry.HEALTH_SHRINK_PLAYER.get()) {
+                    if (ConfigRegistry.DAMAGE_SHRINKS_PLAYER.get()) {
+                        ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
+                        ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
+                    }
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                 }
                 if (player.getHealth() < player.getMaxHealth())
-                    player.heal(2.5F);
+                    player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
             }
 
             // Poof particle

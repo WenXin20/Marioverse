@@ -4,6 +4,7 @@ import com.ibm.icu.number.Scale;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,9 +42,9 @@ public class MarioverseEventHandlers {
 
         if (event.getEntity() instanceof Player player) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
-            if (healthAfterDamage <= 10F) {
-                tag.putBoolean("marioverse:has_mushroom", false);
-                if (!tag.getBoolean("marioverse:has_mushroom")) {
+            tag.putBoolean("marioverse:has_mushroom", false);
+            if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYER.get()) {
+                if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYER.get()) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
                 }
@@ -65,11 +66,13 @@ public class MarioverseEventHandlers {
     public static void onEntityHeal(LivingHealEvent event) {
         CompoundTag tag = event.getEntity().getPersistentData();
 
-        if (event.getEntity() instanceof Player player && player.getHealth() > 10F) {
+        if (event.getEntity() instanceof Player player && player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYER.get()) {
             if (!tag.getBoolean("marioverse:has_mushroom")) {
                 tag.putBoolean("marioverse:has_mushroom", true);
-                ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-                ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                if (ConfigRegistry.DAMAGE_SHRINKS_PLAYER.get()) {
+                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                }
             }
         }
     }
