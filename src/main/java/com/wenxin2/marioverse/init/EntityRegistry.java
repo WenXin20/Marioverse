@@ -17,7 +17,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
-            MobCategory.AMBIENT, 0.8f, 0.8f, 0x302219, 0xACACAC);
+            MobCategory.AMBIENT, 0.8f, 0.8f);
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -30,7 +30,7 @@ public class EntityRegistry {
     }
 
     private static <T extends Mob> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity, MobCategory category,
-                                                                                         float width, float height, int primaryEggColor, int secondaryEggColor) {
+                                                                                         float width, float height) {
         return Marioverse.ENTITIES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(name));
     }
 

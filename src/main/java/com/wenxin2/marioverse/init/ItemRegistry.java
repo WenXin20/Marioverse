@@ -22,7 +22,7 @@ public class ItemRegistry {
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
         MUSHROOM = registerItem("mushroom",
-                () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 11366765, 8538184, new Item.Properties()));
+                () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)
