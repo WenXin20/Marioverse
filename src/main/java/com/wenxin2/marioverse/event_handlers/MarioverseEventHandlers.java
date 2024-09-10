@@ -68,8 +68,8 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player && player.getHealth() > 10F) {
             if (!tag.getBoolean("marioverse:has_mushroom")) {
                 tag.putBoolean("marioverse:has_mushroom", true);
-                ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setScale(1.0F);
-                ScaleTypes.WIDTH.getScaleData(event.getEntity()).setScale(1.0F);
+                ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
             }
         }
     }
