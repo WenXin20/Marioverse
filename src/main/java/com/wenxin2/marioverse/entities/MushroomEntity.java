@@ -23,7 +23,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import virtuoel.pehkui.api.ScaleTypes;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
+    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walking");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MushroomEntity(EntityType<? extends MushroomEntity> entityType, Level world) {
@@ -75,12 +75,17 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide && !(entity instanceof BasePowerUpEntity)) {
             this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            if (entity instanceof Player player && player.getHealth() <= 10) {
-                ScaleTypes.HEIGHT.getScaleData(player).resetScale();
-                ScaleTypes.WIDTH.getScaleData(player).resetScale();
-                player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                player.heal(2.5F);
+
+            if (entity instanceof Player player) {
+                if (player.getHealth() <= 10) {
+                    ScaleTypes.HEIGHT.getScaleData(player).resetScale().setScaleTickDelay(5);
+                    ScaleTypes.WIDTH.getScaleData(player).resetScale().setScaleTickDelay(5);
+                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                }
+                if (player.getHealth() < player.getMaxHealth())
+                    player.heal(2.5F);
             }
+
             // Poof particle
             this.level().broadcastEntityEvent(this, (byte) 20);
             this.remove(Entity.RemovalReason.KILLED);
