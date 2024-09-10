@@ -163,10 +163,10 @@ public class QuestionBlock extends Block implements EntityBlock {
     public void spawnEntity(Level world, BlockPos pos, ItemStack stack) {
         if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get()) {
             EntityType<?> entityType = powerUpItem.getType(stack);
-            Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir()) {
+                    Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (entity != null)
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.25, 0));
                 }
@@ -181,10 +181,10 @@ public class QuestionBlock extends Block implements EntityBlock {
             }
         } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
             EntityType<?> entityType = spawnEgg.getType(stack);
-            Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir()) {
+                    Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (entity != null)
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.25, 0));
                 }
