@@ -78,8 +78,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
             if (entity instanceof Player player) {
                 if (player.getHealth() <= 10) {
-                    ScaleTypes.HEIGHT.getScaleData(player).resetScale().setScaleTickDelay(5);
-                    ScaleTypes.WIDTH.getScaleData(player).resetScale().setScaleTickDelay(5);
+                    ScaleTypes.HEIGHT.getScaleData(player).setScale(1.0F);
+                    ScaleTypes.WIDTH.getScaleData(player).setScale(1.0F);
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                 }
                 if (player.getHealth() < player.getMaxHealth())
