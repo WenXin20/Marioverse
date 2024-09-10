@@ -18,7 +18,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BasePowerUpEntity extends Mob implements GeoEntity {
-    protected static final RawAnimation SPAWN_ANIM = RawAnimation.begin().thenPlay("animation.mushroom.spawn");
+    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public BasePowerUpEntity(EntityType<? extends Mob> entityType, Level world) {
@@ -33,8 +33,8 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
         return this.cache;
     }
 
-    protected <E extends GeoAnimatable> PlayState spawnAnimController(final AnimationState<E> event) {
-        event.getController().setAnimation(SPAWN_ANIM);
+    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
+        event.getController().setAnimation(WALK_ANIM);
         return PlayState.CONTINUE;
     }
 

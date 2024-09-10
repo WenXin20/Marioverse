@@ -24,7 +24,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import virtuoel.pehkui.api.ScaleTypes;
 
 public class MushroomEntity extends BasePowerUpEntity implements GeoEntity {
-    protected static final RawAnimation SPAWN_ANIM = RawAnimation.begin().thenPlay("animation.mushroom.spawn");
+    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     private boolean movingRight = true; // Variable to track direction
     private static final double SPEED = 0.1; // Mushroom movement speed
@@ -44,12 +44,12 @@ public class MushroomEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(DefaultAnimations.genericWalkIdleController(this));
-        controllers.add(new AnimationController<>(this, "Spawning", 5, this::spawnAnimController));
+        controllers.add(new AnimationController<>(this, "Walking", 5, this::walkAnimController));
     }
 
     @Override
-    protected <E extends GeoAnimatable> PlayState spawnAnimController(final AnimationState<E> event) {
-        event.getController().setAnimation(SPAWN_ANIM);
+    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
+        event.getController().setAnimation(WALK_ANIM);
         return PlayState.CONTINUE;
     }
 
@@ -61,7 +61,7 @@ public class MushroomEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        moveBackAndForth();
+//        moveBackAndForth();
         checkForCollisions();
     }
 
@@ -87,8 +87,8 @@ public class MushroomEntity extends BasePowerUpEntity implements GeoEntity {
                 player.setHealth(20F);
             }
             // Create a "poof" particle effect
-            this.level().broadcastEntityEvent(this, (byte) 20); // Particle effect ID
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            this.level().broadcastEntityEvent(this, (byte) 20);
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             this.remove(Entity.RemovalReason.KILLED);
         }
     }
