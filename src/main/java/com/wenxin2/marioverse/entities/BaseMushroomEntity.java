@@ -5,7 +5,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -17,11 +18,11 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class BasePowerUpEntity extends Mob implements GeoEntity {
+public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public BasePowerUpEntity(EntityType<? extends Mob> entityType, Level world) {
+    public BaseMushroomEntity(EntityType<? extends PathfinderMob> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -47,12 +48,11 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        // Poof particle effect
-        if (!this.level().isClientSide) {
-            this.level().addParticle(ParticleTypes.POOF,
-                    this.getX(0.5), this.getY(0.5), this.getZ(0.5),
-                    0.0, 0.0, 0.0);
-        }
+        this.level().addParticle(ParticleTypes.POOF,
+                this.getX(0.5), this.getY(0.5), this.getZ(0.5),
+                0.0, 0.0, 0.0);
+
+        // Immediately remove the entity
         this.remove(RemovalReason.KILLED);
         return true;
     }
@@ -68,9 +68,9 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
     }
 
     public void handleCollision(Entity entity) {
-        if (!this.level().isClientSide && !(entity instanceof BasePowerUpEntity)) {
+        if (!this.level().isClientSide && entity instanceof Player && !(entity instanceof BaseMushroomEntity)) {
             this.level().broadcastEntityEvent(this, (byte) 20);
-            this.remove(Entity.RemovalReason.KILLED);
+            this.remove(RemovalReason.KILLED);
         }
     }
 
@@ -80,7 +80,7 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 10; i++) {
                     this.level().addParticle(ParticleTypes.POOF,
-                            this.getX(), this.getY(), this.getZ(),
+                            this.getX(0.5), this.getY(0.5), this.getZ(0.5),
                             0.0, 0.0, 0.0);
                 }
             }

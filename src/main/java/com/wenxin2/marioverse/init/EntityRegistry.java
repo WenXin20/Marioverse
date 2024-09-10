@@ -23,7 +23,7 @@ public class EntityRegistry {
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.MOVEMENT_SPEED, 1.0f);
+                .add(Attributes.MOVEMENT_SPEED, 0.4f);
 
         event.put(EntityRegistry.MUSHROOM.get(), genericPowerUpAttribs.build());
 
