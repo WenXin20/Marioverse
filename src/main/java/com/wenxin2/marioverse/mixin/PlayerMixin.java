@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,10 +20,14 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -123,10 +128,21 @@ public abstract class PlayerMixin extends Entity {
 
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+
                 if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                     questionBlock.playCoinSound(world, pos);
+                else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+                    questionBlock.playPrimedTNTSound(world, pos);
+                else if (storedItem.getItem() instanceof BasePowerUpItem)
+                    questionBlock.playPowerUpSound(world, pos);
                 else if (storedItem.getItem() instanceof SpawnEggItem)
                     questionBlock.playMobSound(world, pos);
+                else if (storedItem.getItem() instanceof ArmorStandItem)
+                    questionBlock.playArmorStandSound(world, pos);
+                else if (storedItem.getItem() instanceof BoatItem)
+                    questionBlock.playBoatSound(world, pos);
+                else if (storedItem.getItem() instanceof MinecartItem)
+                    questionBlock.playMinecartSound(world, pos);
                 else questionBlock.playItemSound(world, pos);
 
                 if (!world.isClientSide)
