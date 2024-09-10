@@ -225,7 +225,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             if (armorStand != null) {
                 if (world.getBlockState(pos.above()).isAir())
                     armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                else armorStand.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, armorStand.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                else armorStand.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, armorStand.getType().getHeight())).getY(), pos.getZ() + 0.5D);
                 world.addFreshEntity(armorStand);
                 stack.copyWithCount(1);
             }
