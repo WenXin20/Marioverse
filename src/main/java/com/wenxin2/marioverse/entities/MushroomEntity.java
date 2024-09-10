@@ -61,7 +61,7 @@ public class MushroomEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-//        moveBackAndForth();
+        moveBackAndForth();
         checkForCollisions();
     }
 
@@ -81,10 +81,10 @@ public class MushroomEntity extends BasePowerUpEntity implements GeoEntity {
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide && !(entity instanceof BasePowerUpEntity)) {
             if (entity instanceof Player player && player.getHealth() <= 10) {
-                ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
-                ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
+                ScaleTypes.HEIGHT.getScaleData(player).resetScale();
+                ScaleTypes.WIDTH.getScaleData(player).resetScale();
                 player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                player.setHealth(20F);
+                player.heal(2.5F);
             }
             // Create a "poof" particle effect
             this.level().broadcastEntityEvent(this, (byte) 20);

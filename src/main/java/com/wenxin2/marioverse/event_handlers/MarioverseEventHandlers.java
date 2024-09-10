@@ -45,7 +45,7 @@ public class MarioverseEventHandlers {
                 tag.putBoolean("marioverse:has_mushroom", false);
                 if (!tag.getBoolean("marioverse:has_mushroom")) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
-                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.7F);
+                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.8F);
                 }
             }
         }
@@ -68,8 +68,8 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player && player.getHealth() > 10F) {
             if (!tag.getBoolean("marioverse:has_mushroom")) {
                 tag.putBoolean("marioverse:has_mushroom", true);
-                ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-                ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
+                ScaleTypes.HEIGHT.getScaleData(event.getEntity()).resetScale();
+                ScaleTypes.WIDTH.getScaleData(event.getEntity()).resetScale();
             }
         }
     }

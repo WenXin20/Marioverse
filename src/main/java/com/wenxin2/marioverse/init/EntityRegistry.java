@@ -17,7 +17,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
-            MobCategory.AMBIENT, 1.5f, 1.5f, 0x302219, 0xACACAC);
+            MobCategory.AMBIENT, 0.8f, 0.8f, 0x302219, 0xACACAC);
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
