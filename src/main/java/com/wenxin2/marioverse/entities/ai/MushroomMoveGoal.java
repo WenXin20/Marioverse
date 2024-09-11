@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
@@ -17,12 +18,41 @@ public class MushroomMoveGoal extends WaterAvoidingRandomStrollGoal {
     @Nullable
     @Override
     protected Vec3 getPosition() {
-        return this.mob.getRandom().nextFloat() >= this.probability ? LandRandomPos.getPos(this.mob, 10, 7) : this.direction;
+        if (this.mob.isInWaterOrBubble()) {
+            return LandRandomPos.getPos(this.mob, 15, 7);
+        }
+        if (this.hasHitBlock()) {
+            this.direction = this.getRandomDirection();
+        }
+        return this.mob.getRandom().nextFloat() >= this.probability ? LandRandomPos.getPos(this.mob, 10, 7) : this.getRandomDirection();
+    }
+
+    @Override
+    public boolean canUse() {
+        if (this.mob.hasControllingPassenger()) {
+            return false;
+        } else {
+            Vec3 vec3 = this.getPosition();
+            if (vec3 == null) {
+                return false;
+            } else {
+                this.wantedX = vec3.x;
+                this.wantedY = vec3.y;
+                this.wantedZ = vec3.z;
+                this.forceTrigger = false;
+                return true;
+            }
+        }
     }
 
     private Vec3 getRandomDirection() {
         float x = this.mob.getRandom().nextBoolean() ? 1 : -1; // Either 1 or -1 for X axis
         float z = this.mob.getRandom().nextBoolean() ? 1 : -1; // Either 1 or -1 for Z axis
         return new Vec3(x * 0.5, 0, z * 0.5);
+    }
+
+    private boolean hasHitBlock() {
+        BlockPos posInFront = this.mob.blockPosition().offset((int) this.direction.x, 0, (int) this.direction.z);
+        return !this.mob.level().getBlockState(posInFront).isAir();
     }
 }
