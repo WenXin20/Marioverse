@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.MushroomMoveGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -36,7 +36,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(2, new MushroomMoveGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
     }
 
@@ -47,9 +47,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
     @Override
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if (event.isMoving())
-            return event.setAndContinue(WALK_ANIM);
-        return PlayState.STOP;
+        if (this.isMoving()) {
+            event.setAndContinue(WALK_ANIM);
+            return PlayState.CONTINUE;
+        } else return PlayState.CONTINUE;
     }
 
     @Override
@@ -61,6 +62,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     public void tick() {
         super.tick();
         checkForCollisions();
+    }
+
+    private boolean isMoving() {
+        return this.getDeltaMovement().lengthSqr() > 0.01;
     }
 
     @Override
@@ -77,7 +82,6 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide) {
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             if (entity instanceof Player player && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
@@ -91,6 +95,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 // Poof particle
                 this.level().broadcastEntityEvent(this, (byte) 20);
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(Entity.RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
@@ -105,6 +111,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 // Poof particle
                 this.level().broadcastEntityEvent(this, (byte) 20);
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(Entity.RemovalReason.KILLED);
             }
         }
