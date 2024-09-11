@@ -4,11 +4,14 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -39,6 +42,7 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntityDamaged(LivingIncomingDamageEvent event) {
         CompoundTag tag = event.getEntity().getPersistentData();
+        Level world = event.getEntity().level();
 
         if (event.getEntity() instanceof Player player) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
@@ -48,6 +52,8 @@ public class MarioverseEventHandlers {
                 && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+                    world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
             }
         } else if (event.getEntity() instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
@@ -61,6 +67,8 @@ public class MarioverseEventHandlers {
                 && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+                    world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
             }
         }

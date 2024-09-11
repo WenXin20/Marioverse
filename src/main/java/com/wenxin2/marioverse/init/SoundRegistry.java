@@ -9,6 +9,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
+    public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPES_LINKED;
@@ -30,6 +31,9 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_pickup")));
         COIN_PLACE = Marioverse.SOUNDS.register("block.coin_place",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_place")));
+
+        DAMAGE_TAKEN = Marioverse.SOUNDS.register("block.damage_taken",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.damage_taken")));
 
         ITEM_SPAWNS = Marioverse.SOUNDS.register("block.item_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.item_spawns")));
