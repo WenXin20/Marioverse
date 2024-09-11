@@ -3,7 +3,7 @@
 	"animations": {
 		"animation.mushroom.walk": {
 			"loop": true,
-			"animation_length": 3,
+			"animation_length": 2,
 			"bones": {
 				"body": {
 					"scale": {
@@ -11,19 +11,19 @@
 							"vector": [1, 1, 1],
 							"easing": "linear"
 						},
-						"0.75": {
-							"vector": [1, 0.9, 1],
+						"0.5": {
+							"vector": [1, 0.8, 1],
 							"easing": "linear"
 						},
-						"1.5": {
+						"1.0": {
 							"vector": [1, 1.0333, 1],
 							"easing": "linear"
 						},
-						"2.25": {
-							"vector": [1, 0.9167, 1],
+						"1.5": {
+							"vector": [1, 0.8167, 1],
 							"easing": "linear"
 						},
-						"3.0": {
+						"2.0": {
 							"vector": [1, 1, 1],
 							"easing": "linear"
 						}

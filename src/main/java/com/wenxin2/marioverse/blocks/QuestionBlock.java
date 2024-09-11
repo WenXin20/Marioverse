@@ -190,7 +190,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (world.getBlockState(pos.above()).isAir()) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (entity != null)
-                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.25, 0));
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
@@ -208,7 +208,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (world.getBlockState(pos.above()).isAir()) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (entity != null)
-                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.25, 0));
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);

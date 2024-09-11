@@ -36,7 +36,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new MushroomMoveGoal(this, 0.8D));
+        this.goalSelector.addGoal(2, new MushroomMoveGoal(this, 0.5D));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
     }
 
@@ -83,7 +83,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide) {
 
-            if (entity instanceof Player player && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+            if (entity instanceof Player player && !player.isSpectator() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                     if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                         ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
@@ -99,7 +99,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(Entity.RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                    && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+                    && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
+                    && !(entity instanceof Player)) {
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                     if (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
                         ScaleTypes.HEIGHT.getScaleData(livingEntity).setTargetScale(1.0F);

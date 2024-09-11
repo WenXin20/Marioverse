@@ -53,7 +53,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
         if (this.level().isClientSide) {
             for (int i = 0; i < 10; i++) {
                 this.level().addParticle(ParticleTypes.POOF,
-                        this.position().x + 0.5, this.position().y + 0.5, this.position().z + 0.5,
+                        this.getX() + this.getBbWidth() / 2.0, this.getY() + this.getBbHeight() / 2.0, this.getZ() + this.getBbWidth() / 2.0,
                         0.0, 0.0, 0.0);
             }
         }
@@ -72,7 +72,8 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     }
 
     public void handleCollision(Entity entity) {
-        if (!this.level().isClientSide && entity instanceof Player && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+        if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
+                && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
             this.level().broadcastEntityEvent(this, (byte) 20);
             this.remove(RemovalReason.KILLED);
         }
@@ -84,7 +85,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 10; i++) {
                     this.level().addParticle(ParticleTypes.POOF,
-                            this.position().x + 0.5, this.position().y + 0.5, this.position().z + 0.5,
+                            this.getX() + this.getBbWidth() / 2.0, this.getY() + this.getBbHeight() / 2.0, this.getZ() + this.getBbWidth() / 2.0,
                             0.0, 0.0, 0.0);
                 }
             }
