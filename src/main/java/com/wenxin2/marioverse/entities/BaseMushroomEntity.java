@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
@@ -49,10 +50,10 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         // Poof particle effect
-        if (!this.level().isClientSide) {
+        if (this.level().isClientSide) {
             for (int i = 0; i < 10; i++) {
                 this.level().addParticle(ParticleTypes.POOF,
-                        this.getX(0.5), this.getY(0.5), this.getZ(0.5),
+                        this.position().x + 0.5, this.position().y + 0.5, this.position().z + 0.5,
                         0.0, 0.0, 0.0);
             }
         }
@@ -71,7 +72,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     }
 
     public void handleCollision(Entity entity) {
-        if (!this.level().isClientSide && entity instanceof Player && !(entity instanceof BaseMushroomEntity)) {
+        if (!this.level().isClientSide && entity instanceof Player && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
             this.level().broadcastEntityEvent(this, (byte) 20);
             this.remove(RemovalReason.KILLED);
         }
@@ -83,7 +84,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 10; i++) {
                     this.level().addParticle(ParticleTypes.POOF,
-                            this.getX(0.5), this.getY(0.5), this.getZ(0.5),
+                            this.position().x + 0.5, this.position().y + 0.5, this.position().z + 0.5,
                             0.0, 0.0, 0.0);
                 }
             }

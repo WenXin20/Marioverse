@@ -1,38 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.mushroom.spawn": {
-			"animation_length": 0.5,
-			"bones": {
-				"body": {
-					"position": {
-						"0.0": {
-							"vector": [0, -15, 0],
-							"easing": "linear"
-						},
-						"0.5": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						}
-					},
-					"scale": {
-						"0.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						},
-						"0.375": {
-							"vector": [1, 1.1, 1],
-							"easing": "linear"
-						},
-						"0.5": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						}
-					}
-				}
-			}
-		},
-		"animation.mushroom.walking": {
+		"animation.mushroom.walk": {
 			"loop": true,
 			"animation_length": 3,
 			"bones": {

@@ -26,7 +26,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import virtuoel.pehkui.api.ScaleTypes;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walking");
+    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MushroomEntity(EntityType<? extends MushroomEntity> entityType, Level world) {
@@ -42,7 +42,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walking", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimController));
     }
 
     @Override
