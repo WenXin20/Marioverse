@@ -21,11 +21,12 @@ public class MarioverseCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Marioverse.MOD_ID);
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_TAB = TABS.register("marioverse_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.marioverse"))
-            .icon(() -> new ItemStack(BlockRegistry.COIN.get())).build());
+            .icon(() -> new ItemStack(ItemRegistry.MUSHROOM.get())).build());
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == MARIOVERSE_TAB.getKey()) {
+            add(event, ItemRegistry.MUSHROOM.get());
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
