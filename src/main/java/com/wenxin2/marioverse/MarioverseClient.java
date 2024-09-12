@@ -1,10 +1,13 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.client.renderers.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.blocks.client.renderers.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderer.entities.MushroomRenderer;
+import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.EntityRegistry;
+import com.wenxin2.marioverse.init.MenuRegistry;
 import net.minecraft.client.renderer.BiomeColors;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
