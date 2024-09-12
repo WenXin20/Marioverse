@@ -14,7 +14,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Marioverse.MOD_ID, value = Dist.CLIENT)
-public class ClientSetupHandler {
+public class MarioverseClient {
     @SubscribeEvent
     public static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> {
