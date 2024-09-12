@@ -68,6 +68,8 @@ public class QuestionBlock extends Block implements EntityBlock {
 
     @Override
     protected void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean moved) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
         Containers.dropContentsOnDestroy(oldState, newState, world, pos);
         super.onRemove(oldState, world, pos, newState, moved);
     }
@@ -84,29 +86,11 @@ public class QuestionBlock extends Block implements EntityBlock {
             boolean isPowered = world.hasNeighborSignal(pos);
             if (isPowered && !state.getValue(EMPTY) && !questionBlockEntity.isLastPowered()) {
                 ItemStack storedItem = questionBlockEntity.getItems().getFirst();
-
-                if (!storedItem.isEmpty()) {
-                    if (!world.isClientSide)
-                        this.spawnEntity(world, pos, storedItem);
-
-                    if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                        this.playCoinSound(world, pos);
-                    else if (storedItem.getItem() instanceof SpawnEggItem)
-                        this.playMobSound(world, pos);
-                    else this.playItemSound(world, pos);
-
-                    questionBlockEntity.removeItems();
-                    questionBlockEntity.setChanged();
-                }
-
-                if (storedItem.isEmpty()) {
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                }
+                this.handleStoredItemActions(world, pos, storedItem, questionBlockEntity);
 
                 Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
-                if (questionBlockEntity.getLootTable() != null && nearestPlayer != null) {
-                    this.unpackLootTable(nearestPlayer, questionBlockEntity);
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+                if (nearestPlayer != null) {
+                    this.handleLootTable(nearestPlayer, questionBlockEntity, world, pos, state);
                 }
             }
             questionBlockEntity.setLastPowered(isPowered);
@@ -134,7 +118,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
 
                 if (questionBlockEntity.getLootTable() != null)
-                    this.unpackLootTable(player, questionBlockEntity);
+                    this.handleLootTable(player, questionBlockEntity, world, pos, state);
 
                 if (!heldItem.isEmpty() && questionBlockEntity.getLootTable() == null
                         && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
@@ -142,6 +126,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                     questionBlockEntity.addItem(heldItem);
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBlockEntity.setChanged();
+
                     if(!player.isCreative())
                         stack.shrink(heldItem.getCount());
                     return ItemInteractionResult.SUCCESS;
@@ -149,37 +134,57 @@ public class QuestionBlock extends Block implements EntityBlock {
                         && !state.getValue(EMPTY)) {
                     ItemStack storedItem = questionBlockEntity.getItems().getFirst();
 
-                    if (!storedItem.isEmpty()) {
-                        if (!world.isClientSide)
-                            this.spawnEntity(world, pos, storedItem);
-
-                        if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                            this.playCoinSound(world, pos);
-                        else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                            this.playPrimedTNTSound(world, pos);
-                        else if (storedItem.getItem() instanceof BasePowerUpItem)
-                            this.playPowerUpSound(world, pos);
-                        else if (storedItem.getItem() instanceof SpawnEggItem)
-                            this.playMobSound(world, pos);
-                        else if (storedItem.getItem() instanceof ArmorStandItem)
-                            this.playArmorStandSound(world, pos);
-                        else if (storedItem.getItem() instanceof BoatItem)
-                            this.playBoatSound(world, pos);
-                        else if (storedItem.getItem() instanceof MinecartItem)
-                            this.playMinecartSound(world, pos);
-                        else this.playItemSound(world, pos);
-
-                        questionBlockEntity.removeItems();
-                        questionBlockEntity.setChanged();
-                    }
-
-                    if (storedItem.isEmpty()) {
-                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                    }
+                    this.handleStoredItemActions(world, pos, storedItem, questionBlockEntity);
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    public void handleLootTable(Entity entity, QuestionBlockEntity questionBlockEntity, Level world, BlockPos pos, BlockState state) {
+        if (questionBlockEntity.getLootTable() != null) {
+            this.unpackLootTable(entity, questionBlockEntity);
+            world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+        }
+    }
+
+    public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
+        if (entity instanceof Player player) {
+            questionBlockEntity.unpackLootTable(player);
+        }
+        questionBlockEntity.processLootTable();
+        questionBlockEntity.setChanged();
+    }
+
+    public void handleStoredItemActions(Level world, BlockPos pos, ItemStack stack, QuestionBlockEntity questionBlockEntity) {
+
+        if (!stack.isEmpty()) {
+            if (!world.isClientSide)
+                this.spawnEntity(world, pos, stack);
+
+            if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                this.playCoinSound(world, pos);
+            else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+                this.playPrimedTNTSound(world, pos);
+            else if (stack.getItem() instanceof BasePowerUpItem)
+                this.playPowerUpSound(world, pos);
+            else if (stack.getItem() instanceof SpawnEggItem)
+                this.playMobSound(world, pos);
+            else if (stack.getItem() instanceof ArmorStandItem)
+                this.playArmorStandSound(world, pos);
+            else if (stack.getItem() instanceof BoatItem)
+                this.playBoatSound(world, pos);
+            else if (stack.getItem() instanceof MinecartItem)
+                this.playMinecartSound(world, pos);
+            else this.playItemSound(world, pos);
+
+            questionBlockEntity.removeItems();
+            questionBlockEntity.setChanged();
+        }
+
+        if (stack.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+            world.setBlock(pos, world.getBlockState(pos).setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+        }
     }
 
     public void spawnEntity(Level world, BlockPos pos, ItemStack stack) {
@@ -295,15 +300,5 @@ public class QuestionBlock extends Block implements EntityBlock {
 
     public void playPrimedTNTSound(Level world, BlockPos pos) {
         world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
-        ItemStack storedItem = questionBlockEntity.getItems().getFirst();
-
-        if (entity instanceof Player player) {
-            questionBlockEntity.unpackLootTable(player);
-        }
-        questionBlockEntity.processLootTable();
-        questionBlockEntity.setChanged();
     }
 }
