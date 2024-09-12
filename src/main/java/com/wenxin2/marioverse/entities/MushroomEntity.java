@@ -2,9 +2,11 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.MushroomMoveGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -90,11 +92,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                         ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
                     }
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                }
+                    this.level().broadcastEntityEvent(this, (byte) 20);
+                } else this.level().broadcastEntityEvent(this, (byte) 60); // Poof particle
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                // Poof particle
-                this.level().broadcastEntityEvent(this, (byte) 20);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(Entity.RemovalReason.KILLED);
@@ -107,11 +108,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                         ScaleTypes.WIDTH.getScaleData(livingEntity).setTargetScale(1.0F);
                     }
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                }
+                    this.level().broadcastEntityEvent(this, (byte) 20);
+                } else this.level().broadcastEntityEvent(this, (byte) 60); // Poof particle
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                // Poof particle
-                this.level().broadcastEntityEvent(this, (byte) 20);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(Entity.RemovalReason.KILLED);

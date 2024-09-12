@@ -1,8 +1,11 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -74,6 +77,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
                 && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+            this.level().broadcastEntityEvent(this, (byte) 60);
             this.level().broadcastEntityEvent(this, (byte) 20);
             this.remove(RemovalReason.KILLED);
         }
@@ -81,11 +85,15 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
 
     @Override
     public void handleEntityEvent(byte id) {
-        if (id == 20) {
+        if (id == 60) {
+            if (this.level().isClientSide) {
+                ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition(), ParticleRegistry.MUSHROOM_TRANSFORM.get(), UniformInt.of(1, 3));
+            }
+        } else if (id == 20) {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 10; i++) {
                     this.level().addParticle(ParticleTypes.POOF,
-                            this.getX() + this.getBbWidth() / 2.0, this.getY() + this.getBbHeight() / 2.0, this.getZ() + this.getBbWidth() / 2.0,
+                            this.getX(), this.getY() + 0.5, this.getZ(),
                             0.0, 0.0, 0.0);
                 }
             }

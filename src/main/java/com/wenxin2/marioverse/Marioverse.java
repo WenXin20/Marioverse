@@ -9,8 +9,10 @@ import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
@@ -39,6 +41,7 @@ public class Marioverse
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
 
     // Bus for Forge Events
@@ -51,6 +54,7 @@ public class Marioverse
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
         ENTITIES.register(bus);
+        PARTICLES.register(bus);
         MENUS.register(bus);
         SOUNDS.register(bus);
         LinkerDataComponents.COMPONENTS.register(bus);
@@ -61,6 +65,7 @@ public class Marioverse
         ItemRegistry.init();
         EntityRegistry.init();
         MenuRegistry.init();
+        ParticleRegistry.init();
         SoundRegistry.init();
         ConfigRegistry.register(container);
 
