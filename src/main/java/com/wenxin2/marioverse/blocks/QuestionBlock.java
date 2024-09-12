@@ -17,6 +17,7 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -189,8 +190,10 @@ public class QuestionBlock extends Block implements EntityBlock {
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir()) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                    if (entity != null)
+                    if (entity != null) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
+                        entity.move(MoverType.SELF, entity.getDeltaMovement());
+                    }
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
@@ -207,8 +210,10 @@ public class QuestionBlock extends Block implements EntityBlock {
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
                 if (world.getBlockState(pos.above()).isAir()) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                    if (entity != null)
+                    if (entity != null) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
+                        entity.move(MoverType.SELF, entity.getDeltaMovement());
+                    }
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
