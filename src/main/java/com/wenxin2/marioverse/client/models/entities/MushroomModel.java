@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.client.model.entities;
+package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.MushroomEntity;

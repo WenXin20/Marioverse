@@ -3,7 +3,7 @@ package com.wenxin2.marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.client.renderers.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.blocks.client.renderers.WarpPipeBlockEntityRenderer;
-import com.wenxin2.marioverse.client.renderer.entities.MushroomRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.MushroomRenderer;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;

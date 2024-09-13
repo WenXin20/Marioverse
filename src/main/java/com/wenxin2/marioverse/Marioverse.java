@@ -70,7 +70,6 @@ public class Marioverse
         ConfigRegistry.register(container);
 
         if (dist.isClient()) {
-//            bus.addListener(ClientSetupHandler::registerBlockEntityRenderers);
             ConfigRegistry.registerClient(container);
         }
 
