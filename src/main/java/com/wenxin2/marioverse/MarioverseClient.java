@@ -47,6 +47,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.MUSHROOM_TRANSFORM.get(), SuspendedTownParticle.HappyVillagerProvider::new);
     }
 }
