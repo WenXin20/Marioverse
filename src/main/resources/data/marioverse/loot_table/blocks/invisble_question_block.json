@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:invisble_question_block"
+          "name": "marioverse:question_block"
         }
       ],
       "conditions": [
