@@ -167,6 +167,7 @@
   "configuration.marioverse.require_creative_bubbles": "Pipe Bubbles Creative Only",
   "configuration.marioverse.require_creative_close_pipes": "Closing Pipes Creative Only",
   "configuration.marioverse.require_creative_water_spouts": "Water Spouts Creative Only",
+  "configuration.marioverse.select_invisible_question": "Select Invisible Question Blocks",
   "configuration.marioverse.teleport_mobs": "Teleport Mobs",
   "configuration.marioverse.teleport_non_mobs": "Teleport Non-Living Entities",
   "configuration.marioverse.teleport_players": "Teleport Players",

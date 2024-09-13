@@ -65,9 +65,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
-            if ((player.hasPermissions(1) && player.isCreative())
-                    || ConfigRegistry.DEBUG_SELECTION_BOX.get()
-                    || !state.getValue(INVISIBLE)
+            if ((player.hasPermissions(1) && player.isCreative()) || !state.getValue(INVISIBLE)
+                    || (!player.isCreative() && !player.isSpectator() && ConfigRegistry.SELECT_INVISIBLE_QUESTION.get())
                     || (((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BlockItem blockItem
                         && blockItem.getBlock() instanceof InvisibleQuestionBlock)
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem

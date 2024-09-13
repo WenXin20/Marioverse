@@ -43,6 +43,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
+    public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -139,6 +140,10 @@ public class ConfigRegistry
                     .comment("Allow redstone to activate question blocks.")
                     .comment("§9[Default: true]")
                     .define("redstone_opens_question", true);
+            SELECT_INVISIBLE_QUESTION = BUILDER.translation("configuration.marioverse.select_invisible_question")
+                    .comment("Allow invisible question blocks to be selectable in survival.")
+                    .comment("§9[Default: false]")
+                    .define("select_invisible_question", false);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_WATER_SPOUTS);
