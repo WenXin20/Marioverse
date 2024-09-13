@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.blocks.client.renderers;
+package com.wenxin2.marioverse.client.renderers.blocks;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

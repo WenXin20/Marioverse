@@ -1,6 +1,6 @@
-package com.wenxin2.marioverse.blocks.client.renderers;
+package com.wenxin2.marioverse.client.renderers.blocks;
 
-import com.wenxin2.marioverse.blocks.client.models.CoinBlockModel;
+import com.wenxin2.marioverse.client.models.blocks.CoinBlockModel;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;

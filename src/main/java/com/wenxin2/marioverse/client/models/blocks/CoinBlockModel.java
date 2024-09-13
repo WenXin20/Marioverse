@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.blocks.client.models;
+package com.wenxin2.marioverse.client.models.blocks;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
