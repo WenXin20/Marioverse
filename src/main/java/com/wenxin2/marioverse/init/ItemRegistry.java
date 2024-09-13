@@ -14,6 +14,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class ItemRegistry {
     public static final DeferredItem<Item> PIPE_WRENCH;
     public static final DeferredItem<Item> MUSHROOM;
+    public static final DeferredItem<Item> ONE_UP_MUSHROOM;
 
     static
     {
@@ -23,6 +24,8 @@ public class ItemRegistry {
                         .durability(128), Tiers.IRON));
         MUSHROOM = registerItem("mushroom",
                 () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
+                () -> new BasePowerUpItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)

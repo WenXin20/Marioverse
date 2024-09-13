@@ -2,6 +2,7 @@
   "_comment": "Tag for all power ups",
   "replace": false,
   "values": [
-    { "id": "marioverse:mushroom", "required": false }
+    { "id": "marioverse:mushroom", "required": false },
+    { "id": "marioverse:one_up_mushroom", "required": false }
   ]
 }

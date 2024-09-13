@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.MushroomEntity;
+import com.wenxin2.marioverse.entities.OneUpMushroomEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -18,6 +19,8 @@ public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
+    public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
+            MobCategory.AMBIENT, 0.8f, 0.8f);
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -26,6 +29,7 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4f);
 
         event.put(EntityRegistry.MUSHROOM.get(), genericPowerUpAttribs.build());
+        event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericPowerUpAttribs.build());
 
     }
 

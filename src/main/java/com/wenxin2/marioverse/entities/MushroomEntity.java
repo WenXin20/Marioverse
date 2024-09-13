@@ -85,7 +85,9 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide) {
 
-            if (entity instanceof Player player && !player.isSpectator() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+            if (entity instanceof Player player && !player.isSpectator()
+                    && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                    && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                     if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                         ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
@@ -96,7 +98,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 } else this.level().broadcastEntityEvent(this, (byte) 60); // Poof particle
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(Entity.RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
@@ -114,7 +117,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
-                this.remove(Entity.RemovalReason.KILLED);
+                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
+                    this.remove(Entity.RemovalReason.KILLED);
             }
         }
     }
