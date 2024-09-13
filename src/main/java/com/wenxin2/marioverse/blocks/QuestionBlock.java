@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.entities.BasePowerUpEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -25,13 +25,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
-import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -49,11 +47,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class QuestionBlock extends Block implements EntityBlock {
+    public static final MapCodec<QuestionBlock> CODEC = simpleCodec(QuestionBlock::new);
     public static final BooleanProperty EMPTY = BooleanProperty.create("empty");
 
     public QuestionBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(EMPTY, Boolean.TRUE));
+    }
+
+    @NotNull
+    @Override
+    public MapCodec<QuestionBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -303,8 +308,6 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
-        ItemStack storedItem = questionBlockEntity.getItems().getFirst();
-
         if (entity instanceof Player player) {
             questionBlockEntity.unpackLootTable(player);
         }

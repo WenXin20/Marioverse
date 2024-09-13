@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "marioverse:invisible_question_block", "required": false }
+  ]
+}

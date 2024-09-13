@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
@@ -61,10 +62,16 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     public void setChanged() {
         if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
-            if (this.getLootTable() != null || this.hasItems())
+            if (this.getLootTable() != null || this.hasItems()) {
                 this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-            else
+                if (this.level.getBlockState(this.getBlockPos()).getBlock() instanceof InvisibleQuestionBlock)
+                    this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.TRUE), 3);
+            }
+            else {
                 this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                if (this.level.getBlockState(this.getBlockPos()).getBlock() instanceof InvisibleQuestionBlock)
+                    this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+            }
 
             if (!this.level.isClientSide()) {
                 this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);

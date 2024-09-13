@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.init;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -32,6 +33,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
     static
@@ -43,6 +45,11 @@ public class BlockRegistry {
 
         QUESTION_BLOCK = registerBlock("question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        INVISIBLE_QUESTION_BLOCK = registerBlock("invisible_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 

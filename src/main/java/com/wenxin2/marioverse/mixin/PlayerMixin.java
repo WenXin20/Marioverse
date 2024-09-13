@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
@@ -12,6 +13,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -93,7 +95,7 @@ public abstract class PlayerMixin extends Entity {
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS) && this.getDeltaMovement().y > 0)
             if (stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else if (!(stateAboveEntity.getBlock() instanceof QuestionBlock))
+            else if (!(stateAboveEntity.getBlock() instanceof QuestionBlock) && !(stateAboveEntity.getBlock() instanceof InvisibleQuestionBlock))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
@@ -156,6 +158,8 @@ public abstract class PlayerMixin extends Entity {
                 BlockState currentState = world.getBlockState(pos);
                 if (currentState.getBlock() instanceof QuestionBlock)
                     world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                if (currentState.getBlock() instanceof InvisibleQuestionBlock)
+                    world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
             }
         }
     }

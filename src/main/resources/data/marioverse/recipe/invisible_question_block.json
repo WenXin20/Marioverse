@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:invisible_question_block",
+  "pattern": [
+    "GGG",
+    "GQG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_blocks/colorless"
+    },
+    "Q": {
+      "tag": "marioverse:question_blocks"
+    }
+  },
+  "result": {
+    "id": "marioverse:invisible_question_block",
+    "count": 1
+  }
+}

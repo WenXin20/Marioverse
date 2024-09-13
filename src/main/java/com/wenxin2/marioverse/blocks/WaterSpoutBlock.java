@@ -62,7 +62,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
             if ((player.hasPermissions(1) && player.isCreative() && ConfigRegistry.DEBUG_WATER_SPOUT_SELECTION_BOX.get())
                     || (((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                    && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
+                        && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem))) {
                 if (state.getValue(TOP)) {
                     return SPOUT_TOP;
