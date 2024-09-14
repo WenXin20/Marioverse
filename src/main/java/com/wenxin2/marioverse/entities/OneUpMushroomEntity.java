@@ -55,15 +55,17 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     Optional<SlotResult> charmSlot = handler.findCurio("charm", 0);
                     if (charmSlot.isEmpty()) {
                         handler.setEquippedCurio("charm", 0, item.asItem().getDefaultInstance());
-                    } else if (!(offhandStack.getCount() >= offhandStack.getMaxStackSize() + 1)) {
+                    } else if (!charmSlot.get().stack().isEmpty()) {
                         ItemStack itemInSlot = charmSlot.get().stack();
-                        itemInSlot.grow(1);
-                    } else if (offhandStack.isEmpty())
-                        player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-                    else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
-                        if (offhandStack.getCount() >= offhandStack.getMaxStackSize() + 1) {
-                            player.drop(offhandStack.split(1), Boolean.FALSE);
-                        } else offhandStack.grow(1);
+                        if (!(itemInSlot.getCount() >= 8)) {
+                            itemInSlot.grow(1);
+                        } else if (offhandStack.isEmpty())
+                            player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+                        else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                            if (offhandStack.getCount() >= 8) {
+                                player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
+                            } else offhandStack.grow(1);
+                        }
                     }
                 }
 
