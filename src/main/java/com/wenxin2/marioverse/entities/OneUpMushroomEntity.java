@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
+    private long lastCollisionTime = 0;
 
     public OneUpMushroomEntity(EntityType<? extends OneUpMushroomEntity> entityType, Level world) {
         super(entityType, world);
@@ -31,7 +32,13 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
     @Override
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide) {
+            long currentTime = System.currentTimeMillis();
             ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
+
+            if (currentTime - lastCollisionTime < 500) {
+                return; // Skip if called too soon
+            }
+            lastCollisionTime = currentTime;
 
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
@@ -40,10 +47,9 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 if (offhandStack.isEmpty())
                     player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
                 else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
-                    offhandStack.grow(1);
                     if (offhandStack.getCount() > offhandStack.getMaxStackSize()) {
                         player.drop(offhandStack, Boolean.FALSE);
-                    }
+                    } else offhandStack.grow(1);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
