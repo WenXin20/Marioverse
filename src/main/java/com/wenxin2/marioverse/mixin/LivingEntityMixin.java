@@ -111,12 +111,13 @@ public abstract class LivingEntityMixin extends Entity {
                 }
             }
 
-            if (!stack.isEmpty()) {
+            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
                 info.setReturnValue(true);
                 this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 livingEntity.setHealth(1.0F);
-                livingEntity.heal(10.0F);
+                livingEntity.heal(5.0F);
+                stack.shrink(1);
                 this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
                 this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Collected particle
                 this.level().broadcastEntityEvent(livingEntity, (byte) 127); // 1-Up Pop Up

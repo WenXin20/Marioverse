@@ -39,8 +39,12 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 ItemStack offhandStack = player.getOffhandItem();
                 if (offhandStack.isEmpty())
                     player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-                else if (offhandStack.getItem() instanceof OneUpMushroomItem)
-                    player.getOffhandItem().grow(1);
+                else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                    offhandStack.grow(1);
+                    if (offhandStack.getCount() > offhandStack.getMaxStackSize()) {
+                        player.drop(offhandStack, Boolean.FALSE);
+                    }
+                }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
