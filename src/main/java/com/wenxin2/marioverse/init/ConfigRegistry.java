@@ -44,6 +44,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
+    public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CURIO;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
@@ -64,9 +65,13 @@ public class ConfigRegistry
                 .comment("Disable text rendering on pipes.")
                 .comment("§9[Default: false]")
                 .define("disable_text", false);
+        RENDER_ONE_UP_CURIO = BUILDER.translation("configuration.marioverse.render_one_up_curio")
+                .comment("Render the 1-Up on the player when in a Curios slot.")
+                .comment("§9[Default: true]")
+                .define("render_one_up_curio", true);
         WARP_COOLDOWN_MESSAGE = BUILDER.translation("configuration.marioverse.warp_cooldown_message")
                 .comment("Display a warp cooldown message.")
-                .comment("§9[Default: false]")
+                .comment("§9[Default: true]")
                 .define("warp_cooldown_message", true);
         WARP_COOLDOWN_MESSAGE_TICKS = BUILDER.translation("configuration.marioverse.warp_cooldown_message_with_ticks")
                 .comment("Display a warp cooldown message with ticks.")
