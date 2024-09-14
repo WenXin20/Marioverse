@@ -2,8 +2,8 @@
   "replace": false,
   "validators": [ "accessories:tag" ],
   "icon": "marioverse:gui/slot/one_up_slot",
-  "operation": "set",
+  "operation": "add",
   "drop_rule": "keep",
-  "amount": 8,
+  "amount": 1,
   "order": 1000
 }

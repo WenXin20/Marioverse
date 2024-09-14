@@ -38,10 +38,11 @@ dependencies {
     compileOnly "org.spongepowered:mixin:0.8.5"
 
     // Imports
-    implementation "curse.maven:accessories-${accessories_version}"
+    // implementation "curse.maven:accessories-${accessories_version}"
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     implementation "curse.maven:ctm-${ctm_version}"
+    implementation "curse.maven:curios-continuation-${curios_version}"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
     implementation "curse.maven:geckolib-${geckolib_version}"
     implementation "curse.maven:pehkui-${pehkui_version}"

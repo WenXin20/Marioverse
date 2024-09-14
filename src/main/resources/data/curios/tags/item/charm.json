@@ -1,0 +1,7 @@
+{
+  "_comment": "Tag for Curios that can be equipped in the charm slot",
+  "replace": false,
+  "values": [
+    { "id": "marioverse:one_up_mushroom", "required": false }
+  ]
+}
