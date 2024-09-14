@@ -27,6 +27,7 @@ public class MarioverseCreativeTabs {
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == MARIOVERSE_TAB.getKey()) {
             add(event, ItemRegistry.MUSHROOM.get());
+            add(event, ItemRegistry.ONE_UP_MUSHROOM.get());
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
