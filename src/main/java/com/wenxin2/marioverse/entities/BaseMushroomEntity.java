@@ -96,7 +96,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
                         this.getX(), this.getY() + 2.0, this.getZ(),
                         0.0, 1.0, 0.0);
             }
-        } else if (id == 20) {
+        } else if (id == 62) {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 10; i++) {
                     this.level().addParticle(ParticleTypes.POOF,

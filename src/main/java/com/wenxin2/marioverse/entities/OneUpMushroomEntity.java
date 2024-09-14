@@ -5,7 +5,6 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -37,7 +36,11 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
-                player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+                ItemStack offhandStack = player.getOffhandItem();
+                if (offhandStack.isEmpty())
+                    player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+                else if (offhandStack.getItem() instanceof OneUpMushroomItem)
+                    player.getOffhandItem().grow(1);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
@@ -46,8 +49,11 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !(entity instanceof Player)) {
-                if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                ItemStack offhandStack = livingEntity.getOffhandItem();
+                if (offhandStack.isEmpty())
+                    livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+                else if (offhandStack.getItem() instanceof OneUpMushroomItem)
+                    offhandStack.grow(1);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle

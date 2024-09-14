@@ -13,10 +13,8 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -79,7 +77,6 @@ public abstract class PlayerMixin extends Entity {
         if (this.marioverse$warpCooldown > 0) {
             --this.marioverse$warpCooldown;
         }
-        super.baseTick();
 
 //        if (stateAboveEntity.is(BlockRegistry.QUESTION_BLOCK) && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
 //        {
@@ -97,6 +94,8 @@ public abstract class PlayerMixin extends Entity {
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else if (!(stateAboveEntity.getBlock() instanceof QuestionBlock) && !(stateAboveEntity.getBlock() instanceof InvisibleQuestionBlock))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        super.baseTick();
     }
 
     @Unique
@@ -122,7 +121,6 @@ public abstract class PlayerMixin extends Entity {
 
     @Unique
     public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
-
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
 
             if (questionBlockEntity.getLootTable() != null)

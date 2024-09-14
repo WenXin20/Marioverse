@@ -3,20 +3,36 @@ package com.wenxin2.marioverse.mixin;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import java.util.Collection;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,6 +40,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -74,6 +91,76 @@ public abstract class LivingEntityMixin extends Entity {
 //            ScaleTypes.REACH.getScaleData(this).setTargetScale(5.0F);
 //            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
 //        }
+    }
+
+    @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
+    private void checkTotemDeathProtection(DamageSource source, CallbackInfoReturnable<Boolean> info) {
+        LivingEntity livingEntity = (LivingEntity)(Object)this;
+
+        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return;
+        } else {
+            ItemStack stack = livingEntity.getOffhandItem();
+
+            for (InteractionHand hand : InteractionHand.values()) {
+                ItemStack stackInHand = livingEntity.getItemInHand(hand);
+                if (stackInHand.getItem() instanceof OneUpMushroomItem) {
+                    stack = stackInHand.copy();
+                    stackInHand.shrink(1);
+                    break;
+                }
+            }
+
+            if (!stack.isEmpty()) {
+                info.setReturnValue(true);
+                this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                livingEntity.setHealth(1.0F);
+                livingEntity.heal(10.0F);
+                this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
+                this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Collected particle
+                this.level().broadcastEntityEvent(livingEntity, (byte) 127); // 1-Up Pop Up
+
+                if (livingEntity instanceof ServerPlayer serverplayer) {
+                    serverplayer.awardStat(Stats.ITEM_USED.get(ItemRegistry.ONE_UP_MUSHROOM.get()), 1);
+                    CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
+                    this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                }
+            }
+        }
+    }
+
+    @Inject(method = "handleEntityEvent", at = @At("HEAD"))
+    private void handleEntityEvent(byte id, CallbackInfo info) {
+        LivingEntity livingEntity = (LivingEntity)(Object)this;
+        if (id == 125) {
+            if (this.level().isClientSide) {
+                ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition(),
+                        ParticleRegistry.MUSHROOM_TRANSFORM.get(), UniformInt.of(1, 3));
+            }
+        } else if (id == 126) {
+            if (this.level().isClientSide) {
+                this.level().addParticle(ParticleRegistry.ONE_UP.get(),
+                        this.getX(), this.getY() + 2.0, this.getZ(),
+                        0.0, 1.0, 0.0);
+            }
+        } else if (id == 127) {
+            if (livingEntity instanceof Player player) {
+                Minecraft.getInstance().gameRenderer.displayItemActivation(marioverse$find1Up(player));
+            }
+        } else super.handleEntityEvent(id);
+    }
+
+    @Unique
+    private static ItemStack marioverse$find1Up(Player player) {
+        for (InteractionHand interactionhand : InteractionHand.values()) {
+            ItemStack stack = player.getItemInHand(interactionhand);
+            if (stack.getItem() instanceof OneUpMushroomItem) {
+                return stack;
+            }
+        }
+
+        return new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get());
     }
 
     @Unique
