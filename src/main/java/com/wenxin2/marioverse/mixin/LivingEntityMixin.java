@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import java.util.Collection;
+import java.util.Optional;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -41,6 +42,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -100,6 +104,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return;
         } else {
+            Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosInventory(livingEntity);
             ItemStack stack = livingEntity.getOffhandItem();
 
             for (InteractionHand hand : InteractionHand.values()) {
@@ -108,6 +113,31 @@ public abstract class LivingEntityMixin extends Entity {
                     stack = stackInHand.copy();
                     stackInHand.shrink(1);
                     break;
+                }
+            }
+
+            if (curiosHandler.isPresent()) {
+                ICuriosItemHandler handler = curiosHandler.get();
+                Optional<SlotResult> charmSlot = handler.findCurio("charm", 0);
+                if (charmSlot.isPresent()) {
+                    ItemStack itemInSlot = charmSlot.get().stack();
+                    if (itemInSlot.getItem() instanceof OneUpMushroomItem) {
+                        info.setReturnValue(true);
+                        this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                        livingEntity.setHealth(1.0F);
+                        livingEntity.heal(ConfigRegistry.ONE_UP_HEAL_AMT.get().floatValue());
+                        itemInSlot.shrink(1);
+                        this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
+                        this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Collected particle
+                        this.level().broadcastEntityEvent(livingEntity, (byte) 127); // 1-Up Pop Up
+
+                        if (livingEntity instanceof ServerPlayer serverplayer) {
+                            serverplayer.awardStat(Stats.ITEM_USED.get(ItemRegistry.ONE_UP_MUSHROOM.get()), 1);
+                            CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
+                            this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                        }
+                    }
                 }
             }
 
