@@ -12,6 +12,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPES_LINKED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
@@ -51,6 +52,8 @@ public class SoundRegistry {
 
         POWER_UP_SPAWNS = Marioverse.SOUNDS.register("block.power_up_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.power_up_spawns")));
+        ONE_UP_COLLECTED = Marioverse.SOUNDS.register("player.one_up_collected",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.one_up_collected")));
 
         WATER_SPOUT_BREAK = Marioverse.SOUNDS.register("block.water_spout.break",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.break")));

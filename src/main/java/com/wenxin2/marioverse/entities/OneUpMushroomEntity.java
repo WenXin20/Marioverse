@@ -32,7 +32,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
                     this.remove(RemovalReason.KILLED);
@@ -40,7 +40,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     && !(entity instanceof Player)) {
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
                     this.remove(RemovalReason.KILLED);
