@@ -165,6 +165,7 @@
   "configuration.marioverse.disable_text": "Disable Text",
   "configuration.marioverse.health_shrink_players": "Health to Shrink Players",
   "configuration.marioverse.mushroom_heal_amount": "Mushroom Heal Amount",
+  "configuration.marioverse.one_up_mushroom_heal_amount": "1-Up Mushroom Heal Amount",
   "configuration.marioverse.question_add_items": "Add Items to Question Blocks in Survival",
   "configuration.marioverse.question_remove_items": "Activate Question Blocks by Right-Click",
   "configuration.marioverse.question_spawns_mobs": "Question Blocks Spawn Mobs",
