@@ -100,7 +100,7 @@ public class MarioverseEventHandlers {
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity livingEntity
+        } else if (event.getEntity() instanceof LivingEntity livingEntity && !(event.getEntity() instanceof Player)
                 && livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
             if (!tag.getBoolean("marioverse:has_mushroom")) {
                 tag.putBoolean("marioverse:has_mushroom", true);
