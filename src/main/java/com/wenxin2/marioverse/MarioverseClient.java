@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.client.particles.OneUpParticle;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MushroomRenderer;
@@ -51,5 +52,6 @@ public class MarioverseClient {
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.MUSHROOM_TRANSFORM.get(), SuspendedTownParticle.HappyVillagerProvider::new);
+        event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), OneUpParticle::new);
     }
 }
