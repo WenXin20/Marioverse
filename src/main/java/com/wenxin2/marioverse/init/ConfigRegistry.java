@@ -190,11 +190,11 @@ public class ConfigRegistry
             MUSHROOM_HEAL_AMT = BUILDER.translation("configuration.marioverse.mushroom_heal_amount")
                     .comment("Amount of health Mushrooms heals.")
                     .comment("§9[Default: 2.5F]§b")
-                    .defineInRange("mushroom_heal_amount", 2.5F, 0.0F, 100.0F);
+                    .defineInRange("mushroom_heal_amount", 5.0F, 0.0F, 100.0F);
             ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_mushroom_heal_amount")
                     .comment("Amount of health 1-Up Mushrooms heals.")
                     .comment("§9[Default: 3.0F]§b")
-                    .defineInRange("one_up_mushroom_heal_amount", 3.0F, 0.0F, 100.0F);
+                    .defineInRange("one_up_mushroom_heal_amount", 8.0F, 0.0F, 100.0F);
             HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
                     .comment("Health to shrink player at.")
                     .comment("§9[Default: 10.0F]§b")
