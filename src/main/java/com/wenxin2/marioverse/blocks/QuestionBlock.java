@@ -97,8 +97,18 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);
+                    else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+                        this.playPrimedTNTSound(world, pos);
+                    else if (storedItem.getItem() instanceof BasePowerUpItem)
+                        this.playPowerUpSound(world, pos);
                     else if (storedItem.getItem() instanceof SpawnEggItem)
                         this.playMobSound(world, pos);
+                    else if (storedItem.getItem() instanceof ArmorStandItem)
+                        this.playArmorStandSound(world, pos);
+                    else if (storedItem.getItem() instanceof BoatItem)
+                        this.playBoatSound(world, pos);
+                    else if (storedItem.getItem() instanceof MinecartItem)
+                        this.playMinecartSound(world, pos);
                     else this.playItemSound(world, pos);
 
                     questionBlockEntity.removeItems();
