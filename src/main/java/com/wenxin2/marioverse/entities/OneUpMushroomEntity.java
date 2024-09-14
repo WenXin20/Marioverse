@@ -30,8 +30,6 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
-                if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))

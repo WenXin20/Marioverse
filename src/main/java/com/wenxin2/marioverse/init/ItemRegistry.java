@@ -25,7 +25,7 @@ public class ItemRegistry {
         MUSHROOM = registerItem("mushroom",
                 () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
-                () -> new BasePowerUpItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BasePowerUpItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(8)));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)

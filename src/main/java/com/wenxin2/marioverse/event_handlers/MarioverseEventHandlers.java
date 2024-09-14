@@ -4,13 +4,18 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -77,6 +82,20 @@ public class MarioverseEventHandlers {
             }
         }
 
+        if (event.getEntity() instanceof Player player) {
+            if (player.getHealth() - event.getAmount() <= 0.0F
+                    && player.getOffhandItem().getItem() instanceof OneUpMushroomItem) {
+                event.setCanceled(true);
+                player.heal(10.0F);
+                world.playSound(null, player.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.getOffhandItem().shrink(1);
+                if (player instanceof LocalPlayer) {
+                    Minecraft.getInstance().gameRenderer.displayItemActivation(find1Up(player));
+                }
+            }
+        }
+
 //        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
 //            tag.putBoolean("marioverse:has_mega_mushroom", false);
 //            ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
@@ -122,5 +141,10 @@ public class MarioverseEventHandlers {
                 WarpPipeScreen.lastClickedPos = clickedPos;
             }
         }
+    }
+
+    private static ItemStack find1Up(Player player) {
+        return player.getOffhandItem().getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
+                ? player.getOffhandItem() : ItemStack.EMPTY;
     }
 }
