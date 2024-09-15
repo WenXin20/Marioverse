@@ -2,11 +2,9 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.MushroomMoveGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -99,7 +97,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     this.remove(Entity.RemovalReason.KILLED);
                 }
@@ -117,7 +115,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     this.remove(Entity.RemovalReason.KILLED);
                 }
