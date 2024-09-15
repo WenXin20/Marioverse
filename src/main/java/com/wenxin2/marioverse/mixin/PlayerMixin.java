@@ -7,20 +7,26 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
@@ -43,6 +49,10 @@ public abstract class PlayerMixin extends Entity {
     @Shadow protected abstract float getBlockSpeedFactor();
 
     @Shadow public abstract void displayClientMessage(Component component, boolean isAboveHotbar);
+
+    @Shadow public abstract Inventory getInventory();
+
+    @Shadow @Nullable public abstract ItemEntity drop(ItemStack p_36177_, boolean p_36178_);
 
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 40;
@@ -187,8 +197,16 @@ public abstract class PlayerMixin extends Entity {
                 }
 
                 if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
+                    ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
+
                     world.destroyBlock(pos.above(), true);
                     world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                    this.getInventory().add(coinItem);
+
+                    if (!this.getInventory().add(coinItem)) {
+                        this.drop(coinItem, false);
+                    }
                 }
             }
         }
