@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/wonder_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_wonder_bricks"
+    }
+  }
+}

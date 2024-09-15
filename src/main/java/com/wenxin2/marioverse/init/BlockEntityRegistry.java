@@ -12,6 +12,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoinBlockEntity>> COIN_BLOCK_ENTITY;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> ITEM_BRICK_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> QUESTION_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpPipeBlockEntity>> WARP_PIPE_BLOCK_ENTITY;
 
@@ -21,9 +22,13 @@ public class BlockEntityRegistry {
                 () -> BlockEntityType.Builder.of(CoinBlockEntity::new,
                                 BlockRegistry.COIN.get()).build(null));
 
+        ITEM_BRICK_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("item_brick_block",
+                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                        BlockRegistry.WONDER_ITEM_BRICK_BLOCK.get()).build(null));
+
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
-                                BlockRegistry.QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BLOCK.get()).build(null));
+                        BlockRegistry.QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BLOCK.get()).build(null));
 
         WARP_PIPE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_pipe",
                 () -> BlockEntityType.Builder.of(WarpPipeBlockEntity::new,

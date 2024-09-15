@@ -3,6 +3,7 @@
   "replace": false,
   "values": [
     { "id": "marioverse:invisible_question_block", "required": false },
-    { "id": "marioverse:question_block", "required": false }
+    { "id": "marioverse:question_block", "required": false },
+    { "id": "marioverse:wonder_item_bricks", "required": false }
   ]
 }

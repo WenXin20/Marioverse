@@ -1,0 +1,34 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "marioverse:block/wonder_bricks",
+	"textures": {
+		"item": "marioverse:item/coin",
+		"particle": "marioverse:block/wonder_bricks",
+		"block": "marioverse:block/wonder_bricks"
+	},
+	"elements": [
+		{
+			"name": "block",
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#block"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#block"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#block"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#block"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#block"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#block"}
+			}
+		},
+		{
+			"name": "item",
+			"from": [8, 8, 0],
+			"to": [24, 24, 0],
+			"rotation": {"angle": -45, "axis": "y", "origin": [16, 16, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#item"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#item"}
+			}
+		}
+	]
+}
