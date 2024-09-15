@@ -195,7 +195,7 @@ public class ConfigRegistry
                     .define("damage_shrinks_all_mobs", false);
             MUSHROOM_HEAL_AMT = BUILDER.translation("configuration.marioverse.mushroom_heal_amount")
                     .comment("Amount of health Mushrooms heals.")
-                    .comment("§9[Default: 2.5F]§b")
+                    .comment("§9[Default: 5.0F]§b")
                     .defineInRange("mushroom_heal_amount", 5.0F, 0.0F, 100.0F);
             HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
                     .comment("Health to shrink player at.")
@@ -205,10 +205,10 @@ public class ConfigRegistry
                     .comment("Health in percent to shrink mobs at.")
                     .comment("§9[Default: 0.2%]§b")
                     .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
-            ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_mushroom_heal_amount")
+            ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_heal_amount")
                     .comment("Amount of health 1-Up Mushrooms heals.")
-                    .comment("§9[Default: 3.0F]§b")
-                    .defineInRange("one_up_mushroom_heal_amount", 8.0F, 0.0F, 100.0F);
+                    .comment("§9[Default: 8.0F]§b")
+                    .defineInRange("one_up_heal_amount", 8.0F, 0.0F, 100.0F);
             ONE_UP_HEALS_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
                     .comment("Allow 1-Ups to heal all mobs.")
                     .comment("§9[Default: false]")
