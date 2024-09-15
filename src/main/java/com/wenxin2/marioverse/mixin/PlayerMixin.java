@@ -88,8 +88,17 @@ public abstract class PlayerMixin extends Entity {
                 world.destroyBlock(posAboveEntity, false);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            } else
+                if (world.getBlockState(posAboveEntity.above()).getBlock() instanceof CoinBlock) {
+                    world.destroyBlock(posAboveEntity.above(), true);
+                    world.playSound(null, posAboveEntity.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
+            } else {
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                if (world.getBlockState(posAboveEntity.above()).getBlock() instanceof CoinBlock) {
+                    world.destroyBlock(posAboveEntity.above(), true);
+                    world.playSound(null, posAboveEntity.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
+            }
         }
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
@@ -175,6 +184,11 @@ public abstract class PlayerMixin extends Entity {
                     if (entity instanceof LivingEntity livingEntity) {
                         livingEntity.hurt(world.damageSources().generic(), 2.0F);
                     }
+                }
+                
+                if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
+                    world.destroyBlock(pos.above(), true);
+                    world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
 
             }
