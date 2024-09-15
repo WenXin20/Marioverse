@@ -98,10 +98,10 @@ public abstract class PlayerMixin extends Entity {
                 world.destroyBlock(posAboveEntity, false);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                this.marioverse$dropCoin(world, posAboveEntity);
+                this.marioverse$dropCoin(world, posAboveEntity, this);
             } else {
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                this.marioverse$dropCoin(world, posAboveEntity);
+                this.marioverse$dropCoin(world, posAboveEntity, this);
             }
         }
 
@@ -139,13 +139,13 @@ public abstract class PlayerMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$dropCoin(Level world, BlockPos pos) {
+    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
         if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
             ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
 
-            world.destroyBlock(pos.above(), false);
+            this.level().broadcastEntityEvent(entity, (byte) 124); // Coin Glint particle
             world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+            world.removeBlock(pos.above(), false);
             this.getInventory().add(coinItem);
 
             if (!this.getInventory().add(coinItem)) {
@@ -163,7 +163,7 @@ public abstract class PlayerMixin extends Entity {
 
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                this.marioverse$dropCoin(world, pos);
+                this.marioverse$dropCoin(world, pos, this);
 
                 if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                     questionBlock.playCoinSound(world, pos);

@@ -164,7 +164,12 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
     private void handleEntityEvent(byte id, CallbackInfo info) {
         LivingEntity livingEntity = (LivingEntity)(Object)this;
-        if (id == 125) {
+        if (id == 124) {
+            if (this.level().isClientSide) {
+                ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition().above(Math.round(this.getBbHeight())).above(),
+                        ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+            }
+        } else if (id == 125) {
             if (this.level().isClientSide) {
                 ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition(),
                         ParticleRegistry.MUSHROOM_TRANSFORM.get(), UniformInt.of(1, 3));
