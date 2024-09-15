@@ -50,6 +50,7 @@
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "Shift-right-click: Binds pipes",
 
   "subtitles.marioverse.block.block_bonk": "Block bonked",
+  "subtitles.marioverse.block.block_smash": "Block smashed",
   "subtitles.marioverse.block.coin_pickup": "Coin picked up",
   "subtitles.marioverse.block.coin_place": "Coin placed",
   "subtitles.marioverse.block.damage_taken": "Damage taken",
