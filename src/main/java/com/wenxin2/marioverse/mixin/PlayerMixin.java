@@ -84,7 +84,7 @@ public abstract class PlayerMixin extends Entity {
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
         {
-            world.destroyBlock(posAboveEntity, true);
+            world.destroyBlock(posAboveEntity, false);
             world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
         }
 
