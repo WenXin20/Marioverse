@@ -39,6 +39,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
     public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
+    public static ModConfigSpec.BooleanValue ONE_UP_HEALS_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
@@ -196,10 +197,6 @@ public class ConfigRegistry
                     .comment("Amount of health Mushrooms heals.")
                     .comment("§9[Default: 2.5F]§b")
                     .defineInRange("mushroom_heal_amount", 5.0F, 0.0F, 100.0F);
-            ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_mushroom_heal_amount")
-                    .comment("Amount of health 1-Up Mushrooms heals.")
-                    .comment("§9[Default: 3.0F]§b")
-                    .defineInRange("one_up_mushroom_heal_amount", 8.0F, 0.0F, 100.0F);
             HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
                     .comment("Health to shrink player at.")
                     .comment("§9[Default: 10.0F]§b")
@@ -208,6 +205,14 @@ public class ConfigRegistry
                     .comment("Health in percent to shrink mobs at.")
                     .comment("§9[Default: 0.2%]§b")
                     .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
+            ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_mushroom_heal_amount")
+                    .comment("Amount of health 1-Up Mushrooms heals.")
+                    .comment("§9[Default: 3.0F]§b")
+                    .defineInRange("one_up_mushroom_heal_amount", 8.0F, 0.0F, 100.0F);
+            ONE_UP_HEALS_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
+                    .comment("Allow 1-Ups to heal all mobs.")
+                    .comment("§9[Default: false]")
+                    .define("one_up_heals_mobs", false);
             BUILDER.pop();
 
         BUILDER.pop();

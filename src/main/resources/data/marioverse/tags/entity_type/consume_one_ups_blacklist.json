@@ -1,0 +1,7 @@
+{
+  "_comment": "Blacklist to prevent entities from consuming 1-Ups",
+  "replace": false,
+  "values": [
+    { "id": "#marioverse:power_ups", "required": false }
+  ]
+}

@@ -45,7 +45,6 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             lastCollisionTime = currentTime;
 
             if (entity instanceof Player player && !player.isSpectator()
-                    && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                 Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosInventory(player);
                 ItemStack offhandStack = player.getOffhandItem();
@@ -67,6 +66,12 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                             } else offhandStack.grow(1);
                         }
                     }
+                } else if (offhandStack.isEmpty())
+                    player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+                else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                    if (offhandStack.getCount() >= 8) {
+                        player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
+                    }
                 }
 
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
@@ -77,11 +82,27 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     this.remove(RemovalReason.KILLED);
                 }
 
-            } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                    && !(entity instanceof Player)) {
+            } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_MOBS.get()
+                    && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST) && !(entity instanceof Player)) {
+                Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosInventory(livingEntity);
                 ItemStack offhandStack = livingEntity.getOffhandItem();
 
-                if (offhandStack.isEmpty())
+                if (curiosHandler.isPresent()) {
+                    ICuriosItemHandler handler = curiosHandler.get();
+                    Optional<SlotResult> charmSlot = handler.findCurio("charm", 0);
+                    if (charmSlot.isEmpty()) {
+                        handler.setEquippedCurio("charm", 0, item.asItem().getDefaultInstance());
+                    } else if (!charmSlot.get().stack().isEmpty()) {
+                        ItemStack itemInSlot = charmSlot.get().stack();
+                        if (!(itemInSlot.getCount() >= 8)) {
+                            itemInSlot.grow(1);
+                        } else if (offhandStack.isEmpty())
+                            livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+                        else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                            offhandStack.grow(1);
+                        }
+                    }
+                } else if (offhandStack.isEmpty())
                     livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
                 else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
                     offhandStack.grow(1);
