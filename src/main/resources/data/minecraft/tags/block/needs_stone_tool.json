@@ -14,7 +14,7 @@
     { "id": "marioverse:orange_warp_pipe", "required": false },
     { "id": "marioverse:pink_warp_pipe", "required": false },
     { "id": "marioverse:purple_warp_pipe", "required": false },
-    { "id": "marioverse:question_block", "required": false },
+    { "id": "marioverse:fungal_question_block", "required": false },
     { "id": "marioverse:red_warp_pipe", "required": false },
     { "id": "marioverse:white_warp_pipe", "required": false },
     { "id": "marioverse:yellow_warp_pipe", "required": false }

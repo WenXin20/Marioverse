@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:question_block"
+          "name": "marioverse:fungal_question_block"
         }
       ],
       "conditions": [

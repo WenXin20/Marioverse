@@ -2,15 +2,15 @@
   "itemGroup.marioverse": "Marioverse",
 
   "menu.marioverse.warp_pipe": "Warp Pipe",
-  "menu.marioverse.question_block": "Question Block",
+  "menu.marioverse.fungal_question_block": "Question Block",
 
   "block.marioverse.coin": "Coin",
 
   "block.marioverse.question_bricks": "Question Bricks",
-  "block.marioverse.question_block": "Fungal Question Block",
+  "block.marioverse.fungal_question_block": "Fungal Question Block",
 
   "block.marioverse.invisible_question_bricks": "Invisible Question Bricks",
-  "block.marioverse.invisible_question_block": "Invisible Fungal Question Block",
+  "block.marioverse.invisible_fungal_question_block": "Invisible Fungal Question Block",
 
   "block.marioverse.storage_bricks": "Storage Bricks",
   "block.marioverse.fungal_storage_bricks": "Fungal Storage Bricks",
@@ -69,7 +69,6 @@
   "subtitles.marioverse.block.pipe_opens": "Pipe opens",
   "subtitles.marioverse.block.pipe_warps": "Pipe warps",
   "subtitles.marioverse.block.pipes_linked": "Pipes linked",
-  "subtitles.marioverse.block.player_powers_up": "Player powers up",
   "subtitles.marioverse.block.power_up_spawns": "Power up spawns",
   "subtitles.marioverse.block.water_spout.break": "Water Spout shrinks",
   "subtitles.marioverse.block.water_spout.fall": "Water Spout falls",
@@ -78,6 +77,7 @@
   "subtitles.marioverse.block.water_spout.step": "Footsteps",
   "subtitles.marioverse.item.wrench_bound": "Wrench bound",
   "subtitles.marioverse.player.one_up_collected": "1-Up collected",
+  "subtitles.marioverse.player.player_powers_up": "Player powers up",
 
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",
@@ -161,7 +161,7 @@
   "marioverse.configuration.debug": "Debug Config",
   "marioverse.configuration.gameplay": "Gameplay",
   "marioverse.configuration.misc": "Misc",
-  "marioverse.configuration.question_block": "Question Block",
+  "marioverse.configuration.fungal_question_block": "Question Block",
   "marioverse.configuration.warp_pipes": "Warp Pipes",
   "marioverse.configuration.water_spouts": "Water Spouts",
   "marioverse.configuration.teleportation": "Teleportation",

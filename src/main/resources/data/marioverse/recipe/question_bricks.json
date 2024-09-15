@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "marioverse:question_block",
+  "group": "marioverse:fungal_question_block",
   "pattern": [
     "GGG",
     "GCG",

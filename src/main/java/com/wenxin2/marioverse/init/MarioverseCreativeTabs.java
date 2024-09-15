@@ -31,8 +31,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
-            add(event, BlockRegistry.QUESTION_BLOCK.get());
-            add(event, BlockRegistry.INVISIBLE_QUESTION_BLOCK.get());
+            add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
+            add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.FUNGAL_STORAGE_BRICKS.get());
             add(event, BlockRegistry.FUNGAL_BRICKS.get());
 
@@ -56,8 +56,8 @@ public class MarioverseCreativeTabs {
         }
 
         if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
-            addAfter(event, Items.DECORATED_POT, BlockRegistry.QUESTION_BLOCK.get());
-            addAfter(event, BlockRegistry.QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BLOCK.get());
+            addAfter(event, Items.DECORATED_POT, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
+            addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.CLEAR_WARP_PIPE.get());
             addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
         }
@@ -72,8 +72,8 @@ public class MarioverseCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
-            addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.QUESTION_BLOCK.get());
-            addAfter(event, BlockRegistry.QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BLOCK.get());
+            addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
+            addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
 
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
                 addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), pipe.get());

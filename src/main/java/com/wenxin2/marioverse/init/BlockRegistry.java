@@ -30,18 +30,18 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
-    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
-    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> STORAGE_BRICKS;
-    public static final DeferredBlock<Block> PIPE_BUBBLES;
-    public static final DeferredBlock<Block> QUESTION_BLOCK;
-    public static final DeferredBlock<Block> SMASHABLE_BRICKS;
-    public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> FUNGAL_STORAGE_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> PIPE_BUBBLES;
+    public static final DeferredBlock<Block> QUESTION_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> WATER_SPOUT;
 
     static
     {
@@ -50,12 +50,12 @@ public class BlockRegistry {
                         .sound(MarioverseSoundTypes.COIN_TYPE).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
 
-        QUESTION_BLOCK = registerBlock("question_block",
+        FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        INVISIBLE_QUESTION_BLOCK = registerBlock("invisible_question_block",
+        INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));

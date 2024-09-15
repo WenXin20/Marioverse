@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/invisible_fungal_question_block"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_invisible_fungal_question_block"
+    }
+  }
+}

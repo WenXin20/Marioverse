@@ -2,8 +2,8 @@
   "_comment": "Blacklist to prevent items from being placed in the Question Blocks",
   "replace": false,
   "values": [
-    { "id": "#marioverse:invisible_question_blocks", "required": false },
+    { "id": "#marioverse:invisible_fungal_question_blocks", "required": false },
     { "id": "#marioverse:storage_bricks", "required": false },
-    { "id": "#marioverse:question_blocks", "required": false }
+    { "id": "#marioverse:fungal_question_blocks", "required": false }
   ]
 }
