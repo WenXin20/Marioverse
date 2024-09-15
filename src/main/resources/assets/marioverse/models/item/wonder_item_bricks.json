@@ -1,7 +1,9 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "marioverse:block/wonder_bricks",
+	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
-		"all": "marioverse:block/wonder_item_bricks"
+		"bottom": "marioverse:block/wonder_bricks",
+		"side": "marioverse:block/wonder_item_bricks",
+		"top": "marioverse:block/wonder_bricks"
 	}
 }

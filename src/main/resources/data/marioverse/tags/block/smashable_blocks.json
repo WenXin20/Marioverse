@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "marioverse:wonder_bricks", "required": false }
+  ]
+}

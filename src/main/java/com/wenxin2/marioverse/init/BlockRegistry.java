@@ -32,11 +32,12 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
+    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> QUESTION_BLOCK;
-    public static final DeferredBlock<Block> WONDER_ITEM_BRICK_BLOCK;
-    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WATER_SPOUT;
+    public static final DeferredBlock<Block> WONDER_BRICKS;
+    public static final DeferredBlock<Block> WONDER_ITEM_BRICKS;
 
     static
     {
@@ -55,8 +56,13 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        WONDER_ITEM_BRICK_BLOCK = registerBlock("wonder_item_bricks",
-                () -> new ItemBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+        WONDER_ITEM_BRICKS = registerBlock("wonder_item_bricks",
+                () -> new ItemBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        WONDER_BRICKS = registerBlock("wonder_bricks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 

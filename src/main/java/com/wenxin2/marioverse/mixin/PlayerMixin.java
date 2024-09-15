@@ -18,9 +18,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -84,12 +82,11 @@ public abstract class PlayerMixin extends Entity {
             --this.marioverse$warpCooldown;
         }
 
-//        if (stateAboveEntity.is(BlockRegistry.QUESTION_BLOCK) && !stateAboveEntity.getValue(QuestionBlock.EMPTY) && this.getDeltaMovement().y > 0)
-//        {
-//            world.destroyBlock(pos.above(Math.round(this.getBbHeight())), true);
-//            world.setBlock(pos.above(Math.round(this.getBbHeight())), stateAboveEntity.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-//            world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
-//        }
+        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
+        {
+            world.destroyBlock(posAboveEntity, true);
+            world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+        }
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && this.getDeltaMovement().y > 0)
@@ -164,6 +161,7 @@ public abstract class PlayerMixin extends Entity {
                     world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                 if (currentState.getBlock() instanceof InvisibleQuestionBlock)
                     world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+                world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
             }
 
             if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
