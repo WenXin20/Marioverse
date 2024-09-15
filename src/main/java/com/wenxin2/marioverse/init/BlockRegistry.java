@@ -39,7 +39,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
-    public static final DeferredBlock<Block> CRACKED_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
@@ -85,7 +85,7 @@ public class BlockRegistry {
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
 
-        CRACKED_BRICKS = registerBlock("cracked_bricks",
+        SMASHABLE_BRICKS = registerBlock("smashable_bricks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));

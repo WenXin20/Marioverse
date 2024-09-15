@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    { "id": "marioverse:cracked_bricks", "required": false },
-    { "id": "marioverse:smashable_fungal_bricks", "required": false }
+    { "id": "marioverse:fungal_bricks", "required": false },
+    { "id": "marioverse:smashable_bricks", "required": false }
   ]
 }

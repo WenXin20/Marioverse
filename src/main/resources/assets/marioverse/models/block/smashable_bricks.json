@@ -5,7 +5,7 @@
 	"textures": {
 		"particle": "block/bricks",
 		"bricks": "block/bricks",
-		"overlay": "marioverse:block/cracked_bricks_overlay"
+		"overlay": "marioverse:block/smashable_bricks_overlay"
 	},
 	"elements": [
 		{
