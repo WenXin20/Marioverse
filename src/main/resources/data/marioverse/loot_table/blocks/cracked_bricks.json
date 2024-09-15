@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:smashable_bricks"
+          "name": "marioverse:cracked_bricks"
         }
       ],
       "conditions": [
