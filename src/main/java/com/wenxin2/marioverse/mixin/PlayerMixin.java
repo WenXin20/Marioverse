@@ -99,8 +99,7 @@ public abstract class PlayerMixin extends Entity {
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS) && this.getDeltaMovement().y > 0)
             if (stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else if (!(stateAboveEntity.getBlock() instanceof QuestionBlock) && !(stateAboveEntity.getBlock() instanceof InvisibleQuestionBlock))
-                world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
         super.baseTick();
     }

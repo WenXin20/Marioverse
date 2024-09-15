@@ -35,6 +35,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_QUESTION_BLOCK.get());
             add(event, BlockRegistry.WONDER_ITEM_BRICKS.get());
             add(event, BlockRegistry.WONDER_BRICKS.get());
+
+            add(event, BlockRegistry.BRICKS_QUESTION_BLOCK.get());
+
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/bricks_question_block"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_bricks_question_block"
+    }
+  }
+}
