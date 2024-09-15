@@ -185,12 +185,11 @@ public abstract class PlayerMixin extends Entity {
                         livingEntity.hurt(world.damageSources().generic(), 2.0F);
                     }
                 }
-                
+
                 if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
                     world.destroyBlock(pos.above(), true);
                     world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
-
             }
         }
     }
