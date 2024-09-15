@@ -3,6 +3,8 @@
     "subtitle": "subtitles.marioverse.block.block_bonk" },
   "block.block_smash": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash", "stream": false }],
     "subtitle": "subtitles.marioverse.block.block_smash" },
+  "block.block_smash_fail": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash_fail", "stream": false }],
+    "subtitle": "subtitles.marioverse.block.block_smash_fail" },
 
   "block.coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },

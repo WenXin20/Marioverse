@@ -82,14 +82,15 @@ public abstract class PlayerMixin extends Entity {
             --this.marioverse$warpCooldown;
         }
 
-        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0
-                && this.getPersistentData().getBoolean("marioverse:has_mushroom"))
+        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
         {
-            world.destroyBlock(posAboveEntity, false);
-            world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
-            world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        } else if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
-            world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (this.getPersistentData().getBoolean("marioverse:has_mushroom")) {
+                world.destroyBlock(posAboveEntity, false);
+                world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            } else
+                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && this.getDeltaMovement().y > 0)

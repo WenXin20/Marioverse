@@ -51,6 +51,7 @@
 
   "subtitles.marioverse.block.block_bonk": "Block bonked",
   "subtitles.marioverse.block.block_smash": "Block smashed",
+  "subtitles.marioverse.block.block_smash_fail": "Block smash failed",
   "subtitles.marioverse.block.coin_pickup": "Coin picked up",
   "subtitles.marioverse.block.coin_place": "Coin placed",
   "subtitles.marioverse.block.damage_taken": "Damage taken",
