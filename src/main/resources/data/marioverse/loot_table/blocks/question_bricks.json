@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:bricks_question_block"
+          "name": "marioverse:question_bricks"
         }
       ],
       "conditions": [

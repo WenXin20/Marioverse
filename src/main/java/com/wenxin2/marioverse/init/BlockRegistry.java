@@ -30,10 +30,10 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final DeferredBlock<Block> BRICKS_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
-    public static final DeferredBlock<Block> INVISIBLE_BRICKS_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> ITEM_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -70,12 +70,12 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        BRICKS_QUESTION_BLOCK = registerBlock("bricks_question_block",
+        QUESTION_BRICKS = registerBlock("question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
 
-        INVISIBLE_BRICKS_QUESTION_BLOCK = registerBlock("invisible_bricks_question_block",
+        INVISIBLE_QUESTION_BRICKS = registerBlock("invisible_question_bricks",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .instrument(NoteBlockInstrument.BELL).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));

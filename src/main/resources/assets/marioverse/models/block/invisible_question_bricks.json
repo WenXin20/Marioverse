@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "marioverse:block/invisible_bricks_question_block"
+    "all": "marioverse:block/invisible_question_bricks"
   }
 }

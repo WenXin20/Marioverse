@@ -36,8 +36,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.WONDER_ITEM_BRICKS.get());
             add(event, BlockRegistry.WONDER_BRICKS.get());
 
-            add(event, BlockRegistry.BRICKS_QUESTION_BLOCK.get());
-            add(event, BlockRegistry.INVISIBLE_BRICKS_QUESTION_BLOCK.get());
+            add(event, BlockRegistry.QUESTION_BRICKS.get());
+            add(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.ITEM_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_BRICKS.get());
 

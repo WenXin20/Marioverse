@@ -6,10 +6,10 @@
 
   "block.marioverse.coin": "Coin",
 
-  "block.marioverse.bricks_question_block": "Bricks Question Block",
+  "block.marioverse.question_bricks": "Question Bricks",
   "block.marioverse.question_block": "Wonder Question Block",
 
-  "block.marioverse.invisible_bricks_question_block": "Invisible Bricks Question Block",
+  "block.marioverse.invisible_question_bricks": "Invisible Question Bricks",
   "block.marioverse.invisible_question_block": "Invisible Wonder Question Block",
 
   "block.marioverse.item_bricks": "Item Bricks",
