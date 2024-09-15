@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
+import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,8 +18,12 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
@@ -30,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -158,6 +164,18 @@ public abstract class PlayerMixin extends Entity {
                     world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                 if (currentState.getBlock() instanceof InvisibleQuestionBlock)
                     world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+            }
+
+            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                AABB boundingBox = new AABB(pos.above()).inflate(0.5);
+                List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
+
+                for (Entity entity : entitiesAbove) {
+                    if (entity instanceof LivingEntity livingEntity) {
+                        livingEntity.hurt(world.damageSources().generic(), 2.0F);
+                    }
+                }
+
             }
         }
     }
