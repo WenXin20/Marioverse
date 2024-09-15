@@ -98,16 +98,10 @@ public abstract class PlayerMixin extends Entity {
                 world.destroyBlock(posAboveEntity, false);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (world.getBlockState(posAboveEntity.above()).getBlock() instanceof CoinBlock) {
-                    world.destroyBlock(posAboveEntity.above(), true);
-                    world.playSound(null, posAboveEntity.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
+                this.marioverse$dropCoin(world, posAboveEntity);
             } else {
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (world.getBlockState(posAboveEntity.above()).getBlock() instanceof CoinBlock) {
-                    world.destroyBlock(posAboveEntity.above(), true);
-                    world.playSound(null, posAboveEntity.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
+                this.marioverse$dropCoin(world, posAboveEntity);
             }
         }
 
@@ -145,6 +139,22 @@ public abstract class PlayerMixin extends Entity {
     }
 
     @Unique
+    public void marioverse$dropCoin(Level world, BlockPos pos) {
+        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
+            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
+
+            world.destroyBlock(pos.above(), false);
+            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+            this.getInventory().add(coinItem);
+
+            if (!this.getInventory().add(coinItem)) {
+                this.drop(coinItem, false);
+            }
+        }
+    }
+
+    @Unique
     public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
 
@@ -153,6 +163,7 @@ public abstract class PlayerMixin extends Entity {
 
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                this.marioverse$dropCoin(world, pos);
 
                 if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                     questionBlock.playCoinSound(world, pos);
@@ -196,18 +207,6 @@ public abstract class PlayerMixin extends Entity {
                     }
                 }
 
-                if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
-                    ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
-
-                    world.destroyBlock(pos.above(), true);
-                    world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                    this.getInventory().add(coinItem);
-
-                    if (!this.getInventory().add(coinItem)) {
-                        this.drop(coinItem, false);
-                    }
-                }
             }
         }
     }
