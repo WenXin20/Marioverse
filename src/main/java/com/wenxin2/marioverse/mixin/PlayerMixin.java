@@ -86,6 +86,7 @@ public abstract class PlayerMixin extends Entity {
         {
             world.destroyBlock(posAboveEntity, false);
             world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+            world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity

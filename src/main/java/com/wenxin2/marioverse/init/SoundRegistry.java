@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
@@ -28,6 +29,8 @@ public class SoundRegistry {
     static {
         BLOCK_BONK = Marioverse.SOUNDS.register("block.block_bonk",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bonk")));
+        BLOCK_SMASH = Marioverse.SOUNDS.register("block.block_smash",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash")));
         COIN_PICKUP = Marioverse.SOUNDS.register("block.coin_pickup",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_pickup")));
         COIN_PLACE = Marioverse.SOUNDS.register("block.coin_place",
