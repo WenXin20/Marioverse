@@ -98,10 +98,11 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 } else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
+                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
-                this.remove(Entity.RemovalReason.KILLED);
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                    this.remove(Entity.RemovalReason.KILLED);
+                }
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
                     && !(entity instanceof Player)) {
@@ -115,10 +116,11 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 } else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
-                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
+                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.POWER_UP_SPAWNS.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
                     this.remove(Entity.RemovalReason.KILLED);
+                }
             }
         }
     }
