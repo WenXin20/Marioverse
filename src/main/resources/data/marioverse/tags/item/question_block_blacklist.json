@@ -3,7 +3,7 @@
   "replace": false,
   "values": [
     { "id": "#marioverse:invisible_question_blocks", "required": false },
-    { "id": "#marioverse:item_bricks", "required": false },
+    { "id": "#marioverse:storage_bricks", "required": false },
     { "id": "#marioverse:question_blocks", "required": false }
   ]
 }

@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
-import com.wenxin2.marioverse.blocks.ItemBrickBlock;
+import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -35,13 +35,13 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> ITEM_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> QUESTION_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WONDER_BRICKS;
-    public static final DeferredBlock<Block> WONDER_ITEM_BRICKS;
+    public static final DeferredBlock<Block> WONDER_STORAGE_BRICKS;
 
     static
     {
@@ -60,8 +60,8 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        WONDER_ITEM_BRICKS = registerBlock("wonder_item_bricks",
-                () -> new ItemBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
+        WONDER_STORAGE_BRICKS = registerBlock("wonder_storage_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
@@ -80,8 +80,8 @@ public class BlockRegistry {
                         .instrument(NoteBlockInstrument.BELL).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
 
-        ITEM_BRICKS = registerBlock("item_bricks",
-                () -> new ItemBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+        STORAGE_BRICKS = registerBlock("storage_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
 

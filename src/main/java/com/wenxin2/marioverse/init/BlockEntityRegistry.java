@@ -24,7 +24,7 @@ public class BlockEntityRegistry {
 
         ITEM_BRICK_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("item_brick_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
-                        BlockRegistry.ITEM_BRICKS.get(), BlockRegistry.WONDER_ITEM_BRICKS.get()).build(null));
+                        BlockRegistry.STORAGE_BRICKS.get(), BlockRegistry.WONDER_STORAGE_BRICKS.get()).build(null));
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,

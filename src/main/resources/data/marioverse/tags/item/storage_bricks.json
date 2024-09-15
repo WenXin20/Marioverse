@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "marioverse:storage_bricks", "required": false },
+    { "id": "marioverse:wonder_storage_bricks", "required": false }
+  ]
+}

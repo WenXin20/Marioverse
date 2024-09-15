@@ -1,7 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    { "id": "marioverse:item_bricks", "required": false },
-    { "id": "marioverse:wonder_item_bricks", "required": false }
-  ]
-}
