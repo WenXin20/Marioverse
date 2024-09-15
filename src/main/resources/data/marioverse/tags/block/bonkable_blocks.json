@@ -7,6 +7,6 @@
     { "id": "marioverse:storage_bricks", "required": false },
     { "id": "marioverse:question_block", "required": false },
     { "id": "marioverse:question_bricks", "required": false },
-    { "id": "marioverse:wonder_storage_bricks", "required": false }
+    { "id": "marioverse:fungal_storage_bricks", "required": false }
   ]
 }

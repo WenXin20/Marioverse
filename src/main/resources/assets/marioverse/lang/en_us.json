@@ -7,16 +7,16 @@
   "block.marioverse.coin": "Coin",
 
   "block.marioverse.question_bricks": "Question Bricks",
-  "block.marioverse.question_block": "Wonder Question Block",
+  "block.marioverse.question_block": "Fungal Question Block",
 
   "block.marioverse.invisible_question_bricks": "Invisible Question Bricks",
-  "block.marioverse.invisible_question_block": "Invisible Wonder Question Block",
+  "block.marioverse.invisible_question_block": "Invisible Fungal Question Block",
 
   "block.marioverse.storage_bricks": "Storage Bricks",
-  "block.marioverse.wonder_storage_bricks": "Wonder Storage Bricks",
+  "block.marioverse.fungal_storage_bricks": "Fungal Storage Bricks",
 
   "block.marioverse.smashable_bricks": "Smashable Bricks",
-  "block.marioverse.wonder_bricks": "Wonder Bricks",
+  "block.marioverse.fungal_bricks": "Fungal Bricks",
 
   "block.marioverse.black_warp_pipe": "Black Warp Pipe",
   "block.marioverse.blue_warp_pipe": "Blue Warp Pipe",
