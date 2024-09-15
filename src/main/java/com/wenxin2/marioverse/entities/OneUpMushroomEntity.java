@@ -69,12 +69,13 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     }
                 }
 
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
-                this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
-                this.level().broadcastEntityEvent(this, (byte) 61); // 1-Up Collected particle
-                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
+                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(this, (byte) 61); // 1-Up Collected particle
                     this.remove(RemovalReason.KILLED);
+                }
 
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !(entity instanceof Player)) {
@@ -86,12 +87,13 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     offhandStack.grow(1);
                 }
 
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
-                this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
-                this.level().broadcastEntityEvent(this, (byte) 61); // 1-Up Collected particle
-                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST))
+                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(this, (byte) 61); // 1-Up Collected particle
                     this.remove(RemovalReason.KILLED);
+                }
             }
         }
     }
