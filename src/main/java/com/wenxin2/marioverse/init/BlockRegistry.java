@@ -30,12 +30,15 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> BRICKS_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
+    public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> INVISIBLE_BRICKS_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> ITEM_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> QUESTION_BLOCK;
-    public static final DeferredBlock<Block> BRICKS_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WONDER_BRICKS;
     public static final DeferredBlock<Block> WONDER_ITEM_BRICKS;
@@ -49,11 +52,6 @@ public class BlockRegistry {
 
         QUESTION_BLOCK = registerBlock("question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
-                        .requiresCorrectToolForDrops()));
-
-        BRICKS_QUESTION_BLOCK = registerBlock("bricks_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
@@ -71,6 +69,26 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        BRICKS_QUESTION_BLOCK = registerBlock("bricks_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
+                        .requiresCorrectToolForDrops()));
+
+        INVISIBLE_BRICKS_QUESTION_BLOCK = registerBlock("invisible_bricks_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                        .instrument(NoteBlockInstrument.BELL).strength(2.0F, 6.0F)
+                        .requiresCorrectToolForDrops()));
+
+        ITEM_BRICKS = registerBlock("item_bricks",
+                () -> new ItemBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
+                        .requiresCorrectToolForDrops()));
+
+        SMASHABLE_BRICKS = registerBlock("smashable_bricks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
+                        .requiresCorrectToolForDrops()));
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)

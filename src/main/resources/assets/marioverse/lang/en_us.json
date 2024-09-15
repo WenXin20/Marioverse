@@ -5,11 +5,18 @@
   "menu.marioverse.question_block": "Question Block",
 
   "block.marioverse.coin": "Coin",
+
   "block.marioverse.bricks_question_block": "Bricks Question Block",
-  "block.marioverse.invisible_question_block": "Invisible Wonder Question Block",
   "block.marioverse.question_block": "Wonder Question Block",
-  "block.marioverse.wonder_bricks": "Wonder Bricks",
+
+  "block.marioverse.invisible_bricks_question_block": "Invisible Bricks Question Block",
+  "block.marioverse.invisible_question_block": "Invisible Wonder Question Block",
+
+  "block.marioverse.item_bricks": "Item Bricks",
   "block.marioverse.wonder_item_bricks": "Wonder Item Bricks",
+
+  "block.marioverse.smashable_bricks": "Smashable Bricks",
+  "block.marioverse.wonder_bricks": "Wonder Bricks",
 
   "block.marioverse.black_warp_pipe": "Black Warp Pipe",
   "block.marioverse.blue_warp_pipe": "Blue Warp Pipe",

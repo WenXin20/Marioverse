@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    { "id": "marioverse:invisible_bricks_question_block", "required": false },
     { "id": "marioverse:invisible_question_block", "required": false }
   ]
 }
