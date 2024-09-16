@@ -97,7 +97,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         FluidState fluidState = placeContext.getLevel().getFluidState(placeContext.getClickedPos());
 
-        return this.defaultBlockState().setValue(EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.TRUE)
+        return this.defaultBlockState().setValue(EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE)
                 .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
     }
 
@@ -134,13 +134,17 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 }
 
                 if (storedItem.isEmpty()) {
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE), 3);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                }
+
+                if (state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
+                    world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
                 }
 
                 Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
                 if (questionBlockEntity.getLootTable() != null && nearestPlayer != null) {
                     this.unpackLootTable(nearestPlayer, questionBlockEntity);
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(INVISIBLE, Boolean.TRUE), 3);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                 }
             }
             questionBlockEntity.setLastPowered(isPowered);
@@ -198,7 +202,11 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 }
 
                 if (storedItem.isEmpty()) {
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE), 3);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                }
+
+                if (state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
+                    world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
                 }
                 return ItemInteractionResult.SUCCESS;
             } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

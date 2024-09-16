@@ -1,9 +1,15 @@
 {
   "variants": {
-    "empty=false": {
+    "empty=false,invisible=false": {
+      "model": "marioverse:block/fungal_question_block"
+    },
+    "empty=true,invisible=false": {
+      "model": "marioverse:block/empty_invisible_fungal_question_block"
+    },
+    "empty=false,invisible=true": {
       "model": "marioverse:block/invisible_fungal_question_block"
     },
-    "empty=true": {
+    "empty=true,invisible=true": {
       "model": "marioverse:block/empty_invisible_fungal_question_block"
     }
   }

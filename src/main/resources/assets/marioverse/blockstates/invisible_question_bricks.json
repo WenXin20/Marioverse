@@ -1,9 +1,15 @@
 {
   "variants": {
-    "empty=false": {
+    "empty=false,invisible=false": {
+      "model": "marioverse:block/question_bricks"
+    },
+    "empty=true,invisible=false": {
+      "model": "marioverse:block/empty_invisible_question_bricks"
+    },
+    "empty=false,invisible=true": {
       "model": "marioverse:block/invisible_question_bricks"
     },
-    "empty=true": {
+    "empty=true,invisible=true": {
       "model": "marioverse:block/empty_invisible_question_bricks"
     }
   }
