@@ -85,7 +85,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
             return Shapes.block();
         else if (state.getValue(INVISIBLE) && collisionContext instanceof EntityCollisionContext entityCollisionContext) {
             if (entityCollisionContext.getEntity() instanceof Player player) {
-                if (player.getY() < pos.getY()) {
+                if (player.getY() + player.getBbHeight() < pos.getY()) {
                     return Shapes.block();
                 }
             }
