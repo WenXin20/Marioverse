@@ -156,14 +156,13 @@ public abstract class PlayerMixin extends Entity {
 
     @Unique
     public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
-        BlockState currentState = world.getBlockState(pos);
-        if (currentState.getBlock() instanceof QuestionBlock questionBlock) {
+        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
 
             if (questionBlockEntity.getLootTable() != null)
                 questionBlock.unpackLootTable(this, questionBlockEntity);
 
-            if (!storedItem.isEmpty() && !currentState.getValue(QuestionBlock.EMPTY)) {
+            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 this.marioverse$dropCoin(world, pos, this);
 
                 if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
@@ -189,18 +188,20 @@ public abstract class PlayerMixin extends Entity {
                 questionBlockEntity.setChanged();
             }
 
-            if (storedItem.isEmpty() && !currentState.getValue(QuestionBlock.EMPTY)) {
+            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                BlockState currentState = world.getBlockState(pos);
                 if (currentState.getBlock() instanceof QuestionBlock)
                     world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
             }
 
-            if (currentState.getBlock() instanceof InvisibleQuestionBlock && currentState.getValue(InvisibleQuestionBlock.INVISIBLE)) {
+            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
+                BlockState currentState = world.getBlockState(pos);
                 world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
             }
 
-            if (!currentState.getValue(QuestionBlock.EMPTY)) {
+            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 AABB boundingBox = new AABB(pos.above()).inflate(0.5);
                 List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
 
