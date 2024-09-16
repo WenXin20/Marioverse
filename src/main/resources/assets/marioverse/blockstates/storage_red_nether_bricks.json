@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/storage_red_nether_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_red_nether_bricks"
+    }
+  }
+}

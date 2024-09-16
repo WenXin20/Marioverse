@@ -1,0 +1,38 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_all",
+	"render_type": "cutout_mipped",
+	"textures": {
+		"particle": "block/red_nether_bricks",
+		"bricks": "block/red_nether_bricks",
+		"overlay": "marioverse:block/smashable_red_nether_bricks_overlay"
+	},
+	"elements": [
+		{
+			"name": "block",
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#bricks", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#bricks", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#bricks", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#bricks", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#bricks", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bricks", "cullface": "down"}
+			}
+		},
+		{
+			"name": "overlay",
+			"from": [-0.01, -0.01, -0.01],
+			"to": [16.01, 16.01, 16.01],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "north"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "east"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "down"}
+			}
+		}
+	]
+}

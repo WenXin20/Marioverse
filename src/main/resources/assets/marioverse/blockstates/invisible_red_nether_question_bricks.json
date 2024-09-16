@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "empty=false,invisible=false": {
+      "model": "marioverse:block/red_nether_question_bricks"
+    },
+    "empty=true,invisible=false": {
+      "model": "marioverse:block/empty_invisible_red_nether_question_bricks"
+    },
+    "empty=false,invisible=true": {
+      "model": "marioverse:block/invisible_red_nether_question_bricks"
+    },
+    "empty=true,invisible=true": {
+      "model": "marioverse:block/empty_invisible_red_nether_question_bricks"
+    }
+  }
+}
