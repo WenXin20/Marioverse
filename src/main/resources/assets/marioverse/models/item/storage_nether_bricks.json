@@ -2,10 +2,10 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
-		"bottom": "minecraft:block/bricks",
-		"side": "minecraft:block/bricks",
-		"overlay": "marioverse:block/question_bricks_overlay",
-		"top": "minecraft:block/bricks"
+		"bottom": "minecraft:block/nether_bricks",
+		"side": "minecraft:block/nether_bricks",
+		"overlay": "marioverse:block/nether_question_bricks_overlay",
+		"top": "minecraft:block/nether_bricks"
 	},
 	"elements": [
 		{

@@ -10,13 +10,16 @@
   "block.marioverse.question_bricks": "Question Bricks",
   "block.marioverse.fungal_question_block": "Fungal Question Block",
 
+  "block.marioverse.invisible_nether_question_bricks": "Invisible Nether Question Bricks",
   "block.marioverse.invisible_question_bricks": "Invisible Question Bricks",
   "block.marioverse.invisible_fungal_question_block": "Invisible Fungal Question Block",
 
   "block.marioverse.storage_bricks": "Storage Bricks",
+  "block.marioverse.storage_nether_bricks": "Storage Nether Bricks",
   "block.marioverse.fungal_storage_bricks": "Fungal Storage Bricks",
 
   "block.marioverse.smashable_bricks": "Smashable Bricks",
+  "block.marioverse.smashable_nether_bricks": "Smashable Nether Bricks",
   "block.marioverse.fungal_bricks": "Fungal Bricks",
 
   "block.marioverse.black_warp_pipe": "Black Warp Pipe",

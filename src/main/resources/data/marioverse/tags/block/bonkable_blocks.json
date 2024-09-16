@@ -2,11 +2,14 @@
   "_comment": "Blocks that will make a Bonk sound when jumped into",
   "replace": false,
   "values": [
-    { "id": "marioverse:invisible_fungal_question_block", "required": false },
-    { "id": "marioverse:invisible_question_bricks", "required": false },
-    { "id": "marioverse:storage_bricks", "required": false },
     { "id": "marioverse:fungal_question_block", "required": false },
+    { "id": "marioverse:fungal_storage_bricks", "required": false },
+    { "id": "marioverse:invisible_fungal_question_block", "required": false },
+    { "id": "marioverse:invisible_nether_question_bricks", "required": false },
+    { "id": "marioverse:invisible_question_bricks", "required": false },
+    { "id": "marioverse:nether_question_bricks", "required": false },
     { "id": "marioverse:question_bricks", "required": false },
-    { "id": "marioverse:fungal_storage_bricks", "required": false }
+    { "id": "marioverse:storage_bricks", "required": false },
+    { "id": "marioverse:storage_nether_bricks", "required": false }
   ]
 }

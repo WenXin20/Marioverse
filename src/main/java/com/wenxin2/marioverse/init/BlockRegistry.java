@@ -36,12 +36,15 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> FUNGAL_STORAGE_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
-    public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
     static
@@ -93,6 +96,21 @@ public class BlockRegistry {
 
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        INVISIBLE_NETHER_QUESTION_BRICKS = registerBlock("invisible_nether_question_bricks",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        STORAGE_NETHER_BRICKS = registerBlock("storage_nether_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        SMASHABLE_NETHER_BRICKS = registerBlock("smashable_nether_bricks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
