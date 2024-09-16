@@ -3,6 +3,7 @@
   "values": [
     { "id": "marioverse:fungal_bricks", "required": false },
     { "id": "marioverse:smashable_bricks", "required": false },
-    { "id": "marioverse:smashable_nether_bricks", "required": false }
+    { "id": "marioverse:smashable_nether_bricks", "required": false },
+    { "id": "marioverse:smashable_red_nether_bricks", "required": false }
   ]
 }

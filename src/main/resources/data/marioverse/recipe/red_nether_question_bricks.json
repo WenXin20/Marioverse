@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "group": "marioverse:question_block",
   "pattern": [
-    "GGG",
+    " G ",
     "GCG",
-    "GGG"
+    " G "
   ],
   "key": {
     "G": {
-      "tag": "c:ingots/gold"
+      "tag": "c:crops/nether_wart"
     },
     "C": {
-      "tag": "c:chests"
+      "item": "marioverse:nether_question_bricks"
     }
   },
   "result": {
-    "id": "marioverse:fungal_question_block",
+    "id": "marioverse:nether_question_bricks",
     "count": 1
   }
 }
