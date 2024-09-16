@@ -28,7 +28,7 @@ public class BlockEntityRegistry {
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
-                        BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.FUNGAL_QUESTION_BLOCK.get(),
+                        BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.NETHER_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get()).build(null));
 
         WARP_PIPE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_pipe",
