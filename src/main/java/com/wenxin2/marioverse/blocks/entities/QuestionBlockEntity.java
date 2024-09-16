@@ -64,14 +64,8 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
             if (this.getLootTable() != null || this.hasItems()) {
                 this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-//                if (this.level.getBlockState(this.getBlockPos()).getBlock() instanceof InvisibleQuestionBlock)
-//                    this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.TRUE), 3);
             }
-            else {
-                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-//                if (this.level.getBlockState(this.getBlockPos()).getBlock() instanceof InvisibleQuestionBlock)
-//                    this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
-            }
+            else this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
             if (!this.level.isClientSide()) {
                 this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
