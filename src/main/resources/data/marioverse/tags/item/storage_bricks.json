@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    { "id": "marioverse:fungal_storage_bricks", "required": false },
+    { "id": "marioverse:storage_fungal_bricks", "required": false },
     { "id": "marioverse:storage_bricks", "required": false },
     { "id": "marioverse:storage_nether_bricks", "required": false },
     { "id": "marioverse:storage_red_nether_bricks", "required": false }

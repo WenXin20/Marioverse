@@ -34,7 +34,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> FUNGAL_STORAGE_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
@@ -47,6 +46,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
@@ -68,7 +68,7 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        FUNGAL_STORAGE_BRICKS = registerBlock("fungal_storage_bricks",
+        STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));

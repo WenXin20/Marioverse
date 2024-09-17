@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
 		"bottom": "marioverse:block/fungal_bricks",
-		"side": "marioverse:block/fungal_storage_bricks",
+		"side": "marioverse:block/storage_fungal_bricks",
 		"top": "marioverse:block/fungal_bricks"
 	}
 }

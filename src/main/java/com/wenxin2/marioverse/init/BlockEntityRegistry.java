@@ -30,7 +30,7 @@ public class BlockEntityRegistry {
 
         STORAGE_BRICKS_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("storage_bricks",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
-                        BlockRegistry.FUNGAL_STORAGE_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get(),
+                        BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get(),
                         BlockRegistry.STORAGE_NETHER_BRICKS.get(), BlockRegistry.STORAGE_RED_NETHER_BRICKS.get()).build(null));
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",

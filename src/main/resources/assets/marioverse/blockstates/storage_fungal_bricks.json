@@ -1,7 +1,7 @@
 {
   "variants": {
     "empty=false": {
-      "model": "marioverse:block/fungal_bricks"
+      "model": "marioverse:block/storage_fungal_bricks"
     },
     "empty=true": {
       "model": "marioverse:block/empty_fungal_bricks"

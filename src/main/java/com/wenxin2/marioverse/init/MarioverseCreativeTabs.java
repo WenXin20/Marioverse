@@ -33,7 +33,7 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
-            add(event, BlockRegistry.FUNGAL_STORAGE_BRICKS.get());
+            add(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.FUNGAL_BRICKS.get());
 
             add(event, BlockRegistry.QUESTION_BRICKS.get());
