@@ -1,9 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.core.BlockPos;
@@ -67,8 +65,6 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
         if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
             if ((player.hasPermissions(1) && player.isCreative()) || !state.getValue(INVISIBLE)
                     || (!player.isCreative() && !player.isSpectator() && ConfigRegistry.SELECT_INVISIBLE_QUESTION.get())
-                    || (((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BlockItem blockItem
-                        && blockItem.getBlock() instanceof InvisibleQuestionBlock)
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem))) {
                 return Shapes.block();
@@ -222,9 +218,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
 
         Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
         if (nearestPlayer != null) {
-            InteractionHand hand = nearestPlayer.getUsedItemHand();
-            if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() || nearestPlayer.isSpectator()
-                    || (nearestPlayer.getItemInHand(hand).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof InvisibleQuestionBlock))) {
+            if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
+                    || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
                 world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK_MARKER, state),
                         x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
             }
