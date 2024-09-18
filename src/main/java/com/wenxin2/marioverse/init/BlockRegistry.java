@@ -38,20 +38,24 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
+    public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
@@ -161,6 +165,26 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
                         .requiresCorrectToolForDrops()));
+
+        PURPUR_QUESTION_BLOCK = registerBlock("purpur_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+        INVISIBLE_PURPUR_QUESTION_BLOCK = registerBlock("invisible_purpur_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+        STORAGE_PURPUR_BLOCK = registerBlock("storage_purpur_block",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+        SMASHABLE_PURPUR_BLOCK = registerBlock("smashable_purpur_block",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)

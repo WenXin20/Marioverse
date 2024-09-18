@@ -1,10 +1,11 @@
 {
   "replace": false,
   "values": [
+    { "id": "marioverse:end_stone_question_bricks", "required": false },
     { "id": "marioverse:fungal_question_block", "required": false },
+    { "id": "marioverse:nether_question_bricks", "required": false },
+    { "id": "marioverse:purpur_question_block", "required": false },
     { "id": "marioverse:question_bricks", "required": false },
-    { "id": "marioverse:question_end_stone_bricks", "required": false },
-    { "id": "marioverse:question_nether_bricks", "required": false },
-    { "id": "marioverse:question_red_nether_bricks", "required": false }
+    { "id": "marioverse:red_nether_question_bricks", "required": false }
   ]
 }

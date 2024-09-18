@@ -23,8 +23,8 @@
 		},
 		{
 			"name": "overlay",
-			"from": [-0.001, -0.001, -0.001],
-			"to": [16.001, 16.001, 16.001],
+			"from": [-0.005, -0.005, -0.005],
+			"to": [16.005, 16.005, 16.005],
 			"faces": {
 				"north": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "north"},
 				"east": {"uv": [0, 0, 16, 16], "texture": "#overlay", "cullface": "east"},

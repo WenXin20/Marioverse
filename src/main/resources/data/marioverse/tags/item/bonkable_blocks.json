@@ -7,15 +7,18 @@
     { "id": "marioverse:invisible_end_stone_question_bricks", "required": false },
     { "id": "marioverse:invisible_fungal_question_block", "required": false },
     { "id": "marioverse:invisible_nether_question_bricks", "required": false },
+    { "id": "marioverse:invisible_purpur_question_block", "required": false },
     { "id": "marioverse:invisible_question_bricks", "required": false },
     { "id": "marioverse:invisible_red_nether_question_bricks", "required": false },
     { "id": "marioverse:nether_question_bricks", "required": false },
+    { "id": "marioverse:purpur_question_block", "required": false },
     { "id": "marioverse:question_bricks", "required": false },
     { "id": "marioverse:red_nether_question_bricks", "required": false },
     { "id": "marioverse:storage_bricks", "required": false },
     { "id": "marioverse:storage_end_stone_bricks", "required": false },
     { "id": "marioverse:storage_fungal_bricks", "required": false },
     { "id": "marioverse:storage_nether_bricks", "required": false },
+    { "id": "marioverse:storage_purpur_block", "required": false },
     { "id": "marioverse:storage_red_nether_bricks", "required": false }
   ]
 }

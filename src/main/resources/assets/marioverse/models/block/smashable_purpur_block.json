@@ -3,9 +3,9 @@
 	"parent": "minecraft:block/cube_all",
 	"render_type": "cutout_mipped",
 	"textures": {
-		"particle": "block/end_stone_bricks",
-		"bricks": "block/end_stone_bricks",
-		"overlay": "marioverse:block/smashable_end_stone_bricks_overlay"
+		"particle": "block/purpur_block",
+		"bricks": "block/purpur_block",
+		"overlay": "marioverse:block/smashable_purpur_block_overlay"
 	},
 	"elements": [
 		{

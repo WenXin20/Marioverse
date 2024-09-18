@@ -5,6 +5,7 @@
     { "id": "marioverse:storage_bricks", "required": false },
     { "id": "marioverse:storage_end_stone_bricks", "required": false },
     { "id": "marioverse:storage_nether_bricks", "required": false },
+    { "id": "marioverse:storage_purpur_block", "required": false },
     { "id": "marioverse:storage_red_nether_bricks", "required": false }
   ]
 }
