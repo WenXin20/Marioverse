@@ -32,8 +32,10 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
@@ -43,9 +45,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
@@ -137,6 +141,26 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        END_STONE_QUESTION_BRICKS = registerBlock("end_stone_question_bricks",
+                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
+                        .requiresCorrectToolForDrops()));
+
+        INVISIBLE_END_STONE_QUESTION_BRICKS = registerBlock("invisible_end_stone_question_bricks",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
+                        .requiresCorrectToolForDrops()));
+
+        STORAGE_END_STONE_BRICKS = registerBlock("storage_end_stone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
+                        .requiresCorrectToolForDrops()));
+
+        SMASHABLE_END_STONE_BRICKS = registerBlock("smashable_end_stone_bricks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
+                        .requiresCorrectToolForDrops()));
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)

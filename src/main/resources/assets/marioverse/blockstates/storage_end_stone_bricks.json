@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/storage_end_stone_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_end_stone_bricks"
+    }
+  }
+}

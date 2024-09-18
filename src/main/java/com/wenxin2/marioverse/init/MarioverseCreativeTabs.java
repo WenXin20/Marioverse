@@ -51,6 +51,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STORAGE_RED_NETHER_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get());
 
+            add(event, BlockRegistry.END_STONE_QUESTION_BRICKS.get());
+            add(event, BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get());
+            add(event, BlockRegistry.STORAGE_END_STONE_BRICKS.get());
+            add(event, BlockRegistry.SMASHABLE_END_STONE_BRICKS.get());
+
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {

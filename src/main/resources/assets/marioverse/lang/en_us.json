@@ -7,22 +7,26 @@
   "block.marioverse.coin": "Coin",
 
   "block.marioverse.fungal_question_block": "Fungal Question Block",
+  "block.marioverse.end_stone_question_bricks": "End Stone Question Bricks",
   "block.marioverse.nether_question_bricks": "Nether Question Bricks",
   "block.marioverse.question_bricks": "Question Bricks",
   "block.marioverse.red_nether_question_bricks": "Red Nether Question Bricks",
 
   "block.marioverse.invisible_fungal_question_block": "Invisible Fungal Question Block",
+  "block.marioverse.invisible_end_stone_question_bricks": "Invisible End Stone Question Bricks",
   "block.marioverse.invisible_nether_question_bricks": "Invisible Nether Question Bricks",
   "block.marioverse.invisible_question_bricks": "Invisible Question Bricks",
   "block.marioverse.invisible_red_nether_question_bricks": "Invisible Red Nether Question Bricks",
 
   "block.marioverse.storage_bricks": "Storage Bricks",
   "block.marioverse.storage_fungal_bricks": "Storage Fungal Bricks",
+  "block.marioverse.storage_end_stone_bricks": "Storage End Stone Bricks",
   "block.marioverse.storage_nether_bricks": "Storage Nether Bricks",
   "block.marioverse.storage_red_nether_bricks": "Storage Red Nether Bricks",
 
   "block.marioverse.fungal_bricks": "Fungal Bricks",
   "block.marioverse.smashable_bricks": "Smashable Bricks",
+  "block.marioverse.smashable_end_stone_bricks": "Smashable End Stone Bricks",
   "block.marioverse.smashable_nether_bricks": "Smashable Nether Bricks",
   "block.marioverse.smashable_red_nether_bricks": "Smashable Red Nether Bricks",
 

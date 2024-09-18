@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "marioverse:block/invisible_red_nether_question_bricks"
-  }
-}

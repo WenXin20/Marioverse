@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "group": "marioverse:question_block",
   "pattern": [
-    " G ",
+    "GGG",
     "GCG",
-    " G "
+    "GGG"
   ],
   "key": {
     "G": {
-      "tag": "c:crops/nether_wart"
+      "tag": "minecraft:end_stone_bricks"
     },
     "C": {
-      "item": "marioverse:nether_question_bricks"
+      "tag": "c:chests"
     }
   },
   "result": {
-    "id": "marioverse:red_nether_question_bricks",
+    "id": "marioverse:end_stone_question_bricks",
     "count": 1
   }
 }

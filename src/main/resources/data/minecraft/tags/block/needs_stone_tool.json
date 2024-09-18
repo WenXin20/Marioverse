@@ -5,8 +5,10 @@
     { "id": "marioverse:blue_warp_pipe", "required": false },
     { "id": "marioverse:brown_warp_pipe", "required": false },
     { "id": "marioverse:cyan_warp_pipe", "required": false },
+    { "id": "marioverse:fungal_question_block", "required": false },
     { "id": "marioverse:gray_warp_pipe", "required": false },
     { "id": "marioverse:green_warp_pipe", "required": false },
+    { "id": "marioverse:invisible_fungal_question_block", "required": false },
     { "id": "marioverse:light_blue_warp_pipe", "required": false },
     { "id": "marioverse:light_gray_warp_pipe", "required": false },
     { "id": "marioverse:lime_warp_pipe", "required": false },
@@ -14,7 +16,6 @@
     { "id": "marioverse:orange_warp_pipe", "required": false },
     { "id": "marioverse:pink_warp_pipe", "required": false },
     { "id": "marioverse:purple_warp_pipe", "required": false },
-    { "id": "marioverse:fungal_question_block", "required": false },
     { "id": "marioverse:red_warp_pipe", "required": false },
     { "id": "marioverse:white_warp_pipe", "required": false },
     { "id": "marioverse:yellow_warp_pipe", "required": false }
