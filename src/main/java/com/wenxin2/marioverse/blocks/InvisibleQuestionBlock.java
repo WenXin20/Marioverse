@@ -66,7 +66,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
             if ((player.hasPermissions(1) && player.isCreative()) || !state.getValue(INVISIBLE)
                     || (!player.isCreative() && !player.isSpectator() && ConfigRegistry.SELECT_INVISIBLE_QUESTION.get())
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem))) {
+                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem) {
                 return Shapes.block();
             }
         }
