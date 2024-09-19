@@ -94,6 +94,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                 } else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
@@ -112,6 +113,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                 } else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
                 if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
