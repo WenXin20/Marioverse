@@ -75,6 +75,11 @@
   "item.marioverse.pipe_wrench.tooltip.right_click": "Right-click: Opens pipe GUI",
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "Shift-right-click: Binds pipes",
 
+  "curios.identifier.hat": "Hat",
+  "curios.identifier.shirt": "Shirt",
+  "curios.identifier.pants": "Pants",
+  "curios.identifier.shoes": "Shoes",
+
   "subtitles.marioverse.block.block_bonk": "Block bonked",
   "subtitles.marioverse.block.block_smash": "Block smashed",
   "subtitles.marioverse.block.block_smash_fail": "Block smash failed",

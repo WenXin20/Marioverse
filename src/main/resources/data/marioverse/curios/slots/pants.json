@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "add_cosmetic": false,
+  "validators": [ "curios:tag" ],
+  "icon": "marioverse:slot/empty_pants_slot",
+  "operation": "SET",
+  "drop_rule": "DESTROY",
+  "size": 1,
+  "order": 1002
+}

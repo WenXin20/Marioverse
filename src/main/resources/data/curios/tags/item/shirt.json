@@ -1,0 +1,7 @@
+{
+  "_comment": "Tag for Curios that can be equipped in the shirt slot",
+  "replace": false,
+  "values": [
+    { "id": "minecraft:diamond_chestplate", "required": false }
+  ]
+}
