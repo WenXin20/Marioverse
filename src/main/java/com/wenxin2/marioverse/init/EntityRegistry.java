@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.entities.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.MushroomEntity;
 import com.wenxin2.marioverse.entities.OneUpMushroomEntity;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +18,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
 
+    public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
+            MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
@@ -24,12 +27,15 @@ public class EntityRegistry {
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
+        AttributeSupplier.Builder genericMushroomAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.4f);
+        AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 1);
 
-        event.put(EntityRegistry.MUSHROOM.get(), genericPowerUpAttribs.build());
-        event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericPowerUpAttribs.build());
+        event.put(EntityRegistry.FIRE_FLOWER.get(), genericPowerUpAttribs.build());
+        event.put(EntityRegistry.MUSHROOM.get(), genericMushroomAttribs.build());
+        event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericMushroomAttribs.build());
 
     }
 

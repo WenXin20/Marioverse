@@ -1,7 +1,8 @@
 {
-  "_comment": "Tag for all power ups",
+  "_comment": "Tag for all power up entities",
   "replace": false,
   "values": [
+    { "id": "marioverse:fire_flower", "required": false },
     { "id": "marioverse:mushroom", "required": false },
     { "id": "marioverse:one_up_mushroom", "required": false }
   ]

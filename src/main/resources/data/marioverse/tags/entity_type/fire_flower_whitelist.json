@@ -1,0 +1,8 @@
+{
+  "_comment": "Tag for all power up entities",
+  "replace": false,
+  "values": [
+    { "id": "minecraft:player", "required": false },
+    { "id": "minecraft:zombie", "required": false }
+  ]
+}

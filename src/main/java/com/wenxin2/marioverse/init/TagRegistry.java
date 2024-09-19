@@ -22,13 +22,14 @@ public class TagRegistry {
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags(Marioverse.MOD_ID, "question_blocks");
     public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
-    public static final TagKey<EntityType<?>> WARP_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "warp_blacklist");
     public static final TagKey<EntityType<?>> CONSUME_ONE_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_one_ups_blacklist");
     public static final TagKey<EntityType<?>> CONSUME_POWER_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_power_ups_blacklist");
     public static final TagKey<EntityType<?>> DAMAGE_SHRINKS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "damage_shrinks_blacklist");
+    public static final TagKey<EntityType<?>> FIRE_FLOWER_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "fire_flower_whitelist");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<EntityType<?>> QUICK_TRAVEL_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "quick_travel_blacklist");
+    public static final TagKey<EntityType<?>> WARP_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "warp_blacklist");
 
     public static TagKey<Block> blockTags(String id, String name) {
         return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(id, name));

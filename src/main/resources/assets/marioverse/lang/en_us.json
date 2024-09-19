@@ -55,13 +55,15 @@
   "block.marioverse.pipe_bubbles": "Pipe Bubbles",
   "block.marioverse.water_spout": "Water Spout",
 
+  "entity.marioverse.fire_flower": "Fire Flower",
   "entity.marioverse.mushroom": "Mushroom",
   "entity.marioverse.one_up_mushroom": "1-Up Mushroom",
 
+  "item.marioverse.fire_flower": "Fire Flower",
   "item.marioverse.mushroom": "Mushroom",
   "item.marioverse.one_up_mushroom": "1-Up Mushroom",
-
   "item.marioverse.pipe_wrench": "Pipe Wrench",
+
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
   "item.marioverse.pipe_wrench.bubbles.false": "Pipe bubbles off",
   "item.marioverse.pipe_wrench.closed.true": "Closed Pipe",

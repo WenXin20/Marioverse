@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.client.particles.OneUpParticle;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.OneUpMushroomRenderer;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
@@ -48,6 +49,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MUSHROOM.get(), MushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ONE_UP_MUSHROOM.get(), OneUpMushroomRenderer::new);
     }

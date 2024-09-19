@@ -32,6 +32,9 @@ public class MarioverseEventHandlers {
         if (!tag.contains("marioverse:prevent_warp"))
             tag.putBoolean("marioverse:prevent_warp", false);
 
+        if (!tag.contains("marioverse:has_fire_flower") && event.getEntity().getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+            tag.putBoolean("marioverse:has_fire_flower", false);
+
         if (!tag.contains("marioverse:has_mushroom"))
             tag.putBoolean("marioverse:has_mushroom", false);
 
@@ -47,6 +50,8 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
             tag.putBoolean("marioverse:has_mushroom", false);
+            tag.putBoolean("marioverse:has_fire_flower", false);
+
             if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                 if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                         && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)

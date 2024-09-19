@@ -28,6 +28,7 @@ public class MarioverseCreativeTabs {
         if (event.getTabKey() == MARIOVERSE_TAB.getKey()) {
             add(event, ItemRegistry.MUSHROOM.get());
             add(event, ItemRegistry.ONE_UP_MUSHROOM.get());
+            add(event, ItemRegistry.FIRE_FLOWER.get());
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
