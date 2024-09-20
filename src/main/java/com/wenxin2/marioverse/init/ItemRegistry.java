@@ -2,20 +2,20 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
-import com.wenxin2.marioverse.items.FireFlowerHatItem;
+import com.wenxin2.marioverse.items.FireFlowerCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.function.Supplier;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_FLOWER_HAT;
+    public static final DeferredItem<Item> FIRE_FLOWER_SHIRT;
     public static final DeferredItem<Item> PIPE_WRENCH;
     public static final DeferredItem<Item> MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
@@ -33,7 +33,9 @@ public class ItemRegistry {
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_FLOWER_HAT = registerItem("fire_flower_hat",
-                () -> new FireFlowerHatItem(new Item.Properties()));
+                () -> new FireFlowerCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties()));
+        FIRE_FLOWER_SHIRT = registerItem("fire_flower_shirt",
+                () -> new FireFlowerCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)

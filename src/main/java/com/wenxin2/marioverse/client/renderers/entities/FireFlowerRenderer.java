@@ -6,9 +6,11 @@ import com.wenxin2.marioverse.entities.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.MushroomEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class FireFlowerRenderer extends GeoEntityRenderer<FireFlowerEntity> {
     public FireFlowerRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new FireFlowerModel());
+        addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 }
