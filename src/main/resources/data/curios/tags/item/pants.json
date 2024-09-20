@@ -2,6 +2,6 @@
   "_comment": "Tag for Curios that can be equipped in the pants slot",
   "replace": false,
   "values": [
-    { "id": "minecraft:diamond_leggings", "required": false }
+    { "id": "marioverse:fire_flower_pants", "required": false }
   ]
 }
