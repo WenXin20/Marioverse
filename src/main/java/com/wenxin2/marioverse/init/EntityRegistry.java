@@ -4,6 +4,9 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.MushroomEntity;
 import com.wenxin2.marioverse.entities.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
+import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -14,6 +17,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
@@ -24,6 +28,9 @@ public class EntityRegistry {
             MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
+
+    public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL = register("bouncing_fireball", BouncingFireballProjectile::new,
+            MobCategory.AMBIENT, 0.4f, 0.4f);
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -39,8 +46,8 @@ public class EntityRegistry {
 
     }
 
-    private static <T extends Mob> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity, MobCategory category,
-                                                                                         float width, float height) {
+    private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity, MobCategory category,
+                                                                                              float width, float height) {
         return Marioverse.ENTITIES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(name));
     }
 

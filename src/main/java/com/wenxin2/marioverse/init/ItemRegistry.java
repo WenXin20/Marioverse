@@ -22,8 +22,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PIPE_WRENCH;
 
-    static
-    {
+    static {
         PIPE_WRENCH = registerItem("pipe_wrench",
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
