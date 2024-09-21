@@ -76,16 +76,20 @@ public class Marioverse
             ConfigRegistry.registerClient(container);
         }
 
-//        WarpEventHandlers.register();
         // PipeBubblesSoundHandler.init();
 
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
-        bus.addListener(this::clientSetup);
+        bus.addListener(FMLClientSetupEvent.class, (evt) -> this.clientSetup(evt, bus));
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
+    private void clientSetup(final FMLClientSetupEvent event, final IEventBus eventBus) {
         CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+        MarioverseClient.setup(eventBus);
+//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_HAT.get(), FireFlowerCostumeRenderer::new);
+//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_SHIRT.get(), FireFlowerCostumeRenderer::new);
+//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_PANTS.get(), FireFlowerCostumeRenderer::new);
+//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_SHOES.get(), FireFlowerCostumeRenderer::new);
     }
 }
