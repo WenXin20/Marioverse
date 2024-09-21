@@ -87,13 +87,16 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
+                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
                         ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
                         ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
                     }
+                } else {
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                } else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                }
 
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
@@ -106,13 +109,16 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
                     && !(entity instanceof Player)) {
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     if (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
                         ScaleTypes.HEIGHT.getScaleData(livingEntity).setTargetScale(1.0F);
                         ScaleTypes.WIDTH.getScaleData(livingEntity).setTargetScale(1.0F);
                     }
+                } else {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                } else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                }
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
