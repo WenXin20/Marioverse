@@ -12,7 +12,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -26,7 +25,6 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-import virtuoel.pehkui.api.ScaleTypes;
 
 public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.fire_flower.idle");
@@ -73,11 +71,11 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                     player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-//                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                 } else {
                     player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-//                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
                 }
 

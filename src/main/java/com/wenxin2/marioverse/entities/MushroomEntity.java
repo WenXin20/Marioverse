@@ -23,7 +23,6 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import virtuoel.pehkui.api.ScaleTypes;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
@@ -89,10 +88,6 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-                        ScaleTypes.HEIGHT.getScaleData(player).setTargetScale(1.0F);
-                        ScaleTypes.WIDTH.getScaleData(player).setTargetScale(1.0F);
-                    }
                 } else {
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
@@ -111,10 +106,6 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    if (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
-                        ScaleTypes.HEIGHT.getScaleData(livingEntity).setTargetScale(1.0F);
-                        ScaleTypes.WIDTH.getScaleData(livingEntity).setTargetScale(1.0F);
-                    }
                 } else {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle

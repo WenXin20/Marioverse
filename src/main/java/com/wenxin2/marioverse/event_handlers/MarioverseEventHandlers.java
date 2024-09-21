@@ -5,17 +5,13 @@ import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
-import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.ParticleUtils;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -139,25 +135,33 @@ public class MarioverseEventHandlers {
         if (entity instanceof Player player) {
             if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                 tag.putBoolean("marioverse:has_mushroom", true);
-                if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+                if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
                     ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
                     ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
                 }
-            } /*else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+            } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
                 ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
                 ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
-            }*/
+            }
         } else if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                 tag.putBoolean("marioverse:has_mushroom", true);
-                if (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+                if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
                     ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
                     ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
                 }
-            } /*else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
+            } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
                 ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
                 ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
-            }*/
+            }
         }
     }
 
