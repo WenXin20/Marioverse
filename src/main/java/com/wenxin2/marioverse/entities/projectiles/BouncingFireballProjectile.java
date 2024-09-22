@@ -29,10 +29,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class BouncingFireballProjectile extends ThrowableProjectile implements GeoEntity {
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.bouncing_fireball.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    public static final int MAX_FIREBALLS = 2;
-    public static final int FIREBALL_DELAY = 5;
-    public static int fireballCooldown = 0;
-    public static int fireballCount = 0; // Move to player mixin
 
     public BouncingFireballProjectile(EntityType<? extends BouncingFireballProjectile> entityType, Level world) {
         super(entityType, world);
@@ -66,10 +62,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         this.checkForCollisions();
         Vec3 motion = this.getDeltaMovement();
 
-        if (BouncingFireballProjectile.fireballCooldown > 0) {
-            BouncingFireballProjectile.fireballCooldown--;
-        }
-
         if (!this.isInWater()) {
         this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
         } else this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
@@ -80,7 +72,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
 
         if (this.onGround() || this.tickCount > 400) {
-            fireballCount--;
             if (!this.level().isClientSide) {
                 for (int i = 0; i < 5; i++) {
                     double x = this.getX() + this.getBbWidth() / 2;
@@ -103,7 +94,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     @Override
     public void onHitBlock(BlockHitResult hit) {
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            fireballCount--;
             if (!this.level().isClientSide) {
                 for (int i = 0; i < 5; i++) {
                     double x = this.getX() + this.getBbWidth() / 2;
@@ -143,14 +133,12 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 player.hurt(this.level().damageSources().onFire(), 2.0F);
                 this.doKnockback(player, this.level().damageSources().onFire());
                 this.remove(RemovalReason.KILLED);
-                fireballCount--;
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 livingEntity.igniteForSeconds(2.0F);
                 livingEntity.hurt(this.level().damageSources().onFire(), 2.0F);
                 this.doKnockback(livingEntity, this.level().damageSources().onFire());
                 this.remove(RemovalReason.KILLED);
-                fireballCount--;
             }
         }
 
@@ -180,7 +168,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         double d1 = Math.max(0.0, 1.0 - p_346111_.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
         Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.6 * d1);
         if (vec3.lengthSqr() > 0.0) {
-            p_346111_.push(vec3.x, 0.1, vec3.z);
+            p_346111_.push(vec3.x, 0.2, vec3.z);
         }
     }
 }
