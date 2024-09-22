@@ -5,10 +5,11 @@ import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -87,7 +88,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 double x = this.getX() + this.getBbWidth() / 2;
                 double y = this.getY() + this.getBbHeight() / 2;
                 double z = this.getZ() + this.getBbWidth() / 2;
-                this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+                this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
             }
         }
 
@@ -108,7 +109,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 double x = this.getX() + this.getBbWidth() / 2;
                 double y = this.getY() + this.getBbHeight() / 2;
                 double z = this.getZ() + this.getBbWidth() / 2;
-                this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+                this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
             }
         } else {
             Vec3 motion = this.getDeltaMovement();
@@ -138,12 +139,14 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 player.igniteForSeconds(2.0F);
                 player.hurt(this.level().damageSources().onFire(), 2.0F);
+                this.doKnockback(player, this.level().damageSources().onFire());
                 this.remove(RemovalReason.KILLED);
                 fireballCount--;
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 livingEntity.igniteForSeconds(2.0F);
                 livingEntity.hurt(this.level().damageSources().onFire(), 2.0F);
+                this.doKnockback(livingEntity, this.level().damageSources().onFire());
                 this.remove(RemovalReason.KILLED);
                 fireballCount--;
             }
@@ -152,7 +155,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune()
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             for (int i = 0; i < 10; i++) {
-                player.level().addParticle(ParticleTypes.FLAME,
+                player.level().addParticle(ParticleTypes.SMOKE,
                         player.getX() + player.getBbWidth() / 2.0,
                         player.getY() + player.getBbHeight() / 2.0,
                         player.getZ() + player.getBbWidth() / 2.0,
@@ -161,12 +164,21 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             for (int i = 0; i < 10; i++) {
-                livingEntity.level().addParticle(ParticleTypes.FLAME,
+                livingEntity.level().addParticle(ParticleTypes.SMOKE,
                         livingEntity.getX() + livingEntity.getBbWidth() / 2.0,
                         livingEntity.getY() + livingEntity.getBbHeight() / 2.0,
                         livingEntity.getZ() + livingEntity.getBbWidth() / 2.0,
                         0.0, 0.0, 0.0);
             }
+        }
+    }
+
+
+    protected void doKnockback(LivingEntity p_346111_, DamageSource p_346412_) {
+        double d1 = Math.max(0.0, 1.0 - p_346111_.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+        Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.6 * d1);
+        if (vec3.lengthSqr() > 0.0) {
+            p_346111_.push(vec3.x, 0.1, vec3.z);
         }
     }
 }
