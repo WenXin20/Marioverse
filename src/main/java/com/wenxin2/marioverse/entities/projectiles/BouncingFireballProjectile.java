@@ -82,14 +82,16 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
 
         if (this.onGround() || this.tickCount > 400) {
-            this.discard(); // Despawn
             fireballCount--;
-            for (int i = 0; i < 5; i++) {
-                double x = this.getX() + this.getBbWidth() / 2;
-                double y = this.getY() + this.getBbHeight() / 2;
-                double z = this.getZ() + this.getBbWidth() / 2;
-                this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+            if (!this.level().isClientSide) {
+                for (int i = 0; i < 5; i++) {
+                    double x = this.getX() + this.getBbWidth() / 2;
+                    double y = this.getY() + this.getBbHeight() / 2;
+                    double z = this.getZ() + this.getBbWidth() / 2;
+                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+                }
             }
+            this.discard(); // Despawn
         }
 
         for (int i = 0; i < 1; i++) {
@@ -103,14 +105,16 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     @Override
     public void onHitBlock(BlockHitResult hit) {
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            this.discard(); // Despawn on side hit
             fireballCount--;
-            for (int i = 0; i < 5; i++) {
-                double x = this.getX() + this.getBbWidth() / 2;
-                double y = this.getY() + this.getBbHeight() / 2;
-                double z = this.getZ() + this.getBbWidth() / 2;
-                this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+            if (!this.level().isClientSide) {
+                for (int i = 0; i < 5; i++) {
+                    double x = this.getX() + this.getBbWidth() / 2;
+                    double y = this.getY() + this.getBbHeight() / 2;
+                    double z = this.getZ() + this.getBbWidth() / 2;
+                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+                }
             }
+            this.discard(); // Despawn on side hit
         } else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
@@ -152,7 +156,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             }
         }
 
-        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune()
+        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             for (int i = 0; i < 10; i++) {
                 player.level().addParticle(ParticleTypes.SMOKE,
@@ -161,7 +165,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         player.getZ() + player.getBbWidth() / 2.0,
                         0.0, 0.0, 0.0);
             }
-        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune()
+        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             for (int i = 0; i < 10; i++) {
                 livingEntity.level().addParticle(ParticleTypes.SMOKE,
