@@ -1,13 +1,10 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
-import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.ParticleUtils;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -99,24 +96,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         } else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
-
-            int numParticles = 5; // Number of particles to spawn in the circle
-            double radius = 0.25;  // Radius of the circle around the fireball
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-
-                // Calculate the X and Z offset using sine and cosine to spread in a circle
-                double offsetX = Math.cos(angle) * radius;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = this.getX() + offsetX;
-                double y = this.getY() - this.getBbHeight();
-                double z = this.getZ() + offsetZ;
-
-                this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
-            }
+            this.level().broadcastEntityEvent(this, (byte) 61); // Smoke particle
         }
     }
 
@@ -149,22 +129,10 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            for (int i = 0; i < 10; i++) {
-                player.level().addParticle(ParticleTypes.SMOKE,
-                        player.getX() + player.getBbWidth() / 2.0,
-                        player.getY() + player.getBbHeight() / 2.0,
-                        player.getZ() + player.getBbWidth() / 2.0,
-                        0.0, 0.0, 0.0);
-            }
+            this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            for (int i = 0; i < 10; i++) {
-                livingEntity.level().addParticle(ParticleTypes.SMOKE,
-                        livingEntity.getX() + livingEntity.getBbWidth() / 2.0,
-                        livingEntity.getY() + livingEntity.getBbHeight() / 2.0,
-                        livingEntity.getZ() + livingEntity.getBbWidth() / 2.0,
-                        0.0, 0.0, 0.0);
-            }
+            this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
         }
     }
 
@@ -180,10 +148,42 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     public void handleEntityEvent(byte id) {
         if (id == 60) {
             if (this.level().isClientSide) {
-                for (int i = 0; i < 10; i++) {
-                    double x = this.getX() + this.getBbWidth() / 2;
-                    double y = this.getY() + this.getBbHeight() / 2;
-                    double z = this.getZ() + this.getBbWidth() / 2;
+                int numParticles = 10; // Number of particles to spawn in the circle
+                double radius = 0.2;  // Radius of the circle around the fireball
+
+                for (int i = 0; i < numParticles; i++) {
+                    // Calculate angle for each particle
+                    double angle = 2 * Math.PI * i / numParticles;
+
+                    // Calculate the X and Z offset using sine and cosine to spread in a circle
+                    double offsetX = Math.cos(angle) * radius;
+                    double offsetY = Math.sin(angle) * radius;
+                    double offsetZ = Math.sin(angle) * radius;
+
+                    double x = this.getX() + offsetX;
+                    double y = this.getY() + offsetY;
+                    double z = this.getZ() + offsetZ;
+
+                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+                }
+            }
+        } else if (id == 61) {
+            if (this.level().isClientSide) {
+                int numParticles = 10; // Number of particles to spawn in the circle
+                double radius = 0.15;  // Radius of the circle around the fireball
+
+                for (int i = 0; i < numParticles; i++) {
+                    // Calculate angle for each particle
+                    double angle = 2 * Math.PI * i / numParticles;
+
+                    // Calculate the X and Z offset using sine and cosine to spread in a circle
+                    double offsetX = Math.cos(angle) * radius;
+                    double offsetZ = Math.sin(angle) * radius;
+
+                    double x = this.getX() + offsetX;
+                    double y = this.getY() - this.getBbHeight();
+                    double z = this.getZ() + offsetZ;
+
                     this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
                 }
             }
