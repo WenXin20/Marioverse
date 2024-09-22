@@ -1,10 +1,13 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -73,12 +76,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
         if (this.onGround() || this.tickCount > 400) {
             if (!this.level().isClientSide) {
-                for (int i = 0; i < 5; i++) {
-                    double x = this.getX() + this.getBbWidth() / 2;
-                    double y = this.getY() + this.getBbHeight() / 2;
-                    double z = this.getZ() + this.getBbWidth() / 2;
-                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
-                }
+                this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
             this.discard(); // Despawn
         }
@@ -95,22 +93,29 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     public void onHitBlock(BlockHitResult hit) {
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
             if (!this.level().isClientSide) {
-                for (int i = 0; i < 5; i++) {
-                    double x = this.getX() + this.getBbWidth() / 2;
-                    double y = this.getY() + this.getBbHeight() / 2;
-                    double z = this.getZ() + this.getBbWidth() / 2;
-                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
-                }
+                this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
             this.discard(); // Despawn on side hit
         } else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
-            for (int i = 0; i < 5; i++) {
-                double x = this.getX() + this.getBbWidth() / 2;
+
+            int numParticles = 5; // Number of particles to spawn in the circle
+            double radius = 0.25;  // Radius of the circle around the fireball
+
+            for (int i = 0; i < numParticles; i++) {
+                // Calculate angle for each particle
+                double angle = 2 * Math.PI * i / numParticles;
+
+                // Calculate the X and Z offset using sine and cosine to spread in a circle
+                double offsetX = Math.cos(angle) * radius;
+                double offsetZ = Math.sin(angle) * radius;
+
+                double x = this.getX() + offsetX;
                 double y = this.getY() - this.getBbHeight();
-                double z = this.getZ() + this.getBbWidth() / 2;
-                this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+                double z = this.getZ() + offsetZ;
+
+                this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
             }
         }
     }
@@ -163,12 +168,25 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
     }
 
-
-    protected void doKnockback(LivingEntity p_346111_, DamageSource p_346412_) {
-        double d1 = Math.max(0.0, 1.0 - p_346111_.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+    public void doKnockback(LivingEntity entity, DamageSource source) {
+        double d1 = Math.max(0.0, 1.0 - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
         Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.6 * d1);
         if (vec3.lengthSqr() > 0.0) {
-            p_346111_.push(vec3.x, 0.2, vec3.z);
+            entity.push(vec3.x, 0.2, vec3.z);
         }
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 60) {
+            if (this.level().isClientSide) {
+                for (int i = 0; i < 10; i++) {
+                    double x = this.getX() + this.getBbWidth() / 2;
+                    double y = this.getY() + this.getBbHeight() / 2;
+                    double z = this.getZ() + this.getBbWidth() / 2;
+                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+                }
+            }
+        } else super.handleEntityEvent(id);
     }
 }
