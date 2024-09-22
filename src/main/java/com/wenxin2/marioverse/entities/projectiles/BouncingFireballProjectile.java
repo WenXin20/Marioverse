@@ -1,10 +1,12 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
+import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -75,6 +77,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             if (!this.level().isClientSide) {
                 this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn
         }
 
@@ -92,11 +96,15 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             if (!this.level().isClientSide) {
                 this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn on side hit
         } else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
             this.level().broadcastEntityEvent(this, (byte) 61); // Smoke particle
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
         }
     }
 
@@ -117,12 +125,16 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 player.igniteForSeconds(2.0F);
                 player.hurt(this.level().damageSources().onFire(), 2.0F);
                 this.doKnockback(player, this.level().damageSources().onFire());
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 livingEntity.igniteForSeconds(2.0F);
                 livingEntity.hurt(this.level().damageSources().onFire(), 2.0F);
                 this.doKnockback(livingEntity, this.level().damageSources().onFire());
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             }
         }
