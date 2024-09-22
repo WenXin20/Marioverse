@@ -27,7 +27,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BouncingFireballProjectile extends ThrowableProjectile implements GeoEntity {
-    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.bouncing_fireball.idle");
+    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.bouncing_fireball.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public BouncingFireballProjectile(EntityType<? extends BouncingFireballProjectile> entityType, Level world) {
@@ -36,11 +36,11 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 0, this::idleAnimController));
+        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimController));
     }
 
-    protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {
-        event.setAndContinue(IDLE_ANIM);
+    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
+        event.setAndContinue(WALK_ANIM);
         return PlayState.CONTINUE;
     }
 
