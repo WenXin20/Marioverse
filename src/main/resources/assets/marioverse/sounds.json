@@ -69,8 +69,16 @@
     { "name": "block/amethyst_cluster/break4", "stream": false }], "subtitle": "subtitles.marioverse.item.wrench_bound" },
 
 
+  "player.fireball_thrown": { "category": "player", "sounds": [{ "name": "marioverse:player/fireball_thrown", "stream": false }],
+    "subtitle": "subtitles.marioverse.player.fireball_thrown" },
   "player.one_up_collected": { "category": "player", "sounds": [{ "name": "marioverse:player/one_up_collected", "stream": false }],
     "subtitle": "subtitles.marioverse.player.one_up_collected" },
   "player.player_powers_up": { "category": "player", "sounds": [{ "name": "marioverse:player/player_powers_up", "stream": false }],
-    "subtitle": "subtitles.marioverse.player.player_powers_up" }
+    "subtitle": "subtitles.marioverse.player.player_powers_up" },
+
+
+  "projectile.fireball_sizzles": { "category": "ambient", "sounds": [{ "name": "random/fizz", "stream": false, "pitch": 1.0, "volume": 0.5 }],
+    "subtitle": "subtitles.marioverse.projectile.fireball_sizzles" },
+  "projectile.fireball_extinguished": { "category": "ambient", "sounds": [{ "name": "random/fizz", "stream": false }],
+    "subtitle": "subtitles.marioverse.projectile.fireball_extinguished" }
 }

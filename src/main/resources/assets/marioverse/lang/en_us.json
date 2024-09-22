@@ -108,8 +108,11 @@
   "subtitles.marioverse.block.water_spout.place": "Water Spout grows",
   "subtitles.marioverse.block.water_spout.step": "Footsteps",
   "subtitles.marioverse.item.wrench_bound": "Wrench bound",
+  "subtitles.marioverse.player.fireball_thrown": "Fireball thrown",
   "subtitles.marioverse.player.one_up_collected": "1-Up collected",
   "subtitles.marioverse.player.player_powers_up": "Player powers up",
+  "subtitles.marioverse.projectile.fireball_extinguished": "Fireball extinguished",
+  "subtitles.marioverse.projectile.fireball_sizzles": "Fireball sizzles",
 
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",

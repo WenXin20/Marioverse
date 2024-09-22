@@ -181,7 +181,10 @@ public abstract class PlayerMixin extends Entity {
         if (!world.isClientSide()) {
             BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
             fireball.setOwner(entity);
-            fireball.setPos(entity.getX(), entity.getEyeY() - 0.2, entity.getZ());
+            fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
+            fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
+            world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
 
             Vec3 look = entity.getLookAngle();
             fireball.setDeltaMovement(look.scale(0.5));

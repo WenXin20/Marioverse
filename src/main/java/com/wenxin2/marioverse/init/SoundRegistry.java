@@ -12,6 +12,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_EXTINGUISHED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_SIZZLES;
+    public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_THROWN;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
@@ -35,6 +38,7 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash")));
         BLOCK_SMASH_FAIL = Marioverse.SOUNDS.register("block.block_smash_fail",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash_fail")));
+
         COIN_PICKUP = Marioverse.SOUNDS.register("block.coin_pickup",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_pickup")));
         COIN_PLACE = Marioverse.SOUNDS.register("block.coin_place",
@@ -42,6 +46,13 @@ public class SoundRegistry {
 
         DAMAGE_TAKEN = Marioverse.SOUNDS.register("block.damage_taken",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.damage_taken")));
+
+        FIREBALL_EXTINGUISHED = Marioverse.SOUNDS.register("projectile.fireball_extinguished",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_extinguished")));
+        FIREBALL_SIZZLES = Marioverse.SOUNDS.register("projectile.fireball_sizzles",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_sizzles")));
+        FIREBALL_THROWN = Marioverse.SOUNDS.register("player.fireball_thrown",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.fireball_thrown")));
 
         ITEM_SPAWNS = Marioverse.SOUNDS.register("block.item_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.item_spawns")));
