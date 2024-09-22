@@ -27,7 +27,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BouncingFireballProjectile extends ThrowableProjectile implements GeoEntity {
-    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.fireball.idle");
+    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.bouncing_fireball.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     public static final int MAX_FIREBALLS = 2;
     public static final int FIREBALL_DELAY = 5;
@@ -40,14 +40,12 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 0, this::idleAnimController));
+        controllers.add(new AnimationController<>(this, "Idle", 0, this::idleAnimController));
     }
 
     protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {
-        if (this.isMoving()) {
-            event.setAndContinue(IDLE_ANIM);
-            return PlayState.CONTINUE;
-        } else return PlayState.CONTINUE;
+        event.setAndContinue(IDLE_ANIM);
+        return PlayState.CONTINUE;
     }
 
     @Override
@@ -77,8 +75,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         } else this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
 
         if (motion.length() > 0) {
-            this.setYRot((float) Math.toDegrees(Math.atan2(motion.z, motion.x)) + 90);
-            this.setXRot((float) Math.toDegrees(Math.atan2(motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z))));
+            this.setYRot((float) Math.toDegrees(Math.atan2(motion.z, motion.x)) + 270);
+            this.setXRot((float) Math.toDegrees(Math.atan2(-motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z))));
         }
 
         if (this.onGround() || this.tickCount > 400) {

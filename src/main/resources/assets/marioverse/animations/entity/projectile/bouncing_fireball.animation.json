@@ -12,7 +12,7 @@
 							"easing": "linear"
 						},
 						"1.0": {
-							"vector": [270, 0, 0],
+							"vector": [360, 0, 0],
 							"easing": "linear"
 						}
 					}

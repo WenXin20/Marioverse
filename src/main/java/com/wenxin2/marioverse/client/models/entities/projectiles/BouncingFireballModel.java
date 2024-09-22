@@ -13,6 +13,6 @@ public class BouncingFireballModel extends DefaultedEntityGeoModel<BouncingFireb
 
     @Override
     public RenderType getRenderType(BouncingFireballProjectile animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityCutoutNoCull(getTextureResource(animatable));
     }
 }
