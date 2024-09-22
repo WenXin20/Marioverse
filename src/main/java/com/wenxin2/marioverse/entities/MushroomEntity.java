@@ -60,7 +60,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        checkForCollisions();
+        this.checkForCollisions();
     }
 
     private boolean isMoving() {

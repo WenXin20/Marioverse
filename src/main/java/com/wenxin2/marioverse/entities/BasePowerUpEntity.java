@@ -36,7 +36,7 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        checkForCollisions();
+        this.checkForCollisions();
     }
 
     @Override

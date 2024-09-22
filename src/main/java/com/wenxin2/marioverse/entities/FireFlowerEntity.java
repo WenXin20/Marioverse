@@ -57,7 +57,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        checkForCollisions();
+        this.checkForCollisions();
     }
 
     @Override

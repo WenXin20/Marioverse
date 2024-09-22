@@ -47,7 +47,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        checkForCollisions();
+        this.checkForCollisions();
     }
 
     @Override

@@ -55,6 +55,7 @@
   "block.marioverse.pipe_bubbles": "Pipe Bubbles",
   "block.marioverse.water_spout": "Water Spout",
 
+  "entity.marioverse.bouncing_fireball": "Fireball",
   "entity.marioverse.fire_flower": "Fire Flower",
   "entity.marioverse.mushroom": "Mushroom",
   "entity.marioverse.one_up_mushroom": "1-Up Mushroom",
@@ -84,6 +85,9 @@
   "curios.identifier.shirt": "Shirt",
   "curios.identifier.pants": "Pants",
   "curios.identifier.shoes": "Shoes",
+
+  "key.marioverse.category": "Marioverse",
+  "key.marioverse.bouncing_fireball": "Fire Flower Shoot Fireball",
 
   "subtitles.marioverse.block.block_bonk": "Block bonked",
   "subtitles.marioverse.block.block_smash": "Block smashed",
