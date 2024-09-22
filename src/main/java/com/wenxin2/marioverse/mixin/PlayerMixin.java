@@ -22,6 +22,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -176,11 +177,11 @@ public abstract class PlayerMixin extends Entity {
     private static void marioverse$shootFireball(Entity entity) {
         Level world = entity.level();
         Player player = (Player) entity;
+
         if (!world.isClientSide()) {
             BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
             fireball.setOwner(entity);
             fireball.setPos(entity.getX(), entity.getEyeY() - 0.2, entity.getZ());
-            player.swing(player.getUsedItemHand());
 
             Vec3 look = entity.getLookAngle();
             fireball.setDeltaMovement(look.scale(0.5));
@@ -190,6 +191,10 @@ public abstract class PlayerMixin extends Entity {
             fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
             world.addFreshEntity(fireball);
+        }
+
+        if (world.isClientSide()) {
+            player.swing(InteractionHand.MAIN_HAND);
         }
     }
 
