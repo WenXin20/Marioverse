@@ -12,6 +12,10 @@ public class TagRegistry {
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "bonkable_blocks");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
     public static final TagKey<Block> ITEM_BRICK_BLOCKS = blockTags(Marioverse.MOD_ID, "storage_bricks");
+    public static final TagKey<Block> MELTS = blockTags(Marioverse.MOD_ID, "melts");
+    public static final TagKey<Block> MELTS_INTO_ICE = blockTags(Marioverse.MOD_ID, "melts_into_ice");
+    public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags(Marioverse.MOD_ID, "melts_into_packed_ice");
+    public static final TagKey<Block> MELTS_INTO_WATER = blockTags(Marioverse.MOD_ID, "melts_into_water");
     public static final TagKey<Block> QUESTION_BLOCK_BLOCKS = blockTags(Marioverse.MOD_ID, "question_blocks");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "smashable_blocks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "warp_pipes");

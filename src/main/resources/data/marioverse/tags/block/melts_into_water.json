@@ -1,0 +1,7 @@
+{
+  "_comment": "Blocks that will melt into water",
+  "replace": false,
+  "values": [
+    "minecraft:ice"
+  ]
+}

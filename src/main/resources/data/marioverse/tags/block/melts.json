@@ -1,0 +1,7 @@
+{
+  "_comment": "Blocks that will melt into nothing",
+  "replace": false,
+  "values": [
+    "minecraft:snow"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "_comment": "Blocks that will melt into packed ice",
+  "replace": false,
+  "values": [
+    "minecraft:blue_ice"
+  ]
+}

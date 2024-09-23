@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,6 +16,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -92,20 +95,38 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
     @Override
     public void onHitBlock(BlockHitResult hit) {
+        Level world = this.level();
+        BlockPos hitPos = hit.getBlockPos();
+        BlockState state = this.level().getBlockState(hitPos);
+        BlockState stateAbove = this.level().getBlockState(hitPos.above());
+
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            if (!this.level().isClientSide) {
-                this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            if (!world.isClientSide) {
+                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn on side hit
         } else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
-            this.level().broadcastEntityEvent(this, (byte) 61); // Smoke particle
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
+            world.broadcastEntityEvent(this, (byte) 61); // Smoke particle
+            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
         }
+
+        if (state.is(TagRegistry.MELTS))
+            world.removeBlock(hitPos, false);
+        else if (stateAbove.is(Blocks.SNOW))
+            world.removeBlock(hitPos.above(), false);
+        else if (state.is(TagRegistry.MELTS_INTO_WATER))
+            world.setBlock(hitPos, Blocks.WATER.defaultBlockState(), 3);
+        else if (state.is(TagRegistry.MELTS_INTO_ICE))
+            world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
+        else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
+            world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
+        else if (state.is(Blocks.WET_SPONGE))
+            world.setBlock(hitPos, Blocks.SPONGE.defaultBlockState(), 3);
     }
 
     public void checkForCollisions() {
