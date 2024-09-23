@@ -1,7 +1,9 @@
 package com.wenxin2.marioverse;
 
 import com.mojang.logging.LogUtils;
-import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
+import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.client.renderers.ArmorRenderingExtension;
+import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
@@ -13,11 +15,13 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
+import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -25,9 +29,11 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.slf4j.Logger;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Marioverse.MOD_ID)
@@ -43,6 +49,7 @@ public class Marioverse
 
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Marioverse.MOD_ID);
+    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_CODECS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, NeoForgeVersion.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
@@ -60,6 +67,7 @@ public class Marioverse
         PARTICLES.register(bus);
         MENUS.register(bus);
         SOUNDS.register(bus);
+        LOOT_CODECS.register(bus);
         LinkerDataComponents.COMPONENTS.register(bus);
         MarioverseCreativeTabs.TABS.register(bus);
 
@@ -85,7 +93,10 @@ public class Marioverse
     }
 
     private void clientSetup(final FMLClientSetupEvent event, final IEventBus eventBus) {
-        CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+//        CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(Items.DIAMOND_HELMET, () -> ArmorRenderingExtension.RENDERER);
         MarioverseClient.setup(eventBus);
 //        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_HAT.get(), FireFlowerCostumeRenderer::new);
 //        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_SHIRT.get(), FireFlowerCostumeRenderer::new);
