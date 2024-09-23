@@ -11,10 +11,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public class OneUpRenderer implements ICurioRenderer {
+    @OnlyIn(Dist.CLIENT)
     public static void render(LivingEntity livingEntity, EntityModel<? extends LivingEntity> model,
                               PoseStack poseStack, ItemStack stack, MultiBufferSource buffer,
                               int light) {
