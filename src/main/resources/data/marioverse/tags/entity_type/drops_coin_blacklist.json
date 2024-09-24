@@ -1,0 +1,7 @@
+{
+  "_comment": "Blacklist to prevent entities from dropping coins when killed by fire",
+  "replace": false,
+  "values": [
+    { "id": "#marioverse:power_ups", "required": false }
+  ]
+}

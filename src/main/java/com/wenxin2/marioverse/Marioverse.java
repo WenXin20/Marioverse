@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
+import com.wenxin2.marioverse.init.LootCodecRegistry;
 import com.wenxin2.marioverse.init.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
@@ -78,6 +79,7 @@ public class Marioverse
         MenuRegistry.init();
         ParticleRegistry.init();
         SoundRegistry.init();
+        LootCodecRegistry.register();
         ConfigRegistry.register(container);
 
         if (dist.isClient()) {

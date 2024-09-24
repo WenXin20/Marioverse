@@ -23,11 +23,8 @@ public interface ArmorRenderingExtension<T extends LivingEntity> {
             var entityRender = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(reference.entity());
 
             if (!(entityRender instanceof LivingEntityRendererMixinAccessor<?, ?> accessor)) return;
-
             if (!(stack.getItem() instanceof Equipable equipable)) return;
-
             var equipmentSlot = equipable.getEquipmentSlot();
-
             var possibleLayer = accessor.getLayers().stream()
                     .filter(renderLayer -> renderLayer instanceof ArmorRenderingExtension)
                     .findFirst();

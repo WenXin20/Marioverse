@@ -1,0 +1,47 @@
+{
+  "type": "neoforge:add_table",
+  "table": "marioverse:entities/coin_from_burning_mobs",
+  "conditions": [
+    {
+      "condition": "minecraft:any_of",
+      "terms": [
+        {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "tags": [
+              {
+                "id": "minecraft:burn_from_stepping",
+                "expected": true
+              }
+            ]
+          }
+        },
+        {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "tags": [
+              {
+                "id": "minecraft:is_fire",
+                "expected": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "minecraft:entity_properties",
+        "entity": "this",
+        "predicate": {
+          "type": "#marioverse:drops_coin_blacklist"
+        }
+      }
+    },
+    {
+      "condition": "minecraft:random_chance",
+      "chance": 1
+    }
+  ]
+}

@@ -2,6 +2,7 @@
   "_comment": "Blocks that will melt into water",
   "replace": false,
   "values": [
+    "minecraft:frosted_ice",
     "minecraft:ice"
   ]
 }
