@@ -8,6 +8,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -115,18 +120,34 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     SoundSource.AMBIENT, 1.0F, 1.0F);
         }
 
-        if (state.is(TagRegistry.MELTS))
+        if (state.is(Blocks.SNOW)) {
             world.removeBlock(hitPos, false);
-        else if (stateAbove.is(Blocks.SNOW))
+            ParticleUtils.spawnParticleOnFace(world, hitPos, Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
+        }
+        else if (state.is(TagRegistry.MELTS))
+            world.removeBlock(hitPos, false);
+        else if (stateAbove.is(Blocks.SNOW) || stateAbove.is(Blocks.POWDER_SNOW)) {
             world.removeBlock(hitPos.above(), false);
+            ParticleUtils.spawnParticleOnFace(world, hitPos.above(), Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
+        }
         else if (state.is(TagRegistry.MELTS_INTO_WATER))
             world.setBlock(hitPos, Blocks.WATER.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_ICE))
             world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
+        else if (state.is(BlockTags.SOUL_FIRE_BASE_BLOCKS) && world.getBlockState(hitPos.above()).isAir())
+            world.setBlock(hitPos.above(), Blocks.SOUL_FIRE.defaultBlockState(), 3);
+        else if (state.is(TagRegistry.FIREBALL_SETS_ON_FIRE) && world.getBlockState(hitPos.above()).isAir())
+            world.setBlock(hitPos.above(), Blocks.FIRE.defaultBlockState(), 3);
         else if (state.is(Blocks.WET_SPONGE))
             world.setBlock(hitPos, Blocks.SPONGE.defaultBlockState(), 3);
+        else if (state.getBlock() instanceof CampfireBlock)
+            world.setBlock(hitPos, state.setValue(CampfireBlock.LIT, Boolean.TRUE), 3);
+        else if (state.getBlock() instanceof CandleBlock)
+            world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.TRUE), 3);
+        else if (state.getBlock() instanceof CandleCakeBlock)
+            world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.TRUE), 3);
     }
 
     public void checkForCollisions() {

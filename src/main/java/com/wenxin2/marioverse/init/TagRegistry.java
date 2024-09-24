@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Block;
 public class TagRegistry {
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "bonkable_blocks");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
+    public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags(Marioverse.MOD_ID, "fireball_sets_on_fire");
     public static final TagKey<Block> ITEM_BRICK_BLOCKS = blockTags(Marioverse.MOD_ID, "storage_bricks");
     public static final TagKey<Block> MELTS = blockTags(Marioverse.MOD_ID, "melts");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags(Marioverse.MOD_ID, "melts_into_ice");
