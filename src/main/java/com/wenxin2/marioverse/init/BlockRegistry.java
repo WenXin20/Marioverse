@@ -231,6 +231,5 @@ public class BlockRegistry {
         return false;
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }

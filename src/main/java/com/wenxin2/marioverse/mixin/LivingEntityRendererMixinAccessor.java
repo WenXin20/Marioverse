@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.client.renderers;
+package com.wenxin2.marioverse.mixin;
 
 import java.util.List;
 import net.minecraft.client.model.EntityModel;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(LivingEntityRenderer.class)
-public interface LivingEntityRendererAccessor<T extends LivingEntity, M extends EntityModel<T>> {
+public interface LivingEntityRendererMixinAccessor<T extends LivingEntity, M extends EntityModel<T>> {
     @Accessor("layers")
     List<RenderLayer<T, M>> getLayers();
 }
