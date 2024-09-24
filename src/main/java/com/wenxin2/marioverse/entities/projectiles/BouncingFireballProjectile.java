@@ -62,10 +62,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         return this.geoCache;
     }
 
-    private boolean isMoving() {
-        return this.getDeltaMovement().lengthSqr() >= 0.0;
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
@@ -124,13 +120,13 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
 
         if (state.is(Blocks.SNOW)) {
-            world.removeBlock(hitPos, false);
+            world.removeBlock(hitPos, Boolean.FALSE);
             ParticleUtils.spawnParticleOnFace(world, hitPos, Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
         }
         else if (state.is(TagRegistry.MELTS))
-            world.removeBlock(hitPos, false);
+            world.removeBlock(hitPos, Boolean.FALSE);
         else if (stateAbove.is(Blocks.SNOW) || stateAbove.is(Blocks.POWDER_SNOW)) {
-            world.removeBlock(hitPos.above(), false);
+            world.removeBlock(hitPos.above(), Boolean.FALSE);
             ParticleUtils.spawnParticleOnFace(world, hitPos.above(), Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
         }
         else if (state.is(TagRegistry.MELTS_INTO_WATER))
@@ -153,7 +149,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.TRUE), 3);
         else if (state.getBlock() instanceof TntBlock) {
             PrimedTnt primedtnt = new PrimedTnt(world, hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5, null);
-            world.removeBlock(hitPos, false);
+            world.removeBlock(hitPos, Boolean.FALSE);
             world.addFreshEntity(primedtnt);
         }
         super.onHitBlock(hit);
