@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.client.renderers.ArmorRenderingExtension;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import software.bernie.geckolib.util.Color;
 
 @Mixin(HumanoidArmorLayer.class)
 public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends HumanoidModel<T>> implements ArmorRenderingExtension<T> {
@@ -33,7 +37,15 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends 
     public void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int light) {
         this.tempStack = stack;
 
-        this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot));
+        HumanoidModel<?> geckolibModel = GeoRenderProvider.of(stack).getGeoArmorRenderer(livingEntity, stack, equipmentSlot, this.getArmorModel(equipmentSlot));
+
+        if (geckolibModel instanceof GeoArmorRenderer<?> geoArmorRenderer) {
+            geoArmorRenderer.prepForRender(livingEntity, stack, equipmentSlot, geckolibModel);
+            geoArmorRenderer.renderToBuffer(poseStack, null,
+                    light, OverlayTexture.NO_OVERLAY, Color.WHITE.argbInt());
+        } else {
+            this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot));
+        }
 
         this.tempStack = null;
     }
