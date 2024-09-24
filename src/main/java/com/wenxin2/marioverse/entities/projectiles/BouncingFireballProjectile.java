@@ -15,13 +15,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
+import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -148,6 +151,12 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.TRUE), 3);
         else if (state.getBlock() instanceof CandleCakeBlock)
             world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.TRUE), 3);
+        else if (state.getBlock() instanceof TntBlock) {
+            PrimedTnt primedtnt = new PrimedTnt(world, hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5, null);
+            world.removeBlock(hitPos, false);
+            world.addFreshEntity(primedtnt);
+        }
+        super.onHitBlock(hit);
     }
 
     public void checkForCollisions() {
@@ -178,7 +187,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
-            }
+            } else if (entity instanceof MinecartTNT tnt)
+                tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
         }
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
