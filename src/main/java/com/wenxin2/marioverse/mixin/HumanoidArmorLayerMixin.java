@@ -30,10 +30,10 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends 
     private ItemStack tempStack = null;
 
     @Override
-    public void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int i) {
+    public void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int light) {
         this.tempStack = stack;
 
-        this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, i, this.getArmorModel(equipmentSlot));
+        this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot));
 
         this.tempStack = null;
     }

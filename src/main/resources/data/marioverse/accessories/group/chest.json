@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "order": 101,
+  "slots": [
+    "costume_shirt"
+  ],
+  "icon": "accessories:gui/group/chest"
+}

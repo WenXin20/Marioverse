@@ -16,7 +16,10 @@ public interface ArmorRenderingExtension<T extends LivingEntity> {
 
     AccessoryRenderer RENDERER = new AccessoryRenderer() {
         @Override
-        public <M extends LivingEntity> void render(ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<M> model, MultiBufferSource multiBufferSource, int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        public <M extends LivingEntity> void render(ItemStack stack, SlotReference reference, PoseStack matrices,
+                                                    EntityModel<M> model, MultiBufferSource multiBufferSource,
+                                                    int light, float limbSwing, float limbSwingAmount, float partialTicks,
+                                                    float ageInTicks, float netHeadYaw, float headPitch) {
             var entityRender = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(reference.entity());
 
             if (!(entityRender instanceof LivingEntityRendererMixinAccessor<?, ?> accessor)) return;
@@ -29,11 +32,13 @@ public interface ArmorRenderingExtension<T extends LivingEntity> {
                     .filter(renderLayer -> renderLayer instanceof ArmorRenderingExtension)
                     .findFirst();
 
-            possibleLayer.ifPresent(layer -> ((ArmorRenderingExtension) layer).renderEquipmentStack(stack, matrices, multiBufferSource, reference.entity(), equipmentSlot, light));
+            possibleLayer.ifPresent(layer -> ((ArmorRenderingExtension) layer)
+                    .renderEquipmentStack(stack, matrices, multiBufferSource, reference.entity(), equipmentSlot, light));
         }
     };
 
-    default void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int i) {
+    default void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource,
+                                      T livingEntity, EquipmentSlot equipmentSlot, int light) {
         throw new IllegalStateException("Injected interface method is unimplemented!");
     }
 }

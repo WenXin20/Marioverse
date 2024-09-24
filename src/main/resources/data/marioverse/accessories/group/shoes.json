@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "order": 103,
+  "slots": [
+    "costume_shoes"
+  ],
+  "icon": "accessories:gui/group/feet"
+}

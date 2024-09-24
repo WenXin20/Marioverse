@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "entities": [
+    "#accessories:defaulted_targets"
+  ],
+  "slots": [
+    "costume_hat",
+    "costume_pants",
+    "costume_shirt",
+    "costume_shoes"
+  ]
+}

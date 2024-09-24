@@ -1,5 +1,5 @@
 {
-  "_comment": "Tag for accessories that can be equipped in the hat slot",
+  "_comment": "Tag for accessories that can be equipped in the cap slot",
   "replace": false,
   "values": [
     { "id": "minecraft:diamond_helmet", "required": false },

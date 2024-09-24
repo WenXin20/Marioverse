@@ -1,9 +1,9 @@
 {
   "replace": false,
   "validators": [ "accessories:tag" ],
-  "icon": "marioverse:slot/empty_hat_slot",
+  "icon": "marioverse:slot/empty_shoes_slot",
   "operation": "set",
   "drop_rule": "destroy",
   "amount": 1,
-  "order": 1001
+  "order": 101
 }

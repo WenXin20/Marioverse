@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.client.renderers.accesories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import io.wispforest.accessories.api.client.AccessoryRenderer;
 import io.wispforest.accessories.api.client.SimpleAccessoryRenderer;
@@ -9,6 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,14 +21,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public interface SimpleItemRenderer extends AccessoryRenderer {
-//    @OnlyIn(Dist.CLIENT)
-//    @Override
-//    default <M extends LivingEntity> void align(ItemStack stack, SlotReference reference, EntityModel<M> model, PoseStack poseStack) {
-//        align(stack, reference, (HumanoidModel<M>) model, poseStack);
-//    }
-//
-//    @OnlyIn(Dist.CLIENT)
-//    <M extends LivingEntity> void align(ItemStack stack, SlotReference reference, HumanoidModel<M> model, PoseStack matrices);
 
     @Override
     default <M extends LivingEntity> void render(ItemStack stack, SlotReference slotReference, PoseStack poseStack,
@@ -34,8 +29,6 @@ public interface SimpleItemRenderer extends AccessoryRenderer {
                                                         float ageInTicks, float netHeadYaw, float headPitch) {
         if (ConfigRegistry.RENDER_ONE_UP_CURIO.get()) {
             poseStack.pushPose();
-//                if (model instanceof HumanoidModel<M> humanoidModel)
-//                    AccessoryRenderer.followBodyRotations(slotReference.entity(), (HumanoidModel<M>) humanoidModel);
             poseStack.mulPose(Direction.UP.getRotation());
             poseStack.translate(0.15F, 0.45F, -0.13F);
             poseStack.scale(0.25F, 0.25F, 0.25F);
@@ -51,4 +44,21 @@ public interface SimpleItemRenderer extends AccessoryRenderer {
                                           HumanoidModel<LivingEntity> model, MultiBufferSource buffer,
                                           int light, float limbSwing, float limbSwingAmount, float partialTicks,
                                           float ageInTicks, float netHeadYaw, float headPitch);
+
+    default void translateIfSneaking(PoseStack poseStack, LivingEntity livingEntity) {
+        if (livingEntity.isCrouching()) {
+            poseStack.translate(0.0F, 0.1875F, 0.0F);
+        }
+    }
+
+    default void rotateIfSneaking(PoseStack poseStack, LivingEntity livingEntity, HumanoidModel<LivingEntity> model) {
+        if (livingEntity.isCrouching()) {
+            EntityRenderer<? super LivingEntity> render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(livingEntity);
+            if (render instanceof LivingEntityRenderer) {
+                if (model instanceof HumanoidModel) {
+                    poseStack.mulPose(Axis.XP.rotation(model.body.xRot));
+                }
+            }
+        }
+    }
 }

@@ -13,6 +13,8 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
@@ -34,13 +36,16 @@ public class OneUpRenderer implements SimpleItemRenderer {
                                                 float ageInTicks, float netHeadYaw, float headPitch) {
         if (ConfigRegistry.RENDER_ONE_UP_CURIO.get()) {
             poseStack.pushPose();
-                AccessoryRenderer.followBodyRotations(slotReference.entity(), model);
-                poseStack.mulPose(Direction.UP.getRotation());
-                poseStack.translate(0.15F, 0.45F, -0.13F);
-                poseStack.scale(0.25F, 0.25F, 0.25F);
                 Minecraft.getInstance().getItemRenderer()
                         .renderStatic(stack, ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY,
                                 poseStack, buffer, slotReference.entity().level(), 0);
+
+                AccessoryRenderer.followBodyRotations(slotReference.entity(), model);
+                poseStack.mulPose(Direction.DOWN.getRotation());
+                poseStack.translate(0.15F, 0.45F, -0.13F);
+                poseStack.scale(0.25F, 0.25F, 0.25F);
+                this.translateIfSneaking(poseStack, slotReference.entity());
+                this.rotateIfSneaking(poseStack, slotReference.entity(), model);
             poseStack.popPose();
         }
     }

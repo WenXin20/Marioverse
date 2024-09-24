@@ -81,6 +81,11 @@
   "item.marioverse.pipe_wrench.tooltip.right_click": "Right-click: Opens pipe GUI",
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "Shift-right-click: Binds pipes",
 
+  "accessories.slot.costume_hat": "Costume Hat",
+  "accessories.slot.costume_shirt": "Costume Shirt",
+  "accessories.slot.costume_pants": "Costume Pants",
+  "accessories.slot.costume_shoes": "Costume Shoes",
+
   "curios.identifier.hat": "Hat",
   "curios.identifier.shirt": "Shirt",
   "curios.identifier.pants": "Pants",

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "order": 100,
+  "slots": [
+    "costume_hat"
+  ],
+  "icon": "accessories:gui/group/head"
+}

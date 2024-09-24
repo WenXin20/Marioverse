@@ -96,8 +96,9 @@ public class Marioverse
 //        CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(Items.DIAMOND_HELMET, () -> ArmorRenderingExtension.RENDERER);
-        MarioverseClient.setup(eventBus);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
 //        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_HAT.get(), FireFlowerCostumeRenderer::new);
 //        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_SHIRT.get(), FireFlowerCostumeRenderer::new);
 //        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_PANTS.get(), FireFlowerCostumeRenderer::new);
