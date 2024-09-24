@@ -7,9 +7,9 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
-import com.wenxin2.marioverse.event_handlers.KeybindHandler;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
+import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
@@ -84,7 +84,7 @@ public abstract class PlayerMixin extends Entity {
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
 
-        if (KeybindHandler.FIREBALL_SHOOT_KEY.isDown() || this.isSprinting()) {
+        if (KeybindRegistry.FIREBALL_SHOOT_KEY.isDown() || this.isSprinting()) {
             this.marioverse$handleFireballShooting(this);
         }
 
@@ -162,13 +162,11 @@ public abstract class PlayerMixin extends Entity {
     public void marioverse$handleFireballShooting(Entity entity) {
         // Check if the player can shoot a fireball
         if (marioverse$fireballCooldown == 0 && marioverse$fireballCount < MAX_FIREBALLS) {
-            if ((KeybindHandler.FIREBALL_SHOOT_KEY.isDown() || entity.isSprinting())) {
                 marioverse$shootFireball(entity);
                 marioverse$fireballCooldown = FIREBALL_DELAY; // Reset cooldown
                 marioverse$fireballCount++; // Increase active fireball count
-            }
         } else if (marioverse$fireballCount >= MAX_FIREBALLS) {
-            marioverse$fireballCooldown = FIREBALL_DELAY_2;
+            marioverse$fireballCooldown = FIREBALL_DELAY_2; // Reset with higher cooldown
             marioverse$fireballCount = 0;
         }
     }
