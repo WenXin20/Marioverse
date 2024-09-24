@@ -99,8 +99,36 @@ public class MarioverseCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
+
             addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
+            addAfter(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
+
+            addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_BRICKS.get(), BlockRegistry.SMASHABLE_BRICKS.get());
+
+            addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.NETHER_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get(), BlockRegistry.STORAGE_NETHER_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_NETHER_BRICKS.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
+
+            addAfter(event, BlockRegistry.SMASHABLE_NETHER_BRICKS.get(), BlockRegistry.RED_NETHER_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.STORAGE_RED_NETHER_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(), BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get());
+
+            addAfter(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get(), BlockRegistry.END_STONE_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.END_STONE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get(), BlockRegistry.STORAGE_END_STONE_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_END_STONE_BRICKS.get(), BlockRegistry.SMASHABLE_END_STONE_BRICKS.get());
+
+            addAfter(event, BlockRegistry.SMASHABLE_END_STONE_BRICKS.get(), BlockRegistry.PURPUR_QUESTION_BLOCK.get());
+            addAfter(event, BlockRegistry.PURPUR_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get());
+            addAfter(event, BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_PURPUR_BLOCK.get());
+            addAfter(event, BlockRegistry.STORAGE_PURPUR_BLOCK.get(), BlockRegistry.SMASHABLE_PURPUR_BLOCK.get());
 
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
                 addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), pipe.get());
