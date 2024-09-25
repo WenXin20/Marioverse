@@ -69,9 +69,5 @@ public class FireballShootPacket {
 
             world.addFreshEntity(fireball);
         }
-
-        if (world.isClientSide()) {
-            player.swing(InteractionHand.MAIN_HAND);
-        }
     }
 }
