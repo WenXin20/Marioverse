@@ -28,21 +28,23 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public class OneUpRenderer implements SimpleItemRenderer {
-    @OnlyIn(Dist.CLIENT)
     @Override
     public <M extends LivingEntity> void render(ItemStack stack, SlotReference slotReference, PoseStack poseStack,
-                                                HumanoidModel<LivingEntity> model, MultiBufferSource buffer,
+                                                EntityModel<M> model, MultiBufferSource buffer,
                                                 int light, float limbSwing, float limbSwingAmount, float partialTicks,
                                                 float ageInTicks, float netHeadYaw, float headPitch) {
         if (ConfigRegistry.RENDER_ONE_UP_CURIO.get()) {
             poseStack.pushPose();
                 this.translateIfSneaking(poseStack, slotReference.entity());
-                this.rotateIfSneaking(poseStack, slotReference.entity(), model);
-
-                AccessoryRenderer.followBodyRotations(slotReference.entity(), model);
+                EntityRenderer<? super LivingEntity> render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(slotReference.entity());
+                if (render instanceof LivingEntityRenderer) {
+                    if (model instanceof HumanoidModel humanoidModel) {
+                        this.rotateIfSneaking(poseStack, slotReference.entity(), humanoidModel);
+                    }
+                }
                 poseStack.mulPose(Direction.DOWN.getRotation());
-                poseStack.translate(0.15F, 0.45F, -0.13F);
-                    poseStack.scale(0.25F, 0.25F, 0.25F);
+                poseStack.translate(0.15F, -0.35F, 0.15F);
+                poseStack.scale(0.25F, 0.25F, 0.45F);
                 Minecraft.getInstance().getItemRenderer()
                         .renderStatic(stack, ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY,
                                 poseStack, buffer, slotReference.entity().level(), 0);

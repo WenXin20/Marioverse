@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import io.wispforest.accessories.api.client.AccessoryRenderer;
-import io.wispforest.accessories.api.client.SimpleAccessoryRenderer;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -17,8 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public interface SimpleItemRenderer extends AccessoryRenderer {
 
@@ -38,12 +35,6 @@ public interface SimpleItemRenderer extends AccessoryRenderer {
             poseStack.popPose();
         }
     }
-
-    @OnlyIn(Dist.CLIENT)
-    <M extends LivingEntity> void render (ItemStack stack, SlotReference slotReference, PoseStack poseStack,
-                                          HumanoidModel<LivingEntity> model, MultiBufferSource buffer,
-                                          int light, float limbSwing, float limbSwingAmount, float partialTicks,
-                                          float ageInTicks, float netHeadYaw, float headPitch);
 
     default void translateIfSneaking(PoseStack poseStack, LivingEntity livingEntity) {
         if (livingEntity.isCrouching()) {
