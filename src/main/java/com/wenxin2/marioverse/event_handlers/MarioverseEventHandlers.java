@@ -181,10 +181,11 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        int fireballCount = player.getPersistentData().getInt("marioverse:fireball_count");
-        int fireballCooldown = player.getPersistentData().getInt("marioverse:fireball_cooldown");
 
         if (player != null && (player.isSprinting() || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
+            int fireballCount = player.getPersistentData().getInt("marioverse:fireball_count");
+            int fireballCooldown = player.getPersistentData().getInt("marioverse:fireball_cooldown");
+            
                 PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
             if (Minecraft.getInstance().level!= null && Minecraft.getInstance().level.isClientSide()
                     && fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
