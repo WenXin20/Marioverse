@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.Optional;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -46,32 +47,17 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
 
             if (entity instanceof Player player && !player.isSpectator()
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
-                Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosInventory(player);
+                AccessoriesCapability capability = AccessoriesCapability.get(player);
                 ItemStack offhandStack = player.getOffhandItem();
 
-                if (curiosHandler.isPresent()) {
-                    ICuriosItemHandler handler = curiosHandler.get();
-                    Optional<SlotResult> charmSlot = handler.findCurio("charm", 0);
-                    if (charmSlot.isEmpty()) {
-                        handler.setEquippedCurio("charm", 0, item.asItem().getDefaultInstance());
-                    } else if (!charmSlot.get().stack().isEmpty()) {
-                        ItemStack itemInSlot = charmSlot.get().stack();
-                        if (!(itemInSlot.getCount() >= 8)) {
-                            itemInSlot.grow(1);
-                        } else if (offhandStack.isEmpty())
-                            player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-                        else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
-                            if (offhandStack.getCount() >= 8) {
-                                player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
-                            } else offhandStack.grow(1);
-                        }
-                    }
+                if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
                 } else if (offhandStack.isEmpty())
                     player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
                 else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
                     if (offhandStack.getCount() >= 8) {
                         player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
-                    }
+                    } else offhandStack.grow(1);
                 }
 
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
