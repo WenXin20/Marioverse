@@ -6,10 +6,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.EntityRegistry;
-import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
@@ -22,7 +19,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,7 +37,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -59,17 +54,6 @@ public abstract class PlayerMixin extends Entity {
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 40;
     @Unique
-    private static final int MAX_FIREBALLS = 2;
-    @Unique
-    private static final int FIREBALL_DELAY = 5;
-    @Unique
-    private static final int FIREBALL_DELAY_2 = 50;
-
-    @Unique
-    private int marioverse$fireballCooldown = 0; // add config
-    @Unique
-    private int marioverse$fireballCount = 0;
-    @Unique
     private int marioverse$warpCooldown;
 
     public PlayerMixin(EntityType<?> entityType, Level world) {
@@ -83,14 +67,7 @@ public abstract class PlayerMixin extends Entity {
         BlockPos posAboveEntity = pos.above(Math.round(this.getBbHeight()));
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
-
-        if (KeybindRegistry.FIREBALL_SHOOT_KEY.isDown() || this.isSprinting()) {
-            this.marioverse$handleFireballShooting(this);
-        }
-
-        if (marioverse$fireballCooldown > 0) {
-            marioverse$fireballCooldown--;
-        }
+        int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -110,6 +87,10 @@ public abstract class PlayerMixin extends Entity {
 
         if (this.marioverse$warpCooldown > 0) {
             --this.marioverse$warpCooldown;
+        }
+
+        if (fireballCooldown > 0) {
+            this.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
         }
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
@@ -156,47 +137,6 @@ public abstract class PlayerMixin extends Entity {
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
         this.marioverse$warpCooldown = cooldown;
-    }
-
-    @Unique
-    public void marioverse$handleFireballShooting(Entity entity) {
-        // Check if the player can shoot a fireball
-        if (marioverse$fireballCooldown == 0 && marioverse$fireballCount < MAX_FIREBALLS) {
-                marioverse$shootFireball(entity);
-                marioverse$fireballCooldown = FIREBALL_DELAY; // Reset cooldown
-                marioverse$fireballCount++; // Increase active fireball count
-        } else if (marioverse$fireballCount >= MAX_FIREBALLS) {
-            marioverse$fireballCooldown = FIREBALL_DELAY_2; // Reset with higher cooldown
-            marioverse$fireballCount = 0;
-        }
-    }
-
-    @Unique
-    private static void marioverse$shootFireball(Entity entity) {
-        Level world = entity.level();
-        Player player = (Player) entity;
-
-        if (!world.isClientSide()) {
-            BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
-            fireball.setOwner(entity);
-            fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
-            fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-            world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
-
-            Vec3 look = entity.getLookAngle();
-            fireball.setDeltaMovement(look.scale(0.5));
-
-            // Set the fireball's rotation based on the look direction
-            fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90); // Adjust for correct facing
-            fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
-
-            world.addFreshEntity(fireball);
-        }
-
-        if (world.isClientSide()) {
-            player.swing(InteractionHand.MAIN_HAND);
-        }
     }
 
     @Unique
@@ -334,7 +274,6 @@ public abstract class PlayerMixin extends Entity {
         if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
                 && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-//            WarpData warpData = WarpProxy.getInstance().getWarp(warpPipeBE.warpUuid);
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 

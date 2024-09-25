@@ -5,9 +5,13 @@ import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import java.util.Optional;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -19,8 +23,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -34,14 +41,25 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
-        CompoundTag tag = event.getEntity().getPersistentData();
-        if (!(event.getEntity() instanceof LivingEntity) && !(event.getEntity() instanceof Player)) return;
+        Entity entity = event.getEntity();
+        CompoundTag tag = entity.getPersistentData();
+
+        if (!(entity instanceof LivingEntity)) return;
 
         if (!tag.contains("marioverse:prevent_warp"))
             tag.putBoolean("marioverse:prevent_warp", false);
 
-        if (!tag.contains("marioverse:has_fire_flower") && event.getEntity().getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+        if (!tag.contains("marioverse:has_fire_flower")
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
             tag.putBoolean("marioverse:has_fire_flower", false);
+
+        if (!tag.contains("marioverse:fireball_cooldown") && entity instanceof Player
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+            tag.putInt("marioverse:fireball_cooldown", 0);
+
+        if (!tag.contains("marioverse:fireball_count") && entity instanceof Player
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+            tag.putInt("marioverse:fireball_count", 0);
 
         if (!tag.contains("marioverse:has_mushroom"))
             tag.putBoolean("marioverse:has_mushroom", false);
@@ -174,6 +192,15 @@ public class MarioverseEventHandlers {
                 // Update the last clicked position
                 WarpPipeScreen.lastClickedPos = clickedPos;
             }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        Player player = Minecraft.getInstance().player;
+        if (player != null && (player.isSprinting() || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
+                PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
         }
     }
 }
