@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
-import java.util.Optional;
+import io.wispforest.accessories.api.AccessoriesCapability;
 import net.minecraft.core.NonNullList;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -23,8 +23,6 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.fire_flower.idle");
@@ -66,8 +64,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
             if (entity instanceof Player player && !player.isSpectator()
                     && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST)) {
-                NonNullList<ItemStack> armor = player.getInventory().armor;
-                Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(player);
+                AccessoriesCapability capability = AccessoriesCapability.get(player);
 
                 if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                     player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
@@ -79,20 +76,11 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
                 }
 
-                if (curiosInventory.isPresent()) {
-                    curiosInventory.get().setEquippedCurio("hat", 0, new ItemStack(ItemRegistry.FIRE_FLOWER_HAT.get()));
-                    curiosInventory.get().setEquippedCurio("shirt", 0, new ItemStack(ItemRegistry.FIRE_FLOWER_SHIRT.get()));
-                    curiosInventory.get().setEquippedCurio("pants", 0, new ItemStack(ItemRegistry.FIRE_FLOWER_PANTS.get()));
-                    curiosInventory.get().setEquippedCurio("shoes", 0, new ItemStack(ItemRegistry.FIRE_FLOWER_SHOES.get()));
-                } else {
-                    if (armor.get(3).isEmpty())
-                        armor.set(3, new ItemStack(ItemRegistry.FIRE_FLOWER_HAT.get()));
-                    if (armor.get(2).isEmpty())
-                        armor.set(2, new ItemStack(ItemRegistry.FIRE_FLOWER_SHIRT.get()));
-                    if (armor.get(1).isEmpty())
-                        armor.set(1, new ItemStack(ItemRegistry.FIRE_FLOWER_PANTS.get()));
-                    if (armor.getFirst().isEmpty())
-                        armor.set(0, new ItemStack(ItemRegistry.FIRE_FLOWER_SHOES.get()));
+                if (capability != null) {
+                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_HAT.get()));
+                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_SHIRT.get()));
+                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_PANTS.get()));
+                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_SHOES.get()));
                 }
 
                 if (player.getHealth() < player.getMaxHealth())

@@ -10,17 +10,18 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
+import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.Optional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -32,8 +33,6 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
@@ -74,8 +73,7 @@ public class MarioverseEventHandlers {
         Level world = event.getEntity().level();
 
         if (event.getEntity() instanceof Player player) {
-            NonNullList<ItemStack> armor = player.getInventory().armor;
-            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(player);
+            AccessoriesCapability capability = AccessoriesCapability.get(player);
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
             tag.putBoolean("marioverse:has_fire_flower", false);
@@ -94,27 +92,12 @@ public class MarioverseEventHandlers {
                 }
             }
 
-            if (curiosInventory.isPresent()) {
-                if (curiosInventory.get().getEquippedCurios().getStackInSlot(0).is(ItemRegistry.FIRE_FLOWER_HAT.get()))
-                    curiosInventory.get().setEquippedCurio("hat", 0, new ItemStack(Items.AIR));
-                if (curiosInventory.get().getEquippedCurios().getStackInSlot(1).is(ItemRegistry.FIRE_FLOWER_SHIRT.get()))
-                    curiosInventory.get().setEquippedCurio("shirt", 1, new ItemStack(Items.AIR));
-                if (curiosInventory.get().getEquippedCurios().getStackInSlot(2).is(ItemRegistry.FIRE_FLOWER_PANTS.get()))
-                    curiosInventory.get().setEquippedCurio("pants", 2, new ItemStack(Items.AIR));
-                if (curiosInventory.get().getEquippedCurios().getStackInSlot(3).is(ItemRegistry.FIRE_FLOWER_SHOES.get()))
-                    curiosInventory.get().setEquippedCurio("shoes", 3, new ItemStack(Items.AIR));
-            }
-            if (armor.get(3).is(ItemRegistry.FIRE_FLOWER_HAT.get())) {
-                armor.get(3).shrink(1);
-                world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
-            }
-            if (armor.get(2).is(ItemRegistry.FIRE_FLOWER_SHIRT.get()))
-                armor.get(2).shrink(1);
-            if (armor.get(1).is(ItemRegistry.FIRE_FLOWER_PANTS.get()))
-                armor.get(1).shrink(1);
-            if (armor.get(0).is(ItemRegistry.FIRE_FLOWER_SHOES.get()))
-                armor.getFirst().shrink(1);
+//            if (capability != null) {
+//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_HAT.get()).clear();
+//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_SHIRT.get()).clear();
+//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_PANTS.get()).clear();
+//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_SHOES.get()).clear();
+//            }
         } else if (event.getEntity() instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
             float maxHealth = livingEntity.getMaxHealth();
             float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
