@@ -2,7 +2,6 @@
   "_comment": "Tag for accessories that can be equipped in the cap slot",
   "replace": false,
   "values": [
-    { "id": "minecraft:diamond_helmet", "required": false },
     { "id": "marioverse:fire_flower_hat", "required": false }
   ]
 }
