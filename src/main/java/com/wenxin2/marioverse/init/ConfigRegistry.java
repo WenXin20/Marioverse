@@ -205,7 +205,7 @@ public class ConfigRegistry
                         .defineInRange("health_shrink_players", 10.0F, 0.0F, 100.0F);
                 HEALTH_SHRINK_MOBS = BUILDER.translation("configuration.marioverse.health_shrink_mobs")
                         .comment("Health in percent to shrink mobs at.")
-                        .comment("§9[Default: 0.2%]§b")
+                        .comment("§9[Default: 2%]§b")
                         .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
                 ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_heal_amount")
                         .comment("Amount of health 1-Up Mushrooms heals.")
