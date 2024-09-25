@@ -15,8 +15,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class FireballShootPacket {
     public static final FireballShootPacket INSTANCE = new FireballShootPacket();
-    private static final int FIREBALL_COOLDOWN_MAX = ConfigRegistry.FIREBALL_COOLDOWN.get();
-    private static final int MAX_FIREBALLS = ConfigRegistry.MAX_FIREBALLS.get();
     private static final int FIREBALL_COOLDOWN = 5;
 
     public static FireballShootPacket get() {
@@ -38,12 +36,12 @@ public class FireballShootPacket {
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
         // Check if the player can shoot a fireball
-        if (fireballCooldown == 0 && fireballCount < MAX_FIREBALLS) {
+        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
             shootFireball(entity);
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN); // Reset cooldown
             entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1); // Increase active fireball count
-        } else if (fireballCount >= MAX_FIREBALLS) {
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN_MAX); // Reset with higher cooldown
+        } else if (fireballCount >= ConfigRegistry.MAX_FIREBALLS.get()) {
+            entity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get()); // Reset with higher cooldown
             entity.getPersistentData().putInt("marioverse:fireball_count", 0);
         }
     }

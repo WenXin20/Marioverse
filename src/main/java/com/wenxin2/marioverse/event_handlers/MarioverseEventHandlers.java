@@ -21,7 +21,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -37,7 +36,6 @@ import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
-    private static final int MAX_FIREBALLS = ConfigRegistry.MAX_FIREBALLS.get();
 
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
@@ -189,7 +187,7 @@ public class MarioverseEventHandlers {
         if (player != null && (player.isSprinting() || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
                 PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
             if (Minecraft.getInstance().level!= null && Minecraft.getInstance().level.isClientSide()
-                    && fireballCooldown == 0 && fireballCount < MAX_FIREBALLS) {
+                    && fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
                 player.swing(InteractionHand.MAIN_HAND);
             }
         }
