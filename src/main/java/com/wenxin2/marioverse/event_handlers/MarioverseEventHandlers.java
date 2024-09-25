@@ -37,6 +37,7 @@ import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
+    private static final int MAX_FIREBALLS = ConfigRegistry.MAX_FIREBALLS.get();
 
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
@@ -182,8 +183,15 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
+        int fireballCount = player.getPersistentData().getInt("marioverse:fireball_count");
+        int fireballCooldown = player.getPersistentData().getInt("marioverse:fireball_cooldown");
+
         if (player != null && (player.isSprinting() || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
                 PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
+            if (Minecraft.getInstance().level!= null && Minecraft.getInstance().level.isClientSide()
+                    && fireballCooldown == 0 && fireballCount < MAX_FIREBALLS) {
+                player.swing(InteractionHand.MAIN_HAND);
+            }
         }
     }
 }

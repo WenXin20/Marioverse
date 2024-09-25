@@ -15,9 +15,9 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class FireballShootPacket {
     public static final FireballShootPacket INSTANCE = new FireballShootPacket();
+    private static final int FIREBALL_COOLDOWN_MAX = ConfigRegistry.FIREBALL_COOLDOWN.get();
     private static final int MAX_FIREBALLS = ConfigRegistry.MAX_FIREBALLS.get();
     private static final int FIREBALL_COOLDOWN = 5;
-    private static final int FIREBALL_COOLDOWN_MAX = ConfigRegistry.FIREBALL_COOLDOWN.get();
 
     public static FireballShootPacket get() {
         return INSTANCE;
