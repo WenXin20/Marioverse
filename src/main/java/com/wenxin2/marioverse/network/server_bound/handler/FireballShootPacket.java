@@ -1,12 +1,12 @@
 package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -15,9 +15,9 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class FireballShootPacket {
     public static final FireballShootPacket INSTANCE = new FireballShootPacket();
-    private static final int MAX_FIREBALLS = 2;
-    private static final int FIREBALL_DELAY = 5;
-    private static final int FIREBALL_DELAY_2 = 50;
+    private static final int MAX_FIREBALLS = ConfigRegistry.MAX_FIREBALLS.get();
+    private static final int FIREBALL_COOLDOWN = 5;
+    private static final int FIREBALL_COOLDOWN_MAX = ConfigRegistry.FIREBALL_COOLDOWN.get();
 
     public static FireballShootPacket get() {
         return INSTANCE;
@@ -40,10 +40,10 @@ public class FireballShootPacket {
         // Check if the player can shoot a fireball
         if (fireballCooldown == 0 && fireballCount < MAX_FIREBALLS) {
             shootFireball(entity);
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_DELAY); // Reset cooldown
+            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN); // Reset cooldown
             entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1); // Increase active fireball count
         } else if (fireballCount >= MAX_FIREBALLS) {
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_DELAY_2); // Reset with higher cooldown
+            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN_MAX); // Reset with higher cooldown
             entity.getPersistentData().putInt("marioverse:fireball_count", 0);
         }
     }
