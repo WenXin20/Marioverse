@@ -201,7 +201,7 @@
   "marioverse.configuration.debug": "Debug Config",
   "marioverse.configuration.gameplay": "Gameplay",
   "marioverse.configuration.misc": "Misc",
-  "marioverse.configuration.fungal_question_block": "Question Block",
+  "marioverse.configuration.question_block": "Question Block",
   "marioverse.configuration.warp_pipes": "Warp Pipes",
   "marioverse.configuration.water_spouts": "Water Spouts",
   "marioverse.configuration.teleportation": "Teleportation",
