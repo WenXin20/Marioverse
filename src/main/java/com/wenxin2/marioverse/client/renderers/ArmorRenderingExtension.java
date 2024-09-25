@@ -6,13 +6,14 @@ import io.wispforest.accessories.api.client.AccessoryRenderer;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 
-public interface ArmorRenderingExtension<T extends LivingEntity> {
+public interface ArmorRenderingExtension<T extends LivingEntity, A extends HumanoidModel<T>> {
 
     AccessoryRenderer RENDERER = new AccessoryRenderer() {
         @Override
@@ -29,13 +30,14 @@ public interface ArmorRenderingExtension<T extends LivingEntity> {
                     .filter(renderLayer -> renderLayer instanceof ArmorRenderingExtension)
                     .findFirst();
 
-            possibleLayer.ifPresent(layer -> ((ArmorRenderingExtension) layer)
-                    .renderEquipmentStack(stack, matrices, multiBufferSource, reference.entity(), equipmentSlot, light));
+            if (model instanceof HumanoidModel<M> humanoidModel)
+                possibleLayer.ifPresent(layer ->
+                        ((ArmorRenderingExtension) layer).renderArmorPiece(stack, matrices, multiBufferSource, reference.entity(), equipmentSlot, light, humanoidModel));
         }
     };
 
-    default void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource,
-                                      T livingEntity, EquipmentSlot equipmentSlot, int light) {
+    default void renderArmorPiece(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource,
+                                      T livingEntity, EquipmentSlot equipmentSlot, int light, A baseModel) {
         throw new IllegalStateException("Injected interface method is unimplemented!");
     }
 }

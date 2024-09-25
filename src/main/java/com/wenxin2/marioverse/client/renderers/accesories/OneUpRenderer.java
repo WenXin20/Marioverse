@@ -36,16 +36,16 @@ public class OneUpRenderer implements SimpleItemRenderer {
                                                 float ageInTicks, float netHeadYaw, float headPitch) {
         if (ConfigRegistry.RENDER_ONE_UP_CURIO.get()) {
             poseStack.pushPose();
-                Minecraft.getInstance().getItemRenderer()
-                        .renderStatic(stack, ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY,
-                                poseStack, buffer, slotReference.entity().level(), 0);
+                this.translateIfSneaking(poseStack, slotReference.entity());
+                this.rotateIfSneaking(poseStack, slotReference.entity(), model);
 
                 AccessoryRenderer.followBodyRotations(slotReference.entity(), model);
                 poseStack.mulPose(Direction.DOWN.getRotation());
                 poseStack.translate(0.15F, 0.45F, -0.13F);
-                poseStack.scale(0.25F, 0.25F, 0.25F);
-                this.translateIfSneaking(poseStack, slotReference.entity());
-                this.rotateIfSneaking(poseStack, slotReference.entity(), model);
+                    poseStack.scale(0.25F, 0.25F, 0.25F);
+                Minecraft.getInstance().getItemRenderer()
+                        .renderStatic(stack, ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY,
+                                poseStack, buffer, slotReference.entity().level(), 0);
             poseStack.popPose();
         }
     }

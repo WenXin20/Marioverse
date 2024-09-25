@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,7 +22,7 @@ import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.Color;
 
 @Mixin(HumanoidArmorLayer.class)
-public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends HumanoidModel<T>> implements ArmorRenderingExtension<T> {
+public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends HumanoidModel<T>> implements ArmorRenderingExtension<T, A> {
 
     @Shadow
     protected abstract void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int i, A humanoidModel);
@@ -29,20 +30,23 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends 
     @Shadow
     private A getArmorModel(EquipmentSlot slot) { return null; }
 
+    @Shadow @Final private A innerModel;
     @Unique
     @Nullable
     private ItemStack tempStack = null;
 
     @Override
-    public void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int light) {
+    public void renderArmorPiece(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity,
+                                     EquipmentSlot equipmentSlot, int light, A baseModel) {
         this.tempStack = stack;
 
-        HumanoidModel<?> geckolibModel = GeoRenderProvider.of(stack).getGeoArmorRenderer(livingEntity, stack, equipmentSlot, this.getArmorModel(equipmentSlot));
+        HumanoidModel<?> geckolibModel = GeoRenderProvider.of(stack).getGeoArmorRenderer(livingEntity, stack, equipmentSlot, baseModel);
 
         if (geckolibModel instanceof GeoArmorRenderer<?> geoArmorRenderer) {
-            geoArmorRenderer.prepForRender(livingEntity, stack, equipmentSlot, geckolibModel);
+            geoArmorRenderer.prepForRender(livingEntity, stack, equipmentSlot, baseModel);
             geoArmorRenderer.renderToBuffer(poseStack, null,
                     light, OverlayTexture.NO_OVERLAY, Color.WHITE.argbInt());
+            baseModel.copyPropertiesTo((A)geckolibModel);
         } else {
             this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot));
         }
