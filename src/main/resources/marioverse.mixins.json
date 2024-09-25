@@ -11,6 +11,7 @@
   ],
   "client": [
     "HumanoidArmorLayerMixin",
+    "LivingEntityClientMixin",
     "LivingEntityRendererMixinAccessor"
   ],
   "injectors": {
