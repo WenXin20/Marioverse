@@ -21,7 +21,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -92,15 +91,10 @@ public class Marioverse
     }
 
     private void clientSetup(final FMLClientSetupEvent event, final IEventBus eventBus) {
-//        CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_HAT.get(), FireFlowerCostumeRenderer::new);
-//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_SHIRT.get(), FireFlowerCostumeRenderer::new);
-//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_PANTS.get(), FireFlowerCostumeRenderer::new);
-//        CuriosRendererRegistry.register(ItemRegistry.FIRE_FLOWER_SHOES.get(), FireFlowerCostumeRenderer::new);
     }
 }
