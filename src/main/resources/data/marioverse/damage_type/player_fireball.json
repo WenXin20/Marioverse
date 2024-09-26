@@ -1,0 +1,6 @@
+{
+  "message_id": "fireball.player",
+  "effects": "burning",
+  "scaling": "always",
+  "exhaustion": 0.1
+}

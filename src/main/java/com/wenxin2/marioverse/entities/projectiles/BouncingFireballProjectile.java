@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
+import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
@@ -10,7 +11,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ParticleUtils;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -170,16 +170,20 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 player.igniteForSeconds(2.0F);
-                player.hurt(this.level().damageSources().onFire(), 4.0F);
-                this.doKnockback(player, this.level().damageSources().onFire());
+                if (this.getOwner() != null) {
+                    player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    this.doKnockback(player);
+                }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 livingEntity.igniteForSeconds(2.0F);
-                livingEntity.hurt(this.level().damageSources().onFire(), 2.0F);
-                this.doKnockback(livingEntity, this.level().damageSources().onFire());
+                if (this.getOwner() != null) {
+                    livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    this.doKnockback(livingEntity);
+                }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
@@ -196,11 +200,11 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
     }
 
-    public void doKnockback(LivingEntity entity, DamageSource source) {
+    public void doKnockback(LivingEntity entity) {
         double d1 = Math.max(0.0, 1.0 - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
         Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.6 * d1);
         if (vec3.lengthSqr() > 0.0) {
-            entity.push(vec3.x, 0.2, vec3.z);
+            entity.push(vec3.x, 0.4, vec3.z);
         }
     }
 
