@@ -4,23 +4,24 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.items.BaseCostumeItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import java.util.Optional;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -50,6 +51,10 @@ public class MarioverseEventHandlers {
         if (!tag.contains("marioverse:has_fire_flower")
                 && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
             tag.putBoolean("marioverse:has_fire_flower", false);
+
+        if (!tag.contains("marioverse:fireball_ready") && entity instanceof Player
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+            tag.putBoolean("marioverse:fireball_ready", false);
 
         if (!tag.contains("marioverse:fireball_cooldown") && entity instanceof Player
                 && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
@@ -91,12 +96,35 @@ public class MarioverseEventHandlers {
                 }
             }
 
-//            if (capability != null) {
-//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_HAT.get()).clear();
-//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_SHIRT.get()).clear();
-//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_PANTS.get()).clear();
-//                capability.getEquipped(ItemRegistry.FIRE_FLOWER_SHOES.get()).clear();
-//            }
+            if (capability != null) {
+                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
+                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
+                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
+                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
+
+                if (containerHat != null) {
+                    ItemStack stack = containerHat.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem)
+                        containerHat.getAccessories().setItem(0, ItemStack.EMPTY);
+                }
+                if (containerShirt != null) {
+                    ItemStack stack = containerShirt.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem)
+                        containerShirt.getAccessories().setItem(0, ItemStack.EMPTY);
+                }
+                if (containerPants != null) {
+                    ItemStack stack = containerPants.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem)
+                        containerPants.getAccessories().setItem(0, ItemStack.EMPTY);
+                }
+                if (containerShoes != null) {
+                    ItemStack stack = containerShoes.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem)
+                        containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
+                }
+                world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+            }
         } else if (event.getEntity() instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
             float maxHealth = livingEntity.getMaxHealth();
             float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
@@ -185,11 +213,16 @@ public class MarioverseEventHandlers {
         if (player != null && (player.isSprinting() || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
             int fireballCount = player.getPersistentData().getInt("marioverse:fireball_count");
             int fireballCooldown = player.getPersistentData().getInt("marioverse:fireball_cooldown");
-            
-                PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
+            boolean fireballReady = player.getPersistentData().getBoolean("marioverse:fireball_ready");
+
+            PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
+            player.getPersistentData().putBoolean("marioverse:fireball_ready", true);
+
             if (Minecraft.getInstance().level!= null && Minecraft.getInstance().level.isClientSide()
-                    && fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
+                    && fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get() && fireballReady
+                    && player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                 player.swing(InteractionHand.MAIN_HAND);
+                player.getPersistentData().putBoolean("marioverse:fireball_ready", false);
             }
         }
     }

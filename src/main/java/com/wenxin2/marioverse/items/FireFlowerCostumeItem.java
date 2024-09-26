@@ -20,9 +20,8 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
-import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-public class FireFlowerCostumeItem extends ArmorItem implements ICurioItem, GeoItem {
+public class FireFlowerCostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public FireFlowerCostumeItem(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, Properties properties) {

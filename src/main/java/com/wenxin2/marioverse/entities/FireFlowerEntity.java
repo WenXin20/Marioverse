@@ -5,7 +5,8 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import net.minecraft.core.NonNullList;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -77,10 +78,19 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 }
 
                 if (capability != null) {
-                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_HAT.get()));
-                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_SHIRT.get()));
-                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_PANTS.get()));
-                    capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.FIRE_FLOWER_SHOES.get()));
+                    AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
+                    AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
+                    AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
+                    AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
+
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_FLOWER_HAT.get())
+                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_FLOWER_HAT.get()));
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_FLOWER_SHIRT.get())
+                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_FLOWER_SHIRT.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_FLOWER_PANTS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_FLOWER_PANTS.get()));
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_FLOWER_SHOES.get())
+                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_FLOWER_SHOES.get()));
                 }
 
                 if (player.getHealth() < player.getMaxHealth())
