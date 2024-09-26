@@ -27,7 +27,6 @@ public interface SimpleItemRenderer extends AccessoryRenderer {
         if (ConfigRegistry.RENDER_ONE_UP_CURIO.get()) {
             poseStack.pushPose();
             poseStack.mulPose(Direction.UP.getRotation());
-            poseStack.translate(0.15F, 0.45F, -0.13F);
             poseStack.scale(0.25F, 0.25F, 0.25F);
             Minecraft.getInstance().getItemRenderer()
                     .renderStatic(stack, ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY,

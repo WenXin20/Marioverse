@@ -43,7 +43,7 @@ public class OneUpRenderer implements SimpleItemRenderer {
                     }
                 }
                 poseStack.mulPose(Direction.DOWN.getRotation());
-                poseStack.translate(0.15F, -0.35F, 0.15F);
+                poseStack.translate(0.15F, -0.45F, 0.145F);
                 poseStack.scale(0.25F, 0.25F, 0.45F);
                 Minecraft.getInstance().getItemRenderer()
                         .renderStatic(stack, ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY,
