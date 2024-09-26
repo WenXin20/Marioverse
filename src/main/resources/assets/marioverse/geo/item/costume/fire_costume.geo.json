@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.fire_flower_costume",
+				"identifier": "geometry.fire_costume",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,

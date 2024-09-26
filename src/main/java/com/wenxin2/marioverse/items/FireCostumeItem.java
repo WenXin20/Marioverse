@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.client.renderers.costumes.FireFlowerCostumeRenderer;
+import com.wenxin2.marioverse.client.renderers.costumes.FireCostumeRenderer;
 import java.util.function.Consumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
@@ -21,10 +21,10 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class FireFlowerCostumeItem extends BaseCostumeItem implements GeoItem {
+public class FireCostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public FireFlowerCostumeItem(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, Properties properties) {
+    public FireCostumeItem(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, Properties properties) {
         super(armorMaterial, armorType, properties);
     }
 
@@ -37,7 +37,7 @@ public class FireFlowerCostumeItem extends BaseCostumeItem implements GeoItem {
             public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity,
                 ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
                 if(this.renderer == null)
-                    this.renderer = new FireFlowerCostumeRenderer();
+                    this.renderer = new FireCostumeRenderer();
                 return this.renderer;
             }
         });

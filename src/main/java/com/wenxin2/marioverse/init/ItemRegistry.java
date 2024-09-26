@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
-import com.wenxin2.marioverse.items.FireFlowerCostumeItem;
+import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.function.Supplier;
@@ -35,13 +35,13 @@ public class ItemRegistry {
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_FLOWER_HAT = registerItem("fire_flower_hat",
-                () -> new FireFlowerCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
+                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
         FIRE_FLOWER_SHIRT = registerItem("fire_flower_shirt",
-                () -> new FireFlowerCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
+                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
         FIRE_FLOWER_PANTS = registerItem("fire_flower_pants",
-                () -> new FireFlowerCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
+                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
         FIRE_FLOWER_SHOES = registerItem("fire_flower_shoes",
-                () -> new FireFlowerCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
+                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)
