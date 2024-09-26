@@ -67,14 +67,18 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
 
-                if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
-                    player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                } else {
+                else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+
+                if (player.getHealth() < player.getMaxHealth())
+                    player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
                     player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                    this.remove(RemovalReason.KILLED);
                 }
 
                 if (capability != null) {
@@ -91,14 +95,6 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_OVERALLS.get()));
                     if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
-                }
-
-                if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.remove(RemovalReason.KILLED);
                 }
             } else if (entity instanceof LivingEntity livingEntity
                     && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST)
