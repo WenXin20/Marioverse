@@ -2,6 +2,6 @@
   "_comment": "Tag for accessories that can be equipped in the shirt slot",
   "replace": false,
   "values": [
-    { "id": "marioverse:fire_flower_shirt", "required": false }
+    { "id": "marioverse:fire_shirt", "required": false }
   ]
 }

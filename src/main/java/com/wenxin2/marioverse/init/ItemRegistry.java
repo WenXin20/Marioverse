@@ -36,7 +36,7 @@ public class ItemRegistry {
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_HAT = registerItem("fire_hat",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
-        FIRE_SHIRT = registerItem("fire_flower_shirt",
+        FIRE_SHIRT = registerItem("fire_shirt",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
         FIRE_OVERALLS = registerItem("fire_flower_pants",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
