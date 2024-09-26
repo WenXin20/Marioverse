@@ -1,7 +1,0 @@
-{
-  "_comment": "Tag for Curios that can be equipped in the pants slot",
-  "replace": false,
-  "values": [
-    { "id": "marioverse:fire_overalls", "required": false }
-  ]
-}
