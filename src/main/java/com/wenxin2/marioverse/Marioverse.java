@@ -92,9 +92,9 @@ public class Marioverse
 
     private void clientSetup(final FMLClientSetupEvent event, final IEventBus eventBus) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_FLOWER_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_OVERALLS.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
     }
 }

@@ -14,10 +14,10 @@ import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_FLOWER;
-    public static final DeferredItem<Item> FIRE_FLOWER_HAT;
-    public static final DeferredItem<Item> FIRE_FLOWER_PANTS;
-    public static final DeferredItem<Item> FIRE_FLOWER_SHIRT;
-    public static final DeferredItem<Item> FIRE_FLOWER_SHOES;
+    public static final DeferredItem<Item> FIRE_HAT;
+    public static final DeferredItem<Item> FIRE_OVERALLS;
+    public static final DeferredItem<Item> FIRE_SHIRT;
+    public static final DeferredItem<Item> FIRE_SHOES;
     public static final DeferredItem<Item> MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PIPE_WRENCH;
@@ -34,13 +34,13 @@ public class ItemRegistry {
 
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        FIRE_FLOWER_HAT = registerItem("fire_flower_hat",
+        FIRE_HAT = registerItem("fire_hat",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
-        FIRE_FLOWER_SHIRT = registerItem("fire_flower_shirt",
+        FIRE_SHIRT = registerItem("fire_flower_shirt",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
-        FIRE_FLOWER_PANTS = registerItem("fire_flower_pants",
+        FIRE_OVERALLS = registerItem("fire_flower_pants",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
-        FIRE_FLOWER_SHOES = registerItem("fire_flower_shoes",
+        FIRE_SHOES = registerItem("fire_flower_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
     }
 

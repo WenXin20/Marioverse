@@ -30,10 +30,10 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.ONE_UP_MUSHROOM.get());
             add(event, ItemRegistry.FIRE_FLOWER.get());
 
-            add(event, ItemRegistry.FIRE_FLOWER_HAT.get());
-            add(event, ItemRegistry.FIRE_FLOWER_SHIRT.get());
-            add(event, ItemRegistry.FIRE_FLOWER_PANTS.get());
-            add(event, ItemRegistry.FIRE_FLOWER_SHOES.get());
+            add(event, ItemRegistry.FIRE_HAT.get());
+            add(event, ItemRegistry.FIRE_SHIRT.get());
+            add(event, ItemRegistry.FIRE_OVERALLS.get());
+            add(event, ItemRegistry.FIRE_SHOES.get());
 
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
