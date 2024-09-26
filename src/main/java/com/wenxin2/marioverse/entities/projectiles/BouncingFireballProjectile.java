@@ -170,7 +170,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 player.igniteForSeconds(2.0F);
-                player.hurt(this.level().damageSources().onFire(), 2.0F);
+                player.hurt(this.level().damageSources().onFire(), 4.0F);
                 this.doKnockback(player, this.level().damageSources().onFire());
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
