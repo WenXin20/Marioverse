@@ -40,7 +40,7 @@ public class ItemRegistry {
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
         FIRE_OVERALLS = registerItem("fire_overalls",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
-        FIRE_SHOES = registerItem("fire_flower_shoes",
+        FIRE_SHOES = registerItem("fire_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
     }
 
