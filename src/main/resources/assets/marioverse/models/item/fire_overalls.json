@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "marioverse:item/fire_flower_pants"
+    "layer0": "marioverse:item/fire_overalls"
   }
 }
