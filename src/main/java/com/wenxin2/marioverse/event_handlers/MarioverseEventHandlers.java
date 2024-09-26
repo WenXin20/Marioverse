@@ -209,21 +209,8 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-
         if (player != null && (player.isSprinting() || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
-            int fireballCount = player.getPersistentData().getInt("marioverse:fireball_count");
-            int fireballCooldown = player.getPersistentData().getInt("marioverse:fireball_cooldown");
-            boolean fireballReady = player.getPersistentData().getBoolean("marioverse:fireball_ready");
-
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
-            player.getPersistentData().putBoolean("marioverse:fireball_ready", true);
-
-            if (Minecraft.getInstance().level!= null && Minecraft.getInstance().level.isClientSide()
-                    && fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get() && fireballReady
-                    && player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
-                player.swing(InteractionHand.MAIN_HAND);
-                player.getPersistentData().putBoolean("marioverse:fireball_ready", false);
-            }
         }
     }
 }

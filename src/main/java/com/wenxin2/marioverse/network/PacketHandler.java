@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.network;
 
+import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
+import com.wenxin2.marioverse.network.client_bound.handler.SwingHandPacket;
 import com.wenxin2.marioverse.network.server_bound.data.ClosePipeButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload;
@@ -30,6 +32,8 @@ public class PacketHandler {
         final PayloadRegistrar registrar = event.registrar("marioverse").versioned("1.0.0");
 
         // Sends to server
+        registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
+
         registrar.playToServer(ClosePipeButtonPayload.CLOSE_STATE_PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
         registrar.playToServer(PipeBubblesSliderPayload.BUBBLES_DISTANCE_PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
         registrar.playToServer(PipeBubblesButtonPayload.BUBBLES_STATE_PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
@@ -43,7 +47,7 @@ public class PacketHandler {
         PacketDistributor.sendToServer(message);
     }
 
-    public static <MSG extends CustomPacketPayload> void sentToAllClients(MSG message) {
+    public static <MSG extends CustomPacketPayload> void sendToAllClients(MSG message) {
         PacketDistributor.sendToAllPlayers(message);
     }
 

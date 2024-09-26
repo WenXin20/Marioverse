@@ -4,9 +4,11 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -24,7 +26,7 @@ public class FireballShootPacket {
     public void handle(final FireballShootPayload payload, IPayloadContext context) {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
-                ServerPlayer player = (ServerPlayer) context.player();
+                Player player = context.player();
                 if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
                     this.handleFireballShooting(player);
             });
@@ -50,22 +52,21 @@ public class FireballShootPacket {
         Level world = entity.level();
         Player player = (Player) entity;
 
-        if (!world.isClientSide()) {
-            BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
-            fireball.setOwner(entity);
-            fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
-            fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-            world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
+        BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
+        fireball.setOwner(entity);
+        fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
+        fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
+        world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
+                SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            Vec3 look = entity.getLookAngle();
-            fireball.setDeltaMovement(look.scale(0.5));
+        Vec3 look = entity.getLookAngle();
+        fireball.setDeltaMovement(look.scale(0.5));
 
-            // Set the fireball's rotation based on the look direction
-            fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90); // Adjust for correct facing
-            fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
+        // Set the fireball's rotation based on the look direction
+        fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90); // Adjust for correct facing
+        fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
-            world.addFreshEntity(fireball);
-        }
+        world.addFreshEntity(fireball);
+        PacketHandler.sendToAllClients(new SwingHandPayload(Boolean.TRUE));
     }
 }
