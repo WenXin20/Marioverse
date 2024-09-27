@@ -8,9 +8,11 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.armortrim.ArmorTrim;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,6 +49,7 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends 
             geoArmorRenderer.renderToBuffer(poseStack, null,
                     light, OverlayTexture.NO_OVERLAY, Color.WHITE.argbInt());
             baseModel.copyPropertiesTo((A)geckolibModel);
+            ArmorTrim armortrim = stack.get(DataComponents.TRIM);
         } else {
             this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot));
         }
