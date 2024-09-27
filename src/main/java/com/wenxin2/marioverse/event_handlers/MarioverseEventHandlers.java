@@ -77,7 +77,6 @@ public class MarioverseEventHandlers {
         Level world = event.getEntity().level();
 
         if (event.getEntity() instanceof Player player) {
-            AccessoriesCapability capability = AccessoriesCapability.get(player);
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
             tag.putBoolean("marioverse:has_fire_flower", false);
@@ -96,6 +95,7 @@ public class MarioverseEventHandlers {
                 }
             }
 
+            AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null) {
                 AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
                 AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
@@ -104,26 +104,36 @@ public class MarioverseEventHandlers {
 
                 if (containerHat != null) {
                     ItemStack stack = containerHat.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.getItem() instanceof BaseCostumeItem) {
                         containerHat.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
                 }
                 if (containerShirt != null) {
                     ItemStack stack = containerShirt.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.getItem() instanceof BaseCostumeItem) {
                         containerShirt.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
                 }
                 if (containerPants != null) {
                     ItemStack stack = containerPants.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.getItem() instanceof BaseCostumeItem) {
                         containerPants.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
                 }
                 if (containerShoes != null) {
                     ItemStack stack = containerShoes.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.getItem() instanceof BaseCostumeItem) {
                         containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
                 }
-                world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
             }
         } else if (event.getEntity() instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
             float maxHealth = livingEntity.getMaxHealth();
