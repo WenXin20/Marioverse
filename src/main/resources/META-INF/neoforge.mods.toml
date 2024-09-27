@@ -57,11 +57,11 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.marioverse]]
-modId="curios"
+modId="accessories"
 type="required"
-versionRange="[9.0.0+1.21,)"
+versionRange="[1.0.0-beta.31,)"
 ordering="NONE"
-side="CLIENT"
+side="BOTH"
 
 [[dependencies.marioverse]]
 modId="geckolib"
@@ -76,13 +76,6 @@ type="required"
 versionRange="[3.8.3+1.21-neoforge,)"
 ordering="NONE"
 side="BOTH"
-
-[[dependencies.marioverse]]
-modId="accessories"
-type="optional"
-versionRange="[1.0.0-beta.31,)"
-ordering="NONE"
-side="CLIENT"
 
 [[dependencies.marioverse]]
 modId="ctm"
