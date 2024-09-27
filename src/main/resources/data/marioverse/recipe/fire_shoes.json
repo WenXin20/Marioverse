@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:fire_costume",
+  "pattern": [
+    "W W",
+    "L L"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:brown_wool"
+    },
+    "L": {
+      "tag": "c:leathers"
+    }
+  },
+  "result": {
+    "id": "marioverse:fire_shoes",
+    "count": 1
+  }
+}
