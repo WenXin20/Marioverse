@@ -8,8 +8,10 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import io.wispforest.accessories.api.AccessoriesCapability;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.Collection;
-import java.util.Optional;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,9 +42,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -102,7 +101,6 @@ public abstract class LivingEntityMixin extends Entity {
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return;
         } else {
-            Optional<ICuriosItemHandler> curiosHandler = CuriosApi.getCuriosInventory(livingEntity);
             ItemStack stack = livingEntity.getOffhandItem();
 
             for (InteractionHand hand : InteractionHand.values()) {
@@ -114,18 +112,18 @@ public abstract class LivingEntityMixin extends Entity {
                 }
             }
 
-            if (curiosHandler.isPresent()) {
-                ICuriosItemHandler handler = curiosHandler.get();
-                Optional<SlotResult> charmSlot = handler.findCurio("charm", 0);
-                if (charmSlot.isPresent()) {
-                    ItemStack itemInSlot = charmSlot.get().stack();
-                    if (itemInSlot.getItem() instanceof OneUpMushroomItem) {
+            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
+            if (capability != null) {
+                AccessoriesContainer containerCharm = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "charm"));
+                if (containerCharm != null) {
+                    ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
+                    if (stackCharm.getItem() instanceof OneUpMushroomItem) {
                         info.setReturnValue(true);
                         this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                         livingEntity.setHealth(1.0F);
                         livingEntity.heal(ConfigRegistry.ONE_UP_HEAL_AMT.get().floatValue());
-                        itemInSlot.shrink(1);
+                        stackCharm.shrink(1);
                         this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
                         this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Collected particle
                         this.level().broadcastEntityEvent(livingEntity, (byte) 127); // 1-Up Pop Up
