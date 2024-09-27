@@ -1,7 +1,7 @@
 {
   "replace": false,
   "validators": [ "accessories:tag" ],
-  "icon": "marioverse:slot/empty_one_up_slot",
+  "icon": "marioverse:gui/slot/empty_one_up_slot",
   "operation": "set",
   "drop_rule": "keep",
   "amount": 1,

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "validators": [ "accessories:tag" ],
-  "icon": "marioverse:slot/empty_shirt_slot",
+  "icon": "marioverse:gui/slot/empty_shirt_slot",
   "operation": "set",
   "drop_rule": "destroy",
   "amount": 1,
