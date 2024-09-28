@@ -99,6 +99,8 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
             } else if (entity instanceof LivingEntity livingEntity
                     && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST)
                     && !(entity instanceof Player)) {
+                AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
+
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
@@ -115,6 +117,22 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     this.remove(RemovalReason.KILLED);
+                }
+
+                if (capability != null) {
+                    AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
+                    AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
+                    AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
+                    AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
+
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_HAT.get())
+                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHIRT.get())
+                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHIRT.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_OVERALLS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_OVERALLS.get()));
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
+                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }
             }
         }

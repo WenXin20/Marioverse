@@ -1,7 +1,7 @@
 {
   "replace": false,
   "entities": [
-    "#accessories:defaulted_targets"
+    "#marioverse:costume_whitelist"
   ],
   "slots": [
     "costume_hat",

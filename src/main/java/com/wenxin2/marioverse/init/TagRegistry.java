@@ -30,6 +30,7 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
     public static final TagKey<EntityType<?>> CONSUME_ONE_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_one_ups_blacklist");
     public static final TagKey<EntityType<?>> CONSUME_POWER_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_power_ups_blacklist");
+    public static final TagKey<EntityType<?>> COSTUME_ENTITY_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "costume_whitelist");
     public static final TagKey<EntityType<?>> DAMAGE_SHRINKS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "damage_shrinks_blacklist");
     public static final TagKey<EntityType<?>> DROPS_COIN_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "drops_coin_blacklist");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags(Marioverse.MOD_ID, "fireball_immune");
