@@ -24,7 +24,7 @@ public interface SimpleItemRenderer extends AccessoryRenderer {
                                                         EntityModel<M> model, MultiBufferSource buffer,
                                                         int light, float limbSwing, float limbSwingAmount, float partialTicks,
                                                         float ageInTicks, float netHeadYaw, float headPitch) {
-        if (ConfigRegistry.RENDER_ONE_UP_CURIO.get()) {
+        if (ConfigRegistry.RENDER_ONE_UP_CHARM.get()) {
             poseStack.pushPose();
             poseStack.mulPose(Direction.UP.getRotation());
             poseStack.scale(0.25F, 0.25F, 0.25F);

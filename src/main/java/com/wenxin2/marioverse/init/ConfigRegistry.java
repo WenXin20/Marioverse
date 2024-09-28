@@ -47,7 +47,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
-    public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CURIO;
+    public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
+    public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
@@ -64,23 +65,23 @@ public class ConfigRegistry
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
         BUILDER.push(CATEGORY_CLIENT);
-        DISABLE_TEXT = BUILDER.translation("configuration.marioverse.disable_text")
-                .comment("Disable text rendering on pipes.")
-                .comment("§9[Default: false]")
-                .define("disable_text", false);
-        RENDER_ONE_UP_CURIO = BUILDER.translation("configuration.marioverse.render_one_up_curio")
-                .comment("Render the 1-Up on the player when in a Curios slot.")
-                .comment("§9[Default: true]")
-                .define("render_one_up_curio", true);
-        WARP_COOLDOWN_MESSAGE = BUILDER.translation("configuration.marioverse.warp_cooldown_message")
-                .comment("Display a warp cooldown message.")
-                .comment("§9[Default: true]")
-                .define("warp_cooldown_message", true);
-        WARP_COOLDOWN_MESSAGE_TICKS = BUILDER.translation("configuration.marioverse.warp_cooldown_message_with_ticks")
-                .comment("Display a warp cooldown message with ticks.")
-                .comment("§cRequires \"Warp Cooldown Message\"")
-                .comment("§9[Default: false]")
-                .define("warp_cooldown_message_with_ticks", false);
+            DISABLE_TEXT = BUILDER.translation("configuration.marioverse.disable_text")
+                    .comment("Disable text rendering on pipes.")
+                    .comment("§9[Default: false]")
+                    .define("disable_text", false);
+            RENDER_ONE_UP_CHARM = BUILDER.translation("configuration.marioverse.render_one_up_charm")
+                    .comment("Render the 1-Up on the player when in an Accessory slot.")
+                    .comment("§9[Default: true]")
+                    .define("render_one_up_charm", true);
+            WARP_COOLDOWN_MESSAGE = BUILDER.translation("configuration.marioverse.warp_cooldown_message")
+                    .comment("Display a warp cooldown message.")
+                    .comment("§9[Default: true]")
+                    .define("warp_cooldown_message", true);
+            WARP_COOLDOWN_MESSAGE_TICKS = BUILDER.translation("configuration.marioverse.warp_cooldown_message_with_ticks")
+                    .comment("Display a warp cooldown message with ticks.")
+                    .comment("§cRequires \"Warp Cooldown Message\"")
+                    .comment("§9[Default: false]")
+                    .define("warp_cooldown_message_with_ticks", false);
         BUILDER.pop();
 
         BUILDER.push(CATEGORY_COMMON);
@@ -215,6 +216,10 @@ public class ConfigRegistry
                         .comment("Allow 1-Ups to heal all mobs.")
                         .comment("§9[Default: false]")
                         .define("one_up_heals_mobs", false);
+                RUNNING_ACTIVATES_POWER_UPS = BUILDER.translation("configuration.marioverse.running_activates_power_ups")
+                        .comment("Allow running to activate power ups.")
+                        .comment("§9[Default: true]")
+                        .define("running_activates_power_ups", true);
                 FIREBALL_COOLDOWN = BUILDER.translation("configuration.marioverse.fireball_cooldown")
                         .comment("Cooldown between max amount of fireballs shot.")
                         .comment("§6[20 ticks = 1 second]")
