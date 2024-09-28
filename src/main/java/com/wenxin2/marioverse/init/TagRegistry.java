@@ -24,6 +24,7 @@ public class TagRegistry {
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
     public static final TagKey<Item> ITEM_BRICK_ITEMS = itemTags(Marioverse.MOD_ID, "storage_bricks");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags(Marioverse.MOD_ID, "power_ups");
+    public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags(Marioverse.MOD_ID, "power_up_costumes");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags(Marioverse.MOD_ID, "question_blocks");
     public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
