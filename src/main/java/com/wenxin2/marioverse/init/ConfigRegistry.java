@@ -188,6 +188,10 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_GAMEPLAY);
+                RUNNING_ACTIVATES_POWER_UPS = BUILDER.translation("configuration.marioverse.running_activates_power_ups")
+                        .comment("Allow running to activate power ups.")
+                        .comment("§9[Default: true]")
+                        .define("running_activates_power_ups", true);
                 DAMAGE_SHRINKS_PLAYERS = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
                         .comment("Allow damage to shrink players.")
                         .comment("§9[Default: true]")
@@ -216,10 +220,6 @@ public class ConfigRegistry
                         .comment("Allow 1-Ups to heal all mobs.")
                         .comment("§9[Default: false]")
                         .define("one_up_heals_mobs", false);
-                RUNNING_ACTIVATES_POWER_UPS = BUILDER.translation("configuration.marioverse.running_activates_power_ups")
-                        .comment("Allow running to activate power ups.")
-                        .comment("§9[Default: true]")
-                        .define("running_activates_power_ups", true);
                 FIREBALL_COOLDOWN = BUILDER.translation("configuration.marioverse.fireball_cooldown")
                         .comment("Cooldown between max amount of fireballs shot.")
                         .comment("§6[20 ticks = 1 second]")
