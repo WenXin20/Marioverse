@@ -2,6 +2,18 @@
   "_comment": "Tag for entities that can wear power up costumes",
   "replace": false,
   "values": [
-    { "id": "#marioverse:fire_flower_whitelist", "required": false }
+    "minecraft:armor_stand",
+    "minecraft:bogged",
+    "minecraft:drowned",
+    "minecraft:husk",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:player",
+    "minecraft:skeleton",
+    "minecraft:stray",
+    "minecraft:wither_skeleton",
+    "minecraft:zombie",
+    "minecraft:zombified_piglin",
+    { "id": "#accessories:defaulted_targets", "required": false }
   ]
 }

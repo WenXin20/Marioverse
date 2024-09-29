@@ -2,12 +2,26 @@
   "_comment": "Tag for entities that can use a fire flower",
   "replace": false,
   "values": [
-    { "id": "#accessories:defaulted_targets", "required": false },
-    { "id": "minecraft:armor_stand", "required": false },
-    { "id": "minecraft:piglin", "required": false },
-    { "id": "minecraft:player", "required": false },
-    { "id": "minecraft:skeleton", "required": false },
-    { "id": "minecraft:zombie", "required": false },
-    { "id": "minecraft:zombified_piglin", "required": false }
+    "minecraft:armor_stand",
+    "minecraft:bogged",
+    "minecraft:creeper",
+    "minecraft:drowned",
+    "minecraft:enderman",
+    "minecraft:evoker",
+    "minecraft:husk",
+    "minecraft:iron_golem",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:pillager",
+    "minecraft:player",
+    "minecraft:skeleton",
+    "minecraft:stray",
+    "minecraft:villager",
+    "minecraft:wandering_trader",
+    "minecraft:witch",
+    "minecraft:wither_skeleton",
+    "minecraft:zombie",
+    "minecraft:zombie_villager",
+    "minecraft:zombified_piglin"
   ]
 }
