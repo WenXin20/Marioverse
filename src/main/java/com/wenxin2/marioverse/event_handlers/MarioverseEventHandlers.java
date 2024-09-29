@@ -48,19 +48,23 @@ public class MarioverseEventHandlers {
             tag.putBoolean("marioverse:prevent_warp", false);
 
         if (!tag.contains("marioverse:has_fire_flower")
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
+                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putBoolean("marioverse:has_fire_flower", false);
 
         if (!tag.contains("marioverse:fireball_ready")
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
+                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putBoolean("marioverse:fireball_ready", false);
 
         if (!tag.contains("marioverse:fireball_cooldown")
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
+                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:fireball_cooldown", 0);
 
         if (!tag.contains("marioverse:fireball_count")
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
+                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:fireball_count", 0);
 
         if (!tag.contains("marioverse:has_mushroom"))
@@ -95,7 +99,7 @@ public class MarioverseEventHandlers {
             }
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
-            if (capability != null) {
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
                 AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
                 AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
                 AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
@@ -155,7 +159,7 @@ public class MarioverseEventHandlers {
             }
 
             AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
-            if (capability != null) {
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
                 AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
                 AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
                 AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));

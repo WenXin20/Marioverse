@@ -35,13 +35,16 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
+    public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
+    public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
+    public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
     public static ModConfigSpec.IntValue MAX_FIREBALLS;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
     public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
-    public static ModConfigSpec.BooleanValue ONE_UP_HEALS_MOBS;
+    public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
@@ -192,6 +195,15 @@ public class ConfigRegistry
                         .comment("Allow running to activate power ups.")
                         .comment("§9[Default: true]")
                         .define("running_activates_power_ups", true);
+                EQUIP_COSTUMES_PLAYERS = BUILDER.translation("configuration.marioverse.equip_costumes_players")
+                        .comment("Equips power up costumes on Players.")
+                        .comment("§9[Default: true]")
+                        .define("equip_costumes_players", true);
+                EQUIP_COSTUMES_MOBS = BUILDER.translation("configuration.marioverse.equip_costumes_mobs")
+                        .comment("Equips power up costumes humanoid mobs, like zombies.")
+                        .comment("§cMobs must whitelisted in the entity tag \"marioverse:costume_whitelist\".")
+                        .comment("§9[Default: true]")
+                        .define("equip_costumes_mobs", true);
                 DAMAGE_SHRINKS_PLAYERS = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
                         .comment("Allow damage to shrink players.")
                         .comment("§9[Default: true]")
@@ -216,10 +228,14 @@ public class ConfigRegistry
                         .comment("Amount of health 1-Up Mushrooms heals.")
                         .comment("§9[Default: 8.0F]§b")
                         .defineInRange("one_up_heal_amount", 8.0F, 0.0F, 100.0F);
-                ONE_UP_HEALS_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
+                ONE_UP_HEALS_ALL_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
                         .comment("Allow 1-Ups to heal all mobs.")
                         .comment("§9[Default: false]")
                         .define("one_up_heals_mobs", false);
+                FIRE_FLOWER_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.fire_flower_powers_all_mobs")
+                        .comment("Allow Fire Flowers to power all mobs.")
+                        .comment("§9[Default: false]")
+                        .define("fire_flower_powers_all_mobs", false);
                 FIREBALL_COOLDOWN = BUILDER.translation("configuration.marioverse.fireball_cooldown")
                         .comment("Cooldown between max amount of fireballs shot.")
                         .comment("§6[20 ticks = 1 second]")

@@ -81,7 +81,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     this.remove(RemovalReason.KILLED);
                 }
 
-                if (capability != null) {
+                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
                     AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
                     AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
@@ -97,7 +97,8 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }
             } else if (entity instanceof LivingEntity livingEntity
-                    && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
                     && !(entity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
 
@@ -122,7 +123,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     this.remove(RemovalReason.KILLED);
                 }
 
-                if (capability != null) {
+                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
                     AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
                     AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));

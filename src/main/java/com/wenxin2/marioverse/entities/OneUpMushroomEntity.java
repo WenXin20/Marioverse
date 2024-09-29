@@ -64,7 +64,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     this.remove(RemovalReason.KILLED);
                 }
 
-            } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_MOBS.get()
+            } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()
                     && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST) && !(entity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
                 ItemStack offhandStack = livingEntity.getOffhandItem();

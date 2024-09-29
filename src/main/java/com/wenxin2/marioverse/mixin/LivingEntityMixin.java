@@ -98,7 +98,8 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")
-                && livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                && (livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
                 && !(livingEntity instanceof Player) && !(livingEntity instanceof ArmorStand)
                 && (this.getDeltaMovement().x > 0.0F || this.getDeltaMovement().z > 0.0F)) {
             if (livingEntity instanceof Monster monster && monster.getTarget() != null)
