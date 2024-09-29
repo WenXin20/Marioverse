@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.wenxin2.marioverse.client.models.entities.MushroomModel;
-import com.wenxin2.marioverse.entities.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 

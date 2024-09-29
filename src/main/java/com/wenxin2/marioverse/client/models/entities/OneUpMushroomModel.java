@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.entities.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;

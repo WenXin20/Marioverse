@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.wenxin2.marioverse.client.models.entities.FireFlowerModel;
-import com.wenxin2.marioverse.entities.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;

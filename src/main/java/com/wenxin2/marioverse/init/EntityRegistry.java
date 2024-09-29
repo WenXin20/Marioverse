@@ -1,14 +1,12 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.entities.FireFlowerEntity;
-import com.wenxin2.marioverse.entities.MushroomEntity;
-import com.wenxin2.marioverse.entities.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
-import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -17,7 +15,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {

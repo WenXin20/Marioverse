@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.entities;
+package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
