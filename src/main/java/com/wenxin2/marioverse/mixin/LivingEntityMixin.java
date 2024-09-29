@@ -100,12 +100,12 @@ public abstract class LivingEntityMixin extends Entity {
         if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")
                 && livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
                 && !(livingEntity instanceof Player) && !(livingEntity instanceof ArmorStand)
-                && (this.getDeltaMovement().x() > 0.0F || this.getDeltaMovement().z() > 0.0F)) {
+                && (this.getDeltaMovement().x > 0.0F || this.getDeltaMovement().z > 0.0F)) {
             if (livingEntity instanceof Monster monster && monster.getTarget() != null)
                 this.marioverse$handleFireballShooting(livingEntity);
             else if (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null)
                 this.marioverse$handleFireballShooting(livingEntity);
-            else if (!(livingEntity instanceof Monster))
+            else if (!(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem))
                 this.marioverse$handleFireballShooting(livingEntity);
         }
 
