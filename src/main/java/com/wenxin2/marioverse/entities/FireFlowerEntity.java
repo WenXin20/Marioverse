@@ -101,15 +101,9 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     && !(entity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
 
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower"))
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                } else {
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
-                }
+                else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
