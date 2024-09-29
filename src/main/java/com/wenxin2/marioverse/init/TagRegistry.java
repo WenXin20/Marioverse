@@ -34,7 +34,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DAMAGE_SHRINKS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "damage_shrinks_blacklist");
     public static final TagKey<EntityType<?>> DROPS_COIN_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "drops_coin_blacklist");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags(Marioverse.MOD_ID, "fireball_immune");
-    public static final TagKey<EntityType<?>> FIRE_FLOWER_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "fire_flower_whitelist");
+    public static final TagKey<EntityType<?>> FIRE_FLOWER_ENTITY_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "fire_flower_whitelist");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<EntityType<?>> QUICK_TRAVEL_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "quick_travel_blacklist");

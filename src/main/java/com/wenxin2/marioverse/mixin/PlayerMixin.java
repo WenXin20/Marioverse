@@ -67,7 +67,6 @@ public abstract class PlayerMixin extends Entity {
         BlockPos posAboveEntity = pos.above(Math.round(this.getBbHeight()));
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
-        int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -87,10 +86,6 @@ public abstract class PlayerMixin extends Entity {
 
         if (this.marioverse$warpCooldown > 0) {
             --this.marioverse$warpCooldown;
-        }
-
-        if (fireballCooldown > 0) {
-            this.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
         }
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)

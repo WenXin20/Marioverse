@@ -64,7 +64,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
         if (!this.level().isClientSide) {
 
             if (entity instanceof Player player && !player.isSpectator()
-                    && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST)) {
+                    && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
 
                 if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
@@ -97,7 +97,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }
             } else if (entity instanceof LivingEntity livingEntity
-                    && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST)
+                    && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
                     && !(entity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
 

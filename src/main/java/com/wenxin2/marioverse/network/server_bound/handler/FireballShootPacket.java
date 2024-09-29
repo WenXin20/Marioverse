@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -50,7 +49,6 @@ public class FireballShootPacket {
 
     public static void shootFireball(Entity entity) {
         Level world = entity.level();
-        Player player = (Player) entity;
 
         BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
         fireball.setOwner(entity);
