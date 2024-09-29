@@ -204,7 +204,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         double d1 = Math.max(0.0, 1.0 - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
         Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.6 * d1);
         if (vec3.lengthSqr() > 0.0) {
-            entity.push(vec3.x, 0.4, vec3.z);
+            entity.push(vec3.x, 0.2, vec3.z);
         }
     }
 
