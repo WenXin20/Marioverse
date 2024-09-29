@@ -31,7 +31,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -97,8 +100,13 @@ public abstract class LivingEntityMixin extends Entity {
         if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")
                 && livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
                 && !(livingEntity instanceof Player) && !(livingEntity instanceof ArmorStand)
-                && (this.getSpeed() > 0.0F || this.getSpeed() > 0.0F)) {
-            this.marioverse$handleFireballShooting(livingEntity);
+                && (this.getDeltaMovement().x() > 0.0F || this.getDeltaMovement().z() > 0.0F)) {
+            if (livingEntity instanceof Monster monster && monster.getTarget() != null)
+                this.marioverse$handleFireballShooting(livingEntity);
+            else if (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null)
+                this.marioverse$handleFireballShooting(livingEntity);
+            else if (!(livingEntity instanceof Monster))
+                this.marioverse$handleFireballShooting(livingEntity);
         }
 
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
