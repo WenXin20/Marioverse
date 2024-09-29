@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.client.renderers.entities;
+package com.wenxin2.marioverse.client.renderers.entities.power_ups;
 
 import com.wenxin2.marioverse.client.models.entities.OneUpMushroomModel;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
