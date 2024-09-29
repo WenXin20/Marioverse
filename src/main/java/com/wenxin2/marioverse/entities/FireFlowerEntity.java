@@ -67,9 +67,11 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
 
-                if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
-                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
+                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                    else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                }
 
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
@@ -102,9 +104,11 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     && !(entity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
 
-                if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower"))
-                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower"))
+                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                    else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                }
 
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);

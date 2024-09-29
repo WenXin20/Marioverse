@@ -85,12 +85,14 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
-                if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
-                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                } else {
-                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
+                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                        player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                    } else {
+                        player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                        this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    }
                 }
 
                 if (player.getHealth() < player.getMaxHealth())
@@ -103,12 +105,15 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
                     && !(entity instanceof Player)) {
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
-                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                } else {
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+
+                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                    if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                        livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                    } else {
+                        livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                        this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    }
                 }
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
