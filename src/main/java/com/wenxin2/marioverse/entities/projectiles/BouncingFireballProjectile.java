@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -68,7 +69,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     @Override
     public void tick() {
         super.tick();
-        this.checkForCollisions();
         Vec3 motion = this.getDeltaMovement();
 
         if (!this.isInWater()) {
@@ -155,17 +155,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         super.onHitBlock(hit);
     }
 
-    public void checkForCollisions() {
-        AABB boundingBox = this.getBoundingBox().inflate(0.1);
-        List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
-
-        for (Entity entity : entities) {
-            handleCollision(entity);
-            break;
-        }
-    }
-
-    public void handleCollision(Entity entity) {
+    @Override
+    protected void onHitEntity(EntityHitResult hit) {
+        Entity entity = hit.getEntity();
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
