@@ -64,7 +64,8 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
         if (!this.level().isClientSide) {
 
             if (entity instanceof Player player && !player.isSpectator()
-                    && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)) {
+                    && !player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)
+                    && player.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
 
                 if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
@@ -75,13 +76,11 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
-                    player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.remove(RemovalReason.KILLED);
-                }
+                player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+                player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                this.remove(RemovalReason.KILLED);
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
                     AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
@@ -99,16 +98,15 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }
             } else if (entity instanceof LivingEntity livingEntity
-                    && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    && !livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)
+                    && (livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
-                    && !(entity instanceof Player)) {
+                    && !(livingEntity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
 
-                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
-                    if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower"))
-                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                    else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
-                }
+                if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower"))
+                    this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
 
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
@@ -121,11 +119,9 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.remove(RemovalReason.KILLED);
-                }
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                this.remove(RemovalReason.KILLED);
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
                     AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
