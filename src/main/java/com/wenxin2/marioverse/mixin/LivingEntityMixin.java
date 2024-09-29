@@ -10,8 +10,6 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;

@@ -17,7 +17,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -49,19 +48,19 @@ public class MarioverseEventHandlers {
             tag.putBoolean("marioverse:prevent_warp", false);
 
         if (!tag.contains("marioverse:has_fire_flower")
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
             tag.putBoolean("marioverse:has_fire_flower", false);
 
-        if (!tag.contains("marioverse:fireball_ready") && entity instanceof Player
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+        if (!tag.contains("marioverse:fireball_ready")
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
             tag.putBoolean("marioverse:fireball_ready", false);
 
-        if (!tag.contains("marioverse:fireball_cooldown") && entity instanceof Player
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+        if (!tag.contains("marioverse:fireball_cooldown")
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
             tag.putInt("marioverse:fireball_cooldown", 0);
 
-        if (!tag.contains("marioverse:fireball_count") && entity instanceof Player
-                && entity.getType().is(TagRegistry.FIRE_FLOWER_WHITELIST))
+        if (!tag.contains("marioverse:fireball_count")
+                && entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST))
             tag.putInt("marioverse:fireball_count", 0);
 
         if (!tag.contains("marioverse:has_mushroom"))
@@ -140,8 +139,10 @@ public class MarioverseEventHandlers {
             float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();
 
-            tag.putBoolean("marioverse:has_mushroom", false);
+            tag.putBoolean("marioverse:has_fire_flower", false);
             if (healthAfterDamage <= threshold) {
+                tag.putBoolean("marioverse:has_mushroom", false);
+
                 if (!tag.getBoolean("marioverse:has_mushroom")
                         && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
                         && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
@@ -150,6 +151,47 @@ public class MarioverseEventHandlers {
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
                     world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
+
+            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
+            if (capability != null) {
+                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
+                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
+                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
+                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
+
+                if (containerHat != null) {
+                    ItemStack stack = containerHat.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem) {
+                        containerHat.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
+                }
+                if (containerShirt != null) {
+                    ItemStack stack = containerShirt.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem) {
+                        containerShirt.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
+                }
+                if (containerPants != null) {
+                    ItemStack stack = containerPants.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem) {
+                        containerPants.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
+                }
+                if (containerShoes != null) {
+                    ItemStack stack = containerShoes.getAccessories().getItem(0);
+                    if (stack.getItem() instanceof BaseCostumeItem) {
+                        containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
+                        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
                 }
             }
         }
