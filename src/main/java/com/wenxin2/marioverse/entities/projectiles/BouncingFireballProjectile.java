@@ -152,6 +152,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             world.setBlock(hitPos.above(), Blocks.SOUL_FIRE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.FIREBALL_SETS_ON_FIRE) && world.getBlockState(hitPos.above()).isAir())
             world.setBlock(hitPos.above(), Blocks.FIRE.defaultBlockState(), 3);
+        else if (state.is(Blocks.OBSIDIAN) && world.getBlockState(hitPos.above()).isAir())
+            world.setBlock(hitPos.above(), Blocks.FIRE.defaultBlockState(), 3);
         else if (state.is(Blocks.WET_SPONGE))
             world.setBlock(hitPos, Blocks.SPONGE.defaultBlockState(), 3);
         else if (state.getBlock() instanceof CampfireBlock)
