@@ -266,40 +266,4 @@ public class MarioverseEventHandlers {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
         }
     }
-
-//    public static void canEquipAccessory(CanEquipCallback event) {
-//        Player player = Minecraft.getInstance().player;
-//        if (player != null) {
-//            AccessoriesCapability capability = AccessoriesCapability.get(player);
-//            if (capability != null) {
-//                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
-//                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
-//                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
-//                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
-//
-//                event.canEquip(ItemRegistry.FIRE_HAT.get().getDefaultInstance(), SlotReference.of(player, "costume_hat", 0));
-//                event.canEquip(ItemRegistry.FIRE_SHIRT.get().getDefaultInstance(), SlotReference.of(player, "costume_shirt", 0));
-//                event.canEquip(ItemRegistry.FIRE_OVERALLS.get().getDefaultInstance(), SlotReference.of(player, "costume_pants", 0));
-//                event.canEquip(ItemRegistry.FIRE_SHOES.get().getDefaultInstance(), SlotReference.of(player, "costume_shoes", 0));
-//            }
-//        }
-//    }
-//
-//    public static void canUnequipAccessory(CanUnequipCallback event) {
-//        Player player = Minecraft.getInstance().player;
-//        if (player != null) {
-//            AccessoriesCapability capability = AccessoriesCapability.get(player);
-//            if (capability != null) {
-//                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
-//                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
-//                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
-//                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
-//
-//                event.canUnequip(ItemRegistry.FIRE_HAT.get().getDefaultInstance(), SlotReference.of(player, "costume_hat", 0));
-//                event.canUnequip(ItemRegistry.FIRE_SHIRT.get().getDefaultInstance(), SlotReference.of(player, "costume_shirt", 0));
-//                event.canUnequip(ItemRegistry.FIRE_OVERALLS.get().getDefaultInstance(), SlotReference.of(player, "costume_pants", 0));
-//                event.canUnequip(ItemRegistry.FIRE_SHOES.get().getDefaultInstance(), SlotReference.of(player, "costume_shoes", 0));
-//            }
-//        }
-//    }
 }
