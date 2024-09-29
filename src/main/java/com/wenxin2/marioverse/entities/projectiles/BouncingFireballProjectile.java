@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
-import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,11 +13,13 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -26,10 +27,10 @@ import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -72,8 +73,10 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         Vec3 motion = this.getDeltaMovement();
 
         if (!this.isInWater()) {
-        this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
-        } else this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
+        } else {
+            this.setDeltaMovement(this.getDeltaMovement().add(1, -0.04D, 1)); // Gravity
+        }
 
         if (motion.length() > 0) {
             this.setYRot((float) Math.toDegrees(Math.atan2(motion.z, motion.x)) + 270);
@@ -95,6 +98,16 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             double z = this.getZ() + this.getBbWidth() / 2;
             this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
         }
+    }
+
+    @Override
+    public boolean isPushedByFluid(FluidType type) {
+        return false;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
     }
 
     @Override
@@ -171,7 +184,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 } else if (this.getOwner() != null) {
                     player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
                     player.igniteForSeconds(2.0F);
-                    this.doKnockback(player);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -187,7 +199,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 } else if (this.getOwner() != null) {
                     livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
                     livingEntity.igniteForSeconds(2.0F);
-                    this.doKnockback(livingEntity);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -202,14 +213,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
-        }
-    }
-
-    public void doKnockback(LivingEntity entity) {
-        double d1 = Math.max(0.0, 1.0 - entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
-        Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.6 * d1);
-        if (vec3.lengthSqr() > 0.0) {
-            entity.push(vec3.x, 0.2, vec3.z);
         }
     }
 
