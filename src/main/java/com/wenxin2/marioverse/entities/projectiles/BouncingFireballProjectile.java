@@ -161,9 +161,16 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                player.igniteForSeconds(2.0F);
-                if (this.getOwner() != null) {
+                if (player.isBlocking()) {
+                    this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    ItemStack shield = player.getUseItem();
+                    if (shield.getItem() instanceof ShieldItem) {
+                        shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+                    }
+                } else if (this.getOwner() != null) {
                     player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    player.igniteForSeconds(2.0F);
                     this.doKnockback(player);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -171,9 +178,15 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                livingEntity.igniteForSeconds(2.0F);
-                if (this.getOwner() != null) {
+                if (livingEntity.isBlocking()) {
+                    this.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
+                    ItemStack shield = livingEntity.getUseItem();
+                    if (shield.getItem() instanceof ShieldItem) {
+                        shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
+                    }
+                } else if (this.getOwner() != null) {
                     livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    livingEntity.igniteForSeconds(2.0F);
                     this.doKnockback(livingEntity);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
