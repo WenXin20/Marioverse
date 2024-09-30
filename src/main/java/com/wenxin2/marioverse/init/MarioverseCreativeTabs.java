@@ -73,9 +73,16 @@ public class MarioverseCreativeTabs {
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
                 add(event, pipe.get());
             }
+
+            add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
         }
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH.get());
+
+        if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
+            add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
+
+            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
+                add(event, pipe.get());
+            }
         }
 
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
@@ -89,12 +96,12 @@ public class MarioverseCreativeTabs {
             addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
-            add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.GOOMBA_SPAWN_EGG.get());
+        }
 
-            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
-                add(event, pipe.get());
-            }
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {

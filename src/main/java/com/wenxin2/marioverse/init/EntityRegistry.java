@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
@@ -21,6 +22,7 @@ public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL = register("bouncing_fireball", BouncingFireballProjectile::new,
             MobCategory.AMBIENT, 0.3f, 0.3f);
+
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
             MobCategory.AMBIENT, 0.6f, 0.6f);
     public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
@@ -28,17 +30,27 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
 
+    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA = register("goomba", GoombaEntity::new,
+            MobCategory.MONSTER, 0.625f, 1.0f);
+
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         AttributeSupplier.Builder genericMushroomAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.MOVEMENT_SPEED, 0.4f);
+                .add(Attributes.MOVEMENT_SPEED, 0.4F);
         AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), genericPowerUpAttribs.build());
         event.put(EntityRegistry.MUSHROOM.get(), genericMushroomAttribs.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericMushroomAttribs.build());
+
+        event.put(EntityRegistry.GOOMBA.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
+                .add(Attributes.MAX_HEALTH, 4)
+                .add(Attributes.MOVEMENT_SPEED, 0.4F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
     }
 

@@ -60,6 +60,8 @@
   "entity.marioverse.mushroom": "Mushroom",
   "entity.marioverse.one_up_mushroom": "1-Up Mushroom",
 
+  "entity.marioverse.goomba": "Goomba",
+
   "item.marioverse.fire_flower": "Fire Flower",
   "item.marioverse.mushroom": "Mushroom",
   "item.marioverse.one_up_mushroom": "1-Up Mushroom",
@@ -69,6 +71,8 @@
   "item.marioverse.fire_shirt": "Fire Shirt",
   "item.marioverse.fire_overalls": "Fire Overalls",
   "item.marioverse.fire_shoes": "Fire Shoes",
+
+  "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
   "item.marioverse.pipe_wrench.bubbles.false": "Pipe bubbles off",

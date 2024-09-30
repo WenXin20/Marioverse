@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
+import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -7,9 +8,11 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import net.minecraft.core.NonNullList;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
@@ -122,6 +125,10 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
+
+                if (livingEntity instanceof GoombaEntity goomba && goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+                    goomba.equipItemIfPossible(new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                }
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
                     AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.client.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.wenxin2.marioverse.client.models.entities.GoombaModel;
 import com.wenxin2.marioverse.mixin.LivingEntityRendererMixinAccessor;
 import io.wispforest.accessories.api.client.AccessoryRenderer;
 import io.wispforest.accessories.api.slot.SlotReference;
@@ -32,12 +33,13 @@ public interface ArmorRenderingExtension<T extends LivingEntity, A extends Human
 
             if (model instanceof HumanoidModel<M> humanoidModel)
                 possibleLayer.ifPresent(layer ->
-                        ((ArmorRenderingExtension) layer).renderArmorPiece(stack, matrices, multiBufferSource, reference.entity(), equipmentSlot, light, humanoidModel));
+                        ((ArmorRenderingExtension) layer).renderArmorPiece(stack, matrices, multiBufferSource,
+                                reference.entity(), equipmentSlot, light, humanoidModel));
         }
     };
 
     default void renderArmorPiece(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource,
-                                      T livingEntity, EquipmentSlot equipmentSlot, int light, A baseModel) {
+                                  T livingEntity, EquipmentSlot equipmentSlot, int light, A baseModel) {
         throw new IllegalStateException("Injected interface method is unimplemented!");
     }
 }

@@ -22,6 +22,7 @@
     "minecraft:wither_skeleton",
     "minecraft:zombie",
     "minecraft:zombie_villager",
-    "minecraft:zombified_piglin"
+    "minecraft:zombified_piglin",
+    { "id": "marioverse:goomba", "required": false }
   ]
 }

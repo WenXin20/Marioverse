@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.wenxin2.marioverse.client.renderers.ArmorRenderingExtension;
+import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
@@ -21,6 +22,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.util.Color;
 
 @Mixin(HumanoidArmorLayer.class)
@@ -49,7 +51,6 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, A extends 
             geoArmorRenderer.renderToBuffer(poseStack, null,
                     light, OverlayTexture.NO_OVERLAY, Color.WHITE.argbInt());
             baseModel.copyPropertiesTo((A)geckolibModel);
-            ArmorTrim armortrim = stack.get(DataComponents.TRIM);
         } else {
             this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot));
         }

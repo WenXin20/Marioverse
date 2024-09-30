@@ -37,7 +37,7 @@
 						"easing": "linear"
 					}
 				},
-				"body": {
+				"bipedBody": {
 					"position": {
 						"0.0": {
 							"vector": [0, 0, 0],
@@ -71,7 +71,7 @@
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
-				"body": {
+				"bipedBody": {
 					"rotation": {
 						"0.0": {
 							"vector": [4.95744, 0.65182, -7.47178],
@@ -189,7 +189,7 @@
 			"loop": true,
 			"animation_length": 1,
 			"bones": {
-				"body": {
+				"bipedBody": {
 					"rotation": {
 						"0.0": {
 							"vector": [12.45744, 0.65182, -7.47178],
