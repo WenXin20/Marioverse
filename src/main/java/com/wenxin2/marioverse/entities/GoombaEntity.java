@@ -42,19 +42,19 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.8D));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.5D, true));
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 0, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Run", 0, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
@@ -76,21 +76,20 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     private boolean isWalking() {
-        return this.getDeltaMovement().lengthSqr() > 0.01;
+        return (this.getDeltaMovement().horizontalDistance() >= 0.01
+                && this.getDeltaMovement().horizontalDistance() < 0.5)
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof RandomStrollGoal);
     }
 
     private boolean isRunning() {
-        return this.getDeltaMovement().lengthSqr() > 0.8;
+        return this.getDeltaMovement().horizontalDistance() >= 0.5
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof MeleeAttackGoal)
+                || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
     @Override
     public void tick() {
         super.tick();
-//        if (this.getTarget() != null) {
-//            this.getNavigation().setSpeedModifier(0.8D);
-//        } else {
-//            this.getNavigation().setSpeedModifier(0.4D);
-//        }
     }
 
     @Override
@@ -119,8 +118,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                 && player.getItemInHand(hand).getItem() instanceof ArmorItem) {
             this.equipItemIfPossible(player.getItemInHand(hand));
-            if (!player.isCreative())
-                player.getItemInHand(hand).shrink(1);
             player.swing(hand);
         }
         return super.mobInteract(player, hand);
