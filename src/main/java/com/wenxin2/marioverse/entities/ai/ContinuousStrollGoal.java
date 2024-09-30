@@ -7,10 +7,10 @@ import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class MushroomMoveGoal extends WaterAvoidingRandomStrollGoal {
+public class ContinuousStrollGoal extends WaterAvoidingRandomStrollGoal {
     private Vec3 direction;
 
-    public MushroomMoveGoal(PathfinderMob mob, double speed) {
+    public ContinuousStrollGoal(PathfinderMob mob, double speed) {
         super(mob, speed, 0.0F);
         this.direction = this.getRandomDirection();
     }
