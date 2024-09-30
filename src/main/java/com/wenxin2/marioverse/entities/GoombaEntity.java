@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.RandomSitGoal;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -33,6 +34,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class GoombaEntity extends Monster implements GeoEntity {
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
+    protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -42,7 +44,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.5D, true));
+        this.goalSelector.addGoal(1, new RandomSitGoal(this, 50, 140));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.5D, true));
         this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -58,7 +61,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if (this.isRunning()) {
+        if (this.isSitting()) {
+            event.setAndContinue(SIT_ANIM);
+            return PlayState.CONTINUE;
+        } else if (this.isRunning()) {
             event.setAndContinue(RUN_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isWalking()) {
@@ -73,6 +79,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    private boolean isSitting() {
+        return this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof RandomSitGoal);
     }
 
     private boolean isWalking() {

@@ -5,12 +5,6 @@
 			"loop": true,
 			"animation_length": 4,
 			"bones": {
-				"mouth_closed": {
-					"rotation": {
-						"vector": [0, 0, 180],
-						"easing": "linear"
-					}
-				},
 				"teeth": {
 					"position": {
 						"vector": [0, -1, 0],
@@ -354,6 +348,72 @@
 					},
 					"position": {
 						"vector": [0, -0.5, 0],
+						"easing": "linear"
+					}
+				}
+			}
+		},
+		"animation.goomba.sit": {
+			"loop": true,
+			"animation_length": 4,
+			"bones": {
+				"bipedBody": {
+					"rotation": {
+						"vector": [-5, 0, 0],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [0, -2, 0],
+						"easing": "linear"
+					}
+				},
+				"feet": {
+					"rotation": {
+						"vector": [-65, 0, 0],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [0, -1, -2],
+						"easing": "linear"
+					}
+				},
+				"left_foot": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, -22.5, 0],
+							"easing": "linear"
+						},
+						"2.0": {
+							"vector": [0, 2.5, 0],
+							"easing": "linear"
+						},
+						"4.0": {
+							"vector": [0, -22.5, 0],
+							"easing": "linear"
+						}
+					},
+					"position": {
+						"vector": [0.5, 0, 0],
+						"easing": "linear"
+					}
+				},
+				"right_foot": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 22.5, 0],
+							"easing": "linear"
+						},
+						"2.0": {
+							"vector": [0, -2.5, 0],
+							"easing": "linear"
+						},
+						"4.0": {
+							"vector": [0, 22.5, 0],
+							"easing": "linear"
+						}
+					},
+					"position": {
+						"vector": [-0.5, 0, 0],
 						"easing": "linear"
 					}
 				}
