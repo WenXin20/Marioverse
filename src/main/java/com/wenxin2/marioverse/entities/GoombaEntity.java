@@ -1,7 +1,10 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.RandomSitGoal;
 import com.wenxin2.marioverse.init.ItemRegistry;
+import java.util.EnumSet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -9,6 +12,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -32,6 +36,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoombaEntity extends Monster implements GeoEntity {
+    private static final EntityDataAccessor<Byte> DATA_ID_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
     protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
@@ -43,11 +48,17 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_ID_FLAGS, (byte)0);
+    }
+
+    @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new RandomSitGoal(this, 50, 140));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.5D, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.5D, true));
         this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(3, new GoombaEntity.GoombaSitGoal(50));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
@@ -79,10 +90,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
-    }
-
-    private boolean isSitting() {
-        return this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof RandomSitGoal);
     }
 
     private boolean isWalking() {
@@ -131,5 +138,89 @@ public class GoombaEntity extends Monster implements GeoEntity {
             player.swing(hand);
         }
         return super.mobInteract(player, hand);
+    }
+
+    private void setFlag(int i, boolean b) {
+        byte b0 = this.entityData.get(DATA_ID_FLAGS);
+        if (b) {
+            this.entityData.set(DATA_ID_FLAGS, (byte)(b0 | i));
+        } else {
+            this.entityData.set(DATA_ID_FLAGS, (byte)(b0 & ~i));
+        }
+    }
+
+    private boolean getFlag(int i) {
+        return (this.entityData.get(DATA_ID_FLAGS) & i) != 0;
+    }
+
+    public boolean isSitting() {
+        return this.getFlag(8);
+    }
+
+    public void sit(boolean isSitting) {
+        this.setFlag(8, isSitting);
+    }
+
+    void tryToSit() {
+        if (!this.isInWater()) {
+            this.setZza(0.0F);
+            this.getNavigation().stop();
+            this.sit(true);
+        }
+    }
+
+    class GoombaSitGoal extends Goal {
+        private final int chanceToSit;
+        private int cooldown;
+
+        public GoombaSitGoal(int chanceToSit) {
+            this.chanceToSit = chanceToSit;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (this.cooldown <= GoombaEntity.this.tickCount
+                    && !GoombaEntity.this.isBaby()
+                    && !GoombaEntity.this.isInWater()) {
+                if (this.cooldown > 0) {
+                    this.cooldown--;
+                    return false;
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return !GoombaEntity.this.isInWater()
+                    && (GoombaEntity.this.random.nextInt(reducedTickDelay(100)) != 1)
+                    && GoombaEntity.this.random.nextInt(reducedTickDelay(500)) != 1;
+        }
+
+        @Override
+        public void tick() {
+            if (!GoombaEntity.this.isSitting() && !GoombaEntity.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
+                GoombaEntity.this.tryToSit();
+            }
+            if (this.cooldown > 0) {
+                this.cooldown--;
+            }
+        }
+
+        @Override
+        public void start() {
+            GoombaEntity.this.tryToSit();
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(chanceToSit);
+        }
+
+        @Override
+        public void stop() {
+            this.cooldown = 0; // Reset sit timer
+
+            GoombaEntity.this.sit(false);
+        }
     }
 }

@@ -3,7 +3,9 @@ package com.wenxin2.marioverse.event_handlers;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -18,9 +20,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -130,7 +134,7 @@ public class MarioverseEventHandlers {
                         containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
+        } else if (event.getEntity() instanceof LivingEntity livingEntity) {
             float maxHealth = livingEntity.getMaxHealth();
             float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();
@@ -145,6 +149,7 @@ public class MarioverseEventHandlers {
                 tag.putBoolean("marioverse:has_mushroom", false);
 
                 if (!tag.getBoolean("marioverse:has_mushroom")
+                        && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                         && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
                         && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
@@ -184,6 +189,12 @@ public class MarioverseEventHandlers {
                 }
             }
         }
+
+        if (event.getEntity() instanceof GoombaEntity goomba
+                && goomba.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUME_ITEMS)) {
+            goomba.equipItemIfPossible(new ItemStack(Items.AIR));
+        }
+
 
 //        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
 //            tag.putBoolean("marioverse:has_mega_mushroom", false);

@@ -56,9 +56,21 @@
 				{
 					"name": "eyelids",
 					"parent": "eyes",
-					"pivot": [0, 12.5, -3.02],
+					"pivot": [0, 12.5, -3.02]
+				},
+				{
+					"name": "right_eyelid",
+					"parent": "eyelids",
+					"pivot": [-2, 12, -3.01],
 					"cubes": [
-						{"origin": [-3, 11, -3.015], "size": [2, 3, 0], "uv": [31, 4]},
+						{"origin": [-3, 11, -3.015], "size": [2, 3, 0], "uv": [31, 4]}
+					]
+				},
+				{
+					"name": "left_eyelid",
+					"parent": "eyelids",
+					"pivot": [2, 12, -3.01],
+					"cubes": [
 						{"origin": [1, 11, -3.015], "size": [2, 3, 0], "uv": [36, 4]}
 					]
 				},
