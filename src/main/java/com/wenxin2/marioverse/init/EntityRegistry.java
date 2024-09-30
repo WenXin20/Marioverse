@@ -30,8 +30,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA = register("goomba", GoombaEntity::new,
-            MobCategory.MONSTER, 0.625f, 1.0f);
+    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
+            Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
+                    .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -47,6 +48,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.MAX_HEALTH, 4)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)

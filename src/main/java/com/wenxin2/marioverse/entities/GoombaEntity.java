@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -55,8 +57,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.5D, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 1));
         this.goalSelector.addGoal(3, new GoombaEntity.GoombaSitGoal(50));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -107,6 +110,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
+        if (this.isRunning()) {
+            for (int i = 0; i < 1; i++) {
+                double x = this.getX() + this.getBbWidth() / 2;
+                double y = this.getY() + this.getBbHeight() / 2;
+                double z = this.getZ() + this.getBbWidth() / 2;
+                this.level().addParticle(ParticleTypes.POOF, x, y, z, 0, 0, 0);
+            }
+        }
     }
 
     @Override
