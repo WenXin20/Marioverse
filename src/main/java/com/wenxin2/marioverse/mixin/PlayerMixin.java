@@ -203,7 +203,7 @@ public abstract class PlayerMixin extends Entity {
 
                 for (Entity entity : entitiesAbove) {
                     if (entity instanceof LivingEntity livingEntity) {
-                        livingEntity.hurt(world.damageSources().generic(), 2.0F);
+                        livingEntity.hurt(world.damageSources().generic(), 4.0F);
                     }
                 }
             }
