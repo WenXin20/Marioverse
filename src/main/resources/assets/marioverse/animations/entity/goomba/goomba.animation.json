@@ -422,6 +422,23 @@
 					}
 				}
 			}
+		},
+		"animation.goomba.squash": {
+			"animation_length": 0.375,
+			"bones": {
+				"root": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1],
+							"easing": "linear"
+						},
+						"0.375": {
+							"vector": [1, 0.1, 1],
+							"easing": "linear"
+						}
+					}
+				}
+			}
 		}
 	}
 }
