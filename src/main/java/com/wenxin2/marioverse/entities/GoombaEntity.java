@@ -58,9 +58,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, true));
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 1));
-        this.goalSelector.addGoal(3, new GoombaEntity.GoombaSitGoal(50));
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(3, new GoombaEntity.GoombaSitGoal(100));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -95,16 +95,20 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return cache;
     }
 
+    public boolean isSitting() {
+        return this.getFlag(8) || this.isPassenger();
+    }
+
     private boolean isWalking() {
         return (this.getDeltaMovement().horizontalDistance() >= 0.01
                 && this.getDeltaMovement().horizontalDistance() < 0.5)
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof RandomStrollGoal);
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal);
     }
 
     private boolean isRunning() {
-        return this.getDeltaMovement().horizontalDistance() >= 0.5
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof MeleeAttackGoal)
-                || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
+        return this.getTarget() != null || this.getDeltaMovement().horizontalDistance() >= 0.3
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof MeleeAttackGoal)
+                || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
     @Override
@@ -118,14 +122,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 this.level().addParticle(ParticleTypes.POOF, x, y, z, 0, 0, 0);
             }
         }
-    }
-
-    @Override
-    public EquipmentSlot getEquipmentSlotForItem(ItemStack stack) {
-        if (stack.getItem() instanceof ArmorItem armorItem) {
-            return armorItem.getEquipmentSlot();
-        }
-        return super.getEquipmentSlotForItem(stack);
     }
 
     @Override
@@ -164,10 +160,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return (this.entityData.get(DATA_ID_FLAGS) & i) != 0;
     }
 
-    public boolean isSitting() {
-        return this.getFlag(8);
-    }
-
     public void sit(boolean isSitting) {
         this.setFlag(8, isSitting);
     }
@@ -191,46 +183,40 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public boolean canUse() {
-            if (this.cooldown <= GoombaEntity.this.tickCount
+            if (this.cooldown == 0
                     && !GoombaEntity.this.isBaby()
                     && !GoombaEntity.this.isInWater()) {
-                if (this.cooldown > 0) {
-                    this.cooldown--;
-                    return false;
+
+                if (GoombaEntity.this.getRandom().nextInt(this.chanceToSit) == 0) {
+                    return true;
                 }
-                return true;
-            } else {
-                return false;
             }
+            return false;
         }
 
         @Override
         public boolean canContinueToUse() {
             return !GoombaEntity.this.isInWater()
-                    && (GoombaEntity.this.random.nextInt(reducedTickDelay(100)) != 1)
-                    && GoombaEntity.this.random.nextInt(reducedTickDelay(500)) != 1;
+                    && GoombaEntity.this.isSitting()
+                    && GoombaEntity.this.getRandom().nextInt(100) != 1;
         }
 
         @Override
         public void tick() {
-            if (!GoombaEntity.this.isSitting() && !GoombaEntity.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
+            if (!GoombaEntity.this.isSitting()) {
                 GoombaEntity.this.tryToSit();
-            }
-            if (this.cooldown > 0) {
-                this.cooldown--;
             }
         }
 
         @Override
         public void start() {
-            GoombaEntity.this.tryToSit();
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(chanceToSit);
+            GoombaEntity.this.tryToSit();  // Start sitting when goal begins
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(100) + 100;
         }
 
         @Override
         public void stop() {
-            this.cooldown = 0; // Reset sit timer
-
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(1000);
             GoombaEntity.this.sit(false);
         }
     }

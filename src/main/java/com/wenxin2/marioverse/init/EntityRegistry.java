@@ -48,7 +48,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
-                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 0.6F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.MAX_HEALTH, 4)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
