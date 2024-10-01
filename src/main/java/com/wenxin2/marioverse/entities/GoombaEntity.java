@@ -11,6 +11,8 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -27,6 +29,8 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -63,6 +67,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new GoombaEntity.GoombaSitGoal(100));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new GoombaEntity.GoombaRideGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
@@ -96,7 +101,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public boolean isSitting() {
-        return this.getFlag(8) || this.isPassenger();
+        return this.getFlag(8);
     }
 
     private boolean isWalking() {
@@ -145,6 +150,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
             player.swing(hand);
         }
         return super.mobInteract(player, hand);
+    }
+
+    @NotNull
+    @Override
+    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
+        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
     }
 
     private void setFlag(int i, boolean b) {
@@ -210,7 +221,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void start() {
-            GoombaEntity.this.tryToSit();  // Start sitting when goal begins
+            GoombaEntity.this.tryToSit();
             this.cooldown = GoombaEntity.this.getRandom().nextInt(100) + 100;
         }
 
@@ -218,6 +229,70 @@ public class GoombaEntity extends Monster implements GeoEntity {
         public void stop() {
             this.cooldown = GoombaEntity.this.getRandom().nextInt(1000);
             GoombaEntity.this.sit(false);
+        }
+    }
+
+    public void ride(boolean isRiding) {
+        this.setFlag(9, isRiding);
+    }
+
+    void tryToRide() {
+        if (!this.isInWater() && !this.isPassenger()) {
+            this.setZza(0.0F);
+            this.getNavigation().stop();
+            this.sit(true);
+        }
+    }
+
+    class GoombaRideGoal extends Goal {
+        private final GoombaEntity goomba;
+        private int cooldown;
+        private static final int MAX_STACK_SIZE = 5;
+
+        public GoombaRideGoal(GoombaEntity goomba) {
+            this.goomba = goomba;
+        }
+
+        @Override
+        public boolean canUse() {
+            // Check if the Goomba has no passengers, isn't riding another Goomba, and stacking limit not exceeded
+            if (!goomba.isPassenger() && goomba.getPassengers().isEmpty() && !goomba.isVehicle() && this.cooldown == 0) {
+                // Very rare chance to attempt stacking
+                if (goomba.random.nextFloat() < 0.001F) {
+                    GoombaEntity nearbyGoomba = findNearbyGoombaToRide();
+                    return nearbyGoomba != null && nearbyGoomba.getPassengers().size() <= MAX_STACK_SIZE;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public void start() {
+            GoombaEntity nearbyGoomba = findNearbyGoombaToRide();
+            if (nearbyGoomba != null && nearbyGoomba.getPassengers().size() <= MAX_STACK_SIZE) {
+                goomba.tryToRide(); // Try to ride instead of sit
+                goomba.startRiding(nearbyGoomba, true);
+            }
+            this.cooldown = 200 + goomba.random.nextInt(400); // Cooldown for rare stacking attempts
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return goomba.isPassenger() && goomba.getVehicle() instanceof GoombaEntity;
+        }
+
+        @Override
+        public void stop() {
+            this.cooldown = 200; // Cooldown after stopping ride
+            goomba.ride(false); // Stop riding
+        }
+
+        private GoombaEntity findNearbyGoombaToRide() {
+            // Find nearby Goomba within a small radius to ride
+            return goomba.level().getEntitiesOfClass(GoombaEntity.class, goomba.getBoundingBox().inflate(0.5D)).stream()
+                    .filter(otherGoomba -> otherGoomba != goomba && otherGoomba.getPassengers().isEmpty())
+                    .findFirst()
+                    .orElse(null);
         }
     }
 }
