@@ -111,7 +111,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     private boolean isRunning() {
-        return this.getTarget() != null || this.getDeltaMovement().horizontalDistance() >= 0.3
+        return this.getTarget() != null || this.getDeltaMovement().horizontalDistance() >= 0.5
                 || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof MeleeAttackGoal)
                 || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
@@ -119,7 +119,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        if (this.isRunning()) {
+        if (this.getDeltaMovement().horizontalDistance() > 0.4) {
             for (int i = 0; i < 1; i++) {
                 double x = this.getX() + this.getBbWidth() / 2;
                 double y = this.getY() + this.getBbHeight() / 2;

@@ -6,22 +6,14 @@
 			"animation_length": 4,
 			"bones": {
 				"left_eyebrow": {
-					"rotation": {
-						"vector": [0, 0, 22.5],
-						"easing": "linear"
-					},
 					"position": {
-						"vector": [0, 0.25, 0],
+						"vector": [0, 0.5, 0],
 						"easing": "linear"
 					}
 				},
 				"right_eyebrow": {
-					"rotation": {
-						"vector": [0, 0, -22.5],
-						"easing": "linear"
-					},
 					"position": {
-						"vector": [0, 0.25, 0],
+						"vector": [0, 0.5, 0],
 						"easing": "linear"
 					}
 				},
@@ -188,6 +180,26 @@
 							"easing": "linear"
 						}
 					}
+				},
+				"left_eyebrow": {
+					"rotation": {
+						"vector": [0, 0, -12.5],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [0.5, 0, 0],
+						"easing": "linear"
+					}
+				},
+				"right_eyebrow": {
+					"rotation": {
+						"vector": [0, 0, 12.5],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [-0.5, 0, 0],
+						"easing": "linear"
+					}
 				}
 			}
 		},
@@ -331,7 +343,7 @@
 						"easing": "linear"
 					},
 					"position": {
-						"vector": [0, -0.5, 0],
+						"vector": [0.5, -0.25, 0],
 						"easing": "linear"
 					}
 				},
@@ -341,7 +353,7 @@
 						"easing": "linear"
 					},
 					"position": {
-						"vector": [0, -0.5, 0],
+						"vector": [-0.5, -0.25, 0],
 						"easing": "linear"
 					}
 				}
@@ -363,11 +375,33 @@
 				},
 				"left_eyebrow": {
 					"rotation": {
-						"vector": [0, 0, 22.5],
+						"vector": [0, 0, 0],
 						"easing": "linear"
 					},
 					"position": {
-						"vector": [0, 0.25, 0],
+						"vector": [0.5, 0, 0],
+						"easing": "linear"
+					}
+				},
+				"left_eyebrow_pivot": {
+					"rotation": {
+						"vector": [0, 45, 0],
+						"easing": "linear"
+					}
+				},
+				"right_eyebrow": {
+					"rotation": {
+						"vector": [0, 0, 12.5],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [0, 0, 0],
+						"easing": "linear"
+					}
+				},
+				"right_eyebrow_pivot": {
+					"rotation": {
+						"vector": [0, 0, 0],
 						"easing": "linear"
 					}
 				},
