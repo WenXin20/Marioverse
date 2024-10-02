@@ -304,17 +304,17 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     return;
 
                 // Apply knockback to both the Goomba and the bumping entity
-                Vec3 knockbackDirection = new Vec3(entity.getX() - GoombaEntity.this.getX(), 0.2D,
+                Vec3 knockbackDirection = new Vec3(entity.getX() - GoombaEntity.this.getX(), 0.4D,
                         entity.getZ() - GoombaEntity.this.getZ()).normalize();
                 double knockbackStrength = 1.0D;
 
                 // Knock back the Goomba
                 GoombaEntity.this.setDeltaMovement(
-                        -knockbackDirection.x * knockbackStrength, 0.2D,
+                        -knockbackDirection.x * knockbackStrength, 0.4D,
                         -knockbackDirection.z * knockbackStrength);
                 GoombaEntity.this.hurtMarked = true; // Mark entity as hurt to apply knockback
                 // Knock back the other entity
-                entity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.2D,
+                entity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
                         knockbackDirection.z * knockbackStrength);
                 entity.hurtMarked = true;
 
