@@ -69,7 +69,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 1));
         this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(75));
-        this.goalSelector.addGoal(1, new GoombaEntity.SleepGoal(100));
+        this.goalSelector.addGoal(3, new GoombaEntity.SleepGoal(this, 100));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new GoombaEntity.RideGoombaGoal(this));
@@ -248,15 +248,18 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (!this.isInWater()) {
             this.setZza(0.0F);
             this.getNavigation().stop();
-            this.sit(true);
+            this.sleep(true);
         }
     }
 
     class SleepGoal extends Goal {
+        private final GoombaEntity goomba;
         private final int chanceToSleep;
         private int cooldown;
+        private int sittingTime;
 
-        public SleepGoal(int chanceToSleep) {
+        public SleepGoal(GoombaEntity goomba, int chanceToSleep) {
+            this.goomba = goomba;
             this.chanceToSleep = chanceToSleep;
             this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
@@ -264,7 +267,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
         @Override
         public boolean canUse() {
             if (this.cooldown == 0 && !GoombaEntity.this.isInWater()) {
-                return GoombaEntity.this.getRandom().nextInt(this.chanceToSleep) == 0;
+                if (goomba.isSitting() && sittingTime > 200) {
+                    return GoombaEntity.this.getRandom().nextInt(this.chanceToSleep) == 0;
+                }
             }
             return false;
         }
@@ -278,10 +283,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void tick() {
-            if (!GoombaEntity.this.isSleeping())
-                GoombaEntity.this.tryToSleep();
-            else if (GoombaEntity.this.hurtMarked)
-                GoombaEntity.this.sleep(false);
+            if (goomba.isSitting())
+                sittingTime++;
+            else sittingTime = 0;
+
+            if (goomba.isSitting() && sittingTime > 200 && !goomba.isSleeping())
+                goomba.tryToSleep();
             else this.checkForCollisionsAndWakeUp();
         }
 
