@@ -13,6 +13,6 @@ public class GoombaModel extends DefaultedEntityGeoModel<GoombaEntity> {
 
     @Override
     public RenderType getRenderType(GoombaEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityTranslucent(getTextureResource(animatable));
     }
 }
