@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
 import java.util.List;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -30,6 +31,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -70,7 +72,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(1, new GoombaEntity.SleepGoal(100));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new GoombaEntity.GoombaRideGoal(this));
+        this.goalSelector.addGoal(5, new GoombaEntity.RideGoombaGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
@@ -276,11 +278,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void tick() {
-            if (!GoombaEntity.this.isSleeping()) {
+            if (!GoombaEntity.this.isSleeping())
                 GoombaEntity.this.tryToSleep();
-            } else {
-                this.checkForCollisionsAndWakeUp();
-            }
+            else if (GoombaEntity.this.hurtMarked)
+                GoombaEntity.this.sleep(false);
+            else this.checkForCollisionsAndWakeUp();
         }
 
         @Override
@@ -338,23 +340,21 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
     }
 
-    class GoombaRideGoal extends Goal {
+    class RideGoombaGoal extends Goal {
         private final GoombaEntity goomba;
         private int cooldown;
         private static final int MAX_STACK_SIZE = 5;
 
-        public GoombaRideGoal(GoombaEntity goomba) {
+        public RideGoombaGoal(GoombaEntity goomba) {
             this.goomba = goomba;
         }
 
         @Override
         public boolean canUse() {
-            // Check if the Goomba has no passengers, isn't riding another Goomba, and stacking limit not exceeded
             if (!goomba.isPassenger() && goomba.getPassengers().isEmpty() && !goomba.isVehicle() && this.cooldown == 0) {
-                // Very rare chance to attempt stacking
                 if (goomba.random.nextFloat() < 0.001F) {
-                    GoombaEntity nearbyGoomba = findNearbyGoombaToRide();
-                    return nearbyGoomba != null && nearbyGoomba.getPassengers().size() <= MAX_STACK_SIZE;
+                    GoombaEntity targetGoomba = findNearbyGoombaToRide();
+                    return targetGoomba != null && canRide(targetGoomba);
                 }
             }
             return false;
@@ -362,12 +362,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void start() {
-            GoombaEntity nearbyGoomba = findNearbyGoombaToRide();
-            if (nearbyGoomba != null && nearbyGoomba.getPassengers().size() <= MAX_STACK_SIZE) {
-                goomba.tryToRide(); // Try to ride instead of sit
-                goomba.startRiding(nearbyGoomba, true);
+            GoombaEntity targetGoomba = findNearbyGoombaToRide();
+            if (targetGoomba != null && canRide(targetGoomba)) {
+                goomba.tryToRide();
+                goomba.startRiding(targetGoomba, true);
             }
-            this.cooldown = 200 + goomba.random.nextInt(400); // Cooldown for rare stacking attempts
+            this.cooldown = 200 + goomba.random.nextInt(400);
         }
 
         @Override
@@ -377,16 +377,44 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void stop() {
-            this.cooldown = 200; // Cooldown after stopping ride
-            goomba.ride(false); // Stop riding
+            this.cooldown = 200;
+            goomba.ride(false);
         }
 
         private GoombaEntity findNearbyGoombaToRide() {
-            // Find nearby Goomba within a small radius to ride
-            return goomba.level().getEntitiesOfClass(GoombaEntity.class, goomba.getBoundingBox().inflate(0.5D)).stream()
-                    .filter(otherGoomba -> otherGoomba != goomba && otherGoomba.getPassengers().isEmpty())
-                    .findFirst()
-                    .orElse(null);
+            // Search for nearby Goombas within a certain radius that are not passengers themselves
+            List<GoombaEntity> nearbyGoombas = goomba.level().getEntitiesOfClass(GoombaEntity.class, goomba.getBoundingBox().inflate(0.5D), goomba -> !goomba.isPassenger());
+
+            for (GoombaEntity candidate : nearbyGoombas) {
+                if (candidate != goomba && canRide(candidate)) {
+                    return candidate;
+                }
+            }
+            return null;
+        }
+
+        private boolean canRide(GoombaEntity targetGoomba) {
+            if (targetGoomba.getPassengers().isEmpty()) {
+                BlockPos targetPos = targetGoomba.blockPosition().above();
+                BlockState blockAbove = goomba.level().getBlockState(targetPos);
+
+                return blockAbove.isAir() && canStack(targetGoomba);
+            }
+            return false;
+        }
+
+        private boolean canStack(GoombaEntity targetGoomba) {
+            int stackCount = 0;
+            Entity current = targetGoomba;
+
+            while (current.getVehicle() instanceof GoombaEntity) {
+                current = current.getVehicle();
+                stackCount++;
+                if (stackCount >= MAX_STACK_SIZE) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
