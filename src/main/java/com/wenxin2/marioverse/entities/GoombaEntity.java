@@ -13,6 +13,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -169,6 +170,17 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
         return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean wasHurt = super.hurt(source, amount);
+
+        if (wasHurt) {
+            this.sit(false);
+            this.sleep(false);
+        }
+        return wasHurt;
     }
 
     private void setFlag(int i, boolean b) {
