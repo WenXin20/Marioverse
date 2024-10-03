@@ -89,7 +89,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (this.isSleeping()) {
             event.setAndContinue(SLEEP_ANIM);
             return PlayState.CONTINUE;
-        } else if (this.isSitting()) {
+        }
+        if (this.isSitting()) {
             event.setAndContinue(SIT_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isRunning()) {
@@ -210,7 +211,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     class SitGoal extends Goal {
         private final int chanceToSit;
         private int cooldown;
-        private int sittingTime;
 
         public SitGoal(int chanceToSit) {
             this.chanceToSit = chanceToSit;
@@ -234,14 +234,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void tick() {
-            if (GoombaEntity.this.isSitting())
-                sittingTime++;
-            else sittingTime = 0;
-
             if (!GoombaEntity.this.isSitting()) {
                 GoombaEntity.this.tryToSit();
-            } else if (sittingTime > 200) {
-                GoombaEntity.this.tryToSleep();
             }
         }
 
@@ -305,14 +299,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 sittingTime++;
             else sittingTime = 0;
 
-//            if (!GoombaEntity.this.isSleeping())
-//                GoombaEntity.this.tryToSleep();
-//            else if (GoombaEntity.this.hurtMarked)
-//                GoombaEntity.this.sleep(false);
-
             if (goomba.isSitting() && sittingTime > 200 && !goomba.isSleeping())
                 goomba.tryToSleep();
-            this.checkForCollisionsAndWakeUp();
+            else this.checkForCollisionsAndWakeUp();
         }
 
         @Override
