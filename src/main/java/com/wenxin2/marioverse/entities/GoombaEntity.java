@@ -70,10 +70,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 1));
         this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(75));
-        this.goalSelector.addGoal(3, new GoombaEntity.SleepGoal(this, 100));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new GoombaEntity.RideGoombaGoal(this));
+        this.goalSelector.addGoal(4, new GoombaEntity.SleepGoal(100));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(7, new GoombaEntity.RideGoombaGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
@@ -86,12 +86,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if (this.isSleeping()) {
-            event.setAndContinue(SLEEP_ANIM);
-            return PlayState.CONTINUE;
-        }
         if (this.isSitting()) {
             event.setAndContinue(SIT_ANIM);
+            return PlayState.CONTINUE;
+        } else if (this.isSleeping()) {
+            event.setAndContinue(SLEEP_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isRunning()) {
             event.setAndContinue(RUN_ANIM);
@@ -115,7 +114,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public boolean isSleeping() {
-        return this.getFlag(9);
+        return this.getFlag(12);
     }
 
     private boolean isWalking() {
@@ -183,6 +182,36 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return wasHurt;
     }
 
+    public void checkForCollisionsAndWakeUp() {
+        List<Entity> nearbyEntities = this.level().getEntities(this,
+                this.getBoundingBox().inflate(0.25D), entity -> !entity.isSpectator());
+
+        for (Entity entity : nearbyEntities) {
+            if (!this.isSleeping() || entity instanceof GoombaEntity)
+                return;
+
+            // Apply knockback to both the Goomba and the bumping entity
+            Vec3 knockbackDirection = new Vec3(entity.getX() - this.getX(), 0.4D,
+                    entity.getZ() - this.getZ()).normalize();
+            double knockbackStrength = 1.0D;
+
+            // Knock back the Goomba
+            this.setDeltaMovement(
+                    -knockbackDirection.x * knockbackStrength, 0.4D,
+                    -knockbackDirection.z * knockbackStrength);
+            this.hurtMarked = true; // Mark entity as hurt to apply knockback
+            // Knock back the other entity
+            entity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
+                    knockbackDirection.z * knockbackStrength);
+            entity.hurtMarked = true;
+
+            this.sleep(false);
+            this.setZza(0.0F);
+            this.getNavigation().stop();
+            break;
+        }
+    }
+
     private void setFlag(int i, boolean b) {
         byte b0 = this.entityData.get(DATA_ID_FLAGS);
         if (b) {
@@ -211,6 +240,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     class SitGoal extends Goal {
         private final int chanceToSit;
         private int cooldown;
+        private int sittingTime;
 
         public SitGoal(int chanceToSit) {
             this.chanceToSit = chanceToSit;
@@ -229,20 +259,29 @@ public class GoombaEntity extends Monster implements GeoEntity {
         public boolean canContinueToUse() {
             return !GoombaEntity.this.isInWater()
                     && GoombaEntity.this.isSitting()
-                    && GoombaEntity.this.getRandom().nextInt(100) != 1;
+                    && GoombaEntity.this.getRandom().nextInt(300) != 1;
         }
 
         @Override
         public void tick() {
-            if (!GoombaEntity.this.isSitting()) {
+            if (!GoombaEntity.this.isSitting())
                 GoombaEntity.this.tryToSit();
+            else GoombaEntity.this.checkForCollisionsAndWakeUp();
+
+            if (GoombaEntity.this.isSitting())
+                sittingTime++;
+            else sittingTime = 0;
+
+            if (GoombaEntity.this.isSitting() && sittingTime > 200 && !GoombaEntity.this.isSleeping()) {
+                GoombaEntity.this.tryToSleep();
+                GoombaEntity.this.sleep(true);
             }
         }
 
         @Override
         public void start() {
             GoombaEntity.this.tryToSit();
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(100) + 100;
+//            this.cooldown = GoombaEntity.this.getRandom().nextInt(200) + 100;
         }
 
         @Override
@@ -253,7 +292,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void sleep(boolean isSleeping) {
-        this.setFlag(9, isSleeping);
+        this.setFlag(12, isSleeping);
     }
 
     void tryToSleep() {
@@ -265,13 +304,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     class SleepGoal extends Goal {
-        private final GoombaEntity goomba;
         private final int chanceToSleep;
         private int cooldown;
-        private int sittingTime;
 
-        public SleepGoal(GoombaEntity goomba, int chanceToSleep) {
-            this.goomba = goomba;
+        public SleepGoal(int chanceToSleep) {
             this.chanceToSleep = chanceToSleep;
             this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
@@ -279,9 +315,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         @Override
         public boolean canUse() {
             if (this.cooldown == 0 && !GoombaEntity.this.isInWater()) {
-                if (goomba.isSitting() && sittingTime > 200) {
-                    return GoombaEntity.this.getRandom().nextInt(this.chanceToSleep) == 0;
-                }
+                return GoombaEntity.this.getRandom().nextInt(this.chanceToSleep) == 0;
             }
             return false;
         }
@@ -295,13 +329,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public void tick() {
-            if (goomba.isSitting())
-                sittingTime++;
-            else sittingTime = 0;
-
-            if (goomba.isSitting() && sittingTime > 200 && !goomba.isSleeping())
-                goomba.tryToSleep();
-            else this.checkForCollisionsAndWakeUp();
+            if (!GoombaEntity.this.isSleeping())
+                GoombaEntity.this.tryToSleep();
+            else GoombaEntity.this.checkForCollisionsAndWakeUp();
         }
 
         @Override
@@ -315,40 +345,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
             this.cooldown = GoombaEntity.this.getRandom().nextInt(3000);
             GoombaEntity.this.sleep(false);
         }
-
-        public void checkForCollisionsAndWakeUp() {
-            List<Entity> nearbyEntities = GoombaEntity.this.level().getEntities(GoombaEntity.this,
-                    GoombaEntity.this.getBoundingBox().inflate(0.25D), entity -> !entity.isSpectator());
-
-            for (Entity entity : nearbyEntities) {
-                if (!GoombaEntity.this.isSleeping())
-                    return;
-
-                // Apply knockback to both the Goomba and the bumping entity
-                Vec3 knockbackDirection = new Vec3(entity.getX() - GoombaEntity.this.getX(), 0.4D,
-                        entity.getZ() - GoombaEntity.this.getZ()).normalize();
-                double knockbackStrength = 1.0D;
-
-                // Knock back the Goomba
-                GoombaEntity.this.setDeltaMovement(
-                        -knockbackDirection.x * knockbackStrength, 0.4D,
-                        -knockbackDirection.z * knockbackStrength);
-                GoombaEntity.this.hurtMarked = true; // Mark entity as hurt to apply knockback
-                // Knock back the other entity
-                entity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
-                        knockbackDirection.z * knockbackStrength);
-                entity.hurtMarked = true;
-
-                GoombaEntity.this.sleep(false);
-                GoombaEntity.this.setZza(0.0F);
-                GoombaEntity.this.getNavigation().stop();
-                break;
-            }
-        }
     }
 
     public void ride(boolean isRiding) {
-        this.setFlag(9, isRiding);
+        this.setFlag(10, isRiding);
     }
 
     void tryToRide() {
