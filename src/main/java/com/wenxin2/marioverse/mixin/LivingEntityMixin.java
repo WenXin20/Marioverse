@@ -14,6 +14,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.Collection;
+import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -75,7 +76,7 @@ public abstract class LivingEntityMixin extends Entity {
         BlockPos pos = this.blockPosition();
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(this.getBbHeight())));
-        LivingEntity livingEntity = (LivingEntity)(Object)this;
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -113,6 +114,23 @@ public abstract class LivingEntityMixin extends Entity {
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
         if (fireballCooldown > 0) {
             this.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
+        }
+
+        List<Entity> nearbyEntities = livingEntity.level().getEntities(livingEntity, livingEntity.getBoundingBox().inflate(0.2));
+
+        // Loop through each entity to check for collisions
+        for (Entity entity : nearbyEntities) {
+            if (entity instanceof LivingEntity collidingEntity) {
+                // Check if the colliding entity is above the current entity and falling
+                if (collidingEntity.getY() > livingEntity.getY() + livingEntity.getBbHeight() && collidingEntity.fallDistance > 0) {
+                    // Damage the current entity (the one being stepped on)
+                    livingEntity.hurt(world.damageSources().mobAttack(collidingEntity), 4.0F); // Adjust damage value
+
+                    // Bounce the colliding entity back up
+                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
+                    collidingEntity.fallDistance = 0; // Reset fall distance to prevent fall damage
+                }
+            }
         }
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {

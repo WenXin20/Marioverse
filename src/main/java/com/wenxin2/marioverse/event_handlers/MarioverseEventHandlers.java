@@ -193,7 +193,6 @@ public class MarioverseEventHandlers {
             goomba.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
         }
 
-
 //        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
 //            tag.putBoolean("marioverse:has_mega_mushroom", false);
 //            ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
