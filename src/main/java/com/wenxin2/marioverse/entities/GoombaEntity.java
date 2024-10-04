@@ -56,7 +56,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
     protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
     protected static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sleep");
-    protected static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlay("animation.goomba.squash");
+    protected static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goomba.squash");
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -95,7 +95,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
+        controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
@@ -204,17 +204,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
             this.sit(false);
             this.sleep(false);
         }
-
-        if (source.getEntity() instanceof Player player) {
-            if (this.getHealth() - amount <= 0
-                    && player.getY() > this.getY() + this.getBbHeight() && player.fallDistance > 0) {
-                if (this.level().isClientSide) {
-                    this.dead = Boolean.TRUE;
-                }
-            }
-        }
-        return super.hurt(source, amount);
+        return wasHurt;
     }
+
 
     @Override
     public boolean checkSpawnObstruction(LevelReader worldReader) {

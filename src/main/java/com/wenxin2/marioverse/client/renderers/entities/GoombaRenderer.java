@@ -50,4 +50,9 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
             }
         });
     }
+
+    @Override
+    protected float getDeathMaxRotation(GoombaEntity animatable) {
+        return 0.0F;
+    }
 }
