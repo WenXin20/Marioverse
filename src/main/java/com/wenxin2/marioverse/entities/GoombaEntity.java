@@ -50,7 +50,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoombaEntity extends Monster implements GeoEntity {
-    private static final EntityDataAccessor<Byte> DATA_ID_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
     protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
@@ -70,15 +71,16 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_ID_FLAGS, (byte)0);
+        builder.define(DATA_ID_SIT_FLAGS, (byte)0);
+        builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.0, 1));
-        this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(100, 1200, 3000, 1000));
-        this.goalSelector.addGoal(2, new GoombaEntity.SleepGoal(75, 2400, 6000));
+        this.goalSelector.addGoal(2, new GoombaEntity.SitGoal(75, 1200, 3000, 100));
+        this.goalSelector.addGoal(3, new GoombaEntity.SleepGoal(100, 2400, 6000));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -123,11 +125,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public boolean isSitting() {
-        return this.getFlag(8);
+        return this.getSitFlag(8);
     }
 
     public boolean isSleeping() {
-        return this.getFlag(12);
+        return this.getSleepFlag(12);
     }
 
     private boolean isWalking() {
@@ -256,6 +258,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     knockbackDirection.z * knockbackStrength);
             entity.hurtMarked = true;
 
+            this.sit(false);
             this.sleep(false);
             this.setZza(0.0F);
             this.getNavigation().stop();
@@ -263,21 +266,34 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
     }
 
-    private void setFlag(int i, boolean b) {
-        byte b0 = this.entityData.get(DATA_ID_FLAGS);
+    private void setSitFlag(int i, boolean b) {
+        byte b0 = this.entityData.get(DATA_ID_SIT_FLAGS);
         if (b) {
-            this.entityData.set(DATA_ID_FLAGS, (byte)(b0 | i));
+            this.entityData.set(DATA_ID_SIT_FLAGS, (byte)(b0 | i));
         } else {
-            this.entityData.set(DATA_ID_FLAGS, (byte)(b0 & ~i));
+            this.entityData.set(DATA_ID_SIT_FLAGS, (byte)(b0 & ~i));
         }
     }
 
-    private boolean getFlag(int i) {
-        return (this.entityData.get(DATA_ID_FLAGS) & i) != 0;
+    private void setSleepFlag(int i, boolean b) {
+        byte b1 = this.entityData.get(DATA_ID_SLEEP_FLAGS);
+        if (b) {
+            this.entityData.set(DATA_ID_SLEEP_FLAGS, (byte)(b1 | i));
+        } else {
+            this.entityData.set(DATA_ID_SLEEP_FLAGS, (byte)(b1 & ~i));
+        }
+    }
+
+    private boolean getSitFlag(int i) {
+        return (this.entityData.get(DATA_ID_SIT_FLAGS) & i) != 0;
+    }
+
+    private boolean getSleepFlag(int i) {
+        return (this.entityData.get(DATA_ID_SLEEP_FLAGS) & i) != 0;
     }
 
     public void sit(boolean isSitting) {
-        this.setFlag(8, isSitting);
+        this.setSitFlag(8, isSitting);
     }
 
     void tryToSit() {
@@ -332,6 +348,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
             if (GoombaEntity.this.isSitting() && sittingTime > ticksBeforeSleeping && !GoombaEntity.this.isSleeping()) {
                 GoombaEntity.this.tryToSleep();
                 GoombaEntity.this.sleep(true);
+                GoombaEntity.this.getNavigation().stop();
             }
         }
 
@@ -349,14 +366,13 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void sleep(boolean isSleeping) {
-        this.setFlag(12, isSleeping);
+        this.setSleepFlag(12, isSleeping);
     }
 
     void tryToSleep() {
         if (!this.isInWater()) {
             this.setZza(0.0F);
             this.getNavigation().stop();
-            this.sit(false);
             this.sleep(true);
         }
     }
@@ -410,7 +426,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void ride(boolean isRiding) {
-        this.setFlag(10, isRiding);
+        this.setSitFlag(10, isRiding);
     }
 
     void tryToRide() {
