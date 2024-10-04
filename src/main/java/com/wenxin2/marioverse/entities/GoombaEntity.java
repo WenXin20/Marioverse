@@ -56,6 +56,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
     protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
     protected static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sleep");
+    protected static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlay("animation.goomba.squash");
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -79,8 +80,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.0, 1));
-        this.goalSelector.addGoal(2, new GoombaEntity.SitGoal(75, 1200, 3000, 100));
-        this.goalSelector.addGoal(3, new GoombaEntity.SleepGoal(100, 2400, 6000));
+        this.goalSelector.addGoal(2, new GoombaEntity.SitGoal(100, 1200, 3000, 600));
+        this.goalSelector.addGoal(3, new GoombaEntity.SleepGoal(25, 2400, 6000));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
@@ -94,6 +95,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
@@ -117,6 +119,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
             event.setAndContinue(IDLE_ANIM);
             return PlayState.CONTINUE;
         }
+    }
+
+    protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
+        if (this.dead) {
+            event.setAndContinue(SQUASH_ANIM);
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
     }
 
     @Override
@@ -194,7 +204,16 @@ public class GoombaEntity extends Monster implements GeoEntity {
             this.sit(false);
             this.sleep(false);
         }
-        return wasHurt;
+
+        if (source.getEntity() instanceof Player player) {
+            if (this.getHealth() - amount <= 0
+                    && player.getY() > this.getY() + this.getBbHeight() && player.fallDistance > 0) {
+                if (this.level().isClientSide) {
+                    this.dead = Boolean.TRUE;
+                }
+            }
+        }
+        return super.hurt(source, amount);
     }
 
     @Override
@@ -240,7 +259,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 this.getBoundingBox().inflate(0.25D), entity -> !entity.isSpectator());
 
         for (Entity entity : nearbyEntities) {
-            if (!this.isSleeping() || entity instanceof GoombaEntity)
+            if ((!this.isSleeping() && !this.isSitting()) || entity instanceof GoombaEntity)
                 return;
 
             // Apply knockback to both the Goomba and the bumping entity
@@ -258,8 +277,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     knockbackDirection.z * knockbackStrength);
             entity.hurtMarked = true;
 
-            this.sit(false);
-            this.sleep(false);
+            this.sit(Boolean.FALSE);
+            this.sleep(Boolean.FALSE);
+            this.setXxa(0.0F);
             this.setZza(0.0F);
             this.getNavigation().stop();
             break;
@@ -298,6 +318,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     void tryToSit() {
         if (!this.isInWater()) {
+            this.setXxa(0.0F);
             this.setZza(0.0F);
             this.getNavigation().stop();
             this.sit(true);
@@ -347,7 +368,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
             if (GoombaEntity.this.isSitting() && sittingTime > ticksBeforeSleeping && !GoombaEntity.this.isSleeping()) {
                 GoombaEntity.this.tryToSleep();
-                GoombaEntity.this.sleep(true);
                 GoombaEntity.this.getNavigation().stop();
             }
         }
@@ -371,8 +391,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     void tryToSleep() {
         if (!this.isInWater()) {
+            this.setXxa(0.0F);
             this.setZza(0.0F);
             this.getNavigation().stop();
+            this.sit(false);
             this.sleep(true);
         }
     }
@@ -431,6 +453,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     void tryToRide() {
         if (!this.isInWater() && !this.isPassenger()) {
+            this.setXxa(0.0F);
             this.setZza(0.0F);
             this.getNavigation().stop();
             this.sit(true);
