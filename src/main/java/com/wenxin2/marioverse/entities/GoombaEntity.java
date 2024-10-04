@@ -18,6 +18,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -32,7 +34,9 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -56,6 +60,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     public GoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
+        if (this.isInWaterOrBubble()) {
+            this.lookControl = new SmoothSwimmingLookControl(this, 10);
+            this.moveControl = new SmoothSwimmingMoveControl(this, 360, 360, 1.0F, 1.0F, true);
+        }
     }
 
     @Override
@@ -66,16 +75,16 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, true));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 1));
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(75));
-        this.goalSelector.addGoal(4, new GoombaEntity.SleepGoal(100));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.0, 1));
+        this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(100, 1200, 3000, 1000));
+        this.goalSelector.addGoal(2, new GoombaEntity.SleepGoal(75, 2400, 6000));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new GoombaEntity.RideGoombaGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+        this.goalSelector.addGoal(7, new GoombaEntity.RideGoombaGoal(0.001F));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(5, new HurtByTargetGoal(this).setAlertOthers());
     }
 
     @Override
@@ -89,10 +98,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (this.isSitting()) {
             event.setAndContinue(SIT_ANIM);
             return PlayState.CONTINUE;
-        } else if (this.isSleeping()) {
+        }
+
+        if (this.isSleeping()) {
             event.setAndContinue(SLEEP_ANIM);
             return PlayState.CONTINUE;
-        } else if (this.isRunning()) {
+        }
+
+        if (this.isRunning()) {
             event.setAndContinue(RUN_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isWalking()) {
@@ -182,6 +195,44 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return wasHurt;
     }
 
+    @Override
+    public boolean checkSpawnObstruction(LevelReader worldReader) {
+        return worldReader.isUnobstructed(this);
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 120;
+    }
+
+    @Override
+    protected int getBaseExperienceReward() {
+        return 1 + this.level().random.nextInt(3);
+    }
+
+    protected void handleAirSupply(int airSupplyAmount) {
+        if (this.isAlive() && this.isInWaterOrBubble()) {
+            this.setAirSupply(airSupplyAmount);
+        }
+    }
+
+    @Override
+    public void baseTick() {
+        int i = this.getAirSupply();
+        super.baseTick();
+        this.handleAirSupply(i);
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeLeashed() {
+        return true;
+    }
+
     public void checkForCollisionsAndWakeUp() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.25D), entity -> !entity.isSpectator());
@@ -239,10 +290,16 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     class SitGoal extends Goal {
         private final int chanceToSit;
+        private final int ticksBeforeSittingAgain;
+        private final int ticksBeforeSleeping;
+        private final int ticksSitting;
         private int cooldown;
         private int sittingTime;
 
-        public SitGoal(int chanceToSit) {
+        public SitGoal(int chanceToSit, int ticksSitting, int ticksBeforeSittingAgain, int ticksBeforeSleeping) {
+            this.ticksBeforeSittingAgain = ticksBeforeSittingAgain;
+            this.ticksBeforeSleeping = ticksBeforeSleeping;
+            this.ticksSitting = ticksSitting;
             this.chanceToSit = chanceToSit;
             this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
@@ -259,7 +316,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         public boolean canContinueToUse() {
             return !GoombaEntity.this.isInWater()
                     && GoombaEntity.this.isSitting()
-                    && GoombaEntity.this.getRandom().nextInt(300) != 1;
+                    && GoombaEntity.this.getRandom().nextInt(ticksSitting / 2) != 1;
         }
 
         @Override
@@ -272,7 +329,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 sittingTime++;
             else sittingTime = 0;
 
-            if (GoombaEntity.this.isSitting() && sittingTime > 200 && !GoombaEntity.this.isSleeping()) {
+            if (GoombaEntity.this.isSitting() && sittingTime > ticksBeforeSleeping && !GoombaEntity.this.isSleeping()) {
                 GoombaEntity.this.tryToSleep();
                 GoombaEntity.this.sleep(true);
             }
@@ -281,12 +338,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
         @Override
         public void start() {
             GoombaEntity.this.tryToSit();
-//            this.cooldown = GoombaEntity.this.getRandom().nextInt(200) + 100;
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksSitting) + 100;
         }
 
         @Override
         public void stop() {
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(2000);
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksBeforeSittingAgain);
             GoombaEntity.this.sit(false);
         }
     }
@@ -299,15 +356,20 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (!this.isInWater()) {
             this.setZza(0.0F);
             this.getNavigation().stop();
+            this.sit(false);
             this.sleep(true);
         }
     }
 
     class SleepGoal extends Goal {
         private final int chanceToSleep;
+        private final int ticksBeforeSleepingAgain;
+        private final int ticksSleeping;
         private int cooldown;
 
-        public SleepGoal(int chanceToSleep) {
+        public SleepGoal(int chanceToSleep, int ticksSleeping, int ticksBeforeSleepingAgain) {
+            this.ticksBeforeSleepingAgain = ticksBeforeSleepingAgain;
+            this.ticksSleeping = ticksSleeping;
             this.chanceToSleep = chanceToSleep;
             this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
@@ -323,9 +385,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
         @Override
         public boolean canContinueToUse() {
             return !GoombaEntity.this.isInWater()
-                    && GoombaEntity.this.isSleeping()
-                    && GoombaEntity.this.getRandom().nextInt(100) != 1;
+                    && GoombaEntity.this.getRandom().nextInt(ticksSleeping / 2) != 1;
         }
+
 
         @Override
         public void tick() {
@@ -337,12 +399,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
         @Override
         public void start() {
             GoombaEntity.this.tryToSleep();
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(100) + 100;
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksSleeping) + 100;
         }
 
         @Override
         public void stop() {
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(3000);
+            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksBeforeSleepingAgain);
             GoombaEntity.this.sleep(false);
         }
     }
@@ -360,18 +422,19 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     class RideGoombaGoal extends Goal {
-        private final GoombaEntity goomba;
+        private final float chanceToRide;
         private int cooldown;
         private static final int MAX_STACK_SIZE = 5;
 
-        public RideGoombaGoal(GoombaEntity goomba) {
-            this.goomba = goomba;
+        public RideGoombaGoal(float chanceToRide) {
+            this.chanceToRide = chanceToRide;
         }
 
         @Override
         public boolean canUse() {
-            if (!goomba.isPassenger() && goomba.getPassengers().isEmpty() && !goomba.isVehicle() && this.cooldown == 0) {
-                if (goomba.random.nextFloat() < 0.001F) {
+            if (!GoombaEntity.this.isPassenger() && GoombaEntity.this.getPassengers().isEmpty()
+                    && !GoombaEntity.this.isVehicle() && !GoombaEntity.this.isSwimming() && this.cooldown == 0) {
+                if (GoombaEntity.this.random.nextFloat() < chanceToRide) {
                     GoombaEntity targetGoomba = findNearbyGoombaToRide();
                     return targetGoomba != null && canRide(targetGoomba);
                 }
@@ -383,29 +446,31 @@ public class GoombaEntity extends Monster implements GeoEntity {
         public void start() {
             GoombaEntity targetGoomba = findNearbyGoombaToRide();
             if (targetGoomba != null && canRide(targetGoomba)) {
-                goomba.tryToRide();
-                goomba.startRiding(targetGoomba, true);
+                GoombaEntity.this.tryToRide();
+                GoombaEntity.this.startRiding(targetGoomba, true);
             }
-            this.cooldown = 200 + goomba.random.nextInt(400);
+            this.cooldown = 200 + GoombaEntity.this.random.nextInt(400);
         }
 
         @Override
         public boolean canContinueToUse() {
-            return goomba.isPassenger() && goomba.getVehicle() instanceof GoombaEntity;
+            return GoombaEntity.this.isPassenger() && GoombaEntity.this.getVehicle() instanceof GoombaEntity;
         }
 
         @Override
         public void stop() {
             this.cooldown = 200;
-            goomba.ride(false);
+            GoombaEntity.this.ride(false);
         }
 
         private GoombaEntity findNearbyGoombaToRide() {
-            // Search for nearby Goombas within a certain radius that are not passengers themselves
-            List<GoombaEntity> nearbyGoombas = goomba.level().getEntitiesOfClass(GoombaEntity.class, goomba.getBoundingBox().inflate(0.5D), goomba -> !goomba.isPassenger());
+            // Search for nearby Goombas within a certain radius that are not passengers
+            List<GoombaEntity> nearbyGoombas =
+                    GoombaEntity.this.level().getEntitiesOfClass(GoombaEntity.class,
+                            GoombaEntity.this.getBoundingBox().inflate(0.5D), goomba -> !GoombaEntity.this.isPassenger());
 
             for (GoombaEntity candidate : nearbyGoombas) {
-                if (candidate != goomba && canRide(candidate)) {
+                if (candidate != GoombaEntity.this && canRide(candidate)) {
                     return candidate;
                 }
             }
@@ -415,7 +480,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         private boolean canRide(GoombaEntity targetGoomba) {
             if (targetGoomba.getPassengers().isEmpty()) {
                 BlockPos targetPos = targetGoomba.blockPosition().above();
-                BlockState blockAbove = goomba.level().getBlockState(targetPos);
+                BlockState blockAbove = GoombaEntity.this.level().getBlockState(targetPos);
 
                 return blockAbove.isAir() && canStack(targetGoomba);
             }
