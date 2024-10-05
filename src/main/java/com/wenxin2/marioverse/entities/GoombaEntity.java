@@ -168,6 +168,18 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public void baseTick() {
+        int i = this.getAirSupply();
+        this.handleAirSupply(i);
+
+        if (this.getTarget() != null) {
+            this.setSpeed(0.8F);
+        }
+
+        super.baseTick();
+    }
+
+    @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
         if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
@@ -227,13 +239,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (this.isAlive() && this.isInWaterOrBubble()) {
             this.setAirSupply(airSupplyAmount);
         }
-    }
-
-    @Override
-    public void baseTick() {
-        int i = this.getAirSupply();
-        super.baseTick();
-        this.handleAirSupply(i);
     }
 
     @Override

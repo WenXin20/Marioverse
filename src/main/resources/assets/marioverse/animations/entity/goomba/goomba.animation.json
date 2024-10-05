@@ -668,7 +668,7 @@
 			}
 		},
 		"animation.goomba.squash": {
-			"animation_length": 0.375,
+			"animation_length": 0.25,
 			"bones": {
 				"root": {
 					"scale": {
@@ -676,8 +676,8 @@
 							"vector": [1, 1, 1],
 							"easing": "linear"
 						},
-						"0.375": {
-							"vector": [1, 0.1, 1],
+						"0.25": {
+							"vector": [1.6, 0.1, 1.6],
 							"easing": "linear"
 						}
 					}

@@ -90,6 +90,8 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
 
+        this.marioverse$squashEntity(world, livingEntity);
+
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock) {
             this.marioverse$enterPipeBelow(pos);
         }
@@ -114,23 +116,6 @@ public abstract class LivingEntityMixin extends Entity {
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
         if (fireballCooldown > 0) {
             this.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
-        }
-
-        List<Entity> nearbyEntities = livingEntity.level().getEntities(livingEntity, livingEntity.getBoundingBox().inflate(0.2));
-
-        // Loop through each entity to check for collisions
-        for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity collidingEntity) {
-                // Check if the colliding entity is above the current entity and falling
-                if (collidingEntity.getY() > livingEntity.getY() + livingEntity.getBbHeight() && collidingEntity.fallDistance > 0) {
-                    // Damage the current entity (the one being stepped on)
-                    livingEntity.hurt(world.damageSources().mobAttack(collidingEntity), 4.0F); // Adjust damage value
-
-                    // Bounce the colliding entity back up
-                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
-                    collidingEntity.fallDistance = 0; // Reset fall distance to prevent fall damage
-                }
-            }
         }
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
@@ -226,6 +211,30 @@ public abstract class LivingEntityMixin extends Entity {
                         0.0, 1.0, 0.0);
             }
         } else super.handleEntityEvent(id);
+    }
+
+    @Unique
+    public void marioverse$squashEntity(Level world, LivingEntity damagedEntity) {
+        List<Entity> nearbyEntities = damagedEntity.level().getEntities(damagedEntity, damagedEntity.getBoundingBox().inflate(0.2));
+
+        for (Entity entity : nearbyEntities) {
+            if (entity instanceof LivingEntity collidingEntity) {
+                // Check if the colliding entity is above the current entity and falling
+                if (collidingEntity.getY() > damagedEntity.getY() + damagedEntity.getBbHeight() && collidingEntity.fallDistance > 0) {
+                    damagedEntity.hurt(world.damageSources().mobAttack(collidingEntity), 4.0F); // Adjust damage value
+
+                    // Bounce the colliding entity back up
+                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
+                    collidingEntity.fallDistance = 0; // Reset fall distance to prevent fall damage
+
+                    for (int i = 0; i < 5; ++i) {
+                        this.level().addParticle(ParticleTypes.CRIT,
+                                this.getX() + this.getBbWidth() / 2, this.getY() + this.getBbHeight(), this.getZ() + this.getBbWidth() / 2,
+                                0.0, 1.0, 0.0);
+                    }
+                }
+            }
+        }
     }
 
     @Unique
