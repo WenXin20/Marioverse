@@ -1,0 +1,7 @@
+{
+  "_comment": "All goomba mobs",
+  "replace": false,
+  "values": [
+    { "id": "marioverse:goomba", "required": false }
+  ]
+}

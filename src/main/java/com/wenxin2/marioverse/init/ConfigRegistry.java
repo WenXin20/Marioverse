@@ -15,12 +15,14 @@ public class ConfigRegistry
     public static final String CATEGORY_DEBUG = "debug";
     public static final String CATEGORY_GAMEPLAY = "gameplay";
     public static final String CATEGORY_MISC = "misc";
+    public static final String CATEGORY_POWER_UPS = "power_ups";
     public static final String CATEGORY_QUESTION_BLOCK = "question_block";
     public static final String CATEGORY_TELEPORTATION = "teleportation";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
     private final ModConfigSpec CONFIG_SPEC;
+    public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
     public static ModConfigSpec.BooleanValue ALLOW_PIPE_UNWAXING;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
@@ -35,6 +37,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
+    public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
@@ -53,6 +56,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
+    public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
+    public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -190,40 +195,15 @@ public class ConfigRegistry
                         .defineInRange("warp_cooldown", 50, 0, 72000);
             BUILDER.pop();
 
-            BUILDER.push(CATEGORY_GAMEPLAY);
+            BUILDER.push(CATEGORY_POWER_UPS);
                 RUNNING_ACTIVATES_POWER_UPS = BUILDER.translation("configuration.marioverse.running_activates_power_ups")
                         .comment("Allow running to activate power ups.")
                         .comment("§9[Default: true]")
                         .define("running_activates_power_ups", true);
-                EQUIP_COSTUMES_PLAYERS = BUILDER.translation("configuration.marioverse.equip_costumes_players")
-                        .comment("Equips power up costumes on Players.")
-                        .comment("§9[Default: true]")
-                        .define("equip_costumes_players", true);
-                EQUIP_COSTUMES_MOBS = BUILDER.translation("configuration.marioverse.equip_costumes_mobs")
-                        .comment("Equips power up costumes humanoid mobs, like zombies.")
-                        .comment("§cMobs must whitelisted in the entity tag \"marioverse:costume_whitelist\".")
-                        .comment("§9[Default: true]")
-                        .define("equip_costumes_mobs", true);
-                DAMAGE_SHRINKS_PLAYERS = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
-                        .comment("Allow damage to shrink players.")
-                        .comment("§9[Default: true]")
-                        .define("damage_shrinks_players", true);
-                DAMAGE_SHRINKS_ALL_MOBS = BUILDER.translation("configuration.marioverse.damage_shrinks_all_mobs")
-                        .comment("Allow damage to shrink all mobs.")
-                        .comment("§9[Default: false]")
-                        .define("damage_shrinks_all_mobs", false);
                 MUSHROOM_HEAL_AMT = BUILDER.translation("configuration.marioverse.mushroom_heal_amount")
                         .comment("Amount of health Mushrooms heals.")
                         .comment("§9[Default: 5.0F]§b")
                         .defineInRange("mushroom_heal_amount", 5.0F, 0.0F, 100.0F);
-                HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
-                        .comment("Health to shrink player at.")
-                        .comment("§9[Default: 10.0F]§b")
-                        .defineInRange("health_shrink_players", 10.0F, 0.0F, 100.0F);
-                HEALTH_SHRINK_MOBS = BUILDER.translation("configuration.marioverse.health_shrink_mobs")
-                        .comment("Health in percent to shrink mobs at.")
-                        .comment("§9[Default: 2%]§b")
-                        .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
                 ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_heal_amount")
                         .comment("Amount of health 1-Up Mushrooms heals.")
                         .comment("§9[Default: 8.0F]§b")
@@ -245,6 +225,52 @@ public class ConfigRegistry
                         .comment("Max amount of fireballs that can be shot before a cooldown.")
                         .comment("§9[Default: 2]§b")
                         .defineInRange("max_fireballs", 2, 1, 100);
+            BUILDER.pop();
+
+            BUILDER.push(CATEGORY_GAMEPLAY);
+                EQUIP_COSTUMES_PLAYERS = BUILDER.translation("configuration.marioverse.equip_costumes_players")
+                        .comment("Equips power up costumes on Players.")
+                        .comment("§9[Default: true]")
+                        .define("equip_costumes_players", true);
+                EQUIP_COSTUMES_MOBS = BUILDER.translation("configuration.marioverse.equip_costumes_mobs")
+                        .comment("Equips power up costumes humanoid mobs, like zombies.")
+                        .comment("§cMobs must whitelisted in the entity tag \"marioverse:costume_whitelist\".")
+                        .comment("§9[Default: true]")
+                        .define("equip_costumes_mobs", true);
+                DAMAGE_SHRINKS_PLAYERS = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
+                        .comment("Allow damage to shrink players.")
+                        .comment("§9[Default: true]")
+                        .define("damage_shrinks_players", true);
+                DAMAGE_SHRINKS_ALL_MOBS = BUILDER.translation("configuration.marioverse.damage_shrinks_all_mobs")
+                        .comment("Allow damage to shrink all mobs.")
+                        .comment("§9[Default: false]")
+                        .define("damage_shrinks_all_mobs", false);
+                HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
+                        .comment("Health to shrink player at.")
+                        .comment("§9[Default: 10.0F]§b")
+                        .defineInRange("health_shrink_players", 10.0F, 0.0F, 100.0F);
+                HEALTH_SHRINK_MOBS = BUILDER.translation("configuration.marioverse.health_shrink_mobs")
+                        .comment("Health in percent to shrink mobs at.")
+                        .comment("§9[Default: 2%]§b")
+                        .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
+                ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
+                        .comment("Enable mobs to stomp other mobs.")
+                        .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")
+                        .comment("§9[Default: true]")
+                        .define("enable_stompable_enemies", true);
+                ALL_MOBS_CAN_STOMP = BUILDER.translation("configuration.marioverse.all_mobs_can_stomp")
+                        .comment("Allow all mobs to stomp other mobs.")
+                        .comment("§9[Default: false]")
+                        .define("all_mobs_can_stomp", false);
+                STOMP_ALL_MOBS = BUILDER.translation("configuration.marioverse.stomp_all_mobs")
+                        .comment("Allow all mobs to be stomped on.")
+                        .comment("§9[Default: false]")
+                        .define("stomp_all_mobs", false);
+                STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
+                        .comment("Amount of damage stomping causes.")
+                        .comment("§6[1 point = 1/2 Heart]")
+                        .comment("§9[Default: 4.0]§b")
+                        .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
             BUILDER.pop();
 
         BUILDER.pop();

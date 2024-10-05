@@ -33,7 +33,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.monster.Monster;
@@ -91,7 +90,8 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
 
-        this.marioverse$squashEntity(world, livingEntity);
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get())
+            this.marioverse$squashEntity(world, livingEntity);
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock) {
             this.marioverse$enterPipeBelow(pos);
@@ -219,7 +219,9 @@ public abstract class LivingEntityMixin extends Entity {
         List<Entity> nearbyEntities = damagedEntity.level().getEntities(damagedEntity, damagedEntity.getBoundingBox().inflate(0.2));
 
         for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity collidingEntity) {
+            if (entity instanceof LivingEntity collidingEntity
+                    && (collidingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                    && (damagedEntity.getType().is(TagRegistry.STOMPABLE_MOBS) || ConfigRegistry.STOMP_ALL_MOBS.get())) {
                 // Check if the colliding entity is above the current entity and falling
                 if (collidingEntity.getY() > damagedEntity.getY() + damagedEntity.getBbHeight() && collidingEntity.fallDistance > 0) {
                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue()); // Adjust damage value
@@ -230,7 +232,8 @@ public abstract class LivingEntityMixin extends Entity {
 
                     for (int i = 0; i < 5; ++i) {
                         this.level().addParticle(ParticleTypes.CRIT,
-                                this.getX() + this.getBbWidth() / 2, this.getY() + this.getBbHeight(), this.getZ() + this.getBbWidth() / 2,
+                                this.getX() + this.getBbWidth() / 2, this.getY() + this.getBbHeight(),
+                                this.getZ() + this.getBbWidth() / 2,
                                 0.0, 1.0, 0.0);
                     }
                 }

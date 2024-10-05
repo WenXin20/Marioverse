@@ -1,0 +1,7 @@
+{
+  "_comment": "All mobs that can be stomped on.",
+  "replace": false,
+  "values": [
+    { "id": "#marioverse:goombas", "required": false }
+  ]
+}

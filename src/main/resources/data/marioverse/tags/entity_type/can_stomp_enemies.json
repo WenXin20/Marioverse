@@ -1,0 +1,7 @@
+{
+  "_comment": "All mobs that can be stomp other mobs.",
+  "replace": false,
+  "values": [
+    "minecraft:player"
+  ]
+}

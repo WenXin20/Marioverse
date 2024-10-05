@@ -28,6 +28,7 @@ public class TagRegistry {
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags(Marioverse.MOD_ID, "question_blocks");
     public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
+    public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags(Marioverse.MOD_ID, "can_stomp_enemies");
     public static final TagKey<EntityType<?>> CONSUME_ONE_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_one_ups_blacklist");
     public static final TagKey<EntityType<?>> CONSUME_POWER_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_power_ups_blacklist");
     public static final TagKey<EntityType<?>> COSTUME_ENTITY_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "costume_whitelist");
@@ -35,9 +36,11 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DROPS_COIN_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "drops_coin_blacklist");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags(Marioverse.MOD_ID, "fireball_immune");
     public static final TagKey<EntityType<?>> FIRE_FLOWER_ENTITY_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "fire_flower_whitelist");
+    public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "goombas");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<EntityType<?>> QUICK_TRAVEL_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "quick_travel_blacklist");
+    public static final TagKey<EntityType<?>> STOMPABLE_MOBS = entityTypeTags(Marioverse.MOD_ID, "stompable_mobs");
     public static final TagKey<EntityType<?>> WARP_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "warp_blacklist");
 
     public static TagKey<Block> blockTags(String id, String name) {
