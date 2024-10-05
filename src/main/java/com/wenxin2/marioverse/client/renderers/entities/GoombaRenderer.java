@@ -39,7 +39,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                 };
             }
 
-            // Return the ModelPart responsible for the armor pieces we want to render
+            // Return the ModelPart responsible for the armor pieces to render
             @NotNull
             @Override
             protected ModelPart getModelPartForBone(GeoBone bone, EquipmentSlot slot, ItemStack stack, GoombaEntity animatable, HumanoidModel<?> baseModel) {

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.LandAndSwimmingMoveControl;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
 import java.util.List;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -36,7 +36,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -65,7 +64,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.setPathfindingMalus(PathType.WATER, 0.0F);
         if (this.isInWaterOrBubble()) {
             this.lookControl = new SmoothSwimmingLookControl(this, 10);
-            this.moveControl = new SmoothSwimmingMoveControl(this, 360, 360, 1.0F, 1.0F, true);
+            this.moveControl = new LandAndSwimmingMoveControl(this, 360, 360, 1.0F, 1.0F, true);
         }
     }
 
