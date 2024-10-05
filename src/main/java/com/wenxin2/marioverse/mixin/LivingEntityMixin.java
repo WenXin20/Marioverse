@@ -223,16 +223,16 @@ public abstract class LivingEntityMixin extends Entity {
                     && (collidingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                     && (damagedEntity.getType().is(TagRegistry.STOMPABLE_MOBS) || ConfigRegistry.STOMP_ALL_MOBS.get())) {
                 // Check if the colliding entity is above the current entity and falling
-                if (collidingEntity.getY() > damagedEntity.getY() + damagedEntity.getBbHeight() && collidingEntity.fallDistance > 0) {
+                if (collidingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight() && collidingEntity.fallDistance > 0) {
                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue()); // Adjust damage value
 
                     // Bounce the colliding entity back up
                     collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
                     collidingEntity.fallDistance = 0; // Reset fall distance to prevent fall damage
 
-                    int numParticles = 10; // Number of particles to spawn in the circle
-                    double radius = damagedEntity.getBbWidth() / 2;  // Radius of the circle around the fireball
-                    double height = damagedEntity.getBbHeight() / 2;  // Radius of the circle around the fireball
+                    int numParticles = 10;
+                    double radius = damagedEntity.getBbWidth() / 2;
+                    double height = damagedEntity.getBbHeight() / 2;
 
                     for (int i = 0; i < numParticles; i++) {
                         // Calculate angle for each particle
