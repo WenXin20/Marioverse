@@ -57,6 +57,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
+    public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
+    public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
@@ -266,6 +268,14 @@ public class ConfigRegistry
                         .comment("Allow all mobs to be stomped on.")
                         .comment("§9[Default: false]")
                         .define("stomp_all_mobs", false);
+                STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
+                        .comment("The height mobs will bounce when stomping enemies.")
+                        .comment("§9[Default: 0.5]§b")
+                        .defineInRange("stomp_bounce_height", 0.5, 0.0, 100.0);
+                STOMP_BOUNCE_HEIGHT_JUMP = BUILDER.translation("configuration.marioverse.stomp_bounce_height_jump")
+                        .comment("The height players will bounce when stomping enemies while pressing the jump key.")
+                        .comment("§9[Default: 1.0]§b")
+                        .defineInRange("stomp_bounce_height_jump", 1.0, 0.0, 100.0);
                 STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
                         .comment("Amount of damage stomping causes.")
                         .comment("§6[1 point = 1/2 Heart]")
