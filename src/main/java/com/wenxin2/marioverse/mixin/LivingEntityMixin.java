@@ -230,11 +230,24 @@ public abstract class LivingEntityMixin extends Entity {
                     collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
                     collidingEntity.fallDistance = 0; // Reset fall distance to prevent fall damage
 
-                    for (int i = 0; i < 5; ++i) {
-                        this.level().addParticle(ParticleTypes.CRIT,
-                                this.getX() + this.getBbWidth() / 2, this.getY() + this.getBbHeight(),
-                                this.getZ() + this.getBbWidth() / 2,
-                                0.0, 1.0, 0.0);
+                    int numParticles = 10; // Number of particles to spawn in the circle
+                    double radius = damagedEntity.getBbWidth() / 2;  // Radius of the circle around the fireball
+                    double height = damagedEntity.getBbHeight() / 2;  // Radius of the circle around the fireball
+
+                    for (int i = 0; i < numParticles; i++) {
+                        // Calculate angle for each particle
+                        double angle = 2 * Math.PI * i / numParticles;
+
+                        // Calculate the X and Z offset using sine and cosine to spread in a circle
+                        double offsetX = Math.cos(angle) * radius;
+                        double offsetY = Math.sin(angle) * height;
+                        double offsetZ = Math.sin(angle) * radius;
+
+                        double x = this.getX() + offsetX;
+                        double y = this.getY() + offsetY;
+                        double z = this.getZ() + offsetZ;
+
+                        this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
                     }
                 }
             }
