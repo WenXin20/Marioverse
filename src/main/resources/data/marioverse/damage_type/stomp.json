@@ -1,0 +1,6 @@
+{
+  "message_id": "marioverse.stomp",
+  "scaling": "when_caused_by_living_non_player",
+  "effects": "hurt",
+  "exhaustion": 0.5
+}

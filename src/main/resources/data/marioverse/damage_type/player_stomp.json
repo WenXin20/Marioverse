@@ -1,0 +1,6 @@
+{
+  "message_id": "marioverse.stomp",
+  "scaling": "always",
+  "effects": "hurt",
+  "exhaustion": 0.5
+}

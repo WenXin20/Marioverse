@@ -94,6 +94,8 @@
   "death.attack.marioverse.fireball.item": "%1$s was fireballed by %2$s using %3$s",
   "death.attack.marioverse.fireball.player": "%1$s was fireballed whilst fighting %2$s",
   "death.attack.marioverse.fireball.player.item": "%1$s fireballed by %2$s using %3$s",
+  "death.attack.marioverse.stomp": "%1$s stomped on",
+  "death.attack.marioverse.stomp.player": "%1$s stomped on by %2$s",
 
   "gui.marioverse.controls": "Marioverse",
   "key.marioverse.bouncing_fireball": "Fire Flower Shoot Fireball",

@@ -1,6 +1,6 @@
 {
   "message_id": "marioverse.fireball.player",
-  "effects": "burning",
   "scaling": "always",
+  "effects": "burning",
   "exhaustion": 0.1
 }

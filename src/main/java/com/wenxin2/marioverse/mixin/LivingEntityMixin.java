@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
@@ -221,7 +222,7 @@ public abstract class LivingEntityMixin extends Entity {
             if (entity instanceof LivingEntity collidingEntity) {
                 // Check if the colliding entity is above the current entity and falling
                 if (collidingEntity.getY() > damagedEntity.getY() + damagedEntity.getBbHeight() && collidingEntity.fallDistance > 0) {
-                    damagedEntity.hurt(world.damageSources().mobAttack(collidingEntity), 4.0F); // Adjust damage value
+                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue()); // Adjust damage value
 
                     // Bounce the colliding entity back up
                     collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
