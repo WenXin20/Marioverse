@@ -17,6 +17,7 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.Collection;
 import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -224,11 +225,15 @@ public abstract class LivingEntityMixin extends Entity {
                     && (damagedEntity.getType().is(TagRegistry.STOMPABLE_MOBS) || ConfigRegistry.STOMP_ALL_MOBS.get())) {
                 // Check if the colliding entity is above the current entity and falling
                 if (collidingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight() && collidingEntity.fallDistance > 0) {
-                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue()); // Adjust damage value
+                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
 
                     // Bounce the colliding entity back up
-                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, 0.5, collidingEntity.getDeltaMovement().z); // Adjust bounce height
-                    collidingEntity.fallDistance = 0; // Reset fall distance to prevent fall damage
+                    double bounceHeight = 0.5;
+                    if (collidingEntity instanceof Player)
+                        if (Minecraft.getInstance().options.keyJump.isDown())
+                            bounceHeight = 1.0;
+                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, bounceHeight, collidingEntity.getDeltaMovement().z);
+                    collidingEntity.fallDistance = 0; // Reset fall damage
 
                     int numParticles = 10;
                     double radius = damagedEntity.getBbWidth() / 2;
