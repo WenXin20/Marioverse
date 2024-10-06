@@ -377,6 +377,112 @@
 				}
 			}
 		},
+		"animation.goomba.idle_swim": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"left_foot": {
+					"rotation": {
+						"0.0": {
+							"vector": [25, 0, 0],
+							"easing": "linear"
+						},
+						"0.5": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						},
+						"1.0": {
+							"vector": [25, 0, 0],
+							"easing": "linear"
+						}
+					}
+				},
+				"right_foot": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						},
+						"0.5": {
+							"vector": [27.5, 0, 0],
+							"easing": "linear"
+						},
+						"1.0": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						}
+					}
+				}
+			}
+		},
+		"animation.goomba.swim": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"root": {
+					"rotation": {
+						"vector": [77.5, 0, 0],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [0, 4, 9],
+						"easing": "linear"
+					}
+				},
+				"left_eyebrow": {
+					"rotation": {
+						"vector": [0, 0, -12.5],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [0.5, -0.25, 0],
+						"easing": "linear"
+					}
+				},
+				"right_eyebrow": {
+					"rotation": {
+						"vector": [0, 0, 12.5],
+						"easing": "linear"
+					},
+					"position": {
+						"vector": [-0.5, -0.25, 0],
+						"easing": "linear"
+					}
+				},
+				"left_foot": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						},
+						"0.25": {
+							"vector": [45, 0, 0],
+							"easing": "linear"
+						},
+						"0.5": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						}
+					}
+				},
+				"right_foot": {
+					"rotation": {
+						"0.0": {
+							"vector": [45, 0, 0],
+							"easing": "linear"
+						},
+						"0.25": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						},
+						"0.5": {
+							"vector": [45, 0, 0],
+							"easing": "linear"
+						}
+					}
+				}
+			}
+		},
 		"animation.goomba.sit": {
 			"loop": true,
 			"animation_length": 4,

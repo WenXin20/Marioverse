@@ -53,10 +53,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
+    protected static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle_swim");
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
     protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
     protected static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sleep");
     protected static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goomba.squash");
+    protected static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("animation.goomba.swim");
     protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -78,10 +80,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 10));
+        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0, 40));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(100, 1200, 3000, 300));
         this.goalSelector.addGoal(4, new GoombaEntity.SleepGoal(25, 2400, 6000));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 0.6D, true));
@@ -96,6 +98,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Swim", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
     }
@@ -111,7 +114,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
             return PlayState.CONTINUE;
         }
 
-        if (this.isRunning()) {
+        if (this.isInWaterOrBubble()) {
+            if (!this.isRunning() && !this.isWalking())
+                event.setAndContinue(IDLE_SWIM_ANIM);
+            else event.setAndContinue(SWIM_ANIM);
+            return PlayState.CONTINUE;
+        } else if (this.isRunning()) {
             event.setAndContinue(RUN_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isWalking()) {
