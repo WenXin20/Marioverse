@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.projectiles.BouncingFireballModel;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
@@ -24,7 +25,7 @@ public class BouncingFireballRenderer extends GeoEntityRenderer<BouncingFireball
         poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
 
         // Render the model
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, LightTexture.FULL_BRIGHT);
         poseStack.popPose();
     }
 }
