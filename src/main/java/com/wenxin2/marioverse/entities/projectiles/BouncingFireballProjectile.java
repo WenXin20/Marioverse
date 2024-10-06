@@ -75,7 +75,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (!this.isInWater()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
         } else {
-            this.setDeltaMovement(this.getDeltaMovement().add(1, -0.04D, 1)); // Gravity
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
         }
 
         if (motion.length() > 0) {
