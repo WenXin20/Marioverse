@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.IdleSwimGoal;
+import com.wenxin2.marioverse.entities.ai.SwimAttackGoal;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
 import java.util.List;
@@ -20,7 +22,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -28,7 +29,6 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -68,8 +68,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public GoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.WATER, 0.0F);
-            this.moveControl = new GoombaMoveControl(this);
-
+        this.moveControl = new GoombaMoveControl(this);
     }
 
     @Override
@@ -81,7 +80,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new GoombaEntity.GoombaSwimGoal(this));
+        this.goalSelector.addGoal(0, new IdleSwimGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(100, 1200, 3000, 300));
@@ -90,8 +89,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(8, new GoombaEntity.RideGoombaGoal(0.001F));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this).setAlertOthers());
+        this.targetSelector.addGoal(1, new SwimAttackGoal<>(this, Player.class, 0.8D));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this).setAlertOthers());
     }
 
     @Override
@@ -259,20 +259,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public boolean isPushedByFluid() {
         return false;
-    }
-
-    @Override
-    public void travel(Vec3 vec3) {
-        if (this.isEffectiveAi() && this.isInWaterOrBubble()) {
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.moveRelative(0.04F, vec3);
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
-            if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.005, 0.0));
-            }
-        } else {
-            super.travel(vec3);
-        }
     }
 
     @Override
@@ -557,13 +543,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 }
             }
             return true;
-        }
-    }
-
-    class GoombaSwimGoal extends RandomSwimmingGoal {
-
-        public GoombaSwimGoal(GoombaEntity entity) {
-            super(entity, 1.0, 40);
         }
     }
 
