@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.LandAndSwimmingMoveControl;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
 import java.util.List;
@@ -9,6 +8,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -19,7 +20,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -65,10 +68,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public GoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.WATER, 0.0F);
-        if (this.isInWaterOrBubble()) {
-            this.lookControl = new SmoothSwimmingLookControl(this, 10);
-            this.moveControl = new LandAndSwimmingMoveControl(this, 85, 10, 1.0F, 1.0F, true);
-        }
+            this.moveControl = new GoombaMoveControl(this);
+
     }
 
     @Override
@@ -80,8 +81,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomSwimmingGoal(this, 1.0, 40));
-        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(0, new GoombaEntity.GoombaSwimGoal(this));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(3, new GoombaEntity.SitGoal(100, 1200, 3000, 300));
@@ -90,15 +90,15 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(8, new GoombaEntity.RideGoombaGoal(0.001F));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(5, new HurtByTargetGoal(this).setAlertOthers());
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this).setAlertOthers());
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Swim", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Swim", 10, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
     }
@@ -164,10 +164,15 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
+    private float rotateTowards(float currentYaw, float targetYaw, float maxTurnSpeed) {
+        float deltaYaw = Mth.wrapDegrees(targetYaw - currentYaw);
+        return currentYaw + Mth.clamp(deltaYaw, -maxTurnSpeed, maxTurnSpeed);
+    }
+
     @Override
     public void tick() {
         super.tick();
-        if (this.getDeltaMovement().horizontalDistance() > 0.4) {
+        if (this.getSpeed() > 0.4) {
             for (int i = 0; i < 1; i++) {
                 double x = this.getX() + this.getBbWidth() / 2;
                 double y = this.getY() + this.getBbHeight() / 2;
@@ -254,6 +259,20 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public boolean isPushedByFluid() {
         return false;
+    }
+
+    @Override
+    public void travel(Vec3 vec3) {
+        if (this.isEffectiveAi() && this.isInWaterOrBubble()) {
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.moveRelative(0.04F, vec3);
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.005, 0.0));
+            }
+        } else {
+            super.travel(vec3);
+        }
     }
 
     @Override
@@ -346,7 +365,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public boolean canUse() {
-            if (this.cooldown == 0 && !GoombaEntity.this.isInWater()) {
+            if (this.cooldown == 0 && !GoombaEntity.this.isInWater() && !GoombaEntity.this.isSitting()) {
                 return GoombaEntity.this.getRandom().nextInt(this.chanceToSit) == 0;
             }
             return false;
@@ -354,37 +373,38 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         @Override
         public boolean canContinueToUse() {
-            return !GoombaEntity.this.isInWater()
-                    && GoombaEntity.this.isSitting()
-                    && GoombaEntity.this.getRandom().nextInt(ticksSitting / 2) != 1;
-        }
-
-        @Override
-        public void tick() {
-            if (!GoombaEntity.this.isSitting())
-                GoombaEntity.this.tryToSit();
-            else GoombaEntity.this.checkForCollisionsAndWakeUp();
-
-            if (GoombaEntity.this.isSitting())
-                sittingTime++;
-            else sittingTime = 0;
-
-            if (GoombaEntity.this.isSitting() && sittingTime > ticksBeforeSleeping && !GoombaEntity.this.isSleeping()) {
-                GoombaEntity.this.tryToSleep();
-                GoombaEntity.this.getNavigation().stop();
-            }
+            return GoombaEntity.this.isSitting() && this.sittingTime < this.ticksSitting;
         }
 
         @Override
         public void start() {
             GoombaEntity.this.tryToSit();
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksSitting) + 100;
+            this.sittingTime = 0;
+            this.cooldown = ticksBeforeSittingAgain;
         }
 
         @Override
         public void stop() {
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksBeforeSittingAgain);
             GoombaEntity.this.sit(false);
+            this.cooldown = ticksBeforeSittingAgain;
+        }
+
+        @Override
+        public void tick() {
+            if (this.sittingTime >= this.ticksSitting) {
+                GoombaEntity.this.sit(false);
+                GoombaEntity.this.sleep(false);
+            } else {
+                this.sittingTime++;
+                if (this.sittingTime >= this.ticksBeforeSleeping) {
+                    GoombaEntity.this.sleep(true);
+                }
+            }
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
         }
     }
 
@@ -537,6 +557,49 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 }
             }
             return true;
+        }
+    }
+
+    class GoombaSwimGoal extends RandomSwimmingGoal {
+
+        public GoombaSwimGoal(GoombaEntity entity) {
+            super(entity, 1.0, 40);
+        }
+    }
+
+    static class GoombaMoveControl extends MoveControl {
+        private final GoombaEntity fish;
+
+        GoombaMoveControl(GoombaEntity p_27501_) {
+            super(p_27501_);
+            this.fish = p_27501_;
+        }
+
+        @Override
+        public void tick() {
+            if (this.fish.isEyeInFluid(FluidTags.WATER)) {
+                this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0, 0.005, 0.0));
+            }
+
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.fish.getNavigation().isDone()) {
+                float f = (float)(this.speedModifier * this.fish.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                this.fish.setSpeed(Mth.lerp(0.125F, this.fish.getSpeed(), f));
+                double d0 = this.wantedX - this.fish.getX();
+                double d1 = this.wantedY - this.fish.getY();
+                double d2 = this.wantedZ - this.fish.getZ();
+                if (d1 != 0.0) {
+                    double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                    this.fish.setDeltaMovement(this.fish.getDeltaMovement().add(0.0, (double)this.fish.getSpeed() * (d1 / d3) * 0.1, 0.0));
+                }
+
+                if (d0 != 0.0 || d2 != 0.0) {
+                    float f1 = (float)(Mth.atan2(d2, d0) * 180.0F / (float)Math.PI) - 90.0F;
+                    this.fish.setYRot(this.rotlerp(this.fish.getYRot(), f1, 90.0F));
+                    this.fish.yBodyRot = this.fish.getYRot();
+                }
+            } else {
+                this.fish.setSpeed(0.0F);
+            }
         }
     }
 }
