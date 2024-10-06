@@ -257,24 +257,25 @@ public class GoombaEntity extends Monster implements GeoEntity {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.25D), entity -> !entity.isSpectator());
 
-        for (Entity entity : nearbyEntities) {
-            if ((!this.isSleeping() && !this.isSitting()) || entity instanceof GoombaEntity)
+        for (Entity collidingEntity : nearbyEntities) {
+            if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
+                    || collidingEntity.getY() >= this.getY() + this.getEyeHeight())
                 return;
 
-            // Apply knockback to both the Goomba and the bumping entity
-            Vec3 knockbackDirection = new Vec3(entity.getX() - this.getX(), 0.4D,
-                    entity.getZ() - this.getZ()).normalize();
+            // Apply knockback to both the Goomba and the bumping collidingEntity
+            Vec3 knockbackDirection = new Vec3(collidingEntity.getX() - this.getX(), 0.4D,
+                    collidingEntity.getZ() - this.getZ()).normalize();
             double knockbackStrength = 1.0D;
 
             // Knock back the Goomba
             this.setDeltaMovement(
                     -knockbackDirection.x * knockbackStrength, 0.4D,
                     -knockbackDirection.z * knockbackStrength);
-            this.hurtMarked = true; // Mark entity as hurt to apply knockback
-            // Knock back the other entity
-            entity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
+            this.hurtMarked = true; // Mark as hurt to apply knockback
+            // Knock back the other collidingEntity
+            collidingEntity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
                     knockbackDirection.z * knockbackStrength);
-            entity.hurtMarked = true;
+            collidingEntity.hurtMarked = true;
 
             this.sit(Boolean.FALSE);
             this.sleep(Boolean.FALSE);
