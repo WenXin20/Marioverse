@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.entities.ai;
+package com.wenxin2.marioverse.entities.goals;
 
 import java.util.EnumSet;
 import net.minecraft.world.entity.PathfinderMob;

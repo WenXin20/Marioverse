@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.IdleSwimGoal;
-import com.wenxin2.marioverse.entities.ai.SwimAttackGoal;
+import com.wenxin2.marioverse.entities.goals.IdleSwimGoal;
+import com.wenxin2.marioverse.entities.goals.SwimAttackGoal;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
 import java.util.List;

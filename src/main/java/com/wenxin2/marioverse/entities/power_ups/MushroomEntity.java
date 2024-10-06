@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.entities.ai.ContinuousStrollGoal;
+import com.wenxin2.marioverse.entities.goals.ContinuousStrollGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
