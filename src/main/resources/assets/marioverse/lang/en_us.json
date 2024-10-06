@@ -248,7 +248,7 @@
   "configuration.marioverse.select_invisible_question": "Select Invisible Question Blocks",
   "configuration.marioverse.stomp_all_mobs": "Stomp All Mobs",
   "configuration.marioverse.stomp_bounce_height": "Stomp Bounce Height",
-  "configuration.marioverse.stomp_bounce_height_jump": "Stomp Bounce Height Jump Key",
+  "configuration.marioverse.stomp_bounce_height_jump": "Stomp Bounce Height when Jumping",
   "configuration.marioverse.stomp_damage": "Stomp Damage",
   "configuration.marioverse.teleport_mobs": "Teleport Mobs",
   "configuration.marioverse.teleport_non_mobs": "Teleport Non-Living Entities",

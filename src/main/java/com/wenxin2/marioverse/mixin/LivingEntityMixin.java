@@ -227,12 +227,14 @@ public abstract class LivingEntityMixin extends Entity {
                 if (collidingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight() && collidingEntity.fallDistance > 0) {
                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
 
-                    // Bounce the colliding entity back up
-                    double bounceHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
+                    double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
                     if (collidingEntity instanceof Player)
                         if (Minecraft.getInstance().options.keyJump.isDown())
-                            bounceHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
-                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, bounceHeight, collidingEntity.getDeltaMovement().z);
+                            bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
+                    double gravity = 0.08; // Approximate Minecraft gravity value
+                    double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
+
+                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, bounceVelocity, collidingEntity.getDeltaMovement().z);
                     collidingEntity.fallDistance = 0; // Reset fall damage
 
                     int numParticles = 10;

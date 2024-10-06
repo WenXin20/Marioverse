@@ -269,13 +269,13 @@ public class ConfigRegistry
                         .comment("§9[Default: false]")
                         .define("stomp_all_mobs", false);
                 STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
-                        .comment("The height mobs will bounce when stomping enemies.")
-                        .comment("§9[Default: 0.5]§b")
-                        .defineInRange("stomp_bounce_height", 0.5, 0.0, 100.0);
+                        .comment("The approx height mobs will bounce when stomping enemies.")
+                        .comment("§9[Default: 1.5]§b")
+                        .defineInRange("stomp_bounce_height", 1.5, 0.0, 100.0);
                 STOMP_BOUNCE_HEIGHT_JUMP = BUILDER.translation("configuration.marioverse.stomp_bounce_height_jump")
-                        .comment("The height players will bounce when stomping enemies while pressing the jump key.")
-                        .comment("§9[Default: 1.0]§b")
-                        .defineInRange("stomp_bounce_height_jump", 1.0, 0.0, 100.0);
+                        .comment("The approx height players will bounce when stomping enemies while pressing the jump key.")
+                        .comment("§9[Default: 5.5]§b")
+                        .defineInRange("stomp_bounce_height_jump", 5.5, 0.0, 100.0);
                 STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
                         .comment("Amount of damage stomping causes.")
                         .comment("§6[1 point = 1/2 Heart]")
