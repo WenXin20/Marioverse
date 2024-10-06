@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -203,7 +204,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             EntityType<?> entityType = powerUpItem.getType(stack);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
-                if (world.getBlockState(pos.above()).isAir()) {
+                if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (entity != null) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
@@ -212,7 +213,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
-            } else if (world.getBlockState(pos.above()).isAir()) {
+            } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
                 world.addFreshEntity(itemEntity);
             } else {
@@ -223,7 +224,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             EntityType<?> entityType = spawnEgg.getType(stack);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_ENTITY_BLACKLIST)) {
-                if (world.getBlockState(pos.above()).isAir()) {
+                if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (entity != null) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
@@ -232,7 +233,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
-            } else if (world.getBlockState(pos.above()).isAir()) {
+            } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
                 world.addFreshEntity(itemEntity);
             } else {
@@ -243,7 +244,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
             ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
             if (armorStand != null) {
-                if (world.getBlockState(pos.above()).isAir())
+                if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                     armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                 else armorStand.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(2, armorStand.getType().getHeight())).getY(), pos.getZ() + 0.5D);
                 world.addFreshEntity(armorStand);
@@ -252,7 +253,7 @@ public class QuestionBlock extends Block implements EntityBlock {
         } else if (stack.getItem() instanceof MinecartItem cart && world instanceof ServerLevel serverWorld) {
             AbstractMinecart abstractMinecart =
                     AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, cart.type, stack, null);
-            if (world.getBlockState(pos.above()).isAir())
+            if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                 abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
             else abstractMinecart.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, abstractMinecart.getBbHeight())).getY(), pos.getZ() + 0.5D);
             world.addFreshEntity(abstractMinecart);
@@ -260,7 +261,7 @@ public class QuestionBlock extends Block implements EntityBlock {
         } else if (stack.getItem() instanceof BoatItem boatItem && world instanceof ServerLevel serverWorld) {
             Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D)
                     : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-            if (world.getBlockState(pos.above()).isAir())
+            if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                 boat.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
             else boat.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, boat.getBbHeight())).getY(), pos.getZ() + 0.5D);
             boat.setVariant(boatItem.type);
@@ -268,14 +269,14 @@ public class QuestionBlock extends Block implements EntityBlock {
             stack.copyWithCount(1);
         } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock && world instanceof ServerLevel serverWorld) {
             PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
-            if (world.getBlockState(pos.above()).isAir())
+            if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                 primedtnt.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
             else primedtnt.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, primedtnt.getBbHeight())).getY(), pos.getZ() + 0.5D);
             world.addFreshEntity(primedtnt);
             stack.copyWithCount(1);
             serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
         } else {
-            if (world.getBlockState(pos.above()).isAir()) {
+            if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
                 world.addFreshEntity(itemEntity);
             } else {
