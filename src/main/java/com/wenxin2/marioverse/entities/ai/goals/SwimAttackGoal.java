@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.entities.goals;
+package com.wenxin2.marioverse.entities.ai.goals;
 
 import java.util.List;
 import net.minecraft.world.entity.LivingEntity;

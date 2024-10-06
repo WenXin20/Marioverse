@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.entities.goals;
+package com.wenxin2.marioverse.entities.ai.goals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
