@@ -68,7 +68,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public GoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.WATER, 0.0F);
-        this.moveControl = new GoombaMoveControl(this);
+//        this.moveControl = new GoombaMoveControl(this);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         builder.define(DATA_ID_SIT_FLAGS, (byte)0);
         builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
     }
-
+// Allow the goomba to exit the water when using both IdleSwim and SwimAttack Goals
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new IdleSwimGoal(this, 0.4D));

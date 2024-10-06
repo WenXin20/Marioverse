@@ -21,9 +21,9 @@ public class IdleSwimGoal extends Goal {
 
     @Override
     public void tick() {
-        mob.getNavigation().moveTo(mob.getX() + (mob.getRandom().nextDouble() - 0.5),
-                mob.getY() + (mob.getRandom().nextDouble() - 0.5),
-                mob.getZ() + (mob.getRandom().nextDouble() - 0.5),
+        mob.getNavigation().moveTo(mob.getX() + (mob.getRandom().nextDouble()),
+                mob.getY() + (mob.getRandom().nextDouble()),
+                mob.getZ() + (mob.getRandom().nextDouble()),
                 idleSpeed);
     }
 }

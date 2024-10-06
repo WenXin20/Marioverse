@@ -10,7 +10,7 @@ public class SwimAttackGoal<T extends LivingEntity> extends TargetGoal {
     private final PathfinderMob pathfinderMob;
     private final double attackSpeed;
     private final Class<T> targetType;
-    private T target;
+    private LivingEntity target;
     protected TargetingConditions targetConditions;
 
     public SwimAttackGoal(PathfinderMob pathfinderMob, Class<T> targetType, double attackSpeed) {
@@ -49,11 +49,5 @@ public class SwimAttackGoal<T extends LivingEntity> extends TargetGoal {
         } else {
             this.stop();
         }
-    }
-
-    @Override
-    public void stop() {
-        this.target = null;
-        this.pathfinderMob.setTarget(null);
     }
 }
