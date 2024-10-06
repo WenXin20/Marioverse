@@ -55,11 +55,7 @@ public class LandAndSwimmingMoveControl extends MoveControl {
                     float f4 = Mth.sin(this.mob.getXRot() * (float) (Math.PI / 180.0));
                     this.mob.zza = f6 * f1;
                     this.mob.yya = -f4 * f1;
-                }/* else {
-                    float f5 = Math.abs(Mth.wrapDegrees(this.mob.getYRot() - f));
-                    float f2 = getTurningSpeedFactor(f5);
-                    this.mob.setSpeed(f1 * this.outsideWaterSpeedModifier * f2);
-                }*/
+                }
             }
         } else {
             this.mob.setSpeed(0.0F);
@@ -67,9 +63,5 @@ public class LandAndSwimmingMoveControl extends MoveControl {
             this.mob.setYya(0.0F);
             this.mob.setZza(0.0F);
         }
-    }
-
-    private static float getTurningSpeedFactor(float p_249853_) {
-        return 1.0F - Mth.clamp((p_249853_ - 10.0F) / 50.0F, 0.0F, 1.0F);
     }
 }
