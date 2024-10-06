@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.EnumSet;
 import java.util.List;
@@ -80,12 +83,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(2, new GoombaEntity.SitGoal(100, 1200, 3000, 300));
-        this.goalSelector.addGoal(3, new GoombaEntity.SleepGoal(25, 2400, 6000));
+        this.goalSelector.addGoal(2, new GoombaSitGoal(this, 100, 1200, 3000, 300));
+        this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 25, 2400, 6000));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new GoombaEntity.RideGoombaGoal(0.001F));
+        this.goalSelector.addGoal(7, new GoombaRideGoombaGoal(this, 0.001F));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
@@ -333,71 +336,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.setSitFlag(8, isSitting);
     }
 
-    void tryToSit() {
+    public void tryToSit() {
         if (!this.isInWater()) {
             this.stopInPlace();
             this.sit(true);
-        }
-    }
-
-    class SitGoal extends Goal {
-        private final int chanceToSit;
-        private final int ticksBeforeSittingAgain;
-        private final int ticksBeforeSleeping;
-        private final int ticksSitting;
-        private int cooldown;
-        private int sittingTime;
-
-        public SitGoal(int chanceToSit, int ticksSitting, int ticksBeforeSittingAgain, int ticksBeforeSleeping) {
-            this.ticksBeforeSittingAgain = ticksBeforeSittingAgain;
-            this.ticksBeforeSleeping = ticksBeforeSleeping;
-            this.ticksSitting = ticksSitting;
-            this.chanceToSit = chanceToSit;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            if (this.cooldown == 0 && !GoombaEntity.this.isInWater() && !GoombaEntity.this.isSitting()) {
-                return GoombaEntity.this.getRandom().nextInt(this.chanceToSit) == 0;
-            }
-            return false;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return GoombaEntity.this.isSitting() && this.sittingTime < this.ticksSitting;
-        }
-
-        @Override
-        public void start() {
-            GoombaEntity.this.tryToSit();
-            this.sittingTime = 0;
-            this.cooldown = ticksBeforeSittingAgain;
-        }
-
-        @Override
-        public void stop() {
-            GoombaEntity.this.sit(false);
-            this.cooldown = ticksBeforeSittingAgain;
-        }
-
-        @Override
-        public void tick() {
-            if (this.sittingTime >= this.ticksSitting) {
-                GoombaEntity.this.sit(false);
-                GoombaEntity.this.sleep(false);
-            } else {
-                this.sittingTime++;
-                if (this.sittingTime >= this.ticksBeforeSleeping) {
-                    GoombaEntity.this.sleep(true);
-                }
-            }
-        }
-
-        @Override
-        public boolean requiresUpdateEveryTick() {
-            return true;
         }
     }
 
@@ -405,7 +347,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.setSleepFlag(12, isSleeping);
     }
 
-    void tryToSleep() {
+    public void tryToSleep() {
         if (!this.isInWater()) {
             this.stopInPlace();
             this.sit(false);
@@ -413,143 +355,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
     }
 
-    class SleepGoal extends Goal {
-        private final int chanceToSleep;
-        private final int ticksBeforeSleepingAgain;
-        private final int ticksSleeping;
-        private int cooldown;
-
-        public SleepGoal(int chanceToSleep, int ticksSleeping, int ticksBeforeSleepingAgain) {
-            this.ticksBeforeSleepingAgain = ticksBeforeSleepingAgain;
-            this.ticksSleeping = ticksSleeping;
-            this.chanceToSleep = chanceToSleep;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            if (this.cooldown == 0 && !GoombaEntity.this.isInWater()) {
-                return GoombaEntity.this.getRandom().nextInt(this.chanceToSleep) == 0;
-            }
-            return false;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return !GoombaEntity.this.isInWater()
-                    && GoombaEntity.this.getRandom().nextInt(ticksSleeping / 2) != 1;
-        }
-
-
-        @Override
-        public void tick() {
-            if (!GoombaEntity.this.isSleeping())
-                GoombaEntity.this.tryToSleep();
-            else GoombaEntity.this.checkForCollisionsAndWakeUp();
-        }
-
-        @Override
-        public void start() {
-            GoombaEntity.this.tryToSleep();
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksSleeping) + 100;
-        }
-
-        @Override
-        public void stop() {
-            this.cooldown = GoombaEntity.this.getRandom().nextInt(ticksBeforeSleepingAgain);
-            GoombaEntity.this.sleep(false);
-        }
-    }
-
     public void ride(boolean isRiding) {
         this.setSitFlag(10, isRiding);
     }
 
-    void tryToRide() {
+    public void tryToRide() {
         if (!this.isInWater() && !this.isPassenger()) {
             this.stopInPlace();
             this.sit(true);
-        }
-    }
-
-    class RideGoombaGoal extends Goal {
-        private final float chanceToRide;
-        private int cooldown;
-        private static final int MAX_STACK_SIZE = 5;
-
-        public RideGoombaGoal(float chanceToRide) {
-            this.chanceToRide = chanceToRide;
-        }
-
-        @Override
-        public boolean canUse() {
-            if (!GoombaEntity.this.isPassenger() && GoombaEntity.this.getPassengers().isEmpty()
-                    && !GoombaEntity.this.isVehicle() && !GoombaEntity.this.isSwimming() && this.cooldown == 0) {
-                if (GoombaEntity.this.random.nextFloat() < chanceToRide) {
-                    GoombaEntity targetGoomba = findNearbyGoombaToRide();
-                    return targetGoomba != null && canRide(targetGoomba);
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public void start() {
-            GoombaEntity targetGoomba = findNearbyGoombaToRide();
-            if (targetGoomba != null && canRide(targetGoomba)) {
-                GoombaEntity.this.tryToRide();
-                GoombaEntity.this.startRiding(targetGoomba, true);
-            }
-            this.cooldown = 200 + GoombaEntity.this.random.nextInt(400);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return GoombaEntity.this.isPassenger() && GoombaEntity.this.getVehicle() instanceof GoombaEntity;
-        }
-
-        @Override
-        public void stop() {
-            this.cooldown = 200;
-            GoombaEntity.this.ride(false);
-        }
-
-        private GoombaEntity findNearbyGoombaToRide() {
-            // Search for nearby Goombas within a certain radius that are not passengers
-            List<GoombaEntity> nearbyGoombas =
-                    GoombaEntity.this.level().getEntitiesOfClass(GoombaEntity.class,
-                            GoombaEntity.this.getBoundingBox().inflate(0.5D), goomba -> !GoombaEntity.this.isPassenger());
-
-            for (GoombaEntity candidate : nearbyGoombas) {
-                if (candidate != GoombaEntity.this && canRide(candidate)) {
-                    return candidate;
-                }
-            }
-            return null;
-        }
-
-        private boolean canRide(GoombaEntity targetGoomba) {
-            if (targetGoomba.getPassengers().isEmpty()) {
-                BlockPos targetPos = targetGoomba.blockPosition().above();
-                BlockState blockAbove = GoombaEntity.this.level().getBlockState(targetPos);
-
-                return blockAbove.isAir() && canStack(targetGoomba);
-            }
-            return false;
-        }
-
-        private boolean canStack(GoombaEntity targetGoomba) {
-            int stackCount = 0;
-            Entity current = targetGoomba;
-
-            while (current.getVehicle() instanceof GoombaEntity) {
-                current = current.getVehicle();
-                stackCount++;
-                if (stackCount >= MAX_STACK_SIZE) {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }
