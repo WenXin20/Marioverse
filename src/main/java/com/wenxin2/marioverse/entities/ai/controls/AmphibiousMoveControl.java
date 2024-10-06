@@ -1,11 +1,11 @@
-package com.wenxin2.marioverse.entities.ai.goals;
+package com.wenxin2.marioverse.entities.ai.controls;
 
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 
-public class LandAndSwimmingMoveControl extends MoveControl {
+public class AmphibiousMoveControl extends MoveControl {
     private static final float FULL_SPEED_TURN_THRESHOLD = 10.0F;
     private static final float STOP_TURN_THRESHOLD = 60.0F;
     private final int maxTurnX;
@@ -13,9 +13,12 @@ public class LandAndSwimmingMoveControl extends MoveControl {
     private final float inWaterSpeedModifier;
     private final float outsideWaterSpeedModifier;
     private final boolean applyGravity;
+    private final PathfinderMob mob;
 
-    public LandAndSwimmingMoveControl(Mob mob, int maxTurnX, int maxTurnY, float inWaterSpeedModifier, float outsideWaterSpeedModifier, boolean applyGravity) {
+    public AmphibiousMoveControl(PathfinderMob mob, int maxTurnX, int maxTurnY, float inWaterSpeedModifier,
+                                 float outsideWaterSpeedModifier, boolean applyGravity) {
         super(mob);
+        this.mob = mob;
         this.maxTurnX = maxTurnX;
         this.maxTurnY = maxTurnY;
         this.inWaterSpeedModifier = inWaterSpeedModifier;
@@ -25,6 +28,18 @@ public class LandAndSwimmingMoveControl extends MoveControl {
 
     @Override
     public void tick() {
+        if (this.mob.isInWaterOrBubble()) {
+            this.moveInWater();
+        } else {
+            this.moveOnLand();
+        }
+    }
+
+    private void moveOnLand() {
+        super.tick();
+    }
+
+    private void moveInWater() {
         if (this.applyGravity && this.mob.isInWater()) {
             this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0, 0.005, 0.0));
         }
@@ -55,6 +70,10 @@ public class LandAndSwimmingMoveControl extends MoveControl {
                     float f4 = Mth.sin(this.mob.getXRot() * (float) (Math.PI / 180.0));
                     this.mob.zza = f6 * f1;
                     this.mob.yya = -f4 * f1;
+                } else {
+                    float f5 = Math.abs(Mth.wrapDegrees(this.mob.getYRot() - f));
+                    float f2 = getTurningSpeedFactor(f5);
+                    this.mob.setSpeed(f1 * this.outsideWaterSpeedModifier * f2);
                 }
             }
         } else {
@@ -63,5 +82,9 @@ public class LandAndSwimmingMoveControl extends MoveControl {
             this.mob.setYya(0.0F);
             this.mob.setZza(0.0F);
         }
+    }
+
+    private static float getTurningSpeedFactor(float turnSpeed) {
+        return 1.0F - Mth.clamp((turnSpeed - 10.0F) / 50.0F, 0.0F, 1.0F);
     }
 }
