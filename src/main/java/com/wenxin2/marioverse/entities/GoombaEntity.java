@@ -69,7 +69,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public GoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.WATER, 2.0F);
-        this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.8F, 1.0F, true);
+        this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
     }
 
     @Override
