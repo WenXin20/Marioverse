@@ -233,10 +233,11 @@ public abstract class LivingEntityMixin extends Entity {
             if (entity instanceof LivingEntity damagedEntity && damagedEntity != stompingEntity
                     && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                     && (damagedEntity.getType().is(TagRegistry.STOMPABLE_MOBS) || ConfigRegistry.STOMP_ALL_MOBS.get())
-                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle() && damagedEntity.isAlive()) {
+                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle() ) {
 
                 // Check if the colliding entity is above the current entity and falling
-                if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight() && stompingEntity.fallDistance > 0) {
+                if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
+                        && stompingEntity.fallDistance > 0) {
                     double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
                     if (stompingEntity instanceof Player)
                         if (Minecraft.getInstance().options.keyJump.isDown())
@@ -267,10 +268,9 @@ public abstract class LivingEntityMixin extends Entity {
                         this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
                     }
 
-                    if (!stompingEntity.level().isClientSide()) {
+                    if (!stompingEntity.level().isClientSide() && damagedEntity.isAlive()) {
                         damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                         this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
-                        System.out.println(nearbyEntities);
                     }
                 }
             }
