@@ -280,11 +280,10 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     public void marioverse$consecutiveBounces(LivingEntity stompingEntity, LivingEntity damagedEntity) {
         marioverse$consecutiveBounces++;
-        System.out.println(marioverse$consecutiveBounces);
-        // Check and reward based on the number of consecutive bounces
+        
         if (stompingEntity != damagedEntity) {
             if (marioverse$consecutiveBounces == 1) {
-                stompingEntity.sendSystemMessage(Component.literal("Good"));
+                this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.GOOD.get());
             } else if (marioverse$consecutiveBounces == 2) {
                 stompingEntity.sendSystemMessage(Component.literal("Great"));
             } else if (marioverse$consecutiveBounces == 3) {

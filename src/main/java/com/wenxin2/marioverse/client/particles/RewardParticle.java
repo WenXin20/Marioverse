@@ -6,9 +6,9 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 
-public class OneUpParticle extends SuspendedTownParticle.HappyVillagerProvider {
+public class RewardParticle extends SuspendedTownParticle.HappyVillagerProvider {
 
-    public OneUpParticle(SpriteSet spriteSet) {
+    public RewardParticle(SpriteSet spriteSet) {
         super(spriteSet);
     }
 
