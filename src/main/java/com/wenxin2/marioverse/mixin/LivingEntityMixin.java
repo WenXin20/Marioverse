@@ -280,11 +280,11 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     public void marioverse$consecutiveBounces(LivingEntity stompingEntity, LivingEntity damagedEntity) {
         marioverse$consecutiveBounces++;
-        
+
         if (stompingEntity != damagedEntity) {
-            if (marioverse$consecutiveBounces == 1) {
+            if (marioverse$consecutiveBounces == 1)
                 this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.GOOD.get());
-            } else if (marioverse$consecutiveBounces == 2) {
+            else if (marioverse$consecutiveBounces == 2) {
                 stompingEntity.sendSystemMessage(Component.literal("Great"));
             } else if (marioverse$consecutiveBounces == 3) {
                 stompingEntity.sendSystemMessage(Component.literal("Super"));
@@ -318,15 +318,12 @@ public abstract class LivingEntityMixin extends Entity {
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             ItemStack offhandStack = player.getOffhandItem();
 
-            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get()))
                 capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            } else if (offhandStack.isEmpty())
+            else if (offhandStack.isEmpty())
                 player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
-                if (offhandStack.getCount() >= 8) {
-                    player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
-                } else offhandStack.grow(1);
-            }
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem)
+                offhandStack.grow(1);
             this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
 
@@ -334,13 +331,12 @@ public abstract class LivingEntityMixin extends Entity {
             AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
             ItemStack offhandStack = livingEntity.getOffhandItem();
 
-            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get()))
                 capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            } else if (offhandStack.isEmpty())
+            else if (offhandStack.isEmpty())
                 livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem)
                 offhandStack.grow(1);
-            }
             this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
         }
