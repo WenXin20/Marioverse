@@ -20,8 +20,11 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -33,12 +36,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -66,6 +71,8 @@ public abstract class LivingEntityMixin extends Entity {
     private static final int FIREBALL_COOLDOWN = 5;
     @Unique
     private int marioverse$warpCooldown;
+    @Unique
+    private int marioverse$consecutiveBounces;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -92,7 +99,10 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get())
-            this.marioverse$squashEntity(world, livingEntity);
+            this.marioverse$squashEntity(livingEntity);
+
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get() && livingEntity.onGround())
+            marioverse$consecutiveBounces = 0;
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock) {
             this.marioverse$enterPipeBelow(pos);
@@ -216,37 +226,36 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$squashEntity(Level world, LivingEntity damagedEntity) {
-        List<Entity> nearbyEntities = damagedEntity.level().getEntities(damagedEntity, damagedEntity.getBoundingBox().inflate(0.2));
+    public void marioverse$squashEntity(LivingEntity stompingEntity) {
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.2));
 
         for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity collidingEntity
-                    && (collidingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+            if (entity instanceof LivingEntity damagedEntity && damagedEntity != stompingEntity
+                    && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                     && (damagedEntity.getType().is(TagRegistry.STOMPABLE_MOBS) || ConfigRegistry.STOMP_ALL_MOBS.get())
-                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle()) {
-                // Check if the colliding entity is above the current entity and falling
-                if (collidingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight() && collidingEntity.fallDistance > 0) {
-                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, collidingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle() && damagedEntity.isAlive()) {
 
+                // Check if the colliding entity is above the current entity and falling
+                if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight() && stompingEntity.fallDistance > 0) {
                     double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
-                    if (collidingEntity instanceof Player)
+                    if (stompingEntity instanceof Player)
                         if (Minecraft.getInstance().options.keyJump.isDown())
                             bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
                     double gravity = 0.08; // Approximate Minecraft gravity value
                     double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
-                    collidingEntity.setDeltaMovement(collidingEntity.getDeltaMovement().x, bounceVelocity, collidingEntity.getDeltaMovement().z);
-                    collidingEntity.fallDistance = 0; // Reset fall damage
+                    stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+                    stompingEntity.fallDistance = 0; // Reset fall damage
 
-                    int numParticles = 10;
+                    float scaleFactor = this.getBbHeight() * this.getBbWidth();
+                    int numParticles = (int) (scaleFactor * 20);
                     double radius = damagedEntity.getBbWidth() / 2;
                     double height = damagedEntity.getBbHeight() / 2;
 
                     for (int i = 0; i < numParticles; i++) {
                         // Calculate angle for each particle
                         double angle = 2 * Math.PI * i / numParticles;
-
-                        // Calculate the X and Z offset using sine and cosine to spread in a circle
+                        // Calculate the X and Z offset using sine and cosine to spread in an ellipse
                         double offsetX = Math.cos(angle) * radius;
                         double offsetY = Math.sin(angle) * height;
                         double offsetZ = Math.sin(angle) * radius;
@@ -257,13 +266,89 @@ public abstract class LivingEntityMixin extends Entity {
 
                         this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
                     }
+
+                    if (!stompingEntity.level().isClientSide()) {
+                        damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                        this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
+                        System.out.println(nearbyEntities);
+                    }
                 }
             }
         }
     }
 
     @Unique
-    public void marioverse$spawnParticles(Level world) {
+    public void marioverse$consecutiveBounces(LivingEntity stompingEntity, LivingEntity damagedEntity) {
+        marioverse$consecutiveBounces++;
+        System.out.println(marioverse$consecutiveBounces);
+        // Check and reward based on the number of consecutive bounces
+        if (stompingEntity != damagedEntity) {
+            if (marioverse$consecutiveBounces == 1) {
+                stompingEntity.sendSystemMessage(Component.literal("Good"));
+            } else if (marioverse$consecutiveBounces == 2) {
+                stompingEntity.sendSystemMessage(Component.literal("Great"));
+            } else if (marioverse$consecutiveBounces == 3) {
+                stompingEntity.sendSystemMessage(Component.literal("Super"));
+            } else if (marioverse$consecutiveBounces == 4) {
+                stompingEntity.sendSystemMessage(Component.literal("Fantastic"));
+            } else if (marioverse$consecutiveBounces == 5) {
+                stompingEntity.sendSystemMessage(Component.literal("Excellent"));
+            } else if (marioverse$consecutiveBounces == 6) {
+                stompingEntity.sendSystemMessage(Component.literal("Incredible"));
+            } else if (marioverse$consecutiveBounces == 7) {
+                stompingEntity.sendSystemMessage(Component.literal("Wonderful"));
+            } else if (marioverse$consecutiveBounces >= 8) {
+                this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.ONE_UP.get());
+                this.marioverse$bounceReward(stompingEntity);
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
+        if (entity.level() instanceof ServerLevel serverWorld)
+            serverWorld.sendParticles(particleType, entity.getX(),
+                    entity.getY() + entity.getBbHeight() + 1.0,
+                    entity.getZ(), 1, 0, 1.0, 0, 0.5);
+    }
+
+    @Unique
+    public void marioverse$bounceReward(LivingEntity entity) {
+        ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
+        if (entity instanceof Player player && !player.isSpectator()) {
+            AccessoriesCapability capability = AccessoriesCapability.get(player);
+            ItemStack offhandStack = player.getOffhandItem();
+
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            } else if (offhandStack.isEmpty())
+                player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                if (offhandStack.getCount() >= 8) {
+                    player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
+                } else offhandStack.grow(1);
+            }
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
+
+        } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()) {
+            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
+            ItemStack offhandStack = livingEntity.getOffhandItem();
+
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            } else if (offhandStack.isEmpty())
+                livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                offhandStack.grow(1);
+            }
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
+        }
+    }
+
+    @Unique
+    public void marioverse$enchantParticles(Level world) {
         RandomSource random = world.getRandom();
 
         // Calculate a scaling factor based on entity dimensions
@@ -357,7 +442,7 @@ public abstract class LivingEntityMixin extends Entity {
             int entityId = this.getId();
 
             if (!world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.marioverse$spawnParticles(world);
+                this.marioverse$enchantParticles(world);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
@@ -398,7 +483,7 @@ public abstract class LivingEntityMixin extends Entity {
             int entityId = this.getId();
 
             if (!world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.marioverse$spawnParticles(world);
+                this.marioverse$enchantParticles(world);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
