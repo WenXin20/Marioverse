@@ -16,7 +16,7 @@ public class GoombaSleepGoal extends Goal {
         this.ticksBeforeSleepingAgain = ticksBeforeSleepingAgain;
         this.ticksSleeping = ticksSleeping;
         this.chanceToSleep = chanceToSleep;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override

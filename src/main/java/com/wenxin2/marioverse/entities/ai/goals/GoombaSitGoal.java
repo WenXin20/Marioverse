@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import java.util.EnumSet;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 public class GoombaSitGoal extends Goal {
@@ -18,6 +19,7 @@ public class GoombaSitGoal extends Goal {
         this.ticksSitting = ticksSitting;
         this.ticksBeforeSittingAgain = ticksBeforeSittingAgain;
         this.ticksBeforeSleeping = ticksBeforeSleeping;
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
@@ -44,7 +46,6 @@ public class GoombaSitGoal extends Goal {
     public void stop() {
         this.goomba.sit(false);
         this.cooldown = this.ticksBeforeSittingAgain;
-        this.sittingTime = 0;
     }
 
     @Override
@@ -60,8 +61,8 @@ public class GoombaSitGoal extends Goal {
         }
     }
 
-//    @Override
-//    public boolean requiresUpdateEveryTick() {
-//        return true;
-//    }
+    @Override
+    public boolean requiresUpdateEveryTick() {
+        return true;
+    }
 }
