@@ -13,6 +13,7 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
@@ -192,6 +193,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                if (livingEntity instanceof TamableAnimal tamableAnimal
+                        && tamableAnimal.getOwner() == this.getOwner())
+                    return;
                 if (livingEntity.isBlocking()) {
                     this.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
                     ItemStack shield = livingEntity.getUseItem();
