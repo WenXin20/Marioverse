@@ -18,7 +18,7 @@ public class RewardParticle extends SuspendedTownParticle.HappyVillagerProvider 
 
         if (particle instanceof SuspendedTownParticle oneUpParticle) {
             oneUpParticle.setColor(1.0F, 1.0F, 1.0F);
-            oneUpParticle.scale(2.0F);
+            oneUpParticle.scale(4.0F);
         }
         return particle;
     }
