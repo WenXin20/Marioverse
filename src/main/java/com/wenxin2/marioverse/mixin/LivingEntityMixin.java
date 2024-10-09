@@ -327,7 +327,7 @@ public abstract class LivingEntityMixin extends Entity {
                 capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             else if (offhandStack.isEmpty())
                 player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-            else if (offhandStack.getCount() >= offhandStack.getMaxStackSize())
+            else if (offhandStack.getCount() >= 1)
                 player.addItem(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
