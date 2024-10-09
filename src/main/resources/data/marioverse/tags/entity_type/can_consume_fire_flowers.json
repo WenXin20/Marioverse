@@ -23,6 +23,8 @@
     "minecraft:zombie",
     "minecraft:zombie_villager",
     "minecraft:zombified_piglin",
-    { "id": "marioverse:goomba", "required": false }
+    { "id": "#c:bosses", "required": false },
+    { "id": "#marioverse:goombas", "required": false },
+    { "id": "#twilightforest:bosses", "required": false }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "entities": [
-    "#marioverse:costume_whitelist"
+    "#marioverse:can_wear_costumes"
   ],
   "slots": [
     "costume_hat",

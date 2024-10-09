@@ -5,7 +5,7 @@
     "minecraft:elder_guardian",
     "minecraft:ender_dragon",
     "minecraft:wither",
-    { "id": "#forge:bosses", "required": false },
+    { "id": "#c:bosses", "required": false },
     { "id": "#twilightforest:bosses", "required": false }
   ]
 }
