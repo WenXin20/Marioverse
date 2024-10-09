@@ -3,6 +3,7 @@
   "replace": false,
   "values": [
     "minecraft:elder_guardian",
+    "minecraft:giant",
     { "id": "#c:bosses", "required": false },
     { "id": "#twilightforest:bosses", "required": false }
   ]
