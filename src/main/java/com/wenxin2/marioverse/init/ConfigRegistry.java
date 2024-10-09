@@ -33,18 +33,21 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_PLAYERS;
     public static ModConfigSpec.BooleanValue DEBUG_PIPE_BUBBLES_SELECTION_BOX;
-    public static ModConfigSpec.BooleanValue DEBUG_WATER_SPOUT_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
+    public static ModConfigSpec.BooleanValue DEBUG_WATER_SPOUT_SELECTION_BOX;
+    public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
+    public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
-    public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
+    public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
     public static ModConfigSpec.IntValue MAX_FIREBALLS;
+    public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
     public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
@@ -79,6 +82,10 @@ public class ConfigRegistry
                     .comment("Disable text rendering on pipes.")
                     .comment("§9[Default: false]")
                     .define("disable_text", false);
+            DISABLE_REWARD_PARTICLES = BUILDER.translation("configuration.marioverse.disable_reward_particles")
+                    .comment("Enable reward particles when squashing enemies.")
+                    .comment("§9[Default: false]")
+                    .define("disable_reward_particles", false);
             RENDER_ONE_UP_CHARM = BUILDER.translation("configuration.marioverse.render_one_up_charm")
                     .comment("Render the 1-Up on the player when in an Accessory slot.")
                     .comment("§9[Default: true]")
@@ -214,6 +221,10 @@ public class ConfigRegistry
                         .comment("Allow 1-Ups to heal all mobs.")
                         .comment("§9[Default: false]")
                         .define("one_up_heals_mobs", false);
+                MAX_ONE_UP_BOUNCE_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_bounce_reward")
+                        .comment("Max amount of 1-Ups that can be rewarded from consecutive bounces.")
+                        .comment("§9[Default: 2]§b")
+                        .defineInRange("max_one_up_bounce_reward", 2, 0, 64);
                 FIRE_FLOWER_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.fire_flower_powers_all_mobs")
                         .comment("Allow Fire Flowers to power all mobs.")
                         .comment("§9[Default: false]")
@@ -268,6 +279,10 @@ public class ConfigRegistry
                         .comment("Allow all mobs to be stomped on.")
                         .comment("§9[Default: false]")
                         .define("stomp_all_mobs", false);
+                DISABLE_CONSECUTIVE_BOUNCING = BUILDER.translation("configuration.marioverse.disable_consecutive_bouncing")
+                        .comment("Disable consecutive bouncing, including the reward.")
+                        .comment("§9[Default: false]")
+                        .define("disable_consecutive_bouncing", false);
                 STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
                         .comment("The approx height mobs will bounce when stomping enemies.")
                         .comment("§9[Default: 1.5]§b")

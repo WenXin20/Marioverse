@@ -73,6 +73,8 @@ public abstract class LivingEntityMixin extends Entity {
     private int marioverse$warpCooldown;
     @Unique
     private int marioverse$consecutiveBounces;
+    @Unique
+    private int marioverse$oneUpsRewarded;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -101,8 +103,10 @@ public abstract class LivingEntityMixin extends Entity {
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get())
             this.marioverse$squashEntity(livingEntity);
 
-        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get() && livingEntity.onGround())
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get() && livingEntity.onGround()) {
             marioverse$consecutiveBounces = 0;
+            marioverse$oneUpsRewarded = 0;
+        }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock) {
             this.marioverse$enterPipeBelow(pos);
@@ -258,19 +262,20 @@ public abstract class LivingEntityMixin extends Entity {
                         double angle = 2 * Math.PI * i / numParticles;
                         // Calculate the X and Z offset using sine and cosine to spread in an ellipse
                         double offsetX = Math.cos(angle) * radius;
-                        double offsetY = Math.sin(angle) * height;
+                        double offsetY = damagedEntity.getBbHeight();
                         double offsetZ = Math.sin(angle) * radius;
 
-                        double x = this.getX() + offsetX;
-                        double y = this.getY() + offsetY;
-                        double z = this.getZ() + offsetZ;
+                        double x = damagedEntity.getX() + offsetX;
+                        double y = damagedEntity.getY() + offsetY;
+                        double z = damagedEntity.getZ() + offsetZ;
 
                         this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
                     }
 
                     if (!stompingEntity.level().isClientSide() && damagedEntity.isAlive()) {
                         damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
-                        this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
+                        if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
+                            this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
                     }
                 }
             }
@@ -281,25 +286,25 @@ public abstract class LivingEntityMixin extends Entity {
     public void marioverse$consecutiveBounces(LivingEntity stompingEntity, LivingEntity damagedEntity) {
         marioverse$consecutiveBounces++;
 
-        if (stompingEntity != damagedEntity) {
-            if (marioverse$consecutiveBounces == 0)
-                this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.GOOD.get());
-            else if (marioverse$consecutiveBounces == 1) {
-                stompingEntity.sendSystemMessage(Component.literal("Great"));
-            } else if (marioverse$consecutiveBounces == 2) {
-                stompingEntity.sendSystemMessage(Component.literal("Super"));
-            } else if (marioverse$consecutiveBounces == 3) {
-                stompingEntity.sendSystemMessage(Component.literal("Fantastic"));
-            } else if (marioverse$consecutiveBounces == 4) {
-                stompingEntity.sendSystemMessage(Component.literal("Excellent"));
-            } else if (marioverse$consecutiveBounces == 5) {
-                stompingEntity.sendSystemMessage(Component.literal("Incredible"));
-            } else if (marioverse$consecutiveBounces == 6) {
-                stompingEntity.sendSystemMessage(Component.literal("Wonderful"));
-            } else if (marioverse$consecutiveBounces >= 7) {
-                this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.ONE_UP.get());
-                this.marioverse$bounceReward(stompingEntity);
-            }
+        if (marioverse$consecutiveBounces == 1)
+            this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.GOOD.get());
+        else if (marioverse$consecutiveBounces == 2) {
+            stompingEntity.sendSystemMessage(Component.literal("Great"));
+        } else if (marioverse$consecutiveBounces == 3) {
+            stompingEntity.sendSystemMessage(Component.literal("Super"));
+        } else if (marioverse$consecutiveBounces == 4) {
+            stompingEntity.sendSystemMessage(Component.literal("Fantastic"));
+        } else if (marioverse$consecutiveBounces == 5) {
+            stompingEntity.sendSystemMessage(Component.literal("Excellent"));
+        } else if (marioverse$consecutiveBounces == 6) {
+            stompingEntity.sendSystemMessage(Component.literal("Incredible"));
+        } else if (marioverse$consecutiveBounces == 7) {
+            stompingEntity.sendSystemMessage(Component.literal("Wonderful"));
+        } else if (marioverse$consecutiveBounces >= 8 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > marioverse$oneUpsRewarded) {
+            marioverse$oneUpsRewarded++;
+            this.marioverse$bounceReward(stompingEntity);
+            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.ONE_UP.get());
         }
     }
 
@@ -322,6 +327,8 @@ public abstract class LivingEntityMixin extends Entity {
                 capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             else if (offhandStack.isEmpty())
                 player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+            else if (offhandStack.getCount() >= offhandStack.getMaxStackSize())
+                player.addItem(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
 
