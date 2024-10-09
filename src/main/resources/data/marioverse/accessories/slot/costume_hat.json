@@ -3,7 +3,7 @@
   "validators": [ "accessories:tag" ],
   "icon": "marioverse:gui/slot/empty_hat_slot",
   "operation": "set",
-  "drop_rule": "destroy",
+  "drop_rule": "DESTROY",
   "amount": 1,
   "order": 104
 }

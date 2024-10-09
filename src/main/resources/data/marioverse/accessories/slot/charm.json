@@ -3,7 +3,7 @@
   "validators": [ "accessories:tag" ],
   "icon": "marioverse:gui/slot/empty_one_up_slot",
   "operation": "set",
-  "drop_rule": "keep",
+  "drop_rule": "KEEP",
   "amount": 1,
   "order": 100
 }
