@@ -1,0 +1,9 @@
+{
+  "_comment": "Blacklist to prevent entities from losing a power up when damaged!",
+  "replace": false,
+  "values": [
+    "minecraft:elder_guardian",
+    { "id": "#c:bosses", "required": false },
+    { "id": "#twilightforest:bosses", "required": false }
+  ]
+}

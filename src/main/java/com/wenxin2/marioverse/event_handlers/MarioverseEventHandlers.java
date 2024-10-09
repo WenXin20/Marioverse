@@ -16,8 +16,11 @@ import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,6 +33,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -94,6 +98,7 @@ public class MarioverseEventHandlers {
                 tag.putBoolean("marioverse:has_mushroom", false);
 
                 if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                        && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
                         && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                         && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
@@ -105,7 +110,8 @@ public class MarioverseEventHandlers {
             }
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
+                    && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
                 AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
                 AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
@@ -137,7 +143,8 @@ public class MarioverseEventHandlers {
             float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();
 
-            if (tag.getBoolean("marioverse:has_fire_flower")) {
+            if (tag.getBoolean("marioverse:has_fire_flower")
+                    && !livingEntity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 tag.putBoolean("marioverse:has_fire_flower", false);
                 world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -159,7 +166,8 @@ public class MarioverseEventHandlers {
             }
 
             AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                    && !livingEntity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
                 AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
                 AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
