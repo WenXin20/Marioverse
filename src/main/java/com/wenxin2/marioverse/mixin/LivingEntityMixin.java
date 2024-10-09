@@ -117,7 +117,7 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")
-                && (livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
                 && !(livingEntity instanceof Player) && !(livingEntity instanceof ArmorStand)
                 && (this.getDeltaMovement().x > 0.0F || this.getDeltaMovement().z > 0.0F)) {
@@ -236,7 +236,7 @@ public abstract class LivingEntityMixin extends Entity {
         for (Entity entity : nearbyEntities) {
             if (entity instanceof LivingEntity damagedEntity && damagedEntity != stompingEntity
                     && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
-                    && (damagedEntity.getType().is(TagRegistry.STOMPABLE_MOBS) || ConfigRegistry.STOMP_ALL_MOBS.get())
+                    && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
                     && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle() ) {
 
                 // Check if the colliding entity is above the current entity and falling
@@ -436,7 +436,7 @@ public abstract class LivingEntityMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && this.getType() != EntityType.PLAYER && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && this.getType() != EntityType.PLAYER && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
@@ -477,7 +477,7 @@ public abstract class LivingEntityMixin extends Entity {
         int blockZ = pos.getZ();
 
         if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && this.getType() != EntityType.PLAYER
-                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_MOBS.get() && !this.getType().is(TagRegistry.WARP_BLACKLIST)
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();

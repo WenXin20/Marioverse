@@ -42,7 +42,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             lastCollisionTime = currentTime;
 
             if (entity instanceof Player player && !player.isSpectator()
-                    && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+                    && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
                 ItemStack offhandStack = player.getOffhandItem();
 
@@ -56,7 +56,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     } else offhandStack.grow(1);
                 }
 
-                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
@@ -65,7 +65,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 }
 
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()
-                    && !entity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)) {
+                    && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
                 ItemStack offhandStack = livingEntity.getOffhandItem();
 
@@ -77,7 +77,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     offhandStack.grow(1);
                 }
 
-                if (!livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle

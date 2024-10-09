@@ -50,22 +50,22 @@ public class MarioverseEventHandlers {
             tag.putBoolean("marioverse:prevent_warp", false);
 
         if (!tag.contains("marioverse:has_fire_flower")
-                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putBoolean("marioverse:has_fire_flower", false);
 
         if (!tag.contains("marioverse:fireball_ready")
-                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putBoolean("marioverse:fireball_ready", false);
 
         if (!tag.contains("marioverse:fireball_cooldown")
-                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:fireball_cooldown", 0);
 
         if (!tag.contains("marioverse:fireball_count")
-                && (entity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:fireball_count", 0);
 
@@ -94,7 +94,7 @@ public class MarioverseEventHandlers {
                 tag.putBoolean("marioverse:has_mushroom", false);
 
                 if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        && !player.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
+                        && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                         && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
@@ -148,7 +148,7 @@ public class MarioverseEventHandlers {
 
                 if (!tag.getBoolean("marioverse:has_mushroom")
                         && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        && !livingEntity.getType().is(TagRegistry.DAMAGE_SHRINKS_ENTITY_BLACKLIST)
+                        && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                         && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);

@@ -29,19 +29,19 @@ public class TagRegistry {
     public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags(Marioverse.MOD_ID, "question_block_blacklist");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
     public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags(Marioverse.MOD_ID, "can_stomp_enemies");
-    public static final TagKey<EntityType<?>> CONSUME_ONE_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_one_ups_blacklist");
-    public static final TagKey<EntityType<?>> CONSUME_POWER_UPS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "consume_power_ups_blacklist");
-    public static final TagKey<EntityType<?>> COSTUME_ENTITY_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "costume_whitelist");
-    public static final TagKey<EntityType<?>> DAMAGE_SHRINKS_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "damage_shrinks_blacklist");
-    public static final TagKey<EntityType<?>> DROPS_COIN_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "drops_coin_blacklist");
+    public static final TagKey<EntityType<?>> CANNOT_CONSUME_ONE_UPS = entityTypeTags(Marioverse.MOD_ID, "cannot_consume_one_ups");
+    public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags(Marioverse.MOD_ID, "cannot_consume_power_ups");
+    public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags(Marioverse.MOD_ID, "can_wear_costumes");
+    public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags(Marioverse.MOD_ID, "damage_cannot_shrink");
+    public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags(Marioverse.MOD_ID, "cannot_drop_coins");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags(Marioverse.MOD_ID, "fireball_immune");
-    public static final TagKey<EntityType<?>> FIRE_FLOWER_ENTITY_WHITELIST = entityTypeTags(Marioverse.MOD_ID, "fire_flower_whitelist");
+    public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags(Marioverse.MOD_ID, "can_consume_fire_flowers");
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "goombas");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "power_ups");
-    public static final TagKey<EntityType<?>> QUESTION_BLOCK_ENTITY_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "question_block_blacklist");
-    public static final TagKey<EntityType<?>> QUICK_TRAVEL_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "quick_travel_blacklist");
-    public static final TagKey<EntityType<?>> STOMPABLE_MOBS = entityTypeTags(Marioverse.MOD_ID, "stompable_mobs");
-    public static final TagKey<EntityType<?>> WARP_BLACKLIST = entityTypeTags(Marioverse.MOD_ID, "warp_blacklist");
+    public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags(Marioverse.MOD_ID, "question_block_cannot_spawn");
+    public static final TagKey<EntityType<?>> CANNOT_QUICK_TRAVEL = entityTypeTags(Marioverse.MOD_ID, "cannot_quick_travel");
+    public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags(Marioverse.MOD_ID, "can_be_stomped");
+    public static final TagKey<EntityType<?>> CANNOT_WARP = entityTypeTags(Marioverse.MOD_ID, "cannot_warp");
 
     public static TagKey<Block> blockTags(String id, String name) {
         return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(id, name));

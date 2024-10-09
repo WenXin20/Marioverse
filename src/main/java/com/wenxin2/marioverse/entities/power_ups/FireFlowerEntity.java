@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import net.minecraft.core.NonNullList;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -67,11 +66,11 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
         if (!this.level().isClientSide) {
 
             if (entity instanceof Player player && !player.isSpectator()
-                    && !player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)
-                    && player.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)) {
+                    && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                    && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
 
-                if (!player.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)) {
+                if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
                         this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                     else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
@@ -101,8 +100,8 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }
             } else if (entity instanceof LivingEntity livingEntity
-                    && !livingEntity.getType().is(TagRegistry.CONSUME_POWER_UPS_ENTITY_BLACKLIST)
-                    && (livingEntity.getType().is(TagRegistry.FIRE_FLOWER_ENTITY_WHITELIST)
+                    && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                    && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
                     && !(livingEntity instanceof Player)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);

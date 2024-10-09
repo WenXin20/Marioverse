@@ -1,5 +1,5 @@
 {
-  "_comment": "Blacklist to prevent entities from using the warp pipes to teleport",
+  "_comment": "Blacklist to prevent entities from teleporting using certain blocks, like the Warp Pipes",
   "replace": false,
   "values": [
     "minecraft:elder_guardian",

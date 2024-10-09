@@ -1,5 +1,5 @@
 {
-  "_comment": "Blacklist to prevent entities from shrinking when damaged",
+  "_comment": "Blacklist to prevent entities from consuming power ups",
   "replace": false,
   "values": [
     { "id": "#marioverse:power_ups", "required": false }
