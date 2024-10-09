@@ -177,6 +177,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                if (this.getOwner() != null && player.getTeam() == this.getOwner().getTeam())
+                    return;
+
                 if (player.isBlocking()) {
                     this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -193,9 +196,11 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                if (livingEntity instanceof TamableAnimal tamableAnimal
+                if ((livingEntity instanceof TamableAnimal tamableAnimal
                         && tamableAnimal.getOwner() == this.getOwner())
+                        || (this.getOwner() != null && livingEntity.getTeam() == this.getOwner().getTeam()))
                     return;
+
                 if (livingEntity.isBlocking()) {
                     this.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
                     ItemStack shield = livingEntity.getUseItem();
