@@ -177,7 +177,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                if (this.getOwner() != null && player.getTeam() == this.getOwner().getTeam())
+                if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
+                        && player.getTeam() == this.getOwner().getTeam())
                     return;
 
                 if (player.isBlocking()) {
@@ -198,7 +199,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
                         && tamableAnimal.getOwner() == this.getOwner())
-                        || (this.getOwner() != null && livingEntity.getTeam() == this.getOwner().getTeam()))
+                        || (this.getOwner() != null && livingEntity.getTeam() != null && this.getOwner().getTeam() != null
+                        && livingEntity.getTeam() == this.getOwner().getTeam()))
                     return;
 
                 if (livingEntity.isBlocking()) {
