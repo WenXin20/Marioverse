@@ -287,20 +287,27 @@ public abstract class LivingEntityMixin extends Entity {
         marioverse$consecutiveBounces++;
 
         if (marioverse$consecutiveBounces == 1)
-            this.marioverse$rewardParticles(stompingEntity, ParticleRegistry.GOOD.get());
-        else if (marioverse$consecutiveBounces == 2) {
-            stompingEntity.sendSystemMessage(Component.literal("Great"));
-        } else if (marioverse$consecutiveBounces == 3) {
-            stompingEntity.sendSystemMessage(Component.literal("Super"));
-        } else if (marioverse$consecutiveBounces == 4) {
-            stompingEntity.sendSystemMessage(Component.literal("Fantastic"));
-        } else if (marioverse$consecutiveBounces == 5) {
-            stompingEntity.sendSystemMessage(Component.literal("Excellent"));
-        } else if (marioverse$consecutiveBounces == 6) {
-            stompingEntity.sendSystemMessage(Component.literal("Incredible"));
-        } else if (marioverse$consecutiveBounces == 7) {
-            stompingEntity.sendSystemMessage(Component.literal("Wonderful"));
-        } else if (marioverse$consecutiveBounces >= 8 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > marioverse$oneUpsRewarded) {
+            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.GOOD.get());
+        else if (marioverse$consecutiveBounces == 2)
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                    this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.GREAT.get());
+        else if (marioverse$consecutiveBounces == 3)
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                    this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.SUPER.get());
+        else if (marioverse$consecutiveBounces == 4)
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                    this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.FANTASTIC.get());
+        else if (marioverse$consecutiveBounces == 5)
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                    this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.EXCELLENT.get());
+        else if (marioverse$consecutiveBounces == 6)
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                    this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.INCREDIBLE.get());
+        else if (marioverse$consecutiveBounces == 7)
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
+                    this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.WONDERFUL.get());
+        else if (marioverse$consecutiveBounces >= 8 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > marioverse$oneUpsRewarded) {
             marioverse$oneUpsRewarded++;
             this.marioverse$bounceReward(stompingEntity);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())

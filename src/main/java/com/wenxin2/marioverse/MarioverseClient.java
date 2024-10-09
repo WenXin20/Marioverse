@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
@@ -60,8 +61,14 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), SuspendedTownParticle.HappyVillagerProvider::new);
+        event.registerSpriteSet(ParticleRegistry.EXCELLENT.get(), LargeRewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.GREAT.get(), RewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.MUSHROOM_TRANSFORM.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.SUPER.get(), RewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
 }
