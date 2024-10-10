@@ -237,8 +237,11 @@ public abstract class LivingEntityMixin extends Entity {
             if (entity instanceof LivingEntity damagedEntity && damagedEntity != stompingEntity
                     && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                     && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
-                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle() ) {
-
+                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle()) {
+                if (stompingEntity instanceof Player player && player.getAbilities().flying) {
+                    return;
+                }
+                
                 // Check if the colliding entity is above the current entity and falling
                 if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
                         && stompingEntity.fallDistance > 0) {
