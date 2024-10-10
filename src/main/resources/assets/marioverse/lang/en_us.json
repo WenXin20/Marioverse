@@ -173,6 +173,15 @@
   "display.marioverse.water_spouts.requires_creative": "Requires creative to turn on/off water spouts!",
   "display.marioverse.water_spouts.requires_waterlogging": "Requires waterlogged pipe!",
 
+  "display.marioverse.consecutive_bounce.excellent": "§9Excellent",
+  "display.marioverse.consecutive_bounce.fantastic": "§dFantastic",
+  "display.marioverse.consecutive_bounce.good": "Good",
+  "display.marioverse.consecutive_bounce.great": "§6Great",
+  "display.marioverse.consecutive_bounce.incredible": "§bIncredible",
+  "display.marioverse.consecutive_bounce.one_up": "§a1-Up",
+  "display.marioverse.consecutive_bounce.super": "§cSuper",
+  "display.marioverse.consecutive_bounce.wonderful": "§9Wonderful",
+
   "display.marioverse.linker.requires_creative": "Requires creative to link pipes",
   "display.marioverse.linker.bound": "Wrench bound to %1$s, %2$s, %3$s, in %4$s",
   "display.marioverse.linker.bound_tooltip": "Bound to %1$s, %2$s, %3$s in %4$s",
