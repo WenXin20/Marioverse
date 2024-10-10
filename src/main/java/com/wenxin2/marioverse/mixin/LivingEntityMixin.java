@@ -255,7 +255,6 @@ public abstract class LivingEntityMixin extends Entity {
                     float scaleFactor = this.getBbHeight() * this.getBbWidth();
                     int numParticles = (int) (scaleFactor * 20);
                     double radius = damagedEntity.getBbWidth() / 2;
-                    double height = damagedEntity.getBbHeight() / 2;
 
                     for (int i = 0; i < numParticles; i++) {
                         // Calculate angle for each particle
