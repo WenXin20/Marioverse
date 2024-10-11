@@ -54,11 +54,14 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoombaEntity extends Monster implements GeoEntity {
+    private static final EntityDataAccessor<Byte> DATA_ID_RIDE_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
     protected static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle_swim");
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
+    protected static final RawAnimation SCARE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.scared");
     protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
     protected static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sleep");
     protected static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goomba.squash");
@@ -75,6 +78,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(DATA_ID_RIDE_FLAGS, (byte)0);
+        builder.define(DATA_ID_SCARE_FLAGS, (byte)0);
         builder.define(DATA_ID_SIT_FLAGS, (byte)0);
         builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
     }
@@ -95,20 +100,21 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Scare", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Swim", 10, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if (this.isSitting()) {
+        if (this.isSitting() && !this.isScared()) {
             event.setAndContinue(SIT_ANIM);
             return PlayState.CONTINUE;
         }
 
-        if (this.isSleeping()) {
+        if (this.isSleeping() && !this.isScared()) {
             event.setAndContinue(SLEEP_ANIM);
             return PlayState.CONTINUE;
         }
@@ -118,11 +124,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 event.setAndContinue(IDLE_SWIM_ANIM);
             else event.setAndContinue(SWIM_ANIM);
             return PlayState.CONTINUE;
-        } else if (this.isRunning()) {
+        } else if (this.isRunning() && !this.isScared()) {
             event.setAndContinue(RUN_ANIM);
             return PlayState.CONTINUE;
-        } else if (this.isWalking()) {
+        } else if (this.isWalking() && !this.isScared()) {
             event.setAndContinue(WALK_ANIM);
+            return PlayState.CONTINUE;
+        } else if (this.isScared()) {
+            event.setAndContinue(SCARE_ANIM);
             return PlayState.CONTINUE;
         } else {
             event.setAndContinue(IDLE_ANIM);
@@ -133,6 +142,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
         if (this.dead) {
             event.setAndContinue(SQUASH_ANIM);
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
+    }
+
+    protected <E extends GeoAnimatable> PlayState scareAnimController(final AnimationState<E> event) {
+        if (this.isScared()) {
+            event.setAndContinue(SCARE_ANIM);
             return PlayState.CONTINUE;
         }
         return PlayState.STOP;
@@ -151,6 +168,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return this.getSleepFlag(12);
     }
 
+    public boolean isScared() {
+        return this.getScareFlag(9);
+    }
+
     private boolean isWalking() {
         return (this.getDeltaMovement().horizontalDistance() >= 0.01
                 && this.getDeltaMovement().horizontalDistance() < 0.5)
@@ -163,16 +184,45 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
+    private int scareDuration = 0;
+    private int scareTime = 0;
+
     @Override
     public void tick() {
         super.tick();
-        if (this.getSpeed() > 0.4) {
-            for (int i = 0; i < 1; i++) {
-                double x = this.getX() + this.getBbWidth() / 2;
-                double y = this.getY() + this.getBbHeight() / 2;
-                double z = this.getZ() + this.getBbWidth() / 2;
-                this.level().addParticle(ParticleTypes.POOF, x, y, z, 0, 0, 0);
+        if (this.getSpeed() > 0.4 || this.isScared()) {
+
+            float scaleFactor = this.getBbHeight() * this.getBbWidth();
+            int numParticles = (int) (scaleFactor * 5);
+            double radius = this.getBbWidth() / 2;
+
+            for (int i = 0; i < numParticles; i++) {
+                // Calculate angle for each particle
+                double angle = 2 * Math.PI * i / numParticles;
+                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                double offsetX = Math.cos(angle) * radius;
+                double offsetY = this.getBbHeight();
+                double offsetZ = Math.sin(angle) * radius;
+
+                double x = this.getX() + offsetX;
+                double y = this.getY();
+                double z = this.getZ() + offsetZ;
+
+                this.level().addParticle(ParticleTypes.WHITE_SMOKE, x, y, z, 0, 0, 0);
             }
+        }
+
+        if (this.isScared()) {
+            if (scareTime == 0) {
+                scareDuration = 25 + this.random.nextInt(100);
+            }
+            if (scareTime > scareDuration) {
+                this.scare(Boolean.FALSE);
+                this.sit(Boolean.FALSE);
+                this.sleep(Boolean.FALSE);
+                scareTime = 0;
+            }
+            scareTime++;
         }
     }
 
@@ -238,8 +288,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
         boolean wasHurt = super.hurt(source, amount);
 
         if (wasHurt) {
-            this.sit(false);
-            this.sleep(false);
+            this.sit(Boolean.FALSE);
+            this.sleep(Boolean.FALSE);
+            this.scare(Boolean.TRUE);
         }
         return wasHurt;
     }
@@ -300,9 +351,23 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     knockbackDirection.z * knockbackStrength);
             collidingEntity.hurtMarked = true;
 
-            this.sit(Boolean.FALSE);
-            this.sleep(Boolean.FALSE);
+            this.tryToScare();
             break;
+        }
+    }
+
+    public void sit(boolean isSitting) {
+        this.setSitFlag(8, isSitting);
+    }
+
+    private boolean getSitFlag(int i) {
+        return (this.entityData.get(DATA_ID_SIT_FLAGS) & i) != 0;
+    }
+
+    public void tryToSit() {
+        if (!this.isInWater()) {
+            this.sit(Boolean.TRUE);
+            this.stopInPlace();
         }
     }
 
@@ -315,6 +380,22 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
     }
 
+    public void sleep(boolean isSleeping) {
+        this.setSleepFlag(12, isSleeping);
+    }
+
+    private boolean getSleepFlag(int i) {
+        return (this.entityData.get(DATA_ID_SLEEP_FLAGS) & i) != 0;
+    }
+
+    public void tryToSleep() {
+        if (!this.isInWater()) {
+            this.sit(Boolean.FALSE);
+            this.sleep(Boolean.TRUE);
+            this.stopInPlace();
+        }
+    }
+
     private void setSleepFlag(int i, boolean b) {
         byte b1 = this.entityData.get(DATA_ID_SLEEP_FLAGS);
         if (b) {
@@ -324,45 +405,48 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
     }
 
-    private boolean getSitFlag(int i) {
-        return (this.entityData.get(DATA_ID_SIT_FLAGS) & i) != 0;
+    public void scare(boolean isScared) {
+        this.setScareFlag(9, isScared);
     }
 
-    private boolean getSleepFlag(int i) {
-        return (this.entityData.get(DATA_ID_SLEEP_FLAGS) & i) != 0;
+    private boolean getScareFlag(int i) {
+        return (this.entityData.get(DATA_ID_SCARE_FLAGS) & i) != 0;
     }
 
-    public void sit(boolean isSitting) {
-        this.setSitFlag(8, isSitting);
-    }
-
-    public void tryToSit() {
+    public void tryToScare() {
         if (!this.isInWater()) {
+            this.sit(Boolean.FALSE);
+            this.sleep(Boolean.FALSE);
+            this.scare(Boolean.TRUE);
             this.stopInPlace();
-            this.sit(true);
         }
     }
 
-    public void sleep(boolean isSleeping) {
-        this.setSleepFlag(12, isSleeping);
-    }
-
-    public void tryToSleep() {
-        if (!this.isInWater()) {
-            this.stopInPlace();
-            this.sit(false);
-            this.sleep(true);
+    private void setScareFlag(int i, boolean b) {
+        byte b1 = this.entityData.get(DATA_ID_SCARE_FLAGS);
+        if (b) {
+            this.entityData.set(DATA_ID_SCARE_FLAGS, (byte)(b1 | i));
+        } else {
+            this.entityData.set(DATA_ID_SCARE_FLAGS, (byte)(b1 & ~i));
         }
     }
 
     public void ride(boolean isRiding) {
-        this.setSitFlag(10, isRiding);
+        this.setRideFlag(10, isRiding);
     }
 
     public void tryToRide() {
         if (!this.isInWater() && !this.isPassenger()) {
             this.stopInPlace();
-            this.sit(true);
+        }
+    }
+
+    private void setRideFlag(int i, boolean b) {
+        byte b1 = this.entityData.get(DATA_ID_SCARE_FLAGS);
+        if (b) {
+            this.entityData.set(DATA_ID_SCARE_FLAGS, (byte)(b1 | i));
+        } else {
+            this.entityData.set(DATA_ID_SCARE_FLAGS, (byte)(b1 & ~i));
         }
     }
 }
