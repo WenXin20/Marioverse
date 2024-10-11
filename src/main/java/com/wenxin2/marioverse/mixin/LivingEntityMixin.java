@@ -241,7 +241,7 @@ public abstract class LivingEntityMixin extends Entity {
                 if (stompingEntity instanceof Player player && player.getAbilities().flying) {
                     return;
                 }
-                
+
                 // Check if the colliding entity is above the current entity and falling
                 if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
                         && stompingEntity.fallDistance > 0) {
@@ -252,8 +252,10 @@ public abstract class LivingEntityMixin extends Entity {
                     double gravity = 0.08; // Approximate Minecraft gravity value
                     double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
-                    stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
-                    stompingEntity.fallDistance = 0; // Reset fall damage
+                    if (!damagedEntity.isDeadOrDying()) {
+                        stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+                        stompingEntity.fallDistance = 0; // Reset fall damage
+                    }
 
                     float scaleFactor = this.getBbHeight() * this.getBbWidth();
                     int numParticles = (int) (scaleFactor * 20);
@@ -274,7 +276,7 @@ public abstract class LivingEntityMixin extends Entity {
                         this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
                     }
 
-                    if (!stompingEntity.level().isClientSide() && damagedEntity.isAlive()) {
+                    if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                         damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                             this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
