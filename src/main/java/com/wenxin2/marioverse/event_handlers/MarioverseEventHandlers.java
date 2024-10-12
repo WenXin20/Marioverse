@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -24,6 +25,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -78,6 +80,14 @@ public class MarioverseEventHandlers {
 
         if (!tag.contains("marioverse:has_mega_mushroom"))
             tag.putBoolean("marioverse:has_mega_mushroom", false);
+
+        if (entity instanceof Mob mob) {
+            if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
+
+                mob.goalSelector.addGoal(2, new ShootBouncingFireballGoal(mob));
+            }
+        }
     }
 
     @SubscribeEvent

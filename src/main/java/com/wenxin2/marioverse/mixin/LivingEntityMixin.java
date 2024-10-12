@@ -63,8 +63,6 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow public abstract void tick();
 
-    @Shadow public abstract float getSpeed();
-
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique
@@ -114,19 +112,6 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (this.marioverse$warpCooldown > 0) {
             --this.marioverse$warpCooldown;
-        }
-
-        if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")
-                && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
-                && !(livingEntity instanceof Player) && !(livingEntity instanceof ArmorStand)
-                && (this.getDeltaMovement().x > 0.0F || this.getDeltaMovement().z > 0.0F)) {
-            if (livingEntity instanceof Monster monster && monster.getTarget() != null)
-                this.marioverse$handleFireballShooting(livingEntity);
-            else if (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null)
-                this.marioverse$handleFireballShooting(livingEntity);
-            else if (!(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem))
-                this.marioverse$handleFireballShooting(livingEntity);
         }
 
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
@@ -406,44 +391,6 @@ public abstract class LivingEntityMixin extends Entity {
                 ));
             }
         }
-    }
-
-    @Unique
-    public void marioverse$handleFireballShooting(LivingEntity entity) {
-        int fireballCount = entity.getPersistentData().getInt("marioverse:fireball_count");
-        int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
-
-        // Check if the player can shoot a fireball
-        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
-            this.marioverse$shootFireball(entity);
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN); // Reset cooldown
-            entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1); // Increase active fireball count
-        } else if (fireballCount >= ConfigRegistry.MAX_FIREBALLS.get()) {
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get()); // Reset with higher cooldown
-            entity.getPersistentData().putInt("marioverse:fireball_count", 0);
-        }
-    }
-
-    @Unique
-    public void marioverse$shootFireball(LivingEntity entity) {
-        Level world = entity.level();
-
-        BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
-        fireball.setOwner(entity);
-        fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
-        fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
-                SoundSource.PLAYERS, 1.0F, 1.0F);
-
-        Vec3 look = entity.getLookAngle();
-        fireball.setDeltaMovement(look.scale(0.5));
-
-        // Set the fireball's rotation based on the look direction
-        fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90); // Adjust for correct facing
-        fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
-
-        world.addFreshEntity(fireball);
-        entity.swing(InteractionHand.MAIN_HAND);
     }
 
     @Unique
