@@ -126,7 +126,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Scare", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Scare", 5, this::scareAnimController));
         controllers.add(new AnimationController<>(this, "Swim", 10, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
     }
@@ -164,8 +164,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
         if (this.dead) {
-            event.setAndContinue(SQUASH_ANIM);
-            return PlayState.CONTINUE;
+            if (this.getLastDamageSource() != null
+                && (this.getLastDamageSource().is(DamageSourceRegistry.STOMP)
+                    || this.getLastDamageSource().is(DamageSourceRegistry.PLAYER_STOMP))) {
+                event.setAndContinue(SQUASH_ANIM);
+                return PlayState.CONTINUE;
+            }
         }
         return PlayState.STOP;
     }
@@ -231,7 +235,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 double y = this.getY();
                 double z = this.getZ() + offsetZ;
 
-                this.level().addParticle(ParticleTypes.WHITE_SMOKE, x, y, z, 0, 0, 0);
+                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, this.getBlockStateOn()), x, y, z, 0, 0, 0);
             }
         }
 
@@ -310,7 +314,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public boolean hurt(DamageSource source, float amount) {
         boolean wasHurt = super.hurt(source, amount);
 
-        if (wasHurt) {
+        if (wasHurt && (this.isSitting() || this.isSleeping())) {
             this.sit(Boolean.FALSE);
             this.sleep(Boolean.FALSE);
             this.scare(Boolean.TRUE);
