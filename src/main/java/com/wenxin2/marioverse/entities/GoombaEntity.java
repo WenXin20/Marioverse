@@ -28,6 +28,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -57,6 +58,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoombaEntity extends Monster implements GeoEntity {
@@ -64,20 +66,22 @@ public class GoombaEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
-    protected static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goomba.death");
-    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
-    protected static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle_swim");
-    protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
-    protected static final RawAnimation SCARE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.scared");
-    protected static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sit");
-    protected static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("animation.goomba.sleep");
-    protected static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goomba.squash");
-    protected static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("animation.goomba.swim");
-    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.goomba.walk");
+    public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.death");
+    public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("goomba.idle");
+    public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.idle_swim");
+    public static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("goomba.run");
+    public static final RawAnimation SCARE_ANIM = RawAnimation.begin().thenLoop("goomba.scared");
+    public static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("goomba.sit");
+    public static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("goomba.sleep");
+    public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.squash");
+    public static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.swim");
+    public static final RawAnimation SWIM_SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.swim_squash");
+    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public GoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
+        this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.WATER, 2.0F);
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
     }
@@ -170,7 +174,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
             if (this.getLastDamageSource() != null
                 && (this.getLastDamageSource().is(DamageSourceRegistry.STOMP)
                     || this.getLastDamageSource().is(DamageSourceRegistry.PLAYER_STOMP))) {
-                event.setAndContinue(SQUASH_ANIM);
+                if (this.isInWaterOrBubble()) {
+                    if (!this.isRunning() && !this.isWalking())
+                        event.setAndContinue(SQUASH_ANIM);
+                    else event.setAndContinue(SWIM_SQUASH_ANIM);
+                } else event.setAndContinue(SQUASH_ANIM);
                 return PlayState.CONTINUE;
             } else {
                 event.setAndContinue(DEATH_ANIM);
@@ -212,7 +220,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     private boolean isRunning() {
-        return this.getSpeed() >= 0.5 ||this.getDeltaMovement().horizontalDistance() >= 0.5
+        return this.isSprinting() || this.getSpeed() >= 0.5 || this.getDeltaMovement().horizontalDistance() >= 0.5
                 || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof MeleeAttackGoal)
                 || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
@@ -247,7 +255,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         if (this.isScared()) {
             if (scareTime == 0) {
-                scareDuration = 25 + this.random.nextInt(100);
+                scareDuration = 25 + this.random.nextInt(50);
             }
             if (scareTime > scareDuration) {
                 this.scare(Boolean.FALSE);
@@ -399,7 +407,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void tryToSit() {
-        if (!this.isInWater()) {
+        if (!this.isInWaterOrBubble()) {
             this.sit(Boolean.TRUE);
             this.stopInPlace();
         }
@@ -423,7 +431,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void tryToSleep() {
-        if (!this.isInWater()) {
+        if (!this.isInWaterOrBubble()) {
             this.sit(Boolean.FALSE);
             this.sleep(Boolean.TRUE);
             this.stopInPlace();
@@ -448,7 +456,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void tryToScare() {
-        if (!this.isInWater()) {
+        if (!this.isInWaterOrBubble()) {
             this.sit(Boolean.FALSE);
             this.sleep(Boolean.FALSE);
             this.scare(Boolean.TRUE);
@@ -470,7 +478,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     public void tryToRide() {
-        if (!this.isInWater() && !this.isPassenger()) {
+        if (!this.isInWaterOrBubble() && !this.isPassenger()) {
             this.stopInPlace();
         }
     }
