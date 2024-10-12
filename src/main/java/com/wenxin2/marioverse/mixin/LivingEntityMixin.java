@@ -231,10 +231,10 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     public void marioverse$squashEntity(LivingEntity stompingEntity) {
-        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.2));
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.1));
 
         for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity damagedEntity && damagedEntity != stompingEntity
+            if (entity instanceof LivingEntity damagedEntity
                     && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                     && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
                     && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle()) {
@@ -244,7 +244,7 @@ public abstract class LivingEntityMixin extends Entity {
 
                 // Check if the colliding entity is above the current entity and falling
                 if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
-                        && stompingEntity.fallDistance > 0) {
+                        && (stompingEntity.fallDistance > 0 || stompingEntity.isInWaterOrBubble())) {
                     double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
                     if (stompingEntity instanceof Player)
                         if (Minecraft.getInstance().options.keyJump.isDown())
