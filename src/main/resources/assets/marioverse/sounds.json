@@ -63,6 +63,18 @@
     { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.step" },
 
 
+  "entity.goomba_bump": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_bump", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.goomba_bump" },
+  "entity.goomba_hurt": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_bump", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.goomba_hurt" },
+  "entity.goomba_run": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_run", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.goomba_run" },
+  "entity.goomba_step": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_step", "stream": false, "pitch": 1.0, "volume": 0.15 }],
+    "subtitle": "subtitles.marioverse.entity.goomba_step" },
+  "entity.goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_stomp", "stream": false, "pitch": 1.0, "volume": 0.5 }],
+    "subtitle": "subtitles.marioverse.entity.goomba_stomp" },
+
+
   "item.wrench_bound": { "category": "player", "sounds": [{ "name": "block/amethyst_cluster/break1", "stream": false },
     { "name": "block/amethyst_cluster/break2", "stream": false },
     { "name": "block/amethyst_cluster/break3", "stream": false },

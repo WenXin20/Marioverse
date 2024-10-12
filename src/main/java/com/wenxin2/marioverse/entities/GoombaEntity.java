@@ -4,14 +4,20 @@ import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
+import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import java.util.EnumSet;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -73,6 +79,23 @@ public class GoombaEntity extends Monster implements GeoEntity {
         super(type, world);
         this.setPathfindingMalus(PathType.WATER, 2.0F);
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundRegistry.GOOMBA_HURT.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.GOOMBA_STOMP.get();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
     }
 
     @Override
@@ -351,6 +374,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     knockbackDirection.z * knockbackStrength);
             collidingEntity.hurtMarked = true;
 
+            this.playSound(SoundRegistry.GOOMBA_BUMP.get());
             this.tryToScare();
             break;
         }

@@ -15,6 +15,11 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_EXTINGUISHED;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_SIZZLES;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_THROWN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_BUMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_HURT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_RUN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_STEP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_STOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
@@ -53,6 +58,17 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_sizzles")));
         FIREBALL_THROWN = Marioverse.SOUNDS.register("player.fireball_thrown",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.fireball_thrown")));
+
+        GOOMBA_BUMP = Marioverse.SOUNDS.register("entity.goomba_bump",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_bump")));
+        GOOMBA_HURT = Marioverse.SOUNDS.register("entity.goomba_hurt",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_hurt")));
+        GOOMBA_RUN = Marioverse.SOUNDS.register("entity.goomba_run",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_run")));
+        GOOMBA_STEP = Marioverse.SOUNDS.register("entity.goomba_step",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_step")));
+        GOOMBA_STOMP = Marioverse.SOUNDS.register("entity.goomba_stomp",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_stomp")));
 
         ITEM_SPAWNS = Marioverse.SOUNDS.register("block.item_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.item_spawns")));
