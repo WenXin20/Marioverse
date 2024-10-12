@@ -64,6 +64,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    protected static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goomba.death");
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle");
     protected static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("animation.goomba.idle_swim");
     protected static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("animation.goomba.run");
@@ -127,6 +128,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Scare", 5, this::scareAnimController));
+        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
         controllers.add(new AnimationController<>(this, "Swim", 10, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
     }
@@ -168,6 +170,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 && (this.getLastDamageSource().is(DamageSourceRegistry.STOMP)
                     || this.getLastDamageSource().is(DamageSourceRegistry.PLAYER_STOMP))) {
                 event.setAndContinue(SQUASH_ANIM);
+                return PlayState.CONTINUE;
+            } else {
+                event.setAndContinue(DEATH_ANIM);
                 return PlayState.CONTINUE;
             }
         }
