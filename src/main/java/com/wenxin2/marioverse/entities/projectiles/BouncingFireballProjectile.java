@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ParticleUtils;
@@ -177,16 +178,18 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                ItemStack shield = player.getUseItem();
                 if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
                         && player.getTeam() == this.getOwner().getTeam())
                     return;
 
                 if (player.isBlocking()) {
-                    this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
-                    this.setDeltaMovement(this.getDeltaMovement().reverse());
-                    ItemStack shield = player.getUseItem();
-                    if (shield.getItem() instanceof ShieldItem) {
+                    if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                        this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
+                        this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
                     player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
