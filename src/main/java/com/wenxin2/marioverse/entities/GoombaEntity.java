@@ -131,6 +131,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
         controllers.add(new AnimationController<>(this, "Swim", 10, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
+        controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
