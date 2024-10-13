@@ -14,18 +14,19 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class ShootBouncingFireballGoal extends Goal {
     private final LivingEntity livingEntity;
     private final double speedModifier;
+    private final int maxFireballs;
     private static final int FIREBALL_COOLDOWN = 5;
 
-    public ShootBouncingFireballGoal(LivingEntity entity, double speedModifier) {
-        this.speedModifier = speedModifier;
+    public ShootBouncingFireballGoal(LivingEntity entity, int maxFireballs, double speedModifier) {
         this.livingEntity = entity;
+        this.maxFireballs = maxFireballs;
+        this.speedModifier = speedModifier;
         this.setFlags(EnumSet.of(Goal.Flag.LOOK, Goal.Flag.MOVE));
     }
 
@@ -48,9 +49,8 @@ public class ShootBouncingFireballGoal extends Goal {
         return livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")
                 && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
-                && !(livingEntity instanceof Player)
                 && !(livingEntity instanceof ArmorStand)
-                && (livingEntity.getDeltaMovement().x > 0.0F || livingEntity.getDeltaMovement().z > 0.0F);
+                && (livingEntity.getDeltaMovement().horizontalDistance() > 0.0F);
     }
 
     @Override
@@ -85,11 +85,11 @@ public class ShootBouncingFireballGoal extends Goal {
         int fireballCount = livingEntity.getPersistentData().getInt("marioverse:fireball_count");
         int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
-        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
+        if (fireballCooldown == 0 && fireballCount < maxFireballs) {
             shootFireball();
             livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
             livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-        } else if (fireballCount >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
+        } else if (fireballCount >= maxFireballs) {
             livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
             livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
         }
