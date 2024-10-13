@@ -80,7 +80,7 @@ public class MarioverseEventHandlers {
         if (entity instanceof Mob mob) {
             if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
-                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob));
+                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, 1.0D));
             }
         }
     }

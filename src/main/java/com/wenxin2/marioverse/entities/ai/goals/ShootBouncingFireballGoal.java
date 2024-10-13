@@ -9,6 +9,7 @@ import java.util.EnumSet;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -19,11 +20,27 @@ import net.minecraft.world.phys.Vec3;
 
 public class ShootBouncingFireballGoal extends Goal {
     private final LivingEntity livingEntity;
+    private final double speedModifier;
     private static final int FIREBALL_COOLDOWN = 5;
 
-    public ShootBouncingFireballGoal(LivingEntity entity) {
+    public ShootBouncingFireballGoal(LivingEntity entity, double speedModifier) {
+        this.speedModifier = speedModifier;
         this.livingEntity = entity;
-        this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.LOOK, Goal.Flag.MOVE));
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        if (livingEntity instanceof Mob mob)
+            mob.setAggressive(true);
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        if (livingEntity instanceof Mob mob)
+            mob.setAggressive(false);
     }
 
     @Override
@@ -39,8 +56,8 @@ public class ShootBouncingFireballGoal extends Goal {
     @Override
     public void tick() {
         if (canUse()) {
-            if ((livingEntity instanceof Monster monster && monster.getTarget() != null)
-                    || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null)
+            if ((livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
+                    || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
                     || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem)) {
                 handleFireballShooting();
             }
@@ -49,6 +66,16 @@ public class ShootBouncingFireballGoal extends Goal {
         int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
         if (fireballCooldown > 0) {
             livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
+        }
+
+        if (livingEntity instanceof Mob mob) {
+            LivingEntity livingentity = mob.getTarget();
+            if (livingentity != null) {
+                mob.getNavigation().moveTo(livingentity, this.speedModifier);
+                if (mob.getControlledVehicle() instanceof Mob)
+                    mob.lookAt(livingentity, 30.0F, 30.0F);
+                mob.lookAt(livingentity, 30.0F, 30.0F);
+            }
         }
 
         super.tick();
