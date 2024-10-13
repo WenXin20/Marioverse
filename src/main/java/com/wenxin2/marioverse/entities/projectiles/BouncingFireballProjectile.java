@@ -97,9 +97,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
 
         for (int i = 0; i < 1; i++) {
-            double x = this.getX() + this.getBbWidth() / 2;
+            double x = this.getX();
             double y = this.getY() + this.getBbHeight() / 2;
-            double z = this.getZ() + this.getBbWidth() / 2;
+            double z = this.getZ();
             this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
         }
     }

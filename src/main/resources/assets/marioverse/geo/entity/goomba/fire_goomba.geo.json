@@ -295,9 +295,9 @@
 					]
 				},
 				{
-					"name": "flame",
+					"name": "wick",
 					"parent": "armorBipedHead",
-					"pivot": [3, 8, 4],
+					"pivot": [0, 17, 0],
 					"cubes": [
 						{
 							"origin": [-3.5, 15, 0],
@@ -306,17 +306,7 @@
 							"rotation": [0, -45, 0],
 							"uv": {
 								"north": {"uv": [30, 26], "uv_size": [7, 5]},
-								"south": {"uv": [30, 26], "uv_size": [7, 5]}
-							}
-						},
-						{
-							"origin": [-3.5, 15, 0],
-							"size": [7, 5, 0],
-							"pivot": [0, 17.5, 0],
-							"rotation": [0, 45, 0],
-							"uv": {
-								"north": {"uv": [37, 26], "uv_size": [7, 5]},
-								"south": {"uv": [37, 26], "uv_size": [7, 5]}
+								"south": {"uv": [37, 26], "uv_size": [-7, 5]}
 							}
 						}
 					]
