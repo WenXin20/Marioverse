@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +22,8 @@ public class TagRegistry {
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "smashable_blocks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "warp_pipes");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags(Marioverse.MOD_ID, "wrench_efficient");
+    public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags(Marioverse.MOD_ID, "is_fireball");
+    public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags(Marioverse.MOD_ID, "shield_blocks");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
     public static final TagKey<Item> ITEM_BRICK_ITEMS = itemTags(Marioverse.MOD_ID, "storage_bricks");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags(Marioverse.MOD_ID, "power_ups");
@@ -54,5 +57,9 @@ public class TagRegistry {
 
     public static TagKey<EntityType<?>> entityTypeTags(String id, String name) {
         return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(id, name));
+    }
+
+    public static TagKey<DamageType> damageTypeTags(String id, String name) {
+        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(id, name));
     }
 }

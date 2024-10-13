@@ -1,0 +1,7 @@
+{
+  "_comment": "All damage types that can be blocked.",
+  "replace": false,
+  "values": [
+    { "id": "#marioverse:is_fireball", "required": false }
+  ]
+}

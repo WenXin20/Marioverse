@@ -17,11 +17,8 @@ import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +32,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -82,10 +78,8 @@ public class MarioverseEventHandlers {
             tag.putBoolean("marioverse:has_mega_mushroom", false);
 
         if (entity instanceof Mob mob) {
-            int fireballCooldown = mob.getPersistentData().getInt("marioverse:fireball_cooldown");
-            if (fireballCooldown == 0
-                    && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
+            if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
                 mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob));
             }
         }
@@ -96,7 +90,7 @@ public class MarioverseEventHandlers {
         CompoundTag tag = event.getEntity().getPersistentData();
         Level world = event.getEntity().level();
 
-        if (event.getEntity() instanceof Player player) {
+        if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
             if (tag.getBoolean("marioverse:has_fire_flower")) {
@@ -149,7 +143,7 @@ public class MarioverseEventHandlers {
                         containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity livingEntity) {
+        } else if (event.getEntity() instanceof LivingEntity livingEntity && !livingEntity.isDamageSourceBlocked(event.getSource())) {
             float maxHealth = livingEntity.getMaxHealth();
             float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();

@@ -214,6 +214,22 @@ public abstract class LivingEntityMixin extends Entity {
         } else super.handleEntityEvent(id);
     }
 
+    @Inject(method = "isDamageSourceBlocked", at = @At("HEAD"), cancellable = true)
+    public void isDamageSourceBlocked(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity livingEntity = (LivingEntity)(Object)this;
+        boolean flag = false;
+
+        if (source.is(TagRegistry.SHIELD_BLOCKS) && livingEntity.isBlocking()) {
+            Vec3 vec32 = source.getSourcePosition();
+            if (vec32 != null) {
+                Vec3 vec3 = this.calculateViewVector(0.0F, this.getYHeadRot());
+                Vec3 vec31 = vec32.vectorTo(this.position());
+                vec31 = new Vec3(vec31.x, 0.0, vec31.z).normalize();
+                cir.setReturnValue(true);
+            }
+        }
+    }
+
     @Unique
     public void marioverse$squashEntity(LivingEntity stompingEntity) {
         List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.1));

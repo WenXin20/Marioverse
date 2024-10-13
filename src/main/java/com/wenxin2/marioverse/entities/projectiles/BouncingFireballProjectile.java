@@ -185,7 +185,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         && player.getTeam() == this.getOwner().getTeam())
                     return;
 
-                if (player.isBlocking()) {
+                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -209,7 +209,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         && livingEntity.getTeam() == this.getOwner().getTeam()))
                     return;
 
-                if (livingEntity.isBlocking()) {
+                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
