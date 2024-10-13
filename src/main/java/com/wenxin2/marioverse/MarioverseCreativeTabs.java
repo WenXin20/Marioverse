@@ -1,6 +1,7 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse;
 
-import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

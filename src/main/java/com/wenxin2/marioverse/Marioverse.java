@@ -9,7 +9,6 @@ import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
-import com.wenxin2.marioverse.init.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
