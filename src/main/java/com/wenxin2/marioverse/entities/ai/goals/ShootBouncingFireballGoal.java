@@ -85,11 +85,11 @@ public class ShootBouncingFireballGoal extends Goal {
         int fireballCount = livingEntity.getPersistentData().getInt("marioverse:fireball_count");
         int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
-        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
+        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
             shootFireball();
             livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
             livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-        } else if (fireballCount >= ConfigRegistry.MAX_FIREBALLS.get()) {
+        } else if (fireballCount >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
             livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
             livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
         }

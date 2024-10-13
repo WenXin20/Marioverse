@@ -37,11 +37,11 @@ public class FireballShootPacket {
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
         // Check if the player can shoot a fireball
-        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_FIREBALLS.get()) {
+        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
             shootFireball(entity);
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN); // Reset cooldown
             entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1); // Increase active fireball count
-        } else if (fireballCount >= ConfigRegistry.MAX_FIREBALLS.get()) {
+        } else if (fireballCount >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get()); // Reset with higher cooldown
             entity.getPersistentData().putInt("marioverse:fireball_count", 0);
         }

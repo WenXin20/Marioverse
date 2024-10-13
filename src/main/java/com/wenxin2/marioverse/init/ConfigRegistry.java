@@ -46,7 +46,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
-    public static ModConfigSpec.IntValue MAX_FIREBALLS;
+    public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
     public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
@@ -234,10 +234,10 @@ public class ConfigRegistry
                         .comment("§6[20 ticks = 1 second]")
                         .comment("§9[Default: 50]§b")
                         .defineInRange("fireball_cooldown", 50, 1, 72000);
-                MAX_FIREBALLS = BUILDER.translation("configuration.marioverse.max_fireballs")
-                        .comment("Max amount of fireballs that can be shot before a cooldown.")
+                MAX_PLAYER_FIREBALLS = BUILDER.translation("configuration.marioverse.max_player_fireballs")
+                        .comment("Max amount of fireballs that can be shot before a cooldown by the player.")
                         .comment("§9[Default: 2]§b")
-                        .defineInRange("max_fireballs", 2, 1, 100);
+                        .defineInRange("max_player_fireballs", 2, 1, 100);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_GAMEPLAY);
