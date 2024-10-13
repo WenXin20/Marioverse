@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -33,6 +34,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
+            Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
+                    .sized(0.625F, 1.0F).eyeHeight(0.8F).fireImmune().build("fire_goomba"));
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -52,6 +56,15 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_SPEED, 1.0F)
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 4)
+                .add(Attributes.MOVEMENT_SPEED, 0.4F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
+
+        event.put(EntityRegistry.FIRE_GOOMBA.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.5F)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
+                .add(Attributes.ATTACK_SPEED, 0.8F)
+                .add(Attributes.FOLLOW_RANGE, 8.0F)
+                .add(Attributes.MAX_HEALTH, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 

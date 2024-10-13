@@ -9,13 +9,13 @@ import java.util.function.Supplier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_FLOWER;
+    public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_HAT;
     public static final DeferredItem<Item> FIRE_OVERALLS;
     public static final DeferredItem<Item> FIRE_SHIRT;
@@ -46,8 +46,10 @@ public class ItemRegistry {
         FIRE_SHOES = registerItem("fire_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
+        FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0x713030, 0xEAABB1, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xCC5F51, 0xE9AC8C, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)
