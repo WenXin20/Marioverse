@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -33,6 +34,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -135,14 +137,14 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
 
         if (state.is(Blocks.SNOW)) {
-            world.removeBlock(hitPos, Boolean.FALSE);
             ParticleUtils.spawnParticleOnFace(world, hitPos, Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
+            world.removeBlock(hitPos, Boolean.FALSE);
         }
         else if (state.is(TagRegistry.MELTS))
             world.removeBlock(hitPos, Boolean.FALSE);
         else if (stateAbove.is(Blocks.SNOW) || stateAbove.is(Blocks.POWDER_SNOW)) {
-            world.removeBlock(hitPos.above(), Boolean.FALSE);
             ParticleUtils.spawnParticleOnFace(world, hitPos.above(), Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
+            world.removeBlock(hitPos.above(), Boolean.FALSE);
         }
         else if (state.is(TagRegistry.MELTS_INTO_WATER))
             world.setBlock(hitPos, Blocks.WATER.defaultBlockState(), 3);
@@ -200,6 +202,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                ItemStack shield = livingEntity.getUseItem();
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
                         && tamableAnimal.getOwner() == this.getOwner())
                         || (this.getOwner() != null && livingEntity.getTeam() != null && this.getOwner().getTeam() != null
@@ -207,10 +210,12 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     return;
 
                 if (livingEntity.isBlocking()) {
-                    this.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
-                    ItemStack shield = livingEntity.getUseItem();
-                    if (shield.getItem() instanceof ShieldItem) {
+                    if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                        this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
+                        this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
+                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                                SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
                     livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
@@ -230,6 +235,23 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
         }
+    }
+
+    @Override
+    public boolean deflect(@NotNull ProjectileDeflection deflection, @Nullable Entity entity, @Nullable Entity owner, boolean shouldDeflect) {
+        if (entity instanceof LivingEntity livingEntity) {
+            ItemStack shield = livingEntity.getUseItem();
+            if (!this.level().isClientSide) {
+                if (shield.getItem() instanceof ShieldItem
+                        || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    deflection.deflect(this, entity, this.random);
+                    this.setOwner(owner);
+                    this.onDeflection(entity, shouldDeflect);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
