@@ -82,10 +82,11 @@ public class MarioverseEventHandlers {
             tag.putBoolean("marioverse:has_mega_mushroom", false);
 
         if (entity instanceof Mob mob) {
-            if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
-
-                mob.goalSelector.addGoal(2, new ShootBouncingFireballGoal(mob));
+            int fireballCooldown = mob.getPersistentData().getInt("marioverse:fireball_cooldown");
+            if (fireballCooldown == 0
+                    && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
+                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob));
             }
         }
     }

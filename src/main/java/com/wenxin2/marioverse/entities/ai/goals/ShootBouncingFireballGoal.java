@@ -23,7 +23,7 @@ public class ShootBouncingFireballGoal extends Goal {
 
     public ShootBouncingFireballGoal(LivingEntity entity) {
         this.livingEntity = entity;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK)); // Example flags, adjust as needed
+        this.setFlags(EnumSet.of(Goal.Flag.LOOK));
     }
 
     @Override
@@ -42,7 +42,6 @@ public class ShootBouncingFireballGoal extends Goal {
             if ((livingEntity instanceof Monster monster && monster.getTarget() != null)
                     || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null)
                     || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem)) {
-
                 handleFireballShooting();
             }
         }
@@ -51,6 +50,8 @@ public class ShootBouncingFireballGoal extends Goal {
         if (fireballCooldown > 0) {
             livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
         }
+
+        super.tick();
     }
 
     public void handleFireballShooting() {
