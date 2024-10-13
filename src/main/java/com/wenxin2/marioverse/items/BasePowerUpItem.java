@@ -34,16 +34,22 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
             BlockPos blockpos = context.getClickedPos();
             Direction direction = context.getClickedFace();
             BlockState blockstate = level.getBlockState(blockpos);
-            if (level.getBlockEntity(blockpos) instanceof Spawner spawner) {
-                if (context.getPlayer() != null && context.getPlayer().isCreative()) {
-                    EntityType<?> entitytype1 = this.getType(itemstack);
-                    spawner.setEntityId(entitytype1, level.getRandom());
-                    level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
-                    level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
-                    itemstack.shrink(1);
-                    return InteractionResult.CONSUME;
-                }
-                return InteractionResult.PASS;
+            if (level.getBlockEntity(blockpos) instanceof Spawner spawner
+                    && (context.getPlayer() != null && context.getPlayer().isCreative())) {
+                EntityType<?> entitytype1 = this.getType(itemstack);
+                spawner.setEntityId(entitytype1, level.getRandom());
+                level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
+                level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
+                itemstack.shrink(1);
+                return InteractionResult.CONSUME;
+            } else if (level.getBlockEntity(blockpos) instanceof Spawner spawner
+                    && context.getPlayer() == null) {
+                EntityType<?> entitytype1 = this.getType(itemstack);
+                spawner.setEntityId(entitytype1, level.getRandom());
+                level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
+                level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
+                itemstack.shrink(1);
+                return InteractionResult.CONSUME;
             } else {
                 BlockPos blockpos1;
                 if (blockstate.getCollisionShape(level, blockpos).isEmpty()) {
