@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
-import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
+import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballWithFireFlowerGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -81,7 +81,7 @@ public class MarioverseEventHandlers {
         if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity)) {
             if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
-                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(), 1.0D));
+                mob.goalSelector.addGoal(0, new ShootBouncingFireballWithFireFlowerGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(), 1.0D));
             }
         }
     }
