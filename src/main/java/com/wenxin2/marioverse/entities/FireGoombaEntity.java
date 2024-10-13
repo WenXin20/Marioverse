@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import net.minecraft.world.entity.EntityType;
@@ -30,9 +31,10 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new WaterAvoidingRandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(2, new GoombaSitGoal(this, 100, 1200, 3000, 300));
-        this.goalSelector.addGoal(1, new ShootBouncingFireballGoal(this, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
-                ConfigRegistry.MAX_MOB_FIREBALLS.get() + 2, 1.0D));
+        this.goalSelector.addGoal(2, new GoombaSitGoal(this, 50, 1200, 3000, 300));
+        this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 12, 2400, 6000));
+        this.goalSelector.addGoal(0, new ShootBouncingFireballGoal(this, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
+                2, false));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
