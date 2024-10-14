@@ -88,7 +88,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
         if (id == 60) {
             if (this.level().isClientSide) {
                 ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition(),
-                        ParticleRegistry.MUSHROOM_TRANSFORM.get(), UniformInt.of(1, 3));
+                        ParticleRegistry.POWERED_UP.get(), UniformInt.of(1, 3));
             }
         } else if (id == 61) {
             if (this.level().isClientSide) {

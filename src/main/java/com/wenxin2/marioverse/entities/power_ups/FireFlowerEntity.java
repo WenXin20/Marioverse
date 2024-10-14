@@ -134,7 +134,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         double y = livingEntity.getY() + offsetY;
                         double z = livingEntity.getZ() + offsetZ;
 
-                        livingEntity.level().addParticle(ParticleRegistry.MUSHROOM_TRANSFORM.get(), x, y, z, 0, 100.0, 0);
+                        livingEntity.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 100.0, 0);
                     }
                 }
 

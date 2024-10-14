@@ -69,7 +69,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
-        event.registerSpriteSet(ParticleRegistry.MUSHROOM_TRANSFORM.get(), SuspendedTownParticle.HappyVillagerProvider::new);
+        event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
