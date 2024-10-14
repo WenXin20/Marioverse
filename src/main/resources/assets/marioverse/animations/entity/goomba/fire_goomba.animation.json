@@ -51,11 +51,6 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {
-				"0.0": {
-					"effect": "flame"
-				}
 			}
 		},
 		"goomba.walk": {
@@ -218,8 +213,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"goomba.run": {
 			"loop": true,
@@ -381,8 +375,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"goomba.idle_swim": {
 			"loop": true,
@@ -644,8 +637,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"goomba.sleep": {
 			"loop": true,
@@ -835,8 +827,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"goomba.scared": {
 			"loop": true,
@@ -982,8 +973,7 @@
 						}
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"goomba.squash": {
 			"loop": "hold_on_last_frame",
@@ -1007,8 +997,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"goomba.swim_squash": {
 			"loop": "hold_on_last_frame",
@@ -1172,8 +1161,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		},
 		"attack.bite": {
 			"animation_length": 0.25,
@@ -1320,8 +1308,7 @@
 						"easing": "linear"
 					}
 				}
-			},
-			"particle_effects": {}
+			}
 		}
 	}
 }
