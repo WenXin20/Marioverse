@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -73,7 +74,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
                         this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                    else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    else this.level().broadcastEntityEvent(player, (byte) 125); // Mushroom Transform particle
                 }
 
                 if (player.getHealth() < player.getMaxHealth())
@@ -108,7 +109,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
                 if (livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower"))
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                else this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                else this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
 
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
@@ -116,7 +117,25 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 } else {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
+                    float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
+                    int numParticles = (int) (scaleFactor * 20);
+                    double radius = livingEntity.getBbWidth() / 2;
+
+                    for (int i = 0; i < numParticles; i++) {
+                        // Calculate angle for each particle
+                        double angle = 2 * Math.PI * i / numParticles;
+                        // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                        double offsetX = Math.cos(angle) * radius;
+                        double offsetY = livingEntity.getBbHeight() / 2;
+                        double offsetZ = Math.sin(angle) * radius;
+
+                        double x = livingEntity.getX() + offsetX;
+                        double y = livingEntity.getY() + offsetY;
+                        double z = livingEntity.getZ() + offsetZ;
+
+                        livingEntity.level().addParticle(ParticleRegistry.MUSHROOM_TRANSFORM.get(), x, y, z, 0, 100.0, 0);
+                    }
                 }
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())

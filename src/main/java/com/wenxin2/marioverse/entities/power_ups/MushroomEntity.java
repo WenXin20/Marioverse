@@ -81,7 +81,6 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide) {
-
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
@@ -91,37 +90,38 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                         player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     } else {
                         player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                        this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                        this.level().broadcastEntityEvent(player, (byte) 125); // Mushroom Transform particle
                     }
                 }
-
-                if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.remove(Entity.RemovalReason.KILLED);
+                if (!this.level().isClientSide) {
+                    if (player.getHealth() < player.getMaxHealth())
+                        player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                    if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                        this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                        this.remove(Entity.RemovalReason.KILLED);
+                    }
                 }
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                    && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                    && !(entity instanceof Player)) {
-
+                    && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                         this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     } else {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                        this.level().broadcastEntityEvent(this, (byte) 60); // Mushroom Transform particle
+                        this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
                     }
                 }
 
-                if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
-                if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.remove(Entity.RemovalReason.KILLED);
+                if (!this.level().isClientSide) {
+                    if (livingEntity.getHealth() < livingEntity.getMaxHealth())
+                        livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                    if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                        this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                        this.remove(Entity.RemovalReason.KILLED);
+                    }
                 }
             }
         }

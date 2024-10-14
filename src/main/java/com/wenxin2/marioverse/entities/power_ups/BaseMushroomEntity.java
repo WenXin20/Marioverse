@@ -77,7 +77,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     public void handleCollision(Entity entity) {
         if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-            this.level().broadcastEntityEvent(this, (byte) 60);
+            this.level().broadcastEntityEvent(entity, (byte) 60);
             this.level().broadcastEntityEvent(this, (byte) 20);
             this.remove(RemovalReason.KILLED);
         }
@@ -93,7 +93,7 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
         } else if (id == 61) {
             if (this.level().isClientSide) {
                 this.level().addParticle(ParticleRegistry.ONE_UP.get(),
-                        this.getX(), this.getY() + 2.0, this.getZ(),
+                        this.getX(), this.getY() + this.getBbHeight(), this.getZ(),
                         0.0, 1.0, 0.0);
             }
         } else if (id == 62) {

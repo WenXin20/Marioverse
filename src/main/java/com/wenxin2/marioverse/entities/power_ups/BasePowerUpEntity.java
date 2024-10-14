@@ -1,11 +1,8 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.util.ParticleUtils;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -73,11 +70,7 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
 
     @Override
     public void handleEntityEvent(byte id) {
-        if (id == 60) {
-            if (this.level().isClientSide) {
-                ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition(), ParticleRegistry.MUSHROOM_TRANSFORM.get(), UniformInt.of(1, 3));
-            }
-        } else if (id == 20) {
+        if (id == 20) {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 10; i++) {
                     this.level().addParticle(ParticleTypes.POOF,
