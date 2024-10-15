@@ -139,7 +139,7 @@ public abstract class PlayerMixin extends Entity {
         if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
             ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
 
-            this.level().broadcastEntityEvent(entity, (byte) 124); // Coin Glint particle
+            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
             world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             world.removeBlock(pos.above(), false);
             this.getInventory().add(coinItem);

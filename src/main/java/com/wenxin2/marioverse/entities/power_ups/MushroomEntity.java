@@ -90,7 +90,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                         player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     } else {
                         player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                        this.level().broadcastEntityEvent(player, (byte) 125); // Mushroom Transform particle
+                        this.level().broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
                     }
                 }
                 if (!this.level().isClientSide) {
@@ -110,7 +110,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     } else {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                        this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
+                        this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
                     }
                 }
 

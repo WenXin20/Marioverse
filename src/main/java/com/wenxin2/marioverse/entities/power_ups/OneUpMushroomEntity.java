@@ -59,7 +59,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.level().broadcastEntityEvent(player, (byte) 125); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
                     this.level().broadcastEntityEvent(player, (byte) 126); // 1-Up Collected particle
                     this.remove(RemovalReason.KILLED);
                 }
@@ -79,7 +79,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
+                    this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
                     this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Collected particle
                     this.remove(RemovalReason.KILLED);
                 }

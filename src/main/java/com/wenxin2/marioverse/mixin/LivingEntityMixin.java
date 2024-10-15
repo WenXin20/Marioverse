@@ -154,7 +154,7 @@ public abstract class LivingEntityMixin extends Entity {
                         livingEntity.setHealth(1.0F);
                         livingEntity.heal(ConfigRegistry.ONE_UP_HEAL_AMT.get().floatValue());
                         stackCharm.shrink(1);
-                        this.level().broadcastEntityEvent(this, (byte) 125); // Mushroom Transform particle
+                        this.level().broadcastEntityEvent(this, (byte) 124); // Mushroom Transform particle
                         this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Pop Up
                         float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
                         int numParticles = (int) (scaleFactor * 20);
@@ -191,7 +191,7 @@ public abstract class LivingEntityMixin extends Entity {
                 livingEntity.setHealth(1.0F);
                 livingEntity.heal(ConfigRegistry.ONE_UP_HEAL_AMT.get().floatValue());
                 stack.shrink(1);
-                this.level().broadcastEntityEvent(livingEntity, (byte) 125); // Mushroom Transform particle
+                this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
                 this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Pop Up
 
                 if (livingEntity instanceof ServerPlayer serverplayer) {
@@ -203,17 +203,31 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
+    @Inject(method = "isDamageSourceBlocked", at = @At("HEAD"), cancellable = true)
+    public void isDamageSourceBlocked(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity livingEntity = (LivingEntity)(Object)this;
+
+        if (source.is(TagRegistry.SHIELD_BLOCKS) && livingEntity.isBlocking()) {
+            Vec3 vec32 = source.getSourcePosition();
+            if (vec32 != null) {
+                cir.setReturnValue(true);
+            }
+        }
+    }
+
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
     private void handleEntityEvent(byte id, CallbackInfo info) {
         LivingEntity livingEntity = (LivingEntity)(Object)this;
 
-        if (id == 124) {
+        if (id == 123) {
+            this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.FIRE_POWERED_UP.get(), 15);
+        } else if (id == 124) {
+            this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.POWERED_UP.get(), 25);
+        } else if (id == 125) {
             if (this.level().isClientSide) {
                 ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition().above(Math.round(this.getBbHeight())).above(),
                         ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
             }
-        } else if (id == 125) {
-            this.marioverse$spawnPowerUpParticles(livingEntity);
         } else if (id == 126) {
             if (this.level().isClientSide) {
                 this.level().addParticle(ParticleRegistry.ONE_UP.get(),
@@ -223,14 +237,91 @@ public abstract class LivingEntityMixin extends Entity {
         } else super.handleEntityEvent(id);
     }
 
-    @Inject(method = "isDamageSourceBlocked", at = @At("HEAD"), cancellable = true)
-    public void isDamageSourceBlocked(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
-        LivingEntity livingEntity = (LivingEntity)(Object)this;
+    @Unique
+    public void marioverse$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
+        if (entity.level() instanceof ServerLevel serverWorld)
+            serverWorld.sendParticles(particleType, entity.getX(),
+                    entity.getY() + entity.getBbHeight() + 1.0,
+                    entity.getZ(), 1, 0, 1.0, 0, 0.5);
+    }
 
-        if (source.is(TagRegistry.SHIELD_BLOCKS) && livingEntity.isBlocking()) {
-            Vec3 vec32 = source.getSourcePosition();
-            if (vec32 != null) {
-                cir.setReturnValue(true);
+    @Unique
+    public void marioverse$spawnPowerUpParticles(Entity entity, ParticleOptions particleType, int avgAmount) {
+        if (entity.level().isClientSide) {
+            float scaleFactor = entity.getBbWidth();
+            int numParticles = (int) (scaleFactor * avgAmount);
+            double radius = entity.getBbWidth() / 2;
+
+            for (int i = 0; i < numParticles; i++) {
+                // Calculate angle for each particle
+                double angle = 2 * Math.PI * i / numParticles;
+                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                double offsetX = Math.cos(angle) * radius;
+                double offsetY = entity.getBbHeight() - 0.2;
+                double offsetZ = Math.sin(angle) * radius;
+
+                double x = entity.getX() + offsetX;
+                double y = entity.getY() + offsetY;
+                double z = entity.getZ() + offsetZ;
+
+                this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
+            }
+
+            for (int i = 0; i < numParticles; i++) {
+                // Calculate angle for each particle
+                double angle = 2 * Math.PI * i / numParticles;
+                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                double offsetX = Math.cos(angle) * radius;
+                double offsetY = entity.getBbHeight() / 2;
+                double offsetZ = Math.sin(angle) * radius;
+
+                double x = entity.getX() + offsetX;
+                double y = entity.getY() + offsetY;
+                double z = entity.getZ() + offsetZ;
+
+                this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
+            }
+
+            for (int i = 0; i < numParticles; i++) {
+                // Calculate angle for each particle
+                double angle = 2 * Math.PI * i / numParticles;
+                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                double offsetX = Math.cos(angle) * radius;
+                double offsetY = 0.2;
+                double offsetZ = Math.sin(angle) * radius;
+
+                double x = entity.getX() + offsetX;
+                double y = entity.getY() + offsetY;
+                double z = entity.getZ() + offsetZ;
+
+                this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$enchantParticles(Level world) {
+        RandomSource random = world.getRandom();
+
+        // Calculate a scaling factor based on entity dimensions
+        float scaleFactor = this.getBbHeight() * this.getBbWidth();
+        // Calculate the particle count based on the scaling factor
+        int particleCount = (int) (scaleFactor * 40);
+        // Ensure particle count does not exceed the maximum limit
+        particleCount = Math.min(particleCount, MAX_PARTICLE_AMOUNT);
+
+        Collection<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
+        for (ServerPlayer player : players) {
+            for (int i = 0; i < particleCount; ++i) {
+                player.connection.send(new ClientboundLevelParticlesPacket(
+                        ParticleTypes.ENCHANT,      // Particle type
+                        false,                       // Long distance
+                        this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), // Position
+                        (random.nextFloat() - 0.5F) * 2.0F, -random.nextFloat(),
+                        (random.nextFloat() - 0.5F) * 2.0F, // Motion
+                        0,                          // Particle data
+                        2                           // Particle count
+                ));
             }
         }
     }
@@ -349,68 +440,6 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
-        if (entity.level() instanceof ServerLevel serverWorld)
-            serverWorld.sendParticles(particleType, entity.getX(),
-                    entity.getY() + entity.getBbHeight() + 1.0,
-                    entity.getZ(), 1, 0, 1.0, 0, 0.5);
-    }
-
-    @Unique
-    public void marioverse$spawnPowerUpParticles(Entity entity) {
-        if (entity.level().isClientSide) {
-            float scaleFactor = entity.getBbWidth();
-            int numParticles = (int) (scaleFactor * 25);
-            double radius = entity.getBbWidth() / 2;
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                double offsetX = Math.cos(angle) * radius;
-                double offsetY = entity.getBbHeight() - 0.2;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = entity.getX() + offsetX;
-                double y = entity.getY() + offsetY;
-                double z = entity.getZ() + offsetZ;
-
-                this.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 1.0, 0);
-            }
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                double offsetX = Math.cos(angle) * radius;
-                double offsetY = entity.getBbHeight() / 2;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = entity.getX() + offsetX;
-                double y = entity.getY() + offsetY;
-                double z = entity.getZ() + offsetZ;
-
-                this.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 1.0, 0);
-            }
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                double offsetX = Math.cos(angle) * radius;
-                double offsetY = 0.2;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = entity.getX() + offsetX;
-                double y = entity.getY() + offsetY;
-                double z = entity.getZ() + offsetZ;
-
-                this.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 1.0, 0);
-            }
-        }
-    }
-
-    @Unique
     public void marioverse$bounceReward(LivingEntity entity) {
         ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
         if (entity instanceof Player player && !player.isSpectator()) {
@@ -438,33 +467,6 @@ public abstract class LivingEntityMixin extends Entity {
                 offhandStack.grow(1);
             this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
-        }
-    }
-
-    @Unique
-    public void marioverse$enchantParticles(Level world) {
-        RandomSource random = world.getRandom();
-
-        // Calculate a scaling factor based on entity dimensions
-        float scaleFactor = this.getBbHeight() * this.getBbWidth();
-        // Calculate the particle count based on the scaling factor
-        int particleCount = (int) (scaleFactor * 40);
-        // Ensure particle count does not exceed the maximum limit
-        particleCount = Math.min(particleCount, MAX_PARTICLE_AMOUNT);
-
-        Collection<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
-        for (ServerPlayer player : players) {
-            for (int i = 0; i < particleCount; ++i) {
-                player.connection.send(new ClientboundLevelParticlesPacket(
-                        ParticleTypes.ENCHANT,      // Particle type
-                        false,                       // Long distance
-                        this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), // Position
-                        (random.nextFloat() - 0.5F) * 2.0F, -random.nextFloat(),
-                        (random.nextFloat() - 0.5F) * 2.0F, // Motion
-                        0,                          // Particle data
-                        2                           // Particle count
-                ));
-            }
         }
     }
 

@@ -66,6 +66,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.EXCELLENT.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.FIRE_POWERED_UP.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
