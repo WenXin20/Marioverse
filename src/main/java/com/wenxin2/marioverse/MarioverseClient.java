@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.client.particles.FirePoweredUpParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
 import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
@@ -66,7 +67,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.EXCELLENT.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
-        event.registerSpriteSet(ParticleRegistry.FIRE_POWERED_UP.get(), SuspendedTownParticle.HappyVillagerProvider::new);
+        event.registerSpriteSet(ParticleRegistry.FIRE_POWERED_UP.get(), FirePoweredUpParticle::new);
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
