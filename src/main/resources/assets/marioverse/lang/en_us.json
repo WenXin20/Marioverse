@@ -62,6 +62,7 @@
 
   "entity.marioverse.fire_goomba": "Fire Goomba",
   "entity.marioverse.goomba": "Goomba",
+  "entity.marioverse.mini_goomba": "Mini Goomba",
 
   "item.marioverse.fire_flower": "Fire Flower",
   "item.marioverse.mushroom": "Mushroom",
@@ -75,6 +76,7 @@
 
   "item.marioverse.fire_goomba_spawn_egg": "Fire Goomba Spawn Egg",
   "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
+  "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
   "item.marioverse.pipe_wrench.bubbles.false": "Pipe bubbles off",

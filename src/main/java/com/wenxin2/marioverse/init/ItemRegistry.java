@@ -21,6 +21,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_SHIRT;
     public static final DeferredItem<Item> FIRE_SHOES;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PIPE_WRENCH;
@@ -50,6 +51,8 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0x713030, 0xEAABB1, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
+        MINI_GOOMBA_SPAWN_EGG = registerItem("mini_goomba_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)

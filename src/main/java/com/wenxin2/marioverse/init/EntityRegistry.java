@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.init;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
@@ -31,12 +32,15 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
-            Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 1.0F).eyeHeight(0.8F).fireImmune().build("fire_goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
+            Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
+                    .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
+            Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
+                    .sized(0.156F, 0.25F).eyeHeight(0.2F).build("mini_goomba"));
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -67,6 +71,15 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
+
+        event.put(EntityRegistry.MINI_GOOMBA.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 0.25F)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.FOLLOW_RANGE, 4.0F)
+                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.MOVEMENT_SPEED, 0.2F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 12.0F).build());
 
     }
 
