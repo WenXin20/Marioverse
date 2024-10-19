@@ -55,6 +55,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @Override
+    protected int getBaseExperienceReward() {
+        return 1;
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));

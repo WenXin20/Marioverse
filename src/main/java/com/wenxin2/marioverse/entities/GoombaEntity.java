@@ -87,6 +87,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
     }
 
+    @Override
+    protected int getBaseExperienceReward() {
+        return 1 + this.level().random.nextInt(1);
+    }
+
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
@@ -350,11 +355,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public int getAmbientSoundInterval() {
         return 120;
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(3);
     }
 
     protected void handleAirSupply(int airSupplyAmount) {

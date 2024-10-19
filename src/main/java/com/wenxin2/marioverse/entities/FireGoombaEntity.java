@@ -14,7 +14,6 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -27,6 +26,11 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.LAVA, 2.0F);
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
+    }
+
+    @Override
+    protected int getBaseExperienceReward() {
+        return 1 + this.level().random.nextInt(3);
     }
 
     @Override
