@@ -40,7 +40,7 @@ public class EntityRegistry {
                     .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.156F, 0.25F).eyeHeight(0.2F).ridingOffset(0.05F).build("mini_goomba"));
+                    .sized(0.156F, 0.25F).eyeHeight(0.2F).ridingOffset(0.07F).build("mini_goomba"));
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
