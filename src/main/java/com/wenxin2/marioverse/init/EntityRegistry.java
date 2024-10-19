@@ -34,13 +34,13 @@ public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 1.0F).eyeHeight(0.8F).fireImmune().build("fire_goomba"));
+                    .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.1F).fireImmune().build("fire_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
+                    .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.1F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.156F, 0.25F).eyeHeight(0.2F).ridingOffset(0.07F).build("mini_goomba"));
+                    .sized(0.156F, 0.2F).eyeHeight(0.175F).ridingOffset(0.07F).build("mini_goomba"));
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {

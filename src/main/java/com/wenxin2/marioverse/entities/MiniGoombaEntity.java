@@ -139,7 +139,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
         for (Entity entity : entities) {
-            if (entity instanceof LivingEntity livingEntity
+            if (entity instanceof LivingEntity livingEntity && !this.isNoAi()
                     && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                     || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get()))
                 stickToEntity(livingEntity);

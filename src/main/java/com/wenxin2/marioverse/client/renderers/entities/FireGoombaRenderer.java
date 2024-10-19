@@ -72,7 +72,7 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
             this.model.getBone("wick").ifPresent(wick -> {
                 Vector3d wickPos = wick.getWorldPosition();
                 animatable.getCommandSenderWorld().addParticle(ParticleTypes.FLAME,
-                        wickPos.x(), wickPos.y() + 0.1, wickPos.z(),
+                        wickPos.x(), wickPos.y() + 0.2, wickPos.z(),
                         0, 0, 0);
             });
         }
