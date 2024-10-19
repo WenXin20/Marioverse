@@ -123,6 +123,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         return stuckTo == null && super.isInWall();
     }
 
+    @Override
+    public boolean doHurtTarget(Entity target) {
+        return false;
+    }
+
     public void checkForCollisions() {
         AABB boundingBox = this.getBoundingBox().inflate(0.1);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
