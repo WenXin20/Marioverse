@@ -28,6 +28,7 @@
     "minecraft:zombified_piglin",
     { "id": "#c:bosses", "required": false },
     { "id": "#marioverse:goombas", "required": false },
-    { "id": "#twilightforest:bosses", "required": false }
+    { "id": "#twilightforest:bosses", "required": false },
+    { "id": "dummmmmmy:test_dummy", "required": false }
   ]
 }

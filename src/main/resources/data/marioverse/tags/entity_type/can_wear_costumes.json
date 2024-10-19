@@ -16,6 +16,7 @@
     "minecraft:zombie",
     "minecraft:zombified_piglin",
     { "id": "#accessories:defaulted_targets", "required": false },
-    { "id": "marioverse:goomba", "required": false }
+    { "id": "marioverse:goomba", "required": false },
+    { "id": "dummmmmmy:test_dummy", "required": false }
   ]
 }

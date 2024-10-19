@@ -4,6 +4,7 @@
   "values": [
     "minecraft:armor_stand",
     "minecraft:player",
-    "minecraft:villager"
+    "minecraft:villager",
+    { "id": "dummmmmmy:test_dummy", "required": false }
   ]
 }
