@@ -58,11 +58,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new GoombaRideGoombaGoal(this, 0.001F));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.MINI_GOOMBAS_CAN_ATTACH, true));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new GoombaRideGoombaGoal(this, 0.001F));
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.MINI_GOOMBA_CAN_ATTACH, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
 
@@ -140,7 +140,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
         for (Entity entity : entities) {
             if (entity instanceof LivingEntity livingEntity
-                    && (livingEntity.getType().is(TagRegistry.MINI_GOOMBAS_CAN_ATTACH)
+                    && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                     || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get()))
                 stickToEntity(livingEntity);
             break;

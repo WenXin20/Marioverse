@@ -1,5 +1,5 @@
 {
-  "_comment": "Tag for entities that a mini goomba can attach to",
+  "_comment": "Tag for entities that mini goombas can attach to",
   "replace": false,
   "values": [
     "minecraft:armor_stand",
