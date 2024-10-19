@@ -1,0 +1,9 @@
+{
+  "_comment": "Tag for entities that a mini goomba can attach to",
+  "replace": false,
+  "values": [
+    "minecraft:armor_stand",
+    "minecraft:player",
+    "minecraft:villager"
+  ]
+}

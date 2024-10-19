@@ -15,6 +15,7 @@ public class ConfigRegistry
     public static final String CATEGORY_DEBUG = "debug";
     public static final String CATEGORY_GAMEPLAY = "gameplay";
     public static final String CATEGORY_MISC = "misc";
+    public static final String CATEGORY_MOBS = "mobs";
     public static final String CATEGORY_POWER_UPS = "power_ups";
     public static final String CATEGORY_QUESTION_BLOCK = "question_block";
     public static final String CATEGORY_TELEPORTATION = "teleportation";
@@ -49,6 +50,8 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
+    public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
     public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
@@ -179,6 +182,17 @@ public class ConfigRegistry
                         .comment("Allow players to bucket water spouts.")
                         .comment("§9[Default: true]")
                         .define("water_spouts_bucketable", true);
+            BUILDER.pop();
+
+            BUILDER.push(CATEGORY_MOBS);
+                MINI_GOOMBAS_ATTACH_ALL_MOBS = BUILDER.translation("configuration.marioverse.mini_goombas_attach_all_mobs")
+                        .comment("Allow mini goombas to attach to all mobs.")
+                        .comment("§9[Default: false]")
+                        .define("mini_goombas_attach_all_mobs", false);
+                MINI_GOOMBAS_PUSH = BUILDER.translation("configuration.marioverse.mini_goombas_push")
+                        .comment("Allow mini goombas to push the mobs it is attached to.")
+                        .comment("§9[Default: false]")
+                        .define("mini_goombas_push", false);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_TELEPORTATION);

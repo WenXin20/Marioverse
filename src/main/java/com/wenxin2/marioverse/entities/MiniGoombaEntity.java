@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
+import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
@@ -88,22 +90,22 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
     @Override
     public boolean canCollideWith(Entity entity) {
-        return stuckTo == null && super.canCollideWith(entity);
+        return (stuckTo == null || ConfigRegistry.MINI_GOOMBAS_PUSH.get()) && super.canCollideWith(entity);
     }
 
     @Override
     public boolean canBeCollidedWith() {
-        return stuckTo == null && super.canBeCollidedWith();
+        return (stuckTo == null || ConfigRegistry.MINI_GOOMBAS_PUSH.get()) && super.canBeCollidedWith();
     }
 
     @Override
     public boolean isColliding(BlockPos pos, BlockState state) {
-        return stuckTo == null && super.isColliding(pos, state);
+        return (stuckTo == null || ConfigRegistry.MINI_GOOMBAS_PUSH.get()) && super.isColliding(pos, state);
     }
 
     @Override
     protected void pushEntities() {
-        if (stuckTo == null)
+        if (stuckTo == null || ConfigRegistry.MINI_GOOMBAS_PUSH.get())
             super.pushEntities();
     }
 
@@ -117,7 +119,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
         for (Entity entity : entities) {
-            if (entity instanceof LivingEntity livingEntity)
+            if (entity instanceof LivingEntity livingEntity
+                    && (livingEntity.getType().is(TagRegistry.MINI_GOOMBAS_CAN_ATTACH)
+                    || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get()))
                 stickToEntity(livingEntity);
             break;
         }
