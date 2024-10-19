@@ -119,6 +119,12 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @Override
+    public void push(Entity entity) {
+        if (stuckTo == null || ConfigRegistry.MINI_GOOMBAS_PUSH.get())
+            super.push(entity);
+    }
+
+    @Override
     public boolean isInWall() {
         return stuckTo == null && super.isInWall();
     }
