@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -64,6 +66,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         if (stuckTo != null && stuckTo.getDeltaMovement().y > 0) {
             removeSpeedModifier(stuckTo);
             stuckTo = null;
+            this.kill();
         } else if (stuckTo != null && this.isDeadOrDying()) {
             removeSpeedModifier(stuckTo);
             stuckTo = null;
@@ -81,6 +84,32 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                     stuckTo.getZ() + currentZ
             );
         }
+    }
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
+        return stuckTo == null && super.canCollideWith(entity);
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return stuckTo == null && super.canBeCollidedWith();
+    }
+
+    @Override
+    public boolean isColliding(BlockPos pos, BlockState state) {
+        return stuckTo == null && super.isColliding(pos, state);
+    }
+
+    @Override
+    protected void pushEntities() {
+        if (stuckTo == null)
+            super.pushEntities();
+    }
+
+    @Override
+    public boolean isInWall() {
+        return stuckTo == null && super.isInWall();
     }
 
     public void checkForCollisions() {
