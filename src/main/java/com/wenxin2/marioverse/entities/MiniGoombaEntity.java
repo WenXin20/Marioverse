@@ -37,7 +37,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     private final Random random = new Random();
     private static final ResourceLocation SLOWDOWN_MODIFIER_RESOURCE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slow");
-    private static final double SLOWDOWN_FACTOR = 0.1;
+    private static final double SLOWDOWN_FACTOR = 0.65;
     private static final double MOVE_SPEED = 0.075;
     private static final double POSITION_THRESHOLD = 0.05;
 

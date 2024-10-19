@@ -253,7 +253,7 @@
   "configuration.marioverse.health_shrink_players": "Health to Shrink Players",
   "configuration.marioverse.health_shrink_mobs": "Health % to Shrink Mobs",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Mini Goombas Attach to All Mobs",
-  "configuration.marioverse.mini_goombas_attach_push": "Mini Goombas Push Mobs",
+  "configuration.marioverse.mini_goombas_push": "Mini Goombas Push Mobs",
   "configuration.marioverse.max_player_fireballs": "Max Player Fireballs",
   "configuration.marioverse.max_mob_fireballs": "Max Mob Fireballs",
   "configuration.marioverse.max_one_up_bounce_reward": "Max 1-Up Bounce Reward",

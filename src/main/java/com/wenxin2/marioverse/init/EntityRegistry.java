@@ -40,7 +40,7 @@ public class EntityRegistry {
                     .sized(0.625F, 1.0F).eyeHeight(0.8F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.156F, 0.25F).eyeHeight(0.2F).build("mini_goomba"));
+                    .sized(0.156F, 0.25F).eyeHeight(0.2F).ridingOffset(0.05F).build("mini_goomba"));
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
@@ -73,9 +73,9 @@ public class EntityRegistry {
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
         event.put(EntityRegistry.MINI_GOOMBA.get(), PathfinderMob.createMobAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 0.25F)
-                .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
-                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.ATTACK_DAMAGE, 0.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.0F)
+                .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.FOLLOW_RANGE, 4.0F)
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.2F)
