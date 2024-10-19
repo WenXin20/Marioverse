@@ -223,14 +223,24 @@
   "marioverse.configuration.client": "Client Config",
   "marioverse.configuration.common": "Common Config",
   "marioverse.configuration.debug": "Debug Config",
+
+  "marioverse.configuration.blocks": "Blocks",
   "marioverse.configuration.gameplay": "Gameplay",
   "marioverse.configuration.misc": "Misc",
   "marioverse.configuration.mobs": "Mobs",
   "marioverse.configuration.power_ups": "Power Ups",
+
   "marioverse.configuration.question_block": "Question Block",
   "marioverse.configuration.warp_pipes": "Warp Pipes",
   "marioverse.configuration.water_spouts": "Water Spouts",
   "marioverse.configuration.teleportation": "Teleportation",
+
+  "marioverse.configuration.mini_goomba": "Mini Goomba",
+
+  "marioverse.configuration.fire_flower": "Fire Flower",
+  "marioverse.configuration.mushroom": "Mushroom",
+  "marioverse.configuration.one_up": "1-Up",
+
   "configuration.marioverse.all_mobs_can_stomp": "All Mobs Can Stomp",
   "configuration.marioverse.allow_fast_travel": "Allow Fast Travel",
   "configuration.marioverse.allow_pipe_unwaxing": "Allow Pipe Unwaxing",
