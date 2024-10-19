@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -38,9 +37,15 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     private final Random random = new Random();
     private static final ResourceLocation SLOWDOWN_MODIFIER_RESOURCE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slow");
+
     private static final double SLOWDOWN_FACTOR = 0.65;
-    private static final double MOVE_SPEED = 0.075;
+    private static final double MOVE_SPEED = 0.25;
     private static final double POSITION_THRESHOLD = 0.05;
+    private int currentSide = -1;
+    private int currentCooldown = 0;
+    private int switchCooldown = 20;
+    private double easingFactor = 0.1;
+    private boolean hasReachedTarget = false;
 
     public MiniGoombaEntity(EntityType<? extends Monster> type, Level world) {
         super(type, world);
@@ -87,6 +92,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                     stuckTo.getZ() + currentZ
             );
         }
+
+        if (currentCooldown > 0)
+            currentCooldown--;
     }
 
     @Override
@@ -153,17 +161,22 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     private double randomOffset(double min, double max) {
-        return Mth.lerp(random.nextDouble(), min, max); // Mth.lerp for linear interpolation
+        return Mth.lerp(random.nextDouble(), min, max);
     }
 
     private void generateRandomOffsets(Entity entity) {
-        double width = entity.getBbWidth() + 0.8; // Width of the player's hitbox
-        double height = entity.getBbHeight() + 0.8; // Height of the player's hitbox
+        double width = entity.getBbWidth() + 0.8;
+        double height = entity.getBbHeight() + 0.8;
+        int newSide = random.nextInt(6);
 
-        // Choose a random side (top, bottom, or any of the sides)
-        int side = random.nextInt(6); // 0-5 for the 6 sides of the hitbox
+        if (currentCooldown > 0)
+            return;
 
-        switch (side) {
+        while (newSide == currentSide)
+            newSide = random.nextInt(6);
+        currentSide = newSide;
+
+        switch (currentSide) {
             case 0: // Top side
                 targetX = randomOffset(-width / 2, width / 2);
                 targetY = height;
@@ -195,6 +208,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                 targetZ = randomOffset(-width / 2, width / 2);
                 break;
         }
+        if (currentCooldown == 0)
+            currentCooldown = switchCooldown;
+        hasReachedTarget = false;
     }
 
     private double distanceToTarget() {
@@ -206,14 +222,29 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     private void moveTowardsTarget() {
-        currentX = moveToward(currentX, targetX, MOVE_SPEED);
-        currentY = moveToward(currentY, targetY, MOVE_SPEED);
-        currentZ = moveToward(currentZ, targetZ, MOVE_SPEED);
+        if (!hasReachedTarget) {
+            currentX += (targetX - currentX) * easingFactor * MOVE_SPEED;
+            currentY += (targetY - currentY) * easingFactor * MOVE_SPEED;
+            currentZ += (targetZ - currentZ) * easingFactor * MOVE_SPEED;
+
+            if (distanceToTarget() < 0.1)
+                hasReachedTarget = true;
+            if (hasReachedTarget && currentCooldown <= 0)
+                generateRandomOffsets(stuckTo);
+        }
     }
 
     private double moveToward(double current, double target, double speed) {
         if (current < target)
             return Math.min(current + speed, target);
         else return Math.max(current - speed, target);
+    }
+
+    public void setEasingFactor(double factor) {
+        this.easingFactor = factor;
+    }
+
+    public double getEasingFactor() {
+        return easingFactor;
     }
 }
