@@ -299,7 +299,7 @@ public class ConfigRegistry
                             .comment("§9[Default: 2]§b")
                             .defineInRange("max_mob_fireballs", 2, 0, 100);
                 BUILDER.pop();
-                
+
                 BUILDER.push(CATEGORY_MUSHROOM);
                     MUSHROOM_HEAL_AMT = BUILDER.translation("configuration.marioverse.mushroom_heal_amount")
                             .comment("Amount of health Mushrooms heals.")
