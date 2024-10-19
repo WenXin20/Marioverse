@@ -19,11 +19,14 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,8 +37,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import virtuoel.pehkui.api.ScaleTypes;
 
@@ -276,6 +281,28 @@ public class MarioverseEventHandlers {
         if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
                 || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        Player player = event.getEntity();
+        removeMiniGoombaSpeedModifier(player); // Custom method to remove the modifier
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTeleport(EntityTeleportEvent event) {
+        if (event.getEntity() instanceof LivingEntity entity) {
+            removeMiniGoombaSpeedModifier(entity); // Custom method to remove the modifier
+        }
+    }
+
+    private static final ResourceLocation SLOWDOWN_MODIFIER_RESOURCE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slow");
+    private static void removeMiniGoombaSpeedModifier(LivingEntity entity) {
+        AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER_RESOURCE)) {
+            speedAttribute.removeModifier(SLOWDOWN_MODIFIER_RESOURCE);
         }
     }
 }

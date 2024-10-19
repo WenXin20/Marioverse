@@ -280,7 +280,7 @@
   "configuration.marioverse.require_creative_close_pipes": "Closing Pipes Creative Only",
   "configuration.marioverse.require_creative_water_spouts": "Water Spouts Creative Only",
   "configuration.marioverse.running_activates_power_ups": "Running Activates Power Ups",
-  "configuration.marioverse.select_invisible_question": "Select Invisible Question Blocks",
+  "configuration.marioverse.select_invisible_question": "Select Invisible Blocks",
   "configuration.marioverse.stomp_all_mobs": "Stomp All Mobs",
   "configuration.marioverse.stomp_bounce_height": "Stomp Bounce Height",
   "configuration.marioverse.stomp_bounce_height_jump": "Stomp Bounce Height when Jumping",
