@@ -597,8 +597,18 @@
 			"bones": {
 				"bipedBody": {
 					"rotation": {
-						"vector": [-4.98107, 0.43523, 4.98107],
-						"easing": "linear"
+						"0.0": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						},
+						"2.0": {
+							"vector": [-7.5, 0, 0],
+							"easing": "linear"
+						},
+						"4.0": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						}
 					},
 					"position": {
 						"vector": [0, -2, 0],
@@ -611,26 +621,14 @@
 						"easing": "linear"
 					},
 					"position": {
-						"0.0": {
-							"vector": [1, 1, 0],
-							"easing": "linear"
-						},
-						"0.4583": {
-							"vector": [0.5, 1, 0],
-							"easing": "linear"
-						}
+						"vector": [1, 1, 0],
+						"easing": "linear"
 					}
 				},
 				"right_eyebrow": {
 					"position": {
-						"0.0": {
-							"vector": [-1, 1, 0],
-							"easing": "linear"
-						},
-						"0.4583": {
-							"vector": [-0.5, 1, 0],
-							"easing": "linear"
-						}
+						"vector": [-1, 1, 0],
+						"easing": "linear"
 					}
 				},
 				"right_eyebrow_pivot": {
@@ -676,20 +674,6 @@
 					}
 				},
 				"head": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						},
-						"2.0": {
-							"vector": [-7.5, 0, 0],
-							"easing": "linear"
-						},
-						"4.0": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						}
-					},
 					"position": {
 						"vector": [0, 0, 0],
 						"easing": "linear"
@@ -719,14 +703,8 @@
 				},
 				"bubble": {
 					"position": {
-						"0.0": {
-							"vector": [-5.5, 0, -7.5],
-							"easing": "linear"
-						},
-						"0.2083": {
-							"vector": [-6.5, 2, -7.5],
-							"easing": "linear"
-						}
+						"vector": [-5.5, 1, -7.5],
+						"easing": "linear"
 					},
 					"scale": {
 						"0.0": {

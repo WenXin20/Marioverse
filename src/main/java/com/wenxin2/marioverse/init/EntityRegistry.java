@@ -38,7 +38,7 @@ public class EntityRegistry {
                     .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<HeftyGoombaEntity>> HEFTY_GOOMBA =
             Marioverse.ENTITIES.register("hefty_goomba", () -> EntityType.Builder.of(HeftyGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(1.4375F, 1.625F).eyeHeight(1.4375F).build("hefty_goomba"));
+                    .sized(1.4375F, 1.625F).eyeHeight(1.3F).build("hefty_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.075F).build("goomba"));

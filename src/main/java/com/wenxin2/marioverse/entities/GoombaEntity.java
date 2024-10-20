@@ -80,7 +80,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public GoombaEntity(EntityType<? extends Monster> type, Level world) {
+    public GoombaEntity(EntityType<? extends GoombaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.WATER, 2.0F);

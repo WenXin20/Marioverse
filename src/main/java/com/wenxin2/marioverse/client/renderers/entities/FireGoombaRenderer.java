@@ -21,7 +21,6 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
 public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
-    private int currentTick = -1;
     private static final String HELMET = "armorBipedHead";
 
     public FireGoombaRenderer(EntityRendererProvider.Context renderManager) {

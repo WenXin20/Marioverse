@@ -22,7 +22,6 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,7 +46,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     private double easingFactor = 0.1;
     private boolean hasReachedTarget = false;
 
-    public MiniGoombaEntity(EntityType<? extends Monster> type, Level world) {
+    public MiniGoombaEntity(EntityType<? extends MiniGoombaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.WATER, 2.0F);
