@@ -4,6 +4,7 @@
   "values": [
     { "id": "marioverse:fire_goomba", "required": false },
     { "id": "marioverse:goomba", "required": false },
+    { "id": "marioverse:hefty_goomba", "required": false },
     { "id": "marioverse:mini_goomba", "required": false }
   ]
 }
