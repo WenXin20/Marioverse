@@ -46,6 +46,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> FIRE_GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "fire_goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "goombas");
+    public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "hefty_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags(Marioverse.MOD_ID, "mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags(Marioverse.MOD_ID, "question_block_cannot_spawn");
