@@ -48,4 +48,43 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
+
+    @Override
+    public void remove(Entity.RemovalReason removalReason) {
+        if (!this.level().isClientSide && this.isDeadOrDying()) {
+            Component component = this.getCustomName();
+            boolean flag = this.isNoAi();
+            float width = this.getDimensions(this.getPose()).width() / 2.0F;
+            int amtSpawned = 2 + this.random.nextInt(2);
+            var spawnedGoombas = new java.util.ArrayList<Mob>();
+
+            for (int i = 0; i < amtSpawned; i++) {
+                double angle = this.random.nextDouble() * Math.PI * 2;
+                double xOffset = Math.cos(angle) * width;
+                double zOffset = Math.sin(angle) * width;
+                double upwardMotion = 0.4 + this.random.nextDouble() * 0.2;
+
+                GoombaEntity goomba = EntityRegistry.GOOMBA.get().create(this.level());
+                if (goomba != null) {
+                    if (this.isPersistenceRequired()) {
+                        goomba.setPersistenceRequired();
+                    }
+
+                    goomba.setCustomName(component);
+                    goomba.setNoAi(flag);
+                    goomba.setInvulnerable(this.isInvulnerable());
+                    goomba.moveTo(this.getX() + xOffset, this.getY() + 0.5, this.getZ() + zOffset, this.random.nextFloat() * 360.0F, 0.0F);
+                    goomba.setDeltaMovement(xOffset * 0.5, upwardMotion, zOffset * 0.5);
+                    goomba.move(MoverType.SELF, goomba.getDeltaMovement());
+
+                    spawnedGoombas.add(goomba);
+                }
+            }
+
+            if (!net.neoforged.neoforge.event.EventHooks.onMobSplit(this, spawnedGoombas).isCanceled()) {
+                spawnedGoombas.forEach(this.level()::addFreshEntity);
+            }
+        }
+        super.remove(removalReason);
+    }
 }
