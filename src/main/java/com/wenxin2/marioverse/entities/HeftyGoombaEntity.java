@@ -90,7 +90,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                 double angle = this.random.nextDouble() * Math.PI * 2;
                 double xOffset = Math.cos(angle) * width;
                 double zOffset = Math.sin(angle) * width;
-                double upwardMotion = 0.4 + this.random.nextDouble() * 0.2;
+                double upwardMotion = 0.2 + this.random.nextDouble() * 0.2;
 
                 GoombaEntity goomba = EntityRegistry.GOOMBA.get().create(this.level());
                 if (goomba != null) {
