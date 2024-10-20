@@ -6,15 +6,18 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
 public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
     private static final String HELMET = "armorBipedHead";
+    protected ItemStack helmetItem;
 
     public GoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GoombaModel());
@@ -22,14 +25,12 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
             @Nullable
             @Override
             protected ItemStack getArmorItemForBone(GeoBone bone, GoombaEntity animatable) {
-                // Return the items relevant to the bones being rendered for additional rendering
                 return switch (bone.getName()) {
                     case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
                     default -> null;
                 };
             }
 
-            // Return the equipment slot relevant to the bone we're using
             @NotNull
             @Override
             protected EquipmentSlot getEquipmentSlotForBone(GeoBone bone, ItemStack stack, GoombaEntity animatable) {
@@ -39,13 +40,31 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                 };
             }
 
-            // Return the ModelPart responsible for the armor pieces to render
             @NotNull
             @Override
             protected ModelPart getModelPartForBone(GeoBone bone, EquipmentSlot slot, ItemStack stack, GoombaEntity animatable, HumanoidModel<?> baseModel) {
                 return switch (bone.getName()) {
                     case HELMET -> baseModel.head;
                     default -> super.getModelPartForBone(bone, slot, stack, animatable, baseModel);
+                };
+            }
+        });
+
+        addRenderLayer(new BlockAndItemGeoLayer<>(this) {
+            @Nullable
+            @Override
+            protected ItemStack getStackForBone(GeoBone bone, GoombaEntity animatable) {
+                return switch (bone.getName()) {
+                    case HELMET -> GoombaRenderer.this.helmetItem;
+                    default -> null;
+                };
+            }
+
+            @Override
+            protected ItemDisplayContext getTransformTypeForStack(GeoBone bone, ItemStack stack, GoombaEntity animatable) {
+                return switch (bone.getName()) {
+                    case HELMET -> ItemDisplayContext.HEAD;
+                    default -> ItemDisplayContext.NONE;
                 };
             }
         });
