@@ -109,6 +109,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
     }
 
+    protected SoundEvent getBumpSound() {
+        return SoundRegistry.GOOMBA_BUMP.get();
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -397,7 +401,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     knockbackDirection.z * knockbackStrength);
             collidingEntity.hurtMarked = true;
 
-            this.playSound(SoundRegistry.GOOMBA_BUMP.get());
+            this.playSound(this.getBumpSound());
             this.tryToScare();
             break;
         }

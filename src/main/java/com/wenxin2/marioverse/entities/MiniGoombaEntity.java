@@ -5,12 +5,16 @@ import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import java.util.Random;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -56,6 +60,28 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     protected int getBaseExperienceReward() {
         return 1;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundRegistry.MINI_GOOMBA_HURT.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.MINI_GOOMBA_STOMP.get();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(SoundRegistry.MINI_GOOMBA_STEP.get(), 1.0F, 1.0F);
+    }
+
+    @Override
+    protected SoundEvent getBumpSound() {
+        return SoundRegistry.MINI_GOOMBA_BUMP.get();
     }
 
     @Override

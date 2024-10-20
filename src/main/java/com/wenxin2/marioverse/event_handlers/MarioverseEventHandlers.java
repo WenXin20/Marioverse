@@ -159,7 +159,7 @@ public class MarioverseEventHandlers {
                     && !livingEntity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 tag.putBoolean("marioverse:has_fire_flower", false);
                 world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
+                        SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
             if (healthAfterDamage <= threshold) {
@@ -173,7 +173,7 @@ public class MarioverseEventHandlers {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
                     world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                            SoundSource.AMBIENT, 1.0F, 1.0F);
+                            SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
             }
 
