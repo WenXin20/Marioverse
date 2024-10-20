@@ -18,7 +18,7 @@
 				{
 					"name": "bipedBody",
 					"parent": "root",
-					"pivot": [0, 2, 0.5],
+					"pivot": [0, 2, 0],
 					"cubes": [
 						{"origin": [-3, 2, -2.5], "size": [6, 3, 5], "uv": [41, 0]}
 					]

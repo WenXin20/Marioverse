@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.HeftyGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MiniGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.MushroomRenderer;
@@ -61,6 +62,7 @@ public class MarioverseClient {
 
         event.registerEntityRenderer(EntityRegistry.FIRE_GOOMBA.get(), FireGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOOMBA.get(), GoombaRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.HEFTY_GOOMBA.get(), HeftyGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MINI_GOOMBA.get(), MiniGoombaRenderer::new);
     }
 

@@ -1,0 +1,18 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "marioverse:item/hefty_spawn_egg",
+		"layer1": "marioverse:item/hefty_spawn_egg_overlay"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 1.5, 1],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 1.5, 1],
+			"scale": [0.55, 0.55, 0.55]
+		}
+	}
+}

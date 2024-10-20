@@ -75,9 +75,10 @@ public class MarioverseCreativeTabs {
                 add(event, pipe.get());
             }
 
-            add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
@@ -100,9 +101,10 @@ public class MarioverseCreativeTabs {
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
-            addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
-            addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get(), ItemRegistry.GOOMBA_SPAWN_EGG.get());
+            addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
+            addAfter(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get(), ItemRegistry.GOOMBA_SPAWN_EGG.get());
             addAfter(event, ItemRegistry.GOOMBA_SPAWN_EGG.get(), ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
+            addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get(), ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
