@@ -26,17 +26,18 @@ public class ConfigRegistry
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
+    public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
 
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_MUSHROOM = "mushroom";
     public static final String CATEGORY_ONE_UP = "one_up";
 
     private final ModConfigSpec CONFIG_SPEC;
-    public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
     public static ModConfigSpec.BooleanValue ALLOW_PIPE_UNWAXING;
-    public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
+    public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
+    public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
     public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_PIPE_LINKING;
@@ -53,16 +54,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
-    public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
-    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
-    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
-    public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
-    public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
-    public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
-    public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
-    public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
@@ -73,13 +66,9 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
-    public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
-    public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
-    public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
-    public static ModConfigSpec.IntValue WARP_COOLDOWN;
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE;
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE_TICKS;
     public static ModConfigSpec.BooleanValue WATER_SPOUTS_BUCKETABLE;
@@ -87,6 +76,22 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WAX_DISABLES_CLOSING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_RENAMING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
+
+    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
+    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
+    public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
+    public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
+    public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
+    public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
+    public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
+
+    public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
+    public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
+    public static ModConfigSpec.IntValue GOOMBA_SPLIT_RANDOM_COUNT;
+    public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
+    public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
+    public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
+    public static ModConfigSpec.IntValue WARP_COOLDOWN;
 
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -260,6 +265,17 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_MOBS);
+
+                BUILDER.push(CATEGORY_HEFTY_GOOMBA);
+                    GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
+                            .comment("Base count of goombas to spawn when a hefty goomba splits.")
+                            .comment("§9[Default: 2]§b")
+                            .defineInRange("goomba_split_count", 2, 0, 100);
+                    GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_random_count")
+                            .comment("Random count of goombas to spawn when a hefty goomba splits in addition to \"goomba_split_count\".")
+                            .comment("§9[Default: 1]§b")
+                            .defineInRange("goomba_split_random_count", 1, 0, 100);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MINI_GOOMBA);
                     MINI_GOOMBAS_ATTACH_ALL_MOBS = BUILDER.translation("configuration.marioverse.mini_goombas_attach_all_mobs")

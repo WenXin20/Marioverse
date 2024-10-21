@@ -248,6 +248,7 @@
   "marioverse.configuration.teleportation": "Teleportation",
 
   "marioverse.configuration.mini_goomba": "Mini Goomba",
+  "marioverse.configuration.hefty_goomba": "Hefty Goomba",
 
   "marioverse.configuration.fire_flower": "Fire Flower",
   "marioverse.configuration.mushroom": "Mushroom",
@@ -272,6 +273,8 @@
   "configuration.marioverse.equip_costumes_mobs": "Equips Costumes on Mobs",
   "configuration.marioverse.fire_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.fireball_cooldown": "Fireball Cooldown",
+  "configuration.marioverse.goomba_split_count": "Goomba Split Count",
+  "configuration.marioverse.goomba_split_random_count": "Goomba Split Random Count",
   "configuration.marioverse.health_shrink_players": "Health to Shrink Players",
   "configuration.marioverse.health_shrink_mobs": "Health % to Shrink Mobs",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Attach to All Mobs",

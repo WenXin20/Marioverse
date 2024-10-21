@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -83,14 +84,14 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
             Component component = this.getCustomName();
             boolean flag = this.isNoAi();
             float width = this.getDimensions(this.getPose()).width() / 2.0F;
-            int amtSpawned = 2 + this.random.nextInt(2);
+            int amtSpawned = ConfigRegistry.GOOMBA_SPLIT_COUNT.get() + this.random.nextInt(ConfigRegistry.GOOMBA_SPLIT_RANDOM_COUNT.get());
             var spawnedGoombas = new java.util.ArrayList<Mob>();
 
-            for (int i = 0; i < amtSpawned; i++) {
+            for (int i = 0; i <= amtSpawned; i++) {
                 double angle = this.random.nextDouble() * Math.PI * 2;
                 double xOffset = Math.cos(angle) * width;
                 double zOffset = Math.sin(angle) * width;
-                double upwardMotion = 0.2 + this.random.nextDouble() * 0.2;
+                double upwardMotion = 0.3 + this.random.nextDouble() * 0.2;
 
                 GoombaEntity goomba = EntityRegistry.GOOMBA.get().create(this.level());
                 if (goomba != null) {
