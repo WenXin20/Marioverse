@@ -318,6 +318,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
     }
 
+    @Override
+    public boolean canTakeItem(ItemStack stack) {
+        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
+        return this.getItemBySlot(equipmentslot).isEmpty();
+    }
+
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
