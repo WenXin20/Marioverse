@@ -152,7 +152,7 @@ public abstract class LivingEntityMixin extends Entity {
                         this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                         livingEntity.setHealth(1.0F);
-                        livingEntity.heal(ConfigRegistry.ONE_UP_HEAL_AMT.get().floatValue());
+                        livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                         stackCharm.shrink(1);
                         this.level().broadcastEntityEvent(this, (byte) 124); // Mushroom Transform particle
                         this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Pop Up
@@ -189,7 +189,7 @@ public abstract class LivingEntityMixin extends Entity {
                 this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 livingEntity.setHealth(1.0F);
-                livingEntity.heal(ConfigRegistry.ONE_UP_HEAL_AMT.get().floatValue());
+                livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
                 this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
                 this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Pop Up
