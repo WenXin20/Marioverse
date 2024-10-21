@@ -8,9 +8,12 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.AbstractSkullBlock;
+import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.GeoBone;
@@ -51,16 +54,28 @@ public class HeftyGoombaRenderer extends GeoEntityRenderer<HeftyGoombaEntity> {
                     default -> super.getModelPartForBone(bone, slot, stack, animatable, baseModel);
                 };
             }
+
+            @Override
+            protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
+                poseStack.scale(2.0F, 2.0F, 1.95F);
+                poseStack.translate(0.0F, -0.53F, 0.0F);
+                super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
+            }
         });
 
         addRenderLayer(new BlockAndItemGeoLayer<>(this) {
             @Nullable
             @Override
             protected ItemStack getStackForBone(GeoBone bone, HeftyGoombaEntity animatable) {
-                return switch (bone.getName()) {
-                    case HELMET -> HeftyGoombaRenderer.this.helmetItem;
-                    default -> null;
-                };
+                if (!(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorItem)
+                        && !(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BlockItem blockItem
+                        && blockItem.getBlock() instanceof SkullBlock)) {
+                    return switch (bone.getName()) {
+                        case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
+                        default -> null;
+                    };
+                }
+                else return null;
             }
 
             @Override
@@ -69,6 +84,13 @@ public class HeftyGoombaRenderer extends GeoEntityRenderer<HeftyGoombaEntity> {
                     case HELMET -> ItemDisplayContext.HEAD;
                     default -> ItemDisplayContext.NONE;
                 };
+            }
+
+            @Override
+            protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, HeftyGoombaEntity animatable, MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
+                poseStack.scale(1.3F, 1.2F, 1.19F);
+                poseStack.translate(0.0F, 0.5F, 0.0F);
+                super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
     }
