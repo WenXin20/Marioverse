@@ -10,8 +10,11 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
@@ -62,10 +65,15 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
             @Nullable
             @Override
             protected ItemStack getStackForBone(GeoBone bone, FireGoombaEntity animatable) {
-                return switch (bone.getName()) {
-                    case HELMET -> FireGoombaRenderer.this.helmetItem;
-                    default -> null;
-                };
+                if (!(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorItem)
+                        && !(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BlockItem blockItem
+                        && blockItem.getBlock() instanceof SkullBlock)) {
+                    return switch (bone.getName()) {
+                        case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
+                        default -> null;
+                    };
+                }
+                else return null;
             }
 
             @Override
@@ -74,6 +82,13 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
                     case HELMET -> ItemDisplayContext.HEAD;
                     default -> ItemDisplayContext.NONE;
                 };
+            }
+
+            @Override
+            protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, FireGoombaEntity animatable, MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
+                poseStack.scale(0.6F, 0.6F, 0.55F);
+                poseStack.translate(0.0F, 0.5F, 0.0F);
+                super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
     }

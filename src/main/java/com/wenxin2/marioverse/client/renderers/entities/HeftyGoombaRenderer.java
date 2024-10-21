@@ -57,8 +57,8 @@ public class HeftyGoombaRenderer extends GeoEntityRenderer<HeftyGoombaEntity> {
 
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(2.0F, 2.0F, 1.95F);
-                poseStack.translate(0.0F, -0.53F, 0.0F);
+                poseStack.scale(2.0F, 2.0F, 1.975F);
+                poseStack.translate(0.0F, -0.535F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -88,7 +88,7 @@ public class HeftyGoombaRenderer extends GeoEntityRenderer<HeftyGoombaEntity> {
 
             @Override
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, HeftyGoombaEntity animatable, MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
-                poseStack.scale(1.3F, 1.2F, 1.19F);
+                poseStack.scale(1.3F, 1.2F, 1.185F);
                 poseStack.translate(0.0F, 0.5F, 0.0F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
