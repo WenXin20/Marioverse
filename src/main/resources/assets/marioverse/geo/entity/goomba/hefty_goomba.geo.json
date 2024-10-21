@@ -224,16 +224,8 @@
 					]
 				},
 				{
-					"name": "armorBipedHead",
-					"parent": "bipedHead",
-					"pivot": [0, 17, 0],
-					"cubes": [
-						{"origin": [-9.5, 15, -7.5], "size": [19, 11, 15], "uv": [0, 28]}
-					]
-				},
-				{
 					"name": "eyebrows",
-					"parent": "armorBipedHead",
+					"parent": "bipedHead",
 					"pivot": [0, 24, -7.4]
 				},
 				{
@@ -294,6 +286,14 @@
 								"north": {"uv": [85, 42], "uv_size": [7, 7]}
 							}
 						}
+					]
+				},
+				{
+					"name": "armorBipedHead",
+					"parent": "bipedHead",
+					"pivot": [0, 17, 0],
+					"cubes": [
+						{"origin": [-9.5, 15, -7.5], "size": [19, 11, 15], "uv": [0, 28]}
 					]
 				},
 				{
