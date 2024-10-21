@@ -95,7 +95,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 }
                 if (!this.level().isClientSide) {
                     if (player.getHealth() < player.getMaxHealth())
-                        player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                        player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
                     if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                         this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -116,7 +116,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
                 if (!this.level().isClientSide) {
                     if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                        livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                        livingEntity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
                     if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                         this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                                 SoundSource.PLAYERS, 1.0F, 1.0F);

@@ -79,8 +79,8 @@ public class ConfigRegistry
 
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
-    public static ModConfigSpec.DoubleValue MUSHROOM_HEAL_AMT;
-    public static ModConfigSpec.DoubleValue ONE_UP_HEAL_AMT;
+    public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
@@ -317,17 +317,17 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);
-                    MUSHROOM_HEAL_AMT = BUILDER.translation("configuration.marioverse.mushroom_heal_amount")
+                    MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.mushroom_health_healed")
                             .comment("Amount of health Mushrooms heals.")
                             .comment("§9[Default: 5.0F]§b")
-                            .defineInRange("mushroom_heal_amount", 5.0F, 0.0F, 100.0F);
+                            .defineInRange("mushroom_health_healed", 5.0F, 0.0F, 100.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_ONE_UP);
-                    ONE_UP_HEAL_AMT = BUILDER.translation("configuration.marioverse.one_up_heal_amount")
+                    ONE_UP_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.one_up_health_healed")
                             .comment("Amount of health 1-Up Mushrooms heals.")
                             .comment("§9[Default: 8.0F]§b")
-                            .defineInRange("one_up_heal_amount", 8.0F, 0.0F, 100.0F);
+                            .defineInRange("one_up_health_healed", 8.0F, 0.0F, 100.0F);
                     ONE_UP_HEALS_ALL_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
                             .comment("Allow 1-Ups to heal all mobs.")
                             .comment("§9[Default: false]")

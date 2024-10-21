@@ -78,7 +78,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 }
 
                 if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                    player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
                 player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                 player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
@@ -139,7 +139,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 }
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEAL_AMT.get().floatValue());
+                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
