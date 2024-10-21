@@ -270,11 +270,11 @@ public class ConfigRegistry
                     GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
                             .comment("Base count of goombas to spawn when a hefty goomba splits.")
                             .comment("§9[Default: 2]§b")
-                            .defineInRange("goomba_split_count", 2, 0, 100);
+                            .defineInRange("goomba_split_count", 2, 0, 32);
                     GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_random_count")
                             .comment("Random count of goombas to spawn when a hefty goomba splits in addition to \"goomba_split_count\".")
                             .comment("§9[Default: 1]§b")
-                            .defineInRange("goomba_split_random_count", 1, 0, 100);
+                            .defineInRange("goomba_split_random_count", 1, 0, 32);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MINI_GOOMBA);
