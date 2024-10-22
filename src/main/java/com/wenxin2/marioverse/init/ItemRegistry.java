@@ -49,7 +49,7 @@ public class ItemRegistry {
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0x713030, 0xEAABB1, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xF44655, 0xFFEC73, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
         HEFTY_GOOMBA_SPAWN_EGG = registerItem("hefty_goomba_spawn_egg",
