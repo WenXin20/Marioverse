@@ -38,6 +38,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CANNOT_QUICK_TRAVEL = entityTypeTags(Marioverse.MOD_ID, "cannot_quick_travel");
     public static final TagKey<EntityType<?>> CANNOT_WARP = entityTypeTags(Marioverse.MOD_ID, "cannot_warp");
     public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags(Marioverse.MOD_ID, "can_be_stomped");
+    public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags(Marioverse.MOD_ID, "can_be_instakill_stomped");
     public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags(Marioverse.MOD_ID, "can_consume_fire_flowers");
     public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags(Marioverse.MOD_ID, "can_stomp_enemies");
     public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags(Marioverse.MOD_ID, "can_wear_costumes");

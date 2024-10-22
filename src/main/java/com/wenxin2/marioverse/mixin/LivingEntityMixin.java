@@ -328,13 +328,15 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     public void marioverse$squashEntity(LivingEntity stompingEntity) {
-        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.1));
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.2));
 
         for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity damagedEntity
+            if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
                     && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
-                    && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
-                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES) && !damagedEntity.isVehicle()) {
+                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
+                    && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
+                        || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
+                        || ConfigRegistry.STOMP_ALL_MOBS.get())) {
                 if (stompingEntity instanceof Player player && player.getAbilities().flying) {
                     return;
                 }
@@ -374,7 +376,10 @@ public abstract class LivingEntityMixin extends Entity {
                     }
 
                     if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
-                        damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                        if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED))
+                            damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
+                        else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED))
+                            damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                             this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
                     }
