@@ -494,7 +494,7 @@
 			"bones": {
 				"bipedBody": {
 					"rotation": {
-						"vector": [-5, 0, 0],
+						"vector": [-20, 0, 0],
 						"easing": "linear"
 					},
 					"position": {
@@ -550,21 +550,21 @@
 						"easing": "linear"
 					},
 					"position": {
-						"vector": [0, -1, -1.5]
+						"vector": [0, 0, -1]
 					}
 				},
 				"left_foot": {
 					"rotation": {
 						"0.0": {
-							"vector": [15, -22.5, 0],
+							"vector": [5, -22.5, 0],
 							"easing": "linear"
 						},
 						"2.0": {
-							"vector": [15, 2.5, 0],
+							"vector": [5, 2.5, 0],
 							"easing": "linear"
 						},
 						"4.0": {
-							"vector": [15, -22.5, 0],
+							"vector": [5, -22.5, 0],
 							"easing": "linear"
 						}
 					},
@@ -576,210 +576,20 @@
 				"right_foot": {
 					"rotation": {
 						"0.0": {
-							"vector": [15, 22.5, 0],
+							"vector": [5, 22.5, 0],
 							"easing": "linear"
 						},
 						"2.0": {
-							"vector": [15, -2.5, 0],
+							"vector": [5, -2.5, 0],
 							"easing": "linear"
 						},
 						"4.0": {
-							"vector": [15, 22.5, 0],
+							"vector": [5, 22.5, 0],
 							"easing": "linear"
 						}
 					},
 					"position": {
 						"vector": [-0.5, -2, -2],
-						"easing": "linear"
-					}
-				}
-			}
-		},
-		"goomba.sleep": {
-			"loop": true,
-			"animation_length": 4,
-			"bones": {
-				"bipedBody": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						},
-						"2.0": {
-							"vector": [-7.5, 0, 0],
-							"easing": "linear"
-						},
-						"4.0": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, -4, 0],
-							"easing": "linear"
-						},
-						"2.0": {
-							"vector": [0, -3.5, 0]
-						},
-						"4.0": {
-							"vector": [0, -4, 0]
-						}
-					}
-				},
-				"left_eyebrow": {
-					"rotation": {
-						"vector": [0, 0, 0],
-						"easing": "linear"
-					},
-					"position": {
-						"vector": [1, 1, 0],
-						"easing": "linear"
-					}
-				},
-				"right_eyebrow": {
-					"position": {
-						"vector": [-1, 1, 0],
-						"easing": "linear"
-					}
-				},
-				"right_eyebrow_pivot": {
-					"rotation": {
-						"vector": [0, 0, 0],
-						"easing": "linear"
-					}
-				},
-				"feet": {
-					"rotation": {
-						"vector": [-65, 0, 0],
-						"easing": "linear"
-					},
-					"position": {
-						"vector": [0, -1, -2],
-						"easing": "linear"
-					}
-				},
-				"left_foot": {
-					"rotation": {
-						"vector": [30, -22.5, 0],
-						"easing": "linear"
-					},
-					"position": {
-						"vector": [0.5, 0, 0],
-						"easing": "linear"
-					}
-				},
-				"right_foot": {
-					"rotation": {
-						"vector": [32.5, 22.5, 0],
-						"easing": "linear"
-					},
-					"position": {
-						"vector": [-0.5, 0, 0],
-						"easing": "linear"
-					}
-				},
-				"eyelids": {
-					"position": {
-						"vector": [0, 0, -1],
-						"easing": "linear"
-					}
-				},
-				"head": {
-					"position": {
-						"vector": [0, 0, 0],
-						"easing": "linear"
-					},
-					"scale": {
-						"0.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						},
-						"1.0": {
-							"vector": [1, 0.9, 1],
-							"easing": "linear"
-						},
-						"2.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						},
-						"3.0": {
-							"vector": [1, 0.9, 1],
-							"easing": "linear"
-						},
-						"4.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						}
-					}
-				},
-				"bubble": {
-					"position": {
-						"vector": [-9.5, 1, -15.5],
-						"easing": "linear"
-					},
-					"scale": {
-						"0.0": {
-							"vector": [0.8, 0.8, 0.8],
-							"easing": "linear"
-						},
-						"1.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						},
-						"2.0": {
-							"vector": [0.8, 0.8, 0.8],
-							"easing": "linear"
-						},
-						"3.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
-						},
-						"4.0": {
-							"vector": [0.8, 0.8, 0.8],
-							"easing": "easeOutQuad"
-						}
-					}
-				},
-				"mouth_closed": {
-					"position": {
-						"vector": [0, 0, 1],
-						"easing": "linear"
-					}
-				},
-				"teeth": {
-					"position": {
-						"vector": [0, -3, 0],
-						"easing": "linear"
-					}
-				},
-				"mouth_open": {
-					"position": {
-						"vector": [0, 0, -2],
-						"easing": "linear"
-					}
-				},
-				"left_eye": {
-					"position": {
-						"vector": [0, 0, 1],
-						"easing": "linear"
-					}
-				},
-				"right_tooth": {
-					"position": {
-						"vector": [1, -1, 0],
-						"easing": "linear"
-					}
-				},
-				"left_tooth": {
-					"position": {
-						"vector": [-1, -1, 0],
-						"easing": "linear"
-					}
-				},
-				"right_eye": {
-					"position": {
-						"vector": [0, 0, 1],
 						"easing": "linear"
 					}
 				}
