@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.HeftyGoombaEntity;
+import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -42,6 +43,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.075F).build("goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
+            Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
+                    .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.156F, 0.2F).eyeHeight(0.175F).ridingOffset(0.1F)
@@ -72,19 +76,28 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 3.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
+                .add(Attributes.FOLLOW_RANGE, 12.0F)
                 .add(Attributes.MAX_HEALTH, 12)
-                .add(Attributes.MOVEMENT_SPEED, 0.4F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
+                .add(Attributes.MOVEMENT_SPEED, 0.6F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 9.0F).build());
 
         event.put(EntityRegistry.GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
-                .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 4)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
+
+        event.put(EntityRegistry.MEGA_GOOMBA.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 5.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.2F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.FOLLOW_RANGE, 16.0F)
+                .add(Attributes.MAX_HEALTH, 16)
+                .add(Attributes.MOVEMENT_SPEED, 0.8F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
 
         event.put(EntityRegistry.MINI_GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 0.0F)

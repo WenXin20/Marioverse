@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -31,8 +30,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import software.bernie.geckolib.animatable.GeoEntity;
 
-public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
-    public HeftyGoombaEntity(EntityType<? extends HeftyGoombaEntity> type, Level world) {
+public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
+    public MegaGoombaEntity(EntityType<? extends MegaGoombaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.WATER, 2.0F);
@@ -47,23 +46,23 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.HEFTY_GOOMBA_HURT.get();
+        return SoundRegistry.MEGA_GOOMBA_HURT.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.HEFTY_GOOMBA_STOMP.get();
+        return SoundRegistry.MEGA_GOOMBA_STOMP.get();
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundRegistry.HEFTY_GOOMBA_STEP.get(), 1.0F, 1.0F);
+        this.playSound(SoundRegistry.MEGA_GOOMBA_STEP.get(), 1.0F, 1.0F);
     }
 
     @Override
     protected SoundEvent getBumpSound() {
-        return SoundRegistry.HEFTY_GOOMBA_BUMP.get();
+        return SoundRegistry.MEGA_GOOMBA_BUMP.get();
     }
 
     @Override
@@ -76,7 +75,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new GoombaRideGoombaGoal(this, 0.001F));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.HEFTY_GOOMBA_CAN_ATTACK, true));
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.MEGA_GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
 
@@ -87,7 +86,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                 Component component = this.getCustomName();
                 boolean flag = this.isNoAi();
                 float width = this.getDimensions(this.getPose()).width() / 2.0F;
-                int amtSpawned = ConfigRegistry.GOOMBA_SPLIT_COUNT.get() + this.random.nextInt(ConfigRegistry.GOOMBA_SPLIT_RANDOM_COUNT.get());
+                int amtSpawned = ConfigRegistry.HEFTY_GOOMBA_SPLIT_COUNT.get() + this.random.nextInt(ConfigRegistry.HEFTY_GOOMBA_SPLIT_RANDOM_COUNT.get());
                 var spawnedGoombas = new java.util.ArrayList<Mob>();
 
                 for (int i = 0; i <= amtSpawned; i++) {
@@ -96,7 +95,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                     double zOffset = Math.sin(angle) * width;
                     double upwardMotion = 0.3 + this.random.nextDouble() * 0.2;
 
-                    GoombaEntity goomba = EntityRegistry.GOOMBA.get().create(this.level());
+                    GoombaEntity goomba = EntityRegistry.HEFTY_GOOMBA.get().create(this.level());
                     if (goomba != null) {
                         if (this.isPersistenceRequired()) {
                             goomba.setPersistenceRequired();

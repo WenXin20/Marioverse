@@ -27,6 +27,7 @@ public class ConfigRegistry
 
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
+    public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
 
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_MUSHROOM = "mushroom";
@@ -88,6 +89,8 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_RANDOM_COUNT;
+    public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_COUNT;
+    public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_RANDOM_COUNT;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
@@ -270,11 +273,22 @@ public class ConfigRegistry
                     GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
                             .comment("Base count of goombas to spawn when a hefty goomba splits.")
                             .comment("§9[Default: 2]§b")
-                            .defineInRange("goomba_split_count", 2, 0, 32);
+                            .defineInRange("goomba_split_count", 2, 0, 16);
                     GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_random_count")
                             .comment("Random count of goombas to spawn when a hefty goomba splits in addition to \"goomba_split_count\".")
                             .comment("§9[Default: 1]§b")
-                            .defineInRange("goomba_split_random_count", 1, 0, 32);
+                            .defineInRange("goomba_split_random_count", 1, 0, 16);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_MEGA_GOOMBA);
+                    HEFTY_GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_count")
+                            .comment("Base count of hefty goombas to spawn when a mega goomba splits.")
+                            .comment("§9[Default: 2]§b")
+                            .defineInRange("hefty_goomba_split_count", 2, 0, 8);
+                    HEFTY_GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_random_count")
+                            .comment("Random count of hefty goombas to spawn when a mega goomba splits in addition to \"hefty_goomba_split_count\".")
+                            .comment("§9[Default: 1]§b")
+                            .defineInRange("hefty_goomba_split_random_count", 1, 0, 8);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MINI_GOOMBA);

@@ -63,6 +63,7 @@
   "entity.marioverse.fire_goomba": "Fire Goomba",
   "entity.marioverse.goomba": "Goomba",
   "entity.marioverse.hefty_goomba": "Hefty Goomba",
+  "entity.marioverse.mega_goomba": "Mega Goomba",
   "entity.marioverse.mini_goomba": "Mini Goomba",
 
   "item.marioverse.fire_flower": "Fire Flower",
@@ -78,6 +79,7 @@
   "item.marioverse.fire_goomba_spawn_egg": "Fire Goomba Spawn Egg",
   "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
   "item.marioverse.hefty_goomba_spawn_egg": "Hefty Goomba Spawn Egg",
+  "item.marioverse.mega_goomba_spawn_egg": "Mega Goomba Spawn Egg",
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
@@ -134,6 +136,11 @@
   "subtitles.marioverse.entity.hefty_goomba_run": "Hefty Goomba runs",
   "subtitles.marioverse.entity.hefty_goomba_step": "Footsteps",
   "subtitles.marioverse.entity.hefty_goomba_stomp": "Hefty Goomba dies",
+  "subtitles.marioverse.entity.mega_goomba_bump": "Mega Goomba bumped",
+  "subtitles.marioverse.entity.mega_goomba_hurt": "Mega Goomba hurts",
+  "subtitles.marioverse.entity.mega_goomba_run": "Mega Goomba runs",
+  "subtitles.marioverse.entity.mega_goomba_step": "Footsteps",
+  "subtitles.marioverse.entity.mega_goomba_stomp": "Mega Goomba dies",
   "subtitles.marioverse.entity.mini_goomba_bump": "Mini Goomba bumped",
   "subtitles.marioverse.entity.mini_goomba_hurt": "Mini Goomba hurts",
   "subtitles.marioverse.entity.mini_goomba_run": "Mini Goomba runs",
@@ -249,6 +256,7 @@
 
   "marioverse.configuration.mini_goomba": "Mini Goomba",
   "marioverse.configuration.hefty_goomba": "Hefty Goomba",
+  "marioverse.configuration.mega_goomba": "Mega Goomba",
 
   "marioverse.configuration.fire_flower": "Fire Flower",
   "marioverse.configuration.mushroom": "Mushroom",
@@ -277,6 +285,8 @@
   "configuration.marioverse.goomba_split_random_count": "Goomba Split Random Count",
   "configuration.marioverse.health_shrink_players": "Health to Shrink Players",
   "configuration.marioverse.health_shrink_mobs": "Health % to Shrink Mobs",
+  "configuration.marioverse.hefty_goomba_split_count": "Hefty Goomba Split Count",
+  "configuration.marioverse.hefty_goomba_split_random_count": "Hefty Goomba Split Random Count",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Attach to All Mobs",
   "configuration.marioverse.mini_goombas_push": "Push Mobs",
   "configuration.marioverse.max_player_fireballs": "Max Player Fireballs",
