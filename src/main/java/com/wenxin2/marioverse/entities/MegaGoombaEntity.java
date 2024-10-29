@@ -85,7 +85,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
             if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(DamageTypeTags.IS_FIRE)) {
                 Component component = this.getCustomName();
                 boolean flag = this.isNoAi();
-                float width = this.getDimensions(this.getPose()).width() / 2.0F;
+                float width = this.getDimensions(this.getPose()).width() / 4.0F;
                 int amtSpawned = ConfigRegistry.HEFTY_GOOMBA_SPLIT_COUNT.get() + this.random.nextInt(ConfigRegistry.HEFTY_GOOMBA_SPLIT_RANDOM_COUNT.get());
                 var spawnedGoombas = new java.util.ArrayList<Mob>();
 
@@ -93,7 +93,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
                     double angle = this.random.nextDouble() * Math.PI * 2;
                     double xOffset = Math.cos(angle) * width;
                     double zOffset = Math.sin(angle) * width;
-                    double upwardMotion = 0.3 + this.random.nextDouble() * 0.2;
+                    double upwardMotion = 0.2 + this.random.nextDouble() * 0.2;
 
                     GoombaEntity goomba = EntityRegistry.HEFTY_GOOMBA.get().create(this.level());
                     if (goomba != null) {
@@ -105,7 +105,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
                         goomba.setNoAi(flag);
                         goomba.setInvulnerable(this.isInvulnerable());
                         goomba.moveTo(this.getX() + xOffset, this.getY() + 0.5, this.getZ() + zOffset, this.random.nextFloat() * 360.0F, 0.0F);
-                        goomba.setDeltaMovement(xOffset * 0.5, upwardMotion, zOffset * 0.5);
+                        goomba.setDeltaMovement(xOffset * 0.3, upwardMotion, zOffset * 0.3);
                         goomba.move(MoverType.SELF, goomba.getDeltaMovement());
 
                         spawnedGoombas.add(goomba);

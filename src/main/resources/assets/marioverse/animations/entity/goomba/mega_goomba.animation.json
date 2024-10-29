@@ -33,12 +33,12 @@
 				},
 				"left_foot": {
 					"rotation": {
-						"vector": ["linear", "linear", "linear"]
+						"vector": [0, -22.5, 0]
 					}
 				},
 				"right_foot": {
 					"rotation": {
-						"vector": ["linear", "linear", "linear"]
+						"vector": [0, 22.5, 0]
 					}
 				},
 				"bubble": {
