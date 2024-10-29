@@ -375,8 +375,16 @@ public abstract class LivingEntityMixin extends Entity {
                         this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
                     }
 
+                    boolean hasNoArmor = true;
+                    for (ItemStack armorSlot : damagedEntity.getArmorSlots()) {
+                        if (!armorSlot.isEmpty()) {
+                            hasNoArmor = false;
+                            break;
+                        }
+                    }
+
                     if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
-                        if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED))
+                        if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
                             damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
                         else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED))
                             damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
