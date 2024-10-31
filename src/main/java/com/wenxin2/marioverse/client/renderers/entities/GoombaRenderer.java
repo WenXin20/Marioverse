@@ -1,12 +1,18 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.GoombaModel;
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -15,17 +21,41 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.cache.texture.AutoGlowingTexture;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
+import software.bernie.geckolib.util.ClientUtil;
 
 public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
     private static final String HELMET = "armorBipedHead";
-    protected ItemStack helmetItem;
 
     public GoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GoombaModel());
+        addRenderLayer(new AutoGlowingGeoLayer<>(this) {
+            @Override
+            protected @Nullable RenderType getRenderType(GoombaEntity animatable, @Nullable MultiBufferSource bufferSource) {
+                if (animatable.hasCustomName() && "Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))) {
+                    if (animatable instanceof Entity entity) {
+                        boolean invisible = entity.isInvisible();
+                        ResourceLocation texture = AutoGlowingTexture.getEmissiveResource(this.getTextureResource(animatable));
+                        if (invisible && !entity.isInvisibleTo(ClientUtil.getClientPlayer())) {
+                            return RenderType.itemEntityTranslucentCull(texture);
+                        } else if (Minecraft.getInstance().shouldEntityAppearGlowing(entity)) {
+                            return invisible ? RenderType.outline(texture) : AutoGlowingTexture.getOutlineRenderType(this.getTextureResource(animatable));
+                        } else {
+                            return invisible ? null : AutoGlowingTexture.getRenderType(this.getTextureResource(animatable));
+                        }
+                    } else {
+                        return AutoGlowingTexture.getRenderType(this.getTextureResource(animatable));
+                    }
+                } else return null;
+            }
+        });
+
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
