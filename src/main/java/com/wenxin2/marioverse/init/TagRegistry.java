@@ -7,66 +7,77 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 
 public class TagRegistry {
-    public static final TagKey<Block> BONKABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "bonkable_blocks");
-    public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
-    public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags(Marioverse.MOD_ID, "fireball_sets_on_fire");
-    public static final TagKey<Block> ITEM_BRICK_BLOCKS = blockTags(Marioverse.MOD_ID, "storage_bricks");
-    public static final TagKey<Block> MELTS = blockTags(Marioverse.MOD_ID, "melts");
-    public static final TagKey<Block> MELTS_INTO_ICE = blockTags(Marioverse.MOD_ID, "melts_into_ice");
-    public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags(Marioverse.MOD_ID, "melts_into_packed_ice");
-    public static final TagKey<Block> MELTS_INTO_WATER = blockTags(Marioverse.MOD_ID, "melts_into_water");
-    public static final TagKey<Block> QUESTION_BLOCK_BLOCKS = blockTags(Marioverse.MOD_ID, "question_blocks");
-    public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags(Marioverse.MOD_ID, "smashable_blocks");
-    public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags(Marioverse.MOD_ID, "warp_pipes");
-    public static final TagKey<Block> WRENCH_EFFICIENT = blockTags(Marioverse.MOD_ID, "wrench_efficient");
-    public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags(Marioverse.MOD_ID, "is_fireball");
-    public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags(Marioverse.MOD_ID, "shield_blocks");
-    public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "dyeable_warp_pipes");
-    public static final TagKey<Item> ITEM_BRICK_ITEMS = itemTags(Marioverse.MOD_ID, "storage_bricks");
-    public static final TagKey<Item> POWER_UP_ITEMS = itemTags(Marioverse.MOD_ID, "power_ups");
-    public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags(Marioverse.MOD_ID, "power_up_costumes");
-    public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags(Marioverse.MOD_ID, "question_blocks");
-    public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags(Marioverse.MOD_ID, "question_block_blacklist");
-    public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags(Marioverse.MOD_ID, "warp_pipes");
-    public static final TagKey<EntityType<?>> CANNOT_CONSUME_ONE_UPS = entityTypeTags(Marioverse.MOD_ID, "cannot_consume_one_ups");
-    public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags(Marioverse.MOD_ID, "cannot_consume_power_ups");
-    public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags(Marioverse.MOD_ID, "cannot_drop_coins");
-    public static final TagKey<EntityType<?>> CANNOT_LOSE_POWER_UP = entityTypeTags(Marioverse.MOD_ID, "cannot_lose_power_up");
-    public static final TagKey<EntityType<?>> CANNOT_QUICK_TRAVEL = entityTypeTags(Marioverse.MOD_ID, "cannot_quick_travel");
-    public static final TagKey<EntityType<?>> CANNOT_WARP = entityTypeTags(Marioverse.MOD_ID, "cannot_warp");
-    public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags(Marioverse.MOD_ID, "can_be_stomped");
-    public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags(Marioverse.MOD_ID, "can_be_instakill_stomped");
-    public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags(Marioverse.MOD_ID, "can_consume_fire_flowers");
-    public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags(Marioverse.MOD_ID, "can_stomp_enemies");
-    public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags(Marioverse.MOD_ID, "can_wear_costumes");
-    public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags(Marioverse.MOD_ID, "damage_cannot_shrink");
-    public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags(Marioverse.MOD_ID, "fireball_immune");
-    public static final TagKey<EntityType<?>> FIRE_GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "fire_goomba_can_attack");
-    public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "goomba_can_attack");
-    public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "goombas");
-    public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "hefty_goomba_can_attack");
-    public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags(Marioverse.MOD_ID, "mega_goomba_can_attack");
-    public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags(Marioverse.MOD_ID, "mini_goomba_can_attach");
-    public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags(Marioverse.MOD_ID, "power_ups");
-    public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags(Marioverse.MOD_ID, "question_block_cannot_spawn");
+    public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
 
-    public static TagKey<Block> blockTags(String id, String name) {
-        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(id, name));
+    public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
+    public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
+    public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
+    public static final TagKey<Block> ITEM_BRICK_BLOCKS = blockTags("storage_bricks");
+    public static final TagKey<Block> MELTS = blockTags("melts");
+    public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
+    public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
+    public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
+    public static final TagKey<Block> QUESTION_BLOCK_BLOCKS = blockTags("question_blocks");
+    public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
+    public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
+    public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
+
+    public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
+    public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
+
+    public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
+    public static final TagKey<Item> ITEM_BRICK_ITEMS = itemTags("storage_bricks");
+    public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
+    public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags("power_up_costumes");
+    public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
+    public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags("question_block_blacklist");
+    public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
+
+    public static final TagKey<EntityType<?>> CANNOT_CONSUME_ONE_UPS = entityTypeTags("cannot_consume_one_ups");
+    public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");
+    public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags("cannot_drop_coins");
+    public static final TagKey<EntityType<?>> CANNOT_LOSE_POWER_UP = entityTypeTags("cannot_lose_power_up");
+    public static final TagKey<EntityType<?>> CANNOT_QUICK_TRAVEL = entityTypeTags("cannot_quick_travel");
+    public static final TagKey<EntityType<?>> CANNOT_WARP = entityTypeTags("cannot_warp");
+    public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");
+    public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags("can_be_instakill_stomped");
+    public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags("can_consume_fire_flowers");
+    public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags("can_stomp_enemies");
+    public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags("can_wear_costumes");
+    public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
+    public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");
+    public static final TagKey<EntityType<?>> FIRE_GOOMBA_CAN_ATTACK = entityTypeTags("fire_goomba_can_attack");
+    public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags("goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_RIDE = entityTypeTags("goomba_can_ride");
+    public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags("goombas");
+    public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags("hefty_goomba_can_attack");
+    public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
+    public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
+    public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
+    public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
+
+
+    private static TagKey<Biome> biomeTags(String name) {
+        return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
-    public static TagKey<Item> itemTags(String id, String name) {
-        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(id, name));
+    public static TagKey<Block> blockTags(String name) {
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
-    public static TagKey<EntityType<?>> entityTypeTags(String id, String name) {
-        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(id, name));
+    public static TagKey<DamageType> damageTypeTags(String name) {
+        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
-    public static TagKey<DamageType> damageTypeTags(String id, String name) {
-        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(id, name));
+    public static TagKey<EntityType<?>> entityTypeTags(String name) {
+        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
+
+    public static TagKey<Item> itemTags(String name) {
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 }

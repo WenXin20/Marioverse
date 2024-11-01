@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
-import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
@@ -9,11 +9,16 @@ import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -28,7 +33,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -45,11 +53,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -131,7 +144,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new GoombaRideGoombaGoal(this, 0.001F));
+        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
@@ -312,6 +325,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
             int i = random.nextInt(6);
             if (i == 0) {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                this.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
             } else {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
             }
@@ -331,7 +345,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 && (player.getItemInHand(hand).getItem() instanceof ArmorItem
                 || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
                     && (blockItem.getBlock() instanceof SkullBlock
-                        || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock)))) {
+                        || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
+                        || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
             this.equipItemIfPossible(player.getItemInHand(hand));
             player.swing(hand);
         }
@@ -343,6 +358,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
+
+
         if (groupData instanceof GoombaGroupData goombaGroupData) {
             this.populateDefaultEquipmentSlots(random, difficulty);
             this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
@@ -377,6 +394,39 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 }
             }
         }
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            LocalDate localdate = LocalDate.now();
+            int day = localdate.getDayOfMonth();
+            int month = localdate.getMonth().getValue();
+
+            if (month == 10 && day == 31) {
+                if (random.nextFloat() < 0.25F)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F
+                            ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
+
+                if (random.nextFloat() < 0.15F) {
+                    List<ItemStack> skulls = new ArrayList<>();
+                    serverWorld.registryAccess().registryOrThrow(Registries.BLOCK).getTagOrEmpty(Tags.Blocks.SKULLS).forEach(holder -> {
+                        Block block = holder.value();
+                        skulls.add(new ItemStack(block));
+                        ItemStack randomSkull = skulls.get(random.nextInt(skulls.size()));
+                        this.setItemSlot(EquipmentSlot.HEAD, randomSkull);
+                    });
+                }
+
+                this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
+            }
+        }
+        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+    }
+
+    public static boolean checkGoombaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+                                                MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
+                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random)
+                && serverWorld.getBiome(pos).is(TagRegistry.HAS_GOOMBA);
     }
 
     @NotNull
