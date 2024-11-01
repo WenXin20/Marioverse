@@ -245,6 +245,7 @@
 
   "marioverse.configuration.blocks": "Blocks",
   "marioverse.configuration.gameplay": "Gameplay",
+  "marioverse.configuration.holiday": "Holiday",
   "marioverse.configuration.misc": "Misc",
   "marioverse.configuration.mobs": "Mobs",
   "marioverse.configuration.power_ups": "Power Ups",
@@ -262,6 +263,8 @@
   "marioverse.configuration.mushroom": "Mushroom",
   "marioverse.configuration.one_up": "1-Up",
 
+  "marioverse.configuration.halloween": "Halloween",
+
   "configuration.marioverse.all_mobs_can_stomp": "All Mobs Can Stomp",
   "configuration.marioverse.allow_fast_travel": "Allow Fast Travel",
   "configuration.marioverse.allow_pipe_unwaxing": "Allow Pipe Unwaxing",
@@ -274,6 +277,7 @@
   "configuration.marioverse.debug_selection_box_creative": "Debug Selection Box Creative Only",
   "configuration.marioverse.debug_water_spout_selection_box": "Water Spout Debug Selection Box",
   "configuration.marioverse.disable_consecutive_bouncing": "Disable Consecutive Bouncing",
+  "configuration.marioverse.disable_goomba_masks": "Disable Goomba Masks",
   "configuration.marioverse.disable_reward_particles": "Disable Reward Particles",
   "configuration.marioverse.disable_text": "Disable Text",
   "configuration.marioverse.enable_stompable_enemies": "Enable Stompable Enemies",
@@ -281,6 +285,7 @@
   "configuration.marioverse.equip_costumes_mobs": "Equips Costumes on Mobs",
   "configuration.marioverse.fire_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.fireball_cooldown": "Fireball Cooldown",
+  "configuration.marioverse.force_goomba_masks": "Force Goomba Masks",
   "configuration.marioverse.goomba_split_count": "Goomba Split Count",
   "configuration.marioverse.goomba_split_random_count": "Goomba Split Random Count",
   "configuration.marioverse.health_shrink_players": "Health to Shrink Players",

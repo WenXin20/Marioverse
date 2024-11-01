@@ -16,6 +16,7 @@ public class ConfigRegistry
 
     public static final String CATEGORY_BLOCKS = "blocks";
     public static final String CATEGORY_GAMEPLAY = "gameplay";
+    public static final String CATEGORY_HOLIDAY = "holiday";
     public static final String CATEGORY_MISC = "misc";
     public static final String CATEGORY_MOBS = "mobs";
     public static final String CATEGORY_POWER_UPS = "power_ups";
@@ -33,6 +34,8 @@ public class ConfigRegistry
     public static final String CATEGORY_MUSHROOM = "mushroom";
     public static final String CATEGORY_ONE_UP = "one_up";
 
+    public static final String CATEGORY_HALLOWEEN = "halloween";
+
     private final ModConfigSpec CONFIG_SPEC;
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
     public static ModConfigSpec.BooleanValue ALLOW_PIPE_UNWAXING;
@@ -49,12 +52,14 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DEBUG_WATER_SPOUT_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
+    public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue FORCE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
@@ -265,6 +270,21 @@ public class ConfigRegistry
                         .comment("§6[1 point = 1/2 Heart]")
                         .comment("§9[Default: 4.0]§b")
                         .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
+            BUILDER.pop();
+
+            BUILDER.push(CATEGORY_HOLIDAY);
+
+                BUILDER.push(CATEGORY_HALLOWEEN);
+                    DISABLE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.disable_goomba_masks")
+                            .comment("Disable goombas that spawn from wearing masks on Halloween.")
+                            .comment("§9[Default: false]")
+                            .define("disable_goomba_masks", false);
+                    FORCE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.force_goomba_masks")
+                            .comment("Force goombas to spawn wearing masks at any time.")
+                            .comment("§9[Default: false]")
+                            .define("force_goomba_masks", false);
+                BUILDER.pop();
+
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_MOBS);

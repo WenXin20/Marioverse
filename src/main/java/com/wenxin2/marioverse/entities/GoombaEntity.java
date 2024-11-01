@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -400,7 +401,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
             int day = localdate.getDayOfMonth();
             int month = localdate.getMonth().getValue();
 
-            if (month == 10 && day == 31) {
+            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_GOOMBA_MASKS.get())
+                    || ConfigRegistry.FORCE_GOOMBA_MASKS.get()) {
                 if (random.nextFloat() < 0.25F)
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F
                             ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
