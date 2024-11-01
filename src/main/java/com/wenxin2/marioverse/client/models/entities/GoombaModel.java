@@ -5,7 +5,6 @@ import com.wenxin2.marioverse.entities.GoombaEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 
 public class GoombaModel extends GeoModel<GoombaEntity> {
