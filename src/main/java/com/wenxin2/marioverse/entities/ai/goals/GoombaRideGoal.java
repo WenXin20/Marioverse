@@ -8,13 +8,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class GoombaRideGoombaGoal extends Goal {
+public class GoombaRideGoal extends Goal {
     private final GoombaEntity goomba;
     private final float chanceToRide;
     private int cooldown;
     private static final int MAX_STACK_SIZE = 5;
 
-    public GoombaRideGoombaGoal(GoombaEntity goomba, float chanceToRide) {
+    public GoombaRideGoal(GoombaEntity goomba, float chanceToRide) {
         this.goomba = goomba;
         this.chanceToRide = chanceToRide;
     }

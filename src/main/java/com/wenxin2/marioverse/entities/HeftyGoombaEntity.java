@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
-import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoombaGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
@@ -74,7 +74,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new GoombaRideGoombaGoal(this, 0.001F));
+        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.HEFTY_GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
