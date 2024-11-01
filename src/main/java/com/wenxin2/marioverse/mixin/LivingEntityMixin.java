@@ -96,7 +96,9 @@ public abstract class LivingEntityMixin extends Entity {
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get())
             this.marioverse$squashEntity(livingEntity);
 
-        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get() && (livingEntity.onGround() || livingEntity.isInWaterOrBubble())) {
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (livingEntity.onGround() || livingEntity.isInWaterOrBubble())
+                && (marioverse$consecutiveBounces > 0 || marioverse$oneUpsRewarded > 0)) {
             marioverse$consecutiveBounces = 0;
             marioverse$oneUpsRewarded = 0;
         }
