@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -79,7 +80,7 @@ public class GoombaRideGoombaGoal extends Goal {
         int stackCount = 0;
         Entity current = targetGoomba;
 
-        while (current.getVehicle() instanceof GoombaEntity) {
+        while (current.getVehicle() != null && current.getVehicle().getType().is(TagRegistry.GOOMBA_CAN_RIDE)) {
             current = current.getVehicle();
             stackCount++;
             if (stackCount >= MAX_STACK_SIZE) {

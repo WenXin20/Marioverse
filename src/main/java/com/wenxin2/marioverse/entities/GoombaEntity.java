@@ -338,6 +338,47 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return super.mobInteract(player, hand);
     }
 
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+        RandomSource random = serverWorld.getRandom();
+        if (groupData instanceof GoombaGroupData goombaGroupData) {
+            this.populateDefaultEquipmentSlots(random, difficulty);
+            this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
+
+            if (goombaGroupData.canSpawnJockey) {
+                if (random.nextDouble() < 0.05) {
+                    List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
+                            Mob.class, this.getBoundingBox().inflate(5.0, 3.0, 5.0),
+                            entity -> entity.getType().is(TagRegistry.GOOMBA_CAN_RIDE) && !entity.isVehicle()
+                    );
+
+                    if (!nearbyEntities.isEmpty()) {
+                        Mob mob = nearbyEntities.getFirst();
+                        this.startRiding(mob);
+                    }
+                } else if (random.nextDouble() < 0.05) {
+                    Optional<? extends Holder<EntityType<?>>> randomEntityHolder = serverWorld.registryAccess()
+                            .registryOrThrow(Registries.ENTITY_TYPE)
+                            .getTag(TagRegistry.GOOMBA_CAN_RIDE)
+                            .flatMap(tag -> tag.getRandomElement(random));
+
+                    if (randomEntityHolder.isPresent()) {
+                        EntityType<?> entityType = randomEntityHolder.get().value();
+                        Mob mob = (Mob) entityType.create(this.level());
+                        if (mob != null) {
+                            mob.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
+                            mob.finalizeSpawn(serverWorld, difficulty, MobSpawnType.JOCKEY, null);
+                            this.startRiding(mob);
+                            serverWorld.addFreshEntity(mob);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @NotNull
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
@@ -504,6 +545,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
             this.entityData.set(DATA_ID_SCARE_FLAGS, (byte)(b1 | i));
         } else {
             this.entityData.set(DATA_ID_SCARE_FLAGS, (byte)(b1 & ~i));
+        }
+    }
+
+    public static class GoombaGroupData implements SpawnGroupData {
+        public final boolean canSpawnJockey;
+
+        public GoombaGroupData(boolean canSpawnJockey) {
+            this.canSpawnJockey = canSpawnJockey;
         }
     }
 }

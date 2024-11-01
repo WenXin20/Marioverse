@@ -55,6 +55,7 @@ public class TagRegistry {
 
     public static TagKey<Block> blockTags(String id, String name) {
         return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(id, name));
+    public static final TagKey<EntityType<?>> GOOMBA_CAN_RIDE = entityTypeTags("goomba_can_ride");
     }
 
     public static TagKey<Item> itemTags(String id, String name) {
