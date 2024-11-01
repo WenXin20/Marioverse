@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
@@ -17,12 +18,14 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -52,6 +55,8 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PlayerHeadItem;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -60,6 +65,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
@@ -400,6 +406,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
             LocalDate localdate = LocalDate.now();
             int day = localdate.getDayOfMonth();
             int month = localdate.getMonth().getValue();
+            List<ServerPlayer> players = serverWorld.getLevel().players();
 
             if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_GOOMBA_MASKS.get())
                     || ConfigRegistry.FORCE_GOOMBA_MASKS.get()) {
@@ -409,12 +416,37 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
                 if (random.nextFloat() < 0.15F) {
                     List<ItemStack> skulls = new ArrayList<>();
+
                     serverWorld.registryAccess().registryOrThrow(Registries.BLOCK).getTagOrEmpty(Tags.Blocks.SKULLS).forEach(holder -> {
                         Block block = holder.value();
                         skulls.add(new ItemStack(block));
                         ItemStack randomSkull = skulls.get(random.nextInt(skulls.size()));
-                        this.setItemSlot(EquipmentSlot.HEAD, randomSkull);
+                        if (randomSkull.getItem() instanceof PlayerHeadItem) {
+                            if (!players.isEmpty()) {
+                                ServerPlayer randomPlayer = players.get(random.nextInt(players.size()));
+                                GameProfile playerProfile = randomPlayer.getGameProfile();
+                                SkullBlockEntity.fetchGameProfile(randomPlayer.getUUID());
+                                ItemStack playerHeadItem = new ItemStack(Items.PLAYER_HEAD);
+
+                                playerHeadItem.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
+
+                                this.setItemSlot(EquipmentSlot.HEAD, playerHeadItem);
+                            }
+                        } else this.setItemSlot(EquipmentSlot.HEAD, randomSkull);
                     });
+                }
+
+                if (random.nextFloat() < 0.1F) {
+                    if (!players.isEmpty()) {
+                        ServerPlayer randomPlayer = players.get(random.nextInt(players.size()));
+                        GameProfile playerProfile = randomPlayer.getGameProfile();
+                        SkullBlockEntity.fetchGameProfile(randomPlayer.getUUID());
+                        ItemStack playerHeadItem = new ItemStack(Items.PLAYER_HEAD);
+
+                        playerHeadItem.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
+
+                        this.setItemSlot(EquipmentSlot.HEAD, playerHeadItem);
+                    }
                 }
 
                 this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
