@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#marioverse:has_fire_goomba",
+  "spawners": [
+    {
+      "type": "marioverse:fire_goomba",
+      "weight": 30,
+      "minCount": 1,
+      "maxCount": 3
+    }
+  ]
+}
