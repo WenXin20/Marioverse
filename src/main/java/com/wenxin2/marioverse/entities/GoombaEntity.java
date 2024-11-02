@@ -261,7 +261,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        if (this.getSpeed() > 0.4 || this.isScared()) {
+        if (this.isScared()) {
 
             float scaleFactor = this.getBbHeight() * this.getBbWidth();
             int numParticles = (int) (scaleFactor * 5);
@@ -508,7 +508,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     public void checkForCollisionsAndWakeUp() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.25D), entity -> !entity.isSpectator());
+                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator());
 
         for (Entity collidingEntity : nearbyEntities) {
             if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
