@@ -105,7 +105,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
             removeSpeedModifier(stuckTo);
             stuckTo = null;
             this.kill();
-        } else if (stuckTo != null && this.isDeadOrDying()) {
+        } else if (stuckTo != null && (this.isDeadOrDying() || stuckTo.isSpectator())) {
             removeSpeedModifier(stuckTo);
             stuckTo = null;
         } else if (stuckTo != null && stuckTo.isAlive() && this.getY() >= stuckTo.getY()
@@ -170,6 +170,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
         for (Entity entity : entities) {
             if (entity instanceof LivingEntity livingEntity && !this.isNoAi()
+                    && !livingEntity.isSpectator()
                     && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                     || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get()))
                 stickToEntity(livingEntity);
