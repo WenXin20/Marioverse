@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.GoombaModel;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import net.minecraft.ChatFormatting;
@@ -15,8 +16,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.AbstractSkullBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -82,6 +86,39 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                     default -> super.getModelPartForBone(bone, slot, stack, animatable, baseModel);
                 };
             }
+
+            @Override
+            protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
+                poseStack.scale(1.0F, 1.0F, 0.94F);
+                poseStack.translate(0.0F, 0.0F, 0.0F);
+                super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
+            }
+
+            private void renderGoombellaSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
+                poseStack.scale(1.28F, 1.28F, 1.22F);
+                poseStack.translate(0.0F, -0.125F, 0.0F);
+                super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
+            }
+
+            @Override
+            public void renderForBone(PoseStack poseStack, GoombaEntity animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
+                ItemStack armorStack = this.getArmorItemForBone(bone, animatable);
+                if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
+                        || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
+                    if (armorStack != null) {
+                        Item var13 = armorStack.getItem();
+                        if (var13 instanceof BlockItem) {
+                            BlockItem blockItem = (BlockItem) var13;
+                            Block var17 = blockItem.getBlock();
+                            if (var17 instanceof AbstractSkullBlock) {
+                                AbstractSkullBlock skullBlock = (AbstractSkullBlock) var17;
+                                this.renderGoombellaSkullAsArmor(poseStack, bone, armorStack, skullBlock, bufferSource, packedLight);
+                                return;
+                            }
+                        }
+                    }
+                } else super.renderForBone(poseStack, animatable, bone, renderType, bufferSource, buffer, partialTick, packedLight, packedOverlay);
+            }
         });
 
         addRenderLayer(new BlockAndItemGeoLayer<>(this) {
@@ -109,8 +146,14 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
 
             @Override
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, GoombaEntity animatable, MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
-                poseStack.scale(0.6F, 0.6F, 0.55F);
-                poseStack.translate(0.0F, 0.5F, 0.0F);
+                if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
+                        || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
+                    poseStack.scale(0.77F, 0.77F, 0.72F);
+                    poseStack.translate(0.0F, 0.5F, 0.0F);
+                } else {
+                    poseStack.scale(0.6F, 0.6F, 0.55F);
+                    poseStack.translate(0.0F, 0.5F, 0.0F);
+                }
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });

@@ -57,7 +57,7 @@ public class HeftyGoombaRenderer extends GeoEntityRenderer<HeftyGoombaEntity> {
 
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(2.0F, 2.0F, 1.975F);
+                poseStack.scale(2.01F, 2.0F, 1.975F);
                 poseStack.translate(0.0F, -0.535F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }

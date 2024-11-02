@@ -57,7 +57,7 @@ public class MegaGoombaRenderer extends GeoEntityRenderer<MegaGoombaEntity> {
 
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(4.0F, 4.0F, 3.95F);
+                poseStack.scale(4.01F, 4.0F, 3.95F);
                 poseStack.translate(0.0F, -1.595F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }

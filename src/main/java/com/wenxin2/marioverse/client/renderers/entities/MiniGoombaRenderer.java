@@ -12,6 +12,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,6 +54,13 @@ public class MiniGoombaRenderer extends GeoEntityRenderer<MiniGoombaEntity> {
                     case HELMET -> baseModel.head;
                     default -> super.getModelPartForBone(bone, slot, stack, animatable, baseModel);
                 };
+            }
+
+            @Override
+            protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
+                poseStack.scale(1.0F, 1.0F, 0.94F);
+                poseStack.translate(0.0F, 0.0F, 0.0F);
+                super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
 
