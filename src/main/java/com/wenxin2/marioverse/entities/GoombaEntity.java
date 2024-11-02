@@ -366,7 +366,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
 
-
         if (groupData instanceof GoombaGroupData goombaGroupData) {
             this.populateDefaultEquipmentSlots(random, difficulty);
             this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
@@ -459,8 +458,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL
                 && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
-                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random)
-                && serverWorld.getBiome(pos).is(TagRegistry.HAS_GOOMBA);
+                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
     }
 
     @NotNull
