@@ -369,7 +369,7 @@ public abstract class LivingEntityMixin extends Entity {
                     if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                         if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
                             damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
-                        else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED))
+                        else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
                             damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                             this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
