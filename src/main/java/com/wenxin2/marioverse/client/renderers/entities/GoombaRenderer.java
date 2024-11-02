@@ -36,7 +36,8 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
         addRenderLayer(new AutoGlowingGeoLayer<>(this) {
             @Override
             protected @Nullable RenderType getRenderType(GoombaEntity animatable, @Nullable MultiBufferSource bufferSource) {
-                if (animatable.hasCustomName() && "Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))) {
+                if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
+                        || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
                     if (animatable instanceof Entity entity) {
                         boolean invisible = entity.isInvisible();
                         ResourceLocation texture = AutoGlowingTexture.getEmissiveResource(this.getTextureResource(animatable));
