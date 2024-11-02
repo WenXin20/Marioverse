@@ -8,14 +8,20 @@ import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.PathType;
 import software.bernie.geckolib.animatable.GeoEntity;
 
@@ -46,5 +52,10 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.FIRE_GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+    }
+
+    public static boolean checkFireGoombaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+                                                    MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return !serverWorld.getBlockState(pos.below()).is(Blocks.NETHER_WART_BLOCK);
     }
 }

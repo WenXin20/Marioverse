@@ -64,6 +64,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.MEGA_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
 
     @SubscribeEvent
