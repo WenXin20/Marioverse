@@ -219,9 +219,17 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
     private void handleEntityEvent(byte id, CallbackInfo info) {
-        LivingEntity livingEntity = (LivingEntity)(Object)this;
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
+        RandomSource random = this.level().getRandom();
 
-        if (id == 123) {
+        if (id == 120) {
+            for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
+                this.level().addParticle(ParticleTypes.ENCHANT,
+                        livingEntity.getRandomX(0.5D), livingEntity.getRandomY(), livingEntity.getRandomZ(0.5D),
+                        (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
+                        (random.nextDouble() - 0.5D) * 2.0D);
+            }
+        } else if (id == 123) {
             this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.FIRE_POWERED_UP.get(), 15);
         } else if (id == 124) {
             this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.POWERED_UP.get(), 25);
@@ -297,33 +305,6 @@ public abstract class LivingEntityMixin extends Entity {
                 double z = entity.getZ() + offsetZ;
 
                 this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
-            }
-        }
-    }
-
-    @Unique
-    public void marioverse$enchantParticles(Level world) {
-        RandomSource random = world.getRandom();
-
-        // Calculate a scaling factor based on entity dimensions
-        float scaleFactor = this.getBbHeight() * this.getBbWidth();
-        // Calculate the particle count based on the scaling factor
-        int particleCount = (int) (scaleFactor * 40);
-        // Ensure particle count does not exceed the maximum limit
-        particleCount = Math.min(particleCount, MAX_PARTICLE_AMOUNT);
-
-        Collection<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
-        for (ServerPlayer player : players) {
-            for (int i = 0; i < particleCount; ++i) {
-                player.connection.send(new ClientboundLevelParticlesPacket(
-                        ParticleTypes.ENCHANT,      // Particle type
-                        false,                       // Long distance
-                        this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), // Position
-                        (random.nextFloat() - 0.5F) * 2.0F, -random.nextFloat(),
-                        (random.nextFloat() - 0.5F) * 2.0F, // Motion
-                        0,                          // Particle data
-                        2                           // Particle count
-                ));
             }
         }
     }
@@ -515,7 +496,7 @@ public abstract class LivingEntityMixin extends Entity {
             int entityId = this.getId();
 
             if (!world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.marioverse$enchantParticles(world);
+                this.level().broadcastEntityEvent((LivingEntity) (Object) this, (byte) 120);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
@@ -556,7 +537,7 @@ public abstract class LivingEntityMixin extends Entity {
             int entityId = this.getId();
 
             if (!world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.marioverse$enchantParticles(world);
+                this.level().broadcastEntityEvent((LivingEntity) (Object) this, (byte) 120);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
