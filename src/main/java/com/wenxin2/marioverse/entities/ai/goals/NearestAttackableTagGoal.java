@@ -48,12 +48,20 @@ public class NearestAttackableTagGoal extends TargetGoal {
     }
 
     protected void findTarget() {
-        List<LivingEntity> potentialTargets = this.mob.level()
-                .getEntitiesOfClass(LivingEntity.class,
-                        this.getTargetSearchArea(this.getFollowDistance()), entity -> entity.getType().is(this.entityTag));
+        if (this.target != null && this.target.isAlive() && this.mob.distanceToSqr(this.target) < this.getFollowDistance() * this.getFollowDistance()) {
+            return;
+        }
 
-        this.target = this.mob.level()
-                .getNearestEntity(potentialTargets, this.targetConditions, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+        if (this.target == null || !this.target.isAlive()) {
+        List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
+                LivingEntity.class,
+                this.getTargetSearchArea(this.getFollowDistance()),
+                entity -> entity.getType().is(this.entityTag)
+        );
+
+        this.target = this.mob.level().getNearestEntity(potentialTargets, this.targetConditions,
+                this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+        }
     }
 
     @Override
