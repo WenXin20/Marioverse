@@ -514,7 +514,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         for (Entity collidingEntity : nearbyEntities) {
             if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
-                    || collidingEntity.getY() >= this.getY() + this.getEyeHeight())
+                    || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
+                    || collidingEntity.getDeltaMovement().horizontalDistance() > 0)
                 return;
 
             // Apply knockback to both the Goomba and the bumping collidingEntity
