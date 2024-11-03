@@ -13,14 +13,14 @@
         {
           "type": "minecraft:item",
           "name": "marioverse:mushroom",
-          "weight": 6,
+          "weight": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 0,
-                "max": 3
+                "max": 2
               },
               "add": false
             }
