@@ -54,6 +54,7 @@ public class GoombaSitGoal extends Goal {
             this.goomba.sit(false);
             this.goomba.sleep(false);
         } else {
+//            this.goomba.checkForCollisionsAndWakeUp();
             this.sittingTime++;
             if (this.sittingTime >= this.ticksBeforeSleeping) {
                 this.goomba.sleep(true);

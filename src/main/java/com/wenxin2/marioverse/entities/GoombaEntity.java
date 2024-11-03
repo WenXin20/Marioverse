@@ -262,7 +262,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public void tick() {
         super.tick();
         if (this.isScared()) {
-
             float scaleFactor = this.getBbHeight() * this.getBbWidth();
             int numParticles = (int) (scaleFactor * 5);
             double radius = this.getBbWidth() / 2;
@@ -294,6 +293,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 scareTime = 0;
             }
             scareTime++;
+        }
+
+        if (this.isSleeping() || this.isSitting()) {
+            this.checkForCollisionsAndWakeUp();
         }
     }
 
@@ -508,12 +511,12 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     public void checkForCollisionsAndWakeUp() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator());
+                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator() && !(entity instanceof GoombaEntity));
 
         for (Entity collidingEntity : nearbyEntities) {
             if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
                     || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
-                    || collidingEntity.getDeltaMovement().horizontalDistance() > 0)
+                    || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0))
                 return;
 
             // Apply knockback to both the Goomba and the bumping collidingEntity
