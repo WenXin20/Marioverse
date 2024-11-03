@@ -12,41 +12,17 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:red_mushroom",
+          "name": "marioverse:mushroom",
           "weight": 6,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2,
-                "max": 5
+                "min": 0,
+                "max": 3
               },
               "add": false
-            },
-            {
-              "function": "minecraft:set_name",
-              "name": "Super Mushroom"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:brown_mushroom",
-          "weight": 6,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 2,
-                "max": 4
-              },
-              "add": false
-            },
-            {
-              "function": "minecraft:set_name",
-              "name": "1-Up"
             }
           ]
         }
