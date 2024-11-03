@@ -283,9 +283,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
         }
 
         if (this.isScared()) {
-            if (scareTime == 0) {
+            if (scareTime == 0)
                 scareDuration = 25 + this.random.nextInt(50);
-            }
+
             if (scareTime > scareDuration) {
                 this.scare(Boolean.FALSE);
                 this.sit(Boolean.FALSE);
@@ -295,9 +295,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
             scareTime++;
         }
 
-        if (this.isSleeping() || this.isSitting()) {
+        if (this.isSleeping() || this.isSitting())
             this.checkForCollisionsAndWakeUp();
-        }
+
+        if (this.isInWaterOrBubble())
+            this.ejectPassengers();
     }
 
     @Override

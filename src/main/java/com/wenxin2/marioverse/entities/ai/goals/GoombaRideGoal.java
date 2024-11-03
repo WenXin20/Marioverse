@@ -9,10 +9,12 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GoombaRideGoal extends Goal {
+    private static final int MAX_STACK_SIZE = 5;
     private final GoombaEntity goomba;
     private final float chanceToRide;
     private int cooldown;
-    private static final int MAX_STACK_SIZE = 5;
+    private int rideDuration;
+    private int maxRideDuration;
 
     public GoombaRideGoal(GoombaEntity goomba, float chanceToRide) {
         this.goomba = goomba;
@@ -22,9 +24,9 @@ public class GoombaRideGoal extends Goal {
     @Override
     public boolean canUse() {
         if (!this.goomba.isPassenger() && this.goomba.getPassengers().isEmpty()
-                && !this.goomba.isVehicle() && !this.goomba.isSwimming() && this.cooldown == 0) {
+                && !this.goomba.isVehicle() && !this.goomba.isInWaterOrBubble() && this.cooldown == 0) {
             if (this.goomba.getRandom().nextFloat() < chanceToRide) {
-                GoombaEntity targetGoomba = findNearbyGoombaToRide();
+                Entity targetGoomba = findNearbyGoombaToRide();
                 return targetGoomba != null && canRide(targetGoomba);
             }
         }
@@ -33,32 +35,45 @@ public class GoombaRideGoal extends Goal {
 
     @Override
     public void start() {
-        GoombaEntity targetGoomba = findNearbyGoombaToRide();
-        if (targetGoomba != null && canRide(targetGoomba)) {
+        Entity targetGoomba = findNearbyGoombaToRide();
+        if (targetGoomba != null && canRide(targetGoomba) && !this.goomba.isInWaterOrBubble()) {
             this.goomba.tryToRide();
             this.goomba.startRiding(targetGoomba, true);
+            this.rideDuration = 0;
+            this.maxRideDuration = 1200 + this.goomba.getRandom().nextInt(1200);
         }
         this.cooldown = 200 + this.goomba.getRandom().nextInt(400);
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.goomba.isPassenger() && this.goomba.getVehicle() instanceof GoombaEntity;
+        if (this.goomba.isPassenger() && this.goomba.getVehicle() != null
+                && this.goomba.getVehicle().getType().is(TagRegistry.GOOMBA_CAN_RIDE)) {
+            Entity vehicle = this.goomba.getVehicle();
+
+            if (vehicle.isInWaterOrBubble() || this.rideDuration >= this.maxRideDuration) {
+                this.stop();
+                return false;
+            }
+            this.rideDuration++;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void stop() {
         this.cooldown = 200;
         this.goomba.ride(false);
+        this.goomba.stopRiding();
     }
 
-    private GoombaEntity findNearbyGoombaToRide() {
-        // Search for nearby Goombas within a certain radius that are not passengers
-        List<GoombaEntity> nearbyGoombas =
-                this.goomba.level().getEntitiesOfClass(GoombaEntity.class,
+    private Entity findNearbyGoombaToRide() {
+        List<Entity> nearbyGoombas =
+                this.goomba.level().getEntities(this.goomba,
                         this.goomba.getBoundingBox().inflate(0.5D), goomba -> !this.goomba.isPassenger());
 
-        for (GoombaEntity candidate : nearbyGoombas) {
+        for (Entity candidate : nearbyGoombas) {
             if (candidate != this.goomba && canRide(candidate)) {
                 return candidate;
             }
@@ -66,7 +81,7 @@ public class GoombaRideGoal extends Goal {
         return null;
     }
 
-    private boolean canRide(GoombaEntity targetGoomba) {
+    private boolean canRide(Entity targetGoomba) {
         if (targetGoomba.getPassengers().isEmpty()) {
             BlockPos targetPos = targetGoomba.blockPosition().above();
             BlockState blockAbove = this.goomba.level().getBlockState(targetPos);
@@ -76,7 +91,7 @@ public class GoombaRideGoal extends Goal {
         return false;
     }
 
-    private boolean canStack(GoombaEntity targetGoomba) {
+    private boolean canStack(Entity targetGoomba) {
         int stackCount = 0;
         Entity current = targetGoomba;
 

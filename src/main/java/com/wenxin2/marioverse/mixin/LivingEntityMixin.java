@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
@@ -12,7 +13,6 @@ import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import java.util.Collection;
 import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
@@ -21,7 +21,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -44,9 +43,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -56,12 +53,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
-    @Shadow public abstract void tick();
-
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique
-    private static final int FIREBALL_COOLDOWN = 5;
     @Unique
     private int marioverse$warpCooldown;
     @Unique
@@ -93,7 +86,8 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
 
-        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get())
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (livingEntity.fallDistance > 0 || livingEntity.isInWaterOrBubble()))
             this.marioverse$squashEntity(livingEntity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
@@ -103,18 +97,15 @@ public abstract class LivingEntityMixin extends Entity {
             marioverse$oneUpsRewarded = 0;
         }
 
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock) {
+        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
             this.marioverse$enterPipeBelow(pos);
-        }
 
-        if (this.marioverse$warpCooldown > 0) {
+        if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
-        }
 
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
-        if (fireballCooldown > 0) {
+        if (fireballCooldown > 0)
             this.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
-        }
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
 //            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
@@ -311,7 +302,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     public void marioverse$squashEntity(LivingEntity stompingEntity) {
-        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.2));
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0, 0.5, 0));
 
         for (Entity entity : nearbyEntities) {
             if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
