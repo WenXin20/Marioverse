@@ -52,7 +52,7 @@
         {
           "type": "minecraft:item",
           "name": "marioverse:coin",
-          "weight": 1,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -68,7 +68,7 @@
         {
           "type": "minecraft:item",
           "name": "marioverse:one_up_mushroom",
-          "weight": 6,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_count",
