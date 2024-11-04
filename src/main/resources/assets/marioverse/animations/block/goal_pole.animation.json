@@ -1,0 +1,51 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.goal_pole.wave": {
+			"loop": true,
+			"animation_length": 8,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"2.0": {
+							"vector": [0, 22.5, 0],
+							"easing": "easeInSine"
+						},
+						"6.0": {
+							"vector": [0, -22.5, 0],
+							"easing": "easeInSine"
+						},
+						"8.0": {
+							"vector": [0, 0, 0],
+							"easing": "easeInSine"
+						}
+					}
+				}
+			}
+		},
+		"animation.goal_pole.raise": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"flag": {
+					"position": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"animation.goal_pole.poof": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"flag": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

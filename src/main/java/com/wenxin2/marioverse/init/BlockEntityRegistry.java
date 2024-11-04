@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import java.util.stream.Stream;
@@ -11,6 +12,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BlockEntityRegistry {
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GoalPoleBlockEntity>> GOAL_POLE_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoinBlockEntity>> COIN_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> STORAGE_BRICKS_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> INVISIBLE_QUESTION_BLOCK_ENTITY;
@@ -40,6 +42,10 @@ public class BlockEntityRegistry {
                         BlockRegistry.STORAGE_BRICKS.get(), BlockRegistry.STORAGE_FUNGAL_BRICKS.get(),
                         BlockRegistry.STORAGE_NETHER_BRICKS.get(), BlockRegistry.STORAGE_PURPUR_BLOCK.get(),
                         BlockRegistry.STORAGE_RED_NETHER_BRICKS.get()).build(null));
+
+        GOAL_POLE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("goal_pole",
+                () -> BlockEntityType.Builder.of(GoalPoleBlockEntity::new,
+                        BlockRegistry.RED_GOAL_POLE.get()).build(null));
 
         WARP_PIPE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_pipe",
                 () -> BlockEntityType.Builder.of(WarpPipeBlockEntity::new,

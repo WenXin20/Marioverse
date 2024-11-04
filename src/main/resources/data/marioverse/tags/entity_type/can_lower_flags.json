@@ -1,0 +1,7 @@
+{
+  "_comment": "All mobs that can lower flags on Goal Poles",
+  "replace": false,
+  "values": [
+    "minecraft:player"
+  ]
+}

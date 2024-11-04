@@ -1,0 +1,86 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 32,
+				"texture_height": 16,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "pole",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{
+							"origin": [0, 0, -1],
+							"size": [1, 1, 1],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [1, 1]},
+								"east": {"uv": [0, 0], "uv_size": [1, 1]},
+								"south": {"uv": [0, 0], "uv_size": [1, 1]},
+								"west": {"uv": [0, 0], "uv_size": [1, 1]},
+								"up": {"uv": [1, 1], "uv_size": [-1, -1]},
+								"down": {"uv": [1, 1], "uv_size": [-1, -1]}
+							}
+						}
+					]
+				},
+				{
+					"name": "flag",
+					"parent": "pole",
+					"pivot": [0, 0, -2],
+					"cubes": [
+						{
+							"origin": [0, -8, -18],
+							"size": [0, 16, 16],
+							"uv": {
+								"west": {"uv": [0, 0], "uv_size": [16, 16]}
+							}
+						},
+						{
+							"origin": [0.05, -2, -9.5],
+							"size": [0, 4, 4],
+							"pivot": [0.1, 0, -7.5],
+							"rotation": [-45, 0, 0],
+							"uv": {
+								"west": {"uv": [17, 0], "uv_size": [4, 4]}
+							}
+						},
+						{
+							"origin": [-0.05, -2, -9.5],
+							"size": [0, 4, 4],
+							"pivot": [0, 0, -7.5],
+							"rotation": [-45, 0, 0],
+							"uv": {
+								"west": {"uv": [17, 0], "uv_size": [4, 4]}
+							}
+						}
+					]
+				},
+				{
+					"name": "poof_particle",
+					"parent": "flag",
+					"pivot": [0, 0, -7.5],
+					"cubes": [
+						{
+							"origin": [0, 0, -1],
+							"size": [1, 1, 1],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [1, 1]},
+								"east": {"uv": [0, 0], "uv_size": [1, 1]},
+								"south": {"uv": [0, 0], "uv_size": [1, 1]},
+								"west": {"uv": [0, 0], "uv_size": [1, 1]},
+								"up": {"uv": [1, 1], "uv_size": [-1, -1]},
+								"down": {"uv": [1, 1], "uv_size": [-1, -1]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -69,6 +69,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STORAGE_PURPUR_BLOCK.get());
             add(event, BlockRegistry.SMASHABLE_PURPUR_BLOCK.get());
 
+            add(event, BlockRegistry.RED_GOAL_POLE.get());
+
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
             for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {

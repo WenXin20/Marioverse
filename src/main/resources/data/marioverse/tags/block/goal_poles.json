@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "marioverse:black_goal_pole", "required": false },
+    { "id": "marioverse:blue_goal_pole", "required": false },
+    { "id": "marioverse:brown_goal_pole", "required": false },
+    { "id": "marioverse:cyan_goal_pole", "required": false },
+    { "id": "marioverse:gray_goal_pole", "required": false },
+    { "id": "marioverse:green_goal_pole", "required": false },
+    { "id": "marioverse:light_blue_goal_pole", "required": false },
+    { "id": "marioverse:light_gray_goal_pole", "required": false },
+    { "id": "marioverse:lime_goal_pole", "required": false },
+    { "id": "marioverse:magenta_goal_pole", "required": false },
+    { "id": "marioverse:orange_goal_pole", "required": false },
+    { "id": "marioverse:pink_goal_pole", "required": false },
+    { "id": "marioverse:purple_goal_pole", "required": false },
+    { "id": "marioverse:red_goal_pole", "required": false },
+    { "id": "marioverse:white_goal_pole", "required": false },
+    { "id": "marioverse:yellow_goal_pole", "required": false }
+  ]
+}
