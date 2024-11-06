@@ -3,39 +3,61 @@ package com.wenxin2.marioverse.client.models.blocks;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
+import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import java.util.Optional;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
-    private final ResourceLocation model =
+    private final ResourceLocation MODEL =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/block/goal_pole.geo.json");
-    private final ResourceLocation animations =
+    private final ResourceLocation ANIMATION =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/block/goal_pole.animation.json");
-    private final ResourceLocation red_flag_texture =
+    private final ResourceLocation RED_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/red_flag.png");
+    private final ResourceLocation BOWSER_FLAG_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag.png");
+    private final ResourceLocation RED_FLAG_SMALL_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/red_flag_small.png");
+    private final ResourceLocation BOWSER_FLAG_SMALL_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag_small.png");
+
+    private int tickCounter = 0;
+    private static final int TICK_DELAY = 10;
 
     @Override
     public ResourceLocation getModelResource(GoalPoleBlockEntity block) {
-        return this.model;
+        return this.MODEL;
     }
 
     @Override
-    public ResourceLocation getTextureResource(GoalPoleBlockEntity block) {
-        if (block.getBlockState().getValue(GoalPoleBlock.LOWERED)) {
-            if (block.getBlockState().getBlock() == BlockRegistry.RED_GOAL_POLE.get())
-                return this.red_flag_texture;
-            else return this.red_flag_texture;
-        }
-        else return this.red_flag_texture;
+    public ResourceLocation getTextureResource(GoalPoleBlockEntity blockEntity) {
+        BlockState state = blockEntity.getBlockState();
+        Block block = blockEntity.getBlockState().getBlock();
+
+        if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
+            if (state.getValue(GoalPoleBlock.LOWERED)) {
+                if (block == BlockRegistry.RED_GOAL_POLE.get())
+                    return this.RED_FLAG_SMALL_TEXTURE;
+                else return this.RED_FLAG_SMALL_TEXTURE;
+            } else return this.BOWSER_FLAG_SMALL_TEXTURE;
+        } else if (state.getValue(GoalPoleBlock.LOWERED)) {
+            if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
+                return this.BOWSER_FLAG_TEXTURE;
+            else if (block == BlockRegistry.RED_GOAL_POLE.get())
+                return this.RED_FLAG_TEXTURE;
+            else return this.RED_FLAG_TEXTURE;
+        } else return this.BOWSER_FLAG_TEXTURE;
     }
 
     @Override
     public ResourceLocation getAnimationResource(GoalPoleBlockEntity block) {
-        return this.animations;
+        return this.ANIMATION;
     }
 
     @Override
@@ -44,9 +66,9 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
 
         int rotationState = animatable.getBlockState().getValue(GoalPoleBlock.ROTATION);
         float[] rotationDegreesArray = {
-                90.0F, 292.5F, 315.0F, 337.5F, 0.0F, 202.5F,
-                225.0F, 247.5F, 270.0F, 112.5F, 135.0F,
-                157.5F, 180.0F, 22.5F, 45.0F, 67.5F
+                90.0F, 67.5F, 45.0F, 22.5F, 0.0F, 337.5F,
+                315.0F, 292.5F, 270.0F, 247.5F, 225.0F,
+                202.5F, 180.0F, 157.5F, 135.0F, 112.5F
         };
         float rotationDegrees = rotationDegreesArray[rotationState];
 

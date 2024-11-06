@@ -3,32 +3,26 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
-import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -111,11 +105,9 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
         Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
 
-        if (!state.getValue(FLAG) && worldAccessor instanceof ServerLevel serverWorld) {
-            BlockEntity blockEntity = worldAccessor.getBlockEntity(pos);
-            if (blockEntity != null) {
-                serverWorld.removeBlockEntity(pos);
-            }
+        if (!worldAccessor.isClientSide() && !neighborState.getValue(FLAG)) {
+            if (worldAccessor instanceof Level world)
+                world.removeBlockEntity(neighborPos);
         }
 
         if (blockAbove instanceof GoalPoleBlock) {
@@ -127,11 +119,21 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         if (blockBelow instanceof GoalPoleBlock)
             return state.setValue(COLUMN, ColumnBlockStates.TOP).setValue(FLAG, Boolean.TRUE);
 
-        if (state.getValue(WATERLOGGED)) {
+        if (state.getValue(WATERLOGGED))
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
-        }
 
         return state.setValue(COLUMN, ColumnBlockStates.NONE).setValue(FLAG, Boolean.TRUE);
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        super.onPlace(state, world, pos, oldState, isMoving);
+
+        if (!world.isClientSide) {
+            if (!state.getValue(FLAG)) {
+                world.removeBlockEntity(pos);
+            }
+        }
     }
 
     @NotNull
@@ -155,6 +157,26 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!world.isClientSide() && entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
             if (!state.getValue(LOWERED)) {
+                int flagPoleHeight = calculateFlagPoleHeight(world, pos);
+                double relativeHeight = (entity.getEyeHeight() - pos.getY()) / flagPoleHeight;
+
+                if (relativeHeight == 1.0) {
+                    world.addParticle(ParticleRegistry.WONDERFUL.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                } else if (relativeHeight > 0.8) {
+                    world.addParticle(ParticleRegistry.INCREDIBLE.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                } else if (relativeHeight > 0.5) {
+                    world.addParticle(ParticleRegistry.EXCELLENT.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                } else {
+                    world.addParticle(ParticleRegistry.GOOD.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                }
 
                 if (state.getValue(COLUMN) == ColumnBlockStates.TOP) {
                     world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
@@ -168,9 +190,21 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 world.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
             }
 
-            entity.setDeltaMovement(entity.getDeltaMovement().add(0, -0.01, 0));
+            entity.setDeltaMovement(entity.getDeltaMovement().x, -0.005, entity.getDeltaMovement().z);
             entity.resetFallDistance();
         }
+    }
+
+    private int calculateFlagPoleHeight(Level world, BlockPos pos) {
+        int height = 0;
+        BlockPos checkPos = pos;
+
+        // Check upward to count the flag pole's height
+        while (world.getBlockState(checkPos).getBlock() instanceof GoalPoleBlock) {
+            height++;
+            checkPos = checkPos.above();
+        }
+        return height;
     }
 
     @Override
@@ -189,6 +223,12 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         BlockPos posBelow = pos.below();
         while (world.getBlockState(posBelow).getBlock() instanceof GoalPoleBlock) {
             world.setBlock(posBelow, world.getBlockState(posBelow).setValue(LOWERED, Boolean.TRUE), 3);
+
+            if (world.getBlockState(posBelow).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
+                if (world.getBlockState(posBelow.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
+                        && world.getBlockState(posBelow.above(2)).getValue(COLUMN) == ColumnBlockStates.MIDDLE)
+                    world.setBlock(posBelow.above(), world.getBlockState(posBelow.above()).setValue(FLAG, Boolean.TRUE), 3);
+            }
             posBelow = posBelow.below();
         }
     }

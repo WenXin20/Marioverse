@@ -27,7 +27,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
 
     @NotNull
     public NonNullList<ItemStack> getItems() {
-        return items;
+        return this.items;
     }
 
     @Override
@@ -41,11 +41,11 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public ItemStack getStackInSlot() {
-        return items.getFirst();
+        return this.items.getFirst();
     }
 
     public boolean hasItems() {
-        return !items.getFirst().isEmpty();
+        return !this.items.getFirst().isEmpty();
     }
 
     @Override
@@ -81,8 +81,8 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.trySaveLootTable(tag)) {
             ContainerHelper.saveAllItems(tag, this.items, provider);
         }
-        tag.putBoolean("LastPowered", lastPowered);
-        tag.putBoolean("LootTableProcessed", lootTableProcessed);
+        tag.putBoolean("lastPowered", this.lastPowered);
+        tag.putBoolean("lootTableProcessed", this.lootTableProcessed);
     }
 
     @Override
@@ -92,14 +92,14 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         if (!this.tryLoadLootTable(tag)) {
             ContainerHelper.loadAllItems(tag, this.items, provider);
         }
-        lastPowered = tag.getBoolean("LastPowered");
-        lootTableProcessed = tag.getBoolean("LootTableProcessed");
+        this.lastPowered = tag.getBoolean("lastPowered");
+        this.lootTableProcessed = tag.getBoolean("lootTableProcessed");
     }
 
     public void addItem(ItemStack stack) {
-        ItemStack existingStack = items.getFirst();
+        ItemStack existingStack = this.items.getFirst();
         if (existingStack.isEmpty()) {
-            items.set(0, stack.split(stack.getMaxStackSize()));
+            this.items.set(0, stack.split(stack.getMaxStackSize()));
         } else if (ItemStack.isSameItemSameComponents(existingStack, stack)) {
             int countToAdd = Math.min(stack.getMaxStackSize() - existingStack.getCount(), stack.getCount());
             existingStack.grow(countToAdd);
@@ -108,11 +108,11 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public boolean removeItems() {
-        ItemStack storedStack = items.getFirst();
+        ItemStack storedStack = this.items.getFirst();
         if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
             storedStack.shrink(1);  // Remove one item
             if (storedStack.isEmpty()) {
-                items.set(0, ItemStack.EMPTY);
+                this.items.set(0, ItemStack.EMPTY);
                 if (!this.hasItems() && this.hasLootTableBeenProcessed())
                     this.clearLootTable();
             }
@@ -123,11 +123,11 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public boolean hasLootTableBeenProcessed() {
-        return lootTableProcessed;
+        return this.lootTableProcessed;
     }
 
     public void processLootTable() {
-        lootTableProcessed = true;
+        this.lootTableProcessed = true;
     }
 
     public void clearLootTable() {
@@ -135,7 +135,7 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public boolean isLastPowered() {
-        return lastPowered;
+        return this.lastPowered;
     }
 
     public void setLastPowered(boolean powered) {
