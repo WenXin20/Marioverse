@@ -23,6 +23,28 @@
 				}
 			}
 		},
+		"animation.goal_pole.disappear": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.5,
+			"bones": {
+				"flag": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.125": {
+							"vector": [1.1875, 1.1875, 1.1875]
+						},
+						"0.3333": {
+							"vector": [0.7, 0.7, 0.7]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
 		"animation.goal_pole.switch": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 1,
@@ -50,16 +72,6 @@
 						"1.0": {
 							"vector": [1, 1, 1]
 						}
-					}
-				}
-			}
-		},
-		"animation.goal_pole.raise": {
-			"loop": "hold_on_last_frame",
-			"bones": {
-				"flag": {
-					"position": {
-						"vector": [0, 0, 0]
 					}
 				}
 			}

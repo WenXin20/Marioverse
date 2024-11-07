@@ -8,11 +8,14 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -132,6 +135,17 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         if (!world.isClientSide) {
             if (!state.getValue(FLAG)) {
                 world.removeBlockEntity(pos);
+            }
+        }
+    }
+
+    @Override
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
+                goalPoleBlockEntity.setCustomName(stack.getHoverName());
+                goalPoleBlockEntity.setChanged();
             }
         }
     }

@@ -18,17 +18,22 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/block/goal_pole.geo.json");
     private final ResourceLocation ANIMATION =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/block/goal_pole.animation.json");
+    private final ResourceLocation AMERICAN_FLAG_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag.png");
     private final ResourceLocation RED_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/red_flag.png");
     private final ResourceLocation BOWSER_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag.png");
+    private final ResourceLocation AMERICAN_FLAG_SMALL_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag_small.png");
     private final ResourceLocation RED_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/red_flag_small.png");
     private final ResourceLocation BOWSER_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag_small.png");
 
-    private int tickCounter = 0;
-    private static final int TICK_DELAY = 10;
+    private static final int DELAY_SECONDS = 2;
+    private long targetTime = -1;
+
 
     @Override
     public ResourceLocation getModelResource(GoalPoleBlockEntity block) {
@@ -41,12 +46,18 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         Block block = blockEntity.getBlockState().getBlock();
 
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
-            if (state.getValue(GoalPoleBlock.LOWERED)) {
+            if (blockEntity.isAmericanFlag(blockEntity))
+                return this.AMERICAN_FLAG_SMALL_TEXTURE;
+            else if (state.getValue(GoalPoleBlock.LOWERED)/* && this.isTextureChangeDue(blockEntity)*/) {
+                this.resetTextureChange(blockEntity);
                 if (block == BlockRegistry.RED_GOAL_POLE.get())
                     return this.RED_FLAG_SMALL_TEXTURE;
                 else return this.RED_FLAG_SMALL_TEXTURE;
             } else return this.BOWSER_FLAG_SMALL_TEXTURE;
-        } else if (state.getValue(GoalPoleBlock.LOWERED)) {
+        } else if (blockEntity.isAmericanFlag(blockEntity))
+            return this.AMERICAN_FLAG_TEXTURE;
+        else if (state.getValue(GoalPoleBlock.LOWERED)/* && this.isTextureChangeDue(blockEntity)*/) {
+            this.resetTextureChange(blockEntity);
             if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
             else if (block == BlockRegistry.RED_GOAL_POLE.get())
@@ -74,5 +85,19 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
 
         Optional<GeoBone> poleBone = getBone("pole");
         poleBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(rotationDegrees)));
+    }
+
+    public void startTextureChangeDelay(GoalPoleBlockEntity blockEntity) {
+        if (blockEntity.getLevel() != null) {
+            targetTime = blockEntity.getLevel().getGameTime() + DELAY_SECONDS * 20;
+        }
+    }
+
+    public boolean isTextureChangeDue(GoalPoleBlockEntity blockEntity) {
+        return blockEntity.getLevel() != null && targetTime != -1 && blockEntity.getLevel().getGameTime() >= targetTime;
+    }
+
+    public void resetTextureChange(GoalPoleBlockEntity blockEntity) {
+        targetTime = -1;
     }
 }
