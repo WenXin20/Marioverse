@@ -90,8 +90,7 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
     @NotNull
     @Override
-    public FluidState getFluidState(final BlockState state)
-    {
+    public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
