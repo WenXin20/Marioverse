@@ -28,40 +28,16 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
     @Override
     public AABB getRenderBoundingBox(GoalPoleBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
-        int rotationState = state.getValue(GoalPoleBlock.ROTATION);
-        double centerX = blockEntity.getBlockPos().getX() + 0.325;
-        double centerY = blockEntity.getBlockPos().getY();
-        double centerZ = blockEntity.getBlockPos().getZ() + 0.325;
-        double[][] offsets = {
-                {-1.25, 0},       // 0 degrees (East)
-                {-1.17, -0.48},   // 22.5 degrees
-                {-0.88, -0.88},   // 45 degrees
-                {-0.48, -1.17},   // 67.5 degrees
-                {0, -1.25},       // 90 degrees (South)
-                {0.48, -1.17},    // 112.5 degrees
-                {0.88, -0.88},    // 135 degrees
-                {1.17, -0.48},    // 157.5 degrees
-                {1.25, 0},        // 180 degrees (West)
-                {1.17, 0.48},     // 202.5 degrees
-                {0.88, 0.88},     // 225 degrees
-                {0.48, 1.17},     // 247.5 degrees
-                {0, 1.25},        // 270 degrees (North)
-                {-0.48, 1.17},    // 292.5 degrees
-                {-0.88, 0.88},    // 315 degrees
-                {-1.17, 0.48}     // 337.5 degrees
-        };
-        double offsetX = offsets[rotationState][0];
-        double offsetZ = offsets[rotationState][1];
 
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE)
             return new AABB(blockEntity.getBlockPos());
         else return new AABB(
-                centerX + offsetX - 0.625,
-                centerY - 0.5,
-                centerZ + offsetZ - 0.625,
-                centerX + offsetX + 0.625,
-                centerY + 0.6,
-                centerZ + offsetZ + 0.625
+                blockEntity.getBlockPos().getX() - 0.5,
+                blockEntity.getBlockPos().getY() - 1.0,
+                blockEntity.getBlockPos().getZ() - 0.5,
+                blockEntity.getBlockPos().getX() + 1.5,
+                blockEntity.getBlockPos().getY() + 0.8,
+                blockEntity.getBlockPos().getZ() + 1.5
         );
     }
 }
