@@ -34,20 +34,20 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
         if (state.getValue(GoalPoleBlock.FLAG)) {
             if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE)
                 return new AABB(
-                        blockEntity.getBlockPos().getX() - 0.6,
+                        blockEntity.getBlockPos().getX() - 0.8,
                         blockEntity.getBlockPos().getY(),
-                        blockEntity.getBlockPos().getZ() - 0.6,
-                        blockEntity.getBlockPos().getX() + 1.6,
-                        blockEntity.getBlockPos().getY(),
-                        blockEntity.getBlockPos().getZ() + 1.6
+                        blockEntity.getBlockPos().getZ() - 0.8,
+                        blockEntity.getBlockPos().getX() + 1.8,
+                        blockEntity.getBlockPos().getY() + 0.6,
+                        blockEntity.getBlockPos().getZ() + 1.8
                 );
             else return new AABB(
-                    blockEntity.getBlockPos().getX() - 0.6,
+                    blockEntity.getBlockPos().getX() - 0.8,
                     blockEntity.getBlockPos().getY() - 0.8,
-                    blockEntity.getBlockPos().getZ() - 0.6,
-                    blockEntity.getBlockPos().getX() + 1.6,
-                    blockEntity.getBlockPos().getY() + 0.5,
-                    blockEntity.getBlockPos().getZ() + 1.6
+                    blockEntity.getBlockPos().getZ() - 0.8,
+                    blockEntity.getBlockPos().getX() + 1.8,
+                    blockEntity.getBlockPos().getY() + 0.6,
+                    blockEntity.getBlockPos().getZ() + 1.8
             );
         } else return new AABB(0, 0, 0, 0, 0, 0);
     }
