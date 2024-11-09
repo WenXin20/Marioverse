@@ -127,7 +127,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         if (blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
             if (stack.has(DataComponents.CUSTOM_NAME)) {
                 goalPoleBlockEntity.setCustomName(stack.getHoverName());
-                goalPoleBlockEntity.setChanged();
+                goalPoleBlockEntity.markUpdated();
             }
         }
     }
@@ -175,11 +175,16 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
                 if (state.getValue(COLUMN) == ColumnBlockStates.TOP) {
                     world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
+                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
+                        blockEntity.markUpdated();
                 }
 
                 if (state.getValue(COLUMN) == ColumnBlockStates.NONE) {
                     world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
+                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
+                        blockEntity.markUpdated();
                 }
+
                 world.scheduleTick(pos, this, 3);
                 world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
@@ -212,12 +217,16 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         BlockPos posAbove = pos.above();
         while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock) {
             world.setBlock(posAbove, world.getBlockState(posAbove).setValue(LOWERED, Boolean.TRUE), 3);
+            if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
+                blockEntity.markUpdated();
             posAbove = posAbove.above();
         }
 
         BlockPos posBelow = pos.below();
         while (world.getBlockState(posBelow).getBlock() instanceof GoalPoleBlock) {
             world.setBlock(posBelow, world.getBlockState(posBelow).setValue(LOWERED, Boolean.TRUE), 3);
+            if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
+                blockEntity.markUpdated();
 
             if (world.getBlockState(posBelow).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
                 if (world.getBlockState(posBelow.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE

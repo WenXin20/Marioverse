@@ -8,6 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,6 +36,9 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public static final String CUSTOM_NAME = "CustomName";
     @Nullable
     public Component name;
+    public boolean playedAppearAnim = false;
+    public boolean playedDisappearAnim = false;
+    public boolean playedSwitchAnim = false;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -58,11 +64,18 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         BlockState state = this.getBlockState();
 
         if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if (this.isAmericanFlag(this) && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE)
+            if (this.isAmericanFlag() && !this.playedDisappearAnim()
+                    && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
+                this.setPlayedDisappearAnim(Boolean.TRUE);
                 event.setAndContinue(DISAPPEAR_ANIM);
-            else if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
+            } else if (!this.playedAppearAnim()
+                    && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
+                this.setPlayedAppearAnim(Boolean.TRUE);
                 event.setAndContinue(APPEAR_ANIM);
-            else event.setAndContinue(SWITCH_ANIM);
+            } else if (!this.playedSwitchAnim()) {
+                this.setPlayedSwitchAnim(Boolean.TRUE);
+                event.setAndContinue(SWITCH_ANIM);
+            }
         }
         return PlayState.CONTINUE;
     }
@@ -70,27 +83,39 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
+        tag.putBoolean("PlayedAppearAnim", this.playedAppearAnim);
+        tag.putBoolean("PlayedDisappearAnim", this.playedDisappearAnim);
+        tag.putBoolean("PlayedSwitchAnim", this.playedSwitchAnim);
 
-        if (this.name != null) {
+        if (this.name != null)
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
-        }
     }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
+        this.playedAppearAnim = tag.getBoolean("PlayedAppearAnim");
+        this.playedDisappearAnim = tag.getBoolean("PlayedDisappearAnim");
+        this.playedSwitchAnim = tag.getBoolean("PlayedSwitchAnim");
 
         if (tag.contains(CUSTOM_NAME, 8)) {
-            this.name = Component.Serializer.fromJson(tag.getString(CUSTOM_NAME), provider);
+            this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
+            this.markUpdated();
         }
+    }
+
+    public void markUpdated() {
+        this.setChanged();
+        if (this.level != null)
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void setCustomName(Component name) {
         this.name = name;
-        this.setChanged();
-        this.getUpdatePacket();
+        this.markUpdated();
     }
 
+    @NotNull
     @Override
     public Component getDisplayName() {
         return this.getName();
@@ -111,21 +136,59 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.name != null ? this.name : DEFAULT_NAME;
     }
 
-    public boolean isAmericanFlag(GoalPoleBlockEntity blockEntity) {
-        return blockEntity.getCustomName() != null && (blockEntity.getCustomName().getString().equals("America")
-                || blockEntity.getCustomName().getString().equals("America Flag")
-                || blockEntity.getCustomName().getString().equals("america")
-                || blockEntity.getCustomName().getString().equals("america flag")
-                || blockEntity.getCustomName().getString().equals("USA")
-                || blockEntity.getCustomName().getString().equals("USA Flag")
-                || blockEntity.getCustomName().getString().equals("usa")
-                || blockEntity.getCustomName().getString().equals("usa flag")
-                || blockEntity.getCustomName().getString().equals("United States Of America")
-                || blockEntity.getCustomName().getString().equals("United States of America")
-                || blockEntity.getCustomName().getString().equals("united states of america")
-                || blockEntity.getCustomName().getString().equals("United States")
-                || blockEntity.getCustomName().getString().equals("United States Flag")
-                || blockEntity.getCustomName().getString().equals("united states")
-                || blockEntity.getCustomName().getString().equals("united states flag"));
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public boolean playedAppearAnim() {
+        return this.playedAppearAnim;
+    }
+
+    public boolean playedDisappearAnim() {
+        return this.playedDisappearAnim;
+    }
+
+    public boolean playedSwitchAnim() {
+        return this.playedSwitchAnim;
+    }
+
+    public void setPlayedAppearAnim(boolean playedAppearAnim) {
+        if (this.playedAppearAnim != playedAppearAnim) {
+            this.playedAppearAnim = playedAppearAnim;
+            this.markUpdated();
+        }
+    }
+
+    public void setPlayedDisappearAnim(boolean playedDisappearAnim) {
+        if (this.playedDisappearAnim != playedDisappearAnim) {
+            this.playedDisappearAnim = playedDisappearAnim;
+            this.markUpdated();
+        }
+    }
+
+    public void setPlayedSwitchAnim(boolean playedSwitchAnim) {
+        if (this.playedSwitchAnim != playedSwitchAnim) {
+            this.playedSwitchAnim = playedSwitchAnim;
+            this.markUpdated();
+        }
+    }
+
+    public boolean isAmericanFlag() {
+        return this.getName().getString().equals("America")
+                || this.getName().getString().equals("America Flag")
+                || this.getName().getString().equals("america")
+                || this.getName().getString().equals("america flag")
+                || this.getName().getString().equals("USA")
+                || this.getName().getString().equals("USA Flag")
+                || this.getName().getString().equals("usa")
+                || this.getName().getString().equals("usa flag")
+                || this.getName().getString().equals("United States Of America")
+                || this.getName().getString().equals("United States of America")
+                || this.getName().getString().equals("united states of america")
+                || this.getName().getString().equals("United States")
+                || this.getName().getString().equals("United States Flag")
+                || this.getName().getString().equals("united states")
+                || this.getName().getString().equals("united states flag");
     }
 }

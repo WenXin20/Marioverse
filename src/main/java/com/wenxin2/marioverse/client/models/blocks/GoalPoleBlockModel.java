@@ -6,6 +6,8 @@ import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import java.util.Optional;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,9 +33,6 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
     private final ResourceLocation BOWSER_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag_small.png");
 
-    private static final int DELAY_SECONDS = 2;
-    private long targetTime = -1;
-
 
     @Override
     public ResourceLocation getModelResource(GoalPoleBlockEntity block) {
@@ -46,18 +45,22 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         Block block = blockEntity.getBlockState().getBlock();
 
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
-            if (blockEntity.isAmericanFlag(blockEntity))
+            if (blockEntity.isAmericanFlag())
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
-            else if (state.getValue(GoalPoleBlock.LOWERED)/* && this.isTextureChangeDue(blockEntity)*/) {
-                this.resetTextureChange(blockEntity);
+            else if (state.getValue(GoalPoleBlock.LOWERED)) {
+                if (blockEntity.getLevel() != null && !blockEntity.playedSwitchAnim())
+                    this.spawnPoofParticles(blockEntity, ParticleTypes.POOF, 15);
+
                 if (block == BlockRegistry.RED_GOAL_POLE.get())
                     return this.RED_FLAG_SMALL_TEXTURE;
                 else return this.RED_FLAG_SMALL_TEXTURE;
             } else return this.BOWSER_FLAG_SMALL_TEXTURE;
-        } else if (blockEntity.isAmericanFlag(blockEntity))
+        } else if (blockEntity.isAmericanFlag())
             return this.AMERICAN_FLAG_TEXTURE;
-        else if (state.getValue(GoalPoleBlock.LOWERED)/* && this.isTextureChangeDue(blockEntity)*/) {
-            this.resetTextureChange(blockEntity);
+        else if (state.getValue(GoalPoleBlock.LOWERED)) {
+            if (blockEntity.getLevel() != null && !blockEntity.playedSwitchAnim())
+                this.spawnPoofParticles(blockEntity, ParticleTypes.POOF, 10);
+
             if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
             else if (block == BlockRegistry.RED_GOAL_POLE.get())
@@ -87,17 +90,26 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         poleBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(rotationDegrees)));
     }
 
-    public void startTextureChangeDelay(GoalPoleBlockEntity blockEntity) {
-        if (blockEntity.getLevel() != null) {
-            targetTime = blockEntity.getLevel().getGameTime() + DELAY_SECONDS * 20;
+    public void spawnPoofParticles(GoalPoleBlockEntity blockEntity, ParticleOptions particleType, int avgAmount) {
+        if (blockEntity.getLevel() != null && this.getBone("flag").isPresent()) {
+            float scaleFactor = this.getBone("flag").get().getScaleY();
+            int numParticles = (int) (scaleFactor * avgAmount);
+            double radius = this.getBone("flag").get().getScaleX() / 2;
+
+            for (int i = 0; i < numParticles; i++) {
+                // Calculate angle for each particle
+                double angle = 2 * Math.PI * i / numParticles;
+                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                double offsetX = Math.cos(angle) * radius;
+                double offsetY = this.getBone("flag").get().getScaleY() / 2;
+                double offsetZ = Math.sin(angle) * radius;
+
+                double x = blockEntity.getBlockPos().getX() + offsetX;
+                double y = blockEntity.getBlockPos().getY() + offsetY;
+                double z = blockEntity.getBlockPos().getZ() + offsetZ;
+
+                blockEntity.getLevel().addParticle(particleType, x, y, z, 0, 0, 0);
+            }
         }
-    }
-
-    public boolean isTextureChangeDue(GoalPoleBlockEntity blockEntity) {
-        return blockEntity.getLevel() != null && targetTime != -1 && blockEntity.getLevel().getGameTime() >= targetTime;
-    }
-
-    public void resetTextureChange(GoalPoleBlockEntity blockEntity) {
-        targetTime = -1;
     }
 }
