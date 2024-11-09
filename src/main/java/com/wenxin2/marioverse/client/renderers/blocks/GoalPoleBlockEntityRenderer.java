@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockEntity> {
@@ -25,19 +26,29 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
         }
     }
 
+    @NotNull
     @Override
     public AABB getRenderBoundingBox(GoalPoleBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
 
-        if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE)
-            return new AABB(blockEntity.getBlockPos());
-        else return new AABB(
-                blockEntity.getBlockPos().getX() - 0.5,
-                blockEntity.getBlockPos().getY() - 1.0,
-                blockEntity.getBlockPos().getZ() - 0.5,
-                blockEntity.getBlockPos().getX() + 1.5,
-                blockEntity.getBlockPos().getY() + 0.8,
-                blockEntity.getBlockPos().getZ() + 1.5
-        );
+        if (state.getValue(GoalPoleBlock.FLAG)) {
+            if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE)
+                return new AABB(
+                        blockEntity.getBlockPos().getX() - 0.6,
+                        blockEntity.getBlockPos().getY(),
+                        blockEntity.getBlockPos().getZ() - 0.6,
+                        blockEntity.getBlockPos().getX() + 1.6,
+                        blockEntity.getBlockPos().getY(),
+                        blockEntity.getBlockPos().getZ() + 1.6
+                );
+            else return new AABB(
+                    blockEntity.getBlockPos().getX() - 0.6,
+                    blockEntity.getBlockPos().getY() - 0.8,
+                    blockEntity.getBlockPos().getZ() - 0.6,
+                    blockEntity.getBlockPos().getX() + 1.6,
+                    blockEntity.getBlockPos().getY() + 0.5,
+                    blockEntity.getBlockPos().getZ() + 1.6
+            );
+        } else return new AABB(0, 0, 0, 0, 0, 0);
     }
 }

@@ -89,9 +89,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        if (state.getValue(FLAG))
-            return new GoalPoleBlockEntity(pos, state);
-        else return null;
+        return new GoalPoleBlockEntity(pos, state);
     }
 
     @Override
@@ -107,11 +105,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
         Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
         Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
-
-        if (!worldAccessor.isClientSide() && !neighborState.getValue(FLAG)) {
-            if (worldAccessor instanceof Level world)
-                world.removeBlockEntity(neighborPos);
-        }
 
         if (blockAbove instanceof GoalPoleBlock) {
             if (blockBelow instanceof GoalPoleBlock)
@@ -129,17 +122,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
-        super.onPlace(state, world, pos, oldState, isMoving);
-
-        if (!world.isClientSide) {
-            if (!state.getValue(FLAG)) {
-                world.removeBlockEntity(pos);
-            }
-        }
-    }
-
-    @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
@@ -152,8 +134,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
     @NotNull
     @Override
-    public FluidState getFluidState(final BlockState state)
-    {
+    public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
