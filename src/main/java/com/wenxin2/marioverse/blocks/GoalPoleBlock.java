@@ -155,16 +155,28 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 int flagPoleHeight = calculateFlagPoleHeight(world, pos);
                 double relativeHeight = Math.min(1.0, (entity.getY() + entity.getBbHeight() - pos.getY()) / flagPoleHeight);
 
-                if (relativeHeight == 1.0) {
+                if (relativeHeight >= 1.0) {
                     world.addParticle(ParticleRegistry.WONDERFUL.get(), entity.getX(),
                             entity.getY() + entity.getBbHeight() + 1.0,
                             entity.getZ(), 0, 0, 0);
-                } else if (relativeHeight > 0.8) {
+                } else if (relativeHeight >= 0.875) {
                     world.addParticle(ParticleRegistry.INCREDIBLE.get(), entity.getX(),
                             entity.getY() + entity.getBbHeight() + 1.0,
                             entity.getZ(), 0, 0, 0);
-                } else if (relativeHeight > 0.5) {
+                } else if (relativeHeight >= 0.75) {
                     world.addParticle(ParticleRegistry.EXCELLENT.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                } else if (relativeHeight >= 0.625) {
+                    world.addParticle(ParticleRegistry.FANTASTIC.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                } else if (relativeHeight >= 0.375) {
+                    world.addParticle(ParticleRegistry.SUPER.get(), entity.getX(),
+                            entity.getY() + entity.getBbHeight() + 1.0,
+                            entity.getZ(), 0, 0, 0);
+                } else if (relativeHeight >= 0.25) {
+                    world.addParticle(ParticleRegistry.GREAT.get(), entity.getX(),
                             entity.getY() + entity.getBbHeight() + 1.0,
                             entity.getZ(), 0, 0, 0);
                 } else {
