@@ -56,18 +56,12 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
             if (blockEntity.isAmericanFlag())
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
-            else if (state.getValue(GoalPoleBlock.LOWERED)) {
-                if (blockEntity.getLevel() != null && !blockEntity.playedSwitchAnim())
-                    this.spawnPoofParticles(blockEntity, ParticleTypes.POOF, 15);
-
+            else if (state.getValue(GoalPoleBlock.LOWERED))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
-            } else return this.BOWSER_FLAG_SMALL_TEXTURE;
+            else return this.BOWSER_FLAG_SMALL_TEXTURE;
         } else if (blockEntity.isAmericanFlag())
             return this.AMERICAN_FLAG_TEXTURE;
         else if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if (blockEntity.getLevel() != null && !blockEntity.playedSwitchAnim())
-                this.spawnPoofParticles(blockEntity, ParticleTypes.POOF, 10);
-
             if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag.png");
@@ -93,28 +87,5 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
 
         Optional<GeoBone> poleBone = getBone("pole");
         poleBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(rotationDegrees)));
-    }
-
-    public void spawnPoofParticles(GoalPoleBlockEntity blockEntity, ParticleOptions particleType, int avgAmount) {
-        if (blockEntity.getLevel() != null && this.getBone("flag").isPresent()) {
-            float scaleFactor = this.getBone("flag").get().getScaleY();
-            int numParticles = (int) (scaleFactor * avgAmount);
-            double radius = 0.5D;
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                double offsetX = Math.cos(angle) * radius;
-                double offsetY = this.getBone("flag").get().getScaleY() / 2;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = blockEntity.getBlockPos().getX() + 0.5 + offsetX;
-                double y = blockEntity.getBlockPos().getY() + offsetY;
-                double z = blockEntity.getBlockPos().getZ() + 0.5 + offsetZ;
-
-                blockEntity.getLevel().addParticle(particleType, x, y, z, 0, 0, 0);
-            }
-        }
     }
 }

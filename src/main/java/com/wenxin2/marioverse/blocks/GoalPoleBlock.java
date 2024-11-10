@@ -9,6 +9,8 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -197,14 +199,20 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
                 if (state.getValue(COLUMN) == ColumnBlockStates.TOP) {
                     world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
-                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
+                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
                         blockEntity.markUpdated();
+                        if (!blockEntity.playedSwitchAnim())
+                            this.spawnPoofParticles(world, pos, ParticleTypes.POOF, 10);
+                    }
                 }
 
                 if (state.getValue(COLUMN) == ColumnBlockStates.NONE) {
                     world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
-                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
+                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
                         blockEntity.markUpdated();
+                        if (!blockEntity.playedSwitchAnim())
+                            this.spawnPoofParticles(world, pos, ParticleTypes.POOF, 10);
+                    }
                 }
 
                 world.scheduleTick(pos, this, 3);
@@ -256,6 +264,27 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                     world.setBlock(posBelow.above(), world.getBlockState(posBelow.above()).setValue(FLAG, Boolean.TRUE), 3);
             }
             posBelow = posBelow.below();
+        }
+    }
+
+    public void spawnPoofParticles(Level world, BlockPos pos, ParticleOptions particleType, int avgAmount) {
+        float scaleFactor = 1.0F;
+        int numParticles = (int) (scaleFactor * avgAmount);
+        double radius = 0.5D;
+
+        for (int i = 0; i < numParticles; i++) {
+            // Calculate angle for each particle
+            double angle = 2 * Math.PI * i / numParticles;
+            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+            double offsetX = Math.cos(angle) * radius;
+            double offsetY = 0.5D;
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = pos.getX() + 0.5 + offsetX;
+            double y = pos.getY() + offsetY;
+            double z = pos.getZ() + 0.5 + offsetZ;
+
+            world.addParticle(particleType, x, y, z, 0, 0, 0);
         }
     }
 
