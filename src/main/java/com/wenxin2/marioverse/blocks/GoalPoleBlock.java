@@ -95,6 +95,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         else return GOAL_POLE_MIDDLE;
     }
 
+    @NotNull
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (state.getValue(COLUMN) == ColumnBlockStates.TOP)
@@ -232,7 +233,8 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 world.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
             }
 
-            entity.setDeltaMovement(entity.getDeltaMovement().x, Math.max(entity.getDeltaMovement().y * 0.8, -0.1), entity.getDeltaMovement().z);
+            if (!entity.onGround() && !(entity.getDeltaMovement().y > 0))
+                entity.setDeltaMovement(entity.getDeltaMovement().x, Math.max(entity.getDeltaMovement().y * 0.8, -0.1), entity.getDeltaMovement().z);
             entity.resetFallDistance();
         }
     }
