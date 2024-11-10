@@ -160,7 +160,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.playedSwitchAnim;
     }
 
-    public void setPlayedAppearAnim(boolean playedAppearAnim) {\
+    public void setPlayedAppearAnim(boolean playedAppearAnim) {
         this.playedAppearAnim = playedAppearAnim;
         this.markUpdated();
     }

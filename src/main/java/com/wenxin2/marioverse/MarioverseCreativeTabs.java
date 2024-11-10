@@ -103,7 +103,7 @@ public class MarioverseCreativeTabs {
             Collections.reverse(goalPoleBlocks);
 
             for (DeferredHolder<Block, Block> goalPole : goalPoleBlocks) {
-                addBefore(event, Blocks.PINK_BANNER, goalPole.get());
+                addAfter(event, Blocks.PINK_BANNER, goalPole.get());
             }
         }
 
