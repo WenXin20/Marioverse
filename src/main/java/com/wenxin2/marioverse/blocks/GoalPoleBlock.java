@@ -6,18 +6,22 @@ import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -123,7 +127,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
-        Block block = worldAccessor.getBlockState(pos).getBlock();
         Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
         Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
 
@@ -184,10 +187,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
-            if (!state.getValue(LOWERED)) {
-                int flagPoleHeight = calculateFlagPoleHeight(world, pos);
-                double relativeHeight = Math.min(1.0, (entity.getY() + entity.getBbHeight() - pos.getY()) / flagPoleHeight);
+            int flagPoleHeight = calculateFlagPoleHeight(world, pos);
+            double relativeHeight = Math.min(1.0, (entity.getY() + entity.getBbHeight() - pos.getY()) / flagPoleHeight);
 
+            if (!state.getValue(LOWERED)) {
                 if (relativeHeight >= 1.0) {
                     world.addParticle(ParticleRegistry.WONDERFUL.get(), entity.getX(),
                             entity.getY() + entity.getBbHeight() + 1.0,
@@ -258,6 +261,12 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 || state.getValue(COLUMN) == ColumnBlockStates.NONE))
             return calculateFlagPoleLoweredHeight(world, pos);
         else return super.getAnalogOutputSignal(state, world, pos);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
+        super.appendHoverText(stack, tooltipContext, list, options);
+        list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     private int calculateFlagPoleHeight(Level world, BlockPos pos) {

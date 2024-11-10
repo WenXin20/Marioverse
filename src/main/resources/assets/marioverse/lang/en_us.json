@@ -38,7 +38,6 @@
   "block.marioverse.black_goal_pole": "Black Goal Pole",
   "block.marioverse.blue_goal_pole": "Blue Goal Pole",
   "block.marioverse.brown_goal_pole": "Brown Goal Pole",
-  "block.marioverse.clear_goal_pole": "Clear Goal Pole",
   "block.marioverse.cyan_goal_pole": "Cyan Goal Pole",
   "block.marioverse.gray_goal_pole": "Gray Goal Pole",
   "block.marioverse.green_goal_pole": "Green Goal Pole",
@@ -52,6 +51,15 @@
   "block.marioverse.red_goal_pole": "Red Goal Pole",
   "block.marioverse.white_goal_pole": "White Goal Pole",
   "block.marioverse.yellow_goal_pole": "Yellow Goal Pole",
+
+  "block.marioverse.black_goal_pole.tooltip": "§8Bowser",
+  "block.marioverse.brown_goal_pole.tooltip": "§4Goomba",
+  "block.marioverse.gray_goal_pole.tooltip": "§8Ghost",
+  "block.marioverse.light_gray_goal_pole.tooltip": "§7Blooper",
+  "block.marioverse.orange_goal_pole.tooltip": "§6Daisy",
+  "block.marioverse.red_goal_pole.tooltip": "§cMario",
+  "block.marioverse.white_goal_pole.tooltip": "§2Classic",
+  "block.marioverse.yellow_goal_pole.tooltip": "§eWiggler",
 
   "block.marioverse.black_warp_pipe": "Black Warp Pipe",
   "block.marioverse.blue_warp_pipe": "Blue Warp Pipe",
