@@ -55,6 +55,9 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     protected static final VoxelShape GOAL_POLE_TOP = Shapes.or(
             Block.box(6.0, 0.0, 6.0, 10.0, 8.0, 10.0),
             Block.box(4.0, 8.0, 4.0, 12.0, 16.0, 12.0)).optimize();
+    protected static final VoxelShape GOAL_POLE_TOP_COLLISION = Shapes.or(
+            Block.box(6.0, 0.0, 6.0, 10.0, 8.0, 10.0),
+            Block.box(4.0, 8.0, 4.0, 12.0, 15.95, 12.0)).optimize();
     protected static final VoxelShape GOAL_POLE_NONE = Shapes.or(
             Block.box(6.0, 0.0, 6.0, 10.0, 10.0, 10.0),
             Block.box(5.0, 10.0, 5.0, 11.0, 16.0, 11.0)).optimize();
@@ -84,6 +87,13 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         if (state.getValue(COLUMN) == ColumnBlockStates.NONE)
             return GOAL_POLE_NONE;
         else return GOAL_POLE_MIDDLE;
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (state.getValue(COLUMN) == ColumnBlockStates.TOP)
+            return GOAL_POLE_TOP_COLLISION;
+        else return super.getCollisionShape(state, blockGetter, pos, context);
     }
 
     @Nullable
