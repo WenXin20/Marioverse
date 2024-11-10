@@ -29,9 +29,11 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final DeferredBlock<Block> RED_GOAL_POLE;
+
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
@@ -188,15 +190,16 @@ public class BlockRegistry {
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                GOAL_POLES.put(color, registerBlock(color.getName() + "_goal_pole",
+                        () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                                .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
+                                .strength(5.0F, 6.0F).requiresCorrectToolForDrops()))));
+
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                         .sound(SoundType.GLASS).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(3.0F, 500.0F).requiresCorrectToolForDrops().noOcclusion()));
-
-        RED_GOAL_POLE = registerBlock("red_goal_pole",
-                () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.NETHERITE_BLOCK).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .strength(0.5F, 0.5F).requiresCorrectToolForDrops()));
 
         // Keep below CLEAR_WARP_PIPE to prevent crash
         Arrays.stream(DyeColor.values()).forEach(color ->

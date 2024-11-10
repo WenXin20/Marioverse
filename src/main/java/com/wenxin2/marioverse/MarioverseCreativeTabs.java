@@ -2,6 +2,9 @@ package com.wenxin2.marioverse;
 
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -11,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -69,7 +73,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STORAGE_PURPUR_BLOCK.get());
             add(event, BlockRegistry.SMASHABLE_PURPUR_BLOCK.get());
 
-            add(event, BlockRegistry.RED_GOAL_POLE.get());
+            for (DeferredHolder<Block, Block> pipe : BlockRegistry.GOAL_POLES.values()) {
+                add(event, pipe.get());
+            }
 
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
 
@@ -85,10 +91,19 @@ public class MarioverseCreativeTabs {
         }
 
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
-            add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
+            List<DeferredHolder<Block, Block>> pipeBlocks = new ArrayList<>(BlockRegistry.WARP_PIPES.values());
+            Collections.reverse(pipeBlocks);
 
-            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
-                add(event, pipe.get());
+            addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE.get());
+            for (DeferredHolder<Block, Block> pipe : pipeBlocks) {
+                addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), pipe.get());
+            }
+
+            List<DeferredHolder<Block, Block>> goalPoleBlocks = new ArrayList<>(BlockRegistry.GOAL_POLES.values());
+            Collections.reverse(goalPoleBlocks);
+
+            for (DeferredHolder<Block, Block> goalPole : goalPoleBlocks) {
+                addBefore(event, Blocks.PINK_BANNER, goalPole.get());
             }
         }
 
@@ -100,7 +115,8 @@ public class MarioverseCreativeTabs {
             addAfter(event, Items.DECORATED_POT, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.CLEAR_WARP_PIPE.get());
-            addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
+            addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
+            addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.GOAL_POLES.get(DyeColor.RED).get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
@@ -148,26 +164,16 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_PURPUR_BLOCK.get());
             addAfter(event, BlockRegistry.STORAGE_PURPUR_BLOCK.get(), BlockRegistry.SMASHABLE_PURPUR_BLOCK.get());
 
-            for (DeferredHolder<Block, Block> pipe : BlockRegistry.WARP_PIPES.values()) {
+            List<DeferredHolder<Block, Block>> pipeBlocks = new ArrayList<>(BlockRegistry.WARP_PIPES.values());
+            Collections.reverse(pipeBlocks);
+
+            for (DeferredHolder<Block, Block> pipe : pipeBlocks) {
                 addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), pipe.get());
             }
 
-//            addAfter(event, ModRegistry.CLEAR_WARP_PIPE.get(), ModRegistry.WARP_PIPES.get(DyeColor.WHITE).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.WHITE).get(), ModRegistry.WARP_PIPES.get(DyeColor.LIGHT_GRAY).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.LIGHT_GRAY).get(), ModRegistry.WARP_PIPES.get(DyeColor.GRAY).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.GRAY).get(), ModRegistry.WARP_PIPES.get(DyeColor.BLACK).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.BLACK).get(), ModRegistry.WARP_PIPES.get(DyeColor.BROWN).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.BROWN).get(), ModRegistry.WARP_PIPES.get(DyeColor.RED).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.RED).get(), ModRegistry.WARP_PIPES.get(DyeColor.ORANGE).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.ORANGE).get(), ModRegistry.WARP_PIPES.get(DyeColor.YELLOW).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.YELLOW).get(), ModRegistry.WARP_PIPES.get(DyeColor.LIME).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.LIME).get(),ModRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), ModRegistry.WARP_PIPES.get(DyeColor.CYAN).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.CYAN).get(), ModRegistry.WARP_PIPES.get(DyeColor.LIGHT_BLUE).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.LIGHT_BLUE).get(), ModRegistry.WARP_PIPES.get(DyeColor.BLUE).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.BLUE).get(), ModRegistry.WARP_PIPES.get(DyeColor.PURPLE).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.PURPLE).get(), ModRegistry.WARP_PIPES.get(DyeColor.MAGENTA).get());
-//            addAfter(event, ModRegistry.WARP_PIPES.get(DyeColor.MAGENTA).get(), ModRegistry.WARP_PIPES.get(DyeColor.PINK).get());
+            for (DeferredHolder<Block, Block> goalPole : BlockRegistry.GOAL_POLES.values()) {
+                addBefore(event, Blocks.SKELETON_SKULL, goalPole.get());
+            }
         }
     }
 

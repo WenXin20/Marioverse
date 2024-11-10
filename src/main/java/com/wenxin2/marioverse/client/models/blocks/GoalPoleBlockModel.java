@@ -5,12 +5,15 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
+import java.util.Map;
 import java.util.Optional;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
@@ -22,17 +25,12 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/block/goal_pole.animation.json");
     private final ResourceLocation AMERICAN_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag.png");
-    private final ResourceLocation RED_FLAG_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/red_flag.png");
     private final ResourceLocation BOWSER_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag.png");
     private final ResourceLocation AMERICAN_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag_small.png");
-    private final ResourceLocation RED_FLAG_SMALL_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/red_flag_small.png");
     private final ResourceLocation BOWSER_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag_small.png");
-
 
     @Override
     public ResourceLocation getModelResource(GoalPoleBlockEntity block) {
@@ -43,6 +41,17 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
     public ResourceLocation getTextureResource(GoalPoleBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
         Block block = blockEntity.getBlockState().getBlock();
+        DyeColor color = null;
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
+            if (entry.getValue().get() == block) {
+                color = entry.getKey();
+                break;
+            }
+        }
+
+        String texturePath = "textures/entity/goal_pole/";
+        String colorName = (color != null) ? color.getName().toLowerCase() : "white";
 
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
             if (blockEntity.isAmericanFlag())
@@ -51,9 +60,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
                 if (blockEntity.getLevel() != null && !blockEntity.playedSwitchAnim())
                     this.spawnPoofParticles(blockEntity, ParticleTypes.POOF, 15);
 
-                if (block == BlockRegistry.RED_GOAL_POLE.get())
-                    return this.RED_FLAG_SMALL_TEXTURE;
-                else return this.RED_FLAG_SMALL_TEXTURE;
+                return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
             } else return this.BOWSER_FLAG_SMALL_TEXTURE;
         } else if (blockEntity.isAmericanFlag())
             return this.AMERICAN_FLAG_TEXTURE;
@@ -63,9 +70,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
 
             if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
-            else if (block == BlockRegistry.RED_GOAL_POLE.get())
-                return this.RED_FLAG_TEXTURE;
-            else return this.RED_FLAG_TEXTURE;
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag.png");
         } else return this.BOWSER_FLAG_TEXTURE;
     }
 
@@ -94,7 +99,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         if (blockEntity.getLevel() != null && this.getBone("flag").isPresent()) {
             float scaleFactor = this.getBone("flag").get().getScaleY();
             int numParticles = (int) (scaleFactor * avgAmount);
-            double radius = this.getBone("flag").get().getScaleX() / 2;
+            double radius = 0.5D;
 
             for (int i = 0; i < numParticles; i++) {
                 // Calculate angle for each particle
@@ -104,9 +109,9 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
                 double offsetY = this.getBone("flag").get().getScaleY() / 2;
                 double offsetZ = Math.sin(angle) * radius;
 
-                double x = blockEntity.getBlockPos().getX() + offsetX;
+                double x = blockEntity.getBlockPos().getX() + 0.5 + offsetX;
                 double y = blockEntity.getBlockPos().getY() + offsetY;
-                double z = blockEntity.getBlockPos().getZ() + offsetZ;
+                double z = blockEntity.getBlockPos().getZ() + 0.5 + offsetZ;
 
                 blockEntity.getLevel().addParticle(particleType, x, y, z, 0, 0, 0);
             }
