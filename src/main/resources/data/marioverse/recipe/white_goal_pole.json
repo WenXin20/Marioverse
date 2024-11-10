@@ -9,7 +9,7 @@
       "tag": "c:ingots/iron"
     },
     "W": {
-      "item": "minecraft:red_wool"
+      "item": "minecraft:white_wool"
     }
   },
   "pattern": [
@@ -19,6 +19,6 @@
   ],
   "result": {
     "count": 4,
-    "id": "marioverse:red_goal_pole"
+    "id": "marioverse:white_goal_pole"
   }
 }
