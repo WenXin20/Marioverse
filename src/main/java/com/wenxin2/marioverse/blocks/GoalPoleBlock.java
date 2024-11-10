@@ -174,6 +174,14 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     }
 
     @Override
+    protected void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
+        super.tick(state, serverWorld, pos, random);
+
+        if (!serverWorld.isClientSide() && state.getValue(LOWERED))
+            updateConnectedFlags(serverWorld, pos);
+    }
+
+    @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
             if (!state.getValue(LOWERED)) {
@@ -239,6 +247,19 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         }
     }
 
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+        if (state.getValue(LOWERED) && (state.getValue(COLUMN) == ColumnBlockStates.BOTTOM
+                || state.getValue(COLUMN) == ColumnBlockStates.NONE))
+            return calculateFlagPoleLoweredHeight(world, pos);
+        else return super.getAnalogOutputSignal(state, world, pos);
+    }
+
     private int calculateFlagPoleHeight(Level world, BlockPos pos) {
         int height = 0;
         BlockPos checkPos = pos;
@@ -251,12 +272,17 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         return height;
     }
 
-    @Override
-    protected void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
-        super.tick(state, serverWorld, pos, random);
+    private int calculateFlagPoleLoweredHeight(Level world, BlockPos pos) {
+        int height = 0;
+        BlockPos checkPos = pos;
 
-        if (!serverWorld.isClientSide() && state.getValue(LOWERED))
-            updateConnectedFlags(serverWorld, pos);
+        // Check upward to count the flag pole's height
+        while (world.getBlockState(checkPos).getBlock() instanceof GoalPoleBlock
+                && world.getBlockState(checkPos).getValue(LOWERED) && height <= 15) {
+            height++;
+            checkPos = checkPos.above();
+        }
+        return height;
     }
 
     private void updateConnectedFlags(Level world, BlockPos pos) {
@@ -302,18 +328,5 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
             world.addParticle(particleType, x, y, z, 0, 0, 0);
         }
-    }
-
-    @Override
-    protected boolean hasAnalogOutputSignal(BlockState state) {
-        return true;
-    }
-
-    @Override
-    protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        if (state.getValue(LOWERED) && (state.getValue(COLUMN) == ColumnBlockStates.BOTTOM
-                || state.getValue(COLUMN) == ColumnBlockStates.NONE))
-            return 16;
-        else return super.getAnalogOutputSignal(state, world, pos);
     }
 }
