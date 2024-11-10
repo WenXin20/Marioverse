@@ -150,10 +150,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!world.isClientSide() && entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
+        if (entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
             if (!state.getValue(LOWERED)) {
                 int flagPoleHeight = calculateFlagPoleHeight(world, pos);
-                double relativeHeight = (entity.getEyeHeight() - pos.getY()) / flagPoleHeight;
+                double relativeHeight = Math.min(1.0, (entity.getY() + entity.getBbHeight() - pos.getY()) / flagPoleHeight);
 
                 if (relativeHeight == 1.0) {
                     world.addParticle(ParticleRegistry.WONDERFUL.get(), entity.getX(),
