@@ -3,13 +3,13 @@
   "group": "marioverse:goal_poles_from_dye",
   "ingredients": [
     {
-      "tag": "c:dyes/light_gray"
+      "tag": "c:dyes/gray"
     },
     {
       "tag": "marioverse:dyeable_goal_poles"
     }
   ],
   "result": {
-    "id": "marioverse:light_gray_goal_pole"
+    "id": "marioverse:gray_goal_pole"
   }
 }
