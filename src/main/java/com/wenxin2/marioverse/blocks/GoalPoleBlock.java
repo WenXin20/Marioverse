@@ -23,6 +23,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -114,29 +115,35 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
     @NotNull
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                  LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
+        Block block = worldAccessor.getBlockState(pos).getBlock();
         Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
         Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
 
-        if (blockAbove instanceof GoalPoleBlock) {
+        if (!worldAccessor.isClientSide()) {
+            if (blockAbove instanceof GoalPoleBlock) {
+                if (blockBelow instanceof GoalPoleBlock)
+                    return state.setValue(COLUMN, ColumnBlockStates.MIDDLE).setValue(FLAG, Boolean.FALSE);
+                return state.setValue(COLUMN, ColumnBlockStates.BOTTOM).setValue(FLAG, Boolean.FALSE);
+            }
+
             if (blockBelow instanceof GoalPoleBlock)
-                return state.setValue(COLUMN, ColumnBlockStates.MIDDLE).setValue(FLAG, Boolean.FALSE);
-            return state.setValue(COLUMN, ColumnBlockStates.BOTTOM).setValue(FLAG, Boolean.FALSE);
-        }
+                return state.setValue(COLUMN, ColumnBlockStates.TOP).setValue(FLAG, Boolean.TRUE);
 
-        if (blockBelow instanceof GoalPoleBlock)
-            return state.setValue(COLUMN, ColumnBlockStates.TOP).setValue(FLAG, Boolean.TRUE);
+            if (state.getValue(WATERLOGGED))
+                worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
 
-        if (state.getValue(WATERLOGGED))
-            worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
-
-        return state.setValue(COLUMN, ColumnBlockStates.NONE).setValue(FLAG, Boolean.TRUE);
+            return state.setValue(COLUMN, ColumnBlockStates.NONE).setValue(FLAG, Boolean.TRUE);
+        } else return Blocks.AIR.defaultBlockState();
     }
 
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, entity, stack);
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
+
+        if (!world.isClientSide() && blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
             if (stack.has(DataComponents.CUSTOM_NAME)) {
                 goalPoleBlockEntity.setCustomName(stack.getHoverName());
                 goalPoleBlockEntity.markUpdated();
@@ -240,7 +247,9 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     @Override
     protected void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
         super.tick(state, serverWorld, pos, random);
-        updateConnectedFlags(serverWorld, pos);
+
+        if (!serverWorld.isClientSide() && state.getValue(LOWERED))
+            updateConnectedFlags(serverWorld, pos);
     }
 
     private void updateConnectedFlags(Level world, BlockPos pos) {
