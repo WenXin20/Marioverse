@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:goal_poles",
+  "key": {
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "W": {
+      "item": "minecraft:light_gray_wool"
+    }
+  },
+  "pattern": [
+    " G ",
+    "WI ",
+    " I "
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:light_gray_goal_pole"
+  }
+}
