@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:lime_goal_pole",
+          "name": "marioverse:green_goal_pole",
           "functions": [
             {
               "function": "minecraft:copy_components",
