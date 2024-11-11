@@ -58,7 +58,7 @@
   "block.marioverse.brown_goal_pole.tooltip": "§4Goomba",
   "block.marioverse.classic_goal_pole.tooltip": "§2Classic",
   "block.marioverse.cyan_goal_pole.tooltip": "§bKoopa",
-  "block.marioverse.gray_goal_pole.tooltip": "§7Ghost",
+  "block.marioverse.gray_goal_pole.tooltip": "§7Dry Bones",
   "block.marioverse.green_goal_pole.tooltip": "§2Luigi",
   "block.marioverse.light_blue_goal_pole.tooltip": "§eWario",
   "block.marioverse.light_gray_goal_pole.tooltip": "§7Blooper",
@@ -68,7 +68,7 @@
   "block.marioverse.pink_goal_pole.tooltip": "§dPrincess Peach",
   "block.marioverse.purple_goal_pole.tooltip": "§5Waluigi",
   "block.marioverse.red_goal_pole.tooltip": "§cMario",
-  "block.marioverse.white_goal_pole.tooltip": "§2Classic",
+  "block.marioverse.white_goal_pole.tooltip": "§7Ghost",
   "block.marioverse.yellow_goal_pole.tooltip": "§eWiggler",
 
   "block.marioverse.black_warp_pipe": "Black Warp Pipe",
