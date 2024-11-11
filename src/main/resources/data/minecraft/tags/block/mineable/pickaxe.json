@@ -7,6 +7,7 @@
     { "id": "marioverse:blue_warp_pipe", "required": false },
     { "id": "marioverse:brown_goal_pole", "required": false },
     { "id": "marioverse:brown_warp_pipe", "required": false },
+    { "id": "marioverse:classic_goal_pole", "required": false },
     { "id": "marioverse:clear_warp_pipe", "required": false },
     { "id": "marioverse:coin", "required": false },
     { "id": "marioverse:cyan_goal_pole", "required": false },
