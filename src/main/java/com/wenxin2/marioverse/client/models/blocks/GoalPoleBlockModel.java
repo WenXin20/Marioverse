@@ -25,10 +25,15 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag.png");
     private final ResourceLocation BOWSER_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag.png");
+    private final ResourceLocation CLASSIC_FLAG_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/classic_flag.png");
+
     private final ResourceLocation AMERICAN_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag_small.png");
     private final ResourceLocation BOWSER_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag_small.png");
+    private final ResourceLocation CLASSIC_FLAG_SMALL_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/classic_flag_small.png");
 
     @Override
     public ResourceLocation getModelResource(GoalPoleBlockEntity block) {
@@ -54,11 +59,15 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
             if (blockEntity.isAmericanFlag())
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
+            else if (block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+                return this.CLASSIC_FLAG_SMALL_TEXTURE;
             else if (state.getValue(GoalPoleBlock.LOWERED))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
             else return this.BOWSER_FLAG_SMALL_TEXTURE;
         } else if (blockEntity.isAmericanFlag())
             return this.AMERICAN_FLAG_TEXTURE;
+        else if (block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+            return this.CLASSIC_FLAG_TEXTURE;
         else if (state.getValue(GoalPoleBlock.LOWERED)) {
             if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;

@@ -48,7 +48,8 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
-            addDyedBlocks(event, ItemRegistry.PIPE_WRENCH, BlockRegistry.GOAL_POLES, true, true);
+            add(event, BlockRegistry.CLASSIC_GOAL_POLE);
+            addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
@@ -93,7 +94,9 @@ public class MarioverseCreativeTabs {
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
             addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE.get());
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
-            addDyedBlocks(event, Blocks.PINK_BANNER, BlockRegistry.GOAL_POLES, true, true);
+
+            addAfter(event, Blocks.PINK_BANNER, BlockRegistry.CLASSIC_GOAL_POLE.get());
+            addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE.get(), BlockRegistry.GOAL_POLES, true, true);
         }
 
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
@@ -121,8 +124,6 @@ public class MarioverseCreativeTabs {
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
-            addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
-
             addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
@@ -153,8 +154,11 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_PURPUR_BLOCK.get());
             addAfter(event, BlockRegistry.STORAGE_PURPUR_BLOCK.get(), BlockRegistry.SMASHABLE_PURPUR_BLOCK.get());
 
+            addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
+
             addDyedBlocks(event, Blocks.SKELETON_SKULL, BlockRegistry.GOAL_POLES, false, false);
+            addBefore(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), BlockRegistry.CLASSIC_GOAL_POLE.get());
         }
     }
 

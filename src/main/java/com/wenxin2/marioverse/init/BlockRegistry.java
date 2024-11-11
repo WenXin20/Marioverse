@@ -34,6 +34,7 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
@@ -189,6 +190,11 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+        CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",
+                () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                        .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
+                        .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 GOAL_POLES.put(color, registerBlock(color.getName() + "_goal_pole",

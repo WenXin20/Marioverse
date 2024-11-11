@@ -45,7 +45,8 @@ public class BlockEntityRegistry {
 
         GOAL_POLE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("goal_pole",
                 () -> BlockEntityType.Builder.of(GoalPoleBlockEntity::new,
-                        BlockRegistry.GOAL_POLES.values().stream().map(DeferredBlock::get).toArray(Block[]::new)).build(null));
+                        Stream.concat(BlockRegistry.GOAL_POLES.values().stream().map(DeferredBlock::get),
+                                Stream.of(BlockRegistry.CLASSIC_GOAL_POLE.get())).toArray(Block[]::new)).build(null));
 
         WARP_PIPE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_pipe",
                 () -> BlockEntityType.Builder.of(WarpPipeBlockEntity::new,
