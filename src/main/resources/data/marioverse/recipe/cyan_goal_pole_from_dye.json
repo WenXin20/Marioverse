@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:goal_poles_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/cyan"
+    },
+    {
+      "tag": "marioverse:dyeable_goal_poles"
+    }
+  ],
+  "result": {
+    "id": "marioverse:cyan_goal_pole"
+  }
+}
