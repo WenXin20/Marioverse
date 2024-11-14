@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks.entities;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -13,6 +14,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -37,9 +39,9 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public static final String CUSTOM_NAME = "CustomName";
     @Nullable
     public Component name;
-    public boolean playedAppearAnim;
-    public boolean playedDisappearAnim;
-    public boolean playedSwitchAnim;
+    private boolean playedAppearAnim;
+    private boolean playedDisappearAnim;
+    private boolean playedSwitchAnim;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -63,9 +65,10 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     protected <E extends GeoAnimatable> PlayState switchAnimController(final AnimationState<E> event) {
         BlockState state = this.getBlockState();
+        Block block = this.getBlockState().getBlock();
 
         if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if (this.isAmericanFlag() && !this.playedDisappearAnim()
+            if ((this.isAmericanFlag(this) || block == BlockRegistry.CLASSIC_GOAL_POLE.get()) && !this.playedDisappearAnim()
                     && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
                 this.setPlayedDisappearAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
@@ -77,7 +80,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 if (this.getLevel() != null)
                     this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos());
                 event.setAndContinue(APPEAR_ANIM);
-            } else if (!this.playedSwitchAnim()) {
+            } else if (!this.playedSwitchAnim() && !this.isAmericanFlag(this) && block != BlockRegistry.CLASSIC_GOAL_POLE.get()) {
                 this.setPlayedSwitchAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
                     this.updateConnectedSwitchFlags(this.getLevel(), this.getBlockPos());
@@ -120,6 +123,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public void setCustomName(Component name) {
         this.name = name;
         this.markUpdated();
+        this.getUpdatePacket();
     }
 
     @NotNull
@@ -229,21 +233,21 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         }
     }
 
-    public boolean isAmericanFlag() {
-        return this.getName().getString().equals("America")
-                || this.getName().getString().equals("America Flag")
-                || this.getName().getString().equals("america")
-                || this.getName().getString().equals("america flag")
-                || this.getName().getString().equals("USA")
-                || this.getName().getString().equals("USA Flag")
-                || this.getName().getString().equals("usa")
-                || this.getName().getString().equals("usa flag")
-                || this.getName().getString().equals("United States Of America")
-                || this.getName().getString().equals("United States of America")
-                || this.getName().getString().equals("united states of america")
-                || this.getName().getString().equals("United States")
-                || this.getName().getString().equals("United States Flag")
-                || this.getName().getString().equals("united states")
-                || this.getName().getString().equals("united states flag");
+    public boolean isAmericanFlag(GoalPoleBlockEntity blockEntity) {
+        return blockEntity.getName().getString().equals("America")
+                || blockEntity.getName().getString().equals("America Flag")
+                || blockEntity.getName().getString().equals("america")
+                || blockEntity.getName().getString().equals("america flag")
+                || blockEntity.getName().getString().equals("USA")
+                || blockEntity.getName().getString().equals("USA Flag")
+                || blockEntity.getName().getString().equals("usa")
+                || blockEntity.getName().getString().equals("usa flag")
+                || blockEntity.getName().getString().equals("United States Of America")
+                || blockEntity.getName().getString().equals("United States of America")
+                || blockEntity.getName().getString().equals("united states of america")
+                || blockEntity.getName().getString().equals("United States")
+                || blockEntity.getName().getString().equals("United States Flag")
+                || blockEntity.getName().getString().equals("united states")
+                || blockEntity.getName().getString().equals("united states flag");
     }
 }

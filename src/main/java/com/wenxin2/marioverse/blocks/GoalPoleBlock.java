@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -152,7 +153,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         super.setPlacedBy(world, pos, state, entity, stack);
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (!world.isClientSide() && blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
+        if (blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
             if (stack.has(DataComponents.CUSTOM_NAME)) {
                 goalPoleBlockEntity.setCustomName(stack.getHoverName());
                 goalPoleBlockEntity.markUpdated();
@@ -309,6 +310,16 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             world.setBlock(posBelow, world.getBlockState(posBelow).setValue(LOWERED, Boolean.TRUE), 3);
             if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
                 blockEntity.markUpdated();
+
+            if (world.getBlockState(pos).getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get()
+                    || (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity
+                        && blockEntity.isAmericanFlag(blockEntity))) {
+                if (world.getBlockState(posBelow).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
+                    if (world.getBlockState(posBelow.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
+                            && world.getBlockState(posBelow.above(2)).getValue(COLUMN) == ColumnBlockStates.MIDDLE)
+                        world.setBlock(posBelow.above(), world.getBlockState(posBelow.above()).setValue(FLAG, Boolean.TRUE), 3);
+                }
+            }
             posBelow = posBelow.below();
         }
     }
