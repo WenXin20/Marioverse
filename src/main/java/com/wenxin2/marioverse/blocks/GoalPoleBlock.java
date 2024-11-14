@@ -156,6 +156,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             if (stack.has(DataComponents.CUSTOM_NAME)) {
                 goalPoleBlockEntity.setCustomName(stack.getHoverName());
                 goalPoleBlockEntity.markUpdated();
+                goalPoleBlockEntity.getUpdatePacket();
             }
         }
     }
@@ -221,8 +222,8 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                             entity.getZ(), 0, 0, 0);
                 }
 
-                if (state.getValue(COLUMN) == ColumnBlockStates.TOP) {
-                    world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
+                world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
+                if (state.getValue(COLUMN) == ColumnBlockStates.TOP || state.getValue(COLUMN) == ColumnBlockStates.NONE) {
                     if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
                         blockEntity.markUpdated();
                         if (!blockEntity.playedSwitchAnim())
@@ -230,11 +231,11 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                     }
                 }
 
-                if (state.getValue(COLUMN) == ColumnBlockStates.NONE) {
-                    world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
+                if (state.getValue(COLUMN) == ColumnBlockStates.MIDDLE || state.getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
+                    world.setBlock(pos, state.setValue(FLAG, Boolean.TRUE), 3);
                     if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
                         blockEntity.markUpdated();
-                        if (!blockEntity.playedSwitchAnim())
+                        if (!blockEntity.playedAppearAnim())
                             this.spawnPoofParticles(world, pos, ParticleTypes.POOF, 10);
                     }
                 }
@@ -308,12 +309,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             world.setBlock(posBelow, world.getBlockState(posBelow).setValue(LOWERED, Boolean.TRUE), 3);
             if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
                 blockEntity.markUpdated();
-
-            if (world.getBlockState(posBelow).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
-                if (world.getBlockState(posBelow.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
-                        && world.getBlockState(posBelow.above(2)).getValue(COLUMN) == ColumnBlockStates.MIDDLE)
-                    world.setBlock(posBelow.above(), world.getBlockState(posBelow.above()).setValue(FLAG, Boolean.TRUE), 3);
-            }
             posBelow = posBelow.below();
         }
     }

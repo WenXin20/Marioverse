@@ -57,14 +57,14 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         String colorName = (color != null) ? color.getName().toLowerCase() : "white";
 
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
-            if (blockEntity.isAmericanFlag())
+            if (blockEntity.isAmericanFlag(blockEntity))
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
             else if (block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.CLASSIC_FLAG_SMALL_TEXTURE;
             else if (state.getValue(GoalPoleBlock.LOWERED))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
             else return this.BOWSER_FLAG_SMALL_TEXTURE;
-        } else if (blockEntity.isAmericanFlag())
+        } else if (blockEntity.isAmericanFlag(blockEntity))
             return this.AMERICAN_FLAG_TEXTURE;
         else if (block == BlockRegistry.CLASSIC_GOAL_POLE.get())
             return this.CLASSIC_FLAG_TEXTURE;
