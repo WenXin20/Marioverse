@@ -268,4 +268,11 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states")
                 || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag");
     }
+
+    public boolean isWonderFlag(GoalPoleBlockEntity blockEntity) {
+        return blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("wonder")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("wonder flag")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("flower")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("flower flag");
+    }
 }

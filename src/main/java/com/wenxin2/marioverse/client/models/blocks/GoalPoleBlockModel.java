@@ -27,6 +27,8 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag.png");
     private final ResourceLocation CLASSIC_FLAG_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/classic_flag.png");
+    private final ResourceLocation WONDER_FLAG_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/wonder_flag.png");
 
     private final ResourceLocation AMERICAN_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/american_flag_small.png");
@@ -34,6 +36,8 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/bowser_flag_small.png");
     private final ResourceLocation CLASSIC_FLAG_SMALL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/classic_flag_small.png");
+    private final ResourceLocation WONDER_FLAG_SMALL_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goal_pole/wonder_flag_small.png");
 
     @Override
     public ResourceLocation getModelResource(GoalPoleBlockEntity block) {
@@ -58,20 +62,27 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
             if (blockEntity.isAmericanFlag(blockEntity))
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
-            else if (block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+            else if (!blockEntity.isWonderFlag(blockEntity) && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.CLASSIC_FLAG_SMALL_TEXTURE;
             else if (state.getValue(GoalPoleBlock.LOWERED))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
+            else if (blockEntity.isWonderFlag(blockEntity))
+                return this.WONDER_FLAG_SMALL_TEXTURE;
             else return this.BOWSER_FLAG_SMALL_TEXTURE;
         } else if (blockEntity.isAmericanFlag(blockEntity))
             return this.AMERICAN_FLAG_TEXTURE;
-        else if (block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+        else if (!blockEntity.isWonderFlag(blockEntity) && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
             return this.CLASSIC_FLAG_TEXTURE;
         else if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
+            if (blockEntity.isWonderFlag(blockEntity) && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE
+                    && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+                return this.WONDER_FLAG_TEXTURE;
+            else if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag.png");
-        } else return this.BOWSER_FLAG_TEXTURE;
+        } else if (blockEntity.isWonderFlag(blockEntity))
+            return this.WONDER_FLAG_TEXTURE;
+        else return this.BOWSER_FLAG_TEXTURE;
     }
 
     @Override
