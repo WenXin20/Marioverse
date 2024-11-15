@@ -7,6 +7,8 @@ import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -158,6 +160,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 goalPoleBlockEntity.setCustomName(stack.getHoverName());
                 goalPoleBlockEntity.markUpdated();
                 goalPoleBlockEntity.getUpdatePacket();
+                PacketHandler.sendToAllClients(new RenamedBlockPayload(pos));
             }
         }
     }

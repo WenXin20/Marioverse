@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.network;
 
+import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
+import com.wenxin2.marioverse.network.client_bound.handler.RenamedBlockPacket;
 import com.wenxin2.marioverse.network.client_bound.handler.SwingHandPacket;
 import com.wenxin2.marioverse.network.server_bound.data.ClosePipeButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
@@ -31,9 +33,11 @@ public class PacketHandler {
     public static void registerPackets(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("marioverse").versioned("1.0.0");
 
-        // Sends to server
+        // Sends to client
         registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
+        registrar.playToClient(RenamedBlockPayload.RENAMED_BLOCK_PAYLOAD, RenamedBlockPayload.STREAM_CODEC, RenamedBlockPacket.get()::handle);
 
+        // Sends to server
         registrar.playToServer(ClosePipeButtonPayload.CLOSE_STATE_PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
         registrar.playToServer(PipeBubblesSliderPayload.BUBBLES_DISTANCE_PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
         registrar.playToServer(PipeBubblesButtonPayload.BUBBLES_STATE_PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);

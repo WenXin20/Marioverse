@@ -4,9 +4,14 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
+import java.util.Locale;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -97,8 +102,10 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         tag.putBoolean("PlayedDisappearAnim", this.playedDisappearAnim);
         tag.putBoolean("PlayedSwitchAnim", this.playedSwitchAnim);
 
-        if (this.name != null)
+        if (this.name != null) {
+            // System.out.println("Saved CustomName: " + this.name);
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
+        }
     }
 
     @Override
@@ -110,14 +117,21 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
+            // System.out.println("Loaded CustomName: " + this.name);
             this.markUpdated();
         }
+        PacketHandler.sendToAllClients(new RenamedBlockPayload(this.getBlockPos()));
     }
 
     public void markUpdated() {
         this.setChanged();
         if (this.level != null)
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     public void setCustomName(Component name) {
@@ -148,8 +162,20 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        this.name = input.get(DataComponents.CUSTOM_NAME);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CUSTOM_NAME, this.name);
+    }
+
+    @Override
+    public void removeComponentsFromTag(CompoundTag tag) {
+        tag.remove("CustomName");
     }
 
     public boolean playedAppearAnim() {
@@ -234,20 +260,12 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     }
 
     public boolean isAmericanFlag(GoalPoleBlockEntity blockEntity) {
-        return blockEntity.getName().getString().equals("America")
-                || blockEntity.getName().getString().equals("America Flag")
-                || blockEntity.getName().getString().equals("america")
-                || blockEntity.getName().getString().equals("america flag")
-                || blockEntity.getName().getString().equals("USA")
-                || blockEntity.getName().getString().equals("USA Flag")
-                || blockEntity.getName().getString().equals("usa")
-                || blockEntity.getName().getString().equals("usa flag")
-                || blockEntity.getName().getString().equals("United States Of America")
-                || blockEntity.getName().getString().equals("United States of America")
-                || blockEntity.getName().getString().equals("united states of america")
-                || blockEntity.getName().getString().equals("United States")
-                || blockEntity.getName().getString().equals("United States Flag")
-                || blockEntity.getName().getString().equals("united states")
-                || blockEntity.getName().getString().equals("united states flag");
+        return blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("america")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("america flag")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("usa")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("usa flag")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states of america")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states")
+                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag");
     }
 }

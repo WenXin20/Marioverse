@@ -52,7 +52,6 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
                 break;
             }
         }
-
         String texturePath = "textures/entity/goal_pole/";
         String colorName = (color != null) ? color.getName().toLowerCase() : "white";
 

@@ -16,8 +16,7 @@ public class SwingHandPacket {
         if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                if (player != null)
-                    player.swing(InteractionHand.MAIN_HAND);
+                player.swing(InteractionHand.MAIN_HAND);
             });
         }
     }

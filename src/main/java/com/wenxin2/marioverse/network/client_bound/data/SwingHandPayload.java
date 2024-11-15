@@ -9,7 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record SwingHandPayload(Boolean swingHand) implements CustomPacketPayload {
-    public static final Type<SwingHandPayload> SWING_HAND_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "swing_hand_payload"));
+    public static final Type<SwingHandPayload> SWING_HAND_PAYLOAD =
+            new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "swing_hand_payload"));
 
     @NotNull
     @Override
