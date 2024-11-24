@@ -51,15 +51,18 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
+
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.FUNGAL_BRICKS.get());
+            add(event, BlockRegistry.FUNGAL_BRICK_PARAPET.get());
 
             add(event, BlockRegistry.QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.STORAGE_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_BRICKS.get());
+            add(event, BlockRegistry.BRICK_PARAPET.get());
 
             add(event, BlockRegistry.NETHER_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());
@@ -109,6 +112,7 @@ public class MarioverseCreativeTabs {
             addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.CLEAR_WARP_PIPE.get());
             addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
             addAfter(event, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), BlockRegistry.GOAL_POLES.get(DyeColor.RED).get());
+            addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED).get(), BlockRegistry.BRICK_PARAPET.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
@@ -159,6 +163,8 @@ public class MarioverseCreativeTabs {
 
             addDyedBlocks(event, Blocks.SKELETON_SKULL, BlockRegistry.GOAL_POLES, false, false);
             addBefore(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), BlockRegistry.CLASSIC_GOAL_POLE.get());
+            addBefore(event, BlockRegistry.CLASSIC_GOAL_POLE.get(), BlockRegistry.FUNGAL_BRICK_PARAPET.get());
+            addBefore(event, BlockRegistry.FUNGAL_BRICK_PARAPET.get(), BlockRegistry.BRICK_PARAPET.get());
         }
     }
 

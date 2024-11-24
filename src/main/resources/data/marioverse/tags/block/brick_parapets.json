@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "marioverse:brick_parapet", "required": false },
+    { "id": "marioverse:fungal_brick_parapet", "required": false }
+  ]
+}

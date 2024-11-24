@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BrickParapetBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
@@ -34,11 +35,13 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> BRICK_PARAPET;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> FUNGAL_BRICK_PARAPET;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
@@ -201,6 +204,16 @@ public class BlockRegistry {
                         () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                                 .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                                 .strength(5.0F, 6.0F).requiresCorrectToolForDrops()))));
+
+        FUNGAL_BRICK_PARAPET = registerBlock("fungal_brick_parapet",
+                () -> new BrickParapetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        BRICK_PARAPET = registerBlock("brick_parapet",
+                () -> new BrickParapetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
+                        .requiresCorrectToolForDrops()));
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
