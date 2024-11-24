@@ -19,6 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -193,7 +194,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
             int flagPoleHeight = calculateFlagPoleHeight(world, pos);
-            double relativeHeight = Math.min(1.0, (entity.getY() + entity.getBbHeight() - pos.getY()) / flagPoleHeight);
+            BlockPos topPos = findTopOfGoalPole(world, pos);
+            BlockPos bottomPos = findBottomOfGoalPole(world, pos);
+            double relativeHeight = (entity.getY() + entity.getEyeHeight() - bottomPos.getY()) / flagPoleHeight;
+            relativeHeight = Mth.clamp(relativeHeight, 0.0, 1.0);
 
             if (!state.getValue(LOWERED)) {
                 if (relativeHeight >= 1.0) {
@@ -227,21 +231,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 }
 
                 world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
-                if (state.getValue(COLUMN) == ColumnBlockStates.TOP || state.getValue(COLUMN) == ColumnBlockStates.NONE) {
-                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
-                        blockEntity.markUpdated();
-                        if (!blockEntity.playedSwitchAnim())
-                            this.spawnPoofParticles(world, pos, ParticleTypes.POOF, 10);
-                    }
-                }
-
-                if (state.getValue(COLUMN) == ColumnBlockStates.MIDDLE || state.getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
-                    world.setBlock(pos, state.setValue(FLAG, Boolean.TRUE), 3);
-                    if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
-                        blockEntity.markUpdated();
-                        if (!blockEntity.playedAppearAnim())
-                            this.spawnPoofParticles(world, pos, ParticleTypes.POOF, 10);
-                    }
+                if (world.getBlockEntity(topPos) != null && world.getBlockEntity(topPos) instanceof GoalPoleBlockEntity blockEntity) {
+                    blockEntity.markUpdated();
+                    if (!blockEntity.playedSwitchAnim())
+                        this.spawnPoofParticles(world, topPos.below(), ParticleTypes.POOF, 10);
                 }
 
                 world.scheduleTick(pos, this, 3);
@@ -262,9 +255,8 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        if (state.getValue(LOWERED) && (state.getValue(COLUMN) == ColumnBlockStates.BOTTOM
-                || state.getValue(COLUMN) == ColumnBlockStates.NONE))
-            return calculateFlagPoleLoweredHeight(world, pos);
+        if (state.getValue(LOWERED))
+            return this.calculateFlagPoleLoweredHeight(world, pos);
         else return super.getAnalogOutputSignal(state, world, pos);
     }
 
@@ -272,6 +264,20 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
         super.appendHoverText(stack, tooltipContext, list, options);
         list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+    }
+
+    private BlockPos findTopOfGoalPole(Level world, BlockPos pos) {
+        while (world.getBlockState(pos.above()).getBlock() instanceof GoalPoleBlock) {
+            pos = pos.above();
+        }
+        return pos;
+    }
+
+    private BlockPos findBottomOfGoalPole(Level world, BlockPos pos) {
+        while (world.getBlockState(pos.below()).getBlock() instanceof GoalPoleBlock) {
+            pos = pos.below();
+        }
+        return pos;
     }
 
     private int calculateFlagPoleHeight(Level world, BlockPos pos) {
@@ -282,6 +288,11 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         while (world.getBlockState(checkPos).getBlock() instanceof GoalPoleBlock) {
             height++;
             checkPos = checkPos.above();
+        }
+        checkPos = pos.below();
+        while (world.getBlockState(checkPos).getBlock() instanceof GoalPoleBlock) {
+            height++;
+            checkPos = checkPos.below();
         }
         return height;
     }
