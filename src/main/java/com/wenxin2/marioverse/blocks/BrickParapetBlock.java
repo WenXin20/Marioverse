@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -35,6 +36,19 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
             Block.box(10, 12, 0, 13, 16, 3),
             Block.box(10, 12, 13, 13, 16, 16)).optimize();
 
+    protected static final VoxelShape FUNGAL_BRICK_PARAPET_SHAPE = Shapes.or(
+            Block.box(2, 0, 2, 14, 6, 14),
+            Block.box(0, 6, 0, 16, 12, 16),
+            Block.box(5, 12, 5, 11, 16, 11),
+            Block.box(13, 12, 0, 16, 16, 6),
+            Block.box(13, 12, 10, 16, 16, 16),
+            Block.box(0, 12, 10, 3, 16, 16),
+            Block.box(0, 12, 0, 3, 16, 6),
+            Block.box(3, 12, 13, 6, 16, 16),
+            Block.box(3, 12, 0, 6, 16, 3),
+            Block.box(10, 12, 0, 13, 16, 3),
+            Block.box(10, 12, 13, 13, 16, 16)).optimize();
+
     public BrickParapetBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
@@ -48,7 +62,9 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        return BRICK_PARAPET_SHAPE;
+        if (state.getBlock() == BlockRegistry.FUNGAL_BRICK_PARAPET.get())
+            return FUNGAL_BRICK_PARAPET_SHAPE;
+        else return BRICK_PARAPET_SHAPE;
     }
 
     @Override
