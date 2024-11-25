@@ -176,23 +176,23 @@ public class BlockRegistry {
 
         PURPUR_QUESTION_BLOCK = registerBlock("purpur_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
+                        .requiresCorrectToolForDrops()));
 
         INVISIBLE_PURPUR_QUESTION_BLOCK = registerBlock("invisible_purpur_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
+                        .requiresCorrectToolForDrops()));
 
         STORAGE_PURPUR_BLOCK = registerBlock("storage_purpur_block",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
+                        .requiresCorrectToolForDrops()));
 
         SMASHABLE_PURPUR_BLOCK = registerBlock("smashable_purpur_block",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
+                        .requiresCorrectToolForDrops()));
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",
                 () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
