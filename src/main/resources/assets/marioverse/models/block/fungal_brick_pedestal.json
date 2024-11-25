@@ -3,8 +3,8 @@
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
 		"particle": "marioverse:block/fungal_bricks",
-		"bottom": "marioverse:block/fungal_brick_parapet_bottom",
-		"side": "marioverse:block/fungal_brick_parapet_side"
+		"bottom": "marioverse:block/fungal_brick_pedestal_bottom",
+		"side": "marioverse:block/fungal_brick_pedestal_side"
 	},
 	"elements": [
 		{

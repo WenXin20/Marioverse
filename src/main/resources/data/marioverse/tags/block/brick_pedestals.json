@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "marioverse:brick_pedestal", "required": false },
+    { "id": "marioverse:fungal_brick_pedestal", "required": false }
+  ]
+}

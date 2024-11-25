@@ -4,9 +4,9 @@
 	"textures": {
 		"particle": "marioverse:block/fungal_bricks",
 		"bricks": "marioverse:block/fungal_bricks",
-		"bottom": "marioverse:block/fungal_brick_parapet_bottom",
-		"side": "marioverse:block/fungal_brick_parapet",
-		"top": "marioverse:block/fungal_brick_parapet_top"
+		"bottom": "marioverse:block/fungal_brick_pedestal_bottom",
+		"side": "marioverse:block/fungal_brick_pedestal",
+		"top": "marioverse:block/fungal_brick_pedestal_top"
 	},
 	"elements": [
 		{

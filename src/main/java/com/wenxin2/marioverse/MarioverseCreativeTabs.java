@@ -56,13 +56,13 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.FUNGAL_BRICKS.get());
-            add(event, BlockRegistry.FUNGAL_BRICK_PARAPET.get());
+            add(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
 
             add(event, BlockRegistry.QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.STORAGE_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_BRICKS.get());
-            add(event, BlockRegistry.BRICK_PARAPET.get());
+            add(event, BlockRegistry.BRICK_PEDESTAL.get());
 
             add(event, BlockRegistry.NETHER_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());
@@ -112,7 +112,7 @@ public class MarioverseCreativeTabs {
             addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.CLEAR_WARP_PIPE.get());
             addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
             addAfter(event, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), BlockRegistry.GOAL_POLES.get(DyeColor.RED).get());
-            addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED).get(), BlockRegistry.BRICK_PARAPET.get());
+            addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED).get(), BlockRegistry.BRICK_PEDESTAL.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
@@ -132,13 +132,13 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             addAfter(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
             addAfter(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
-            addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.BRICK_PARAPET.get());
+            addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.BRICK_PEDESTAL.get());
 
             addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get());
             addAfter(event, BlockRegistry.STORAGE_BRICKS.get(), BlockRegistry.SMASHABLE_BRICKS.get());
-            addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_PARAPET.get());
+            addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
 
             addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.NETHER_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());

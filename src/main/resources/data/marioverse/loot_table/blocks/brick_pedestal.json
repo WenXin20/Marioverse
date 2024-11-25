@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:brick_parapet"
+          "name": "marioverse:brick_pedestal"
         }
       ],
       "rolls": 1.0

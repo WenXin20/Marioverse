@@ -22,14 +22,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
+public class BrickPedestalBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty TOP = BooleanProperty.create("top");
 
-    protected static final VoxelShape BRICK_PARAPET_COLUMN = Shapes.or(
+    protected static final VoxelShape BRICK_PEDESTAL_COLUMN = Shapes.or(
             Block.box(2, 0, 2, 14, 16, 14)).optimize();
 
-    protected static final VoxelShape BRICK_PARAPET_TOP = Shapes.or(
+    protected static final VoxelShape BRICK_PEDESTAL_TOP = Shapes.or(
             Block.box(2, 0, 2, 14, 8, 14),
             Block.box(0, 8, 0, 16, 12, 16),
             Block.box(5, 12, 5, 11, 16, 11),
@@ -42,7 +42,7 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
             Block.box(10, 12, 0, 13, 16, 3),
             Block.box(10, 12, 13, 13, 16, 16)).optimize();
 
-    protected static final VoxelShape FUNGAL_BRICK_PARAPET_TOP = Shapes.or(
+    protected static final VoxelShape FUNGAL_BRICK_PEDESTAL_TOP = Shapes.or(
             Block.box(2, 0, 2, 14, 6, 14),
             Block.box(0, 6, 0, 16, 12, 16),
             Block.box(5, 12, 5, 11, 16, 11),
@@ -55,7 +55,7 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
             Block.box(10, 12, 0, 13, 16, 3),
             Block.box(10, 12, 13, 13, 16, 16)).optimize();
 
-    public BrickParapetBlock(Properties properties) {
+    public BrickPedestalBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(TOP, Boolean.TRUE).setValue(WATERLOGGED, Boolean.FALSE));
     }
@@ -69,10 +69,10 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (state.getValue(TOP)) {
-            if (state.getBlock() == BlockRegistry.FUNGAL_BRICK_PARAPET.get())
-                return FUNGAL_BRICK_PARAPET_TOP;
-            else return BRICK_PARAPET_TOP;
-        } else return BRICK_PARAPET_COLUMN;
+            if (state.getBlock() == BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
+                return FUNGAL_BRICK_PEDESTAL_TOP;
+            else return BRICK_PEDESTAL_TOP;
+        } else return BRICK_PEDESTAL_COLUMN;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
             if (state.getValue(WATERLOGGED))
                 worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
 
-            if (!(blockAbove instanceof BrickParapetBlock))
+            if (!(blockAbove instanceof BrickPedestalBlock))
                 return state.setValue(TOP, Boolean.TRUE);
             else return state.setValue(TOP, Boolean.FALSE);
         } else return Blocks.AIR.defaultBlockState();
