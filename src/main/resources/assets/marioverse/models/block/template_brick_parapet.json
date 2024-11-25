@@ -1,0 +1,24 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"particle": "block/bricks",
+		"bricks": "block/bricks"
+	},
+	"elements": [
+		{
+			"name": "pole",
+			"from": [2, 0, 2],
+			"to": [14, 16, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 8, 4]},
+			"faces": {
+				"north": {"uv": [2, 0, 14, 16], "texture": "#bricks"},
+				"east": {"uv": [2, 0, 14, 16], "texture": "#bricks"},
+				"south": {"uv": [2, 0, 14, 16], "texture": "#bricks"},
+				"west": {"uv": [2, 0, 14, 16], "texture": "#bricks"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#bricks", "cullface": "up"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#bricks", "cullface": "down"}
+			}
+		}
+	]
+}

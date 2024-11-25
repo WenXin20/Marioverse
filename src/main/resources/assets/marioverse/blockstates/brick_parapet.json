@@ -1,7 +1,6 @@
 {
   "variants": {
-    "": {
-      "model": "marioverse:block/brick_parapet"
-    }
+    "top=true": { "model": "marioverse:block/brick_parapet_top" },
+    "top=false": { "model": "marioverse:block/brick_parapet" }
   }
 }

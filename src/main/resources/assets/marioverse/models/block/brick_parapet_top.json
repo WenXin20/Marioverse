@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "marioverse:block/template_brick_parapet",
+	"parent": "marioverse:block/template_brick_parapet_top",
 	"textures": {
 		"bricks": "block/bricks"
 	}

@@ -1,13 +1,15 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -22,8 +24,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty TOP = BooleanProperty.create("top");
 
-    protected static final VoxelShape BRICK_PARAPET_SHAPE = Shapes.or(
+    protected static final VoxelShape BRICK_PARAPET_COLUMN = Shapes.or(
+            Block.box(2, 0, 2, 14, 16, 14)).optimize();
+
+    protected static final VoxelShape BRICK_PARAPET_TOP = Shapes.or(
             Block.box(2, 0, 2, 14, 8, 14),
             Block.box(0, 8, 0, 16, 12, 16),
             Block.box(5, 12, 5, 11, 16, 11),
@@ -36,7 +42,7 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
             Block.box(10, 12, 0, 13, 16, 3),
             Block.box(10, 12, 13, 13, 16, 16)).optimize();
 
-    protected static final VoxelShape FUNGAL_BRICK_PARAPET_SHAPE = Shapes.or(
+    protected static final VoxelShape FUNGAL_BRICK_PARAPET_TOP = Shapes.or(
             Block.box(2, 0, 2, 14, 6, 14),
             Block.box(0, 6, 0, 16, 12, 16),
             Block.box(5, 12, 5, 11, 16, 11),
@@ -51,20 +57,22 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
 
     public BrickParapetBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(TOP, Boolean.TRUE).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(WATERLOGGED);
+        stateBuilder.add(TOP, WATERLOGGED);
     }
 
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (state.getBlock() == BlockRegistry.FUNGAL_BRICK_PARAPET.get())
-            return FUNGAL_BRICK_PARAPET_SHAPE;
-        else return BRICK_PARAPET_SHAPE;
+        if (state.getValue(TOP)) {
+            if (state.getBlock() == BlockRegistry.FUNGAL_BRICK_PARAPET.get())
+                return FUNGAL_BRICK_PARAPET_TOP;
+            else return BRICK_PARAPET_TOP;
+        } else return BRICK_PARAPET_COLUMN;
     }
 
     @Override
@@ -72,6 +80,22 @@ public class BrickParapetBlock extends Block implements SimpleWaterloggedBlock {
         FluidState fluidState = placeContext.getLevel().getFluidState(placeContext.getClickedPos());
 
         return this.defaultBlockState().setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
+    }
+
+    @NotNull
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                  LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
+        Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
+
+        if (!worldAccessor.isClientSide()) {
+            if (state.getValue(WATERLOGGED))
+                worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
+
+            if (!(blockAbove instanceof BrickParapetBlock))
+                return state.setValue(TOP, Boolean.TRUE);
+            else return state.setValue(TOP, Boolean.FALSE);
+        } else return Blocks.AIR.defaultBlockState();
     }
 
     @NotNull
