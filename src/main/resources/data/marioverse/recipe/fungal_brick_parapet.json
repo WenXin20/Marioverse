@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:brick_parapets",
+  "pattern": [
+    "B B",
+    "MBM"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "M": {
+      "tag": "c:mushrooms"
+    }
+  },
+  "result": {
+    "id": "marioverse:fungal_brick_parapet",
+    "count": 1
+  }
+}

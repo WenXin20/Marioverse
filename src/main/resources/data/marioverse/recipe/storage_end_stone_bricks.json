@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:storage_bricks",
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:end_stone"
+    },
+    "C": {
+      "tag": "c:chests"
+    }
+  },
+  "result": {
+    "id": "marioverse:storage_end_stone_bricks",
+    "count": 1
+  }
+}

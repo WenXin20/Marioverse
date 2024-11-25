@@ -1,21 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "marioverse:question_block",
-  "pattern": [
-    "GGG",
-    "GCG",
-    "GGG"
-  ],
-  "key": {
-    "G": {
-      "item": "minecraft:end_stone_bricks"
-    },
-    "C": {
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:question_blocks",
+  "ingredients": [
+    {
       "tag": "c:chests"
+    },
+    {
+      "item": "minecraft:end_stone_bricks"
     }
-  },
+  ],
   "result": {
-    "id": "marioverse:end_stone_question_bricks",
-    "count": 1
+    "id": "marioverse:end_stone_question_bricks"
   }
 }

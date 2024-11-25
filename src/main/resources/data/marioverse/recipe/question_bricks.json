@@ -1,21 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "group": "marioverse:question_block",
-  "pattern": [
-    "GGG",
-    "GCG",
-    "GGG"
-  ],
-  "key": {
-    "G": {
-      "tag": "c:bricks/normal"
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:question_blocks",
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
     },
-    "C": {
-      "tag": "c:chests"
+    {
+      "item": "minecraft:bricks"
     }
-  },
+  ],
   "result": {
-    "id": "marioverse:question_bricks",
-    "count": 1
+    "id": "marioverse:question_bricks"
   }
 }

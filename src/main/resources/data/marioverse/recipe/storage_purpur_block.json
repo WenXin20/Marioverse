@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:storage_bricks",
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:popped_chorus_fruit"
+    },
+    "C": {
+      "tag": "c:chests"
+    }
+  },
+  "result": {
+    "id": "marioverse:storage_purpur_block",
+    "count": 1
+  }
+}

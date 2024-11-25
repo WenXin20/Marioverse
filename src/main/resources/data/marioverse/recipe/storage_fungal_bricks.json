@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:storage_bricks",
+  "pattern": [
+    "MBM",
+    "BCB",
+    "MBM"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "C": {
+      "tag": "c:chests/wooden"
+    },
+    "M": {
+      "tag": "c:mushrooms"
+    }
+  },
+  "result": {
+    "id": "marioverse:storage_fungal_bricks",
+    "count": 1
+  }
+}
