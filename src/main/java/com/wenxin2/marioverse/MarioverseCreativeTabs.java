@@ -130,13 +130,13 @@ public class MarioverseCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             addAfter(event, Blocks.BRICK_WALL, BlockRegistry.BRICK_PEDESTAL.get());
-            addAfter(event, Blocks.BRICKS, BlockRegistry.SMASHABLE_BRICKS.get());
-
-            addAfter(event, Blocks.NETHER_BRICK_FENCE, BlockRegistry.NETHER_BRICK_PEDESTAL.get());
-            addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
+            addAfter(event, BlockRegistry.BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_BRICKS.get());
 
             addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
+
+            addAfter(event, Blocks.NETHER_BRICK_FENCE, BlockRegistry.NETHER_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
