@@ -44,6 +44,7 @@
     { "id": "marioverse:pink_warp_pipe", "required": false },
     { "id": "marioverse:purple_goal_pole", "required": false },
     { "id": "marioverse:purple_warp_pipe", "required": false },
+    { "id": "marioverse:purpur_block_pedestal", "required": false },
     { "id": "marioverse:purpur_question_block", "required": false },
     { "id": "marioverse:question_bricks", "required": false },
     { "id": "marioverse:red_nether_brick_pedestal", "required": false },

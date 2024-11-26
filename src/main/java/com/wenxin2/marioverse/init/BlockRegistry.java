@@ -53,6 +53,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
+    public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
@@ -225,6 +226,11 @@ public class BlockRegistry {
 
         SMASHABLE_PURPUR_BLOCK = registerBlock("smashable_purpur_block",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
+                        .requiresCorrectToolForDrops()));
+
+        PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
                         .requiresCorrectToolForDrops()));
 

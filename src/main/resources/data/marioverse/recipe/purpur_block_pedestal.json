@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:brick_pedestals",
+  "pattern": [
+    "B B",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:popped_chorus_fruit"
+    }
+  },
+  "result": {
+    "id": "marioverse:purpur_block_pedestal",
+    "count": 1
+  }
+}
