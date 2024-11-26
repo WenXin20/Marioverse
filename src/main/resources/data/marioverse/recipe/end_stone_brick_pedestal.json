@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:brick_pedestals",
+  "pattern": [
+    "B B",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:end_stone"
+    }
+  },
+  "result": {
+    "id": "marioverse:end_stone_brick_pedestal",
+    "count": 1
+  }
+}
