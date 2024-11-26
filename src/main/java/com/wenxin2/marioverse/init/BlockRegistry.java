@@ -40,6 +40,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
@@ -198,6 +199,11 @@ public class BlockRegistry {
 
         SMASHABLE_END_STONE_BRICKS = registerBlock("smashable_end_stone_bricks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
+                        .requiresCorrectToolForDrops()));
+
+        END_STONE_BRICK_PEDESTAL = registerBlock("end_stone_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
                         .requiresCorrectToolForDrops()));
 
