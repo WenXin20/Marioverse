@@ -35,6 +35,7 @@
     { "id": "marioverse:lime_warp_pipe", "required": false },
     { "id": "marioverse:magenta_goal_pole", "required": false },
     { "id": "marioverse:magenta_warp_pipe", "required": false },
+    { "id": "marioverse:nether_brick_pedestal", "required": false },
     { "id": "marioverse:nether_question_bricks", "required": false },
     { "id": "marioverse:orange_goal_pole", "required": false },
     { "id": "marioverse:orange_warp_pipe", "required": false },

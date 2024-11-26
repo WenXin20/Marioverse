@@ -49,6 +49,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
@@ -73,6 +74,7 @@ public class BlockRegistry {
                 () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
+
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
@@ -99,6 +101,7 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
+
         QUESTION_BRICKS = registerBlock("question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
@@ -124,6 +127,7 @@ public class BlockRegistry {
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
 
+
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
@@ -143,6 +147,12 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        NETHER_BRICK_PEDESTAL = registerBlock("nether_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
 
         RED_NETHER_QUESTION_BRICKS = registerBlock("red_nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
@@ -164,6 +174,7 @@ public class BlockRegistry {
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
+
         END_STONE_QUESTION_BRICKS = registerBlock("end_stone_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
@@ -183,6 +194,7 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
                         .requiresCorrectToolForDrops()));
+
 
         PURPUR_QUESTION_BLOCK = registerBlock("purpur_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
@@ -204,6 +216,7 @@ public class BlockRegistry {
                         .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
                         .requiresCorrectToolForDrops()));
 
+
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",
                 () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                         .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
@@ -214,6 +227,7 @@ public class BlockRegistry {
                         () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                                 .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                                 .strength(5.0F, 6.0F).requiresCorrectToolForDrops()))));
+        
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
@@ -226,6 +240,7 @@ public class BlockRegistry {
                         () -> new WarpPipeBlock(BlockBehaviour.Properties.of().mapColor(color)
                                 .sound(SoundType.NETHERITE_BLOCK).strength(3.5F, 1000.0F)
                                 .isViewBlocking(BlockRegistry::always).requiresCorrectToolForDrops()))));
+
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
                 () -> new PipeBubblesBlock(BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY)
