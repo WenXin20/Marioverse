@@ -74,6 +74,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get());
             add(event, BlockRegistry.STORAGE_RED_NETHER_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get());
+            add(event, BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get());
 
             add(event, BlockRegistry.END_STONE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get());
@@ -137,6 +138,9 @@ public class MarioverseCreativeTabs {
 
             addAfter(event, Blocks.NETHER_BRICK_FENCE, BlockRegistry.NETHER_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
+
+            addAfter(event, Blocks.RED_NETHER_BRICK_WALL, BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
@@ -162,6 +166,7 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.STORAGE_RED_NETHER_BRICKS.get());
             addAfter(event, BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(), BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get());
+            addAfter(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get(), BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get());
 
             addAfter(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get(), BlockRegistry.END_STONE_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.END_STONE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get());

@@ -54,6 +54,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
+    public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_END_STONE_BRICKS;
@@ -171,6 +172,11 @@ public class BlockRegistry {
 
         SMASHABLE_RED_NETHER_BRICKS = registerBlock("smashable_red_nether_bricks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        RED_NETHER_BRICK_PEDESTAL = registerBlock("red_nether_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
