@@ -227,7 +227,7 @@ public class BlockRegistry {
                         () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                                 .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                                 .strength(5.0F, 6.0F).requiresCorrectToolForDrops()))));
-        
+
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
