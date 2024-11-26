@@ -91,6 +91,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
 
+            for (DeferredHolder<Block, Block> door : BlockRegistry.WARP_DOORS.stream().toList()) {
+                add(event, door.get());
+            }
+
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
             add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());

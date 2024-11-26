@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
@@ -95,5 +96,9 @@ public class Marioverse
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_OVERALLS.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+    }
+
+    public static ResourceLocation id(String id) {
+        return ResourceLocation.tryBuild(MOD_ID, id);
     }
 }
