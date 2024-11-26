@@ -147,7 +147,8 @@ public abstract class LivingEntityMixin extends Entity {
                         livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                         stackCharm.shrink(1);
                         this.level().broadcastEntityEvent(this, (byte) 124); // Mushroom Transform particle
-                        this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Pop Up
+                        this.level().broadcastEntityEvent(this, (byte) 115); // 1-Up Pop Up
+                        this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Particle
                         float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
                         int numParticles = (int) (scaleFactor * 20);
                         double radius = livingEntity.getBbWidth() / 2;
@@ -184,7 +185,8 @@ public abstract class LivingEntityMixin extends Entity {
                 livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
                 this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
-                this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Pop Up
+                this.level().broadcastEntityEvent(this, (byte) 115); // 1-Up Pop Up
+                this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Particle
 
                 if (livingEntity instanceof ServerPlayer serverplayer) {
                     serverplayer.awardStat(Stats.ITEM_USED.get(ItemRegistry.ONE_UP_MUSHROOM.get()), 1);
@@ -212,7 +214,12 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         RandomSource random = this.level().getRandom();
 
-        if (id == 120) {
+        if (id == 115) {
+            if (this.level().isClientSide) {
+                if (livingEntity == Minecraft.getInstance().player)
+                    Minecraft.getInstance().gameRenderer.displayItemActivation(ItemRegistry.ONE_UP_MUSHROOM.get().getDefaultInstance());
+            }
+        } else if (id == 120) {
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
                 this.level().addParticle(ParticleTypes.ENCHANT,
                         livingEntity.getRandomX(0.5D), livingEntity.getRandomY(), livingEntity.getRandomZ(0.5D),
