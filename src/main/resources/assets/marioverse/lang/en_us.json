@@ -1,6 +1,8 @@
 {
   "itemGroup.marioverse": "Marioverse",
 
+  "block.marioverse.warp_door": " Warp Door",
+
   "menu.marioverse.goal_pole": "Goal Pole",
   "menu.marioverse.warp_pipe": "Warp Pipe",
   "menu.marioverse.question_block": "Question Block",

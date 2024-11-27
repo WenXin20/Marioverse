@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -91,7 +92,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CLEAR_WARP_PIPE.get());
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
 
-            for (DeferredHolder<Block, Block> door : BlockRegistry.WARP_DOORS.stream().toList()) {
+            for (DeferredHolder<Item, Item> door : ItemRegistry.WARP_DOORS.values()) {
                 add(event, door.get());
             }
 

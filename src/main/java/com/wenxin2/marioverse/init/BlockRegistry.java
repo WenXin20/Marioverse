@@ -16,7 +16,9 @@ import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,7 +43,7 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final List<DeferredBlock<Block>> WARP_DOORS = new ArrayList<>();
+    public static final Map<String, DeferredBlock<Block>> WARP_DOORS = new HashMap<>();
 
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
@@ -267,7 +269,7 @@ public class BlockRegistry {
                                 .sound(SoundType.NETHERITE_BLOCK).strength(3.5F, 1000.0F)
                                 .isViewBlocking(BlockRegistry::always).requiresCorrectToolForDrops()))));
 
-        
+
         BuiltInRegistries.BLOCK.stream()
                 .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock)) // Only process DoorBlock instances
                 .forEach(door -> registerWarpDoor((DoorBlock) door));
@@ -296,13 +298,24 @@ public class BlockRegistry {
 
     private static void registerWarpDoor(DoorBlock baseDoor) {
         ResourceLocation location = BuiltInRegistries.BLOCK.getKey(baseDoor);
-        String name = location.getNamespace().equals("minecraft") ?
-                "warp_" + location.getPath()
-                : location.getNamespace() + "_warp_" + location.getPath();
+        String path = location.getPath();
+
+        String modifiedPath;
+        if (path.endsWith("_door")) {
+            int splitIndex = path.lastIndexOf("_door");
+            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
+        } else {
+            // Fallback if the path does not end with "_door"
+            modifiedPath = "warp_" + path;
+        }
+
+        String name = location.getNamespace().equals("minecraft")
+                ? modifiedPath
+                : location.getNamespace() + "_" + modifiedPath;
 
         BlockSetType blockSetType = baseDoor.type();
-        WARP_DOORS.add(registerBlock(name,
-                () -> new WarpDoorBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(baseDoor))));
+        WARP_DOORS.put(name, registerNoItemBlock(name,
+                () -> new WarpDoorBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(baseDoor), baseDoor)));
     }
 
     private static boolean always(BlockState state, BlockGetter block, BlockPos pos)

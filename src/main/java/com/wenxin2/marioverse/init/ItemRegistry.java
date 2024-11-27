@@ -4,16 +4,25 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.WarpDoorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.level.block.DoorBlock;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
+    public static final Map<String, DeferredItem<Item>> WARP_DOORS = new HashMap<>();
+
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_HAT;
@@ -59,11 +68,36 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.MEGA_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
         MINI_GOOMBA_SPAWN_EGG = registerItem("mini_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
+
+        BuiltInRegistries.ITEM.stream()
+                .filter(item -> (item instanceof DoubleHighBlockItem blockItem && blockItem.getBlock() instanceof DoorBlock) && !(item instanceof WarpDoorItem)) // Only process DoorBlock instances
+                .forEach(door -> registerWarpDoor((DoubleHighBlockItem) door));
     }
 
-    public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item)
-    {
+    public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {
         return Marioverse.ITEMS.register(name, item);
+    }
+
+    private static void registerWarpDoor(DoubleHighBlockItem baseItem) {
+        ResourceLocation location = BuiltInRegistries.ITEM.getKey(baseItem);
+        String path = location.getPath();
+
+
+        String modifiedPath;
+        if (path.endsWith("_door")) {
+            int splitIndex = path.lastIndexOf("_door");
+            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
+        } else {
+            // Fallback if the path does not end with "_door"
+            modifiedPath = "warp_" + path;
+        }
+
+        String name = location.getNamespace().equals("minecraft")
+                ? modifiedPath
+                : location.getNamespace() + "_" + modifiedPath;
+
+        WARP_DOORS.put(name, registerItem(name,
+                () -> new WarpDoorItem(BlockRegistry.WARP_DOORS.get(name).get(), new Item.Properties(), baseItem)));
     }
 
     public static void init()

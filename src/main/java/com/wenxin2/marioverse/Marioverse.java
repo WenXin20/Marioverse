@@ -23,8 +23,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.EventBus;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -52,11 +54,9 @@ public class Marioverse
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
 
-    // Bus for Forge Events
-    public static final IEventBus FORGE_BUS = NeoForge.EVENT_BUS;
-
     public Marioverse(IEventBus bus, Dist dist, ModContainer container)
     {
+//        EventBus eventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
         // Register the Deferred Register to the mod event bus so blocks/items get registered
         BLOCKS.register(bus);
         ITEMS.register(bus);
@@ -87,6 +87,8 @@ public class Marioverse
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
+        bus.addListener(MarioverseEventHandlers::gatherData);
+        bus.addListener(MarioverseEventHandlers::onModifyBakingResult);
         bus.addListener(FMLClientSetupEvent.class, (evt) -> this.clientSetup(evt, bus));
     }
 
