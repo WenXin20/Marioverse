@@ -7,6 +7,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -21,6 +22,13 @@ public class WarpDoorBlock extends DoorBlock {
         this.originalBlock = originalBlock;
     }
 
+    @NotNull
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return this.getOriginalBlock().defaultBlockState().getRenderShape();
+    }
+
+    @NotNull
     @Override
     public MutableComponent getName() {
         String originalName = originalBlock.getName().getString();
@@ -37,8 +45,9 @@ public class WarpDoorBlock extends DoorBlock {
         }
     }
 
+    @NotNull
     @Override
-    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER)
             return originalBlock.defaultBlockState().getDrops(params);
         else return Collections.singletonList(ItemStack.EMPTY);

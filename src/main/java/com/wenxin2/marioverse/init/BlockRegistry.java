@@ -13,11 +13,9 @@ import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -295,6 +293,12 @@ public class BlockRegistry {
     public static <T extends Block> DeferredBlock<T> registerNoItemBlock(String name, Supplier<T> block) {
         return Marioverse.BLOCKS.register(name, block);
     }
+
+//    public static void registerWarpDoors() {
+//        BuiltInRegistries.BLOCK.stream()
+//                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock))
+//                .forEach(door -> registerWarpDoor((DoorBlock) door));
+//    }
 
     private static void registerWarpDoor(DoorBlock baseDoor) {
         ResourceLocation location = BuiltInRegistries.BLOCK.getKey(baseDoor);

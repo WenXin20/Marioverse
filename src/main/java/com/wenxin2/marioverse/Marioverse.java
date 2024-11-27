@@ -23,10 +23,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.EventBus;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -56,7 +54,6 @@ public class Marioverse
 
     public Marioverse(IEventBus bus, Dist dist, ModContainer container)
     {
-//        EventBus eventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
         // Register the Deferred Register to the mod event bus so blocks/items get registered
         BLOCKS.register(bus);
         ITEMS.register(bus);
@@ -89,10 +86,11 @@ public class Marioverse
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(MarioverseEventHandlers::gatherData);
         bus.addListener(MarioverseEventHandlers::onModifyBakingResult);
-        bus.addListener(FMLClientSetupEvent.class, (evt) -> this.clientSetup(evt, bus));
+        bus.addListener(FMLClientSetupEvent.class, this::clientSetup);
     }
 
-    private void clientSetup(final FMLClientSetupEvent event, final IEventBus eventBus) {
+    private void clientSetup(final FMLClientSetupEvent event) {
+        event.enqueueWork(MarioverseClient::registerRenderLayers);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);

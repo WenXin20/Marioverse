@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.client.particles.FirePoweredUpParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
@@ -24,6 +25,9 @@ import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -83,5 +87,17 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
+    }
+
+    public static void registerRenderLayers() {
+        BlockRegistry.WARP_DOORS.forEach((name, deferredBlock) -> {
+            Block warpDoor = deferredBlock.get();
+            if (!(warpDoor instanceof WarpDoorBlock warpDoorBlock)) return;
+
+            Block originalBlock = warpDoorBlock.getOriginalBlock();
+            RenderType renderType = ItemBlockRenderTypes.getChunkRenderType(originalBlock.defaultBlockState());
+            if (warpDoor instanceof  WarpDoorBlock)
+                ItemBlockRenderTypes.setRenderLayer(warpDoor, renderType);
+        });
     }
 }
