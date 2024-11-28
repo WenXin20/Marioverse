@@ -86,6 +86,7 @@ public class Marioverse
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(MarioverseEventHandlers::gatherData);
         bus.addListener(MarioverseEventHandlers::onModifyBakingResult);
+        bus.addListener(MarioverseEventHandlers::onRegister);
         bus.addListener(FMLClientSetupEvent.class, this::clientSetup);
     }
 

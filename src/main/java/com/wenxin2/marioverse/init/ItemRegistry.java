@@ -69,9 +69,9 @@ public class ItemRegistry {
         MINI_GOOMBA_SPAWN_EGG = registerItem("mini_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
 
-        BuiltInRegistries.ITEM.stream()
-                .filter(item -> (item instanceof DoubleHighBlockItem blockItem && blockItem.getBlock() instanceof DoorBlock) && !(item instanceof WarpDoorItem)) // Only process DoorBlock instances
-                .forEach(door -> registerWarpDoor((DoubleHighBlockItem) door));
+//        BuiltInRegistries.ITEM.stream()
+//                .filter(item -> (item instanceof DoubleHighBlockItem blockItem && blockItem.getBlock() instanceof DoorBlock) && !(item instanceof WarpDoorItem)) // Only process DoorBlock instances
+//                .forEach(door -> registerWarpDoor((DoubleHighBlockItem) door));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {

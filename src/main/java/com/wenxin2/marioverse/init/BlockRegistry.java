@@ -268,9 +268,9 @@ public class BlockRegistry {
                                 .isViewBlocking(BlockRegistry::always).requiresCorrectToolForDrops()))));
 
 
-        BuiltInRegistries.BLOCK.stream()
-                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock)) // Only process DoorBlock instances
-                .forEach(door -> registerWarpDoor((DoorBlock) door));
+//        BuiltInRegistries.BLOCK.stream()
+//                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock)) // Only process DoorBlock instances
+//                .forEach(door -> registerWarpDoor((DoorBlock) door));
 
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
@@ -294,11 +294,11 @@ public class BlockRegistry {
         return Marioverse.BLOCKS.register(name, block);
     }
 
-//    public static void registerWarpDoors() {
-//        BuiltInRegistries.BLOCK.stream()
-//                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock))
-//                .forEach(door -> registerWarpDoor((DoorBlock) door));
-//    }
+    public static void registerWarpDoors() {
+        BuiltInRegistries.BLOCK.stream()
+                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock))
+                .forEach(door -> registerWarpDoor((DoorBlock) door));
+    }
 
     private static void registerWarpDoor(DoorBlock baseDoor) {
         ResourceLocation location = BuiltInRegistries.BLOCK.getKey(baseDoor);

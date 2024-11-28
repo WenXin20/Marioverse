@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BaseCostumeItem;
+import com.wenxin2.marioverse.items.WarpDoorItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -25,6 +26,9 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
@@ -37,12 +41,16 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DoubleHighBlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.api.distmarker.Dist;
@@ -59,10 +67,69 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
+    public static void onRegister(RegisterEvent event) {
+        event.register(Registries.BLOCK, helper -> {
+            BuiltInRegistries.BLOCK.stream()
+                    .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock))
+                    .forEach(baseDoor -> registerWarpDoor((DoorBlock) baseDoor, helper));
+        });
+        event.register(Registries.ITEM, helper -> {
+            BuiltInRegistries.ITEM.stream()
+                    .filter(item -> (item instanceof DoubleHighBlockItem blockItem && blockItem.getBlock() instanceof DoorBlock)
+                            && !(item instanceof WarpDoorItem))
+                    .forEach(door -> registerWarpDoorItem((DoubleHighBlockItem) door, helper));
+        });
+    }
+
+    private static void registerWarpDoor(DoorBlock baseDoor, RegisterEvent.RegisterHelper<Block> helper) {
+        ResourceLocation location = BuiltInRegistries.BLOCK.getKey(baseDoor);
+        String path = location.getPath();
+
+        String modifiedPath;
+        if (path.endsWith("_door")) {
+            int splitIndex = path.lastIndexOf("_door");
+            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
+        } else {
+            // Fallback if the path does not end with "_door"
+            modifiedPath = "warp_" + path;
+        }
+
+        String name = location.getNamespace().equals("minecraft")
+                ? modifiedPath
+                : location.getNamespace() + "_" + modifiedPath;
+
+        BlockSetType blockSetType = baseDoor.type();
+        Block warpDoorBlock = new WarpDoorBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(baseDoor), baseDoor);
+
+        helper.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name), warpDoorBlock);
+    }
+
+    private static void registerWarpDoorItem(DoubleHighBlockItem baseDoorItem, RegisterEvent.RegisterHelper<Item> helper) {
+        ResourceLocation location = BuiltInRegistries.ITEM.getKey(baseDoorItem);
+        String path = location.getPath();
+
+        String modifiedPath;
+        if (path.endsWith("_door")) {
+            int splitIndex = path.lastIndexOf("_door");
+            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
+        } else {
+            // Fallback if the path does not end with "_door"
+            modifiedPath = "warp_" + path;
+        }
+
+        String name = location.getNamespace().equals("minecraft")
+                ? modifiedPath
+                : location.getNamespace() + "_" + modifiedPath;
+
+        Item warpDoorItem = new WarpDoorItem(BlockRegistry.WARP_DOORS.get(name).get(), new Item.Properties(), baseDoorItem);
+        helper.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name), warpDoorItem);
+    }
+
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
