@@ -35,19 +35,21 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-    compileOnly "org.spongepowered:mixin:0.8.5"
+    // compileOnly "org.spongepowered:mixin:0.8.5"
 
     // Imports
     implementation "curse.maven:accessories-${accessories_version}"
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     implementation "curse.maven:ctm-${ctm_version}"
-    compileOnly "curse.maven:curios-continuation-${curios_version}"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
     implementation "curse.maven:geckolib-${geckolib_version}"
     implementation "curse.maven:pehkui-${pehkui_version}"
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
+
+    implementation "curse.maven:the-twilight-forest-227639:5699076"
+    implementation "curse.maven:gardens-of-the-dead-683174:5640395"
 
     // implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
     // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
