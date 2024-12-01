@@ -1,34 +1,24 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.datagen.MarioverseBlockStateProvider;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
-import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BaseCostumeItem;
-import com.wenxin2.marioverse.items.WarpDoorItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.BlockModelShaper;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
@@ -41,24 +31,14 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DoubleHighBlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.world.level.block.state.properties.DoorHingeSide;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -67,69 +47,10 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
-    public static void onRegister(RegisterEvent event) {
-        event.register(Registries.BLOCK, helper -> {
-            BuiltInRegistries.BLOCK.stream()
-                    .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock))
-                    .forEach(baseDoor -> registerWarpDoor((DoorBlock) baseDoor, helper));
-        });
-        event.register(Registries.ITEM, helper -> {
-            BuiltInRegistries.ITEM.stream()
-                    .filter(item -> (item instanceof DoubleHighBlockItem blockItem && blockItem.getBlock() instanceof DoorBlock)
-                            && !(item instanceof WarpDoorItem))
-                    .forEach(door -> registerWarpDoorItem((DoubleHighBlockItem) door, helper));
-        });
-    }
-
-    private static void registerWarpDoor(DoorBlock baseDoor, RegisterEvent.RegisterHelper<Block> helper) {
-        ResourceLocation location = BuiltInRegistries.BLOCK.getKey(baseDoor);
-        String path = location.getPath();
-
-        String modifiedPath;
-        if (path.endsWith("_door")) {
-            int splitIndex = path.lastIndexOf("_door");
-            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
-        } else {
-            // Fallback if the path does not end with "_door"
-            modifiedPath = "warp_" + path;
-        }
-
-        String name = location.getNamespace().equals("minecraft")
-                ? modifiedPath
-                : location.getNamespace() + "_" + modifiedPath;
-
-        BlockSetType blockSetType = baseDoor.type();
-        Block warpDoorBlock = new WarpDoorBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(baseDoor), baseDoor);
-
-        helper.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name), warpDoorBlock);
-    }
-
-    private static void registerWarpDoorItem(DoubleHighBlockItem baseDoorItem, RegisterEvent.RegisterHelper<Item> helper) {
-        ResourceLocation location = BuiltInRegistries.ITEM.getKey(baseDoorItem);
-        String path = location.getPath();
-
-        String modifiedPath;
-        if (path.endsWith("_door")) {
-            int splitIndex = path.lastIndexOf("_door");
-            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
-        } else {
-            // Fallback if the path does not end with "_door"
-            modifiedPath = "warp_" + path;
-        }
-
-        String name = location.getNamespace().equals("minecraft")
-                ? modifiedPath
-                : location.getNamespace() + "_" + modifiedPath;
-
-        Item warpDoorItem = new WarpDoorItem(BlockRegistry.WARP_DOORS.get(name).get(), new Item.Properties(), baseDoorItem);
-        helper.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name), warpDoorItem);
-    }
-
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
@@ -376,68 +297,6 @@ public class MarioverseEventHandlers {
                 || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
         }
-    }
-
-    public static void onModifyBakingResult(ModelEvent.ModifyBakingResult event) {
-        BlockRegistry.WARP_DOORS.forEach((name, deferredBlock) -> {
-            Block warpDoor = deferredBlock.get();
-            if (!(warpDoor instanceof WarpDoorBlock warpDoorBlock)) return;
-            Block baseDoor = warpDoorBlock.getOriginalBlock();
-
-            for (DoorHingeSide hinge : DoorHingeSide.values()) {
-                for (boolean open : new boolean[]{true, false}) {
-                    for (Direction facing : Direction.Plane.HORIZONTAL) {
-                        BlockState baseDoorLowerState = baseDoor.defaultBlockState()
-                                .setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER)
-                                .setValue(DoorBlock.HINGE, hinge)
-                                .setValue(DoorBlock.OPEN, open)
-                                .setValue(DoorBlock.FACING, facing);
-                        BlockState baseDoorUpperState = baseDoor.defaultBlockState()
-                                .setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER)
-                                .setValue(DoorBlock.HINGE, hinge)
-                                .setValue(DoorBlock.OPEN, open)
-                                .setValue(DoorBlock.FACING, facing);
-
-                        ModelResourceLocation baseDoorLowerModelLocation = BlockModelShaper.stateToModelLocation(baseDoorLowerState);
-                        ModelResourceLocation baseDoorUpperModelLocation = BlockModelShaper.stateToModelLocation(baseDoorUpperState);
-
-                        BakedModel baseDoorLowerModel = event.getModels().get(baseDoorLowerModelLocation);
-                        BakedModel baseDoorUpperModel = event.getModels().get(baseDoorUpperModelLocation);
-
-                        if (baseDoorLowerModel != null && baseDoorUpperModel != null) {
-                            warpDoor.getStateDefinition().getPossibleStates().forEach(state -> {
-                                if (state.getValue(DoorBlock.HINGE) == hinge
-                                        && state.getValue(DoorBlock.OPEN) == open
-                                        && state.getValue(DoorBlock.FACING) == facing) {
-                                    ModelResourceLocation modelLocation = BlockModelShaper.stateToModelLocation(state);
-
-                                    if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
-                                        event.getModels().put(modelLocation, baseDoorUpperModel);
-                                    else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                                        event.getModels().put(modelLocation, baseDoorLowerModel);
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        });
-
-        BlockRegistry.WARP_DOORS.forEach((name, deferredBlock) -> {
-            Block warpDoor = deferredBlock.get();
-            if (!(warpDoor instanceof WarpDoorBlock warpDoorBlock)) return;
-            Block baseDoor = warpDoorBlock.getOriginalBlock();
-
-            ModelResourceLocation baseDoorModelLocation = ModelResourceLocation.inventory(BlockModelShaper.stateToModelLocation(baseDoor.defaultBlockState()).id());
-            BakedModel baseDoorModel = event.getModels().get(baseDoorModelLocation);
-
-            if (baseDoorModel != null) {
-                warpDoor.getStateDefinition().getPossibleStates().forEach(state -> {
-                    ResourceLocation modelLocation = BlockModelShaper.stateToModelLocation(state).id();
-                    event.getModels().put(ModelResourceLocation.inventory(modelLocation), baseDoorModel);
-                });
-            }
-        });
     }
 
     @SubscribeEvent

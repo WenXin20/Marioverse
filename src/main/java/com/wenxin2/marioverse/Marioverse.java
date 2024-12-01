@@ -33,15 +33,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(Marioverse.MOD_ID)
-public class Marioverse
-{
-    // Define mod id in a common place for everything to reference
+public class Marioverse {
     public static final String MOD_ID = "marioverse";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold blocks/items which will all be registered under the "marioverse" namespace
+    public static final Logger LOGGER = LogUtils.getLogger();
+
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
 
@@ -52,9 +49,7 @@ public class Marioverse
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
 
-    public Marioverse(IEventBus bus, Dist dist, ModContainer container)
-    {
-        // Register the Deferred Register to the mod event bus so blocks/items get registered
+    public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
@@ -75,9 +70,8 @@ public class Marioverse
         SoundRegistry.init();
         ConfigRegistry.register(container);
 
-        if (dist.isClient()) {
+        if (dist.isClient())
             ConfigRegistry.registerClient(container);
-        }
 
         // PipeBubblesSoundHandler.init();
 
@@ -85,8 +79,6 @@ public class Marioverse
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(MarioverseEventHandlers::gatherData);
-        bus.addListener(MarioverseEventHandlers::onModifyBakingResult);
-        bus.addListener(MarioverseEventHandlers::onRegister);
         bus.addListener(FMLClientSetupEvent.class, this::clientSetup);
     }
 

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -91,6 +93,19 @@ public class LinkerItem extends TieredItem {
                     setIsBound(stack, false);  // Reset binding
                 }
                 return InteractionResult.sidedSuccess(world.isClientSide);
+            } else if (state.getBlock() instanceof DoorBlock) {
+                if (!world.isClientSide) {
+                    BlockEntity existingEntity = world.getBlockEntity(pos);
+
+                    if (!(existingEntity instanceof WarpDoorBlockEntity)) {
+                        world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
+                        player.sendSystemMessage(Component.literal("Warp Door attached!"));
+                    } else {
+                        player.sendSystemMessage(Component.literal("This door is already a Warp Door!"));
+                    }
+                }
+
+                return InteractionResult.SUCCESS;
             }
         }
         return super.useOn(useOnContext);

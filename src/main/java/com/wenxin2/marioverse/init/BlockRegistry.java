@@ -9,7 +9,6 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
-import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
@@ -19,18 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -41,7 +36,6 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final Map<String, DeferredBlock<Block>> WARP_DOORS = new HashMap<>();
 
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
@@ -79,8 +73,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
-    static
-    {
+    static {
         COIN = registerBlock("coin",
                 () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
@@ -268,11 +261,6 @@ public class BlockRegistry {
                                 .isViewBlocking(BlockRegistry::always).requiresCorrectToolForDrops()))));
 
 
-//        BuiltInRegistries.BLOCK.stream()
-//                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock)) // Only process DoorBlock instances
-//                .forEach(door -> registerWarpDoor((DoorBlock) door));
-
-
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
                 () -> new PipeBubblesBlock(BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY)
                         .replaceable().noCollission().noLootTable().liquid()));
@@ -292,34 +280,6 @@ public class BlockRegistry {
 
     public static <T extends Block> DeferredBlock<T> registerNoItemBlock(String name, Supplier<T> block) {
         return Marioverse.BLOCKS.register(name, block);
-    }
-
-    public static void registerWarpDoors() {
-        BuiltInRegistries.BLOCK.stream()
-                .filter(block -> block instanceof DoorBlock && !(block instanceof WarpDoorBlock))
-                .forEach(door -> registerWarpDoor((DoorBlock) door));
-    }
-
-    private static void registerWarpDoor(DoorBlock baseDoor) {
-        ResourceLocation location = BuiltInRegistries.BLOCK.getKey(baseDoor);
-        String path = location.getPath();
-
-        String modifiedPath;
-        if (path.endsWith("_door")) {
-            int splitIndex = path.lastIndexOf("_door");
-            modifiedPath = path.substring(0, splitIndex) + "_warp" + path.substring(splitIndex);
-        } else {
-            // Fallback if the path does not end with "_door"
-            modifiedPath = "warp_" + path;
-        }
-
-        String name = location.getNamespace().equals("minecraft")
-                ? modifiedPath
-                : location.getNamespace() + "_" + modifiedPath;
-
-        BlockSetType blockSetType = baseDoor.type();
-        WARP_DOORS.put(name, registerNoItemBlock(name,
-                () -> new WarpDoorBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(baseDoor), baseDoor)));
     }
 
     private static boolean always(BlockState state, BlockGetter block, BlockPos pos)

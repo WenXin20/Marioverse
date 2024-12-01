@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
@@ -38,8 +39,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -77,13 +80,18 @@ public abstract class LivingEntityMixin extends Entity {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock) {
+            if (offsetState.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterPipe(offsetPos);
-            }
-            if (state.getBlock() instanceof WarpPipeBlock) {
+            if (state.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterPipe(pos);
-            }
         }
+
+        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
+            this.marioverse$enterPipeBelow(pos);
+
+        if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
+                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+            livingEntity.sendSystemMessage(Component.literal("Inside Door!"));
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (livingEntity.fallDistance > 0 || livingEntity.isInWaterOrBubble()))
@@ -95,9 +103,6 @@ public abstract class LivingEntityMixin extends Entity {
             marioverse$consecutiveBounces = 0;
             marioverse$oneUpsRewarded = 0;
         }
-
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
-            this.marioverse$enterPipeBelow(pos);
 
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
