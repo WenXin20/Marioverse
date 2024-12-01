@@ -20,9 +20,10 @@ public class ConfigRegistry
     public static final String CATEGORY_MISC = "misc";
     public static final String CATEGORY_MOBS = "mobs";
     public static final String CATEGORY_POWER_UPS = "power_ups";
+    public static final String CATEGORY_TELEPORTATION = "teleportation";
 
     public static final String CATEGORY_QUESTION_BLOCK = "question_block";
-    public static final String CATEGORY_TELEPORTATION = "teleportation";
+    public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
@@ -99,7 +100,8 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
-    public static ModConfigSpec.IntValue WARP_COOLDOWN;
+    public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
+    public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
 
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -158,11 +160,24 @@ public class ConfigRegistry
                             .define("select_invisible_question", false);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_WARP_DOORS);
+                    WARP_DOOR_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_door_cooldown")
+                            .comment("Cooldown between teleports in ticks.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 70]§b")
+                            .defineInRange("warp_door_cooldown", 70, 0, 72000);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_WARP_PIPES);
                     ALLOW_FAST_TRAVEL = BUILDER.translation("configuration.marioverse.allow_fast_travel")
                             .comment("Allow fast travel through Clear Warp Pipes.")
                             .comment("§9[Default: true]")
                             .define("allow_fast_travel", true);
+                    WARP_PIPE_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_pipe_cooldown")
+                            .comment("Cooldown between teleports in ticks.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 50]§b")
+                            .defineInRange("warp_pipe_cooldown", 50, 0, 72000);
                     ALLOW_PIPE_UNWAXING = BUILDER.translation("configuration.marioverse.allow_pipe_unwaxing")
                             .comment("Allow pipes to be unwaxed with an axe.")
                             .comment("§9[Default: false]")
@@ -387,11 +402,6 @@ public class ConfigRegistry
                         .comment("Allow players to teleport.")
                         .comment("§9[Default: true]")
                         .define("teleport_players", true);
-                WARP_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_cooldown")
-                        .comment("Cooldown between teleports in ticks.")
-                        .comment("§6[20 ticks = 1 second]")
-                        .comment("§9[Default: 50]§b")
-                        .defineInRange("warp_cooldown", 50, 0, 72000);
             BUILDER.pop();
 
         BUILDER.pop();

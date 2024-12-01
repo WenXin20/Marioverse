@@ -88,8 +88,7 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
     public UUID uuid;
     public UUID warpUuid;
 
-    public WarpPipeBlockEntity(final BlockPos pos, final BlockState state)
-    {
+    public WarpPipeBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), pos, state);
     }
 

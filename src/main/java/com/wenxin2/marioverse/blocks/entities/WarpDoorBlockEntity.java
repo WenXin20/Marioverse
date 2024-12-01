@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.ConfigRegistry;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -12,14 +15,21 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class WarpDoorBlockEntity extends BlockEntity {
-
     public static final String WARP_POS = "WarpPos";
     public static final String WARP_DIMENSION = "Dimension";
     public static final String WARP_UUID = "WarpUUID";
@@ -33,8 +43,7 @@ public class WarpDoorBlockEntity extends BlockEntity {
     public UUID uuid;
     public UUID warpUuid;
 
-    public WarpDoorBlockEntity(final BlockPos pos, final BlockState state)
-    {
+    public WarpDoorBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_DOOR_BLOCK_ENTITY.get(), pos, state);
     }
 
@@ -76,13 +85,11 @@ public class WarpDoorBlockEntity extends BlockEntity {
 
 
     public void setDestinationDim(@Nullable ResourceKey<Level> dimension) {
-        if (dimension != null) {
+        if (dimension != null)
             this.dimensionTag = dimension.location().toString();
-        }
 
-        if (this.level != null) {
+        if (this.level != null)
             this.level.setBlock(this.getBlockPos(), this.getBlockState(), 4);
-        }
         this.setChanged();
     }
 
@@ -166,5 +173,81 @@ public class WarpDoorBlockEntity extends BlockEntity {
 
     public void playSound(Level world, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
         world.playSound(null, pos, soundEvent, source, volume, pitch);
+    }
+
+    public void playDoorSounds(@Nullable Entity entity, Level world, BlockPos pos, boolean isOpen, BlockSetType type) {
+        world.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
+                world.getRandom().nextFloat() * 0.1F + 0.9F
+        );
+    }
+
+    // Store a map to track whether entities have teleported or not
+    public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
+
+    // Method to mark an entity as teleported
+    public static void markEntityTeleported(Entity entity) {
+        if (entity != null) {
+            teleportedEntities.put(entity.getId(), true);
+        }
+    }
+
+    public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state) {
+        if (world.getBlockState(warpPos).getBlock() instanceof DoorBlock doorBlock
+                && world.getBlockEntity(warpPos) instanceof WarpDoorBlockEntity doorBlockEntity) {
+            Entity passengerEntity = entity.getControllingPassenger();
+
+            if (entity instanceof Player) {
+//                world.setBlock(warpPos, world.getBlockState(warpPos).setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+                doorBlockEntity.playDoorSounds(null, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+                if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                    ((Player) entity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+            } else {
+//                world.setBlock(warpPos, world.getBlockState(warpPos).setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+                doorBlockEntity.playDoorSounds(entity, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+                if (passengerEntity instanceof Player) {
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        ((Player) passengerEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                    entity.unRide();
+                }
+            }
+            markEntityTeleported(entity);
+        }
+        world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
+    }
+
+    public static BlockPos findMatchingUUID(UUID uuid, Level world, BlockPos pos) {
+        BlockPos closestPos = null;
+        double closestDistanceSq = Double.MAX_VALUE;
+        int maxDistance = 64; // How far it searches for warp pipes with a matching UUID
+
+        for (int x = -maxDistance; x <= maxDistance; x++) {
+            for (int y = Math.max(-maxDistance, world.getMinBuildHeight() - pos.getY()); y <= Math.min(maxDistance, world.getMaxBuildHeight() - pos.getY()); y++) {
+                for (int z = -maxDistance; z <= maxDistance; z++) {
+                    BlockPos checkingPos = pos.offset(x, y, z);
+                    BlockState blockState = world.getBlockState(checkingPos);
+                    Block block = blockState.getBlock();
+
+                    if (block instanceof DoorBlock && world.getBlockEntity(checkingPos) != null
+                            && world.getBlockEntity(checkingPos) instanceof WarpDoorBlockEntity) {
+                        BlockEntity blockEntity = world.getBlockEntity(checkingPos);
+
+                        if (blockEntity instanceof WarpDoorBlockEntity warpDoorBlockEntity) {
+                            UUID warpUUID = warpDoorBlockEntity.getWarpUuid();
+
+                            if (uuid.equals(warpUUID)) {
+                                double distanceSq = pos.distToCenterSqr(checkingPos.getX(), checkingPos.getY(), checkingPos.getZ());
+                                if (distanceSq < closestDistanceSq) {
+                                    closestPos = checkingPos.immutable();
+                                    closestDistanceSq = distanceSq;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return closestPos;
     }
 }

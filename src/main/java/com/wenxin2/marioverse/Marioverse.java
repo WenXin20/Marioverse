@@ -83,7 +83,6 @@ public class Marioverse {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        event.enqueueWork(MarioverseClient::registerRenderLayers);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);

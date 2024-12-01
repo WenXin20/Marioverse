@@ -55,7 +55,6 @@ public class LinkerItem extends TieredItem {
         } else if (player != null) {
             if ((state.getBlock() instanceof ClearWarpPipeBlock || ((state.getBlock() instanceof WarpPipeBlock)
                     && state.getValue(WarpPipeBlock.ENTRANCE))) && player.isShiftKeyDown() && blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-
                 UUID uuid = pipeBlockEntity.getUuid();
 
                 if (!getIsBound(stack)) {
@@ -75,14 +74,15 @@ public class LinkerItem extends TieredItem {
                     // Second interaction: Link the blocks
                     BlockPos firstPos = getWarpPos(stack);
                     String firstDim = getWarpDimension(stack);
+
 //                    if (dimension.equals(getWarpDimension(stack))) {
                         BlockEntity firstBlockEntity = world.getBlockEntity(firstPos);
                         if (firstBlockEntity instanceof WarpPipeBlockEntity firstPipeBlockEntity) {
 
                             // Perform the linking logic
-                            this.link(stack, firstPipeBlockEntity, pipeBlockEntity);
+                            this.linkPipes(stack, firstPipeBlockEntity, pipeBlockEntity);
 
-                            player.displayClientMessage(Component.translatable("display.marioverse.linker.linked",
+                            player.displayClientMessage(Component.translatable("display.marioverse.linker.linked_pipe",
                                             pos.getX(), pos.getY(), pos.getZ(), dimension)
                                     .withStyle(ChatFormatting.GOLD), true);
 
@@ -105,13 +105,55 @@ public class LinkerItem extends TieredItem {
                     }
                 }
 
+                if (blockEntity instanceof WarpDoorBlockEntity doorBlockEntity) {
+                    UUID uuid = UUID.randomUUID();
+                    doorBlockEntity.setPreventWarp(Boolean.FALSE);
+                    doorBlockEntity.setUuid(uuid);
+                    doorBlockEntity.setChanged();
+
+                    if (!getIsBound(stack)) {
+                        uuid = doorBlockEntity.getUuid();
+                        // First interaction: Bind the first block
+                        setWarpPos(stack, pos);
+                        setWarpDimension(stack, dimension);
+                        setWarpUUID(stack, uuid);
+                        setIsBound(stack, true);  // Mark the item as bound
+
+                        player.displayClientMessage(Component.translatable("display.marioverse.linker.bound",
+                                        pos.getX(), pos.getY(), pos.getZ(), dimension)
+                                .withStyle(ChatFormatting.DARK_GREEN), true);
+
+                        this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
+                        this.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
+                    } else {
+                        // Second interaction: Link the blocks
+                        BlockPos firstPos = getWarpPos(stack);
+                        String firstDim = getWarpDimension(stack);
+                        BlockEntity firstBlockEntity = world.getBlockEntity(firstPos);
+
+                        if (firstBlockEntity instanceof WarpDoorBlockEntity firstDoorBlockEntity) {
+                            // Perform the linking logic
+                            this.linkDoors(stack, firstDoorBlockEntity, doorBlockEntity);
+
+                            player.displayClientMessage(Component.translatable("display.marioverse.linker.linked_door",
+                                            pos.getX(), pos.getY(), pos.getZ(), dimension)
+                                    .withStyle(ChatFormatting.GOLD), true);
+
+                            this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
+                            this.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
+                        }
+                        setIsBound(stack, false);  // Reset binding
+                    }
+                    return InteractionResult.sidedSuccess(world.isClientSide);
+                }
+
                 return InteractionResult.SUCCESS;
             }
         }
         return super.useOn(useOnContext);
     }
 
-    public void link(ItemStack stack, WarpPipeBlockEntity firstPipeBlockEntity, WarpPipeBlockEntity secondPipeBlockEntity) {
+    public void linkPipes(ItemStack stack, WarpPipeBlockEntity firstPipeBlockEntity, WarpPipeBlockEntity secondPipeBlockEntity) {
         UUID firstUuid = firstPipeBlockEntity.getUuid();
         UUID secondUuid = secondPipeBlockEntity.getUuid();
 
@@ -136,8 +178,35 @@ public class LinkerItem extends TieredItem {
 
         firstPipeBlockEntity.setChanged();
         secondPipeBlockEntity.setChanged();
+        clearItemComponents(stack);
+    }
 
-        clearItemComponents(stack);  // Clear tags after linking
+    public void linkDoors(ItemStack stack, WarpDoorBlockEntity firstDoorBlockEntity, WarpDoorBlockEntity secondDoorBlockEntity) {
+        UUID firstUuid = firstDoorBlockEntity.getUuid();
+        UUID secondUuid = secondDoorBlockEntity.getUuid();
+
+        BlockPos firstPos = firstDoorBlockEntity.getBlockPos();
+        BlockPos secondPos = secondDoorBlockEntity.getBlockPos();
+        ResourceKey<Level> firstDim = firstDoorBlockEntity.getDestinationDim();
+        ResourceKey<Level> secondDim = secondDoorBlockEntity.getDestinationDim();
+
+        // Linking logic
+        firstDoorBlockEntity.setDestinationPos(secondPos);
+        secondDoorBlockEntity.setDestinationPos(firstPos);
+
+        if (secondDim != null)
+            firstDoorBlockEntity.setDestinationDim(secondDim);
+        if (firstDim != null)
+            secondDoorBlockEntity.setDestinationDim(firstDim);
+
+        if (firstUuid != null)
+            secondDoorBlockEntity.setWarpUuid(firstUuid);
+        if (secondUuid != null)
+            firstDoorBlockEntity.setWarpUuid(secondUuid);
+
+        firstDoorBlockEntity.setChanged();
+        secondDoorBlockEntity.setChanged();
+        clearItemComponents(stack);
     }
 
     public void clearItemComponents(ItemStack stack) {

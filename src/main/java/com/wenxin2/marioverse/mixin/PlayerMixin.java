@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -15,10 +16,8 @@ import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,9 +31,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,6 +51,8 @@ public abstract class PlayerMixin extends Entity {
     @Shadow public abstract Inventory getInventory();
 
     @Shadow @Nullable public abstract ItemEntity drop(ItemStack p_36177_, boolean p_36178_);
+
+    @Shadow public abstract void increaseScore(int p_36402_);
 
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 40;
@@ -72,17 +75,22 @@ public abstract class PlayerMixin extends Entity {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock) {
+            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED)) {
                 this.marioverse$enterPipe(offsetPos);
             }
-            if (state.getBlock() instanceof WarpPipeBlock) {
+            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)) {
                 this.marioverse$enterPipe(pos);
             }
         }
 
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock) {
+        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)) {
             this.marioverse$enterPipeBelow(pos);
         }
+
+        if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
+                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
+                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+            this.marioverse$enterWarpDoor(pos);
 
         if (this.marioverse$warpCooldown > 0) {
             --this.marioverse$warpCooldown;
@@ -111,17 +119,6 @@ public abstract class PlayerMixin extends Entity {
             else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
         super.baseTick();
-    }
-
-    @Unique
-    public void marioverse$spawnParticles(Entity entity, Level world) {
-        RandomSource random = world.getRandom();
-        for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
-            world.addParticle(ParticleTypes.ENCHANT,
-                    entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D),
-                    (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
-                    (random.nextDouble() - 0.5D) * 2.0D);
-        }
     }
 
     @Unique
@@ -223,14 +220,14 @@ public abstract class PlayerMixin extends Entity {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
-        if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
+        if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
                 && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
             if (world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.marioverse$spawnParticles(this, world);
+                world.broadcastEntityEvent(this, (byte) 120);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
@@ -243,9 +240,9 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, stateAboveEntity);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, stateAboveEntity);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
+                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(stateAboveEntity);
             }
         }
     }
@@ -266,14 +263,14 @@ public abstract class PlayerMixin extends Entity {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
+        if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
                 && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
             if (world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.marioverse$spawnParticles(this, world);
+                world.broadcastEntityEvent(this, (byte) 120);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
@@ -286,9 +283,9 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
+                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.SOUTH
                     && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
@@ -297,9 +294,9 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
+                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.NORTH
                     && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
@@ -308,9 +305,9 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
+                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.WEST
                     && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -319,9 +316,9 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
+                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !this.isShiftKeyDown() && this.getMotionDirection() == Direction.EAST
                     && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -330,9 +327,9 @@ public abstract class PlayerMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage();
+                displayDestinationMissingMessage(); */ else if (warpPipeBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
             }
         } else if (!state.getValue(WarpPipeBlock.CLOSED) && (!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(TagRegistry.CANNOT_WARP))) {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && this.isShiftKeyDown() && (entityY + this.getBbHeight() >= blockY - 1)
@@ -364,15 +361,82 @@ public abstract class PlayerMixin extends Entity {
     }
 
     @Unique
+    public void marioverse$enterWarpDoor(BlockPos pos) {
+        Level world = this.level();
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockPos warpPos;
+        BlockState state = world.getBlockState(pos);
 
-    public void marioverse$displayCooldownMessage() {
+        double entityX = this.getX();
+        double entityY = this.getY();
+        double entityZ = this.getZ();
+
+        int blockX = pos.getX();
+        int blockY = pos.getY();
+        int blockZ = pos.getZ();
+
+        if (state.getBlock() instanceof DoorBlock doorBlock && blockEntity instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.getLevel() != null
+                && !warpDoorBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
+                && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            warpPos = warpDoorBE.destinationPos;
+            int entityId = this.getId();
+
+            if (!world.isClientSide() && WarpDoorBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+                world.broadcastEntityEvent(this, (byte) 120);
+
+                // Reset the teleport status for the entity
+                WarpDoorBlockEntity.teleportedEntities.put(entityId, false);
+            }
+
+            if (this.marioverse$getWarpCooldown() == 0 && !this.isShiftKeyDown()) {
+                if (warpPos != null) {
+                    BlockState warpState = world.getBlockState(warpPos);
+
+                    WarpDoorBlockEntity.warp(this, warpPos, world, state);
+                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE), 10);
+                    world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+                    warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                    warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+                } else if (warpDoorBE.getUuid() != null && warpDoorBE.getWarpUuid() != null
+                        && WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos) != null) {
+                    BlockState warpState = world.getBlockState(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos));
+
+                    WarpDoorBlockEntity.warp(this, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
+                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE), 10);
+                    world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), warpState.setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+                    warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                    warpDoorBE.playDoorSounds(null, world, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
+                            warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+                }
+                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+            } else if (warpDoorBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
+        } else if ((!ConfigRegistry.TELEPORT_PLAYERS.get() || this.getType().is(TagRegistry.CANNOT_WARP))) {
+            if (!this.isShiftKeyDown()) {
+                this.marioverse$displayNoTeleportMessage();
+            }
+        }
+    }
+
+    @Unique
+
+    public void marioverse$displayCooldownMessage(BlockState state) {
         if (this.marioverse$getWarpCooldown() >= 10) {
-            if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
-                if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
-                    this.displayClientMessage(Component.translatable("display.marioverse.warp_cooldown.ticks",
-                            this.marioverse$getWarpCooldown()).withStyle(ChatFormatting.RED), true);
-                else this.displayClientMessage(Component.translatable("display.marioverse.warp_cooldown")
-                        .withStyle(ChatFormatting.RED), true);
+            if (state.getBlock() instanceof WarpPipeBlock) {
+                if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
+                    if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
+                        this.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown.ticks",
+                                this.marioverse$getWarpCooldown()).withStyle(ChatFormatting.RED), true);
+                    else this.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown")
+                            .withStyle(ChatFormatting.RED), true);
+                }
+            } else if (state.getBlock() instanceof DoorBlock) {
+                if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
+                    if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
+                        this.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown.ticks",
+                                this.marioverse$getWarpCooldown()).withStyle(ChatFormatting.RED), true);
+                    else this.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown")
+                            .withStyle(ChatFormatting.RED), true);
+                }
             }
         }
     }

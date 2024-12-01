@@ -726,8 +726,8 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
                     if (block instanceof WarpPipeBlock) {
                         BlockEntity blockEntity = world.getBlockEntity(checkingPos);
 
-                        if (blockEntity instanceof WarpPipeBlockEntity pipeTileEntity) {
-                            UUID warpUUID = pipeTileEntity.getWarpUuid();
+                        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
+                            UUID warpUUID = pipeBlockEntity.getWarpUuid();
 
                             if (uuid.equals(warpUUID)) {
                                 double distanceSq = pos.distToCenterSqr(checkingPos.getX(), checkingPos.getY(), checkingPos.getZ());
