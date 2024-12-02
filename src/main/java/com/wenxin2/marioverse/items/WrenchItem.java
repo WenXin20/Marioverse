@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
