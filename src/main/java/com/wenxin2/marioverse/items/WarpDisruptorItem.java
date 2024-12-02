@@ -11,6 +11,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -56,10 +57,13 @@ public class WarpDisruptorItem extends Item {
 
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                     && blockEntity instanceof WarpDoorBlockEntity doorBlockEntity) {
-                doorBlockEntity.setPreventWarp(Boolean.TRUE);
                 if (doorBlockEntity.preventWarp)
                     doorBlockEntity.setBreakDoor(Boolean.TRUE);
-                this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, world, pos, 30);
+                doorBlockEntity.setPreventWarp(Boolean.TRUE);
+                doorBlockEntity.markUpdated();
+                if (doorBlockEntity.preventWarp)
+                    this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                else this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 8);
                 if (player != null) {
                     if (!player.isCreative())
                         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
@@ -67,10 +71,13 @@ public class WarpDisruptorItem extends Item {
                 return InteractionResult.SUCCESS;
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
                     && blockEntityBelow instanceof WarpDoorBlockEntity doorBlockEntity) {
-                doorBlockEntity.setPreventWarp(Boolean.TRUE);
                 if (doorBlockEntity.preventWarp)
                     doorBlockEntity.setBreakDoor(Boolean.TRUE);
-                this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, world, pos.below(), 30);
+                doorBlockEntity.setPreventWarp(Boolean.TRUE);
+                doorBlockEntity.markUpdated();
+                if (doorBlockEntity.preventWarp)
+                    this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                else this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 8);
                 if (player != null) {
                     if (!player.isCreative())
                         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
@@ -82,7 +89,8 @@ public class WarpDisruptorItem extends Item {
 
             if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
                 pipeBlockEntity.setPreventWarp(Boolean.TRUE);
-                this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, world, pos, 30);
+                pipeBlockEntity.markUpdated();
+                this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 32);
                 if (player != null) {
                     if (!player.isCreative())
                         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
@@ -99,13 +107,13 @@ public class WarpDisruptorItem extends Item {
         if (livingEntity instanceof Player) {
             livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
             livingEntity.getPersistentData().putInt("marioverse:prevent_warp_cooldown", 50);
-            this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, livingEntity.level(), livingEntity.blockPosition(), 30);
+            this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), livingEntity.blockPosition(), 8);
             if (!player.isCreative())
                 stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             return InteractionResult.SUCCESS;
         } else {
             livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
-            this.spawnParticles(ParticleTypes.ELECTRIC_SPARK, livingEntity.level(), livingEntity.blockPosition(), 30);
+            this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, livingEntity, livingEntity.level(), livingEntity.blockPosition(), 8);
             if (!player.isCreative())
                 stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             return InteractionResult.SUCCESS;
@@ -129,9 +137,30 @@ public class WarpDisruptorItem extends Item {
             double y = pos.getY();
             double z = pos.getZ() + 0.5 + offsetZ;
 
-            world.addParticle(particleType, x, y, z, 0, 1.0, 0);
-            world.addParticle(particleType, x, y + 0.5, z, 0, 1.0, 0);
-            world.addParticle(particleType, x, y + 1.0, z, 0, 1.0, 0);
+            world.addParticle(particleType, x, y, z, 0, 0.5, 0);
+            world.addParticle(particleType, x, y + 0.5, z, 0, 0.5, 0);
+            world.addParticle(particleType, x, y + 1.0, z, 0, 0.5, 0);
+        }
+    }
+
+    public void spawnEntityParticles(ParticleOptions particleType, Entity entity, Level world, BlockPos pos, int avgAmount) {
+        float scaleFactor = entity.getBbWidth();
+        int numParticles = (int) (scaleFactor * avgAmount);
+        double radius = entity.getBbWidth() / 2;
+
+        for (int i = 0; i < numParticles; i++) {
+            // Calculate angle for each particle
+            double angle = 2 * Math.PI * i / numParticles;
+            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+            double offsetX = Math.cos(angle) * radius;
+            double offsetY = entity.getBbHeight();
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = entity.getX() + offsetX;
+            double y = entity.getY();
+            double z = entity.getZ() + offsetZ;
+
+            world.addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
         }
     }
 }

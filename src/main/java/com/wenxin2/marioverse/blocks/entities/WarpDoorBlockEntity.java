@@ -201,29 +201,31 @@ public class WarpDoorBlockEntity extends BlockEntity {
         }
     }
 
-    public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state) {
-        if (world.getBlockState(warpPos).getBlock() instanceof DoorBlock doorBlock
-                && world.getBlockEntity(warpPos) instanceof WarpDoorBlockEntity doorBlockEntity) {
-            Entity passengerEntity = entity.getControllingPassenger();
+    public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state, DoorBlock doorBlock, WarpDoorBlockEntity doorBlockEntity) {
+        Entity passengerEntity = entity.getControllingPassenger();
 
-            if (entity instanceof Player) {
-                doorBlockEntity.playDoorSounds(null, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
-                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+        if (entity instanceof Player player) {
+            doorBlockEntity.playDoorSounds(null, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+            entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+            if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+        } else {
+            doorBlockEntity.playDoorSounds(entity, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+            entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+            if (passengerEntity instanceof Player player) {
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
-                    ((Player) entity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
-            } else {
-                doorBlockEntity.playDoorSounds(entity, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
-                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-                if (passengerEntity instanceof Player) {
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
-                        ((Player) passengerEntity).addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
-                    entity.unRide();
-                }
+                    player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                entity.unRide();
             }
-            if (doorBlockEntity.breakDoor)
-                world.destroyBlock(warpPos.below(), Boolean.TRUE);
-            markEntityTeleported(entity);
         }
+
+        if (!world.isClientSide && world.getBlockEntity(warpPos) instanceof WarpDoorBlockEntity warpDoorBlockEntity
+                && warpDoorBlockEntity.breakDoor) {
+            if (world.getBlockState(warpPos).getBlock() instanceof DoorBlock)
+                world.destroyBlock(warpPos, true);
+        }
+
+        markEntityTeleported(entity);
         world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
     }
 

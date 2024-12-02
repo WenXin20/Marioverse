@@ -83,7 +83,6 @@ public class WarpDoorRuneItem extends Item {
             double angle = 2 * Math.PI * i / numParticles;
             // Calculate the X and Z offset using sine and cosine to spread in an ellipse
             double offsetX = Math.cos(angle) * radius;
-            double offsetY = 0.5;
             double offsetZ = Math.sin(angle) * radius;
 
             double x = pos.getX() + 0.5 + offsetX;
