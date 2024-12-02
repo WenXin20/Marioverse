@@ -123,7 +123,7 @@ public class WarpDisruptorItem extends Item {
         if (livingEntity instanceof Player) {
             livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
             livingEntity.getPersistentData().putInt("marioverse:prevent_warp_cooldown", 50); // TODO
-            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp", 50).withStyle(ChatFormatting.RED), true);
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp", player.getDisplayName(), 50).withStyle(ChatFormatting.RED), true);
             this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), livingEntity.blockPosition(), 16);
             if (!player.isCreative())
                 stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
