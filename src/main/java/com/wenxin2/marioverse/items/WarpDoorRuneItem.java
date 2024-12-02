@@ -46,15 +46,22 @@ public class WarpDoorRuneItem extends Item {
 
         if (state.getBlock() instanceof DoorBlock) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
-            if (!(blockEntity instanceof WarpDoorBlockEntity)) {
-                if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
-                    world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
-                    this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
-                }
-                if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
+            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
+                if (!(blockEntity instanceof WarpDoorBlockEntity)) {
                     world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
                     this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
+                }
+                if (player != null) {
+                    if (!player.isCreative())
+                        stack.shrink(1);
+                }
+                return InteractionResult.SUCCESS;
+            } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
+                if (!(blockEntityBelow instanceof WarpDoorBlockEntity)) {
+                    world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
+                    this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
                 }
                 if (player != null) {
                     if (!player.isCreative())
