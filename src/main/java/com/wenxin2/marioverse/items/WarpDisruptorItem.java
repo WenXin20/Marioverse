@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import java.util.List;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -37,6 +38,8 @@ public class WarpDisruptorItem extends Item {
             list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.line2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.line2"));
         } else
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
 
@@ -57,31 +60,43 @@ public class WarpDisruptorItem extends Item {
 
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                     && blockEntity instanceof WarpDoorBlockEntity doorBlockEntity) {
-                if (doorBlockEntity.preventWarp)
+                if (doorBlockEntity.preventWarp) {
+                    this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp", 50), true);
                     doorBlockEntity.setBreakDoor(Boolean.TRUE);
-                doorBlockEntity.setPreventWarp(Boolean.TRUE);
-                doorBlockEntity.markUpdated();
-                if (doorBlockEntity.preventWarp)
+                } else {
                     this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
-                else this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 8);
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door"), true);
+                    doorBlockEntity.setPreventWarp(Boolean.TRUE);
+                }
+
                 if (player != null) {
                     if (!player.isCreative())
                         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                 }
+                doorBlockEntity.markUpdated();
                 return InteractionResult.SUCCESS;
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
                     && blockEntityBelow instanceof WarpDoorBlockEntity doorBlockEntity) {
-                if (doorBlockEntity.preventWarp)
+                if (doorBlockEntity.preventWarp) {
+                    this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp"), true);
                     doorBlockEntity.setBreakDoor(Boolean.TRUE);
-                doorBlockEntity.setPreventWarp(Boolean.TRUE);
-                doorBlockEntity.markUpdated();
-                if (doorBlockEntity.preventWarp)
+                } else {
                     this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
-                else this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 8);
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door"), true);
+                    doorBlockEntity.setPreventWarp(Boolean.TRUE);
+                }
+
                 if (player != null) {
                     if (!player.isCreative())
                         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                 }
+                doorBlockEntity.markUpdated();
                 return InteractionResult.SUCCESS;
             }
         } else if (state.getBlock() instanceof WarpPipeBlock) {
@@ -90,8 +105,9 @@ public class WarpDisruptorItem extends Item {
             if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
                 pipeBlockEntity.setPreventWarp(Boolean.TRUE);
                 pipeBlockEntity.markUpdated();
-                this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 32);
+                this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
                 if (player != null) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_pipe_warp"), true);
                     if (!player.isCreative())
                         stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                 }
@@ -106,14 +122,16 @@ public class WarpDisruptorItem extends Item {
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
         if (livingEntity instanceof Player) {
             livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
-            livingEntity.getPersistentData().putInt("marioverse:prevent_warp_cooldown", 50);
-            this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), livingEntity.blockPosition(), 8);
+            livingEntity.getPersistentData().putInt("marioverse:prevent_warp_cooldown", 50); // TODO
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp", 50).withStyle(ChatFormatting.RED), true);
+            this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), livingEntity.blockPosition(), 16);
             if (!player.isCreative())
                 stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             return InteractionResult.SUCCESS;
         } else {
             livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
-            this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, livingEntity, livingEntity.level(), livingEntity.blockPosition(), 8);
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_entity_warp", livingEntity.getDisplayName()).withStyle(ChatFormatting.RED), true);
+            this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, livingEntity, livingEntity.level(), livingEntity.blockPosition(), 16);
             if (!player.isCreative())
                 stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             return InteractionResult.SUCCESS;
@@ -160,7 +178,9 @@ public class WarpDisruptorItem extends Item {
             double y = entity.getY();
             double z = entity.getZ() + offsetZ;
 
+            world.addParticle(particleType, x, y + 0.2, z, 0, 1.0, 0);
             world.addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
+            world.addParticle(particleType, x, y + offsetY - 0.2, z, 0, 1.0, 0);
         }
     }
 }

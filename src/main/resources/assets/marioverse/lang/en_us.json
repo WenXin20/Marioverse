@@ -142,8 +142,15 @@
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "§6Shift-right-click: §7Binds pipes",
 
   "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Right-click:",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Shift-right-click:",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.line2": " §7Prevents warping of mobs, pipes, & doors",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2": "§6Shift-right-click x2:",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.line2": " §7Breaks door after warping",
+  "item.marioverse.warp_disruptor.message.break_door": "§3Break door after warping",
+  "item.marioverse.warp_disruptor.message.prevent_door_warp": "§cPrevented door warping",
+  "item.marioverse.warp_disruptor.message.prevent_entity_warp": "§cPrevented §r%1$s §cwarping",
+  "item.marioverse.warp_disruptor.message.prevent_pipe_warp": "§cPrevented pipe warping",
+  "item.marioverse.warp_disruptor.message.prevent_player_warp": "§cPrevented player warping for §r%1$s §cticks",
 
   "item.marioverse.warp_door_rune.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_door_rune.tooltip.shift_right_click": "§6Shift-right-click:",
