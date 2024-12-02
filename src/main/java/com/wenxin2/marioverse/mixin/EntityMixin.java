@@ -240,8 +240,8 @@ public abstract class EntityMixin {
                     BlockState warpState = world.getBlockState(warpPos);
 
                     WarpDoorBlockEntity.warp((Entity) (Object) this, warpPos, world, state);
-                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE), 10);
-                    world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                    world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
                     warpDoorBE.playDoorSounds(entity, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                     warpDoorBE.playDoorSounds(entity, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
                 } else if (warpDoorBE.getUuid() != null && warpDoorBE.getWarpUuid() != null
@@ -249,8 +249,9 @@ public abstract class EntityMixin {
                     BlockState warpState = world.getBlockState(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos));
 
                     WarpDoorBlockEntity.warp((Entity) (Object) this, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
-                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE), 10);
-                    world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), warpState.setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                    world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
+                            warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
                     warpDoorBE.playDoorSounds(entity, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                     warpDoorBE.playDoorSounds(entity, world, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
                             warpState.getValue(DoorBlock.OPEN), doorBlock.type());

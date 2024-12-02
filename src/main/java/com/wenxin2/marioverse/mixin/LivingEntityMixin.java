@@ -80,18 +80,19 @@ public abstract class LivingEntityMixin extends Entity {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock)
+            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
                 this.marioverse$enterPipe(offsetPos);
-            if (state.getBlock() instanceof WarpPipeBlock)
+            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                 this.marioverse$enterPipe(pos);
         }
 
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
+        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED))
             this.marioverse$enterPipeBelow(pos);
 
         if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
-                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-            livingEntity.sendSystemMessage(Component.literal("Inside Door!"));
+                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
+                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+            this.marioverse$enterWarpDoor(pos);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (livingEntity.fallDistance > 0 || livingEntity.isInWaterOrBubble()))
@@ -491,7 +492,7 @@ public abstract class LivingEntityMixin extends Entity {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
-        if (!stateAboveEntity.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
+        if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
                 && !warpPipeBE.preventWarp && this.getType() != EntityType.PLAYER && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
@@ -511,7 +512,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, stateAboveEntity);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, stateAboveEntity);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
             }
         }
@@ -532,14 +533,14 @@ public abstract class LivingEntityMixin extends Entity {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (!state.getValue(WarpPipeBlock.CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE && this.getType() != EntityType.PLAYER
+        if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE && this.getType() != EntityType.PLAYER
                 && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
             if (!world.isClientSide() && WarpPipeBlock.teleportedEntities.getOrDefault(entityId, false)) {
-                this.level().broadcastEntityEvent((LivingEntity) (Object) this, (byte) 120);
+                world.broadcastEntityEvent((LivingEntity) (Object) this, (byte) 120);
 
                 // Reset the teleport status for the entity
                 WarpPipeBlock.teleportedEntities.put(entityId, false);
@@ -552,7 +553,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
@@ -560,7 +561,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ)) {
@@ -568,7 +569,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -576,7 +577,7 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -584,8 +585,62 @@ public abstract class LivingEntityMixin extends Entity {
                         WarpPipeBlock.warp(this, warpPos, world, state);
                     else if (warpPipeBE.getUuid() != null && warpPipeBE.getWarpUuid() != null && WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos) != null)
                         WarpPipeBlock.warp(this, WarpPipeBlock.findMatchingUUID(warpPipeBE.getUuid(), world, pos), world, state);
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_COOLDOWN.get());
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$enterWarpDoor(BlockPos pos) {
+        Level world = this.level();
+        BlockState state = world.getBlockState(pos);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockPos warpPos;
+
+        double entityX = this.getX();
+        double entityY = this.getY();
+        double entityZ = this.getZ();
+
+        int blockX = pos.getX();
+        int blockY = pos.getY();
+        int blockZ = pos.getZ();
+
+        if (state.getBlock() instanceof DoorBlock doorBlock && blockEntity instanceof WarpDoorBlockEntity warpDoorBE && this.getType() != EntityType.PLAYER
+                && !warpDoorBE.preventWarp && ConfigRegistry.TELEPORT_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
+                && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            warpPos = warpDoorBE.destinationPos;
+            int entityId = this.getId();
+
+            if (!world.isClientSide() && WarpDoorBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+                world.broadcastEntityEvent((LivingEntity) (Object) this, (byte) 120);
+
+                // Reset the teleport status for the entity
+                WarpDoorBlockEntity.teleportedEntities.put(entityId, false);
+            }
+
+            if (this.marioverse$getWarpCooldown() == 0) {
+                    if (warpPos != null) {
+                        BlockState warpState = world.getBlockState(warpPos);
+
+                        WarpDoorBlockEntity.warp((LivingEntity) (Object) this, warpPos, world, state);
+                        world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                        world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                        warpDoorBE.playDoorSounds(this, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                        warpDoorBE.playDoorSounds(this, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+                    } else if (warpDoorBE.getUuid() != null && warpDoorBE.getWarpUuid() != null
+                            && WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos) != null) {
+                        BlockState warpState = world.getBlockState(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos));
+
+                        WarpDoorBlockEntity.warp(this, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
+                        world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                        world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
+                                warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                        warpDoorBE.playDoorSounds(this, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                        warpDoorBE.playDoorSounds(this, world, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
+                                warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+                    }
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
             }
         }
     }
