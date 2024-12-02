@@ -44,7 +44,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock, SimpleWaterloggedBlock {
+public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -238,8 +238,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
 
     @NotNull
     @Override
-    public FluidState getFluidState(final BlockState state)
-    {
+    public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 

@@ -25,6 +25,11 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
     }
 
+    @Override
+    public boolean isValidBlockState(BlockState state) {
+        return this.getType().isValid(state) || state.getBlock() instanceof InvisibleQuestionBlock;
+    }
+
     @NotNull
     public NonNullList<ItemStack> getItems() {
         return this.items;

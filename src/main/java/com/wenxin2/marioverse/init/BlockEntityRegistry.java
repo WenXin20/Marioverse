@@ -23,8 +23,7 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpDoorBlockEntity>> WARP_DOOR_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpPipeBlockEntity>> WARP_PIPE_BLOCK_ENTITY;
 
-    static
-    {
+    static {
         COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("coin",
                 () -> BlockEntityType.Builder.of(CoinBlockEntity::new,
                                 BlockRegistry.COIN.get()).build(null));
@@ -62,6 +61,5 @@ public class BlockEntityRegistry {
                         BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof DoorBlock).toArray(Block[]::new)).build(null));
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }
