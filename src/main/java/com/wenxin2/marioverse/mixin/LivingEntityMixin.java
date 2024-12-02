@@ -270,44 +270,16 @@ public abstract class LivingEntityMixin extends Entity {
                 double angle = 2 * Math.PI * i / numParticles;
                 // Calculate the X and Z offset using sine and cosine to spread in an ellipse
                 double offsetX = Math.cos(angle) * radius;
-                double offsetY = entity.getBbHeight() - 0.2;
+                double offsetY = entity.getBbHeight();
                 double offsetZ = Math.sin(angle) * radius;
 
                 double x = entity.getX() + offsetX;
-                double y = entity.getY() + offsetY;
+                double y = entity.getY();
                 double z = entity.getZ() + offsetZ;
 
-                this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
-            }
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                double offsetX = Math.cos(angle) * radius;
-                double offsetY = entity.getBbHeight() / 2;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = entity.getX() + offsetX;
-                double y = entity.getY() + offsetY;
-                double z = entity.getZ() + offsetZ;
-
-                this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
-            }
-
-            for (int i = 0; i < numParticles; i++) {
-                // Calculate angle for each particle
-                double angle = 2 * Math.PI * i / numParticles;
-                // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                double offsetX = Math.cos(angle) * radius;
-                double offsetY = 0.2;
-                double offsetZ = Math.sin(angle) * radius;
-
-                double x = entity.getX() + offsetX;
-                double y = entity.getY() + offsetY;
-                double z = entity.getZ() + offsetZ;
-
-                this.level().addParticle(particleType, x, y, z, 0, 1.0, 0);
+                this.level().addParticle(particleType, x, y + offsetY - 0.2, z, 0, 1.0, 0);
+                this.level().addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
+                this.level().addParticle(particleType, x, y + 0.2, z, 0, 1.0, 0);
             }
         }
     }
@@ -598,14 +570,6 @@ public abstract class LivingEntityMixin extends Entity {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockPos warpPos;
 
-        double entityX = this.getX();
-        double entityY = this.getY();
-        double entityZ = this.getZ();
-
-        int blockX = pos.getX();
-        int blockY = pos.getY();
-        int blockZ = pos.getZ();
-
         if (state.getBlock() instanceof DoorBlock doorBlock && blockEntity instanceof WarpDoorBlockEntity warpDoorBE && this.getType() != EntityType.PLAYER
                 && !warpDoorBE.preventWarp && ConfigRegistry.TELEPORT_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)
                 && !this.getPersistentData().getBoolean("marioverse:prevent_warp")) {
@@ -620,27 +584,33 @@ public abstract class LivingEntityMixin extends Entity {
             }
 
             if (this.marioverse$getWarpCooldown() == 0) {
-                    if (warpPos != null) {
-                        BlockState warpState = world.getBlockState(warpPos);
+                if (warpPos != null) {
+                    BlockState warpState = world.getBlockState(warpPos);
 
-                        WarpDoorBlockEntity.warp((LivingEntity) (Object) this, warpPos, world, state);
+                    WarpDoorBlockEntity.warp((LivingEntity) (Object) this, warpPos, world, state);
+                    warpDoorBE.playDoorSounds(this, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                    warpDoorBE.playDoorSounds(this, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+
+                    if (!world.isClientSide) {
                         world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
                         world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-                        warpDoorBE.playDoorSounds(this, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
-                        warpDoorBE.playDoorSounds(this, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
-                    } else if (warpDoorBE.getUuid() != null && warpDoorBE.getWarpUuid() != null
-                            && WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos) != null) {
-                        BlockState warpState = world.getBlockState(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos));
+                    }
+                } else if (warpDoorBE.getUuid() != null && warpDoorBE.getWarpUuid() != null
+                        && WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos) != null) {
+                    BlockState warpState = world.getBlockState(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos));
 
-                        WarpDoorBlockEntity.warp(this, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
+                    WarpDoorBlockEntity.warp(this, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
+                    warpDoorBE.playDoorSounds(this, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                    warpDoorBE.playDoorSounds(this, world, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
+                            warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+
+                    if (!world.isClientSide) {
                         world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
                         world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
                                 warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-                        warpDoorBE.playDoorSounds(this, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
-                        warpDoorBE.playDoorSounds(this, world, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
-                                warpState.getValue(DoorBlock.OPEN), doorBlock.type());
                     }
-                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+                }
+                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
             }
         }
     }

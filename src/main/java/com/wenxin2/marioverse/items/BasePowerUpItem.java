@@ -30,25 +30,26 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
         if (!(level instanceof ServerLevel)) {
             return InteractionResult.SUCCESS;
         } else {
-            ItemStack itemstack = context.getItemInHand();
+            ItemStack stack = context.getItemInHand();
             BlockPos blockpos = context.getClickedPos();
             Direction direction = context.getClickedFace();
             BlockState blockstate = level.getBlockState(blockpos);
+
             if (level.getBlockEntity(blockpos) instanceof Spawner spawner
                     && (context.getPlayer() != null && context.getPlayer().isCreative())) {
-                EntityType<?> entitytype1 = this.getType(itemstack);
+                EntityType<?> entitytype1 = this.getType(stack);
                 spawner.setEntityId(entitytype1, level.getRandom());
                 level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
                 level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
-                itemstack.shrink(1);
+                stack.shrink(1);
                 return InteractionResult.CONSUME;
             } else if (level.getBlockEntity(blockpos) instanceof Spawner spawner
                     && context.getPlayer() == null) {
-                EntityType<?> entitytype1 = this.getType(itemstack);
+                EntityType<?> entitytype1 = this.getType(stack);
                 spawner.setEntityId(entitytype1, level.getRandom());
                 level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
                 level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
-                itemstack.shrink(1);
+                stack.shrink(1);
                 return InteractionResult.CONSUME;
             } else {
                 BlockPos blockpos1;
@@ -58,18 +59,10 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
                     blockpos1 = blockpos.relative(direction);
                 }
 
-                EntityType<?> entitytype = this.getType(itemstack);
-                if (entitytype.spawn(
-                        (ServerLevel)level,
-                        itemstack,
-                        context.getPlayer(),
-                        blockpos1,
-                        MobSpawnType.SPAWN_EGG,
-                        true,
-                        !Objects.equals(blockpos, blockpos1) && direction == Direction.UP
-                )
-                        != null) {
-                    itemstack.shrink(1);
+                EntityType<?> entitytype = this.getType(stack);
+                if (entitytype.spawn((ServerLevel) level, stack, context.getPlayer(), blockpos1, MobSpawnType.SPAWN_EGG, true,
+                        !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
+                    stack.shrink(1);
                     level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
                 }
 

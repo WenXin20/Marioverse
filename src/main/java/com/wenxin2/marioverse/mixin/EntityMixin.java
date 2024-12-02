@@ -215,21 +215,13 @@ public abstract class EntityMixin {
         BlockPos warpPos;
         Entity entity = (Entity) (Object) this;
 
-        double entityX = this.getX();
-        double entityY = this.getY();
-        double entityZ = this.getZ();
-
-        int blockX = pos.getX();
-        int blockY = pos.getY();
-        int blockZ = pos.getZ();
-
         if (state.getBlock() instanceof DoorBlock doorBlock && blockEntity instanceof WarpDoorBlockEntity warpDoorBE
                 && !warpDoorBE.preventWarp && ConfigRegistry.TELEPORT_NON_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)) {
             warpPos = warpDoorBE.destinationPos;
             int entityId = this.getId();
 
             if (!world.isClientSide() && WarpDoorBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
-                world.broadcastEntityEvent((Entity) (Object) this, (byte) 120);
+                world.broadcastEntityEvent(entity, (byte) 120);
 
                 // Reset the teleport status for the entity
                 WarpDoorBlockEntity.teleportedEntities.put(entityId, false);
@@ -239,22 +231,28 @@ public abstract class EntityMixin {
                 if (warpPos != null) {
                     BlockState warpState = world.getBlockState(warpPos);
 
-                    WarpDoorBlockEntity.warp((Entity) (Object) this, warpPos, world, state);
-                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-                    world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                    WarpDoorBlockEntity.warp(entity, warpPos, world, state);
                     warpDoorBE.playDoorSounds(entity, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                     warpDoorBE.playDoorSounds(entity, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+
+                    if (!world.isClientSide) {
+                        world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                        world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                    }
                 } else if (warpDoorBE.getUuid() != null && warpDoorBE.getWarpUuid() != null
                         && WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos) != null) {
                     BlockState warpState = world.getBlockState(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos));
 
-                    WarpDoorBlockEntity.warp((Entity) (Object) this, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
-                    world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-                    world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
-                            warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                    WarpDoorBlockEntity.warp(entity, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos), world, state);
                     warpDoorBE.playDoorSounds(entity, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                     warpDoorBE.playDoorSounds(entity, world, WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
                             warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+
+                    if (!world.isClientSide) {
+                        world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                        world.setBlock(WarpDoorBlockEntity.findMatchingUUID(warpDoorBE.getUuid(), world, pos),
+                                warpState.setValue(DoorBlock.OPEN, Boolean.TRUE).setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+                    }
                 }
                 this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
             }

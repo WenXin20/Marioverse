@@ -94,16 +94,6 @@ public class LinkerItem extends TieredItem {
                 }
                 return InteractionResult.sidedSuccess(world.isClientSide);
             } else if (state.getBlock() instanceof DoorBlock) {
-                if (!world.isClientSide) {
-                    BlockEntity existingEntity = world.getBlockEntity(pos);
-
-                    if (!(existingEntity instanceof WarpDoorBlockEntity)) {
-                        world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
-                        player.sendSystemMessage(Component.literal("Warp Door attached!"));
-                    } else {
-                        player.sendSystemMessage(Component.literal("This door is already a Warp Door!"));
-                    }
-                }
 
                 if (blockEntity instanceof WarpDoorBlockEntity doorBlockEntity) {
                     UUID uuid = UUID.randomUUID();

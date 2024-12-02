@@ -47,6 +47,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.FIRE_SHOES.get());
 
             add(event, BlockRegistry.COIN.get());
+            add(event, ItemRegistry.WARP_DOOR_RUNE.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
@@ -129,6 +130,7 @@ public class MarioverseCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH.get());
+            addBefore(event, Items.ELYTRA, ItemRegistry.WARP_DOOR_RUNE.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {

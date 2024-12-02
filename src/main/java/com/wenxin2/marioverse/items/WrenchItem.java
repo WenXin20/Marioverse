@@ -37,15 +37,13 @@ public class WrenchItem extends LinkerItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-
-        list.add(Component.literal(""));
-
         if (Screen.hasShiftDown()) {
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click").withStyle(ChatFormatting.DARK_GREEN));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click").withStyle(ChatFormatting.BLUE));
+            list.add(Component.literal(""));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
 
         } else {
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
         }
 
         super.appendHoverText(stack, tooltipContext, list, tooltip);
