@@ -116,6 +116,7 @@
   "item.marioverse.mushroom": "Mushroom",
   "item.marioverse.one_up_mushroom": "1-Up Mushroom",
   "item.marioverse.pipe_wrench": "Pipe Wrench",
+  "item.marioverse.warp_disruptor": "Warp Disruptor",
   "item.marioverse.warp_door_rune": "Warp Door Rune",
 
   "item.marioverse.fire_hat": "Fire Hat",
@@ -139,6 +140,10 @@
   "item.marioverse.pipe_wrench.tooltip": "§e§o[Press Shift]",
   "item.marioverse.pipe_wrench.tooltip.right_click": "§2Right-click: §7Opens pipe GUI",
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "§6Shift-right-click: §7Binds pipes",
+
+  "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Right-click:",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click.line2": " §7Prevents warping of mobs, pipes, & doors",
 
   "item.marioverse.warp_door_rune.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_door_rune.tooltip.shift_right_click": "§6Shift-right-click:",

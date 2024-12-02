@@ -96,6 +96,10 @@ public abstract class PlayerMixin extends Entity {
             --this.marioverse$warpCooldown;
         }
 
+        int preventWarpCooldown = this.getPersistentData().getInt("marioverse:prevent_warp_cooldown");
+        if (preventWarpCooldown > 0)
+            this.getPersistentData().putInt("marioverse:prevent_warp_cooldown", preventWarpCooldown - 1);
+
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
         {
             if (this.getPersistentData().getBoolean("marioverse:has_mushroom")) {

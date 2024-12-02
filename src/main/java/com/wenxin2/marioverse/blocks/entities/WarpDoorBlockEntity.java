@@ -35,10 +35,12 @@ public class WarpDoorBlockEntity extends BlockEntity {
     public static final String WARP_UUID = "WarpUUID";
     public static final String UUID = "UUID";
     public static final String PREVENT_WARP = "PreventWarp";
+    public static final String BREAK_DOOR = "BreakDoor";
     public static final String IS_WAXED = "IsWaxed";
     public BlockPos destinationPos;
     public String dimensionTag;
     public boolean preventWarp = Boolean.FALSE;
+    public boolean breakDoor = Boolean.FALSE;
     public boolean isWaxed;
     public UUID uuid;
     public UUID warpUuid;
@@ -105,6 +107,10 @@ public class WarpDoorBlockEntity extends BlockEntity {
         this.preventWarp = preventWarp;
     }
 
+    public void setBreakDoor(boolean breakDoor) {
+        this.breakDoor = breakDoor;
+    }
+
     public UUID getWarpUuid() {
         return this.warpUuid;
     }
@@ -133,6 +139,9 @@ public class WarpDoorBlockEntity extends BlockEntity {
         if (tag.contains(WARP_DIMENSION))
             this.dimensionTag = tag.getString(WARP_DIMENSION);
 
+        if (tag.contains(BREAK_DOOR))
+            this.breakDoor = tag.getBoolean(BREAK_DOOR);
+
         if (tag.contains(PREVENT_WARP))
             this.preventWarp = tag.getBoolean(PREVENT_WARP);
 
@@ -146,6 +155,7 @@ public class WarpDoorBlockEntity extends BlockEntity {
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
+        tag.putBoolean(BREAK_DOOR, this.breakDoor);
         tag.putBoolean(PREVENT_WARP, this.preventWarp);
         tag.putBoolean(IS_WAXED, this.isWaxed);
 
@@ -210,6 +220,8 @@ public class WarpDoorBlockEntity extends BlockEntity {
                     entity.unRide();
                 }
             }
+            if (doorBlockEntity.breakDoor)
+                world.destroyBlock(warpPos.below(), Boolean.TRUE);
             markEntityTeleported(entity);
         }
         world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));

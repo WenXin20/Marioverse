@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WarpDoorRuneItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.function.Supplier;
@@ -28,6 +29,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PIPE_WRENCH;
+    public static final DeferredItem<Item> WARP_DISRUPTOR;
     public static final DeferredItem<Item> WARP_DOOR_RUNE;
 
     static {
@@ -39,6 +41,8 @@ public class ItemRegistry {
                 () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
                 () -> new OneUpMushroomItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+        WARP_DISRUPTOR = registerItem("warp_disruptor",
+                () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
         WARP_DOOR_RUNE = registerItem("warp_door_rune",
                 () -> new WarpDoorRuneItem(new Item.Properties()));
 
