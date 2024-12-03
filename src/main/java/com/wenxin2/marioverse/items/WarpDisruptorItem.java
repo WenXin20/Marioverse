@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -130,11 +131,11 @@ public class WarpDisruptorItem extends Item {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
         if (!livingEntity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            if (livingEntity instanceof Player) {
+            if (livingEntity instanceof Player && !ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
                 livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
-                livingEntity.getPersistentData().putInt("marioverse:prevent_warp_cooldown", 4800); // TODO
+                livingEntity.getPersistentData().putInt("marioverse:prevent_warp_cooldown", ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
                 player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp",
-                        player.getDisplayName(), 4800).withStyle(ChatFormatting.RED), true);
+                        player.getDisplayName(), ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get()).withStyle(ChatFormatting.RED), true);
                 this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), 16);
 
                 if (!player.isCreative())
@@ -157,7 +158,7 @@ public class WarpDisruptorItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!world.isClientSide) {
+        if (!world.isClientSide && !ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
             double reachDistance = player.isCreative() ? 5.0D : 4.5D;
             AttributeInstance reachAttribute = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
             if (reachAttribute != null)
@@ -167,9 +168,9 @@ public class WarpDisruptorItem extends Item {
             if (hitResult.getType() == HitResult.Type.MISS) {
                 if (!player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                     player.getPersistentData().putBoolean("marioverse:prevent_warp", true);
-                    player.getPersistentData().putInt("marioverse:prevent_warp_cooldown", 4800); // TODO
+                    player.getPersistentData().putInt("marioverse:prevent_warp_cooldown", ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp",
-                            player.getDisplayName(), 4800).withStyle(ChatFormatting.RED), true);
+                            player.getDisplayName(), ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get()).withStyle(ChatFormatting.RED), true);
                     this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, world, 16);
 
                     if (!player.isCreative())

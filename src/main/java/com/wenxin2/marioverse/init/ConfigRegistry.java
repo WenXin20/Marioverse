@@ -17,6 +17,7 @@ public class ConfigRegistry
     public static final String CATEGORY_BLOCKS = "blocks";
     public static final String CATEGORY_GAMEPLAY = "gameplay";
     public static final String CATEGORY_HOLIDAY = "holiday";
+    public static final String CATEGORY_ITEMS = "items";
     public static final String CATEGORY_MISC = "misc";
     public static final String CATEGORY_MOBS = "mobs";
     public static final String CATEGORY_POWER_UPS = "power_ups";
@@ -26,6 +27,8 @@ public class ConfigRegistry
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
+
+    public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
 
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
@@ -55,6 +58,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
+    public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
@@ -100,6 +104,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
+    public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
 
@@ -298,6 +303,22 @@ public class ConfigRegistry
                             .comment("Force goombas to spawn wearing masks at any time.")
                             .comment("§9[Default: false]")
                             .define("force_goomba_masks", false);
+                BUILDER.pop();
+
+            BUILDER.pop();
+
+            BUILDER.push(CATEGORY_ITEMS);
+
+                BUILDER.push(CATEGORY_WARP_DISRUPTOR);
+                    DISABLE_PLAYER_WARP_DISRUPTING = BUILDER.translation("configuration.marioverse.disable_player_warp_disrupting")
+                            .comment("Prevent the Warp Disruptor from working on players.")
+                            .comment("§9[Default: false]")
+                            .define("disable_player_warp_disrupting", false);
+                    WARP_DISRUPTING_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_disrupting_cooldown")
+                            .comment("Cooldown before the player is able to warp again.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 4800]§b")
+                            .defineInRange("warp_disrupting_cooldown", 4800, 1, 72000);
                 BUILDER.pop();
 
             BUILDER.pop();

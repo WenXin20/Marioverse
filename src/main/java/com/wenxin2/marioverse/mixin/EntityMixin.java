@@ -65,21 +65,25 @@ public abstract class EntityMixin {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED)) {
+            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED)
+                    && !this.getType().is(TagRegistry.CANNOT_WARP)) {
                 this.marioverse$enterPipe(offsetPos);
             }
-            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)) {
+            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)
+                    && !this.getType().is(TagRegistry.CANNOT_WARP)) {
                 this.marioverse$enterPipe(pos);
             }
         }
 
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)) {
+        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
+                && !this.getType().is(TagRegistry.CANNOT_WARP)) {
             this.marioverse$enterPipeBelow(pos);
         }
 
         if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
-                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+                && !this.getType().is(TagRegistry.CANNOT_WARP))
             this.marioverse$enterWarpDoor(pos);
 
         if (this.marioverse$warpCooldown > 0) {
@@ -111,7 +115,7 @@ public abstract class EntityMixin {
         int blockZ = pos.getZ();
 
         if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE && warpPipeBE.getLevel() != null
-                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)) {
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_PLAYERS.get()) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
@@ -151,7 +155,7 @@ public abstract class EntityMixin {
         int blockZ = pos.getZ();
 
         if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE
-                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_NON_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)) {
+                && !warpPipeBE.preventWarp && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
             warpPos = warpPipeBE.destinationPos;
             int entityId = this.getId();
 
@@ -216,7 +220,7 @@ public abstract class EntityMixin {
         Entity entity = (Entity) (Object) this;
 
         if (state.getBlock() instanceof DoorBlock doorBlock && blockEntity instanceof WarpDoorBlockEntity warpDoorBE
-                && !warpDoorBE.preventWarp && ConfigRegistry.TELEPORT_NON_MOBS.get() && !this.getType().is(TagRegistry.CANNOT_WARP)) {
+                && !warpDoorBE.preventWarp && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
             warpPos = warpDoorBE.destinationPos;
             int entityId = this.getId();
 

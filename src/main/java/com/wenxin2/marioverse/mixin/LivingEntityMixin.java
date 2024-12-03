@@ -80,13 +80,13 @@ public abstract class LivingEntityMixin extends Entity {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
+            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED)
+                    && !this.getPersistentData().getBoolean("marioverse:prevent_warp")
                 this.marioverse$enterPipe(offsetPos);
-            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
+            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)
                 this.marioverse$enterPipe(pos);
         }
 
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED))
             this.marioverse$enterPipeBelow(pos);
 
         if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity

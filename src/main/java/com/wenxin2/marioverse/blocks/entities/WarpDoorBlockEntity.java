@@ -204,7 +204,7 @@ public class WarpDoorBlockEntity extends BlockEntity {
     public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state, DoorBlock doorBlock, WarpDoorBlockEntity doorBlockEntity) {
         Entity passengerEntity = entity.getControllingPassenger();
 
-        if (entity instanceof Player player) {
+        if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             doorBlockEntity.playDoorSounds(null, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
             entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
             if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -212,7 +212,7 @@ public class WarpDoorBlockEntity extends BlockEntity {
         } else {
             doorBlockEntity.playDoorSounds(entity, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
             entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-            if (passengerEntity instanceof Player player) {
+            if (passengerEntity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                 entity.unRide();

@@ -315,6 +315,7 @@
   "marioverse.configuration.blocks": "Blocks",
   "marioverse.configuration.gameplay": "Gameplay",
   "marioverse.configuration.holiday": "Holiday",
+  "marioverse.configuration.items": "Items",
   "marioverse.configuration.misc": "Misc",
   "marioverse.configuration.mobs": "Mobs",
   "marioverse.configuration.power_ups": "Power Ups",
@@ -324,6 +325,8 @@
   "marioverse.configuration.warp_pipes": "Warp Pipes",
   "marioverse.configuration.water_spouts": "Water Spouts",
   "marioverse.configuration.teleportation": "Teleportation",
+
+  "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
   "marioverse.configuration.mini_goomba": "Mini Goomba",
   "marioverse.configuration.hefty_goomba": "Hefty Goomba",
@@ -347,6 +350,7 @@
   "configuration.marioverse.debug_selection_box_creative": "Debug Selection Box Creative Only",
   "configuration.marioverse.debug_water_spout_selection_box": "Water Spout Debug Selection Box",
   "configuration.marioverse.disable_consecutive_bouncing": "Disable Consecutive Bouncing",
+  "configuration.marioverse.disable_player_warp_disrupting": "Disable Player Warp Disrupting",
   "configuration.marioverse.disable_goomba_masks": "Disable Goomba Masks",
   "configuration.marioverse.disable_reward_particles": "Disable Reward Particles",
   "configuration.marioverse.disable_text": "Disable Text",
@@ -388,6 +392,7 @@
   "configuration.marioverse.teleport_mobs": "Teleport Mobs",
   "configuration.marioverse.teleport_non_mobs": "Teleport Non-Living Entities",
   "configuration.marioverse.teleport_players": "Teleport Players",
+  "configuration.marioverse.warp_disrupting_cooldown": "Warp Disrupting Cooldown Duration",
   "configuration.marioverse.warp_door_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_pipe_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_cooldown_message": "Warp Cooldown Message",
