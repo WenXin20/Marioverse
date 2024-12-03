@@ -146,7 +146,7 @@
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.line2": " §7Prevents warping of mobs, pipes, & doors",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2": "§6Shift-right-click x2:",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.line2": " §7Breaks door after warping",
-  "item.marioverse.warp_disruptor.message.break_door": "§3Break door after warping",
+  "item.marioverse.warp_disruptor.message.break_door": "§3Break %1$s §3after warping",
   "item.marioverse.warp_disruptor.message.prevent_door_warp": "§cPrevented door warping",
   "item.marioverse.warp_disruptor.message.prevent_entity_warp": "§cPrevented §r%1$s §cfrom warping",
   "item.marioverse.warp_disruptor.message.prevent_pipe_warp": "§cPrevented pipe warping",
@@ -155,6 +155,7 @@
   "item.marioverse.warp_door_rune.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_door_rune.tooltip.shift_right_click": "§6Shift-right-click:",
   "item.marioverse.warp_door_rune.tooltip.shift_right_click.line2": " §7Convert doors into warp doors",
+  "item.marioverse.warp_door_rune.message.convert_door": "%1$s §bconverted to a warp door",
 
   "accessories.slot.costume_hat": "Costume Hat",
   "accessories.slot.costume_shirt": "Costume Shirt",

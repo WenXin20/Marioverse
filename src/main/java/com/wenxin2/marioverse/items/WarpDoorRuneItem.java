@@ -1,7 +1,9 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -43,26 +45,27 @@ public class WarpDoorRuneItem extends Item {
         BlockPos pos = useOnContext.getClickedPos();
         BlockState state = world.getBlockState(pos);
         ItemStack stack = useOnContext.getItemInHand();
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
-        if (state.getBlock() instanceof DoorBlock) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
-
+        if (state.getBlock() instanceof DoorBlock && !(blockEntity instanceof WarpDoorBlockEntity)) {
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
-                if (!(blockEntity instanceof WarpDoorBlockEntity)) {
-                    world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
-                    this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
-                }
+                world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
+                this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
+                            state.getBlock().getName()).withStyle(ChatFormatting.AQUA), true);
                 if (player != null) {
                     if (!player.isCreative())
                         stack.shrink(1);
                 }
                 return InteractionResult.SUCCESS;
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
-                if (!(blockEntityBelow instanceof WarpDoorBlockEntity)) {
-                    world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
-                    this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
-                }
+                world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
+                this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
+                            state.getBlock().getName()).withStyle(ChatFormatting.AQUA), true);
                 if (player != null) {
                     if (!player.isCreative())
                         stack.shrink(1);
@@ -70,7 +73,7 @@ public class WarpDoorRuneItem extends Item {
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.useOn(useOnContext);
+        return InteractionResult.PASS;
     }
 
     public void spawnParticles(ParticleOptions particleType, Level world, BlockPos pos, int avgAmount) {

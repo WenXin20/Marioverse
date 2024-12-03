@@ -70,7 +70,8 @@ public class WarpDisruptorItem extends Item {
                 if (doorBlockEntity.preventWarp) {
                     this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door"), true);
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
+                                state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     doorBlockEntity.setBreakDoor(Boolean.TRUE);
                 } else {
                     this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
@@ -91,7 +92,8 @@ public class WarpDisruptorItem extends Item {
                 if (doorBlockEntity.preventWarp) {
                     this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door"), true);
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
+                                state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     doorBlockEntity.setBreakDoor(Boolean.TRUE);
                 } else {
                     this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
