@@ -283,15 +283,15 @@
   "display.marioverse.linker.dimension_fail_pipe": "Pipes cannot cross dimensions!",
   "display.marioverse.linker.dimension_fail_door": "Doors cannot cross dimensions!",
 
-  "display.marioverse.players_cannot_teleport": "Players cannot teleport through Warp Pipes!",
+  "display.marioverse.players_cannot_teleport": "§cPlayers cannot teleport through Warp Pipes!",
 
-  "display.marioverse.warp_pipe_cooldown": "Pipe warping on cooldown!",
-  "display.marioverse.warp_pipe_cooldown.ticks": "Pipe warping on cooldown for %1$s ticks!",
+  "display.marioverse.warp_pipe_cooldown": "§cPipe warping on cooldown!",
+  "display.marioverse.warp_pipe_cooldown.ticks": "§cPipe warping on cooldown for §r%1$s §cticks!",
 
   "display.marioverse.warp_door_cooldown": "",
-  "display.marioverse.warp_door_cooldown.ticks": "Door warping on cooldown for %1$s ticks!",
+  "display.marioverse.warp_door_cooldown.ticks": "§cDoor warping on cooldown for §r%1$s §cticks!",
 
-  "display.marioverse.warp_destination_missing": "Warp destination not found!",
+  "display.marioverse.warp_destination_missing": "§cWarp destination not found!",
 
   "advancements.adventure.marioverse.brush_a_pipe.description": "Brush a pipe to remove text",
   "advancements.adventure.marioverse.brush_a_pipe.title": "Text Erasure",

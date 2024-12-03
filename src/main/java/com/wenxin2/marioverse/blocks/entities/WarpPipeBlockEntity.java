@@ -2,12 +2,16 @@ package com.wenxin2.marioverse.blocks.entities;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
@@ -33,20 +37,28 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Nameable {
+    // Store a map to track whether entities have teleported or not
+    public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.warp_pipe");
     private static final int MAX_TEXT_LINE_WIDTH = 78;
@@ -571,6 +583,152 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
                 this.playSound(this.level, menuPos, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 1.0F, 0.5F);
             }
         }
+    }    // Method to mark an entity as teleported
+    public static void markEntityTeleported(Entity entity) {
+        if (entity != null) {
+            teleportedEntities.put(entity.getId(), true);
+        }
+    }
+
+    public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state) {
+        if (world.getBlockState(warpPos).getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)) {
+            Entity passengerEntity = entity.getControllingPassenger();
+
+            if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1, 0));
+                } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1, 0));
+                        entity.unRide();
+                    }
+                }
+            }
+            if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                        entity.unRide();
+                    }
+                }
+            }
+            if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                } else {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                        entity.unRide();
+                    }
+                }
+            }
+            if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                } else {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                        entity.unRide();
+                    }
+                }
+            }
+            if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player) {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                } else {
+                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                        entity.unRide();
+                    }
+                }
+            }
+            if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player) {
+                    entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                } else {
+                    entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                        entity.unRide();
+                    }
+                }
+            }
+            if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                if (entity instanceof Player player) {
+                    entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                } else {
+                    entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
+                    if (passengerEntity instanceof Player player) {
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                        entity.unRide();
+                    }
+                }
+            }
+            markEntityTeleported(entity);
+        }
+        world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
+        world.playSound(null, warpPos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
+    }
+
+    public static BlockPos findMatchingUUID(UUID uuid, Level world, BlockPos pos) {
+        BlockPos closestPos = null;
+        double closestDistanceSq = Double.MAX_VALUE;
+        int maxDistance = 64; // How far it searches for warp pipes with a matching UUID
+
+        for (int x = -maxDistance; x <= maxDistance; x++) {
+            for (int y = Math.max(-maxDistance, world.getMinBuildHeight() - pos.getY()); y <= Math.min(maxDistance, world.getMaxBuildHeight() - pos.getY()); y++) {
+                for (int z = -maxDistance; z <= maxDistance; z++) {
+                    BlockPos checkingPos = pos.offset(x, y, z);
+                    BlockState blockState = world.getBlockState(checkingPos);
+                    Block block = blockState.getBlock();
+
+                    if (block instanceof WarpPipeBlock) {
+                        BlockEntity blockEntity = world.getBlockEntity(checkingPos);
+
+                        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
+                            UUID warpUUID = pipeBlockEntity.getWarpUuid();
+
+                            if (uuid.equals(warpUUID)) {
+                                double distanceSq = pos.distToCenterSqr(checkingPos.getX(), checkingPos.getY(), checkingPos.getZ());
+                                if (distanceSq < closestDistanceSq) {
+                                    closestPos = checkingPos.immutable();
+                                    closestDistanceSq = distanceSq;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return closestPos;
     }
 
     public void playSound(Level world, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
