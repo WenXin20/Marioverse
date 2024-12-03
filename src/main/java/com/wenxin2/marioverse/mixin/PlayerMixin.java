@@ -99,6 +99,8 @@ public abstract class PlayerMixin extends Entity {
         int preventWarpCooldown = this.getPersistentData().getInt("marioverse:prevent_warp_cooldown");
         if (preventWarpCooldown > 0)
             this.getPersistentData().putInt("marioverse:prevent_warp_cooldown", preventWarpCooldown - 1);
+        if (preventWarpCooldown == 1)
+            this.getPersistentData().putBoolean("marioverse:prevent_warp", false);
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0)
         {
