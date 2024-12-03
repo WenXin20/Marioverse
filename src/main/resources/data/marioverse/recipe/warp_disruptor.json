@@ -4,11 +4,14 @@
   "pattern": [
     "  E",
     " S ",
-    "S  "
+    "G  "
   ],
   "key": {
     "E": {
       "item": "minecraft:ender_eye"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
     },
     "S": {
       "tag": "c:rods/wooden"
