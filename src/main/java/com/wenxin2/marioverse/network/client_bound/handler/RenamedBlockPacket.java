@@ -30,6 +30,7 @@ public class RenamedBlockPacket {
                         if (goalPoleBlockEntity.hasCustomName()) {
                             goalPoleBlockEntity.getDisplayName();
                         }
+                        goalPoleBlockEntity.setWonderFlag(Boolean.TRUE);
                     }
                 }
             });

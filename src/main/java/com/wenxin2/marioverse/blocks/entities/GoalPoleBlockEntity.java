@@ -47,9 +47,11 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private boolean playedAppearAnim;
     private boolean playedDisappearAnim;
     private boolean playedSwitchAnim;
+    public boolean renderWonderFlag;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
+        this.renderWonderFlag = Boolean.FALSE;
     }
 
     @Override
@@ -96,11 +98,12 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        tag.putBoolean("PlayedAppearAnim", this.playedAppearAnim);
-        tag.putBoolean("PlayedDisappearAnim", this.playedDisappearAnim);
-        tag.putBoolean("PlayedSwitchAnim", this.playedSwitchAnim);
+        tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
+        tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
+        tag.putBoolean("playedSwitchAnim", this.playedSwitchAnim);
+        tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
 
         if (this.name != null) {
             // System.out.println("Saved CustomName: " + this.name);
@@ -111,10 +114,12 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        this.playedAppearAnim = tag.getBoolean("PlayedAppearAnim");
-        this.playedDisappearAnim = tag.getBoolean("PlayedDisappearAnim");
-        this.playedSwitchAnim = tag.getBoolean("PlayedSwitchAnim");
+        this.playedAppearAnim = tag.getBoolean("playedAppearAnim");
+        this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
+        this.playedSwitchAnim = tag.getBoolean("playedSwitchAnim");
+        this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
 
+//        System.out.println("Render Wonder Flag: " + this.hasWonderFlag());
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
             // System.out.println("Loaded CustomName: " + this.name);
@@ -124,6 +129,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     }
 
     public void markUpdated() {
+
         this.setChanged();
         if (this.level != null)
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
@@ -269,10 +275,20 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag");
     }
 
-    public boolean isWonderFlag(GoalPoleBlockEntity blockEntity) {
-        return blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("wonder")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("wonder flag")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("flower")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("flower flag");
+    public boolean isWonderFlag() {
+        return this.getName().getString().toLowerCase(Locale.ROOT).equals("wonder")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("wonder flag")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("flower")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("flower flag");
+    }
+
+    public void setWonderFlag(boolean hasWonderFlag) {
+        this.renderWonderFlag = hasWonderFlag;
+        this.markUpdated();
+        this.getUpdatePacket();
+    }
+
+    public boolean hasWonderFlag() {
+        return this.renderWonderFlag;
     }
 }
