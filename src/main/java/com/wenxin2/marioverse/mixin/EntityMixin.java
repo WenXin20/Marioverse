@@ -236,6 +236,8 @@ public abstract class EntityMixin {
                     BlockState warpState = world.getBlockState(warpPos);
 
                     WarpDoorBlockEntity.warp(entity, warpPos, world, state, doorBlock, warpDoorBE);
+                    if(warpDoorBE.breakDoor)
+                        WarpDoorBlockEntity.breakDoor(warpPos, world);
                     if (state.getBlock() instanceof DoorBlock)
                         warpDoorBE.playDoorSounds(entity, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                     if (warpState.getBlock() instanceof DoorBlock)

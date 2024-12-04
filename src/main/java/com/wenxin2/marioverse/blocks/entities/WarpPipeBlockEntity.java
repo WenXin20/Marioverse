@@ -56,7 +56,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Nameable {
+public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable {
     // Store a map to track whether entities have teleported or not
     public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -65,14 +65,8 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
     private static final int TEXT_LINE_HEIGHT = 10;
 
     public PipeText pipeName = this.createDefaultPipeText();
-    public static final String WARP_POS = "WarpPos";
-    public static final String WARP_DIMENSION = "Dimension";
-    public static final String WARP_UUID = "WarpUUID";
-    public static final String UUID = "UUID";
     public static final String SPOUT_HEIGHT = "SpoutHeight";
     public static final String BUBBLES_DISTANCE = "BubblesDistance";
-    public static final String PREVENT_WARP = "PreventWarp";
-    public static final String IS_WAXED = "IsWaxed";
     public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
     public static final String DISPLAY_TEXT_SOUTH = "displayTextSouth";
     public static final String DISPLAY_TEXT_EAST = "displayTextEast";
@@ -84,21 +78,14 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
     @Nullable
     public Component name;
     private LockCode lockKey = LockCode.NO_LOCK;
-    @Nullable
-    public BlockPos destinationPos;
-    public String dimensionTag;
     public int spoutHeight = 4;
     public int bubblesDistance = 3;
-    public boolean preventWarp = Boolean.FALSE;
-    public boolean isWaxed;
     public boolean displayTextNorth;
     public boolean displayTextSouth;
     public boolean displayTextEast;
     public boolean displayTextWest;
     public boolean displayTextAbove;
     public boolean displayTextBelow;
-    public UUID uuid;
-    public UUID warpUuid;
 
     public WarpPipeBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), pos, state);
@@ -188,18 +175,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
         } else return false;
     }
 
-    public boolean isWaxed() {
-        return this.isWaxed;
-    }
-
-    public void setWaxed(boolean isWaxed) {
-        if (this.isWaxed != isWaxed) {
-            this.isWaxed = isWaxed;
-            this.markUpdated();
-            this.getUpdatePacket();
-        }
-    }
-
     public boolean hasTextNorth() {
         return this.displayTextNorth;
     }
@@ -272,71 +247,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
         }
     }
 
-    public boolean hasDestinationPos() {
-        return this.destinationPos != null;
-    }
-
-    public void setDestinationPos(@Nullable BlockPos pos) {
-        this.destinationPos = pos;
-        this.setChanged();
-        if (this.level != null && pos != null) {
-            BlockState state = this.getBlockState();
-            this.level.setBlock(this.getBlockPos(), state, 4);
-        }
-    }
-
-    @Nullable
-    public BlockPos getDestinationPos() {
-        if (this.destinationPos != null) {
-            return this.destinationPos;
-        }
-        return null;
-    }
-
-    @Nullable
-    public ResourceKey<Level> getDestinationDim() {
-        if (dimensionTag != null) {
-            ResourceLocation location = ResourceLocation.tryParse(dimensionTag);
-            if (location != null) {
-                return ResourceKey.create(Registries.DIMENSION, location);
-            }
-        }
-        return null;
-    }
-
-
-    public void setDestinationDim(@Nullable ResourceKey<Level> dimension) {
-        if (dimension != null) {
-            this.dimensionTag = dimension.location().toString();
-        }
-
-        if (this.level != null) {
-            this.level.setBlock(this.getBlockPos(), this.getBlockState(), 4);
-        }
-        this.setChanged();
-    }
-
-    public UUID getUuid() {
-        return this.uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-    public void setPreventWarp(boolean preventWarp) {
-        this.preventWarp = preventWarp;
-    }
-
-    public UUID getWarpUuid() {
-        return this.warpUuid;
-    }
-
-    public void setWarpUuid(UUID uuid) {
-        this.warpUuid = uuid;
-        this.setChanged();
-    }
-
     public void markUpdated() {
         this.setChanged();
         if (this.level != null)
@@ -379,7 +289,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
         this.lockKey = LockCode.fromTag(tag);
         this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
-        this.isWaxed = tag.getBoolean(IS_WAXED);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
         this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -396,24 +305,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
                 this.pipeName = this.loadLines(text);
             });
         }
-
-        if (tag.contains(WARP_POS)) {
-            this.destinationPos = NbtUtils.readBlockPos(tag, WARP_POS).orElse(null);
-            this.setDestinationPos(this.destinationPos);
-            // System.out.println("Loaded: " + NbtUtils.readBlockPos(tag, WARP_POS).orElse(null));
-        }
-
-        if (tag.contains(WARP_DIMENSION))
-            this.dimensionTag = tag.getString(WARP_DIMENSION);
-
-        if (tag.contains(PREVENT_WARP))
-            this.preventWarp = tag.getBoolean(PREVENT_WARP);
-
-        if (tag.contains(UUID))
-            this.uuid = tag.getUUID(UUID);
-
-        if (tag.contains(WARP_UUID))
-            this.warpUuid = tag.getUUID(WARP_UUID);
     }
 
     @Override
@@ -422,8 +313,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
         this.lockKey.addToTag(tag);
         tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
         tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
-        tag.putBoolean(PREVENT_WARP, this.preventWarp);
-        tag.putBoolean(IS_WAXED, this.isWaxed);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
         tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
         tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
@@ -438,29 +327,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
         PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeName).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
             tag.put(PIPE_NAME, pipeName);
         });
-
-        if (this.hasDestinationPos() && this.destinationPos != null) {
-            tag.put(WARP_POS, NbtUtils.writeBlockPos(this.destinationPos));
-            // System.out.println("Saved: " + NbtUtils.writeBlockPos(this.destinationPos));
-        }
-
-        if (this.dimensionTag != null)
-            tag.putString(WARP_DIMENSION, this.dimensionTag);
-
-        if (this.uuid != null)
-            tag.putUUID(UUID, this.getUuid());
-
-        if (this.warpUuid != null)
-            tag.putUUID(WARP_UUID, this.getWarpUuid());
-    }
-
-    @NotNull
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-        CompoundTag tag = super.getUpdateTag(provider);
-
-        this.saveAdditional(tag, provider);
-        return tag;
     }
 
     public void closePipe(ServerPlayer player) {
@@ -696,39 +562,6 @@ public class WarpPipeBlockEntity extends BlockEntity implements MenuProvider, Na
         }
         world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
         world.playSound(null, warpPos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
-    }
-
-    public static BlockPos findMatchingUUID(UUID uuid, Level world, BlockPos pos) {
-        BlockPos closestPos = null;
-        double closestDistanceSq = Double.MAX_VALUE;
-        int maxDistance = 64; // How far it searches for warp pipes with a matching UUID
-
-        for (int x = -maxDistance; x <= maxDistance; x++) {
-            for (int y = Math.max(-maxDistance, world.getMinBuildHeight() - pos.getY()); y <= Math.min(maxDistance, world.getMaxBuildHeight() - pos.getY()); y++) {
-                for (int z = -maxDistance; z <= maxDistance; z++) {
-                    BlockPos checkingPos = pos.offset(x, y, z);
-                    BlockState blockState = world.getBlockState(checkingPos);
-                    Block block = blockState.getBlock();
-
-                    if (block instanceof WarpPipeBlock) {
-                        BlockEntity blockEntity = world.getBlockEntity(checkingPos);
-
-                        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                            UUID warpUUID = pipeBlockEntity.getWarpUuid();
-
-                            if (uuid.equals(warpUUID)) {
-                                double distanceSq = pos.distToCenterSqr(checkingPos.getX(), checkingPos.getY(), checkingPos.getZ());
-                                if (distanceSq < closestDistanceSq) {
-                                    closestPos = checkingPos.immutable();
-                                    closestDistanceSq = distanceSq;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return closestPos;
     }
 
     public void playSound(Level world, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {

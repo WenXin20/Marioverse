@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
@@ -49,42 +50,46 @@ public class LinkerItem extends TieredItem {
         String dimension = world.dimension().location().toString();
 
         if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get()) {
-            player.displayClientMessage(Component.translatable("display.marioverse.linker.requires_creative")
-                    .withStyle(), true);
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
             return InteractionResult.sidedSuccess(world.isClientSide);
         } else if (player != null) {
-            if ((state.getBlock() instanceof ClearWarpPipeBlock || ((state.getBlock() instanceof WarpPipeBlock)
-                    && state.getValue(WarpPipeBlock.ENTRANCE))) && player.isShiftKeyDown() && blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                UUID uuid = pipeBlockEntity.getUuid();
+            if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBlockEntity
+                    && (state.getBlock() instanceof DoorBlock
+                        || state.getBlock() instanceof ClearWarpPipeBlock
+                        || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
+                UUID uuid = warpBlockEntity.getUuid();
 
-                if (!getIsBound(stack)) {
+                if (warpBlockEntity.isWaxed()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
+                            state.getBlock().getName()), true);
+                    return InteractionResult.sidedSuccess(world.isClientSide);
+                } else if (!getIsBound(stack)) {
                     // First interaction: Bind the first block
                     setWarpPos(stack, pos);
                     setWarpDimension(stack, dimension);
                     setWarpUUID(stack, uuid);
                     setIsBound(stack, true);  // Mark the item as bound
 
-                    player.displayClientMessage(Component.translatable("display.marioverse.linker.bound",
-                                    pos.getX(), pos.getY(), pos.getZ(), dimension)
-                            .withStyle(ChatFormatting.DARK_GREEN), true);
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
+                                    state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
 
                     this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
                     this.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                 } else {
                     // Second interaction: Link the blocks
                     BlockPos firstPos = getWarpPos(stack);
+                    BlockState firstState = world.getBlockState(firstPos);
                     String firstDim = getWarpDimension(stack);
 
 //                    if (dimension.equals(getWarpDimension(stack))) {
                         BlockEntity firstBlockEntity = world.getBlockEntity(firstPos);
-                        if (firstBlockEntity instanceof WarpPipeBlockEntity firstPipeBlockEntity) {
+                        if (firstBlockEntity instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
 
                             // Perform the linking logic
-                            this.linkPipes(stack, firstPipeBlockEntity, pipeBlockEntity);
+                            this.link(stack, firstWarpBlockEntity, warpBlockEntity);
 
-                            player.displayClientMessage(Component.translatable("display.marioverse.linker.linked_pipe",
-                                            pos.getX(), pos.getY(), pos.getZ(), dimension)
-                                    .withStyle(ChatFormatting.GOLD), true);
+                            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
+                                            state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
 
                             this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
                             this.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
@@ -93,7 +98,7 @@ public class LinkerItem extends TieredItem {
                     setIsBound(stack, false);  // Reset binding
                 }
                 return InteractionResult.sidedSuccess(world.isClientSide);
-            } else if (state.getBlock() instanceof DoorBlock) {
+            } /*else if (state.getBlock() instanceof DoorBlock) {
 
                 if (blockEntity instanceof WarpDoorBlockEntity doorBlockEntity) {
                     UUID uuid = UUID.randomUUID();
@@ -109,7 +114,7 @@ public class LinkerItem extends TieredItem {
                         setWarpUUID(stack, uuid);
                         setIsBound(stack, true);  // Mark the item as bound
 
-                        player.displayClientMessage(Component.translatable("display.marioverse.linker.bound",
+                        player.displayClientMessage(Component.translatable("this.getDescriptionId() + ".message.bound",
                                         pos.getX(), pos.getY(), pos.getZ(), dimension)
                                 .withStyle(ChatFormatting.DARK_GREEN), true);
 
@@ -125,7 +130,7 @@ public class LinkerItem extends TieredItem {
                             // Perform the linking logic
                             this.linkDoors(stack, firstDoorBlockEntity, doorBlockEntity);
 
-                            player.displayClientMessage(Component.translatable("display.marioverse.linker.linked_door",
+                            player.displayClientMessage(Component.translatable("this.getDescriptionId() + ".message.linked_door",
                                             pos.getX(), pos.getY(), pos.getZ(), dimension)
                                     .withStyle(ChatFormatting.GOLD), true);
 
@@ -138,12 +143,12 @@ public class LinkerItem extends TieredItem {
                 }
 
                 return InteractionResult.SUCCESS;
-            }
+            }*/
         }
         return super.useOn(useOnContext);
     }
 
-    public void linkPipes(ItemStack stack, WarpPipeBlockEntity firstPipeBlockEntity, WarpPipeBlockEntity secondPipeBlockEntity) {
+    public void link(ItemStack stack, BaseWarpBlockEntity firstPipeBlockEntity, BaseWarpBlockEntity secondPipeBlockEntity) {
         UUID firstUuid = firstPipeBlockEntity.getUuid();
         UUID secondUuid = secondPipeBlockEntity.getUuid();
 
@@ -171,33 +176,33 @@ public class LinkerItem extends TieredItem {
         clearItemComponents(stack);
     }
 
-    public void linkDoors(ItemStack stack, WarpDoorBlockEntity firstDoorBlockEntity, WarpDoorBlockEntity secondDoorBlockEntity) {
-        UUID firstUuid = firstDoorBlockEntity.getUuid();
-        UUID secondUuid = secondDoorBlockEntity.getUuid();
-
-        BlockPos firstPos = firstDoorBlockEntity.getBlockPos();
-        BlockPos secondPos = secondDoorBlockEntity.getBlockPos();
-        ResourceKey<Level> firstDim = firstDoorBlockEntity.getDestinationDim();
-        ResourceKey<Level> secondDim = secondDoorBlockEntity.getDestinationDim();
-
-        // Linking logic
-        firstDoorBlockEntity.setDestinationPos(secondPos);
-        secondDoorBlockEntity.setDestinationPos(firstPos);
-
-        if (secondDim != null)
-            firstDoorBlockEntity.setDestinationDim(secondDim);
-        if (firstDim != null)
-            secondDoorBlockEntity.setDestinationDim(firstDim);
-
-        if (firstUuid != null)
-            secondDoorBlockEntity.setWarpUuid(firstUuid);
-        if (secondUuid != null)
-            firstDoorBlockEntity.setWarpUuid(secondUuid);
-
-        firstDoorBlockEntity.setChanged();
-        secondDoorBlockEntity.setChanged();
-        clearItemComponents(stack);
-    }
+//    public void linkDoors(ItemStack stack, WarpDoorBlockEntity firstDoorBlockEntity, WarpDoorBlockEntity secondDoorBlockEntity) {
+//        UUID firstUuid = firstDoorBlockEntity.getUuid();
+//        UUID secondUuid = secondDoorBlockEntity.getUuid();
+//
+//        BlockPos firstPos = firstDoorBlockEntity.getBlockPos();
+//        BlockPos secondPos = secondDoorBlockEntity.getBlockPos();
+//        ResourceKey<Level> firstDim = firstDoorBlockEntity.getDestinationDim();
+//        ResourceKey<Level> secondDim = secondDoorBlockEntity.getDestinationDim();
+//
+//        // Linking logic
+//        firstDoorBlockEntity.setDestinationPos(secondPos);
+//        secondDoorBlockEntity.setDestinationPos(firstPos);
+//
+//        if (secondDim != null)
+//            firstDoorBlockEntity.setDestinationDim(secondDim);
+//        if (firstDim != null)
+//            secondDoorBlockEntity.setDestinationDim(firstDim);
+//
+//        if (firstUuid != null)
+//            secondDoorBlockEntity.setWarpUuid(firstUuid);
+//        if (secondUuid != null)
+//            firstDoorBlockEntity.setWarpUuid(secondUuid);
+//
+//        firstDoorBlockEntity.setChanged();
+//        secondDoorBlockEntity.setChanged();
+//        clearItemComponents(stack);
+//    }
 
     public void clearItemComponents(ItemStack stack) {
         setWarpPos(stack, null);

@@ -398,6 +398,8 @@ public abstract class PlayerMixin extends Entity {
                     BlockState warpState = world.getBlockState(warpPos);
 
                     WarpDoorBlockEntity.warp(player, warpPos, world, state, doorBlock, warpDoorBE);
+                    if(warpDoorBE.breakDoor)
+                        WarpDoorBlockEntity.breakDoor(warpPos, world);
                     if (state.getBlock() instanceof DoorBlock)
                         warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                     if (warpState.getBlock() instanceof DoorBlock)
