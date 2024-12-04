@@ -160,7 +160,7 @@ public class WarpDisruptorItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!world.isClientSide && !ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
+        if (!ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
             double reachDistance = player.isCreative() ? 5.0D : 4.5D;
             AttributeInstance reachAttribute = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
             if (reachAttribute != null)
