@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,9 +48,9 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity implements GeoBlock
     protected <E extends GeoAnimatable> PlayState switchAnimController(final AnimationState<E> event) {
         BlockState state = this.getBlockState();
 
-        if (state.getValue(DoorBlock.OPEN) && this.destinationPos != null) {
+        if (state.getValue(DoorBlock.OPEN)) {
             event.setAndContinue(APPEAR_ANIM);
-        } else if (this.destinationPos != null) {
+        } else {
             event.setAndContinue(DISAPPEAR_ANIM);
         }
         return PlayState.CONTINUE;
@@ -65,6 +66,8 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity implements GeoBlock
         super.loadAdditional(tag, provider);
         if (tag.contains(BREAK_DOOR))
             this.breakDoor = tag.getBoolean(BREAK_DOOR);
+        if (this.level != null)
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
     }
 
     @Override

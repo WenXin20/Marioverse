@@ -125,7 +125,10 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
             // System.out.println("Loaded CustomName: " + this.name);
             this.markUpdated();
         }
+        
         PacketHandler.sendToAllClients(new RenamedBlockPayload(this.getBlockPos()));
+        if (this.level != null)
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
     }
 
     public void markUpdated() {

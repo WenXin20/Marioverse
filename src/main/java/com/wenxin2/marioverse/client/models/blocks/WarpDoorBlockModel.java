@@ -5,7 +5,9 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import java.util.Optional;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
@@ -47,6 +49,8 @@ public class WarpDoorBlockModel extends GeoModel<WarpDoorBlockEntity> {
         };
 
         Optional<GeoBone> portalBone = getBone("portal");
-        portalBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(rotationAngle)));
+        if (state.getValue(DoorBlock.FACING) == Direction.EAST || state.getValue(DoorBlock.FACING) == Direction.WEST)
+            portalBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(180)));
+        else portalBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(0)));
     }
 }

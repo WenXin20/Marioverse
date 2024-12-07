@@ -48,11 +48,10 @@ public class WarpDoorRuneItem extends Item {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
-        if (state.getBlock() instanceof DoorBlock && !(blockEntity instanceof WarpDoorBlockEntity)) {
-            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
+        if (state.getBlock() instanceof DoorBlock) {
+            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER && !(blockEntity instanceof WarpDoorBlockEntity)) {
                 world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
-                if (blockEntity != null)
-                    blockEntity.setChanged();
+                world.blockEntityChanged(pos);
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
@@ -63,8 +62,7 @@ public class WarpDoorRuneItem extends Item {
                 return InteractionResult.SUCCESS;
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER && !(blockEntityBelow instanceof WarpDoorBlockEntity)) {
                 world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
-                if (blockEntity != null)
-                    blockEntity.setChanged();
+                world.blockEntityChanged(pos.below());
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
