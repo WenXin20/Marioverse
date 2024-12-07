@@ -14,8 +14,21 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
+public class WarpDoorBlockEntity extends BaseWarpBlockEntity implements GeoBlockEntity {
+    protected static final RawAnimation APPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.warp_door.appear");
+    protected static final RawAnimation DISAPPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.warp_door.disappear");
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
     public boolean breakDoor = Boolean.FALSE;
 
     public WarpDoorBlockEntity(final BlockPos pos, final BlockState state) {
@@ -24,6 +37,27 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
 
     public WarpDoorBlockEntity(final BlockEntityType<?> tileEntity, BlockPos pos, BlockState state) {
         super(tileEntity, pos, state);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "switch", 5, this::switchAnimController));
+    }
+
+    protected <E extends GeoAnimatable> PlayState switchAnimController(final AnimationState<E> event) {
+        BlockState state = this.getBlockState();
+
+        if (state.getValue(DoorBlock.OPEN) && this.destinationPos != null) {
+            event.setAndContinue(APPEAR_ANIM);
+        } else if (this.destinationPos != null) {
+            event.setAndContinue(DISAPPEAR_ANIM);
+        }
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return this.cache;
     }
 
     @Override

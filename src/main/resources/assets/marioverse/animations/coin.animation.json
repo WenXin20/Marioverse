@@ -22,6 +22,28 @@
 					}
 				}
 			}
+		},
+		"animation.warp_door.rotation": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"pane": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0],
+							"easing": "linear"
+						},
+						"1.0": {
+							"vector": [0, -180, 0],
+							"easing": "linear"
+						},
+						"2.0": {
+							"vector": [0, -360, 0],
+							"easing": "linear"
+						}
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
