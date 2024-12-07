@@ -10,26 +10,12 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class WarpDoorBlockEntity extends BaseWarpBlockEntity implements GeoBlockEntity {
-    protected static final RawAnimation APPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.warp_door.appear");
-    protected static final RawAnimation DISAPPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.warp_door.disappear");
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
+public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
     public boolean breakDoor = Boolean.FALSE;
 
     public WarpDoorBlockEntity(final BlockPos pos, final BlockState state) {
@@ -40,34 +26,12 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity implements GeoBlock
         super(tileEntity, pos, state);
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "switch", 5, this::switchAnimController));
-    }
-
-    protected <E extends GeoAnimatable> PlayState switchAnimController(final AnimationState<E> event) {
-        BlockState state = this.getBlockState();
-
-        if (state.getValue(DoorBlock.OPEN)) {
-            event.setAndContinue(APPEAR_ANIM);
-        } else {
-            event.setAndContinue(DISAPPEAR_ANIM);
-        }
-        return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
-    }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         if (tag.contains(BREAK_DOOR))
             this.breakDoor = tag.getBoolean(BREAK_DOOR);
-        if (this.level != null)
-            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
     }
 
     @Override
