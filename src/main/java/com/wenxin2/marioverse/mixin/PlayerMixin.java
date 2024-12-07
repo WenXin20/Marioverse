@@ -212,6 +212,7 @@ public abstract class PlayerMixin extends Entity {
         Player player = (Player) (Object) this;
         Level world = player.level();
         BlockState state = world.getBlockState(pos);
+        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(this.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(this.getBbHeight())));
         BlockPos warpPos;
@@ -244,7 +245,7 @@ public abstract class PlayerMixin extends Entity {
                 world.broadcastEntityEvent(this, (byte) 120);
             }
 
-            if (state.getBlock() instanceof WarpPipeBlock)
+            if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
         }
     }
@@ -261,6 +262,8 @@ public abstract class PlayerMixin extends Entity {
                 WarpDoorBlockEntity.warp(player, warpPos, world, warpState, doorblock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(player, warpPos, world, warpState);
+            if (state.getBlock() instanceof WarpPipeBlock)
+                world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
         } else if (warpBE.getUuid() != null && warpBE.getWarpUuid() != null
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid(), world, pos) != null) {
@@ -271,6 +274,8 @@ public abstract class PlayerMixin extends Entity {
                 WarpDoorBlockEntity.warp(player, warpPos, world, warpState, doorblock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(player, warpPos, world, warpState);
+            if (state.getBlock() instanceof WarpPipeBlock)
+                world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
         }
     }
@@ -301,7 +306,6 @@ public abstract class PlayerMixin extends Entity {
         double entityX = player.getX();
         double entityY = player.getY();
         double entityZ = player.getZ();
-
         int blockX = pos.getX();
         int blockY = pos.getY();
         int blockZ = pos.getZ();
@@ -335,7 +339,8 @@ public abstract class PlayerMixin extends Entity {
                     this.marioverse$warp(pos, state, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpBE.hasDestinationPos())
+                displayDestinationMissingMessage(); */
+                else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !player.isShiftKeyDown() && player.getMotionDirection() == Direction.SOUTH
@@ -344,7 +349,8 @@ public abstract class PlayerMixin extends Entity {
                     this.marioverse$warp(pos, state, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpBE.hasDestinationPos())
+                displayDestinationMissingMessage(); */
+                else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !player.isShiftKeyDown() && player.getMotionDirection() == Direction.NORTH
@@ -353,7 +359,8 @@ public abstract class PlayerMixin extends Entity {
                     this.marioverse$warp(pos, state, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpBE.hasDestinationPos())
+                displayDestinationMissingMessage(); */
+                else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !player.isShiftKeyDown() && player.getMotionDirection() == Direction.WEST
@@ -362,7 +369,8 @@ public abstract class PlayerMixin extends Entity {
                     this.marioverse$warp(pos, state, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpBE.hasDestinationPos())
+                displayDestinationMissingMessage(); */
+                else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !player.isShiftKeyDown() && player.getMotionDirection() == Direction.EAST
@@ -371,7 +379,8 @@ public abstract class PlayerMixin extends Entity {
                     this.marioverse$warp(pos, state, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpBE.hasDestinationPos())
+                displayDestinationMissingMessage(); */
+                else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(state);
             }
         }
@@ -382,10 +391,10 @@ public abstract class PlayerMixin extends Entity {
         Player player = (Player) (Object) this;
         Level world = player.level();
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(player.getBbHeight())));
+        BlockState state = world.getBlockState(pos);
 
         double entityX = this.getX();
         double entityZ = this.getZ();
-
         int blockX = pos.getX();
         int blockY = pos.getY();
         int blockZ = pos.getZ();
@@ -403,7 +412,8 @@ public abstract class PlayerMixin extends Entity {
                     this.marioverse$warp(pos, stateAboveEntity, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */ else if (warpBE.hasDestinationPos())
+                displayDestinationMissingMessage(); */
+                else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(stateAboveEntity);
             }
         }

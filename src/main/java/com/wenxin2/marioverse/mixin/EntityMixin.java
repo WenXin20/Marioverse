@@ -5,9 +5,11 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -97,6 +99,7 @@ public abstract class EntityMixin {
         Entity entity = (Entity) (Object) this;
         Level world = entity.level();
         BlockState state = world.getBlockState(pos);
+        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(this.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(this.getBbHeight())));
         BlockPos warpPos;
@@ -129,7 +132,7 @@ public abstract class EntityMixin {
                 world.broadcastEntityEvent(entity, (byte) 120);
             }
 
-            if (state.getBlock() instanceof WarpPipeBlock)
+            if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
         }
     }
@@ -146,6 +149,8 @@ public abstract class EntityMixin {
                 WarpDoorBlockEntity.warp(entity, warpPos, world, warpState, doorblock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
+            if (state.getBlock() instanceof WarpPipeBlock)
+                world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
         } else if (warpBE.getUuid() != null && warpBE.getWarpUuid() != null
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid(), world, pos) != null) {
@@ -156,6 +161,8 @@ public abstract class EntityMixin {
                 WarpDoorBlockEntity.warp(entity, warpPos, world, warpState, doorblock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
+            if (state.getBlock() instanceof WarpPipeBlock)
+                world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
         }
     }
@@ -184,7 +191,6 @@ public abstract class EntityMixin {
         double entityX = entity.getX();
         double entityY = entity.getY();
         double entityZ = entity.getZ();
-
         int blockX = pos.getX();
         int blockY = pos.getY();
         int blockZ = pos.getZ();
@@ -237,7 +243,6 @@ public abstract class EntityMixin {
 
         double entityX = this.getX();
         double entityZ = this.getZ();
-
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
