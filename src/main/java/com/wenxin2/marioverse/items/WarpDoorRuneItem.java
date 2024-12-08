@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
-import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
