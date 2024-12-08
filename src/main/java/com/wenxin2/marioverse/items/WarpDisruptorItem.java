@@ -1,8 +1,10 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -26,6 +28,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -59,72 +62,70 @@ public class WarpDisruptorItem extends Item {
         BlockPos pos = useOnContext.getClickedPos();
         BlockState state = world.getBlockState(pos);
         ItemStack stack = useOnContext.getItemInHand();
+        BlockEntity blockEntity = world.getBlockEntity(pos);
 
         if (state.getBlock() instanceof DoorBlock) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
             BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                    && blockEntity instanceof WarpDoorBlockEntity doorBlockEntity
-                    && (!doorBlockEntity.preventWarp || !doorBlockEntity.breakDoor)) {
-                if (doorBlockEntity.preventWarp) {
+                    && blockEntity instanceof WarpDoorBlockEntity doorBE
+                    && (!doorBE.preventWarp || !doorBE.breakDoor)) {
+                if (doorBE.preventWarp) {
                     this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
                                 state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                    doorBlockEntity.setBreakDoor(Boolean.TRUE);
+                    doorBE.setBreakDoor(Boolean.TRUE);
                 } else {
                     this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp", 50), true);
-                    doorBlockEntity.setPreventWarp(Boolean.TRUE);
+                    doorBE.setPreventWarp(Boolean.TRUE);
                 }
 
                 if (player != null) {
                     if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 }
-                doorBlockEntity.markUpdated();
+                doorBE.markUpdated();
                 return InteractionResult.SUCCESS;
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
-                    && blockEntityBelow instanceof WarpDoorBlockEntity doorBlockEntity
-                    && (!doorBlockEntity.preventWarp || !doorBlockEntity.breakDoor)) {
-                if (doorBlockEntity.preventWarp) {
+                    && blockEntityBelow instanceof WarpDoorBlockEntity doorBE
+                    && (!doorBE.preventWarp || !doorBE.breakDoor)) {
+                if (doorBE.preventWarp) {
                     this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
                                 state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                    doorBlockEntity.setBreakDoor(Boolean.TRUE);
+                    doorBE.setBreakDoor(Boolean.TRUE);
                 } else {
                     this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp"), true);
-                    doorBlockEntity.setPreventWarp(Boolean.TRUE);
+                    doorBE.setPreventWarp(Boolean.TRUE);
                 }
 
                 if (player != null) {
                     if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 }
-                doorBlockEntity.markUpdated();
+                doorBE.markUpdated();
                 return InteractionResult.SUCCESS;
             }
-        } else if (state.getBlock() instanceof WarpPipeBlock) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+        } else if (blockEntity instanceof BaseWarpBlockEntity warpBE && !warpBE.preventWarp) {
+            warpBE.setPreventWarp(Boolean.TRUE);
+            warpBE.markUpdated();
+            this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
 
-            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity
-                    && !pipeBlockEntity.preventWarp) {
-                pipeBlockEntity.setPreventWarp(Boolean.TRUE);
-                pipeBlockEntity.markUpdated();
-                this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
-
-                if (player != null) {
+            if (player != null) {
+                if (state.getBlock() instanceof WarpPipeBlock)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_pipe_warp"), true);
-                    if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-                }
-                return InteractionResult.SUCCESS;
+                if (state.getBlock() instanceof TrapDoorBlock)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_trapdoor_warp"), true);
+                if (!player.isCreative())
+                    stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
             }
+            return InteractionResult.SUCCESS;
         }
         return super.useOn(useOnContext);
     }
@@ -141,7 +142,7 @@ public class WarpDisruptorItem extends Item {
                 this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), 16);
 
                 if (!player.isCreative())
-                    stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                    stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 return InteractionResult.SUCCESS;
             } else {
                 livingEntity.getPersistentData().putBoolean("marioverse:prevent_warp", true);
@@ -150,7 +151,7 @@ public class WarpDisruptorItem extends Item {
                 this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, livingEntity, livingEntity.level(), 16);
 
                 if (!player.isCreative())
-                    stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                    stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 return InteractionResult.SUCCESS;
             }
         } return InteractionResult.PASS;
@@ -176,7 +177,7 @@ public class WarpDisruptorItem extends Item {
                     this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, world, 16);
 
                     if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                     return InteractionResultHolder.success(stack);
                 }
             } else return InteractionResultHolder.pass(stack);

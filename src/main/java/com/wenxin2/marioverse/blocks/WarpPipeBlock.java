@@ -113,85 +113,85 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
             boolean isSuccesful = false;
             boolean isSuccesfulTool = false;
 
-            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
+            if (blockEntity instanceof WarpPipeBlockEntity pipeBE) {
                 if (!warpBlockEntity.isWaxed()) {
                     if (item == Items.INK_SAC) {
-                        if (pipeBlockEntity.updateText((pipeText) -> pipeText.setHasGlowingText(Boolean.FALSE))) {
+                        if (pipeBE.updateText((pipeText) -> pipeText.setHasGlowingText(Boolean.FALSE))) {
                             world.playSound(player, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                             coloredDustParticles(world, pos, new Vector3f(0, 0, 0), UniformInt.of(8, 12));
                             warpBlockEntity.markUpdated();
                             isSuccesful = true;
                         }
                     } else if (item == Items.GLOW_INK_SAC) {
-                        if (pipeBlockEntity.updateText((pipeText) -> pipeText.setHasGlowingText(Boolean.TRUE))) {
+                        if (pipeBE.updateText((pipeText) -> pipeText.setHasGlowingText(Boolean.TRUE))) {
                             world.playSound(player, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                             spawnParticlesOnBlockFaces(world, pos, ParticleTypes.GLOW, new Vec3(0, 0, 0), UniformInt.of(3, 5));
                             warpBlockEntity.markUpdated();
                             isSuccesful = true;
                         }
-                    } else if (item == Items.HONEYCOMB && (ConfigRegistry.WAX_DISABLES_BUBBLES.get() || ConfigRegistry.WAX_DISABLES_CLOSING.get()
+                    }/* else if (item == Items.HONEYCOMB && (ConfigRegistry.WAX_DISABLES_BUBBLES.get() || ConfigRegistry.WAX_DISABLES_CLOSING.get()
                             || ConfigRegistry.WAX_DISABLES_RENAMING.get() || ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())) {
-                        pipeBlockEntity.setWaxed(Boolean.TRUE);
+                        pipeBE.setWaxed(Boolean.TRUE);
                         world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
                         ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
-                        pipeBlockEntity.markUpdated();
+                        pipeBE.markUpdated();
                         isSuccesful = true;
-                    } else if (stack.is(Items.BRUSH)) {
+                    }*/ else if (stack.is(Items.BRUSH)) {
                         if (hit.getDirection() == Direction.NORTH) {
-                            pipeBlockEntity.setTextNorth(!pipeBlockEntity.hasTextNorth());
-                            this.dyedDustParticles(pipeBlockEntity, world, pos, Direction.NORTH);
+                            pipeBE.setTextNorth(!pipeBE.hasTextNorth());
+                            this.dyedDustParticles(pipeBE, world, pos, Direction.NORTH);
                         } else if (hit.getDirection() == Direction.SOUTH) {
-                            pipeBlockEntity.setTextSouth(!pipeBlockEntity.hasTextSouth());
-                            this.dyedDustParticles(pipeBlockEntity, world, pos, Direction.SOUTH);
+                            pipeBE.setTextSouth(!pipeBE.hasTextSouth());
+                            this.dyedDustParticles(pipeBE, world, pos, Direction.SOUTH);
                         } else if (hit.getDirection() == Direction.EAST) {
-                            pipeBlockEntity.setTextEast(!pipeBlockEntity.hasTextEast());
-                            this.dyedDustParticles(pipeBlockEntity, world, pos, Direction.EAST);
+                            pipeBE.setTextEast(!pipeBE.hasTextEast());
+                            this.dyedDustParticles(pipeBE, world, pos, Direction.EAST);
                         } else if (hit.getDirection() == Direction.WEST) {
-                            pipeBlockEntity.setTextWest(!pipeBlockEntity.hasTextWest());
-                            this.dyedDustParticles(pipeBlockEntity, world, pos, Direction.WEST);
+                            pipeBE.setTextWest(!pipeBE.hasTextWest());
+                            this.dyedDustParticles(pipeBE, world, pos, Direction.WEST);
                         } else if (hit.getDirection() == Direction.UP) {
-                            pipeBlockEntity.setTextAbove(!pipeBlockEntity.hasTextAbove());
-                            this.dyedDustParticles(pipeBlockEntity, world, pos, Direction.UP);
+                            pipeBE.setTextAbove(!pipeBE.hasTextAbove());
+                            this.dyedDustParticles(pipeBE, world, pos, Direction.UP);
                         } else if (hit.getDirection() == Direction.DOWN) {
-                            pipeBlockEntity.setTextBelow(!pipeBlockEntity.hasTextBelow());
-                            this.dyedDustParticles(pipeBlockEntity, world, pos, Direction.DOWN);
+                            pipeBE.setTextBelow(!pipeBE.hasTextBelow());
+                            this.dyedDustParticles(pipeBE, world, pos, Direction.DOWN);
                         }
                         world.playSound(player, pos, SoundEvents.BRUSH_SAND_COMPLETED, SoundSource.BLOCKS, 1.0F, 1.0F);
                         warpBlockEntity.markUpdated();
                         isSuccesfulTool = true;
                     } else if (stack.is(CompatRegistry.BUBBLE_BLOWER.get()) || stack.is(CompatRegistry.SOAP.get())) {
-                        if (hit.getDirection() == Direction.NORTH && pipeBlockEntity.hasTextNorth()) {
-                            pipeBlockEntity.setTextNorth(Boolean.FALSE);
+                        if (hit.getDirection() == Direction.NORTH && pipeBE.hasTextNorth()) {
+                            pipeBE.setTextNorth(Boolean.FALSE);
                             world.playSound(player, pos, CompatRegistry.BUBBLE_BLOWER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                             this.sudParticles(world, pos, Direction.NORTH);
                             warpBlockEntity.markUpdated();
                             isSuccesfulTool = true;
-                        } else if (hit.getDirection() == Direction.SOUTH && pipeBlockEntity.hasTextSouth()) {
-                            pipeBlockEntity.setTextSouth(Boolean.FALSE);
+                        } else if (hit.getDirection() == Direction.SOUTH && pipeBE.hasTextSouth()) {
+                            pipeBE.setTextSouth(Boolean.FALSE);
                             world.playSound(player, pos, CompatRegistry.BUBBLE_BLOWER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                             this.sudParticles(world, pos, Direction.SOUTH);
                             warpBlockEntity.markUpdated();
                             isSuccesfulTool = true;
-                        } else if (hit.getDirection() == Direction.EAST && pipeBlockEntity.hasTextEast()) {
-                            pipeBlockEntity.setTextEast(Boolean.FALSE);
+                        } else if (hit.getDirection() == Direction.EAST && pipeBE.hasTextEast()) {
+                            pipeBE.setTextEast(Boolean.FALSE);
                             world.playSound(player, pos, CompatRegistry.BUBBLE_BLOWER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                             this.sudParticles(world, pos, Direction.EAST);
                             warpBlockEntity.markUpdated();
                             isSuccesfulTool = true;
-                        } else if (hit.getDirection() == Direction.WEST && pipeBlockEntity.hasTextWest()) {
-                            pipeBlockEntity.setTextWest(Boolean.FALSE);
+                        } else if (hit.getDirection() == Direction.WEST && pipeBE.hasTextWest()) {
+                            pipeBE.setTextWest(Boolean.FALSE);
                             world.playSound(player, pos, CompatRegistry.BUBBLE_BLOWER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                             this.sudParticles(world, pos, Direction.WEST);
                             warpBlockEntity.markUpdated();
                             isSuccesfulTool = true;
-                        } else if (hit.getDirection() == Direction.UP && pipeBlockEntity.hasTextAbove()) {
-                            pipeBlockEntity.setTextAbove(Boolean.FALSE);
+                        } else if (hit.getDirection() == Direction.UP && pipeBE.hasTextAbove()) {
+                            pipeBE.setTextAbove(Boolean.FALSE);
                             world.playSound(player, pos, CompatRegistry.BUBBLE_BLOWER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                             this.sudParticles(world, pos, Direction.UP);
                             warpBlockEntity.markUpdated();
                             isSuccesfulTool = true;
-                        } else if (hit.getDirection() == Direction.DOWN && pipeBlockEntity.hasTextBelow()) {
-                            pipeBlockEntity.setTextBelow(Boolean.FALSE);
+                        } else if (hit.getDirection() == Direction.DOWN && pipeBE.hasTextBelow()) {
+                            pipeBE.setTextBelow(Boolean.FALSE);
                             world.playSound(player, pos, CompatRegistry.BUBBLE_BLOWER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                             this.sudParticles(world, pos, Direction.DOWN);
                             warpBlockEntity.markUpdated();
@@ -199,7 +199,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
                         }
                     } else {
                         if (item instanceof DyeItem dyeItem
-                                && pipeBlockEntity.updateText((pipeText) -> pipeText.setColor(dyeItem.getDyeColor()))) {
+                                && pipeBE.updateText((pipeText) -> pipeText.setColor(dyeItem.getDyeColor()))) {
                             int textColor = dyeItem.getDyeColor().getTextColor();
                             float red = (float) (textColor >> 16 & 255) / 255.0F;
                             float green = (float) (textColor >> 8 & 255) / 255.0F;
@@ -212,29 +212,13 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
                             isSuccesful = true;
                         }
                     }
-                } else if (ConfigRegistry.ALLOW_PIPE_UNWAXING.get() && (stack.is(ItemTags.AXES) || item instanceof AxeItem)) {
-                    pipeBlockEntity.setWaxed(Boolean.FALSE);
-                    world.playSound(null, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                } /*else if (ConfigRegistry.ALLOW_PIPE_UNWAXING.get() && (stack.is(ItemTags.AXES) || item instanceof AxeItem)) {
+                    pipeBE.setWaxed(Boolean.FALSE);
+                    world.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
                     ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
-                    pipeBlockEntity.markUpdated();
+                    pipeBE.markUpdated();
                     isSuccesfulTool = true;
-                }
-            } else if (blockEntity instanceof WarpDoorBlockEntity doorBlockEntity) {
-                if (!warpBlockEntity.isWaxed()) {
-                    if (item == Items.HONEYCOMB) {
-                        doorBlockEntity.setWaxed(Boolean.TRUE);
-                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
-                        doorBlockEntity.markUpdated();
-                        isSuccesful = true;
-                    }
-                } else if (ConfigRegistry.ALLOW_PIPE_UNWAXING.get() && (stack.is(ItemTags.AXES) || item instanceof AxeItem)) {
-                    doorBlockEntity.setWaxed(Boolean.FALSE);
-                    world.playSound(null, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
-                    doorBlockEntity.markUpdated();
-                    isSuccesfulTool = true;
-                }
+                }*/
             }
 
             if (isSuccesfulTool) {

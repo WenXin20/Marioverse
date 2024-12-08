@@ -28,7 +28,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public static final String WARP_UUID = "WarpUUID";
     public static final String UUID = "UUID";
     public static final String PREVENT_WARP = "PreventWarp";
-    public static final String BREAK_DOOR = "BreakDoor";
+    public static final String BREAK_TRAPDOOR = "BreakDoor";
     public static final String IS_WAXED = "IsWaxed";
     public BlockPos destinationPos;
     public String dimensionTag;
@@ -119,7 +119,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public void markUpdated() {
         this.setChanged();
         if (this.level != null)
-            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
     }
 
     @Override
@@ -178,6 +178,12 @@ public class BaseWarpBlockEntity extends BlockEntity {
     }
 
     public void playDoorSounds(@Nullable Entity entity, Level world, BlockPos pos, boolean isOpen, BlockSetType type) {
+        world.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
+                world.getRandom().nextFloat() * 0.1F + 0.9F
+        );
+    }
+
+    public void playTrapdoorSounds(@Nullable Entity entity, Level world, BlockPos pos, boolean isOpen, BlockSetType type) {
         world.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
                 world.getRandom().nextFloat() * 0.1F + 0.9F
         );

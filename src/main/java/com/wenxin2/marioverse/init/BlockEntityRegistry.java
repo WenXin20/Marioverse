@@ -6,10 +6,12 @@ import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -22,6 +24,7 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> QUESTION_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpDoorBlockEntity>> WARP_DOOR_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpPipeBlockEntity>> WARP_PIPE_BLOCK_ENTITY;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpTrapDoorBlockEntity>> WARP_TRAPDOOR_BLOCK_ENTITY;
 
     static {
         COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("coin",
@@ -59,6 +62,10 @@ public class BlockEntityRegistry {
         WARP_DOOR_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_door",
                 () -> BlockEntityType.Builder.of(WarpDoorBlockEntity::new,
                         BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof DoorBlock).toArray(Block[]::new)).build(null));
+
+        WARP_TRAPDOOR_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_trapdoor",
+                () -> BlockEntityType.Builder.of(WarpTrapDoorBlockEntity::new,
+                        BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof TrapDoorBlock).toArray(Block[]::new)).build(null));
     }
 
     public static void init() {}

@@ -42,7 +42,7 @@ public class ConfigRegistry
 
     private final ModConfigSpec CONFIG_SPEC;
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
-    public static ModConfigSpec.BooleanValue ALLOW_PIPE_UNWAXING;
+    public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
@@ -86,6 +86,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WAX_DISABLES_BUBBLES;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_CLOSING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_RENAMING;
+    public static ModConfigSpec.BooleanValue WAX_DISABLES_WARP_LINKING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
@@ -183,10 +184,6 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 50]§b")
                             .defineInRange("warp_pipe_cooldown", 50, 0, 72000);
-                    ALLOW_PIPE_UNWAXING = BUILDER.translation("configuration.marioverse.allow_pipe_unwaxing")
-                            .comment("Allow pipes to be unwaxed with an axe.")
-                            .comment("§9[Default: false]")
-                            .define("allow_pipe_unwaxing", false);
                     WAX_DISABLES_BUBBLES = BUILDER.translation("configuration.marioverse.wax_disables_bubbles")
                             .comment("Allows waxing pipes to disable the Pipe Bubbles button.")
                             .comment("§9[Default: true]")
@@ -407,6 +404,10 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_TELEPORTATION);
+                ALLOW_WARP_UNWAXING = BUILDER.translation("configuration.marioverse.allow_warp_unwaxing")
+                        .comment("Allow all warp blocks to be unwaxed with an axe.")
+                        .comment("§9[Default: false]")
+                        .define("allow_warp_unwaxing", false);
                 BLINDNESS_EFFECT = BUILDER.translation("configuration.marioverse.blindness_effect")
                         .comment("Warping gives the player a brief blindness effect.")
                         .comment("§9[Default: true]")
@@ -423,6 +424,10 @@ public class ConfigRegistry
                         .comment("Allow players to teleport.")
                         .comment("§9[Default: true]")
                         .define("teleport_players", true);
+                WAX_DISABLES_WARP_LINKING = BUILDER.translation("configuration.marioverse.wax_disables_warp_linking")
+                        .comment("Allow waxing warp blocks to disable warp linking.")
+                        .comment("§9[Default: true]")
+                        .define("wax_disables_warp_linking", true);
             BUILDER.pop();
 
         BUILDER.pop();

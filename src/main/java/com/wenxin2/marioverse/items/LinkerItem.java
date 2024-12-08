@@ -3,8 +3,6 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
@@ -31,6 +29,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -53,15 +52,16 @@ public class LinkerItem extends TieredItem {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
             return InteractionResult.sidedSuccess(world.isClientSide);
         } else if (player != null) {
-            if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBlockEntity
+            if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
                     && (state.getBlock() instanceof DoorBlock
+                        || state.getBlock() instanceof TrapDoorBlock
                         || state.getBlock() instanceof ClearWarpPipeBlock
                         || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
-                UUID uuid = warpBlockEntity.getUuid();
+                UUID uuid = warpBE.getUuid();
 
-                if (warpBlockEntity.isWaxed()) {
+                if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
-                            state.getBlock().getName()), true);
+                            state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     return InteractionResult.sidedSuccess(world.isClientSide);
                 } else if (!getIsBound(stack)) {
                     // First interaction: Bind the first block
@@ -86,7 +86,7 @@ public class LinkerItem extends TieredItem {
                         if (firstBlockEntity instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
 
                             // Perform the linking logic
-                            this.link(stack, firstWarpBlockEntity, warpBlockEntity);
+                            this.link(stack, firstWarpBlockEntity, warpBE);
 
                             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
                                             state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
@@ -203,13 +203,13 @@ public class LinkerItem extends TieredItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
         if (getIsBound(stack)) {
             list.add(Component.translatable("", true));
-            list.add(Component.translatable("display.marioverse.linker.bound_tooltip",
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound",
                     getWarpPos(stack).getX(), getWarpPos(stack).getY(), getWarpPos(stack).getZ(), getWarpDimension(stack), true)
                     .withStyle(ChatFormatting.GOLD));
         }
         else {
             list.add(Component.translatable("", true));
-            list.add(Component.translatable("display.marioverse.linker.not_bound_tooltip", true)
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.not_bound", true)
                     .withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
     }

@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
@@ -41,6 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -94,6 +96,10 @@ public abstract class LivingEntityMixin extends Entity {
         if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+            this.marioverse$enterWarp(pos);
+
+        if (world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
+                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN))
             this.marioverse$enterWarp(pos);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
@@ -474,7 +480,7 @@ public abstract class LivingEntityMixin extends Entity {
                 world.broadcastEntityEvent(entity, (byte) 120);
             }
 
-            if (state.getBlock() instanceof DoorBlock)
+            if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
                 this.marioverse$enterWarpDoor(pos, warpPos, warpBE);
 
             if (state.getBlock() instanceof WarpPipeBlock)
@@ -506,6 +512,8 @@ public abstract class LivingEntityMixin extends Entity {
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
                 WarpDoorBlockEntity.warp(entity, warpPos, world, warpState, doorblock, warpBE);
+            if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
+                WarpTrapDoorBlockEntity.warp(entity, warpPos, world, warpState, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
             if (state.getBlock() instanceof WarpPipeBlock)
@@ -518,6 +526,8 @@ public abstract class LivingEntityMixin extends Entity {
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
                 WarpDoorBlockEntity.warp(entity, warpPos, world, warpState, doorblock, warpBE);
+            if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
+                WarpTrapDoorBlockEntity.warp(entity, warpPos, world, warpState, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
             if (state.getBlock() instanceof WarpPipeBlock)
@@ -622,24 +632,39 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        BlockEntity warpBlockEntity = world.getBlockEntity(warpPos);
+        BlockEntity warpBE = world.getBlockEntity(warpPos);
 
         if (!world.isClientSide) {
             if (blockEntity instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.breakDoor)
                 WarpDoorBlockEntity.breakDoor(warpPos, world);
+            if (blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
+                WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, world);
+
             if (state.getBlock() instanceof DoorBlock)
                 world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
                         .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-            if (warpBlockEntity instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
+            if (state.getBlock() instanceof TrapDoorBlock)
+                world.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
+                        .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
+
+            if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
                 world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
                         .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
+            if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
+                world.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
+                        .setValue(DoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
         }
 
-        if (blockEntity instanceof BaseWarpBlockEntity warpBE) {
+        if (blockEntity instanceof BaseWarpBlockEntity warpDoorBE) {
             if (state.getBlock() instanceof DoorBlock doorBlock)
-                warpBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
             if (warpState.getBlock() instanceof DoorBlock doorBlock)
-                warpBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+                warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+
+            if (state.getBlock() instanceof TrapDoorBlock trapdoorBlock)
+                warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), trapdoorBlock.getType());
+            if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
+                warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), trapdoorBlock.getType());
         }
     }
 }

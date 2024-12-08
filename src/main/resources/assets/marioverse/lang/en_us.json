@@ -138,35 +138,38 @@
   "item.marioverse.pipe_wrench.select.closed": "Wrench set to open/close pipes",
 
   "item.marioverse.pipe_wrench.tooltip": "§e§o[Press Shift]",
+  "item.marioverse.pipe_wrench.tooltip.bound_tooltip": "Bound to %1$s, %2$s, %3$s in %4$s",
+  "item.marioverse.pipe_wrench.tooltip.not_bound": "Wrench not bound",
   "item.marioverse.pipe_wrench.tooltip.right_click": "§2Right-click: §7Opens pipe GUI",
   "item.marioverse.pipe_wrench.tooltip.shift_right_click": "§6Shift-right-click: §7Binds pipes",
 
   "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Shift-right-click:",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click.line2": " §7Prevents warping of mobs, pipes, & doors",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click.line2": " §7Prevents warping of mobs, pipes, doors, & trapdoors",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2": "§6Shift-right-click x2:",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.line2": " §7Breaks door after warping",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.line2": " §7Breaks door or trapdoor after warping",
 
   "item.marioverse.warp_door_rune.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_door_rune.tooltip.shift_right_click": "§6Shift-right-click:",
   "item.marioverse.warp_door_rune.tooltip.shift_right_click.line2": " §7Convert doors into warp doors",
+  "item.marioverse.warp_door_rune.tooltip.shift_right_click.line3": " §7Convert trapdoors into warp trapdoors",
+
+  "item.marioverse.pipe_wrench.message.bound": "§aWrench bound to %1$s",
+  "item.marioverse.pipe_wrench.message.dimension_fail_door": "Doors cannot cross dimensions!",
+  "item.marioverse.pipe_wrench.message.dimension_fail_pipe": "Pipes cannot cross dimensions!",
+  "item.marioverse.pipe_wrench.message.linked_warp_block": "%1$s §6bound to %2$s",
+  "item.marioverse.pipe_wrench.message.requires_creative": "Requires creative to link blocks",
+  "item.marioverse.pipe_wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
 
   "item.marioverse.warp_disruptor.message.break_door": "§3Break %1$s §3after warping",
   "item.marioverse.warp_disruptor.message.prevent_door_warp": "§cPrevented door warping",
   "item.marioverse.warp_disruptor.message.prevent_entity_warp": "§cPrevented §r%1$s §cfrom warping",
   "item.marioverse.warp_disruptor.message.prevent_pipe_warp": "§cPrevented pipe warping",
   "item.marioverse.warp_disruptor.message.prevent_player_warp": "§cPrevented §r%1$s §cfrom warping for §r%2$s §cticks",
+  "item.marioverse.warp_disruptor.message.prevent_trapdoor_warp": "§cPrevented Trapdoor warping",
 
   "item.marioverse.warp_door_rune.message.convert_door": "%1$s §bconverted to a warp door",
-
-  "item.marioverse.pipe_wrench.message.bound": "§aWrench bound to %1$s",
-  "item.marioverse.pipe_wrench.message.bound_tooltip": "Bound to %1$s, %2$s, %3$s in %4$s",
-  "item.marioverse.pipe_wrench.message.dimension_fail_door": "Doors cannot cross dimensions!",
-  "item.marioverse.pipe_wrench.message.dimension_fail_pipe": "Pipes cannot cross dimensions!",
-  "item.marioverse.pipe_wrench.message.linked_warp_block": "%1$s §6bound to %2$s",
-  "item.marioverse.pipe_wrench.message.not_bound_tooltip": "Wrench not bound",
-  "item.marioverse.pipe_wrench.message.requires_creative": "Requires creative to link blocks",
-  "item.marioverse.pipe_wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
+  "item.marioverse.warp_door_rune.message.convert_trapdoor": "%1$s §bconverted to a warp trapdoor",
 
 
   "accessories.slot.costume_hat": "Costume Hat",
@@ -295,6 +298,9 @@
   "display.marioverse.warp_door_cooldown": "",
   "display.marioverse.warp_door_cooldown.ticks": "§cDoor warping on cooldown for §r%1$s §cticks!",
 
+  "display.marioverse.warp_trapdoor_cooldown": "",
+  "display.marioverse.warp_trapdoor_cooldown.ticks": "§cTrapdoor warping on cooldown for §r%1$s §cticks!",
+
   "display.marioverse.warp_destination_missing": "§cWarp destination not found!",
 
   "advancements.adventure.marioverse.brush_a_pipe.description": "Brush a pipe to remove text",
@@ -344,7 +350,7 @@
 
   "configuration.marioverse.all_mobs_can_stomp": "All Mobs Can Stomp",
   "configuration.marioverse.allow_fast_travel": "Allow Fast Travel",
-  "configuration.marioverse.allow_pipe_unwaxing": "Allow Pipe Unwaxing",
+  "configuration.marioverse.allow_warp_unwaxing": "Allow Warp Unwaxing",
   "configuration.marioverse.blindness_effect": "Blindness When Warping",
   "configuration.marioverse.creative_wrench_pipe_linking": "Link Pipes Creative Only",
   "configuration.marioverse.damage_shrinks_all_mobs": "Damage Shrinks All Mobs",

@@ -5,10 +5,13 @@
   "refmap": "marioverse.refmap.json",
   "minVersion": "0.8",
   "mixins": [
+    "AxeItemMixin",
     "DoorBlockMixin",
     "EntityMixin",
+    "HoneycombItemMixin",
     "LivingEntityMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "TrapDoorBlockMixin"
   ],
   "client": [
     "HumanoidArmorLayerMixin",

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -16,7 +17,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -32,6 +35,7 @@ public class WarpDoorRuneItem extends Item {
             list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.line2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.line3"));
         } else
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
 
@@ -52,6 +56,7 @@ public class WarpDoorRuneItem extends Item {
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER && !(blockEntity instanceof WarpDoorBlockEntity)) {
                 world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
                 world.blockEntityChanged(pos);
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
@@ -63,9 +68,24 @@ public class WarpDoorRuneItem extends Item {
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER && !(blockEntityBelow instanceof WarpDoorBlockEntity)) {
                 world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
                 world.blockEntityChanged(pos.below());
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
+                            state.getBlock().getName()).withStyle(ChatFormatting.AQUA), true);
+                    if (!player.isCreative())
+                        stack.shrink(1);
+                }
+                return InteractionResult.SUCCESS;
+            }
+        } else if (state.getBlock() instanceof TrapDoorBlock) {
+            if (!(blockEntity instanceof WarpTrapDoorBlockEntity)) {
+                world.setBlockEntity(new WarpTrapDoorBlockEntity(pos, state));
+                world.blockEntityChanged(pos);
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
+                if (player != null) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_trapdoor",
                             state.getBlock().getName()).withStyle(ChatFormatting.AQUA), true);
                     if (!player.isCreative())
                         stack.shrink(1);
@@ -77,6 +97,7 @@ public class WarpDoorRuneItem extends Item {
     }
 
     public void spawnParticles(ParticleOptions particleType, Level world, BlockPos pos, int avgAmount) {
+        BlockState state = world.getBlockState(pos);
         float scaleFactor = 1;
         int numParticles = (int) (scaleFactor * avgAmount);
         double radius = 0.65;
@@ -92,9 +113,14 @@ public class WarpDoorRuneItem extends Item {
             double y = pos.getY();
             double z = pos.getZ() + 0.5 + offsetZ;
 
-            world.addParticle(particleType, x, y, z, 0, 1.0, 0);
-            world.addParticle(particleType, x, y + 0.5, z, 0, 1.0, 0);
-            world.addParticle(particleType, x, y + 1.0, z, 0, 1.0, 0);
+            if (state.getBlock() instanceof DoorBlock) {
+                world.addParticle(particleType, x, y, z, 0, 1.0, 0);
+                world.addParticle(particleType, x, y + 0.5, z, 0, 1.0, 0);
+                world.addParticle(particleType, x, y + 1.0, z, 0, 1.0, 0);
+            } else {
+                world.addParticle(particleType, x, y, z, 0, 1.0, 0);
+                world.addParticle(particleType, x, y - 0.5, z, 0, 1.0, 0);
+            }
         }
     }
 }

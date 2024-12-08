@@ -132,7 +132,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     }
 
     public void markUpdated() {
-
         this.setChanged();
         if (this.level != null)
             this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
