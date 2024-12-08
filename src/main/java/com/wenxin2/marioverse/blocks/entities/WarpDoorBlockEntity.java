@@ -27,6 +27,10 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
         super(tileEntity, pos, state);
     }
 
+    @Override
+    public boolean isValidBlockState(BlockState state) {
+        return this.getType().isValid(state) || state.getBlock() instanceof DoorBlock;
+    }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
