@@ -323,10 +323,10 @@ public abstract class LivingEntityMixin extends Entity {
                     double gravity = 0.08; // Approximate Minecraft gravity value
                     double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
-                    if (!damagedEntity.isDeadOrDying()) {
+//                    if (!damagedEntity.isDeadOrDying()) {
                         stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
                         stompingEntity.fallDistance = 0; // Reset fall damage
-                    }
+//                    }
 
                     float scaleFactor = damagedEntity.getBbHeight() * damagedEntity.getBbWidth();
                     int numParticles = (int) (scaleFactor * 20);
@@ -640,24 +640,26 @@ public abstract class LivingEntityMixin extends Entity {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity warpBE = world.getBlockEntity(warpPos);
 
-        if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.breakDoor)
-            WarpDoorBlockEntity.breakDoor(warpPos, world);
-        if (warpBE instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
-            WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, world);
+        if (!world.isClientSide) {
+            if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.breakDoor)
+                WarpDoorBlockEntity.breakDoor(warpPos, world);
+            if (warpBE instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
+                WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, world);
 
-        if (state.getBlock() instanceof DoorBlock)
-            world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
-                    .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-        if (state.getBlock() instanceof TrapDoorBlock)
-            world.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
-                    .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
+            if (state.getBlock() instanceof DoorBlock)
+                world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
+                        .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+            if (state.getBlock() instanceof TrapDoorBlock)
+                world.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
+                        .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
 
-        if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
-            world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
-                    .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
-        if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
-            world.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
-                    .setValue(TrapDoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
+            if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
+                world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
+                        .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
+            if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
+                world.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
+                        .setValue(TrapDoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
+        }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpDoorBE) {
             if (state.getBlock() instanceof DoorBlock doorBlock)
