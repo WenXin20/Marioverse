@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    protected static final VoxelShape COIN_SHAPE = Block.box(4.0, 3.5, 4.0, 12.0, 12.5, 12.0).optimize();
+    protected static final VoxelShape COIN_SHAPE = Block.box(3.0, 2.5, 3.0, 14.0, 14.5, 14.0).optimize();
 
     public CoinBlock(Properties properties) {
         super(properties);
