@@ -20,15 +20,8 @@
 					"parent": "bipedHead",
 					"pivot": [0, 24, 0],
 					"cubes": [
-						{"origin": [-4.75, 27.7, -7.35], "size": [9.5, 1, 3], "uv": [35, 0]}
-					]
-				},
-				{
-					"name": "bone",
-					"parent": "armorHead",
-					"pivot": [0, 24.5, 0],
-					"cubes": [
-						{"origin": [-4.5, 23.25, -4.15], "size": [9, 9, 8], "inflate": 0.3, "pivot": [0, 27.75, 0], "rotation": [-5, 0, 0], "uv": [0, 0]}
+						{"origin": [-4.5, 23.65, -4], "size": [9, 9, 8], "inflate": 0.3, "uv": [0, 0]},
+						{"origin": [-4.75, 27.75, -7.35], "size": [9.5, 1, 3], "uv": [35, 0]}
 					]
 				},
 				{
