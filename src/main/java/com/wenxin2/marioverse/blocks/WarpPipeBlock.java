@@ -129,14 +129,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
                             warpBlockEntity.markUpdated();
                             isSuccesful = true;
                         }
-                    }/* else if (item == Items.HONEYCOMB && (ConfigRegistry.WAX_DISABLES_BUBBLES.get() || ConfigRegistry.WAX_DISABLES_CLOSING.get()
-                            || ConfigRegistry.WAX_DISABLES_RENAMING.get() || ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get())) {
-                        pipeBE.setWaxed(Boolean.TRUE);
-                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
-                        pipeBE.markUpdated();
-                        isSuccesful = true;
-                    }*/ else if (stack.is(Items.BRUSH)) {
+                    } else if (stack.is(Items.BRUSH)) {
                         if (hit.getDirection() == Direction.NORTH) {
                             pipeBE.setTextNorth(!pipeBE.hasTextNorth());
                             this.dyedDustParticles(pipeBE, world, pos, Direction.NORTH);
@@ -212,13 +205,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
                             isSuccesful = true;
                         }
                     }
-                } /*else if (ConfigRegistry.ALLOW_PIPE_UNWAXING.get() && (stack.is(ItemTags.AXES) || item instanceof AxeItem)) {
-                    pipeBE.setWaxed(Boolean.FALSE);
-                    world.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
-                    pipeBE.markUpdated();
-                    isSuccesfulTool = true;
-                }*/
+                }
             }
 
             if (isSuccesfulTool) {
