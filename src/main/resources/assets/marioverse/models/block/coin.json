@@ -2,6 +2,6 @@
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
-		"particle": "marioverse:entity/coin/coin"
+		"particle": "marioverse:block/coin"
 	}
 }
