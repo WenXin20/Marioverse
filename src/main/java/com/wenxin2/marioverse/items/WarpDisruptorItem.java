@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -88,6 +89,7 @@ public class WarpDisruptorItem extends Item {
                         stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 }
                 doorBE.markUpdated();
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                 return InteractionResult.SUCCESS;
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
                     && blockEntityBelow instanceof WarpDoorBlockEntity doorBE
@@ -110,11 +112,33 @@ public class WarpDisruptorItem extends Item {
                         stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 }
                 doorBE.markUpdated();
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                 return InteractionResult.SUCCESS;
             }
+        } else if (blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE
+                && (!warpTrapdoorBE.preventWarp || !warpTrapdoorBE.breakTrapdoor)) {
+            if (warpTrapdoorBE.preventWarp) {
+                this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_trapdoor",
+                            state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
+                warpTrapdoorBE.setBreakTrapdoor(Boolean.TRUE);
+            } else {
+                this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_trapdoor_warp"), true);
+                warpTrapdoorBE.setPreventWarp(Boolean.TRUE);
+            }
+
+            if (player != null) {
+                if (!player.isCreative())
+                    stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+            }
+            warpTrapdoorBE.markUpdated();
+            world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+            return InteractionResult.SUCCESS;
         } else if (blockEntity instanceof BaseWarpBlockEntity warpBE && !warpBE.preventWarp) {
             warpBE.setPreventWarp(Boolean.TRUE);
-            warpBE.markUpdated();
             this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
 
             if (player != null) {
@@ -125,6 +149,8 @@ public class WarpDisruptorItem extends Item {
                 if (!player.isCreative())
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
             }
+            warpBE.markUpdated();
+            world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
             return InteractionResult.SUCCESS;
         }
         return super.useOn(useOnContext);

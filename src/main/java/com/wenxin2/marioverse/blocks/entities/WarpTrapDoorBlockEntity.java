@@ -16,7 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
-    public boolean breakTrapdoor = Boolean.FALSE;
+    public boolean breakTrapdoor;
+    public static final String BREAK_TRAPDOOR = "BreakTrapdoor";
 
     public WarpTrapDoorBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_TRAPDOOR_BLOCK_ENTITY.get(), pos, state);

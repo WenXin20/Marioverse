@@ -16,7 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
-    public boolean breakDoor = Boolean.FALSE;
+    public static final String BREAK_DOOR = "BreakDoor";
+    public boolean breakDoor;
 
     public WarpDoorBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_DOOR_BLOCK_ENTITY.get(), pos, state);
@@ -30,14 +31,14 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        if (tag.contains(BREAK_TRAPDOOR))
-            this.breakDoor = tag.getBoolean(BREAK_TRAPDOOR);
+        if (tag.contains(BREAK_DOOR))
+            this.breakDoor = tag.getBoolean(BREAK_DOOR);
     }
 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        tag.putBoolean(BREAK_TRAPDOOR, this.breakDoor);
+        tag.putBoolean(BREAK_DOOR, this.breakDoor);
     }
 
     public void setBreakDoor(boolean breakDoor) {

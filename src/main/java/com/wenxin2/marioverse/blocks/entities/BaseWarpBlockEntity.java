@@ -28,7 +28,6 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public static final String WARP_UUID = "WarpUUID";
     public static final String UUID = "UUID";
     public static final String PREVENT_WARP = "PreventWarp";
-    public static final String BREAK_TRAPDOOR = "BreakDoor";
     public static final String IS_WAXED = "IsWaxed";
     public BlockPos destinationPos;
     public String dimensionTag;

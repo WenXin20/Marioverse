@@ -28,6 +28,7 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -50,7 +51,7 @@ public class LinkerItem extends TieredItem {
 
         if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get()) {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
-            return InteractionResult.sidedSuccess(world.isClientSide);
+            return InteractionResult.sidedSuccess(Boolean.TRUE);
         } else if (player != null) {
             if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
                     && (state.getBlock() instanceof DoorBlock
@@ -62,7 +63,7 @@ public class LinkerItem extends TieredItem {
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
-                    return InteractionResult.sidedSuccess(world.isClientSide);
+                    return InteractionResult.sidedSuccess(Boolean.TRUE);
                 } else if (!getIsBound(stack)) {
                     // First interaction: Bind the first block
                     setWarpPos(stack, pos);
@@ -97,7 +98,7 @@ public class LinkerItem extends TieredItem {
 //                    }
                     setIsBound(stack, false);  // Reset binding
                 }
-                return InteractionResult.sidedSuccess(world.isClientSide);
+                return InteractionResult.sidedSuccess(Boolean.TRUE);
             }
         }
         return super.useOn(useOnContext);
@@ -126,8 +127,8 @@ public class LinkerItem extends TieredItem {
         if (secondUuid != null)
             firstPipeBlockEntity.setWarpUuid(secondUuid);
 
-        firstPipeBlockEntity.setChanged();
-        secondPipeBlockEntity.setChanged();
+        firstPipeBlockEntity.markUpdated();
+        secondPipeBlockEntity.markUpdated();
         clearItemComponents(stack);
     }
 

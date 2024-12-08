@@ -58,8 +58,10 @@ public abstract class EntityMixin {
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
+        BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
+        BlockState stateInBlock = world.getBlockState(posInBlock);
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -85,6 +87,10 @@ public abstract class EntityMixin {
         if (world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN))
             this.marioverse$enterWarp(pos);
+
+        if (world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
+                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN))
+            this.marioverse$enterWarp(posInBlock);
 
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
@@ -275,26 +281,24 @@ public abstract class EntityMixin {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity warpBE = world.getBlockEntity(warpPos);
 
-        if (!world.isClientSide) {
-            if (blockEntity instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.breakDoor)
-                WarpDoorBlockEntity.breakDoor(warpPos, world);
-            if (blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
-                WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, world);
+        if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.breakDoor)
+            WarpDoorBlockEntity.breakDoor(warpPos, world);
+        if (warpBE instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
+            WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, world);
 
-            if (state.getBlock() instanceof DoorBlock)
-                world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
-                        .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-            if (state.getBlock() instanceof TrapDoorBlock)
-                world.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
-                        .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
+        if (state.getBlock() instanceof DoorBlock)
+            world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
+                    .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
+        if (state.getBlock() instanceof TrapDoorBlock)
+            world.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
+                    .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
 
-            if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
-                world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
-                        .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
-            if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
-                world.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
-                        .setValue(DoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
-        }
+        if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
+            world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
+                    .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
+        if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
+            world.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
+                    .setValue(TrapDoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
 
         if (blockEntity instanceof BaseWarpBlockEntity warpDoorBE) {
             if (state.getBlock() instanceof DoorBlock doorBlock)
@@ -303,9 +307,9 @@ public abstract class EntityMixin {
                 warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
 
             if (state.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), trapdoorBlock.getType());
+                warpDoorBE.playDoorSounds(null, world, pos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), trapdoorBlock.getType());
+                warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
         }
     }
 }

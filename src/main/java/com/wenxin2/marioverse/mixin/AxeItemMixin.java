@@ -52,7 +52,7 @@ public class AxeItemMixin {
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
 
                 world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
-                cir.setReturnValue(InteractionResult.sidedSuccess(world.isClientSide()));
+                cir.setReturnValue(InteractionResult.sidedSuccess(Boolean.TRUE));
             }
         }
     }
