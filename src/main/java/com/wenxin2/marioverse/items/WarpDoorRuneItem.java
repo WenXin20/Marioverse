@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -49,13 +48,16 @@ public class WarpDoorRuneItem extends Item {
         BlockState state = world.getBlockState(pos);
         ItemStack stack = useOnContext.getItemInHand();
         BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntityAbove = world.getBlockEntity(pos.above());
         BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
         if (state.getBlock() instanceof DoorBlock) {
-            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER && !(blockEntity instanceof WarpDoorBlockEntity)) {
-                world.setBlockEntity(new WarpDoorBlockEntity(pos, state));
-                world.blockEntityChanged(pos);
-                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+                    && blockEntity instanceof WarpDoorBlockEntity doorBE && !doorBE.isWarpDoor) {
+                if (blockEntityAbove instanceof WarpDoorBlockEntity doorBEAbove && !doorBEAbove.isWarpDoor)
+                    doorBEAbove.setWarpDoor(Boolean.TRUE);
+                doorBE.setWarpDoor(Boolean.TRUE);
+                doorBE.markUpdated();
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
@@ -64,10 +66,12 @@ public class WarpDoorRuneItem extends Item {
                         stack.shrink(1);
                 }
                 return InteractionResult.SUCCESS;
-            } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER && !(blockEntityBelow instanceof WarpDoorBlockEntity)) {
-                world.setBlockEntity(new WarpDoorBlockEntity(pos.below(), state));
-                world.blockEntityChanged(pos.below());
-                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+            } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
+                    && blockEntity instanceof WarpDoorBlockEntity doorBE && !doorBE.isWarpDoor) {
+                if (blockEntityBelow instanceof WarpDoorBlockEntity doorBEBelow && !doorBEBelow.isWarpDoor)
+                    doorBEBelow.setWarpDoor(Boolean.TRUE);
+                doorBE.setWarpDoor(Boolean.TRUE);
+                doorBE.markUpdated();
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos.below(), 30);
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_door",
@@ -78,11 +82,11 @@ public class WarpDoorRuneItem extends Item {
                 return InteractionResult.SUCCESS;
             }
         } else if (state.getBlock() instanceof TrapDoorBlock) {
-            if (!(blockEntity instanceof WarpTrapDoorBlockEntity)) {
-                world.setBlockEntity(new WarpTrapDoorBlockEntity(pos, state));
-                world.blockEntityChanged(pos);
-                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+            if (blockEntity instanceof WarpTrapDoorBlockEntity trapdoorBE && !trapdoorBE.isWarpTrapdoor) {
+                trapdoorBE.setWarpTrapdoor(Boolean.TRUE);
+                trapdoorBE.markUpdated();
                 this.spawnParticles(ParticleTypes.PORTAL, world, pos, 30);
+
                 if (player != null) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.convert_trapdoor",
                             state.getBlock().getName()).withStyle(ChatFormatting.AQUA), true);

@@ -86,8 +86,7 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
     }
 
     @Override
-    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
-    {
+    public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state) {
         return new WarpPipeBlockEntity(pos, state);
     }
 

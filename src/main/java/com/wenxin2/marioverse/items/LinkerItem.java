@@ -3,6 +3,9 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
@@ -53,8 +56,8 @@ public class LinkerItem extends TieredItem {
             return InteractionResult.sidedSuccess(Boolean.TRUE);
         } else if (player != null) {
             if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
-                    && (state.getBlock() instanceof DoorBlock
-                        || state.getBlock() instanceof TrapDoorBlock
+                    && ((blockEntity instanceof WarpDoorBlockEntity doorBE && doorBE.isWarpDoor)
+                        || (blockEntity instanceof WarpTrapDoorBlockEntity trapdoorBE && trapdoorBE.isWarpTrapdoor)
                         || state.getBlock() instanceof ClearWarpPipeBlock
                         || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
                 UUID uuid = warpBE.getUuid();
@@ -64,6 +67,12 @@ public class LinkerItem extends TieredItem {
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     return InteractionResult.sidedSuccess(Boolean.TRUE);
                 } else if (!getIsBound(stack)) {
+
+                    if (!world.isClientSide && uuid == null) {
+                        uuid = UUID.randomUUID();
+                        warpBE.setUuid(uuid);
+                        warpBE.setChanged();
+                    }
                     // First interaction: Bind the first block
                     setWarpPos(stack, pos);
                     setWarpDimension(stack, dimension);
@@ -76,6 +85,13 @@ public class LinkerItem extends TieredItem {
                     this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
                     this.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                 } else {
+
+                    if (!world.isClientSide && uuid == null) {
+                        uuid = UUID.randomUUID();
+                        warpBE.setUuid(uuid);
+                        warpBE.setChanged();
+                    }
+
                     // Second interaction: Link the blocks
                     BlockPos firstPos = getWarpPos(stack);
                     BlockState firstState = world.getBlockState(firstPos);
