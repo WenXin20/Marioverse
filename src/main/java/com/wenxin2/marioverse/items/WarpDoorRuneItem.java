@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,11 +32,19 @@ public class WarpDoorRuneItem extends Item {
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.line2"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.line3"));
-        } else
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+            if (!ConfigRegistry.DISABLE_WARP_DOORS.get() || !ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()) {
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
+                if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
+                    list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.warp_doors"));
+                if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
+                    list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.warp_trapdoors"));
+            }
+        } else {
+
+            if (ConfigRegistry.DISABLE_WARP_DOORS.get() && ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.disabled"));
+            else list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+        }
 
         super.appendHoverText(stack, tooltipContext, list, tooltip);
     }
@@ -51,7 +60,7 @@ public class WarpDoorRuneItem extends Item {
         BlockEntity blockEntityAbove = world.getBlockEntity(pos.above());
         BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
-        if (state.getBlock() instanceof DoorBlock) {
+        if (state.getBlock() instanceof DoorBlock && !ConfigRegistry.DISABLE_WARP_DOORS.get()) {
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                     && blockEntity instanceof WarpDoorBlockEntity doorBE && !doorBE.isWarpDoor) {
                 if (blockEntityAbove instanceof WarpDoorBlockEntity doorBEAbove && !doorBEAbove.isWarpDoor)
@@ -81,7 +90,7 @@ public class WarpDoorRuneItem extends Item {
                 }
                 return InteractionResult.SUCCESS;
             }
-        } else if (state.getBlock() instanceof TrapDoorBlock) {
+        } else if (state.getBlock() instanceof TrapDoorBlock && !ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()) {
             if (blockEntity instanceof WarpTrapDoorBlockEntity trapdoorBE && !trapdoorBE.isWarpTrapdoor) {
                 trapdoorBE.setWarpTrapdoor(Boolean.TRUE);
                 trapdoorBE.markUpdated();

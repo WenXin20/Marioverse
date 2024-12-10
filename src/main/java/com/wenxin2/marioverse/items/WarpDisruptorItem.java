@@ -27,7 +27,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -43,10 +42,23 @@ public class WarpDisruptorItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click"));
+            if (!ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get())
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.player"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.mob"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.line2"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.line2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));
+            if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.door"));
+            if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.trapdoor"));
+            if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() || !ConfigRegistry.DISABLE_WARP_DOORS.get()) {
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2"));
+                if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
+                    list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.door"));
+                if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
+                    list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.trapdoor"));
+            }
         } else
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
 
@@ -63,7 +75,7 @@ public class WarpDisruptorItem extends Item {
         ItemStack stack = useOnContext.getItemInHand();
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (state.getBlock() instanceof DoorBlock) {
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && state.getBlock() instanceof DoorBlock) {
             BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
@@ -113,7 +125,7 @@ public class WarpDisruptorItem extends Item {
                 world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                 return InteractionResult.SUCCESS;
             }
-        } else if (blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE
+        } else if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE
                 && (!warpTrapdoorBE.preventWarp || !warpTrapdoorBE.breakTrapdoor)) {
             if (warpTrapdoorBE.preventWarp) {
                 this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
@@ -142,8 +154,6 @@ public class WarpDisruptorItem extends Item {
             if (player != null) {
                 if (state.getBlock() instanceof WarpPipeBlock)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_pipe_warp"), true);
-                if (state.getBlock() instanceof TrapDoorBlock)
-                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_trapdoor_warp"), true);
                 if (!player.isCreative())
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
             }

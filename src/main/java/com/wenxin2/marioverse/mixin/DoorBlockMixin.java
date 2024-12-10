@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EntityBlock;
@@ -14,6 +15,8 @@ public class DoorBlockMixin implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new WarpDoorBlockEntity(pos, state);
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
+            return new WarpDoorBlockEntity(pos, state);
+        else return null;
     }
 }

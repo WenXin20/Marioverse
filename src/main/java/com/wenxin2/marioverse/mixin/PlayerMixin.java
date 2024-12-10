@@ -87,16 +87,19 @@ public abstract class PlayerMixin extends Entity {
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED))
             this.marioverse$enterWarp(pos);
 
-        if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
+                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
             this.marioverse$enterWarp(pos);
 
-        if (world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
+                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN))
             this.marioverse$enterWarp(pos);
 
-        if (world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
+                && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN))
             this.marioverse$enterWarp(posInBlock);
 
@@ -310,7 +313,9 @@ public abstract class PlayerMixin extends Entity {
         } else {
             if (this.marioverse$getWarpCooldown() == 0 && !player.isShiftKeyDown()) {
                 this.marioverse$warp(pos, state, warpPos, warpBE);
-                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+                if (state.getBlock() instanceof DoorBlock)
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+                else this.marioverse$setWarpCooldown(ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
             } else if (warpBE.hasDestinationPos()) this.marioverse$displayCooldownMessage(state);
         }
     }

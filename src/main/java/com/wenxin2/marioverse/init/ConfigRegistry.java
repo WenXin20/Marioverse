@@ -26,6 +26,7 @@ public class ConfigRegistry
     public static final String CATEGORY_QUESTION_BLOCK = "question_block";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
+    public static final String CATEGORY_WARP_TRAPDOORS = "warp_trapdoors";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
@@ -60,6 +61,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
+    public static ModConfigSpec.BooleanValue DISABLE_WARP_DOORS;
+    public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
@@ -108,6 +111,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
+    public static ModConfigSpec.IntValue WARP_TRAPDOOR_COOLDOWN;
 
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -167,6 +171,10 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DOORS);
+                    DISABLE_WARP_DOORS = BUILDER.translation("configuration.marioverse.disable_warp_doors")
+                            .comment("Disables the creation of warp doors.")
+                            .comment("§9[Default: false]")
+                            .define("disable_warp_doors", false);
                     WARP_DOOR_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_door_cooldown")
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]")
@@ -216,6 +224,18 @@ public class ConfigRegistry
                             .comment("Require creative to link pipes.")
                             .comment("§9[Default: false]")
                             .define("creative_wrench_pipe_linking", false);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_WARP_TRAPDOORS);
+                    DISABLE_WARP_TRAPDOORS = BUILDER.translation("configuration.marioverse.disable_warp_trapdoors")
+                            .comment("Disables the creation of warp trapdoors.")
+                            .comment("§9[Default: false]")
+                            .define("disable_warp_trapdoors", false);
+                    WARP_TRAPDOOR_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_trapdoor_cooldown")
+                            .comment("Cooldown between teleports in ticks for trapdoors.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 70]§b")
+                            .defineInRange("warp_trapdoor_cooldown", 70, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WATER_SPOUTS);

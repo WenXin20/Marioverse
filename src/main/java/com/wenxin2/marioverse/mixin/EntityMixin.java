@@ -79,16 +79,19 @@ public abstract class EntityMixin {
                 && !(entity instanceof LivingEntity))
             this.marioverse$enterWarp(pos);
 
-        if (world.getBlockEntity(pos) instanceof WarpDoorBlockEntity && !(entity instanceof LivingEntity)
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && !(entity instanceof LivingEntity)
+                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
             this.marioverse$enterWarp(pos);
 
-        if (world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && !(entity instanceof LivingEntity)
+                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN))
             this.marioverse$enterWarp(pos);
 
-        if (world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && !(entity instanceof LivingEntity)
+                && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN))
             this.marioverse$enterWarp(posInBlock);
 
@@ -193,7 +196,9 @@ public abstract class EntityMixin {
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (this.marioverse$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
                 this.marioverse$warp(pos, state, warpPos, warpBE);
-                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+                if (state.getBlock() instanceof DoorBlock)
+                    this.marioverse$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+                else this.marioverse$setWarpCooldown(ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
             }
         }
     }
