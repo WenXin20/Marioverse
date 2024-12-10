@@ -513,7 +513,7 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
 
-        if (warpPos != null) {
+        if (warpPos != null && world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
             BlockState warpState = world.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
