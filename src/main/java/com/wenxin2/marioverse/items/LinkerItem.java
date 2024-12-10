@@ -56,8 +56,8 @@ public class LinkerItem extends TieredItem {
             return InteractionResult.sidedSuccess(Boolean.TRUE);
         } else if (player != null) {
             if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
-                    && ((blockEntity instanceof WarpDoorBlockEntity doorBE && doorBE.isWarpDoor)
-                        || (blockEntity instanceof WarpTrapDoorBlockEntity trapdoorBE && trapdoorBE.isWarpTrapdoor)
+                    && (state.getBlock() instanceof DoorBlock
+                        || state.getBlock() instanceof TrapDoorBlock
                         || state.getBlock() instanceof ClearWarpPipeBlock
                         || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
                 UUID uuid = warpBE.getUuid();

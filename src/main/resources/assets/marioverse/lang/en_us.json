@@ -117,7 +117,6 @@
   "item.marioverse.one_up_mushroom": "1-Up Mushroom",
   "item.marioverse.pipe_wrench": "Pipe Wrench",
   "item.marioverse.warp_disruptor": "Warp Disruptor",
-  "item.marioverse.warp_door_rune": "Warp Rune",
 
   "item.marioverse.fire_hat": "Fire Hat",
   "item.marioverse.fire_shirt": "Fire Shirt",
@@ -129,6 +128,7 @@
   "item.marioverse.hefty_goomba_spawn_egg": "Hefty Goomba Spawn Egg",
   "item.marioverse.mega_goomba_spawn_egg": "Mega Goomba Spawn Egg",
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
+
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
   "item.marioverse.pipe_wrench.bubbles.false": "Pipe bubbles off",
@@ -145,21 +145,15 @@
 
   "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_disruptor.tooltip.right_click": "§6Right-click:",
-  "item.marioverse.warp_disruptor.tooltip.right_click.mob": " §7•Prevents selected mob from warping",
-  "item.marioverse.warp_disruptor.tooltip.right_click.player": " §7•Prevents selected player from warping",
+  "item.marioverse.warp_disruptor.tooltip.right_click.mob": " §7• Prevents selected mob from warping",
+  "item.marioverse.warp_disruptor.tooltip.right_click.player": " §7• Prevents selected player from warping",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Shift-right-click:",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click.pipe": " §7•Prevents pipe warping",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click.door": " §7•Prevents door warping",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click.trapdoor": " §7•Prevents trapdoor warping",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click.pipe": " §7• Prevents pipe warping",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click.door": " §7• Prevents door warping",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click.trapdoor": " §7• Prevents trapdoor warping",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2": "§6Shift-right-click x2:",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.door": " §7•Breaks door after warping",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.trapdoor": " §7•Breaks trapdoor after warping",
-
-  "item.marioverse.warp_door_rune.tooltip": "§e§o[Press Shift]",
-  "item.marioverse.warp_door_rune.tooltip.disabled": "§c§oRune has been disabled!",
-  "item.marioverse.warp_door_rune.tooltip.shift_right_click": "§6Shift-right-click:",
-  "item.marioverse.warp_door_rune.tooltip.shift_right_click.warp_doors": " §7•Convert doors into warp doors",
-  "item.marioverse.warp_door_rune.tooltip.shift_right_click.warp_trapdoors": " §7•Convert trapdoors into warp trapdoors",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.door": " §7• Breaks door after warping",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.trapdoor": " §7• Breaks trapdoor after warping",
 
   "item.marioverse.pipe_wrench.message.bound": "§aWrench bound to %1$s",
   "item.marioverse.pipe_wrench.message.dimension_fail_door": "Doors cannot cross dimensions!",
@@ -175,9 +169,6 @@
   "item.marioverse.warp_disruptor.message.prevent_pipe_warp": "§cPrevented pipe warping",
   "item.marioverse.warp_disruptor.message.prevent_player_warp": "§cPrevented §r%1$s §cfrom warping for §r%2$s §cticks",
   "item.marioverse.warp_disruptor.message.prevent_trapdoor_warp": "§cPrevented Trapdoor warping",
-
-  "item.marioverse.warp_door_rune.message.convert_door": "%1$s §bconverted to a warp door",
-  "item.marioverse.warp_door_rune.message.convert_trapdoor": "%1$s §bconverted to a warp trapdoor",
 
 
   "accessories.slot.costume_hat": "Costume Hat",
