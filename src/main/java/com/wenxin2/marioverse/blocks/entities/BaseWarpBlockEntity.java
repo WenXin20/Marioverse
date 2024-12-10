@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -207,11 +209,8 @@ public class BaseWarpBlockEntity extends BlockEntity {
             for (int y = Math.max(-maxDistance, world.getMinBuildHeight() - pos.getY()); y <= Math.min(maxDistance, world.getMaxBuildHeight() - pos.getY()); y++) {
                 for (int z = -maxDistance; z <= maxDistance; z++) {
                     BlockPos checkingPos = pos.offset(x, y, z);
-                    BlockState blockState = world.getBlockState(checkingPos);
-                    Block block = blockState.getBlock();
 
-//                    if (block instanceof DoorBlock || block instanceof WarpPipeBlock /*&& world.getBlockEntity(checkingPos) != null
-//                            && world.getBlockEntity(checkingPos) instanceof BaseWarpBlockEntity*/) {
+                    if (world.getBlockEntity(checkingPos) instanceof BaseWarpBlockEntity) {
                         BlockEntity blockEntity = world.getBlockEntity(checkingPos);
 
                         if (blockEntity instanceof BaseWarpBlockEntity warpBlockEntity) {
@@ -225,7 +224,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
                                 }
                             }
                         }
-//                    }
+                    }
                 }
             }
         }

@@ -267,7 +267,7 @@ public abstract class PlayerMixin extends Entity {
         Player player = (Player) (Object) this;
         Level world = player.level();
 
-        if (warpPos != null) {
+        if (warpPos != null && world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
             BlockState warpState = world.getBlockState(warpPos);
 
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
