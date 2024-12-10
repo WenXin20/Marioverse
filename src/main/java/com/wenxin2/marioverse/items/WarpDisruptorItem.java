@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -40,24 +41,38 @@ public class WarpDisruptorItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        MutableComponent rCText = Component.translatable(this.getDescriptionId() + ".tooltip.right_click.selected");
+        MutableComponent shiftRCText = Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.prevents");
+        MutableComponent shiftRCx2Text = Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.breaks");
+
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click"));
+
+            rCText = rCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.mob"));
             if (!ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get())
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.player"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.mob"));
+                rCText = rCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.player"));
+            rCText = rCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.warping"));
+            list.add(rCText);
+
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));
+
+            shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));
             if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.door"));
+                shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.door"));
             if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.trapdoor"));
+                shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.trapdoor"));
+            shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.warping"));
+            list.add(shiftRCText);
+
             if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() || !ConfigRegistry.DISABLE_WARP_DOORS.get()) {
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2"));
                 if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
-                    list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.door"));
+                    shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.door"));
                 if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
-                    list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.trapdoor"));
+                    shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.trapdoor"));
+                shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.warping"));
+                list.add(shiftRCx2Text);
             }
         } else
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));

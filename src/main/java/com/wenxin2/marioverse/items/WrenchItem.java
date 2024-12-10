@@ -1,11 +1,13 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -35,10 +37,22 @@ public class WrenchItem extends LinkerItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        MutableComponent warpableText = Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.binds");
+
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.gui"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
+
+            warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));
+            if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
+                warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.door"));
+
+            if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
+                warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.trapdoor"));
+
+            list.add(warpableText);
 
         } else {
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
