@@ -37,8 +37,8 @@ public class EntityRegistry {
             MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
-    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR = register("super_star", SuperStarEntity::new,
-            MobCategory.AMBIENT, 0.6f, 0.6f);
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR = Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
+            .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
@@ -75,14 +75,20 @@ public class EntityRegistry {
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         AttributeSupplier.Builder genericMushroomAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.MOVEMENT_SPEED, 0.4F);
+                .add(Attributes.MOVEMENT_SPEED, 0.4F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
+        AttributeSupplier.Builder genericStarAttribs = PathfinderMob.createMobAttributes()
+                .add(Attributes.JUMP_STRENGTH, 0.5F)
+                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.MOVEMENT_SPEED, 0.8F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
         AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), genericPowerUpAttribs.build());
         event.put(EntityRegistry.MUSHROOM.get(), genericMushroomAttribs.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericMushroomAttribs.build());
-        event.put(EntityRegistry.SUPER_STAR.get(), genericMushroomAttribs.build());
+        event.put(EntityRegistry.SUPER_STAR.get(), genericStarAttribs.build());
 
         event.put(EntityRegistry.FIRE_GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)

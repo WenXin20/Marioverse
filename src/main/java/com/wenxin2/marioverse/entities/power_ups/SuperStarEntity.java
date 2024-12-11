@@ -74,11 +74,10 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                     && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
 
-                if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
-                    this.level().broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
+                this.level().broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
                 player.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.TRUE);
                 player.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
-                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 1, true, false));
+                player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -93,7 +92,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                 this.level().broadcastEntityEvent(livingEntity, (byte) 119); // Super Star Powered Up particle
                 livingEntity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.TRUE);
                 livingEntity.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 2, true, false));
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);

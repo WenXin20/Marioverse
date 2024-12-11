@@ -137,8 +137,10 @@ public abstract class LivingEntityMixin extends Entity {
         if (superStarCooldown == 0 && this.getPersistentData().getBoolean("marioverse:has_super_star"))
             entity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.FALSE);
 
-        if (entity.getPersistentData().getBoolean("marioverse:has_super_star"))
+        if (entity.getPersistentData().getBoolean("marioverse:has_super_star")) {
             this.marioverse$superStarKillEntity(entity);
+            this.level().broadcastEntityEvent(entity, (byte) 114);
+        }
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
 //            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
@@ -248,7 +250,9 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         RandomSource random = this.level().getRandom();
 
-        if (id == 115) {
+        if (id == 114) {
+            this.marioverse$starParticles(livingEntity, ParticleRegistry.COIN_GLINT.get());
+        } else if (id == 115) {
             if (this.level().isClientSide) {
                 if (livingEntity == Minecraft.getInstance().player)
                     Minecraft.getInstance().gameRenderer.displayItemActivation(ItemRegistry.ONE_UP_MUSHROOM.get().getDefaultInstance());
@@ -286,6 +290,18 @@ public abstract class LivingEntityMixin extends Entity {
             serverWorld.sendParticles(particleType, entity.getX(),
                     entity.getY() + entity.getBbHeight() + 1.0,
                     entity.getZ(), 1, 0, 1.0, 0, 0.5);
+    }
+
+    @Unique
+    public void marioverse$starParticles(LivingEntity entity, ParticleOptions particleType) {
+        RandomSource rand = RandomSource.create();
+        double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
+        double offsetY = rand.nextDouble() * entity.getBbHeight();
+        double offsetZ = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
+
+        this.level().addParticle(particleType,
+                entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ,
+                0, 0, 0);
     }
 
     @Unique

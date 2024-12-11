@@ -322,7 +322,6 @@ public class MarioverseEventHandlers {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
         }
     }
-    public static void onRenderLiving(RenderLivingEvent.Specials.Pre<LivingEntity> event)
 
 
     @SubscribeEvent
