@@ -1,0 +1,7 @@
+{
+  "_comment": "Tag to prevent super star from hurting entities",
+  "replace": false,
+  "values": [
+    "minecraft:armor_stand"
+  ]
+}

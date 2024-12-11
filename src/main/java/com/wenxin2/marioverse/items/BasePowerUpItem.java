@@ -19,7 +19,8 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import org.jetbrains.annotations.NotNull;
 
 public class BasePowerUpItem extends DeferredSpawnEggItem {
-    public BasePowerUpItem(Supplier<? extends EntityType<? extends Mob>> entityType, int primaryColor, int secondaryColor, Properties properties) {
+    public BasePowerUpItem(Supplier<? extends EntityType<? extends Mob>> entityType,
+                           int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
     }
 

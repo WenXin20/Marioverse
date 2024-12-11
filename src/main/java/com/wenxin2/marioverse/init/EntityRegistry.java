@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -36,6 +37,8 @@ public class EntityRegistry {
             MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR = register("super_star", SuperStarEntity::new,
+            MobCategory.AMBIENT, 0.6f, 0.6f);
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
@@ -79,6 +82,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.FIRE_FLOWER.get(), genericPowerUpAttribs.build());
         event.put(EntityRegistry.MUSHROOM.get(), genericMushroomAttribs.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericMushroomAttribs.build());
+        event.put(EntityRegistry.SUPER_STAR.get(), genericMushroomAttribs.build());
 
         event.put(EntityRegistry.FIRE_GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)

@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -24,6 +25,10 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,8 +44,11 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
@@ -98,6 +106,11 @@ public class MarioverseEventHandlers {
         if (!tag.contains("marioverse:has_mega_mushroom"))
             tag.putBoolean("marioverse:has_mega_mushroom", false);
 
+        if (!tag.contains("marioverse:has_super_star")
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
+                || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
+            tag.putBoolean("marioverse:has_super_star", false);
+
         if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity)) {
             if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
@@ -111,6 +124,7 @@ public class MarioverseEventHandlers {
     public static void onEntityDamaged(LivingIncomingDamageEvent event) {
         CompoundTag tag = event.getEntity().getPersistentData();
         Level world = event.getEntity().level();
+        DamageSource source = event.getSource();
 
         if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
@@ -119,6 +133,11 @@ public class MarioverseEventHandlers {
                 tag.putBoolean("marioverse:has_fire_flower", false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
+            }
+
+            if (player.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                if (!source.is(DamageTypeTags.BYPASSES_RESISTANCE) && !source.is(TagRegistry.IS_SUPER_STAR))
+                    event.setCanceled(true);
             }
 
             if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
@@ -165,16 +184,21 @@ public class MarioverseEventHandlers {
                         containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity livingEntity && !livingEntity.isDamageSourceBlocked(event.getSource())) {
-            float maxHealth = livingEntity.getMaxHealth();
-            float healthAfterDamage = livingEntity.getHealth() - event.getAmount();
+        } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())) {
+            float maxHealth = entity.getMaxHealth();
+            float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();
 
             if (tag.getBoolean("marioverse:has_fire_flower")
-                    && !livingEntity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                    && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 tag.putBoolean("marioverse:has_fire_flower", false);
-                world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
+            }
+
+            if (entity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                if (!source.is(DamageTypeTags.BYPASSES_RESISTANCE) && !source.is(TagRegistry.IS_SUPER_STAR))
+                    event.setCanceled(true);
             }
 
             if (healthAfterDamage <= threshold) {
@@ -182,23 +206,23 @@ public class MarioverseEventHandlers {
 
                 if (!tag.getBoolean("marioverse:has_mushroom")
                         && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                        && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                         && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
                     ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
                     ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
-                    world.playSound(null, livingEntity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                    world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
             }
 
-            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
+            AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-                    && !livingEntity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_hat"));
-                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
-                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
-                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
+                    && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
+                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
+                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
+                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
 
                 if (containerHat != null) {
                     ItemStack stack = containerHat.getAccessories().getItem(0);
@@ -298,6 +322,8 @@ public class MarioverseEventHandlers {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
         }
     }
+    public static void onRenderLiving(RenderLivingEvent.Specials.Pre<LivingEntity> event)
+
 
     @SubscribeEvent
     public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {

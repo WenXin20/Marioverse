@@ -38,6 +38,7 @@ public class ConfigRegistry
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_MUSHROOM = "mushroom";
     public static final String CATEGORY_ONE_UP = "one_up";
+    public static final String CATEGORY_SUPER_STAR = "super_star";
 
     public static final String CATEGORY_HALLOWEEN = "halloween";
 
@@ -80,6 +81,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue SUPER_STAR_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -108,6 +110,8 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
+    public static ModConfigSpec.IntValue SUPER_STAR_DURATION;
+    public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
@@ -419,6 +423,23 @@ public class ConfigRegistry
                             .comment("Allow 1-Ups to heal all mobs.")
                             .comment("§9[Default: false]")
                             .define("one_up_heals_mobs", false);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_SUPER_STAR);
+                    SUPER_STAR_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.super_star_powers_all_mobs")
+                            .comment("Allow Super Stars to power all mobs.")
+                            .comment("§9[Default: false]")
+                            .define("super_star_powers_all_mobs", false);
+                    SUPER_STAR_DURATION = BUILDER.translation("configuration.marioverse.super_star_duration")
+                            .comment("Duration until the Super Star runs out.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 300]§b")
+                            .defineInRange("super_star_duration", 300, 1, 72000);
+                    SUPER_STAR_SPEED_DURATION = BUILDER.translation("configuration.marioverse.super_star_speed_duration")
+                            .comment("Duration until the speed effect runs out.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 300]§b")
+                            .defineInRange("super_star_speed_duration", 300, 1, 72000);
                 BUILDER.pop();
 
             BUILDER.pop();

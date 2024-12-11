@@ -1,0 +1,9 @@
+{
+  "_comment": "Tag for entities that can use a super star",
+  "replace": false,
+  "values": [
+    "minecraft:iron_golem",
+    "minecraft:player",
+    "minecraft:snow_golem"
+  ]
+}

@@ -37,6 +37,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -127,7 +128,17 @@ public abstract class LivingEntityMixin extends Entity {
 
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
         if (fireballCooldown > 0)
-            this.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
+            entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
+
+        int superStarCooldown = this.getPersistentData().getInt("marioverse:super_star_cooldown");
+        if (superStarCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:super_star_cooldown", superStarCooldown - 1);
+
+        if (superStarCooldown == 0 && this.getPersistentData().getBoolean("marioverse:has_super_star"))
+            entity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.FALSE);
+
+        if (entity.getPersistentData().getBoolean("marioverse:has_super_star"))
+            this.marioverse$superStarKillEntity(entity);
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
 //            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
@@ -242,6 +253,8 @@ public abstract class LivingEntityMixin extends Entity {
                 if (livingEntity == Minecraft.getInstance().player)
                     Minecraft.getInstance().gameRenderer.displayItemActivation(ItemRegistry.ONE_UP_MUSHROOM.get().getDefaultInstance());
             }
+        } else if (id == 119) {
+            this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.COIN_GLINT.get(), 15);
         } else if (id == 120) {
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
                 this.level().addParticle(ParticleTypes.ENCHANT,
@@ -297,6 +310,20 @@ public abstract class LivingEntityMixin extends Entity {
                 this.level().addParticle(particleType, x, y + offsetY - 0.2, z, 0, 1.0, 0);
                 this.level().addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
                 this.level().addParticle(particleType, x, y + 0.2, z, 0, 1.0, 0);
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$superStarKillEntity(LivingEntity attackingEntity) {
+        List<Entity> nearbyEntities = attackingEntity.level().getEntities(attackingEntity, attackingEntity.getBoundingBox());
+
+        for (Entity collidedEntity : nearbyEntities) {
+            if (collidedEntity instanceof Mob mob) {
+                if (!mob.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
+                        && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                    mob.hurt(DamageSourceRegistry.superStar(null, attackingEntity), Float.MAX_VALUE);
+                }
             }
         }
     }

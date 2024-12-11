@@ -20,6 +20,11 @@ public class DamageSourceRegistry {
     public static final ResourceKey<DamageType> PLAYER_STOMP =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_stomp"));
 
+    public static final ResourceKey<DamageType> SUPER_STAR =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star"));
+    public static final ResourceKey<DamageType> PLAYER_SUPER_STAR =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_super_star"));
+
     public static DamageSource fireball(@Nullable Entity projectile, @Nullable Entity shooter) {
         if (shooter != null && projectile != null) {
             return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_FIREBALL), projectile, shooter);
@@ -33,6 +38,14 @@ public class DamageSourceRegistry {
             return new DamageSource(stomper.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_STOMP), entity, stomper);
         } else if (stomper != null) {
             return new DamageSource(stomper.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(STOMP), null, stomper);
+        } else return null;
+    }
+
+    public static DamageSource superStar(@Nullable Entity projectile, @Nullable Entity shooter) {
+        if (shooter != null && projectile != null) {
+            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SUPER_STAR), projectile, shooter);
+        } else if (shooter != null) {
+            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SUPER_STAR), null, shooter);
         } else return null;
     }
 }

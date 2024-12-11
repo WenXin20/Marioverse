@@ -40,6 +40,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.MUSHROOM.get());
             add(event, ItemRegistry.ONE_UP_MUSHROOM.get());
             add(event, ItemRegistry.FIRE_FLOWER.get());
+            add(event, ItemRegistry.SUPER_STAR.get());
 
             add(event, ItemRegistry.FIRE_HAT.get());
             add(event, ItemRegistry.FIRE_SHIRT.get());
