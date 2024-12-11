@@ -87,36 +87,44 @@ public abstract class LivingEntityMixin extends Entity {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
-                this.marioverse$enterWarp(offsetPos);
-            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                this.marioverse$enterWarp(pos);
+            if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
+                    this.marioverse$enterWarp(offsetPos);
+                if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
+                    this.marioverse$enterWarp(pos);
+            }
         }
 
-        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED))
+        if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
-                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
-                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN))
+                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
-                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN))
+                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble()))
             this.marioverse$squashEntity(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.onGround() || entity.isInWaterOrBubble())
                 && (marioverse$consecutiveBounces > 0 || marioverse$oneUpsRewarded > 0)) {
             marioverse$consecutiveBounces = 0;

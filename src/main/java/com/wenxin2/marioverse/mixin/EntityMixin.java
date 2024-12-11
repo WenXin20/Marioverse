@@ -67,32 +67,37 @@ public abstract class EntityMixin {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED)
-                    && !(entity instanceof LivingEntity))
-                this.marioverse$enterWarp(offsetPos);
-            if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)
-                    && !(entity instanceof LivingEntity))
-                this.marioverse$enterWarp(pos);
+            if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED)
+                        && !(entity instanceof LivingEntity))
+                    this.marioverse$enterWarp(offsetPos);
+                if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED)
+                        && !(entity instanceof LivingEntity))
+                    this.marioverse$enterWarp(pos);
+            }
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
-                && !(entity instanceof LivingEntity))
+                && !(entity instanceof LivingEntity) && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && !(entity instanceof LivingEntity)
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
-                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && !(entity instanceof LivingEntity)
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
-                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN))
+                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && !(entity instanceof LivingEntity)
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
-                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN))
+                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
 
         if (this.marioverse$warpCooldown > 0)

@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.blocks.entities;
 
-import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -17,7 +16,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
