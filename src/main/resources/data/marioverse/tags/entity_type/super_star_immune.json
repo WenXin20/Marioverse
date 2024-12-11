@@ -2,6 +2,9 @@
   "_comment": "Tag to prevent super star from hurting entities",
   "replace": false,
   "values": [
-    "minecraft:armor_stand"
+    "minecraft:armor_stand",
+    "minecraft:elder_guardian",
+    { "id": "#c:bosses", "required": false },
+    { "id": "#twilightforest:bosses", "required": false }
   ]
 }
