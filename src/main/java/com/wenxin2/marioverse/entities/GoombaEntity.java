@@ -518,7 +518,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
         for (Entity collidingEntity : nearbyEntities) {
             if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
                     || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
-                    || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0))
+                    || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0)
+                    || !collidingEntity.getPersistentData().getBoolean("marioverse:has_super_star"))
                 return;
 
             // Apply knockback to both the Goomba and the bumping collidingEntity
