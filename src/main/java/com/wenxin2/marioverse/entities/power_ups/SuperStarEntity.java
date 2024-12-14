@@ -57,7 +57,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
     }
 
     protected SoundEvent getJumpSound() {
-        return SoundEvents.SLIME_JUMP;
+        return SoundRegistry.SUPER_STAR_BOUNCE.get();
     }
 
     @Override
