@@ -37,6 +37,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
@@ -513,7 +514,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     public void checkForCollisionsAndWakeUp() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator() && !(entity instanceof GoombaEntity));
+                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator()
+                        && entity instanceof LivingEntity && !(entity instanceof GoombaEntity));
 
         for (Entity collidingEntity : nearbyEntities) {
             if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
