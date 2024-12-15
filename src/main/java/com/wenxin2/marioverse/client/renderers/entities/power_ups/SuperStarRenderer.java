@@ -26,20 +26,20 @@ public class SuperStarRenderer extends GeoEntityRenderer<SuperStarEntity> {
                        MultiBufferSource bufferSource, int packedLight) {
         ItemStack stack = ItemRegistry.SUPER_STAR.toStack();
 
-        translateAndRotateToHead(poseStack, entity);
+        translateAndRotateToHead(poseStack, entity, partialTick);
 
         this.itemRenderer.renderStatic(stack, ItemDisplayContext.HEAD, packedLight, OverlayTexture.NO_OVERLAY,
                 poseStack, bufferSource, entity.level(), entity.getId());
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
     }
 
-    private void translateAndRotateToHead(PoseStack poseStack, SuperStarEntity entity) {
+    private void translateAndRotateToHead(PoseStack poseStack, SuperStarEntity entity, float partialTick) {
+        poseStack.translate(0.0F, -0.5F, 0.0F);
+
         float headYaw = entity.yHeadRot;
         float headPitch = entity.getXRot();
 
         poseStack.mulPose(Axis.YP.rotationDegrees(headYaw));
         poseStack.mulPose(Axis.XP.rotationDegrees(headPitch));
-
-        poseStack.translate(0.0F, -0.45F, -0.45F);
     }
 }
