@@ -9,8 +9,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BannerPattern;
 
 public class TagRegistry {
+    public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
+
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
@@ -32,8 +35,8 @@ public class TagRegistry {
 
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
     public static final TagKey<Item> ITEM_BRICK_ITEMS = itemTags("storage_bricks");
-    public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags("power_up_costumes");
+    public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
     public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags("question_block_blacklist");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
@@ -44,8 +47,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CANNOT_LOSE_POWER_UP = entityTypeTags("cannot_lose_power_up");
     public static final TagKey<EntityType<?>> CANNOT_QUICK_TRAVEL = entityTypeTags("cannot_quick_travel");
     public static final TagKey<EntityType<?>> CANNOT_WARP = entityTypeTags("cannot_warp");
-    public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");
     public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags("can_be_instakill_stomped");
+    public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");
     public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags("can_consume_fire_flowers");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
@@ -53,7 +56,6 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags("can_wear_costumes");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");
-    public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
     public static final TagKey<EntityType<?>> FIRE_GOOMBA_CAN_ATTACK = entityTypeTags("fire_goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags("goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_RIDE = entityTypeTags("goomba_can_ride");
@@ -63,7 +65,12 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
+    public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
 
+
+    private static TagKey<BannerPattern> bannerPatternTags(String name) {
+        return TagKey.create(Registries.BANNER_PATTERN, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
 
     private static TagKey<Biome> biomeTags(String name) {
         return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));

@@ -9,12 +9,15 @@ import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.function.Supplier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
+    public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_HAT;
@@ -56,6 +59,9 @@ public class ItemRegistry {
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
         FIRE_SHOES = registerItem("fire_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
+
+        BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
+                () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xB2333C, 0xF9A728, new Item.Properties()));

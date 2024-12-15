@@ -55,7 +55,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:skull_banner_pattern",
+          "name": "marioverse:bowser_banner_pattern",
           "weight": 2
         }
       ]
