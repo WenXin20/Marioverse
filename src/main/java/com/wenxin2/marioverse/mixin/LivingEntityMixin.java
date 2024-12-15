@@ -83,6 +83,10 @@ public abstract class LivingEntityMixin extends Entity {
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
+        int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
+        int superStarCooldown = this.getPersistentData().getInt("marioverse:super_star_cooldown");
+        boolean hasSuperStar = this.getPersistentData().getBoolean("marioverse:has_super_star");
+
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
@@ -126,7 +130,8 @@ public abstract class LivingEntityMixin extends Entity {
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.onGround() || entity.isInWaterOrBubble())
-                && (marioverse$consecutiveBounces > 0 || marioverse$oneUpsRewarded > 0)) {
+                && (marioverse$consecutiveBounces > 0 || marioverse$oneUpsRewarded > 0)
+                && !hasSuperStar) {
             marioverse$consecutiveBounces = 0;
             marioverse$oneUpsRewarded = 0;
         }
@@ -134,21 +139,21 @@ public abstract class LivingEntityMixin extends Entity {
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
 
-        int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
         if (fireballCooldown > 0)
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
 
-        int superStarCooldown = this.getPersistentData().getInt("marioverse:super_star_cooldown");
         if (superStarCooldown > 0)
             entity.getPersistentData().putInt("marioverse:super_star_cooldown", superStarCooldown - 1);
 
-        if (superStarCooldown == 0 && this.getPersistentData().getBoolean("marioverse:has_super_star"))
+        if (superStarCooldown == 0 && hasSuperStar)
             entity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.FALSE);
 
-        if (entity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+        if (hasSuperStar) {
             this.marioverse$superStarKillEntity(entity);
             this.level().broadcastEntityEvent(entity, (byte) 114);
-        }
+            this.marioverse$playSuperStarTheme();
+        } else if (!hasSuperStar && this.marioverse$playedStarTheme)
+            this.marioverse$playedStarTheme = false;
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
 //            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
@@ -346,9 +351,26 @@ public abstract class LivingEntityMixin extends Entity {
             if (collidedEntity instanceof Mob mob) {
                 if (!mob.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
                         && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                    if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && mob.isAlive())
+                        this.marioverse$consecutiveReward(attackingEntity, mob);
+                    mob.knockback(attackingEntity.getDeltaMovement().x, 10.0F, attackingEntity.getDeltaMovement().z);
                     mob.hurt(DamageSourceRegistry.superStar(null, attackingEntity), Float.MAX_VALUE);
                 }
             }
+        }
+    }
+
+    @Unique
+    private boolean marioverse$playedStarTheme = false;
+
+    @Unique
+    private void marioverse$playSuperStarTheme() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        Level world = entity.level();
+
+        if ((world.getGameTime() % 262L == 0L) || !marioverse$playedStarTheme) {
+            world.playSound(null, entity.blockPosition(), SoundRegistry.SUPER_STAR_THEME.get(), SoundSource.PLAYERS, 1.0F, 1.0f);
+            marioverse$playedStarTheme = true;
         }
     }
 
@@ -415,7 +437,7 @@ public abstract class LivingEntityMixin extends Entity {
                         else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
                             damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
-                            this.marioverse$consecutiveBounces(stompingEntity, damagedEntity);
+                            this.marioverse$consecutiveReward(stompingEntity, damagedEntity);
                     }
                 }
             }
@@ -423,7 +445,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$consecutiveBounces(LivingEntity stompingEntity, LivingEntity damagedEntity) {
+    public void marioverse$consecutiveReward(LivingEntity stompingEntity, LivingEntity damagedEntity) {
         marioverse$consecutiveBounces++;
 
         if (marioverse$consecutiveBounces == 1) {

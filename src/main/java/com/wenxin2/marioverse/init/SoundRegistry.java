@@ -46,6 +46,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_POWERS_UP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_BREAK;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_FALL;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_HIT;
@@ -146,6 +147,8 @@ public class SoundRegistry {
 
         SUPER_STAR_BOUNCE = Marioverse.SOUNDS.register("entity.super_star_bounce",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_bounce")));
+        SUPER_STAR_THEME = Marioverse.SOUNDS.register("entity.super_star_theme",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_theme")));
 
         WRENCH_BOUND = Marioverse.SOUNDS.register("item.wrench_bound",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_bound")));

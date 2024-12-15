@@ -112,6 +112,8 @@
 
   "entity.super_star_bounce": { "category": "neutral", "sounds": [{ "name": "marioverse:power_up/super_star_bounce", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.super_star_bounce" },
+  "entity.super_star_theme": { "category": "music", "sounds": [{ "name": "marioverse:power_up/super_star_theme", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.super_star_theme" },
 
 
   "item.wrench_bound": { "category": "player", "sounds": [{ "name": "block/amethyst_cluster/break1", "stream": false },
