@@ -1,5 +1,5 @@
 {
-  "_comment": "All goomba mobs",
+  "_comment": "Tag for mobs that goombas can ride",
   "replace": false,
   "values": [
     { "id": "#marioverse:goombas", "required": false }
