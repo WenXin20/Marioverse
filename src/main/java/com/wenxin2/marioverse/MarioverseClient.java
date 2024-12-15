@@ -33,6 +33,7 @@ import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.NoopRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -101,8 +102,8 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
 
-//    @SubscribeEvent
-//    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
+    @SubscribeEvent
+    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
 //        List<EntityType<? extends LivingEntity>> entityTypes = ImmutableList.copyOf(
 //                BuiltInRegistries.ENTITY_TYPE.stream()
 //                        .filter(DefaultAttributes::hasSupplier)
@@ -111,15 +112,13 @@ public class MarioverseClient {
 //        entityTypes.forEach((entityType -> {
 //            addLayerIfApplicable(entityType, event);
 //        }));
-////        for (PlayerSkin.Model skinType : event.getSkins()){
-////            var skinRenderer = event.getSkin(skinType);
-////            if (skinRenderer instanceof LivingEntityRenderer<?, ?> livingEntityRenderer) {
-////                // Add the custom SuperStarLayer to the renderer
-////                // Note: Adjust this logic to work with Neoforge as you did before
-////                livingEntityRenderer.addLayer(new SuperStarLayer<>(livingEntityRenderer));
-////            }
-////        }
-//    }
+        for (PlayerSkin.Model skinType : event.getSkins()){
+            var skinRenderer = event.getSkin(skinType);
+            if (skinRenderer instanceof PlayerRenderer livingEntityRenderer) {
+                livingEntityRenderer.addLayer(new SuperStarLayer<>(skinRenderer));
+            }
+        }
+    }
 
 //    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
 //        LivingEntityRenderer renderer = null;
@@ -130,7 +129,7 @@ public class MarioverseClient {
 //                Marioverse.LOGGER.warn("Could not apply rainbow color layer to " + BuiltInRegistries.ENTITY_TYPE.getKey(entityType) + ", has custom renderer that is not LivingEntityRenderer.");
 //            }
 //            if (renderer != null) {
-//                renderer.addLayer(new SuperStarLayer(renderer));
+//                renderer.addLayer(new SuperStarLayer<>(renderer));
 //            }
 //        }
 //    }

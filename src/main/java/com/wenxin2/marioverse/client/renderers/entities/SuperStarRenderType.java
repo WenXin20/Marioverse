@@ -19,7 +19,7 @@ public class SuperStarRenderType extends RenderType {
     }
 
     public static RenderType get(int width, int height) {
-        return TYPES.computeIfAbsent((width << 16) | (height & 0xFFFF), k -> create("slimed",
+        return TYPES.computeIfAbsent((width << 16) | (height & 0xFFFF), k -> create("super_star",
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS,
                 256,
