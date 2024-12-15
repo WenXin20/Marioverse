@@ -7,13 +7,9 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:golden_apple",
+          "name": "marioverse:super_star",
           "weight": 4,
           "functions": [
-            {
-              "function": "minecraft:set_name",
-              "name": "Star"
-            },
             {
               "function": "minecraft:set_count",
               "count": {
