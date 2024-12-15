@@ -41,11 +41,11 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
-    public static DamageSource superStar(@Nullable Entity projectile, @Nullable Entity shooter) {
-        if (shooter != null && projectile != null) {
-            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SUPER_STAR), projectile, shooter);
-        } else if (shooter != null) {
-            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SUPER_STAR), null, shooter);
+    public static DamageSource superStar(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (attackingEntity != null && damagedEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SUPER_STAR), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SUPER_STAR), null, attackingEntity);
         } else return null;
     }
 }

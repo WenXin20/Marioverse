@@ -348,13 +348,18 @@ public abstract class LivingEntityMixin extends Entity {
         List<Entity> nearbyEntities = attackingEntity.level().getEntities(attackingEntity, attackingEntity.getBoundingBox());
 
         for (Entity collidedEntity : nearbyEntities) {
-            if (collidedEntity instanceof Mob mob) {
-                if (!mob.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
+            if (collidedEntity instanceof LivingEntity entity) {
+                if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
                         && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
-                    if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && mob.isAlive())
-                        this.marioverse$consecutiveReward(attackingEntity, mob);
-                    mob.knockback(attackingEntity.getDeltaMovement().x, 10.0F, attackingEntity.getDeltaMovement().z);
-                    mob.hurt(DamageSourceRegistry.superStar(null, attackingEntity), Float.MAX_VALUE);
+
+                    Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
+                    double knockbackStrength = 5.0;
+                    Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
+
+                    if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive())
+                        this.marioverse$consecutiveReward(attackingEntity, entity);
+                    entity.setDeltaMovement(knockbackVelocity);
+                    entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), Float.MAX_VALUE);
                 }
             }
         }
@@ -445,57 +450,57 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$consecutiveReward(LivingEntity stompingEntity, LivingEntity damagedEntity) {
+    public void marioverse$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
         marioverse$consecutiveBounces++;
 
         if (marioverse$consecutiveBounces == 1) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.GOOD.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces == 2) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.GREAT.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces == 3) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.SUPER.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces == 4) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.FANTASTIC.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces == 5) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.EXCELLENT.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces == 6) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.INCREDIBLE.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces == 7) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.WONDERFUL.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
         }
         else if (marioverse$consecutiveBounces >= 8 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > marioverse$oneUpsRewarded) {
             marioverse$oneUpsRewarded++;
-            this.marioverse$bounceReward(stompingEntity);
+            this.marioverse$bounceReward(attackingEntity);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get())
                 this.marioverse$rewardParticles(damagedEntity, ParticleRegistry.ONE_UP.get());
-            else if (stompingEntity instanceof Player player)
+            else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
         }
     }
