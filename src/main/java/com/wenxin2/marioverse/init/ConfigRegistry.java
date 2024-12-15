@@ -444,8 +444,8 @@ public class ConfigRegistry
                     SUPER_STAR_DAMAGE = BUILDER.translation("configuration.marioverse.super_star_damage")
                             .comment("Amount of damage super star causes.")
                             .comment("§6[1 point = 1/2 Heart]")
-                            .comment("§9[Default: 3.4028235e+38f]§b")
-                            .defineInRange("super_star_damage", Float.MAX_VALUE, 0.0, Float.MAX_VALUE);
+                            .comment("§9[Default: 1000]§b")
+                            .defineInRange("super_star_damage", 1000, 0.0, Float.MAX_VALUE);
                 BUILDER.pop();
 
             BUILDER.pop();
