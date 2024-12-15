@@ -101,6 +101,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
+    public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
 
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
@@ -440,6 +441,11 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 300]§b")
                             .defineInRange("super_star_speed_duration", 300, 1, 72000);
+                    SUPER_STAR_DAMAGE = BUILDER.translation("configuration.marioverse.super_star_damage")
+                            .comment("Amount of damage super star causes.")
+                            .comment("§6[1 point = 1/2 Heart]")
+                            .comment("§9[Default: 3.4028235e+38f]§b")
+                            .defineInRange("super_star_damage", Float.MAX_VALUE, 0.0, Float.MAX_VALUE);
                 BUILDER.pop();
 
             BUILDER.pop();

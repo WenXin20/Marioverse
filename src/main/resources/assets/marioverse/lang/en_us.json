@@ -423,6 +423,7 @@
   "configuration.marioverse.stomp_bounce_height": "Stomp Bounce Height",
   "configuration.marioverse.stomp_bounce_height_jump": "Stomp Bounce Height when Jumping",
   "configuration.marioverse.stomp_damage": "Stomp Damage",
+  "configuration.marioverse.super_star_damage": "Super Star Damage",
   "configuration.marioverse.super_star_duration": "Super Star Duration",
   "configuration.marioverse.super_star_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.super_star_speed_duration": "Speed Duration",

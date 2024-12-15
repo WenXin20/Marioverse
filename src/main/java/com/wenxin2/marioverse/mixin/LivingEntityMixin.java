@@ -359,7 +359,7 @@ public abstract class LivingEntityMixin extends Entity {
                     if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive())
                         this.marioverse$consecutiveReward(attackingEntity, entity);
                     entity.setDeltaMovement(knockbackVelocity);
-                    entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), Float.MAX_VALUE);
+                    entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
                 }
             }
         }
