@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse;
 
+import com.google.common.collect.ImmutableList;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.client.particles.FirePoweredUpParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
@@ -13,6 +14,7 @@ import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.HeftyGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MegaGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MiniGoombaRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.MushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.OneUpMushroomRenderer;
@@ -23,8 +25,20 @@ import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.NoopRenderer;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -32,6 +46,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class MarioverseClient {
@@ -85,4 +100,38 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
+
+//    @SubscribeEvent
+//    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
+//        List<EntityType<? extends LivingEntity>> entityTypes = ImmutableList.copyOf(
+//                BuiltInRegistries.ENTITY_TYPE.stream()
+//                        .filter(DefaultAttributes::hasSupplier)
+//                        .map(entityType -> (EntityType<? extends LivingEntity>) entityType)
+//                        .collect(Collectors.toList()));
+//        entityTypes.forEach((entityType -> {
+//            addLayerIfApplicable(entityType, event);
+//        }));
+////        for (PlayerSkin.Model skinType : event.getSkins()){
+////            var skinRenderer = event.getSkin(skinType);
+////            if (skinRenderer instanceof LivingEntityRenderer<?, ?> livingEntityRenderer) {
+////                // Add the custom SuperStarLayer to the renderer
+////                // Note: Adjust this logic to work with Neoforge as you did before
+////                livingEntityRenderer.addLayer(new SuperStarLayer<>(livingEntityRenderer));
+////            }
+////        }
+//    }
+
+//    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
+//        LivingEntityRenderer renderer = null;
+//        if (entityType != EntityType.ENDER_DRAGON) {
+//            try {
+//                renderer = event.getRenderer(entityType);
+//            } catch (Exception e) {
+//                Marioverse.LOGGER.warn("Could not apply rainbow color layer to " + BuiltInRegistries.ENTITY_TYPE.getKey(entityType) + ", has custom renderer that is not LivingEntityRenderer.");
+//            }
+//            if (renderer != null) {
+//                renderer.addLayer(new SuperStarLayer(renderer));
+//            }
+//        }
+//    }
 }
