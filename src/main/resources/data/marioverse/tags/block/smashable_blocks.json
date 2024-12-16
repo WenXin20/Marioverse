@@ -1,8 +1,9 @@
 {
   "replace": false,
   "values": [
-    { "id": "marioverse:fungal_bricks", "required": false },
+    { "id": "marioverse:fungal_brick_pedestal", "required": false },
     { "id": "marioverse:fungal_brick_stairs", "required": false },
+    { "id": "marioverse:fungal_bricks", "required": false },
     { "id": "marioverse:smashable_bricks", "required": false },
     { "id": "marioverse:smashable_end_stone_bricks", "required": false },
     { "id": "marioverse:smashable_nether_bricks", "required": false },
