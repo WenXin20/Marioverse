@@ -53,6 +53,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
+            add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
+            add(event, ItemRegistry.BOWSER_POTTERY_SHERD.get());
+
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());

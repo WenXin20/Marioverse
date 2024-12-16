@@ -18,8 +18,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUPER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WONDERFUL;
 
-    static
-    {
+    static {
         COIN_GLINT = Marioverse.PARTICLES.register("coin_glint", () -> new SimpleParticleType(false));
         EXCELLENT = Marioverse.PARTICLES.register("excellent", () -> new SimpleParticleType(false));
         FANTASTIC = Marioverse.PARTICLES.register("fantastic", () -> new SimpleParticleType(false));
@@ -33,6 +32,5 @@ public class ParticleRegistry {
         WONDERFUL = Marioverse.PARTICLES.register("wonderful", () -> new SimpleParticleType(false));
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }

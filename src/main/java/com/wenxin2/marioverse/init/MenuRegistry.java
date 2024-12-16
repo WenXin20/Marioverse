@@ -9,11 +9,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class MenuRegistry {
     public static final DeferredHolder<MenuType<?>, MenuType<WarpPipeMenu>> WARP_PIPE_MENU;
 
-    static
-    {
+    static {
         WARP_PIPE_MENU = Marioverse.MENUS.register("warp_pipe", () -> new MenuType<>(WarpPipeMenu::new, FeatureFlags.REGISTRY.allFlags()));
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }

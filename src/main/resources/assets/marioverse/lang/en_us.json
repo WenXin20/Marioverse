@@ -130,8 +130,9 @@
   "entity.marioverse.mega_goomba": "Mega Goomba",
   "entity.marioverse.mini_goomba": "Mini Goomba",
 
-  "item.marioverse.bowser_banner_patter": "Banner Pattern",
-  "item.marioverse.bowser_banner_patter.desc": "Bowser",
+  "item.marioverse.bowser_banner_pattern": "Banner Pattern",
+  "item.marioverse.bowser_banner_pattern.desc": "Bowser",
+  "item.marioverse.bowser_pottery_sherd": "Bowser Pottery Sherd",
   "item.marioverse.fire_flower": "Fire Flower",
   "item.marioverse.mushroom": "Mushroom",
   "item.marioverse.one_up_mushroom": "1-Up Mushroom",
