@@ -124,17 +124,22 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED).get(), BlockRegistry.BRICK_PEDESTAL.get());
         }
 
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH.get());
+            addBefore(event, ItemRegistry.PIPE_WRENCH.get(), ItemRegistry.WARP_DISRUPTOR.get());
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            addAfter(event, Items.GUSTER_BANNER_PATTERN, ItemRegistry.BOWSER_BANNER_PATTERN.get());
+            addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD.get());
+        }
+
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
             addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get(), ItemRegistry.GOOMBA_SPAWN_EGG.get());
             addAfter(event, ItemRegistry.GOOMBA_SPAWN_EGG.get(), ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
             addAfter(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get(), ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
             addAfter(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get(), ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
-        }
-
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH.get());
-            addBefore(event, ItemRegistry.PIPE_WRENCH.get(), ItemRegistry.WARP_DISRUPTOR.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
