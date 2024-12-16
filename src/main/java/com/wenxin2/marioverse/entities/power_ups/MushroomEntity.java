@@ -86,8 +86,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
-                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                         player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                     } else {
                         player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                         this.level().broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
@@ -106,8 +106,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
-                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                     } else {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                         this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
