@@ -17,6 +17,7 @@
     { "id": "marioverse:end_stone_question_bricks", "required": false },
     { "id": "marioverse:fungal_brick_pedestal", "required": false },
     { "id": "marioverse:fungal_bricks", "required": false },
+    { "id": "marioverse:fungal_brick_stairs", "required": false },
     { "id": "marioverse:fungal_question_block", "required": false },
     { "id": "marioverse:gray_goal_pole", "required": false },
     { "id": "marioverse:gray_warp_pipe", "required": false },

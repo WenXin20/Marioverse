@@ -22,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -42,6 +43,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
@@ -98,10 +100,10 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
+        FUNGAL_BRICK_STAIRS = registerBlock("fungal_brick_stairs", () -> stair(FUNGAL_BRICKS.get()));
+
         FUNGAL_BRICK_PEDESTAL = registerBlock("fungal_brick_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",
@@ -278,6 +280,10 @@ public class BlockRegistry {
 
     public static <T extends Block> DeferredBlock<T> registerNoItemBlock(String name, Supplier<T> block) {
         return Marioverse.BLOCKS.register(name, block);
+    }
+
+    private static Block stair(Block block) {
+        return new StairBlock(block.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block));
     }
 
     private static boolean always(BlockState state, BlockGetter block, BlockPos pos)
