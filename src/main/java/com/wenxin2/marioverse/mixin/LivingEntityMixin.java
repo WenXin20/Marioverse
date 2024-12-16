@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -151,6 +152,12 @@ public abstract class LivingEntityMixin extends Entity {
                 this.marioverse$dropCoin(world, posAboveEntity, this);
             }
         }
+
+        if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS) && this.getDeltaMovement().y > 0)
+            if (stateAboveEntity.getValue(QuestionBlock.EMPTY))
+                world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
         if (fireballCooldown > 0)
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);

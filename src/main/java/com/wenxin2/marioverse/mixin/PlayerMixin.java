@@ -122,11 +122,6 @@ public abstract class PlayerMixin extends Entity {
                 && this.getDeltaMovement().y > 0)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
-        if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS) && this.getDeltaMovement().y > 0)
-            if (stateAboveEntity.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
         super.baseTick();
     }
 
@@ -138,6 +133,22 @@ public abstract class PlayerMixin extends Entity {
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
         this.marioverse$warpCooldown = cooldown;
+    }
+
+    @Unique
+    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
+        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
+            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
+
+            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
+            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            world.removeBlock(pos.above(), false);
+            this.getInventory().add(coinItem);
+
+            if (!this.getInventory().add(coinItem)) {
+                this.drop(coinItem, false);
+            }
+        }
     }
 
     @Unique
