@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "marioverse:warp_pipes",
+  "category": "building",
   "key": {
     "I": {
       "tag": "c:ingots/copper"

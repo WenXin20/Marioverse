@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "marioverse:fungal_bricks",
+  "category": "building",
   "pattern": [
     "BM",
     "MB"

@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "marioverse:goal_poles",
+  "category": "building",
   "key": {
     "D": {
       "tag": "c:dyes/lime"

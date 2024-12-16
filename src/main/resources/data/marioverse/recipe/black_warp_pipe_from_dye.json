@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "group": "marioverse:warp_pipes_from_dye",
+  "category": "building",
   "ingredients": [
     {
       "tag": "c:dyes/black"

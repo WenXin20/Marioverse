@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "group": "marioverse:question_blocks",
+  "category": "building",
   "ingredients": [
     {
       "tag": "c:chests"
