@@ -392,12 +392,14 @@ public abstract class LivingEntityMixin extends Entity {
                 if (!player.getInventory().add(coinItem)) {
                     player.drop(coinItem, false);
                 }
-            } else world.destroyBlock(pos.above(), false);
+            } else world.removeBlock(pos.above(), true);
         }
     }
 
     @Unique
     public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getItems().getFirst();
 
@@ -434,21 +436,21 @@ public abstract class LivingEntityMixin extends Entity {
                 BlockState currentState = world.getBlockState(pos);
                 if (currentState.getBlock() instanceof QuestionBlock)
                     world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
+                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
 
             if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
                 BlockState currentState = world.getBlockState(pos);
                 world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
-                world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
+                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
 
             if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 AABB boundingBox = new AABB(pos.above()).inflate(0.5);
                 List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
 
-                for (Entity entity : entitiesAbove) {
-                    if (entity instanceof LivingEntity livingEntity) {
+                for (Entity entityAbove : entitiesAbove) {
+                    if (entityAbove instanceof LivingEntity livingEntity) {
                         livingEntity.hurt(world.damageSources().generic(), 4.0F);
                     }
                 }
