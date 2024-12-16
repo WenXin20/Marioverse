@@ -61,6 +61,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.FUNGAL_BRICKS.get());
+            add(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get());
             add(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
 
             add(event, BlockRegistry.QUESTION_BRICKS.get());
@@ -147,7 +148,8 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_BRICKS.get());
 
             addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
-            addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_STAIRS.get());
+            addAfter(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
 
             addAfter(event, Blocks.NETHER_BRICK_FENCE, BlockRegistry.NETHER_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
