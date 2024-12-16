@@ -1,5 +1,5 @@
 {
-  "_comment": "All mobs that can smash blocks in the smashable_blocks tag.",
+  "_comment": "All mobs that can hit questions blocks from below to open.",
   "replace": false,
   "values": [
     "minecraft:player",

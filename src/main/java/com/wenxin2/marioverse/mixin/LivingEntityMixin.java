@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
@@ -13,6 +15,7 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -40,15 +43,22 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorStandItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.MinecartItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -158,6 +168,10 @@ public abstract class LivingEntityMixin extends Entity {
             if (stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS) && this.getDeltaMovement().y > 0)
+            this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
         if (fireballCooldown > 0)
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
@@ -318,25 +332,6 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
-        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
-            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
-
-            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
-            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-            if (entity instanceof Player player) {
-                world.removeBlock(pos.above(), false);
-                player.getInventory().add(coinItem);
-
-                if (!player.getInventory().add(coinItem)) {
-                    player.drop(coinItem, false);
-                }
-            } else world.destroyBlock(pos.above(), false);
-        }
-    }
-
-    @Unique
     public void marioverse$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
         if (entity.level() instanceof ServerLevel serverWorld)
             serverWorld.sendParticles(particleType, entity.getX(),
@@ -378,6 +373,85 @@ public abstract class LivingEntityMixin extends Entity {
                 this.level().addParticle(particleType, x, y + offsetY - 0.2, z, 0, 1.0, 0);
                 this.level().addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
                 this.level().addParticle(particleType, x, y + 0.2, z, 0, 1.0, 0);
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
+        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
+            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
+
+            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
+            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            if (entity instanceof Player player) {
+                world.removeBlock(pos.above(), false);
+                player.getInventory().add(coinItem);
+
+                if (!player.getInventory().add(coinItem)) {
+                    player.drop(coinItem, false);
+                }
+            } else world.destroyBlock(pos.above(), false);
+        }
+    }
+
+    @Unique
+    public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
+            ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+
+            if (questionBlockEntity.getLootTable() != null)
+                questionBlock.unpackLootTable(this, questionBlockEntity);
+
+            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                this.marioverse$dropCoin(world, pos, this);
+
+                if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                    questionBlock.playCoinSound(world, pos);
+                else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+                    questionBlock.playPrimedTNTSound(world, pos);
+                else if (storedItem.getItem() instanceof BasePowerUpItem)
+                    questionBlock.playPowerUpSound(world, pos);
+                else if (storedItem.getItem() instanceof SpawnEggItem)
+                    questionBlock.playMobSound(world, pos);
+                else if (storedItem.getItem() instanceof ArmorStandItem)
+                    questionBlock.playArmorStandSound(world, pos);
+                else if (storedItem.getItem() instanceof BoatItem)
+                    questionBlock.playBoatSound(world, pos);
+                else if (storedItem.getItem() instanceof MinecartItem)
+                    questionBlock.playMinecartSound(world, pos);
+                else questionBlock.playItemSound(world, pos);
+
+                if (!world.isClientSide)
+                    questionBlock.spawnEntity(world, pos, storedItem);
+
+                questionBlockEntity.removeItems();
+                questionBlockEntity.setChanged();
+            }
+
+            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                BlockState currentState = world.getBlockState(pos);
+                if (currentState.getBlock() instanceof QuestionBlock)
+                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
+            }
+
+            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
+                BlockState currentState = world.getBlockState(pos);
+                world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+                world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
+            }
+
+            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                AABB boundingBox = new AABB(pos.above()).inflate(0.5);
+                List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
+
+                for (Entity entity : entitiesAbove) {
+                    if (entity instanceof LivingEntity livingEntity) {
+                        livingEntity.hurt(world.damageSources().generic(), 4.0F);
+                    }
+                }
             }
         }
     }

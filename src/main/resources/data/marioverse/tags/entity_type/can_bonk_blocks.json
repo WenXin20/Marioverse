@@ -1,5 +1,5 @@
 {
-  "_comment": "All mobs that can be bonk blocks in the bonkable_blocks tag.",
+  "_comment": "All mobs that can bonk blocks in the bonkable_blocks tag.",
   "replace": false,
   "values": [
     "minecraft:player",
