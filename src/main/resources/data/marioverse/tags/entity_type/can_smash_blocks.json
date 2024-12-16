@@ -1,0 +1,8 @@
+{
+  "_comment": "All mobs that can be smash blocks in the smashable_blocks tag.",
+  "replace": false,
+  "values": [
+    "minecraft:player",
+    "minecraft:villager"
+  ]
+}

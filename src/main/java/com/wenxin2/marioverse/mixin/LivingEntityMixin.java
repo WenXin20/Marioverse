@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -137,6 +138,19 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
+
+        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS) && entity.getDeltaMovement().y > 0) {
+            if (entity.getPersistentData().getBoolean("marioverse:has_mushroom")) {
+                world.destroyBlock(posAboveEntity, false);
+                world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
+                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                this.marioverse$dropCoin(world, posAboveEntity, this);
+            } else {
+                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                this.marioverse$dropCoin(world, posAboveEntity, this);
+            }
+        }
 
         if (fireballCooldown > 0)
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
@@ -294,6 +308,25 @@ public abstract class LivingEntityMixin extends Entity {
                         0.0, 1.0, 0.0);
             }
         } else super.handleEntityEvent(id);
+    }
+
+    @Unique
+    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
+        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
+            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
+
+            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
+            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            if (entity instanceof Player player) {
+                world.removeBlock(pos.above(), false);
+                player.getInventory().add(coinItem);
+
+                if (!player.getInventory().add(coinItem)) {
+                    player.drop(coinItem, false);
+                }
+            } else world.destroyBlock(pos.above(), false);
+        }
     }
 
     @Unique

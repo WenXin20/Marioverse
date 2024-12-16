@@ -118,18 +118,6 @@ public abstract class PlayerMixin extends Entity {
         if (preventWarpCooldown == 0 && this.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.getPersistentData().putBoolean("marioverse:prevent_warp", false);
 
-        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS) && this.getDeltaMovement().y > 0) {
-            if (this.getPersistentData().getBoolean("marioverse:has_mushroom")) {
-                world.destroyBlock(posAboveEntity, false);
-                world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
-                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                this.marioverse$dropCoin(world, posAboveEntity, this);
-            } else {
-                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                this.marioverse$dropCoin(world, posAboveEntity, this);
-            }
-        }
-
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && this.getDeltaMovement().y > 0)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
@@ -150,22 +138,6 @@ public abstract class PlayerMixin extends Entity {
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
         this.marioverse$warpCooldown = cooldown;
-    }
-
-    @Unique
-    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
-        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
-            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
-
-            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
-            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            world.removeBlock(pos.above(), false);
-            this.getInventory().add(coinItem);
-
-            if (!this.getInventory().add(coinItem)) {
-                this.drop(coinItem, false);
-            }
-        }
     }
 
     @Unique
