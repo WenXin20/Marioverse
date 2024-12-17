@@ -147,6 +147,11 @@ public abstract class LivingEntityMixin extends Entity {
             marioverse$oneUpsRewarded = 0;
         }
 
+        if (!hasSuperStar && (marioverse$consecutiveBounces > 0 || marioverse$oneUpsRewarded > 0)) {
+            marioverse$consecutiveBounces = 0;
+            marioverse$oneUpsRewarded = 0;
+        }
+
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
 
@@ -467,11 +472,14 @@ public abstract class LivingEntityMixin extends Entity {
                 if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
                         && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
 
+                    if (entity instanceof Player player && (player.isCreative() || player.isSpectator()))
+                        return;
+
                     Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
                     double knockbackStrength = 5.0;
                     Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
 
-                    if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive())
+                    if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive() && !entity.isInvulnerable())
                         this.marioverse$consecutiveReward(attackingEntity, entity);
                     entity.setDeltaMovement(knockbackVelocity);
                     entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
@@ -501,13 +509,15 @@ public abstract class LivingEntityMixin extends Entity {
         for (Entity entity : nearbyEntities) {
             if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
                     && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                    && !stompingEntity.getPersistentData().getBoolean("marioverse:has_super_star")
                     && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                     && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                         || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                        || ConfigRegistry.STOMP_ALL_MOBS.get())) {
-                if (stompingEntity instanceof Player player && player.getAbilities().flying) {
+                        || ConfigRegistry.STOMP_ALL_MOBS.get())
+                    && !damagedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+
+                if (stompingEntity instanceof Player player && player.getAbilities().flying)
                     return;
-                }
 
                 // Check if the colliding entity is above the current entity and falling
                 if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
@@ -519,10 +529,10 @@ public abstract class LivingEntityMixin extends Entity {
                     double gravity = 0.08; // Approximate Minecraft gravity value
                     double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
-//                    if (!damagedEntity.isDeadOrDying()) {
+                    if (damagedEntity.isAlive()) {
                         stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
                         stompingEntity.fallDistance = 0; // Reset fall damage
-//                    }
+                    }
 
                     float scaleFactor = damagedEntity.getBbHeight() * damagedEntity.getBbWidth();
                     int numParticles = (int) (scaleFactor * 20);
