@@ -158,15 +158,22 @@ public abstract class LivingEntityMixin extends Entity {
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
 
+        if (entity.onGround() && entity.getDeltaMovement().y <= 0
+                && entity.getPersistentData().getBoolean("marioverse:has_smashed_block"))
+            entity.getPersistentData().putBoolean("marioverse:has_smashed_block", false);
+
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS) && entity.getDeltaMovement().y > 0) {
+                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS) && entity.getDeltaMovement().y > 0
+                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")) {
             if (entity.getPersistentData().getBoolean("marioverse:has_mushroom")) {
                 if (stateAboveEntity.getBlock() instanceof SlabBlock) {
-                    if (stateAboveEntity.getValue(SlabBlock.TYPE) == SlabType.DOUBLE)
+                    if (stateAboveEntity.getValue(SlabBlock.TYPE) == SlabType.DOUBLE) {
                         world.setBlock(posAboveEntity, stateAboveEntity.setValue(SlabBlock.TYPE, SlabType.TOP), 3);
-                    else world.destroyBlock(posAboveEntity, false);
+                        entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
+                    } else world.destroyBlock(posAboveEntity, false);
                     world.levelEvent(2001, posAboveEntity, Block.getId(stateAboveEntity));
                 } else world.destroyBlock(posAboveEntity, false);
+                entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 this.marioverse$dropCoin(world, posAboveEntity, this);
