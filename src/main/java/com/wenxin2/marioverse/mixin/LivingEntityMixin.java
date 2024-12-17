@@ -51,12 +51,15 @@ import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -158,7 +161,12 @@ public abstract class LivingEntityMixin extends Entity {
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS) && entity.getDeltaMovement().y > 0) {
             if (entity.getPersistentData().getBoolean("marioverse:has_mushroom")) {
-                world.destroyBlock(posAboveEntity, false);
+                if (stateAboveEntity.getBlock() instanceof SlabBlock) {
+                    if (stateAboveEntity.getValue(SlabBlock.TYPE) == SlabType.DOUBLE)
+                        world.setBlock(posAboveEntity, stateAboveEntity.setValue(SlabBlock.TYPE, SlabType.TOP), 3);
+                    else world.destroyBlock(posAboveEntity, false);
+                    world.levelEvent(2001, posAboveEntity, Block.getId(stateAboveEntity));
+                } else world.destroyBlock(posAboveEntity, false);
                 world.gameEvent(this, GameEvent.BLOCK_CHANGE, posAboveEntity);
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 this.marioverse$dropCoin(world, posAboveEntity, this);
