@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:fungal_brick_stairs"
+          "name": "marioverse:fungal_brick_wall"
         }
       ],
       "conditions": [
@@ -17,5 +17,5 @@
       ]
     }
   ],
-  "random_sequence": "marioverse:blocks/fungal_brick_stairs"
+  "random_sequence": "marioverse:blocks/fungal_brick_wall"
 }
