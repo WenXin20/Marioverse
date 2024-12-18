@@ -26,7 +26,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.TntBlock;
@@ -107,7 +106,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
-                        this.spawnEntity(world, pos, storedItem);
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null);
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);
@@ -175,7 +174,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
-                        this.spawnEntity(world, pos, storedItem);
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null);
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);

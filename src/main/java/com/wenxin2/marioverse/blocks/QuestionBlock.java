@@ -94,7 +94,7 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
-                        this.spawnEntity(world, pos, storedItem);
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null);
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);
@@ -168,7 +168,7 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                     if (!storedItem.isEmpty()) {
                         if (!world.isClientSide)
-                            this.spawnEntity(world, pos, storedItem);
+                            this.spawnFromQuestionBlock(world, pos, storedItem, null);
 
                         if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                             this.playCoinSound(world, pos);
@@ -199,7 +199,7 @@ public class QuestionBlock extends Block implements EntityBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    public void spawnEntity(Level world, BlockPos pos, ItemStack stack) {
+    public void spawnFromQuestionBlock(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock) {
         if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get()) {
             EntityType<?> entityType = powerUpItem.getType(stack);
 
@@ -275,6 +275,9 @@ public class QuestionBlock extends Block implements EntityBlock {
             world.addFreshEntity(primedtnt);
             stack.copyWithCount(1);
             serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
+        } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
+                && entityHitBlock instanceof Player player && world instanceof ServerLevel) {
+            player.addItem(stack.copyWithCount(1));
         } else {
             if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));

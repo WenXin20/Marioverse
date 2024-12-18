@@ -446,7 +446,7 @@ public abstract class LivingEntityMixin extends Entity {
                 else questionBlock.playItemSound(world, pos);
 
                 if (!world.isClientSide)
-                    questionBlock.spawnEntity(world, pos, storedItem);
+                    questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity);
 
                 questionBlockEntity.removeItems();
                 questionBlockEntity.setChanged();
