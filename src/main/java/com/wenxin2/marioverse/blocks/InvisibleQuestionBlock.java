@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.core.BlockPos;
@@ -219,7 +220,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (nearestPlayer != null) {
             if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                     || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                world.addParticle(new BlockParticleOption(ParticleTypes.BLOCK_MARKER, state),
+                world.addParticle(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(),
                         x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
             }
         }
@@ -228,9 +229,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
     @NotNull
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
+        if (state.getValue(WATERLOGGED))
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
-        }
 
         return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
     }
@@ -248,9 +248,9 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        if (state.getValue(INVISIBLE))
+        /*if (state.getValue(INVISIBLE))
             return RenderShape.INVISIBLE;
-        else return RenderShape.MODEL;
+        else*/ return RenderShape.MODEL;
     }
 
     @Override

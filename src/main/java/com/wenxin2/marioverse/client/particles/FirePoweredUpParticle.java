@@ -5,7 +5,10 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class FirePoweredUpParticle extends SuspendedTownParticle.HappyVillagerProvider {
 
     public FirePoweredUpParticle(SpriteSet spriteSet) {
