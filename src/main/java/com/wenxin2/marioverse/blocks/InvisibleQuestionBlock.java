@@ -246,11 +246,15 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         return state.getFluidState().isEmpty() && state.getValue(INVISIBLE);
     }
 
+    @NotNull
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        /*if (state.getValue(INVISIBLE))
-            return RenderShape.INVISIBLE;
-        else*/ return RenderShape.MODEL;
+        return RenderShape.MODEL;
+    }
+
+    @Override
+    protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
+        return neighborState.is(this) || super.skipRendering(state, neighborState, direction);
     }
 
     @Override
