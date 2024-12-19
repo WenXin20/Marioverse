@@ -22,11 +22,6 @@ public class NoMovementParticle extends TextureSheetParticle {
         this.zd = 0.0;
     }
 
-//    @Override
-//    public void tick() {
-//        // Do nothing to ensure it stays stationary
-//    }
-
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
