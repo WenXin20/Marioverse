@@ -229,6 +229,9 @@
   "gui.marioverse.controls": "Marioverse",
   "key.marioverse.bouncing_fireball": "Fire Flower Shoot Fireball",
 
+  "resource_pack.marioverse.truly_invisible": "Truly Invisible",
+  "resource_pack.marioverse.truly_invisible.description": "Invisible Question Blocks are completely invisible",
+
   "subtitles.marioverse.block.block_bonk": "Block bonked",
   "subtitles.marioverse.block.block_smash": "Block smashed",
   "subtitles.marioverse.block.block_smash_fail": "Block smash failed",

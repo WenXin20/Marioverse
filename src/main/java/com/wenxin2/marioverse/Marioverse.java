@@ -15,6 +15,8 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
+import java.nio.file.Path;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -70,8 +72,9 @@ public class Marioverse {
         SoundRegistry.init();
         ConfigRegistry.register(container);
 
-        if (dist.isClient())
+        if (dist.isClient()) {
             ConfigRegistry.registerClient(container);
+        }
 
         // PipeBubblesSoundHandler.init();
 
@@ -88,6 +91,12 @@ public class Marioverse {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_OVERALLS.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+
+        Minecraft.getInstance().getResourcePackRepository().addPackFinder((consumer) -> {
+            Path path = Minecraft.getInstance().gameDirectory.toPath().resolve("resourcepacks");
+            MarioversePackSource packSource = new MarioversePackSource(path, Minecraft.getInstance().directoryValidator());
+            consumer.accept(packSource.createVanillaPack(MarioversePackSource.createCustomPackSource(path)));
+        });
     }
 
     public static ResourceLocation id(String id) {
