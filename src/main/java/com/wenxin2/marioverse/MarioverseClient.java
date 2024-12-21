@@ -6,6 +6,8 @@ import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
 import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
+import com.wenxin2.marioverse.client.renderers.ArmorRenderingExtension;
+import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
@@ -23,22 +25,51 @@ import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireb
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
+import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class MarioverseClient {
+
+    public static void clientSetup(final FMLClientSetupEvent event) {
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_OVERALLS.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+    }
+
+    public static void addPackFinder(final AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+
+            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/truly_invisible");
+            Component packNameDisplay = Component.translatable("resource_pack.marioverse.truly_invisible");
+
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+        }
+    }
+
     @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> {

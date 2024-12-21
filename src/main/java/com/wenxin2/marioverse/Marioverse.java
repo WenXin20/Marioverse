@@ -2,8 +2,6 @@ package com.wenxin2.marioverse;
 
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
-import com.wenxin2.marioverse.client.renderers.ArmorRenderingExtension;
-import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
@@ -14,9 +12,6 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
-import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
-import java.nio.file.Path;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +23,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -82,21 +76,8 @@ public class Marioverse {
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(MarioverseEventHandlers::gatherData);
-        bus.addListener(FMLClientSetupEvent.class, this::clientSetup);
-    }
-
-    private void clientSetup(final FMLClientSetupEvent event) {
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_OVERALLS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-
-        Minecraft.getInstance().getResourcePackRepository().addPackFinder((consumer) -> {
-            Path path = Minecraft.getInstance().gameDirectory.toPath().resolve("resourcepacks");
-            MarioversePackSource packSource = new MarioversePackSource(path, Minecraft.getInstance().directoryValidator());
-            consumer.accept(packSource.createVanillaPack(MarioversePackSource.createCustomPackSource(path)));
-        });
+        bus.addListener(MarioverseClient::clientSetup);
+        bus.addListener(MarioverseClient::addPackFinder);
     }
 
     public static ResourceLocation id(String id) {

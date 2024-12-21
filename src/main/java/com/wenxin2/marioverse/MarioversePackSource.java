@@ -16,7 +16,6 @@ import net.minecraft.server.packs.VanillaPackResources;
 import net.minecraft.server.packs.VanillaPackResourcesBuilder;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.BuiltInPackSource;
-import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.level.validation.DirectoryValidator;
@@ -34,7 +33,7 @@ public class MarioversePackSource extends BuiltInPackSource {
     );
     private static final PackSelectionConfig BUILT_IN_SELECTION_CONFIG = new PackSelectionConfig(false, Pack.Position.TOP, false);
     private static final BuiltInMetadata CUSTOM_BUILT_IN_METADATA = BuiltInMetadata.of(PackMetadataSection.TYPE, CUSTOM_METADATA_SECTION);
-    private static final ResourceLocation PACKS_DIR = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks");
+    public static final ResourceLocation PACKS_DIR = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks");
     private static final PackLocationInfo CUSTOM_PACK_INFO = new PackLocationInfo(
             "truly_invisible", Component.translatable("resource_pack.marioverse.truly_invisible"), PackSource.BUILT_IN, Optional.of(CORE_PACK_INFO)
     );
