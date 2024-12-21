@@ -64,6 +64,11 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     }
 
     @Override
+    protected boolean updateInWaterStateAndDoFluidPushing() {
+        return false;
+    }
+
+    @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.geoCache;
     }
