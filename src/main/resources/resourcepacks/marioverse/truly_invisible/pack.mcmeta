@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "Invisible Question Blocks are completely invisible",
+        "description": "Removes the glint from Invisible Question Blocks",
         "pack_format": 34,
         "supported_formats": [ 34, 42 ]
     }
