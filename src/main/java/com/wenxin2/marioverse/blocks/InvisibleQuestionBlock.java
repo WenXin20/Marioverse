@@ -19,6 +19,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
+import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
@@ -66,7 +67,9 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
             if ((player.hasPermissions(1) && player.isCreative()) || !state.getValue(INVISIBLE)
                     || (!player.isCreative() && !player.isSpectator() && ConfigRegistry.SELECT_INVISIBLE_QUESTION.get())
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem) {
+                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
+                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BlockItem blockItem
+                        && blockItem.getBlock() instanceof InvisibleQuestionBlock) {
                 return Shapes.block();
             }
         }
