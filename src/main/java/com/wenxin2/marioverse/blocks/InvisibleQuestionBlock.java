@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -223,8 +224,23 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (nearestPlayer != null) {
             if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                     || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                world.addParticle(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(),
-                        x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                if (state.getBlock() == BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_BRICKS_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_END_STONE_BRICKS_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_NETHER_BRICKS_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_RED_NETHER_BRICKS_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_PURPUR_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else world.addParticle(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
             }
         }
     }

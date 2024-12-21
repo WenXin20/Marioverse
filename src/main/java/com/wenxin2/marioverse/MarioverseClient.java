@@ -115,7 +115,12 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_BRICKS_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_END_STONE_BRICKS_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_NETHER_BRICKS_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_PURPUR_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_RED_NETHER_BRICKS_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), SuspendedTownParticle.HappyVillagerProvider::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
