@@ -64,6 +64,9 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
     public void tick() {
         super.tick();
         this.checkForCollisions();
+
+        if (this.level().getRandom().nextBoolean())
+            this.level().broadcastEntityEvent(this, (byte) 114);
     }
 
     @Override
