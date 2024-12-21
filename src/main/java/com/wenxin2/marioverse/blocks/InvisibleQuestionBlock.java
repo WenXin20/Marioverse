@@ -273,7 +273,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
     @Override
     protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
-        return (neighborState.getBlock() instanceof InvisibleQuestionBlock && state.getValue(INVISIBLE) && neighborState.getValue(INVISIBLE)) || super.skipRendering(state, neighborState, direction);
+        return (neighborState.is(this) && state.getValue(INVISIBLE) && neighborState.getValue(INVISIBLE)) || super.skipRendering(state, neighborState, direction);
     }
 
     @Override
