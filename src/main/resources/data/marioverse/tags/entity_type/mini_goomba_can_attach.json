@@ -3,6 +3,7 @@
   "replace": false,
   "values": [
     "minecraft:armor_stand",
+    "minecraft:frog",
     "minecraft:iron_golem",
     "minecraft:player",
     "minecraft:snow_golem",
