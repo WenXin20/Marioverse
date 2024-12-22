@@ -487,9 +487,11 @@ public abstract class LivingEntityMixin extends Entity {
                 AABB boundingBox = new AABB(pos.above()).inflate(0.5);
                 List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
 
-                for (Entity entityAbove : entitiesAbove) {
-                    if (entityAbove instanceof LivingEntity livingEntity) {
-                        livingEntity.hurt(world.damageSources().generic(), 4.0F);
+                if (!entitiesAbove.isEmpty()) {
+                    for (Entity entityAbove : entitiesAbove) {
+                        if (entityAbove instanceof LivingEntity livingEntity) {
+                            livingEntity.hurt(world.damageSources().generic(), 4.0F);
+                        }
                     }
                 }
             }
@@ -500,22 +502,24 @@ public abstract class LivingEntityMixin extends Entity {
     public void marioverse$superStarKillEntity(LivingEntity attackingEntity) {
         List<Entity> nearbyEntities = attackingEntity.level().getEntities(attackingEntity, attackingEntity.getBoundingBox());
 
-        for (Entity collidedEntity : nearbyEntities) {
-            if (collidedEntity instanceof LivingEntity entity) {
-                if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
-                        && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+        if (!nearbyEntities.isEmpty()) {
+            for (Entity collidedEntity : nearbyEntities) {
+                if (collidedEntity instanceof LivingEntity entity) {
+                    if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
+                            && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
 
-                    if (entity instanceof Player player && (player.isCreative() || player.isSpectator()))
-                        return;
+                        if (entity instanceof Player player && (player.isCreative() || player.isSpectator()))
+                            return;
 
-                    Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
-                    double knockbackStrength = 5.0;
-                    Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
+                        Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
+                        double knockbackStrength = 5.0;
+                        Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
 
-                    if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive() && !entity.isInvulnerable())
-                        this.marioverse$consecutiveReward(attackingEntity, entity);
-                    entity.setDeltaMovement(knockbackVelocity);
-                    entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
+                        if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive() && !entity.isInvulnerable())
+                            this.marioverse$consecutiveReward(attackingEntity, entity);
+                        entity.setDeltaMovement(knockbackVelocity);
+                        entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
+                    }
                 }
             }
         }
@@ -539,68 +543,70 @@ public abstract class LivingEntityMixin extends Entity {
     public void marioverse$squashEntity(LivingEntity stompingEntity) {
         List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0, 0.5, 0));
 
-        for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
-                    && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
-                    && !stompingEntity.getPersistentData().getBoolean("marioverse:has_super_star")
-                    && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
-                    && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
+        if (!nearbyEntities.isEmpty()) {
+            for (Entity entity : nearbyEntities) {
+                if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
+                        && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                        && !stompingEntity.getPersistentData().getBoolean("marioverse:has_super_star")
+                        && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
+                        && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                         || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
                         || ConfigRegistry.STOMP_ALL_MOBS.get())
-                    && !damagedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                        && !damagedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
 
-                if (stompingEntity instanceof Player player && player.getAbilities().flying)
-                    return;
+                    if (stompingEntity instanceof Player player && player.getAbilities().flying)
+                        return;
 
-                // Check if the colliding entity is above the current entity and falling
-                if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
-                        && (stompingEntity.fallDistance > 0 || stompingEntity.isInWaterOrBubble())) {
-                    double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
-                    if (stompingEntity instanceof Player)
-                        if (Minecraft.getInstance().options.keyJump.isDown())
-                            bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
-                    double gravity = 0.08; // Approximate Minecraft gravity value
-                    double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
+                    // Check if the colliding entity is above the current entity and falling
+                    if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
+                            && (stompingEntity.fallDistance > 0 || stompingEntity.isInWaterOrBubble())) {
+                        double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
+                        if (stompingEntity instanceof Player)
+                            if (Minecraft.getInstance().options.keyJump.isDown())
+                                bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
+                        double gravity = 0.08; // Approximate Minecraft gravity value
+                        double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
-                    if (damagedEntity.isAlive()) {
-                        stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
-                        stompingEntity.fallDistance = 0; // Reset fall damage
-                    }
-
-                    float scaleFactor = damagedEntity.getBbHeight() * damagedEntity.getBbWidth();
-                    int numParticles = (int) (scaleFactor * 20);
-                    double radius = damagedEntity.getBbWidth() / 2;
-
-                    for (int i = 0; i < numParticles; i++) {
-                        // Calculate angle for each particle
-                        double angle = 2 * Math.PI * i / numParticles;
-                        // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                        double offsetX = Math.cos(angle) * radius;
-                        double offsetY = damagedEntity.getBbHeight();
-                        double offsetZ = Math.sin(angle) * radius;
-
-                        double x = damagedEntity.getX() + offsetX;
-                        double y = damagedEntity.getY() + offsetY;
-                        double z = damagedEntity.getZ() + offsetZ;
-
-                        this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
-                    }
-
-                    boolean hasNoArmor = true;
-                    for (ItemStack armorSlot : damagedEntity.getArmorSlots()) {
-                        if (!armorSlot.isEmpty()) {
-                            hasNoArmor = false;
-                            break;
+                        if (damagedEntity.isAlive()) {
+                            stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+                            stompingEntity.fallDistance = 0; // Reset fall damage
                         }
-                    }
 
-                    if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
-                        if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
-                            damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
-                        else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
-                            damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
-                        if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
-                            this.marioverse$consecutiveReward(stompingEntity, damagedEntity);
+                        float scaleFactor = damagedEntity.getBbHeight() * damagedEntity.getBbWidth();
+                        int numParticles = (int) (scaleFactor * 20);
+                        double radius = damagedEntity.getBbWidth() / 2;
+
+                        for (int i = 0; i < numParticles; i++) {
+                            // Calculate angle for each particle
+                            double angle = 2 * Math.PI * i / numParticles;
+                            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+                            double offsetX = Math.cos(angle) * radius;
+                            double offsetY = damagedEntity.getBbHeight();
+                            double offsetZ = Math.sin(angle) * radius;
+
+                            double x = damagedEntity.getX() + offsetX;
+                            double y = damagedEntity.getY() + offsetY;
+                            double z = damagedEntity.getZ() + offsetZ;
+
+                            this.level().addParticle(ParticleTypes.CRIT, x, y, z, 0, 1.0, 0);
+                        }
+
+                        boolean hasNoArmor = true;
+                        for (ItemStack armorSlot : damagedEntity.getArmorSlots()) {
+                            if (!armorSlot.isEmpty()) {
+                                hasNoArmor = false;
+                                break;
+                            }
+                        }
+
+                        if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
+                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
+                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
+                                this.marioverse$consecutiveReward(stompingEntity, damagedEntity);
+                        }
                     }
                 }
             }

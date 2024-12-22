@@ -42,10 +42,6 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
         return this.cache;
     }
 
-    private SoundEvent getFallDamageSound(int height) {
-        return height > 4 ? this.getFallSounds().big() : this.getFallSounds().small();
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -130,9 +126,11 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
         AABB boundingBox = this.getBoundingBox().inflate(0.1);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
-        for (Entity entity : entities) {
-            handleCollision(entity);
-            break;
+        if (!entities.isEmpty()) {
+            for (Entity entity : entities) {
+                handleCollision(entity);
+                break;
+            }
         }
     }
 

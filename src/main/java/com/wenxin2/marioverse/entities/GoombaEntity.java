@@ -517,31 +517,33 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof GoombaEntity));
 
-        for (Entity collidingEntity : nearbyEntities) {
-            if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
-                    || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
-                    || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0)
-                    || !collidingEntity.getPersistentData().getBoolean("marioverse:has_super_star"))
-                return;
+        if (!nearbyEntities.isEmpty()) {
+            for (Entity collidingEntity : nearbyEntities) {
+                if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
+                        || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
+                        || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0)
+                        || !collidingEntity.getPersistentData().getBoolean("marioverse:has_super_star"))
+                    return;
 
-            // Apply knockback to both the Goomba and the bumping collidingEntity
-            Vec3 knockbackDirection = new Vec3(collidingEntity.getX() - this.getX(), 0.4D,
-                    collidingEntity.getZ() - this.getZ()).normalize();
-            double knockbackStrength = 1.0D;
+                // Apply knockback to both the Goomba and the bumping collidingEntity
+                Vec3 knockbackDirection = new Vec3(collidingEntity.getX() - this.getX(), 0.4D,
+                        collidingEntity.getZ() - this.getZ()).normalize();
+                double knockbackStrength = 1.0D;
 
-            // Knock back the Goomba
-            this.setDeltaMovement(
-                    -knockbackDirection.x * knockbackStrength, 0.4D,
-                    -knockbackDirection.z * knockbackStrength);
-            this.hurtMarked = true; // Mark as hurt to apply knockback
-            // Knock back the other collidingEntity
-            collidingEntity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
-                    knockbackDirection.z * knockbackStrength);
-            collidingEntity.hurtMarked = true;
+                // Knock back the Goomba
+                this.setDeltaMovement(
+                        -knockbackDirection.x * knockbackStrength, 0.4D,
+                        -knockbackDirection.z * knockbackStrength);
+                this.hurtMarked = true; // Mark as hurt to apply knockback
+                // Knock back the other collidingEntity
+                collidingEntity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
+                        knockbackDirection.z * knockbackStrength);
+                collidingEntity.hurtMarked = true;
 
-            this.playSound(this.getBumpSound());
-            this.tryToScare();
-            break;
+                this.playSound(this.getBumpSound());
+                this.tryToScare();
+                break;
+            }
         }
     }
 

@@ -53,14 +53,16 @@ public class NearestAttackableTagGoal extends TargetGoal {
         }
 
         if (this.target == null || !this.target.isAlive()) {
-        List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
-                LivingEntity.class,
-                this.getTargetSearchArea(this.getFollowDistance()),
-                entity -> entity.getType().is(this.entityTag)
-        );
+            List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
+                    LivingEntity.class,
+                    this.getTargetSearchArea(this.getFollowDistance()),
+                    entity -> entity.getType().is(this.entityTag)
+            );
 
-        this.target = this.mob.level().getNearestEntity(potentialTargets, this.targetConditions,
-                this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+            if (!potentialTargets.isEmpty()) {
+                this.target = this.mob.level().getNearestEntity(potentialTargets, this.targetConditions,
+                        this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+            }
         }
     }
 

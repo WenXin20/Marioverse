@@ -71,9 +71,11 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
         AABB boundingBox = this.getBoundingBox().inflate(0.1);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
-        for (Entity entity : entities) {
-            handleCollision(entity);
-            break;
+        if (!entities.isEmpty()) {
+            for (Entity entity : entities) {
+                handleCollision(entity);
+                break;
+            }
         }
     }
 
