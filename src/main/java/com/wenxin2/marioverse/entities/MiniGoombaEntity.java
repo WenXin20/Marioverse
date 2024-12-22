@@ -38,8 +38,8 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     private double currentX, currentY, currentZ;
     private double targetX, targetY, targetZ;
     private final Random random = new Random();
-    private static final ResourceLocation SLOWDOWN_MODIFIER_RESOURCE =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slow");
+    private static final ResourceLocation SLOWDOWN_MODIFIER =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
 
     private static final double SLOWDOWN_FACTOR = 0.65;
     private static final double MOVE_SPEED = 0.25;
@@ -128,6 +128,15 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @Override
+    public void die(DamageSource cause) {
+        if (stuckTo != null) {
+            removeSpeedModifier(stuckTo);
+            stuckTo = null;
+        }
+        super.die(cause);
+    }
+
+    @Override
     public boolean canCollideWith(Entity entity) {
         return (stuckTo == null || ConfigRegistry.MINI_GOOMBAS_PUSH.get()) && super.canCollideWith(entity);
     }
@@ -186,9 +195,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
     private void addSpeedModifier(LivingEntity livingEntity) {
         AttributeInstance speedAttribute = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && !speedAttribute.hasModifier(SLOWDOWN_MODIFIER_RESOURCE)) {
+        if (speedAttribute != null && !speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
             AttributeModifier slowdownModifier = new AttributeModifier(
-                    SLOWDOWN_MODIFIER_RESOURCE, -SLOWDOWN_FACTOR,
+                    SLOWDOWN_MODIFIER, -SLOWDOWN_FACTOR,
                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
             );
             speedAttribute.addTransientModifier(slowdownModifier);
@@ -197,8 +206,8 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
     private void removeSpeedModifier(LivingEntity livingEntity) {
         AttributeInstance speedAttribute = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER_RESOURCE)) {
-            speedAttribute.removeModifier(SLOWDOWN_MODIFIER_RESOURCE);
+        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
+            speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
         }
     }
 

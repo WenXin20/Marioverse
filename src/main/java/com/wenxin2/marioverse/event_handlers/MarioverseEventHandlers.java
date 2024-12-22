@@ -321,22 +321,22 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         Player player = event.getEntity();
-        removeMiniGoombaSpeedModifier(player); // Custom method to remove the modifier
+        removeMiniGoombaSpeedModifier(player);
     }
 
     @SubscribeEvent
     public static void onPlayerTeleport(EntityTeleportEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
-            removeMiniGoombaSpeedModifier(entity); // Custom method to remove the modifier
+            removeMiniGoombaSpeedModifier(entity);
         }
     }
 
-    private static final ResourceLocation SLOWDOWN_MODIFIER_RESOURCE =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slow");
+    private static final ResourceLocation SLOWDOWN_MODIFIER =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
     private static void removeMiniGoombaSpeedModifier(LivingEntity entity) {
         AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER_RESOURCE)) {
-            speedAttribute.removeModifier(SLOWDOWN_MODIFIER_RESOURCE);
+        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
+            speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
         }
     }
 }

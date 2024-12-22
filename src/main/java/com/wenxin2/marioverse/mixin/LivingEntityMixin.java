@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
@@ -28,6 +29,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -42,6 +44,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
@@ -309,6 +313,20 @@ public abstract class LivingEntityMixin extends Entity {
             if (vec32 != null) {
                 cir.setReturnValue(true);
             }
+        }
+    }
+
+    @Unique
+    private static final ResourceLocation SLOWDOWN_MODIFIER =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
+    @Inject(method = "jumpFromGround", at = @At("HEAD"))
+    private void onJumpFromGround(CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        // Remove the speed modifier when the entity jumps
+        AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
+            speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
         }
     }
 
