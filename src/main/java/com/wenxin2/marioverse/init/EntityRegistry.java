@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -76,14 +77,17 @@ public class EntityRegistry {
         AttributeSupplier.Builder genericMushroomAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder genericStarAttribs = PathfinderMob.createMobAttributes()
                 .add(Attributes.JUMP_STRENGTH, 0.5F)
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1);
+                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), genericPowerUpAttribs.build());
         event.put(EntityRegistry.MUSHROOM.get(), genericMushroomAttribs.build());

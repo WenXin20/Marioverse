@@ -13,9 +13,12 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidType;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -37,8 +40,8 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new ContinuousJumpGoal(this));
-        this.goalSelector.addGoal(2, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(2, new ContinuousJumpGoal(this));
     }
 
     @Override
@@ -67,6 +70,13 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
         if (this.level().getRandom().nextBoolean())
             this.level().broadcastEntityEvent(this, (byte) 114);
+    }
+
+    @Override
+    public void jumpInFluid(FluidType type) {
+        if (this.onGround())
+            this.setDeltaMovement(this.getDeltaMovement()
+                    .add(0.0, this.getAttributeValue(Attributes.JUMP_STRENGTH), 0.0));
     }
 
     @Override
