@@ -50,6 +50,7 @@ dependencies {
 
     implementation "curse.maven:the-twilight-forest-227639:5699076"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
+    implementation "curse.maven:itemzoom-261725:5536959"
 
     // implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
     // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
