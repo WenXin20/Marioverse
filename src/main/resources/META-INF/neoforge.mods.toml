@@ -71,13 +71,6 @@ ordering="NONE"
 side="CLIENT"
 
 [[dependencies.marioverse]]
-modId="pehkui"
-type="required"
-versionRange="[3.8.3+1.21-neoforge,)"
-ordering="NONE"
-side="BOTH"
-
-[[dependencies.marioverse]]
 modId="ctm"
 type="optional"
 versionRange="[1.2.0,)"

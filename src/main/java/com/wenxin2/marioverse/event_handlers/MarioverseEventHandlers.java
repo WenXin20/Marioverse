@@ -49,7 +49,6 @@ import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import virtuoel.pehkui.api.ScaleTypes;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
@@ -140,10 +139,10 @@ public class MarioverseEventHandlers {
                 if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                         && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
                         && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                        && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
-                        || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
-                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
-                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+                        /*&& (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
+                        || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)*/) {
+//                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
+//                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
                     world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
@@ -201,10 +200,10 @@ public class MarioverseEventHandlers {
                 if (!tag.getBoolean("marioverse:has_mushroom")
                         && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                         && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                        && (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
-                        || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)) {
-                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
-                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+                        /*&& (ScaleTypes.HEIGHT.getScaleData(event.getEntity()).getTargetScale() > 0.5F
+                        || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)*/) {
+//                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
+//                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
                     world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
@@ -266,31 +265,31 @@ public class MarioverseEventHandlers {
             if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
                 tag.putBoolean("marioverse:has_mushroom", true);
                 if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
-                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
-                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
-                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                        /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
+//                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
+//                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
                 }
             } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
-                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
-                ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
-                ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                        /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
+//                ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
+//                ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
             }
         } else if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
                 tag.putBoolean("marioverse:has_mushroom", true);
                 if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
-                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
-                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
-                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                        /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
+//                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
+//                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
                 }
             } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        && (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
-                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)) {
-                ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
-                ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                        /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
+                        || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
+//                ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
+//                ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
             }
         }
     }
