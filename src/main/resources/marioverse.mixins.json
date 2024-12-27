@@ -15,6 +15,7 @@
     "TrapDoorBlockMixin"
   ],
   "client": [
+    "HumanoidArmorLayerMixin",
     "LivingEntityClientMixin"
   ],
   "injectors": {
