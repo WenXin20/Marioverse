@@ -3,7 +3,7 @@
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.151'
+    id 'net.neoforged.gradle.userdev' version '7.0.173'
 }
 
 version = minecraft_version + "-" + mod_version
@@ -44,21 +44,22 @@ dependencies {
     implementation "curse.maven:ctm-${ctm_version}"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
     implementation "curse.maven:geckolib-${geckolib_version}"
-    implementation "curse.maven:pehkui-${pehkui_version}"
+    // implementation "curse.maven:pehkui-${pehkui_version}"
+    implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:roughly-enough-items-${rei_version}"
+    implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:spark-${spark_version}"
+    implementation "curse.maven:supplementaries-${supplementaries_version}"
 
     implementation "curse.maven:the-twilight-forest-227639:5699076"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
-    implementation "curse.maven:itemzoom-261725:5536959"
 
     // implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
     // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
+    // implementation "curse.maven:itemzoom-261725:5536959"
     // implementation "curse.maven:jei-${jei_version}"
-    // implementation "curse.maven:selene-${moonlight_version}"
     // implementation "curse.maven:structure-gel-api-${structure_gel_version}"
-    // implementation "curse.maven:supplementaries-${supplementaries_version}"
 }
 
 
