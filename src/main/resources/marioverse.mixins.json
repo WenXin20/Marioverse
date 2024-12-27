@@ -15,8 +15,7 @@
     "TrapDoorBlockMixin"
   ],
   "client": [
-    "LivingEntityClientMixin",
-    "LivingEntityRendererMixinAccessor"
+    "LivingEntityClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
