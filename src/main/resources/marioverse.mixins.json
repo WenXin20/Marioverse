@@ -15,7 +15,6 @@
     "TrapDoorBlockMixin"
   ],
   "client": [
-    "HumanoidArmorLayerMixin",
     "LivingEntityClientMixin",
     "LivingEntityRendererMixinAccessor"
   ],
