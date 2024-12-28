@@ -3,6 +3,7 @@ package com.wenxin2.marioverse;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
+import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
@@ -75,7 +76,7 @@ public class Marioverse {
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
-        bus.addListener(MarioverseEventHandlers::gatherData);
+        bus.addListener(RegistryEventHandlers::gatherData);
         bus.addListener(MarioverseClient::clientSetup);
         bus.addListener(MarioverseClient::addPackFinder);
     }
