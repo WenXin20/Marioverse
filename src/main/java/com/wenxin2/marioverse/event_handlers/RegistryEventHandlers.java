@@ -19,13 +19,4 @@ public class RegistryEventHandlers {
         );
     }
 
-//    private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-//        for (EntityType<?> entityType : BuiltInRegistries.ENTITY_TYPE) {
-//            event.registerEntity(EntityScaleInterface.class, entityType, (entity, ctx) -> CapabilityRegistry.ENTITY_SCALE_CAPABILITY.getCapability(entity));
-//        }
-//    }
-//
-//    public static void onAttachCapabilities(Consumer<ICapabilityProvider<?>> event) {
-//        event.accept();
-//    }
 }
