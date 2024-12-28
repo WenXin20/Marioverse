@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
+import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -127,6 +129,13 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
 //                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+
+                    AttributeInstance scaleAttribute = player.getAttribute(Attributes.SCALE);
+                    if (scaleAttribute != null) {
+                        if (player.getAttribute(Attributes.SCALE) != null
+                                && !player.getAttribute(Attributes.SCALE).hasModifier(AttributesRegistry.SCALE_MODIFIER.id()))
+                            scaleAttribute.addPermanentModifier(AttributesRegistry.SCALE_MODIFIER);
+                    }
                     world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
@@ -188,6 +197,13 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
 //                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
+
+                    AttributeInstance scaleAttribute = entity.getAttribute(Attributes.SCALE);
+                    if (scaleAttribute != null) {
+                        if (entity.getAttribute(Attributes.SCALE) != null
+                                && !entity.getAttribute(Attributes.SCALE).hasModifier(AttributesRegistry.SCALE_MODIFIER.id()))
+                            scaleAttribute.addPermanentModifier(AttributesRegistry.SCALE_MODIFIER);
+                    }
                     world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
@@ -253,12 +269,24 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
 //                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                    AttributeInstance scaleAttribute = player.getAttribute(Attributes.SCALE);
+                    if (scaleAttribute != null) {
+                        if (player.getAttribute(Attributes.SCALE) != null
+                                && !player.getAttribute(Attributes.SCALE).hasModifier(AttributesRegistry.SCALE_MODIFIER.id()))
+                            scaleAttribute.removeModifier(AttributesRegistry.SCALE_MODIFIER);
+                    }
                 }
             } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                         /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
                         || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
 //                ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
 //                ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                AttributeInstance scaleAttribute = player.getAttribute(Attributes.SCALE);
+                if (scaleAttribute != null) {
+                    if (player.getAttribute(Attributes.SCALE) != null
+                            && !player.getAttribute(Attributes.SCALE).hasModifier(AttributesRegistry.SCALE_MODIFIER.id()))
+                        scaleAttribute.removeModifier(AttributesRegistry.SCALE_MODIFIER);
+                }
             }
         } else if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
@@ -268,12 +296,24 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
 //                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                    AttributeInstance scaleAttribute = livingEntity.getAttribute(Attributes.SCALE);
+                    if (scaleAttribute != null) {
+                        if (livingEntity.getAttribute(Attributes.SCALE) != null
+                                && !livingEntity.getAttribute(Attributes.SCALE).hasModifier(AttributesRegistry.SCALE_MODIFIER.id()))
+                            scaleAttribute.removeModifier(AttributesRegistry.SCALE_MODIFIER);
+                    }
                 }
             } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                         /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F
                         || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
 //                ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
 //                ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
+                AttributeInstance scaleAttribute = livingEntity.getAttribute(Attributes.SCALE);
+                if (scaleAttribute != null) {
+                    if (livingEntity.getAttribute(Attributes.SCALE) != null
+                            && !livingEntity.getAttribute(Attributes.SCALE).hasModifier(AttributesRegistry.SCALE_MODIFIER.id()))
+                        scaleAttribute.removeModifier(AttributesRegistry.SCALE_MODIFIER);
+                }
             }
         }
     }
