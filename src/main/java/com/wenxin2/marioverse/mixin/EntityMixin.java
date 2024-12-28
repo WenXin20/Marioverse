@@ -10,8 +10,10 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,20 +34,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
     @Shadow public abstract Level level();
-
     @Shadow public abstract double getX();
-
     @Shadow public abstract double getY();
     @Shadow public abstract double getZ();
-
     @Shadow public abstract float getBbHeight();
-
     @Shadow public abstract int getId();
-
     @Shadow public abstract BlockPos blockPosition();
-
     @Shadow public abstract EntityType<?> getType();
-
+    @Shadow public abstract void setBoundingBox(AABB boundingBox);
     @Shadow public abstract void setPos(Vec3 p_146885_);
 
     @Unique
@@ -102,6 +99,27 @@ public abstract class EntityMixin {
 
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
+    }
+
+    @Inject(method = "refreshDimensions", at = @At("RETURN"), cancellable = true)
+    private void adjustDefaultDimensions(CallbackInfo cir) {
+        Entity entity = (Entity) (Object) this;
+        CompoundTag tag = entity.getPersistentData();
+        if (tag.contains("marioverse:scale_height")
+                && tag.contains("marioverse:scale_eye_height")
+                && tag.contains("marioverse:scale_width")
+                && tag.getFloat("marioverse:scale_height") != tag.getFloat("marioverse:base_scale_height")
+                && tag.getFloat("marioverse:scale_eye_height") != tag.getFloat("marioverse:base_scale_eye_height")
+                && tag.getFloat("marioverse:scale_width") != tag.getFloat("marioverse:base_scale_width")) {
+
+            EntityDimensions dimensions = EntityDimensions
+                    .scalable(tag.getFloat("marioverse:scale_width"),
+                            tag.getFloat("marioverse:scale_height"))
+                    .withEyeHeight(tag.getFloat("marioverse:scale_eye_height"));
+
+            ((EntityAccessor) entity).setDimensions(dimensions);
+            entity.setBoundingBox(dimensions.makeBoundingBox(entity.position()));
+        }
     }
 
     @Unique

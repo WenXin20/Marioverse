@@ -1,7 +1,9 @@
 package com.wenxin2.marioverse.network;
 
+import com.wenxin2.marioverse.network.client_bound.data.EntityScalePayload;
 import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
+import com.wenxin2.marioverse.network.client_bound.handler.EntityScalePacket;
 import com.wenxin2.marioverse.network.client_bound.handler.RenamedBlockPacket;
 import com.wenxin2.marioverse.network.client_bound.handler.SwingHandPacket;
 import com.wenxin2.marioverse.network.server_bound.data.ClosePipeButtonPayload;
@@ -34,8 +36,9 @@ public class PacketHandler {
         final PayloadRegistrar registrar = event.registrar("marioverse").versioned("1.0.0");
 
         // Sends to client
-        registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
+        registrar.playToClient(EntityScalePayload.ENTITY_SCALE_PAYLOAD, EntityScalePayload.STREAM_CODEC, EntityScalePacket.get()::handle);
         registrar.playToClient(RenamedBlockPayload.RENAMED_BLOCK_PAYLOAD, RenamedBlockPayload.STREAM_CODEC, RenamedBlockPacket.get()::handle);
+        registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
 
         // Sends to server
         registrar.playToServer(ClosePipeButtonPayload.CLOSE_STATE_PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
