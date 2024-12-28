@@ -11,9 +11,7 @@ import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BaseCostumeItem;
-import com.wenxin2.marioverse.mixin.EntityAccessor;
 import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.EntityScalePayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -26,7 +24,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -59,24 +56,6 @@ public class MarioverseEventHandlers {
 
         if (!tag.contains("marioverse:prevent_warp"))
             tag.putBoolean("marioverse:prevent_warp", false);
-
-        if (!tag.contains("marioverse:base_scale_height"))
-            tag.putFloat("marioverse:base_scale_height", entity.getBbHeight());
-
-        if (!tag.contains("marioverse:base_scale_eye_height"))
-            tag.putFloat("marioverse:base_scale_eye_height", entity.getEyeHeight());
-
-        if (!tag.contains("marioverse:base_scale_width"))
-            tag.putFloat("marioverse:base_scale_width", entity.getBbWidth());
-
-        if (!tag.contains("marioverse:scale_height"))
-            tag.putFloat("marioverse:scale_height", entity.getBbHeight());
-
-        if (!tag.contains("marioverse:scale_eye_height"))
-            tag.putFloat("marioverse:scale_eye_height", entity.getEyeHeight());
-
-        if (!tag.contains("marioverse:scale_width"))
-            tag.putFloat("marioverse:scale_width", entity.getBbWidth());
 
         if (!tag.contains("marioverse:has_fire_flower")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
@@ -148,21 +127,6 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
 //                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
-                    tag.putFloat("marioverse:scale_height", player.getBbHeight() * 0.5F);
-                    tag.putFloat("marioverse:scale_eye_height", player.getEyeHeight() * 0.5F);
-                    tag.putFloat("marioverse:scale_width", player.getBbWidth() * 0.75F);
-
-                    EntityDimensions dimensions = EntityDimensions
-                            .scalable(tag.getFloat("marioverse:scale_width"),
-                                    tag.getFloat("marioverse:scale_height"));
-
-                    player.refreshDimensions();
-                    ((EntityAccessor) player).setDimensions(dimensions);
-                    ((EntityAccessor) player).setEyeHeight(tag.getFloat("marioverse:scale_eye_height"));
-                    player.setBoundingBox(dimensions.makeBoundingBox(player.position()));
-
-                    PacketHandler.sendToAllClients(new EntityScalePayload(player.getId(),
-                            tag.getFloat("marioverse:scale_width"), tag.getFloat("marioverse:scale_height")));
                     world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
@@ -224,22 +188,6 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(event.getEntity()).getTargetScale() > 0.75F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(0.5F);
 //                    ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(0.75F);
-                    tag.putFloat("marioverse:scale_height", entity.getBbHeight() * 0.5F);
-                    tag.putFloat("marioverse:scale_eye_height", entity.getEyeHeight() * 0.5F);
-                    tag.putFloat("marioverse:scale_width", entity.getBbWidth() * 0.75F);
-
-                    EntityDimensions dimensions = EntityDimensions
-                            .scalable(tag.getFloat("marioverse:scale_width"),
-                                    tag.getFloat("marioverse:scale_height"));
-
-                    entity.refreshDimensions();
-                    ((EntityAccessor) entity).setDimensions(dimensions);
-                    ((EntityAccessor) entity).setEyeHeight(tag.getFloat("marioverse:scale_eye_height"));
-                    entity.setBoundingBox(dimensions.makeBoundingBox(entity.position()));
-
-                    PacketHandler.sendToAllClients(new EntityScalePayload(entity.getId(),
-                            tag.getFloat("marioverse:scale_width"), tag.getFloat("marioverse:scale_height")));
-
                     world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
@@ -305,9 +253,6 @@ public class MarioverseEventHandlers {
                         || ScaleTypes.WIDTH.getScaleData(entity).getTargetScale() < 1.0F)*/) {
 //                    ScaleTypes.HEIGHT.getScaleData(entity).setTargetScale(1.0F);
 //                    ScaleTypes.WIDTH.getScaleData(entity).setTargetScale(1.0F);
-                    tag.putFloat("marioverse:scale_height", tag.getFloat("marioverse:base_scale_height"));
-                    tag.putFloat("marioverse:scale_eye_height", tag.getFloat("marioverse:base_scale_eye_height"));
-                    tag.putFloat("marioverse:scale_width", tag.getFloat("marioverse:base_scale_width"));
                 }
             } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                         /*&& (ScaleTypes.HEIGHT.getScaleData(entity).getTargetScale() < 1.0F

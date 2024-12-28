@@ -8,7 +8,6 @@
     "AxeItemMixin",
     "DecoratedPotPatternsMixin",
     "DoorBlockMixin",
-    "EntityAccessor",
     "EntityMixin",
     "HoneycombItemMixin",
     "LivingEntityMixin",
@@ -17,8 +16,7 @@
   ],
   "client": [
     "HumanoidArmorLayerMixin",
-    "LivingEntityClientMixin",
-    "LivingEntityRendererMixin"
+    "LivingEntityClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
