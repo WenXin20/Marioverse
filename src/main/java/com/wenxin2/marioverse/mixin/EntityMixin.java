@@ -110,38 +110,39 @@ public abstract class EntityMixin {
             --this.marioverse$warpCooldown;
     }
 
+    private double cachedWidth = -1;
+    private double cachedHeight = -1;
+
     @Inject(method = "getBoundingBox", at = @At("RETURN"), cancellable = true)
     public void modifyBoundingBox(CallbackInfoReturnable<AABB> cir) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributemap = livingEntity.getAttributes();
+            AttributeMap attributeMap = livingEntity.getAttributes();
 
-            if (attributemap != null) {
-                float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);
-                float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
+            if (attributeMap != null) {
+                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
+                float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
 
-                AABB originalBox = cir.getReturnValue();
+                // Check if the dimensions need to be recalculated
+                if (cachedWidth != widthScale || cachedHeight != heightScale) {
+                    cachedWidth = widthScale;
+                    cachedHeight = heightScale;
+                }
 
-                // Calculate new dimensions
-                double newWidth = originalBox.getXsize() * widthScale;
-                double newHeight = originalBox.getYsize() * heightScale;
-                double newDepth = originalBox.getZsize() * widthScale;
+                // Dynamically update the bounding box position based on the entity's current position
+                double entityX = entity.getX();
+                double entityY = entity.getY();
+                double entityZ = entity.getZ();
 
-                // Keep the bounding box centered on the original position
-                double centerX = originalBox.minX + originalBox.getXsize() / 2.0;
-                double centerY = originalBox.minY;
-                double centerZ = originalBox.minZ + originalBox.getZsize() / 2.0;
+                double halfWidth = (entity.getBbWidth() * cachedWidth) / 2.0;
+                double scaledHeight = entity.getBbHeight() * cachedHeight;
 
-                AABB scaledBox = new AABB(
-                        centerX - newWidth / 2.0,
-                        centerY,
-                        centerZ - newDepth / 2.0,
-                        centerX + newWidth / 2.0,
-                        centerY + newHeight,
-                        centerZ + newDepth / 2.0
+                AABB updatedBox = new AABB(
+                        entityX - halfWidth, entityY, entityZ - halfWidth,
+                        entityX + halfWidth, entityY + scaledHeight, entityZ + halfWidth
                 );
 
-                cir.setReturnValue(scaledBox);
+                cir.setReturnValue(updatedBox);
             }
         }
     }
