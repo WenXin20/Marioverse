@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.init.AttributesRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import org.jetbrains.annotations.Nullable;
@@ -17,13 +17,9 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 @Mixin(GeoEntityRenderer.class)
-public abstract class GeoEntityRendererMixin {
-    @Inject(method = "actuallyRender(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/Entity;" +
-            "Lsoftware/bernie/geckolib/cache/object/BakedGeoModel;Lnet/minecraft/client/renderer/RenderType;" +
-            "Lnet/minecraft/client/renderer/MultiBufferSource;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZFIII)V", at = @At(value = "HEAD"))
-    public void modifyScale(PoseStack poseStack, GeoAnimatable animatable, BakedGeoModel model, @Nullable RenderType renderType,
-                            MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender,
-                            float partialTick, int packedLight, int packedOverlay, int colour, CallbackInfo ci) {
+public abstract class GeoEntityRendererMixin<T extends Entity & GeoAnimatable> {
+    @Inject(method = "preRender(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/Entity;Lsoftware/bernie/geckolib/cache/object/BakedGeoModel;Lnet/minecraft/client/renderer/MultiBufferSource;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZFIII)V", at = @At(value = "HEAD"))
+    public void modifyScale(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour, CallbackInfo ci) {
         if (animatable instanceof LivingEntity livingEntity) {
             AttributeMap attributemap = livingEntity.getAttributes();
             float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
