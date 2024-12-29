@@ -54,6 +54,7 @@ public class Marioverse {
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
         ENTITIES.register(bus);
+        ATTRIBUTES.register(bus);
         PARTICLES.register(bus);
         MENUS.register(bus);
         SOUNDS.register(bus);

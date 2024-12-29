@@ -166,6 +166,5 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_extinguished")));
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }

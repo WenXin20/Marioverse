@@ -15,8 +15,11 @@
     "TrapDoorBlockMixin"
   ],
   "client": [
+    "GeoEntityRendererMixin",
     "HumanoidArmorLayerMixin",
-    "LivingEntityClientMixin"
+    "LivingEntityClientMixin",
+    "LivingEntityRendererMixin",
+    "PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,10 @@
 {
   "itemGroup.marioverse": "Marioverse",
 
+  "attribute.marioverse.generic.eye_height_scale": "Eye Height Scale",
+  "attribute.marioverse.generic.height_scale": "Height Scale",
+  "attribute.marioverse.generic.width_scale": "Width Scale",
+
   "block.marioverse.warp_door": " Warp Door",
 
   "menu.marioverse.goal_pole": "Goal Pole",

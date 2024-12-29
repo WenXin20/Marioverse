@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
@@ -45,6 +46,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorStandItem;
@@ -314,6 +316,22 @@ public abstract class LivingEntityMixin extends Entity {
                 cir.setReturnValue(true);
             }
         }
+    }
+
+    @Inject(method = "createLivingAttributes", at = @At("RETURN"), cancellable = true)
+    private static void addCustomAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+        AttributeSupplier.Builder builder = cir.getReturnValue();
+
+        builder.add(AttributesRegistry.EYE_HEIGHT_SCALE);
+        builder.add(AttributesRegistry.HEIGHT_SCALE);
+        builder.add(AttributesRegistry.WIDTH_SCALE);
+
+        cir.setReturnValue(builder);
+    }
+
+    @Unique
+    public float marioverse$sanitizeScale(float scale) {
+        return Math.max(0.1F, Math.min(scale, 16.0F));
     }
 
     @Unique

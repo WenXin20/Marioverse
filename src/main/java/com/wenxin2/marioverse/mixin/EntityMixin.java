@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -14,12 +15,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,6 +30,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -46,6 +50,8 @@ public abstract class EntityMixin {
     @Shadow public abstract EntityType<?> getType();
 
     @Shadow public abstract void setPos(Vec3 p_146885_);
+
+    @Shadow public abstract float getEyeHeight();
 
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 100;
@@ -102,6 +108,57 @@ public abstract class EntityMixin {
 
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
+    }
+
+    @Inject(method = "getBoundingBox", at = @At("RETURN"), cancellable = true)
+    public void modifyBoundingBox(CallbackInfoReturnable<AABB> cir) {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributemap = livingEntity.getAttributes();
+
+            if (attributemap != null) {
+                float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);
+                float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
+
+                AABB originalBox = cir.getReturnValue();
+
+                // Calculate new dimensions
+                double newWidth = originalBox.getXsize() * widthScale;
+                double newHeight = originalBox.getYsize() * heightScale;
+                double newDepth = originalBox.getZsize() * widthScale;
+
+                // Keep the bounding box centered on the original position
+                double centerX = originalBox.minX + originalBox.getXsize() / 2.0;
+                double centerY = originalBox.minY;
+                double centerZ = originalBox.minZ + originalBox.getZsize() / 2.0;
+
+                AABB scaledBox = new AABB(
+                        centerX - newWidth / 2.0,
+                        centerY,
+                        centerZ - newDepth / 2.0,
+                        centerX + newWidth / 2.0,
+                        centerY + newHeight,
+                        centerZ + newDepth / 2.0
+                );
+
+                cir.setReturnValue(scaledBox);
+            }
+        }
+    }
+
+    @Inject(method = "getEyeY", at = @At("RETURN"), cancellable = true)
+    public void modifyEyeHeight(CallbackInfoReturnable<Double> cir) {
+        Entity entity = (Entity) (Object) this;
+
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributemap = livingEntity.getAttributes();
+
+            if (attributemap != null) {
+                double customEyeHeight = attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE);
+                float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
+                cir.setReturnValue(entity.position().y + ((double)this.getEyeHeight() * heightScale));
+            }
+        }
     }
 
     @Unique
