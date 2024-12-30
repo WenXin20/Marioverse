@@ -19,8 +19,7 @@
     "HumanoidArmorLayerMixin",
     "LivingEntityClientMixin",
     "LivingEntityRendererMixin",
-    "PlayerRendererMixin",
-    "SlimeRendererMixin"
+    "PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
