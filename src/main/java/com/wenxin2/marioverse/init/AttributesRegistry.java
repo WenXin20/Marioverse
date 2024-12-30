@@ -24,13 +24,13 @@ public class AttributesRegistry {
 
     static {
         EYE_HEIGHT_SCALE = Marioverse.ATTRIBUTES.register("eye_height_scale",
-                () -> new RangedAttribute("attribute.marioverse.generic.eye_height_scale", 1.0, 0.0625, 16.0)
+                () -> new RangedAttribute("attribute.marioverse.generic.eye_height_scale", 1.0, 0.0625, 32.0)
                         .setSyncable(true).setSentiment(Attribute.Sentiment.NEUTRAL));
         HEIGHT_SCALE = Marioverse.ATTRIBUTES.register("height_scale",
-                () -> new RangedAttribute("attribute.marioverse.generic.height_scale", 1.0, 0.0625, 16.0)
+                () -> new RangedAttribute("attribute.marioverse.generic.height_scale", 1.0, 0.0625, 32.0)
                         .setSyncable(true).setSentiment(Attribute.Sentiment.NEUTRAL));
         WIDTH_SCALE = Marioverse.ATTRIBUTES.register("width_scale",
-                () -> new RangedAttribute("attribute.marioverse.generic.width_scale", 1.0, 0.0625, 16.0)
+                () -> new RangedAttribute("attribute.marioverse.generic.width_scale", 1.0, 0.0625, 32.0)
                         .setSyncable(true).setSentiment(Attribute.Sentiment.NEUTRAL));
     }
 
