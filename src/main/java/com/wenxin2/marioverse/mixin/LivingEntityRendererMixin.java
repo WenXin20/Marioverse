@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity> {
     @Inject(method = "scale(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V", at = @At("HEAD"))
-    public void modifyScale(T livingEntity, PoseStack poseStack, float partialTicks, CallbackInfo ci) {
+    public void scale(T livingEntity, PoseStack poseStack, float partialTicks, CallbackInfo ci) {
         AttributeMap attributemap = livingEntity.getAttributes();
         float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
         float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);

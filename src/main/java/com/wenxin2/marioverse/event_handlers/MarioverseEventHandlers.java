@@ -130,15 +130,15 @@ public class MarioverseEventHandlers {
                     AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                     if (eyeHeightScale != null) {
-                        if (!player.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE).hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             eyeHeightScale.addTransientModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (heightScale != null) {
-                        if (!player.getAttribute(AttributesRegistry.HEIGHT_SCALE).hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (!heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             heightScale.addTransientModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (widthScale != null) {
-                        if (!player.getAttribute(AttributesRegistry.WIDTH_SCALE).hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                        if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                             widthScale.addTransientModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
                     world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
@@ -204,15 +204,15 @@ public class MarioverseEventHandlers {
                     AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                     if (eyeHeightScale != null) {
-                        if (!entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE).hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             eyeHeightScale.addTransientModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (heightScale != null) {
-                        if (!entity.getAttribute(AttributesRegistry.HEIGHT_SCALE).hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (!heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             heightScale.addTransientModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (widthScale != null) {
-                        if (!entity.getAttribute(AttributesRegistry.WIDTH_SCALE).hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                        if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                             widthScale.addTransientModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
                     world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
@@ -281,15 +281,15 @@ public class MarioverseEventHandlers {
                     AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                     if (eyeHeightScale != null) {
-                        if (player.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE).hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (heightScale != null) {
-                        if (player.getAttribute(AttributesRegistry.HEIGHT_SCALE).hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (widthScale != null) {
-                        if (player.getAttribute(AttributesRegistry.WIDTH_SCALE).hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                        if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                             widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
                 }
@@ -299,15 +299,15 @@ public class MarioverseEventHandlers {
                 AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                 if (eyeHeightScale != null) {
-                    if (player.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE).hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                    if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                         eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                 }
                 if (heightScale != null) {
-                    if (player.getAttribute(AttributesRegistry.HEIGHT_SCALE).hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                    if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                         heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                 }
                 if (widthScale != null) {
-                    if (player.getAttribute(AttributesRegistry.WIDTH_SCALE).hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                    if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                         widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                 }
             }
@@ -320,15 +320,15 @@ public class MarioverseEventHandlers {
                     AttributeInstance widthScale = livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                     if (eyeHeightScale != null) {
-                        if (livingEntity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE).hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (heightScale != null) {
-                        if (livingEntity.getAttribute(AttributesRegistry.HEIGHT_SCALE).hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                        if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (widthScale != null) {
-                        if (livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE).hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                        if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                             widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
                 }
@@ -338,15 +338,15 @@ public class MarioverseEventHandlers {
                 AttributeInstance widthScale = livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                 if (eyeHeightScale != null) {
-                    if (livingEntity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE).hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                    if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                         eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                 }
                 if (heightScale != null) {
-                    if (livingEntity.getAttribute(AttributesRegistry.HEIGHT_SCALE).hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
+                    if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                         heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                 }
                 if (widthScale != null) {
-                    if (livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE).hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                    if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                         widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                 }
             }
