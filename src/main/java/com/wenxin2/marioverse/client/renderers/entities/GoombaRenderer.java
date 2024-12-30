@@ -37,6 +37,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
 
     public GoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GoombaModel());
+        this.shadowRadius = 0.5F;
         addRenderLayer(new AutoGlowingGeoLayer<>(this) {
             @Override
             protected @Nullable RenderType getRenderType(GoombaEntity animatable, @Nullable MultiBufferSource bufferSource) {

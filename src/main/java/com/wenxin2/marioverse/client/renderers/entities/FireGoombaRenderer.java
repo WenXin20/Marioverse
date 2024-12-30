@@ -28,10 +28,10 @@ import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
 public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
     private static final String HELMET = "armorBipedHead";
-    protected ItemStack helmetItem;
 
     public FireGoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new FireGoombaModel());
+        this.shadowRadius = 0.5F;
         addRenderLayer(new AutoGlowingGeoLayer<>(this));
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable

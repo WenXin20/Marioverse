@@ -8,5 +8,6 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 public class OneUpMushroomRenderer extends GeoEntityRenderer<OneUpMushroomEntity> {
     public OneUpMushroomRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new OneUpMushroomModel());
+        this.shadowRadius = 0.5F;
     }
 }

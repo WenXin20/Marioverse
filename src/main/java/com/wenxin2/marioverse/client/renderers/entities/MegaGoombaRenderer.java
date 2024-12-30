@@ -23,10 +23,10 @@ import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
 public class MegaGoombaRenderer extends GeoEntityRenderer<MegaGoombaEntity> {
     private static final String HELMET = "armorBipedHead";
-    protected ItemStack helmetItem;
 
     public MegaGoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new MegaGoombaModel());
+        this.shadowRadius = 2.0F;
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override

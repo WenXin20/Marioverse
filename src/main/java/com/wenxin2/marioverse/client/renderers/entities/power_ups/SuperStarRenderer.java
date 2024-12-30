@@ -19,6 +19,7 @@ public class SuperStarRenderer extends GeoEntityRenderer<SuperStarEntity> {
     public SuperStarRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new SuperStarModel());
         this.itemRenderer = renderManager.getItemRenderer();
+        this.shadowRadius = 0.35F;
     }
 
     @Override
