@@ -176,25 +176,6 @@ public abstract class EntityMixin {
         }
     }
 
-//    @Inject(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;)F", at = @At("HEAD"), cancellable = true)
-//    public void getEyeHeight(CallbackInfoReturnable<Double> cir) {
-//        Entity entity = (Entity) (Object) this;
-//
-//        if (entity instanceof LivingEntity livingEntity) {
-//            AttributeMap attributeMap = livingEntity.getAttributes();
-//
-//            if (attributeMap != null) {
-//                double customEyeHeightScale = attributeMap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE);
-//                double heightScale = attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
-//                double defaultEyeHeight = cir.getReturnValue();
-//                double scaledEyeHeight = defaultEyeHeight * heightScale * customEyeHeightScale;
-//
-//                livingEntity.refreshDimensions();
-//                cir.setReturnValue(scaledEyeHeight);
-//            }
-//        }
-//    }
-
     @Unique
     public int marioverse$getWarpCooldown() {
         return marioverse$warpCooldown;

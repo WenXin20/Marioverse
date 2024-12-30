@@ -27,7 +27,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -48,7 +47,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -353,16 +351,6 @@ public abstract class LivingEntityMixin extends Entity {
             cir.setReturnValue(customDimensions);
         }
     }
-
-//    @Inject(method = "onAttributeUpdated", at = @At("HEAD"))
-//    private void onAttributeUpdated(Holder<Attribute> attribute, CallbackInfo ci) {
-//        LivingEntity entity = (LivingEntity) (Object) this;
-//
-//        if (attribute.is(AttributesRegistry.EYE_HEIGHT_SCALE)
-//                || attribute.is(AttributesRegistry.HEIGHT_SCALE)
-//                || attribute.is(AttributesRegistry.WIDTH_SCALE))
-//            entity.refreshDimensions();
-//    }
 
     @Unique
     private static final ResourceLocation SLOWDOWN_MODIFIER =
