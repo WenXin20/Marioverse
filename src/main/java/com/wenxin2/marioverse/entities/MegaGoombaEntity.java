@@ -108,9 +108,8 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
 
                     GoombaEntity goomba = EntityRegistry.HEFTY_GOOMBA.get().create(this.level());
                     if (goomba != null) {
-                        if (this.isPersistenceRequired()) {
+                        if (this.isPersistenceRequired())
                             goomba.setPersistenceRequired();
-                        }
 
                         AttributeInstance goombaHeightScale = goomba.getAttribute(AttributesRegistry.HEIGHT_SCALE);
                         AttributeInstance goombaWidthScale = goomba.getAttribute(AttributesRegistry.WIDTH_SCALE);
@@ -122,7 +121,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
                         goomba.setDeltaMovement(xOffset * 0.3, upwardMotion, zOffset * 0.3);
                         goomba.move(MoverType.SELF, goomba.getDeltaMovement());
 
-                        if (heightScale != null) {
+                        if (heightScale != null && heightScale.getValue() != 1) {
                             AttributeModifier heightScaleModifier = new AttributeModifier(
                                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "height_scale_goomba_modifier"),
                                     heightScale.getValue(), AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
@@ -131,7 +130,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
                                 goombaHeightScale.addTransientModifier(heightScaleModifier);
                         }
 
-                        if (widthScale != null) {
+                        if (widthScale != null && widthScale.getValue() != 1) {
                             AttributeModifier widthScaleModifier = new AttributeModifier(
                                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "width_scale_goomba_modifier"),
                                     widthScale.getValue(), AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
