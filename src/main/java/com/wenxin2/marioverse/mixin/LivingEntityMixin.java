@@ -27,6 +27,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -42,10 +43,14 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -69,7 +74,9 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -79,6 +86,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
+    @Shadow @Final private AttributeMap attributes;
     @Unique
     private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique
@@ -329,10 +337,32 @@ public abstract class LivingEntityMixin extends Entity {
         cir.setReturnValue(builder);
     }
 
-    @Unique
-    public float marioverse$sanitizeScale(float scale) {
-        return Math.max(0.1F, Math.min(scale, 16.0F));
+    @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
+    private void modifyDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        if (pose != Pose.SLEEPING) {
+            float eyeHeightScale = (float) entity.getAttributeValue(AttributesRegistry.EYE_HEIGHT_SCALE);
+            float heightScale = (float) entity.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+
+            EntityDimensions customDimensions = EntityDimensions.scalable(
+                    cir.getReturnValue().width(),
+                    cir.getReturnValue().height()
+            ).withEyeHeight(cir.getReturnValue().eyeHeight() * eyeHeightScale * heightScale);
+
+            cir.setReturnValue(customDimensions);
+        }
     }
+
+//    @Inject(method = "onAttributeUpdated", at = @At("HEAD"))
+//    private void onAttributeUpdated(Holder<Attribute> attribute, CallbackInfo ci) {
+//        LivingEntity entity = (LivingEntity) (Object) this;
+//
+//        if (attribute.is(AttributesRegistry.EYE_HEIGHT_SCALE)
+//                || attribute.is(AttributesRegistry.HEIGHT_SCALE)
+//                || attribute.is(AttributesRegistry.WIDTH_SCALE))
+//            entity.refreshDimensions();
+//    }
 
     @Unique
     private static final ResourceLocation SLOWDOWN_MODIFIER =

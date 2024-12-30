@@ -110,57 +110,90 @@ public abstract class EntityMixin {
             --this.marioverse$warpCooldown;
     }
 
-    private double cachedWidth = -1;
-    private double cachedHeight = -1;
+    @Unique private double marioverse$cachedWidth = -1;
+    @Unique private double marioverse$cachedHeight = -1;
+    @Unique private double marioverse$cachedEyeHeight = -1;
 
     @Inject(method = "getBoundingBox", at = @At("RETURN"), cancellable = true)
-    public void modifyBoundingBox(CallbackInfoReturnable<AABB> cir) {
+    public void getBoundingBox(CallbackInfoReturnable<AABB> cir) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
 
             if (attributeMap != null) {
-                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
+                float eyeHeightScale = (float) attributeMap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE);
                 float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
+                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
 
-                // Check if the dimensions need to be recalculated
-                if (cachedWidth != widthScale || cachedHeight != heightScale) {
-                    cachedWidth = widthScale;
-                    cachedHeight = heightScale;
+                if (marioverse$cachedWidth != widthScale || marioverse$cachedHeight != heightScale || marioverse$cachedEyeHeight != eyeHeightScale) {
+                    marioverse$cachedEyeHeight = eyeHeightScale;
+                    marioverse$cachedHeight = heightScale;
+                    marioverse$cachedWidth = widthScale;
                 }
 
-                // Dynamically update the bounding box position based on the entity's current position
                 double entityX = entity.getX();
                 double entityY = entity.getY();
                 double entityZ = entity.getZ();
-
-                double halfWidth = (entity.getBbWidth() * cachedWidth) / 2.0;
-                double scaledHeight = entity.getBbHeight() * cachedHeight;
+                double halfWidth = (entity.getDimensions(entity.getPose()).width() * marioverse$cachedWidth) / 2.0;
+                double scaledHeight = entity.getDimensions(entity.getPose()).height() * marioverse$cachedHeight;
 
                 AABB updatedBox = new AABB(
                         entityX - halfWidth, entityY, entityZ - halfWidth,
                         entityX + halfWidth, entityY + scaledHeight, entityZ + halfWidth
                 );
 
+                entity.refreshDimensions();
                 cir.setReturnValue(updatedBox);
             }
         }
     }
 
-    @Inject(method = "getEyeY", at = @At("RETURN"), cancellable = true)
-    public void modifyEyeHeight(CallbackInfoReturnable<Double> cir) {
+    @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)
+    private void getBbHeight(CallbackInfoReturnable<Float> cir) {
         Entity entity = (Entity) (Object) this;
-
         if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributemap = livingEntity.getAttributes();
-
-            if (attributemap != null) {
-                double customEyeHeight = attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE);
-                float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
-                cir.setReturnValue(entity.position().y + ((double)this.getEyeHeight() * heightScale));
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            if (attributeMap != null) {
+                float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
+                entity.refreshDimensions();
+                if (heightScale != 1)
+                    cir.setReturnValue((entity.getDimensions(entity.getPose()).height()) * heightScale);
             }
         }
     }
+
+    @Inject(method = "getBbWidth", at = @At("HEAD"), cancellable = true)
+    private void getBbWidth(CallbackInfoReturnable<Float> cir) {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            if (attributeMap != null) {
+                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
+                entity.refreshDimensions();
+                if (widthScale != 1)
+                    cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
+            }
+        }
+    }
+
+//    @Inject(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;)F", at = @At("HEAD"), cancellable = true)
+//    public void getEyeHeight(CallbackInfoReturnable<Double> cir) {
+//        Entity entity = (Entity) (Object) this;
+//
+//        if (entity instanceof LivingEntity livingEntity) {
+//            AttributeMap attributeMap = livingEntity.getAttributes();
+//
+//            if (attributeMap != null) {
+//                double customEyeHeightScale = attributeMap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE);
+//                double heightScale = attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
+//                double defaultEyeHeight = cir.getReturnValue();
+//                double scaledEyeHeight = defaultEyeHeight * heightScale * customEyeHeightScale;
+//
+//                livingEntity.refreshDimensions();
+//                cir.setReturnValue(scaledEyeHeight);
+//            }
+//        }
+//    }
 
     @Unique
     public int marioverse$getWarpCooldown() {
