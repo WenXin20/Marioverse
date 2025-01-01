@@ -215,7 +215,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
             } else spawnItem(world, pos, stack, dropItemsAtPos);
-        } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
+        } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()
+                && !(stack.getItem() instanceof BasePowerUpItem)) {
             EntityType<?> entityType = spawnEgg.getType(stack);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {

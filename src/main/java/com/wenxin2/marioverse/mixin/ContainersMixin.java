@@ -107,7 +107,8 @@ public class ContainersMixin {
                 entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
                 stack.copyWithCount(1);
             } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs) {
+        } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs
+                && !(stack.getItem() instanceof BasePowerUpItem)) {
             EntityType<?> entityType = spawnEgg.getType(stack);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(cannotSpawn)) {
