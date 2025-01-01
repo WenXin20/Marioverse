@@ -43,6 +43,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Containers.class)
 public class ContainersMixin {
 
+    private static int stackCount = 0;
+
     @Inject(method = "dropContents(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/Container;)V", at = @At("HEAD"))
     private static void dropContents(Level world, double x, double y, double z, Container container, CallbackInfo ci) {
         if (container instanceof DecoratedPotBlockEntity decoratedPotBE && !ConfigRegistry.DISABLE_DECORATED_POT_TWEAKS.get()) {
@@ -65,9 +67,12 @@ public class ContainersMixin {
             }
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
-                marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
-                        ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
-                        TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
+                stackCount = questionBE.getStackInSlot().getCount();
+                for (int j = 0; j < questionBE.getStackInSlot().getCount(); j++) {
+                    marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
+                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                            TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
+                }
 
                 if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                     marioverse$playCoinSound(world, new BlockPos((int) x, (int) y, (int) z));
@@ -84,7 +89,10 @@ public class ContainersMixin {
                 else if (container.getItem(i).getItem() instanceof MinecartItem)
                     marioverse$playMinecartSound(world, new BlockPos((int) x, (int) y, (int) z));
                 else marioverse$playItemSound(world, new BlockPos((int) x, (int) y, (int) z));
-                questionBE.removeItems();
+
+                for (int j = 0; j < stackCount; j++) {
+                    questionBE.removeItems();
+                }
             }
         }
     }
