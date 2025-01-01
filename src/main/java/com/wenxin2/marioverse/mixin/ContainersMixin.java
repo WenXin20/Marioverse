@@ -43,14 +43,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Containers.class)
 public class ContainersMixin {
 
-    private static int stackCount = 0;
-
     @Inject(method = "dropContents(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/Container;)V", at = @At("HEAD"))
     private static void dropContents(Level world, double x, double y, double z, Container container, CallbackInfo ci) {
+        int marioverse$stackCount = 0;
         if (container instanceof DecoratedPotBlockEntity decoratedPotBE && !ConfigRegistry.DISABLE_DECORATED_POT_TWEAKS.get()) {
             for (int i = 0; i < container.getContainerSize(); i++) {
-                stackCount = decoratedPotBE.getTheItem().getCount();
-                for (int j = 0; j < stackCount; j++) {
+                marioverse$stackCount = decoratedPotBE.getTheItem().getCount();
+                for (int j = 0; j < marioverse$stackCount; j++) {
                     marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
                             ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
                             TagRegistry.DECORATED_POT_CANNOT_SPAWN);
@@ -71,8 +70,8 @@ public class ContainersMixin {
             }
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
-                stackCount = questionBE.getStackInSlot().getCount();
-                for (int j = 0; j < stackCount; j++) {
+                marioverse$stackCount = questionBE.getStackInSlot().getCount();
+                for (int j = 0; j < marioverse$stackCount; j++) {
                     marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
                             TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
@@ -94,7 +93,7 @@ public class ContainersMixin {
                     marioverse$playMinecartSound(world, new BlockPos((int) x, (int) y, (int) z));
                 else marioverse$playItemSound(world, new BlockPos((int) x, (int) y, (int) z));
 
-                for (int j = 0; j < stackCount; j++)
+                for (int j = 0; j < marioverse$stackCount; j++)
                     questionBE.removeItems();
             }
         }
