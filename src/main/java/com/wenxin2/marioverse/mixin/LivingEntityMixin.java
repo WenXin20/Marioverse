@@ -162,11 +162,6 @@ public abstract class LivingEntityMixin extends Entity {
             marioverse$oneUpsRewarded = 0;
         }
 
-        if (!hasSuperStar && (marioverse$consecutiveBounces > 0 || marioverse$oneUpsRewarded > 0)) {
-            marioverse$consecutiveBounces = 0;
-            marioverse$oneUpsRewarded = 0;
-        }
-
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
 
@@ -336,7 +331,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
-    private void modifyDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+    private void getDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (pose != Pose.SLEEPING) {
