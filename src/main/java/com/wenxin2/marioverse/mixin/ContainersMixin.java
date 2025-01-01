@@ -49,9 +49,12 @@ public class ContainersMixin {
     private static void dropContents(Level world, double x, double y, double z, Container container, CallbackInfo ci) {
         if (container instanceof DecoratedPotBlockEntity decoratedPotBE && !ConfigRegistry.DISABLE_DECORATED_POT_TWEAKS.get()) {
             for (int i = 0; i < container.getContainerSize(); i++) {
-                marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
-                        ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
-                        TagRegistry.DECORATED_POT_CANNOT_SPAWN);
+                stackCount = decoratedPotBE.getTheItem().getCount();
+                for (int j = 0; j < stackCount; j++) {
+                    marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
+                            ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
+                            TagRegistry.DECORATED_POT_CANNOT_SPAWN);
+                }
 
                 if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                     marioverse$playCoinSound(world, new BlockPos((int) x, (int) y, (int) z));
@@ -63,12 +66,13 @@ public class ContainersMixin {
                     marioverse$playBoatSound(world, new BlockPos((int) x, (int) y, (int) z));
                 else if (container.getItem(i).getItem() instanceof MinecartItem)
                     marioverse$playMinecartSound(world, new BlockPos((int) x, (int) y, (int) z));
+
                 decoratedPotBE.removeTheItem();
             }
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
                 stackCount = questionBE.getStackInSlot().getCount();
-                for (int j = 0; j < questionBE.getStackInSlot().getCount(); j++) {
+                for (int j = 0; j < stackCount; j++) {
                     marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
                             TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
@@ -90,9 +94,8 @@ public class ContainersMixin {
                     marioverse$playMinecartSound(world, new BlockPos((int) x, (int) y, (int) z));
                 else marioverse$playItemSound(world, new BlockPos((int) x, (int) y, (int) z));
 
-                for (int j = 0; j < stackCount; j++) {
+                for (int j = 0; j < stackCount; j++)
                     questionBE.removeItems();
-                }
             }
         }
     }
