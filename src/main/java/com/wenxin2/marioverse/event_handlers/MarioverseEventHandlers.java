@@ -139,15 +139,15 @@ public class MarioverseEventHandlers {
 
                     if (eyeHeightScale != null) {
                         if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            eyeHeightScale.addTransientModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
+                            eyeHeightScale.addPermanentModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (heightScale != null) {
                         if (!heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            heightScale.addTransientModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
+                            heightScale.addPermanentModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (widthScale != null) {
                         if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            widthScale.addTransientModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
+                            widthScale.addPermanentModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
                 }
             }
@@ -219,15 +219,15 @@ public class MarioverseEventHandlers {
 
                     if (eyeHeightScale != null) {
                         if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            eyeHeightScale.addTransientModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
+                            eyeHeightScale.addPermanentModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (heightScale != null) {
                         if (!heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            heightScale.addTransientModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
+                            heightScale.addPermanentModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
                     }
                     if (widthScale != null) {
                         if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            widthScale.addTransientModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
+                            widthScale.addPermanentModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
                 }
             }
