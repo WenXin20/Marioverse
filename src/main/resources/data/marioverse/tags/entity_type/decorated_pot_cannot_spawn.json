@@ -1,0 +1,5 @@
+{
+  "_comment": "Blacklist to prevent entities spawning from Decorated Pots when broken",
+  "replace": false,
+  "values": []
+}

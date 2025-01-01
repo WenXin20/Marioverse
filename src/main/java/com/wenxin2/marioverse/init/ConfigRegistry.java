@@ -23,7 +23,8 @@ public class ConfigRegistry
     public static final String CATEGORY_POWER_UPS = "power_ups";
     public static final String CATEGORY_TELEPORTATION = "teleportation";
 
-    public static final String CATEGORY_QUESTION_BLOCK = "question_block";
+    public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
+    public static final String CATEGORY_QUESTION_BLOCK = "question_blocks";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
     public static final String CATEGORY_WARP_TRAPDOORS = "warp_trapdoors";
@@ -57,7 +58,10 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DEBUG_WATER_SPOUT_SELECTION_BOX;
+    public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
+    public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
+    public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
@@ -147,6 +151,21 @@ public class ConfigRegistry
         BUILDER.push(CATEGORY_COMMON);
 
             BUILDER.push(CATEGORY_BLOCKS);
+
+                BUILDER.push(CATEGORY_DECORATED_POTS);
+                    DISABLE_DECORATED_POT_TWEAKS = BUILDER.translation("configuration.marioverse.disable_decorated_pot_tweaks")
+                            .comment("Disables mob & power up spawning from decorated pots.")
+                            .comment("§9[Default: false]")
+                            .define("disable_decorated_pot_tweaks", false);
+                    DECORATED_POT_SPAWNS_POWER_UPS = BUILDER.translation("configuration.marioverse.decorated_pot_spawns_power_ups")
+                            .comment("Allow decorated pots to spawn power ups when broken.")
+                            .comment("§9[Default: true]")
+                            .define("decorated_pot_spawns_power_ups", true);
+                    DECORATED_POT_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.decorated_pot_spawns_mobs")
+                            .comment("Allow decorated pots to spawn mobs when broken.")
+                            .comment("§9[Default: true]")
+                            .define("decorated_pot_spawns_mobs", true);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCK);
                     QUESTION_SPAWNS_POWER_UPS = BUILDER.translation("configuration.marioverse.question_spawns_power_ups")
