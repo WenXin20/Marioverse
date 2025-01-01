@@ -20,8 +20,7 @@
     "GeoEntityRendererMixin",
     "HumanoidArmorLayerMixin",
     "LivingEntityClientMixin",
-    "LivingEntityRendererMixin",
-    "PlayerRendererMixin"
+    "LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
