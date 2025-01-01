@@ -94,7 +94,7 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null);
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);
@@ -168,7 +168,7 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                     if (!storedItem.isEmpty()) {
                         if (!world.isClientSide)
-                            this.spawnFromQuestionBlock(world, pos, storedItem, null);
+                            this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
                         if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                             this.playCoinSound(world, pos);
@@ -199,20 +199,23 @@ public class QuestionBlock extends Block implements EntityBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    public void spawnFromQuestionBlock(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock) {
+    public void spawnFromQuestionBlock(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos, boolean applyUpMotion) {
         if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get()) {
             EntityType<?> entityType = powerUpItem.getType(stack);
 
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                 if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                    if (entity != null) {
+                    if (entity != null && applyUpMotion) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                         entity.move(MoverType.SELF, entity.getDeltaMovement());
                     }
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
+            } else if (dropItemsAtPos) {
+                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
+                world.addFreshEntity(itemEntity);
             } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
                 world.addFreshEntity(itemEntity);
@@ -226,13 +229,16 @@ public class QuestionBlock extends Block implements EntityBlock {
             if (world instanceof ServerLevel serverWorld && !entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                 if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                     Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                    if (entity != null) {
+                    if (entity != null && applyUpMotion) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                         entity.move(MoverType.SELF, entity.getDeltaMovement());
                     }
                 }
                 else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
                 stack.copyWithCount(1);
+            } else if (dropItemsAtPos) {
+                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
+                world.addFreshEntity(itemEntity);
             } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
                 world.addFreshEntity(itemEntity);
@@ -279,7 +285,10 @@ public class QuestionBlock extends Block implements EntityBlock {
                 && entityHitBlock instanceof Player player && world instanceof ServerLevel) {
             player.addItem(stack.copyWithCount(1));
         } else {
-            if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+            if (dropItemsAtPos) {
+                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
+                world.addFreshEntity(itemEntity);
+            } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
                 world.addFreshEntity(itemEntity);
             } else {
@@ -305,12 +314,12 @@ public class QuestionBlock extends Block implements EntityBlock {
         world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
-    public void playMobSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
     public void playMinecartSound(Level world, BlockPos pos) {
         world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    public void playMobSound(Level world, BlockPos pos) {
+        world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     public void playPowerUpSound(Level world, BlockPos pos) {

@@ -8,8 +8,6 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +18,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
@@ -111,7 +108,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null);
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);
@@ -179,7 +176,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null);
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
                     if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
                         this.playCoinSound(world, pos);
