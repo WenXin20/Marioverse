@@ -338,8 +338,11 @@ public abstract class LivingEntityMixin extends Entity {
             float eyeHeightScale = (float) entity.getAttributeValue(AttributesRegistry.EYE_HEIGHT_SCALE);
             float heightScale = (float) entity.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
 
-            float scaledHeight = cir.getReturnValue().height();
-            float scaledWidth = cir.getReturnValue().width();
+            float scaledHeight;
+            if (heightScale <= 1)
+                scaledHeight = cir.getReturnValue().height();
+            else scaledHeight = cir.getReturnValue().height() * heightScale;
+
             float adjustedEyeHeight = cir.getReturnValue().eyeHeight() * eyeHeightScale * (scaledHeight / cir.getReturnValue().height());
 
             EntityDimensions customDimensions = EntityDimensions.scalable(
