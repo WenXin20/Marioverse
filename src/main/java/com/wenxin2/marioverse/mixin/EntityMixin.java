@@ -24,6 +24,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -172,6 +174,42 @@ public abstract class EntityMixin {
                 entity.refreshDimensions();
                 if (widthScale != 1)
                     cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
+            }
+        }
+    }
+
+    @Inject(method = "isInWall", at = @At("HEAD"), cancellable = true)
+    public void modifyIsInWall(CallbackInfoReturnable<Boolean> cir) {
+        Entity entity = (Entity) (Object) this;
+        if (entity.noPhysics) {
+            cir.setReturnValue(false);
+            return;
+        }
+
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            if (attributeMap != null) {
+                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
+
+                if (widthScale != 1.0F) {
+                    float scaledWidth = entity.getDimensions(entity.getPose()).width() * 0.8F * widthScale;
+                    AABB aabb = AABB.ofSize(entity.getEyePosition(), scaledWidth, 1.0E-6, scaledWidth);
+
+                    boolean isInWall = BlockPos.betweenClosedStream(aabb)
+                            .anyMatch(
+                                    pos -> {
+                                        BlockState blockState = entity.level().getBlockState(pos);
+                                        return !blockState.isAir()
+                                                && blockState.isSuffocating(entity.level(), pos)
+                                                && Shapes.joinIsNotEmpty(
+                                                blockState.getCollisionShape(entity.level(), pos)
+                                                        .move(pos.getX(), pos.getY(), pos.getZ()),
+                                                Shapes.create(aabb), BooleanOp.AND
+                                        );
+                                    }
+                            );
+                    cir.setReturnValue(isInWall);
+                } else cir.setReturnValue(cir.getReturnValue());
             }
         }
     }
