@@ -129,6 +129,14 @@ public class MarioverseEventHandlers {
                     AttributeInstance heightScale = player.getAttribute(AttributesRegistry.HEIGHT_SCALE);
                     AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
+                    if (eyeHeightScale != null && heightScale != null && widthScale != null) {
+                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id())
+                                && !heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id())
+                                && !widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                            world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                    SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
+
                     if (eyeHeightScale != null) {
                         if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             eyeHeightScale.addTransientModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
@@ -141,8 +149,6 @@ public class MarioverseEventHandlers {
                         if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                             widthScale.addTransientModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
-                    world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
             }
 
@@ -203,6 +209,14 @@ public class MarioverseEventHandlers {
                     AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
                     AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
+                    if (eyeHeightScale != null && heightScale != null && widthScale != null) {
+                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id())
+                                && !heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id())
+                                && !widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
+                            world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                                    SoundSource.HOSTILE, 1.0F, 1.0F);
+                    }
+
                     if (eyeHeightScale != null) {
                         if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
                             eyeHeightScale.addTransientModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
@@ -215,8 +229,6 @@ public class MarioverseEventHandlers {
                         if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
                             widthScale.addTransientModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
                     }
-                    world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                            SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
             }
 
