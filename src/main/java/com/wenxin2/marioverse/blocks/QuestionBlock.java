@@ -190,13 +190,19 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EntityType<?> entityType = powerUpItem.getType(stack);
 
                 if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                             entity.move(MoverType.SELF, entity.getDeltaMovement());
                         }
-                    } else if (entity != null) entity.setPos(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ());
+                    } else {
+                        Entity entity = entityType.create(serverWorld);
+                        if (entity != null)
+                            entityType.spawn(serverWorld, stack, null,
+                                    BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
+                                    MobSpawnType.SPAWN_EGG, true, false);
+                    }
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()
@@ -204,13 +210,19 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EntityType<?> entityType = spawnEgg.getType(stack);
 
                 if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                             entity.move(MoverType.SELF, entity.getDeltaMovement());
                         }
-                    } else if (entity != null) entity.setPos(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ());
+                    } else {
+                        Entity entity = entityType.create(serverWorld);
+                        if (entity != null)
+                            entityType.spawn(serverWorld, stack, null,
+                                    BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
+                                    MobSpawnType.SPAWN_EGG, true, false);
+                    }
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof ArmorStandItem) {
