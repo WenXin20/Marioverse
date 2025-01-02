@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
-import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import javax.annotation.Nullable;
@@ -52,11 +51,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
     public BouncingFireballProjectile(EntityType<? extends BouncingFireballProjectile> entityType, Level world) {
         super(entityType, world);
-    }
-
-    public BouncingFireballProjectile(Level world, double x, double y, double z) {
-        this(EntityRegistry.BOUNCING_FIREBALL.get(), world);
-        this.setPos(x, y, z);
     }
 
     @Override
