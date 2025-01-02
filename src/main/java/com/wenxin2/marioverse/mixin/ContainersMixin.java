@@ -22,6 +22,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
@@ -37,6 +38,7 @@ import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
+import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
@@ -64,7 +66,7 @@ public class ContainersMixin {
         if (container instanceof DecoratedPotBlockEntity decoratedPotBE && !ConfigRegistry.DISABLE_DECORATED_POT_TWEAKS.get()) {
             for (int i = 0; i < container.getContainerSize(); i++) {
 
-                marioverse$playSounds(world, decoratedPotBE.getBlockPos(), container.getItem(i));
+                marioverse$playSounds(world, decoratedPotBE.getBlockPos(), container.getItem(i), decoratedPotBE);
 
                 marioverse$stackCount = decoratedPotBE.getTheItem().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
@@ -78,7 +80,7 @@ public class ContainersMixin {
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
 
-                marioverse$playSounds(world, questionBE.getBlockPos(), container.getItem(i));
+                marioverse$playSounds(world, questionBE.getBlockPos(), container.getItem(i), questionBE);
 
                 marioverse$stackCount = questionBE.getStackInSlot().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
@@ -199,6 +201,14 @@ public class ContainersMixin {
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof FireworkRocketItem) {
+                FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
+
+                if (!firework.getType().is(cannotSpawn)) {
+                    firework.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(firework);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() instanceof EggItem) {
                 ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
@@ -224,7 +234,7 @@ public class ContainersMixin {
     }
 
     @Unique
-    private static void marioverse$playSounds(Level world, BlockPos pos, ItemStack stack) {
+    private static void marioverse$playSounds(Level world, BlockPos pos, ItemStack stack, Container container) {
         if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
             world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
@@ -251,6 +261,7 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof WindChargeItem)
             world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
+            world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

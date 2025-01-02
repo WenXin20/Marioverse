@@ -24,6 +24,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
@@ -40,6 +41,7 @@ import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
+import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
@@ -330,6 +332,16 @@ public class QuestionBlock extends Block implements EntityBlock {
                     endCrystal.setShowBottom(false);
                     world.addFreshEntity(endCrystal);
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
+                    stack.copyWithCount(1);
+                } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof FireworkRocketItem) {
+                FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
+
+                if (!firework.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                        firework.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    else firework.setPos(pos.getX() + 0.5D, pos.getY() - firework.getBbHeight(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(firework);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof EggItem) {
