@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -33,6 +35,7 @@ import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
@@ -195,6 +198,15 @@ public class ContainersMixin {
                     fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     fireball.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(fireball);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof ThrowablePotionItem) {
+                ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+
+                if (!potion.getType().is(cannotSpawn)) {
+                    potion.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+                    potion.setItem(stack);
+                    world.addFreshEntity(potion);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
             } else marioverse$spawnItem(world, pos, stack);

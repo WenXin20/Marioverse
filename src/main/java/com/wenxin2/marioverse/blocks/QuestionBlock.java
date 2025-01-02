@@ -24,6 +24,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -317,6 +319,17 @@ public class QuestionBlock extends Block implements EntityBlock {
                         fireball.setDeltaMovement(new Vec3(0, -0.5, 0));
                     }
                     world.addFreshEntity(fireball);
+                    stack.copyWithCount(1);
+                } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof ThrowablePotionItem) {
+                ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+
+                if (!potion.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                        potion.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    else potion.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, potion.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                    potion.setItem(stack);
+                    world.addFreshEntity(potion);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else spawnItem(world, pos, stack, dropItemsAtPos);
