@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.init;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
+import com.wenxin2.marioverse.items.FireFlowerItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -51,7 +52,7 @@ public class ItemRegistry {
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
 
         FIRE_FLOWER = registerItem("fire_flower",
-                () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new FireFlowerItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_HAT = registerItem("fire_hat",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
         FIRE_SHIRT = registerItem("fire_shirt",
