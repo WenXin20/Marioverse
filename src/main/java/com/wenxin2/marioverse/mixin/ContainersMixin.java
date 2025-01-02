@@ -193,6 +193,8 @@ public class ContainersMixin {
 
                 if (!endCrystal.getType().is(cannotSpawn)) {
                     endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+                    endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    endCrystal.setShowBottom(false);
                     world.addFreshEntity(endCrystal);
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);

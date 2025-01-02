@@ -190,13 +190,13 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EntityType<?> entityType = powerUpItem.getType(stack);
 
                 if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
-                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                             entity.move(MoverType.SELF, entity.getDeltaMovement());
                         }
-                    } else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
+                    } else if (entity != null) entity.setPos(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ());
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()
@@ -204,13 +204,13 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EntityType<?> entityType = spawnEgg.getType(stack);
 
                 if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
-                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                             entity.move(MoverType.SELF, entity.getDeltaMovement());
                         }
-                    } else entityType.spawn(serverWorld, stack, null, pos.below((int) Math.max(1, entityType.getHeight())), MobSpawnType.SPAWN_EGG, true, true);
+                    } else if (entity != null) entity.setPos(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ());
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof ArmorStandItem) {
@@ -220,7 +220,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (armorStand != null && !armorStand.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else armorStand.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(2, armorStand.getType().getHeight())).getY(), pos.getZ() + 0.5D);
+                    else armorStand.setPos(pos.getX() + 0.5D, pos.getY() - armorStand.getType().getHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(armorStand);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
@@ -231,7 +231,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!abstractMinecart.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else abstractMinecart.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, abstractMinecart.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                    else abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() - abstractMinecart.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(abstractMinecart);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
@@ -242,7 +242,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!boat.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         boat.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else boat.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, boat.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                    else boat.setPos(pos.getX() + 0.5D, pos.getY() - boat.getBbHeight(), pos.getZ() + 0.5D);
                     boat.setVariant(boatItem.type);
                     world.addFreshEntity(boat);
                     stack.copyWithCount(1);
@@ -253,7 +253,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!primedtnt.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         primedtnt.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else primedtnt.setPos(pos.getX() + 0.5D, pos.getY() - (int) Math.max(1, primedtnt.getBbHeight()), pos.getZ() + 0.5D);
+                    else primedtnt.setPos(pos.getX() + 0.5D, pos.getY() - primedtnt.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(primedtnt);
                     stack.copyWithCount(1);
                     serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
@@ -279,7 +279,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!fireball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         fireball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else fireball.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, fireball.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                    else fireball.setPos(pos.getX() + 0.5D, pos.getY() - fireball.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(fireball);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
@@ -289,7 +289,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!potion.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         potion.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else potion.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, potion.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                    else potion.setPos(pos.getX() + 0.5D, pos.getY() - potion.getBbHeight(), pos.getZ() + 0.5D);
                     potion.setItem(stack);
                     world.addFreshEntity(potion);
                     stack.copyWithCount(1);
@@ -311,7 +311,11 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!endCrystal.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
+                    else {
+                        endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
+                        endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    }
+                    endCrystal.setShowBottom(false);
                     world.addFreshEntity(endCrystal);
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);
@@ -322,7 +326,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                 if (!egg.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
                     if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         egg.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else egg.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, egg.getBbHeight())).getY(), pos.getZ() + 0.5D);
+                    else egg.setPos(pos.getX() + 0.5D, pos.getY() - egg.getBbHeight(), pos.getZ() + 0.5D);
                     egg.setItem(stack);
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
