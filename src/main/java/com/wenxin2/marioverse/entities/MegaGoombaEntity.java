@@ -1,12 +1,10 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
-import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -23,8 +20,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -102,17 +97,10 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
                     double zOffset = Math.sin(angle) * width;
                     double upwardMotion = 0.2 + this.random.nextDouble() * 0.2;
 
-                    AttributeInstance eyeHeightScale = this.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                    AttributeInstance heightScale = this.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                    AttributeInstance widthScale = this.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
                     GoombaEntity goomba = EntityRegistry.HEFTY_GOOMBA.get().create(this.level());
                     if (goomba != null) {
                         if (this.isPersistenceRequired())
                             goomba.setPersistenceRequired();
-
-                        AttributeInstance goombaHeightScale = goomba.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                        AttributeInstance goombaWidthScale = goomba.getAttribute(AttributesRegistry.WIDTH_SCALE);
 
                         goomba.setCustomName(component);
                         goomba.setNoAi(flag);
@@ -120,24 +108,6 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
                         goomba.moveTo(this.getX() + xOffset, this.getY() + 0.5, this.getZ() + zOffset, this.random.nextFloat() * 360.0F, 0.0F);
                         goomba.setDeltaMovement(xOffset * 0.3, upwardMotion, zOffset * 0.3);
                         goomba.move(MoverType.SELF, goomba.getDeltaMovement());
-
-                        if (heightScale != null && heightScale.getValue() != 1) {
-                            AttributeModifier heightScaleModifier = new AttributeModifier(
-                                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "height_scale_goomba_modifier"),
-                                    heightScale.getValue(), AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-
-                            if (goombaHeightScale != null && !goombaHeightScale.hasModifier(heightScaleModifier.id()))
-                                goombaHeightScale.addTransientModifier(heightScaleModifier);
-                        }
-
-                        if (widthScale != null && widthScale.getValue() != 1) {
-                            AttributeModifier widthScaleModifier = new AttributeModifier(
-                                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "width_scale_goomba_modifier"),
-                                    widthScale.getValue(), AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-
-                            if (goombaWidthScale != null)
-                                goombaWidthScale.addTransientModifier(widthScaleModifier);
-                        }
 
                         spawnedGoombas.add(goomba);
                     }
