@@ -21,19 +21,24 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
+import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,53 +50,67 @@ public class ContainersMixin {
 
     @Inject(method = "dropContents(Lnet/minecraft/world/level/Level;DDDLnet/minecraft/world/Container;)V", at = @At("HEAD"))
     private static void dropContents(Level world, double x, double y, double z, Container container, CallbackInfo ci) {
-        int marioverse$stackCount = 0;
+        int marioverse$stackCount;
         if (container instanceof DecoratedPotBlockEntity decoratedPotBE && !ConfigRegistry.DISABLE_DECORATED_POT_TWEAKS.get()) {
             for (int i = 0; i < container.getContainerSize(); i++) {
+
+                if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                    marioverse$playCoinSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+                    marioverse$playPrimedTNTSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof ArmorStandItem)
+                    marioverse$playArmorStandSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof BasePowerUpItem)
+                    marioverse$playPowerUpSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof BoatItem)
+                    marioverse$playBoatSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof FireChargeItem)
+                    marioverse$playFireChargeSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof MinecartItem)
+                    marioverse$playMinecartSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof SpawnEggItem)
+                    marioverse$playMobSound(world, decoratedPotBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof WindChargeItem)
+                    marioverse$playWindChargeSound(world, decoratedPotBE.getBlockPos());
+
                 marioverse$stackCount = decoratedPotBE.getTheItem().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
-                    marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
+                    marioverse$spawnFromContainer(world, decoratedPotBE.getBlockPos(), container.getItem(i), null,
                             ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
                             TagRegistry.DECORATED_POT_CANNOT_SPAWN);
                 }
-
-                if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    marioverse$playCoinSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                    marioverse$playPrimedTNTSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof ArmorStandItem)
-                    marioverse$playArmorStandSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof BoatItem)
-                    marioverse$playBoatSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof MinecartItem)
-                    marioverse$playMinecartSound(world, new BlockPos((int) x, (int) y, (int) z));
 
                 decoratedPotBE.removeTheItem();
             }
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
+
+                if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                    marioverse$playCoinSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+                    marioverse$playPrimedTNTSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof ArmorStandItem)
+                    marioverse$playArmorStandSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof BasePowerUpItem)
+                    marioverse$playPowerUpSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof BoatItem)
+                    marioverse$playBoatSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof FireChargeItem)
+                    marioverse$playFireChargeSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof MinecartItem)
+                    marioverse$playMinecartSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof SpawnEggItem)
+                    marioverse$playMobSound(world, questionBE.getBlockPos());
+                else if (container.getItem(i).getItem() instanceof WindChargeItem)
+                    marioverse$playWindChargeSound(world, questionBE.getBlockPos());
+                else if (!container.getItem(i).isEmpty()) marioverse$playItemSound(world, questionBE.getBlockPos());
+
                 marioverse$stackCount = questionBE.getStackInSlot().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
-                    marioverse$spawnFromContainer(world, new BlockPos((int) x, (int) y, (int) z), container.getItem(i), null,
+                    marioverse$spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i), null,
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
                             TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
                 }
-
-                if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    marioverse$playCoinSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                    marioverse$playPrimedTNTSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof BasePowerUpItem)
-                    marioverse$playPowerUpSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof SpawnEggItem)
-                    marioverse$playMobSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof ArmorStandItem)
-                    marioverse$playArmorStandSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof BoatItem)
-                    marioverse$playBoatSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else if (container.getItem(i).getItem() instanceof MinecartItem)
-                    marioverse$playMinecartSound(world, new BlockPos((int) x, (int) y, (int) z));
-                else marioverse$playItemSound(world, new BlockPos((int) x, (int) y, (int) z));
 
                 for (int j = 0; j < marioverse$stackCount; j++)
                     questionBE.removeItems();
@@ -102,62 +121,84 @@ public class ContainersMixin {
     @Unique
     private static void marioverse$spawnFromContainer(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean spawnMobs, boolean spawnPowerUps,
                                                       TagKey<EntityType<?>> cannotSpawn) {
-        if (stack.getItem() instanceof BasePowerUpItem powerUpItem && spawnPowerUps) {
-            EntityType<?> entityType = powerUpItem.getType(stack);
+        if (world instanceof ServerLevel serverWorld) {
+            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && spawnPowerUps) {
+                EntityType<?> entityType = powerUpItem.getType(stack);
 
-            if (world instanceof ServerLevel serverWorld && !entityType.is(cannotSpawn)) {
-                entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
-                stack.copyWithCount(1);
-            } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs
-                && !(stack.getItem() instanceof BasePowerUpItem)) {
-            EntityType<?> entityType = spawnEgg.getType(stack);
+                if (!entityType.is(cannotSpawn)) {
+                    entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs
+                    && !(stack.getItem() instanceof BasePowerUpItem)) {
+                EntityType<?> entityType = spawnEgg.getType(stack);
 
-            if (world instanceof ServerLevel serverWorld && !entityType.is(cannotSpawn)) {
-                entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
-                stack.copyWithCount(1);
-            } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof ArmorStandItem && world instanceof ServerLevel serverWorld) {
-            Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
-            ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
+                if (!entityType.is(cannotSpawn)) {
+                    entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof ArmorStandItem) {
+                Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
+                ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
 
-            if (armorStand != null && !armorStand.getType().is(cannotSpawn)) {
-                armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                world.addFreshEntity(armorStand);
-                stack.copyWithCount(1);
-            } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof MinecartItem cart && world instanceof ServerLevel serverWorld) {
-            AbstractMinecart abstractMinecart =
-                    AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, cart.type, stack, null);
+                if (armorStand != null && !armorStand.getType().is(cannotSpawn)) {
+                    armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(armorStand);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof MinecartItem cart) {
+                AbstractMinecart abstractMinecart =
+                        AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, cart.type, stack, null);
 
-            if (!abstractMinecart.getType().is(cannotSpawn)) {
-                abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                world.addFreshEntity(abstractMinecart);
-                stack.copyWithCount(1);
-            } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof BoatItem boatItem && world instanceof ServerLevel serverWorld) {
-            Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D)
-                    : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                if (!abstractMinecart.getType().is(cannotSpawn)) {
+                    abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(abstractMinecart);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof BoatItem boatItem) {
+                Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D)
+                        : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
 
-            if (!boat.getType().is(cannotSpawn)) {
-                boat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                boat.setVariant(boatItem.type);
-                world.addFreshEntity(boat);
-                stack.copyWithCount(1);
-            } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock && world instanceof ServerLevel serverWorld) {
-            PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
+                if (!boat.getType().is(cannotSpawn)) {
+                    boat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    boat.setVariant(boatItem.type);
+                    world.addFreshEntity(boat);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
+                PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
 
-            if (!primedtnt.getType().is(cannotSpawn)) {
-                primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                world.addFreshEntity(primedtnt);
-                stack.copyWithCount(1);
-                serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
+                if (!primedtnt.getType().is(cannotSpawn)) {
+                    primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(primedtnt);
+                    stack.copyWithCount(1);
+                    serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
+                    && entityHitBlock instanceof Player player) {
+                player.addItem(stack.copyWithCount(1));
+            } else if (stack.getItem() instanceof WindChargeItem) {
+                WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+                        new Vec3(0, 0, 0));
+
+                if (!windCharge.getType().is(cannotSpawn)) {
+                    windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    windCharge.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    world.addFreshEntity(windCharge);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof FireChargeItem) {
+                SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+                        new Vec3(0, 0, 0));
+
+                if (!fireball.getType().is(cannotSpawn)) {
+                    fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    fireball.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    world.addFreshEntity(fireball);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
             } else marioverse$spawnItem(world, pos, stack);
-        } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
-                && entityHitBlock instanceof Player player && world instanceof ServerLevel) {
-            player.addItem(stack.copyWithCount(1));
-        } else marioverse$spawnItem(world, pos, stack);
+        }
     }
 
     @Unique
@@ -192,6 +233,11 @@ public class ContainersMixin {
     }
 
     @Unique
+    private static void marioverse$playFireChargeSound(Level world, BlockPos pos) {
+        world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    @Unique
     private static void marioverse$playMinecartSound(Level world, BlockPos pos) {
         world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
@@ -209,5 +255,10 @@ public class ContainersMixin {
     @Unique
     private static void marioverse$playPrimedTNTSound(Level world, BlockPos pos) {
         world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    @Unique
+    private static void marioverse$playWindChargeSound(Level world, BlockPos pos) {
+        world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

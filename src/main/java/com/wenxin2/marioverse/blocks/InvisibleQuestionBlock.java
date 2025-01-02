@@ -18,9 +18,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
+import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -114,16 +116,20 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                         this.playCoinSound(world, pos);
                     else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
                         this.playPrimedTNTSound(world, pos);
-                    else if (storedItem.getItem() instanceof BasePowerUpItem)
-                        this.playPowerUpSound(world, pos);
-                    else if (storedItem.getItem() instanceof SpawnEggItem)
-                        this.playMobSound(world, pos);
                     else if (storedItem.getItem() instanceof ArmorStandItem)
                         this.playArmorStandSound(world, pos);
+                    else if (storedItem.getItem() instanceof BasePowerUpItem)
+                        this.playPowerUpSound(world, pos);
                     else if (storedItem.getItem() instanceof BoatItem)
                         this.playBoatSound(world, pos);
+                    else if (storedItem.getItem() instanceof FireChargeItem)
+                        this.playFireChargeSound(world, pos);
                     else if (storedItem.getItem() instanceof MinecartItem)
                         this.playMinecartSound(world, pos);
+                    else if (storedItem.getItem() instanceof SpawnEggItem)
+                        this.playMobSound(world, pos);
+                    else if (storedItem.getItem() instanceof WindChargeItem)
+                        this.playWindChargeSound(world, pos);
                     else this.playItemSound(world, pos);
 
                     questionBlockEntity.removeItems();
@@ -182,16 +188,20 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                         this.playCoinSound(world, pos);
                     else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
                         this.playPrimedTNTSound(world, pos);
-                    else if (storedItem.getItem() instanceof BasePowerUpItem)
-                        this.playPowerUpSound(world, pos);
-                    else if (storedItem.getItem() instanceof SpawnEggItem)
-                        this.playMobSound(world, pos);
                     else if (storedItem.getItem() instanceof ArmorStandItem)
                         this.playArmorStandSound(world, pos);
+                    else if (storedItem.getItem() instanceof BasePowerUpItem)
+                        this.playPowerUpSound(world, pos);
                     else if (storedItem.getItem() instanceof BoatItem)
                         this.playBoatSound(world, pos);
+                    else if (storedItem.getItem() instanceof FireChargeItem)
+                        this.playFireChargeSound(world, pos);
                     else if (storedItem.getItem() instanceof MinecartItem)
                         this.playMinecartSound(world, pos);
+                    else if (storedItem.getItem() instanceof SpawnEggItem)
+                        this.playMobSound(world, pos);
+                    else if (storedItem.getItem() instanceof WindChargeItem)
+                        this.playWindChargeSound(world, pos);
                     else this.playItemSound(world, pos);
 
                     questionBlockEntity.removeItems();

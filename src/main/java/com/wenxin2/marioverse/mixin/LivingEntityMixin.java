@@ -55,9 +55,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
+import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -489,16 +491,20 @@ public abstract class LivingEntityMixin extends Entity {
                     questionBlock.playCoinSound(world, pos);
                 else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
                     questionBlock.playPrimedTNTSound(world, pos);
-                else if (storedItem.getItem() instanceof BasePowerUpItem)
-                    questionBlock.playPowerUpSound(world, pos);
-                else if (storedItem.getItem() instanceof SpawnEggItem)
-                    questionBlock.playMobSound(world, pos);
                 else if (storedItem.getItem() instanceof ArmorStandItem)
                     questionBlock.playArmorStandSound(world, pos);
+                else if (storedItem.getItem() instanceof BasePowerUpItem)
+                    questionBlock.playPowerUpSound(world, pos);
                 else if (storedItem.getItem() instanceof BoatItem)
                     questionBlock.playBoatSound(world, pos);
+                else if (storedItem.getItem() instanceof FireChargeItem)
+                    questionBlock.playFireChargeSound(world, pos);
                 else if (storedItem.getItem() instanceof MinecartItem)
                     questionBlock.playMinecartSound(world, pos);
+                else if (storedItem.getItem() instanceof SpawnEggItem)
+                    questionBlock.playMobSound(world, pos);
+                else if (storedItem.getItem() instanceof WindChargeItem)
+                    questionBlock.playWindChargeSound(world, pos);
                 else questionBlock.playItemSound(world, pos);
 
                 if (!world.isClientSide)
