@@ -293,31 +293,23 @@ public class QuestionBlock extends Block implements EntityBlock {
                 player.addItem(stack.copyWithCount(1));
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, 0, 0));
+                        new Vec3(0, -0.5, 0));
 
                 if (!windCharge.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         windCharge.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        windCharge.setDeltaMovement(new Vec3(0, 0.5, 0));
-                    } else {
-                        windCharge.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, windCharge.getBbHeight())).getY(), pos.getZ() + 0.5D);
-                        windCharge.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                    else windCharge.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, windCharge.getBbHeight())).getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(windCharge);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof FireChargeItem) {
                 SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, 0, 0));
+                        new Vec3(0, -0.5, 0));
 
                 if (!fireball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
                         fireball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        fireball.setDeltaMovement(new Vec3(0, 0.5, 0));
-                    } else {
-                        fireball.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, fireball.getBbHeight())).getY(), pos.getZ() + 0.5D);
-                        fireball.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                    else fireball.setPos(pos.getX() + 0.5D, pos.below((int) Math.max(1, fireball.getBbHeight())).getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(fireball);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);

@@ -182,21 +182,19 @@ public class ContainersMixin {
                 player.addItem(stack.copyWithCount(1));
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, 0, 0));
+                        new Vec3(0, -0.5, 0));
 
                 if (!windCharge.getType().is(cannotSpawn)) {
                     windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    windCharge.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(windCharge);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() instanceof FireChargeItem) {
                 SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, 0, 0));
+                        new Vec3(0, -0.5, 0));
 
                 if (!fireball.getType().is(cannotSpawn)) {
                     fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    fireball.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(fireball);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
