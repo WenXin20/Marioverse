@@ -39,7 +39,9 @@ import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
@@ -107,26 +109,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                     if (!world.isClientSide)
                         this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
-                    if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                        this.playCoinSound(world, pos);
-                    else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                        this.playPrimedTNTSound(world, pos);
-                    else if (storedItem.getItem() instanceof ArmorStandItem)
-                        this.playArmorStandSound(world, pos);
-                    else if (storedItem.getItem() instanceof BasePowerUpItem)
-                        this.playPowerUpSound(world, pos);
-                    else if (storedItem.getItem() instanceof BoatItem)
-                        this.playBoatSound(world, pos);
-                    else if (storedItem.getItem() instanceof FireChargeItem)
-                        this.playFireChargeSound(world, pos);
-                    else if (storedItem.getItem() instanceof MinecartItem)
-                        this.playMinecartSound(world, pos);
-                    else if (storedItem.getItem() instanceof SpawnEggItem)
-                        this.playMobSound(world, pos);
-                    else if (storedItem.getItem() instanceof WindChargeItem)
-                        this.playWindChargeSound(world, pos);
-                    else this.playItemSound(world, pos);
-
+                    this.playSounds(world, pos, storedItem);
                     questionBlockEntity.removeItems();
                     questionBlockEntity.setChanged();
                 }
@@ -185,26 +168,7 @@ public class QuestionBlock extends Block implements EntityBlock {
                         if (!world.isClientSide)
                             this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
-                        if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                            this.playCoinSound(world, pos);
-                        else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                            this.playPrimedTNTSound(world, pos);
-                        else if (storedItem.getItem() instanceof ArmorStandItem)
-                            this.playArmorStandSound(world, pos);
-                        else if (storedItem.getItem() instanceof BasePowerUpItem)
-                            this.playPowerUpSound(world, pos);
-                        else if (storedItem.getItem() instanceof BoatItem)
-                            this.playBoatSound(world, pos);
-                        else if (storedItem.getItem() instanceof FireChargeItem)
-                            this.playFireChargeSound(world, pos);
-                        else if (storedItem.getItem() instanceof MinecartItem)
-                            this.playMinecartSound(world, pos);
-                        else if (storedItem.getItem() instanceof SpawnEggItem)
-                            this.playMobSound(world, pos);
-                        else if (storedItem.getItem() instanceof WindChargeItem)
-                            this.playWindChargeSound(world, pos);
-                        else this.playItemSound(world, pos);
-
+                        this.playSounds(world, pos, storedItem);
                         questionBlockEntity.removeItems();
                         questionBlockEntity.setChanged();
                     }
@@ -365,44 +329,34 @@ public class QuestionBlock extends Block implements EntityBlock {
         }
     }
 
-    public void playArmorStandSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playBoatSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playCoinSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playFireChargeSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playItemSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playMinecartSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playMobSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playPowerUpSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playPrimedTNTSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void playWindChargeSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+    public void playSounds(Level world, BlockPos pos, ItemStack stack) {
+        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+            world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+            world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof ArmorStandItem)
+            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof BasePowerUpItem)
+            world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof BoatItem)
+            world.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof EggItem)
+            world.playSound(null, pos, SoundEvents.EGG_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof ExperienceBottleItem)
+            world.playSound(null, pos, SoundEvents.EXPERIENCE_BOTTLE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof FireChargeItem)
+            world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof LingeringPotionItem)
+            world.playSound(null, pos, SoundEvents.LINGERING_POTION_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof MinecartItem)
+            world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof PotionItem)
+            world.playSound(null, pos, SoundEvents.SPLASH_POTION_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof SpawnEggItem)
+            world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof WindChargeItem)
+            world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {

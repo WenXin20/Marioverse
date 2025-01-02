@@ -37,7 +37,9 @@ import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
@@ -61,24 +63,7 @@ public class ContainersMixin {
         if (container instanceof DecoratedPotBlockEntity decoratedPotBE && !ConfigRegistry.DISABLE_DECORATED_POT_TWEAKS.get()) {
             for (int i = 0; i < container.getContainerSize(); i++) {
 
-                if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    marioverse$playCoinSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                    marioverse$playPrimedTNTSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof ArmorStandItem)
-                    marioverse$playArmorStandSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof BasePowerUpItem)
-                    marioverse$playPowerUpSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof BoatItem)
-                    marioverse$playBoatSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof FireChargeItem)
-                    marioverse$playFireChargeSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof MinecartItem)
-                    marioverse$playMinecartSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof SpawnEggItem)
-                    marioverse$playMobSound(world, decoratedPotBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof WindChargeItem)
-                    marioverse$playWindChargeSound(world, decoratedPotBE.getBlockPos());
+                marioverse$playSounds(world, decoratedPotBE.getBlockPos(), container.getItem(i));
 
                 marioverse$stackCount = decoratedPotBE.getTheItem().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
@@ -92,25 +77,7 @@ public class ContainersMixin {
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
 
-                if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    marioverse$playCoinSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                    marioverse$playPrimedTNTSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof ArmorStandItem)
-                    marioverse$playArmorStandSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof BasePowerUpItem)
-                    marioverse$playPowerUpSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof BoatItem)
-                    marioverse$playBoatSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof FireChargeItem)
-                    marioverse$playFireChargeSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof MinecartItem)
-                    marioverse$playMinecartSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof SpawnEggItem)
-                    marioverse$playMobSound(world, questionBE.getBlockPos());
-                else if (container.getItem(i).getItem() instanceof WindChargeItem)
-                    marioverse$playWindChargeSound(world, questionBE.getBlockPos());
-                else if (!container.getItem(i).isEmpty()) marioverse$playItemSound(world, questionBE.getBlockPos());
+                marioverse$playSounds(world, questionBE.getBlockPos(), container.getItem(i));
 
                 marioverse$stackCount = questionBE.getStackInSlot().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
@@ -245,52 +212,33 @@ public class ContainersMixin {
     }
 
     @Unique
-    private static void marioverse$playArmorStandSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playBoatSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playCoinSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playItemSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playFireChargeSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playMinecartSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playMobSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playPowerUpSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playPrimedTNTSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private static void marioverse$playWindChargeSound(Level world, BlockPos pos) {
-        world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+    private static void marioverse$playSounds(Level world, BlockPos pos, ItemStack stack) {
+        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+            world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
+            world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof ArmorStandItem)
+            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof BasePowerUpItem)
+            world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof BoatItem)
+            world.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof EggItem)
+            world.playSound(null, pos, SoundEvents.EGG_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof ExperienceBottleItem)
+            world.playSound(null, pos, SoundEvents.EXPERIENCE_BOTTLE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof FireChargeItem)
+            world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof LingeringPotionItem)
+            world.playSound(null, pos, SoundEvents.LINGERING_POTION_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof MinecartItem)
+            world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof PotionItem)
+            world.playSound(null, pos, SoundEvents.SPLASH_POTION_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof SpawnEggItem)
+            world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() instanceof WindChargeItem)
+            world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

@@ -55,9 +55,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
+import net.minecraft.world.item.EggItem;
+import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.level.ItemLike;
@@ -487,29 +491,10 @@ public abstract class LivingEntityMixin extends Entity {
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 this.marioverse$dropCoin(world, pos, this);
 
-                if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-                    questionBlock.playCoinSound(world, pos);
-                else if (storedItem.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-                    questionBlock.playPrimedTNTSound(world, pos);
-                else if (storedItem.getItem() instanceof ArmorStandItem)
-                    questionBlock.playArmorStandSound(world, pos);
-                else if (storedItem.getItem() instanceof BasePowerUpItem)
-                    questionBlock.playPowerUpSound(world, pos);
-                else if (storedItem.getItem() instanceof BoatItem)
-                    questionBlock.playBoatSound(world, pos);
-                else if (storedItem.getItem() instanceof FireChargeItem)
-                    questionBlock.playFireChargeSound(world, pos);
-                else if (storedItem.getItem() instanceof MinecartItem)
-                    questionBlock.playMinecartSound(world, pos);
-                else if (storedItem.getItem() instanceof SpawnEggItem)
-                    questionBlock.playMobSound(world, pos);
-                else if (storedItem.getItem() instanceof WindChargeItem)
-                    questionBlock.playWindChargeSound(world, pos);
-                else questionBlock.playItemSound(world, pos);
-
                 if (!world.isClientSide)
                     questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
 
+                questionBlock.playSounds(world, pos, storedItem);
                 questionBlockEntity.removeItems();
                 questionBlockEntity.setChanged();
             }
