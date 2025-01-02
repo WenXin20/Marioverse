@@ -19,6 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.EggItem;
+import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
@@ -296,9 +298,22 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
                 if (!xpBottle.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                        xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    else xpBottle.setPos(pos.getX() + 0.5D, pos.getY() - xpBottle.getBbHeight(), pos.getZ() + 0.5D);
                     xpBottle.setItem(stack);
                     world.addFreshEntity(xpBottle);
+                    stack.copyWithCount(1);
+                } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof EndCrystalItem) {
+                EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+
+                if (!endCrystal.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                        endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    else endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(endCrystal);
+                    world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof EggItem) {
