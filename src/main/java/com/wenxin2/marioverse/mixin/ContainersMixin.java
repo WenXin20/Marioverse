@@ -24,6 +24,7 @@ import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
@@ -33,6 +34,7 @@ import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.EggItem;
+import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
@@ -207,6 +209,15 @@ public class ContainersMixin {
                     potion.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
                     potion.setItem(stack);
                     world.addFreshEntity(potion);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof ExperienceBottleItem) {
+                ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+
+                if (!xpBottle.getType().is(cannotSpawn)) {
+                    xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+                    xpBottle.setItem(stack);
+                    world.addFreshEntity(xpBottle);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() instanceof EggItem) {
