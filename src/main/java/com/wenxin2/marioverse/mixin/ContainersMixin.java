@@ -228,6 +228,19 @@ public class ContainersMixin {
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
+                Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
+
+                if (entity != null && !entity.getType().is(cannotSpawn)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(
+                            world.random.triangle(0.0, 0.3),
+                            world.random.triangle(0.5, 0.3),
+                            world.random.triangle(0.0, 0.3)
+                    ));
+                    world.addFreshEntity(entity);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
             } else marioverse$spawnItem(world, pos, stack);
         }
     }
@@ -273,6 +286,8 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
+            world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
