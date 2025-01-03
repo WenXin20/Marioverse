@@ -22,8 +22,6 @@ public class CompatRegistry {
     public static final Supplier<Item> SOAP = make("supplementaries:soap", BuiltInRegistries.ITEM);
 
     public static final Supplier<EntityType<?>> BOMB = make("supplementaries:bomb", BuiltInRegistries.ENTITY_TYPE);
-    public static final Supplier<EntityType<?>> BOMB_BLUE = make("supplementaries:bomb_blue", BuiltInRegistries.ENTITY_TYPE);
-    public static final Supplier<EntityType<?>> BOMB_SPIKY = make("supplementaries:bomb_spiky", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> CANNONBALL = make("supplementaries:cannonball", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> HAT_STAND = make("supplementaries:hat_stand", BuiltInRegistries.ENTITY_TYPE);
 

@@ -9,6 +9,8 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -259,36 +261,36 @@ public class ContainersMixin {
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB_BLUE.get().create(serverWorld);
+                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
                 if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                    CompoundTag nbt = new CompoundTag();
+                    entity.save(nbt);
+                    nbt.putInt("Type", 1);
+                    entity.load(nbt);
+
+                    entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            world.random.triangle(0.5, 0.2),
+                            world.random.triangle(0.0, 0.2)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB_SPIKY.get().create(serverWorld);
+                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
                 if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                    CompoundTag nbt = new CompoundTag();
+                    entity.save(nbt);
+                    nbt.putInt("Type", 2);
+                    entity.load(nbt);
+
+                    entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            world.random.triangle(0.5, 0.2),
+                            world.random.triangle(0.0, 0.2)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
@@ -335,14 +337,14 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof WindChargeItem)
             world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
-            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
-            world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()
                 || stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()
                 || stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get())
             world.playSound(null, pos, CompatRegistry.BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
+            world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
+            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
