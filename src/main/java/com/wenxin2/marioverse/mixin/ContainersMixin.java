@@ -241,6 +241,57 @@ public class ContainersMixin {
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
+                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
+
+                if (entity != null && !entity.getType().is(cannotSpawn)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(
+                                world.random.triangle(0.0, 0.2),
+                                world.random.triangle(0.5, 0.2),
+                                world.random.triangle(0.0, 0.2)));
+                    } else {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    }
+                    world.addFreshEntity(entity);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
+                Entity entity = CompatRegistry.BOMB_BLUE.get().create(serverWorld);
+
+                if (entity != null && !entity.getType().is(cannotSpawn)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(
+                                world.random.triangle(0.0, 0.2),
+                                world.random.triangle(0.5, 0.2),
+                                world.random.triangle(0.0, 0.2)));
+                    } else {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    }
+                    world.addFreshEntity(entity);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
+                Entity entity = CompatRegistry.BOMB_SPIKY.get().create(serverWorld);
+
+                if (entity != null && !entity.getType().is(cannotSpawn)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(
+                                world.random.triangle(0.0, 0.2),
+                                world.random.triangle(0.5, 0.2),
+                                world.random.triangle(0.0, 0.2)));
+                    } else {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    }
+                    world.addFreshEntity(entity);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
             } else marioverse$spawnItem(world, pos, stack);
         }
     }
@@ -288,6 +339,10 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
             world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()
+                || stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()
+                || stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get())
+            world.playSound(null, pos, CompatRegistry.BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
