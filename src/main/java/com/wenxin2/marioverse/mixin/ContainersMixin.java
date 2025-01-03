@@ -5,12 +5,14 @@ import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
@@ -218,6 +220,14 @@ public class ContainersMixin {
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
+                Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
+
+                if (entity != null && !entity.getType().is(cannotSpawn)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(entity);
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
             } else marioverse$spawnItem(world, pos, stack);
         }
     }
@@ -261,6 +271,8 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof WindChargeItem)
             world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
+            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
