@@ -469,6 +469,28 @@ public class QuestionBlock extends Block implements EntityBlock {
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
+                Creeper entity = EntityType.CREEPER.create(serverWorld);
+
+                if (entity != null) {
+                    CompoundTag nbt = new CompoundTag();
+                    entity.save(nbt);
+                    nbt.putBoolean("Party", true);
+                    nbt.putInt("Fuse", 0);
+
+                    entity.setNoAi(true);
+                    entity.ignite();
+                    entity.setInvisible(true);
+                    entity.setSilent(true);
+                    entity.load(nbt);
+
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
+                        entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(entity);
+                }
+                world.gameEvent(null, GameEvent.EXPLODE, pos);
             } else spawnItem(world, pos, stack, dropItemsAtPos);
         }
     }

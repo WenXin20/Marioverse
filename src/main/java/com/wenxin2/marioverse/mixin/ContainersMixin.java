@@ -7,17 +7,24 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
+import java.util.Collection;
+import java.util.Random;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -25,6 +32,7 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.SmallFireball;
@@ -55,6 +63,7 @@ import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -294,6 +303,26 @@ public class ContainersMixin {
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
+                Creeper entity = EntityType.CREEPER.create(serverWorld);
+
+                if (entity != null) {
+                    CompoundTag nbt = new CompoundTag();
+                    entity.save(nbt);
+                    nbt.putBoolean("Party", true);
+                    nbt.putInt("Fuse", 0);
+
+                    entity.setNoAi(true);
+                    entity.ignite();
+                    entity.setInvisible(true);
+                    entity.setSilent(true);
+                    entity.load(nbt);
+
+                    entity.setPos(pos.getX() + 0.5D, pos.getY() - 1.0D, pos.getZ() + 0.5D);
+                    world.broadcastEntityEvent(entity, (byte) 113);
+                    world.addFreshEntity(entity);
+                }
+                world.gameEvent(null, GameEvent.EXPLODE, pos);
             } else marioverse$spawnItem(world, pos, stack);
         }
     }
@@ -343,6 +372,8 @@ public class ContainersMixin {
             world.playSound(null, pos, CompatRegistry.BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
             world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get())
+            world.playSound(null, pos, CompatRegistry.CONFETTI_POPPER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
