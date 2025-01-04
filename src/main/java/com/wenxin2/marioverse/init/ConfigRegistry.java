@@ -58,13 +58,14 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
     public static ModConfigSpec.BooleanValue DEBUG_WATER_SPOUT_SELECTION_BOX;
+    public static ModConfigSpec.BooleanValue DECORATED_POT_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
-    public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
+    public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_DOORS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
@@ -77,6 +78,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
+    public static ModConfigSpec.BooleanValue QUESTION_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
@@ -157,6 +159,10 @@ public class ConfigRegistry
                             .comment("Disables mob & power up spawning from decorated pots.")
                             .comment("§9[Default: false]")
                             .define("disable_decorated_pot_tweaks", false);
+                    DECORATED_POT_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.decorated_pot_bucket_tweaks")
+                            .comment("Allow decorated pots to place bucket liquids.")
+                            .comment("§9[Default: true]")
+                            .define("decorated_pot_bucket_tweaks", true);
                     DECORATED_POT_SPAWNS_POWER_UPS = BUILDER.translation("configuration.marioverse.decorated_pot_spawns_power_ups")
                             .comment("Allow decorated pots to spawn power ups when broken.")
                             .comment("§9[Default: true]")
@@ -168,6 +174,10 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCK);
+                    QUESTION_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.question_bucket_tweaks")
+                            .comment("Allow question blocks to place bucket liquids.")
+                            .comment("§9[Default: true]")
+                            .define("question_bucket_tweaks", true);
                     QUESTION_SPAWNS_POWER_UPS = BUILDER.translation("configuration.marioverse.question_spawns_power_ups")
                             .comment("Allow question blocks to spawn power ups.")
                             .comment("§9[Default: true]")

@@ -8,10 +8,7 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import java.util.function.Consumer;
-import net.mehvahdjukaar.supplementaries.common.items.ConfettiPopperItem;
-import net.mehvahdjukaar.supplementaries.reg.ModParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -20,8 +17,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -45,15 +40,18 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
@@ -67,6 +65,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -375,6 +374,30 @@ public class QuestionBlock extends Block implements EntityBlock {
                     egg.setItem(stack);
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
+                } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY) {
+                if (!ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
+                    if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
+                            || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
+                        if (bucket.emptyContents(null, world, pos.above(), null, stack))
+                            bucket.checkExtraContent(null, world, stack, pos.above());
+                    } else {
+                        if (bucket.emptyContents(null, world, pos.below(), null, stack))
+                            bucket.checkExtraContent(null, world, stack, pos.below());
+                    }
+                    spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+                } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof SolidBucketItem bucket) {
+                if (!ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
+                    if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
+                            || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
+                        if (bucket.emptyContents(null, world, pos.above(), null, stack))
+                            bucket.checkExtraContent(null, world, stack, pos.above());
+                    } else {
+                        if (bucket.emptyContents(null, world, pos.below(), null, stack))
+                            bucket.checkExtraContent(null, world, stack, pos.below());
+                    }
+                    spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);

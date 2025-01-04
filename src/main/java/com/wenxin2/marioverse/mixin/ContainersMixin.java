@@ -7,24 +7,16 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
-import java.util.Collection;
-import java.util.Random;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -46,15 +38,18 @@ import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
@@ -62,8 +57,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -85,7 +80,7 @@ public class ContainersMixin {
                 for (int j = 0; j < marioverse$stackCount; j++) {
                     marioverse$spawnFromContainer(world, decoratedPotBE.getBlockPos(), container.getItem(i), null,
                             ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
-                            TagRegistry.DECORATED_POT_CANNOT_SPAWN);
+                            ConfigRegistry.DECORATED_POT_BUCKET_TWEAKS.get(), TagRegistry.DECORATED_POT_CANNOT_SPAWN);
                 }
 
                 decoratedPotBE.removeTheItem();
@@ -99,7 +94,7 @@ public class ContainersMixin {
                 for (int j = 0; j < marioverse$stackCount; j++) {
                     marioverse$spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i), null,
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
-                            TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
+                            ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
                 }
 
                 for (int j = 0; j < marioverse$stackCount; j++)
@@ -110,7 +105,7 @@ public class ContainersMixin {
 
     @Unique
     private static void marioverse$spawnFromContainer(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean spawnMobs, boolean spawnPowerUps,
-                                                      TagKey<EntityType<?>> cannotSpawn) {
+                                                      boolean cannotEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && spawnPowerUps) {
                 EntityType<?> entityType = powerUpItem.getType(stack);
@@ -230,6 +225,18 @@ public class ContainersMixin {
                     egg.setItem(stack);
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY) {
+                if (!cannotEmptyBuckets) {
+                    if (bucket.emptyContents(null, world, pos, null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos);
+                    marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof SolidBucketItem bucket) {
+                if (!cannotEmptyBuckets) {
+                    if (bucket.emptyContents(null, world, pos, null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos);
+                    marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
