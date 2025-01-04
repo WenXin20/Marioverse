@@ -7,11 +7,18 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,26 +44,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
     @Shadow public abstract Level level();
-
     @Shadow public abstract double getX();
-
     @Shadow public abstract double getY();
     @Shadow public abstract double getZ();
-
     @Shadow public abstract float getBbHeight();
-
     @Shadow public abstract int getId();
-
     @Shadow public abstract BlockPos blockPosition();
-
     @Shadow public abstract EntityType<?> getType();
-
     @Shadow public abstract void setPos(Vec3 p_146885_);
 
-    @Shadow public abstract float getEyeHeight();
-
-    @Unique
-    private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique
     private int marioverse$warpCooldown;
 
@@ -110,6 +106,21 @@ public abstract class EntityMixin {
 
         if (this.marioverse$warpCooldown > 0)
             --this.marioverse$warpCooldown;
+    }
+
+    @Inject(method = "handleEntityEvent", at = @At("HEAD"))
+    private void handleEntityEvent(byte id, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+        RandomSource random = entity.getRandom();
+
+        if (id == 120) {
+            for(int i = 0; i < 100; ++i) {
+                this.level().addParticle(ParticleTypes.ENCHANT,
+                        entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D),
+                        (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
+                        (random.nextDouble() - 0.5D) * 2.0D);
+            }
+        }
     }
 
     @Unique private double marioverse$cachedWidth = -1;
@@ -239,11 +250,9 @@ public abstract class EntityMixin {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (world.isClientSide() && BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
                 // Reset the teleport status for the entity
                 BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
-                world.broadcastEntityEvent(entity, (byte) 120);
-            }
 
             if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
                 this.marioverse$enterWarpDoor(pos, warpPos, warpBE);
@@ -257,10 +266,8 @@ public abstract class EntityMixin {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (world.isClientSide() && BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
                 BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
-                world.broadcastEntityEvent(entity, (byte) 120);
-            }
 
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);

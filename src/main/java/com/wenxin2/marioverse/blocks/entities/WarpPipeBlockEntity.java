@@ -463,10 +463,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1, 0));
             } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1, 0));
@@ -478,10 +480,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -492,10 +496,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -506,10 +512,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -520,10 +528,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player) {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -534,10 +544,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player) {
                 entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -548,10 +560,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (entity instanceof Player player) {
                 entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
+                world.broadcastEntityEvent(entity, (byte) 120);
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));

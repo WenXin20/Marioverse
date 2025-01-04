@@ -17,7 +17,6 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -48,28 +47,15 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorStandItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BoatItem;
-import net.minecraft.world.item.EggItem;
-import net.minecraft.world.item.ExperienceBottleItem;
-import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.LingeringPotionItem;
-import net.minecraft.world.item.MinecartItem;
-import net.minecraft.world.item.PotionItem;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -78,9 +64,7 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -90,15 +74,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
-    @Shadow @Final private AttributeMap attributes;
-    @Unique
-    private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique
-    private int marioverse$warpCooldown;
-    @Unique
-    private int marioverse$consecutiveBounces;
-    @Unique
-    private int marioverse$oneUpsRewarded;
+    @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
+    @Unique private int marioverse$warpCooldown;
+    @Unique private int marioverse$consecutiveBounces;
+    @Unique private int marioverse$oneUpsRewarded;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -376,29 +355,29 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
     private void handleEntityEvent(byte id, CallbackInfo info) {
-        LivingEntity livingEntity = (LivingEntity) (Object) this;
-        RandomSource random = this.level().getRandom();
+        LivingEntity entity = (LivingEntity) (Object) this;
+        RandomSource random = entity.getRandom();
 
         if (id == 114) {
-            this.marioverse$starParticles(livingEntity, ParticleRegistry.COIN_GLINT.get());
+            this.marioverse$starParticles(entity, ParticleRegistry.COIN_GLINT.get());
         } else if (id == 115) {
             if (this.level().isClientSide) {
-                if (livingEntity == Minecraft.getInstance().player)
+                if (entity == Minecraft.getInstance().player)
                     Minecraft.getInstance().gameRenderer.displayItemActivation(ItemRegistry.ONE_UP_MUSHROOM.get().getDefaultInstance());
             }
         } else if (id == 119) {
-            this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.COIN_GLINT.get(), 15);
+            this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.COIN_GLINT.get(), 15);
         } else if (id == 120) {
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
                 this.level().addParticle(ParticleTypes.ENCHANT,
-                        livingEntity.getRandomX(0.5D), livingEntity.getRandomY(), livingEntity.getRandomZ(0.5D),
+                        entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D),
                         (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
                         (random.nextDouble() - 0.5D) * 2.0D);
             }
         } else if (id == 123) {
-            this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.FIRE_POWERED_UP.get(), 15);
+            this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.FIRE_POWERED_UP.get(), 15);
         } else if (id == 124) {
-            this.marioverse$spawnPowerUpParticles(livingEntity, ParticleRegistry.POWERED_UP.get(), 25);
+            this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.POWERED_UP.get(), 25);
         } else if (id == 125) {
             if (this.level().isClientSide) {
                 ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition().above(Math.round(this.getBbHeight())).above(),
@@ -407,7 +386,7 @@ public abstract class LivingEntityMixin extends Entity {
         } else if (id == 126) {
             if (this.level().isClientSide) {
                 this.level().addParticle(ParticleRegistry.ONE_UP.get(),
-                        livingEntity.getX(), livingEntity.getY() + livingEntity.getBbHeight(), livingEntity.getZ(),
+                        entity.getX(), entity.getY() + entity.getBbHeight(), entity.getZ(),
                         0.0, 1.0, 0.0);
             }
         } else super.handleEntityEvent(id);
@@ -754,11 +733,9 @@ public abstract class LivingEntityMixin extends Entity {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (world.isClientSide() && BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false))
                 // Reset the teleport status for the entity
                 BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
-                world.broadcastEntityEvent(entity, (byte) 120);
-            }
 
             if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
                 this.marioverse$enterWarpDoor(pos, warpPos, warpBE);
@@ -772,10 +749,8 @@ public abstract class LivingEntityMixin extends Entity {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (world.isClientSide() && BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
                 BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
-                world.broadcastEntityEvent(entity, (byte) 120);
-            }
 
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);

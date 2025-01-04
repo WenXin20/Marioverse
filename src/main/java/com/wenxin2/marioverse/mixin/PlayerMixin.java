@@ -8,17 +8,13 @@ import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
-import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -35,14 +31,7 @@ public abstract class PlayerMixin extends Entity {
 
     @Shadow public abstract void displayClientMessage(Component component, boolean isAboveHotbar);
 
-    @Shadow public abstract Inventory getInventory();
-
-    @Shadow @Nullable public abstract ItemEntity drop(ItemStack p_36177_, boolean p_36178_);
-
-    @Unique
-    private static final int MAX_PARTICLE_AMOUNT = 40;
-    @Unique
-    private int marioverse$warpCooldown;
+    @Unique private int marioverse$warpCooldown;
 
     public PlayerMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -131,11 +120,10 @@ public abstract class PlayerMixin extends Entity {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (world.isClientSide() && BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
                 // Reset the teleport status for the entity
                 BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
-                world.broadcastEntityEvent(this, (byte) 120);
-            }
+
 
             if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
                 this.marioverse$enterWarpDoor(pos, warpPos, warpBE);
@@ -149,10 +137,8 @@ public abstract class PlayerMixin extends Entity {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (world.isClientSide() && BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false)) {
+            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
                 BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
-                world.broadcastEntityEvent(this, (byte) 120);
-            }
 
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
