@@ -511,6 +511,22 @@ public class QuestionBlock extends Block implements EntityBlock {
                     world.addFreshEntity(entity);
                 }
                 world.gameEvent(null, GameEvent.EXPLODE, pos);
+            } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
+                Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
+
+                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
+                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                        entity.setDeltaMovement(new Vec3(
+                                world.random.triangle(0.0, 0.2),
+                                world.random.triangle(0.5, 0.2),
+                                world.random.triangle(0.0, 0.2)));
+                    }
+                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(entity);
+                    stack.copyWithCount(1);
+                } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else spawnItem(world, pos, stack, dropItemsAtPos);
         }
     }
@@ -566,6 +582,8 @@ public class QuestionBlock extends Block implements EntityBlock {
             world.playSound(null, pos, CompatRegistry.CONFETTI_POPPER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get())
+            world.playSound(null, pos, CompatRegistry.ICE_BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
