@@ -20,6 +20,8 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -28,6 +30,7 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.SmallFireball;
@@ -197,7 +200,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EntityType<?> entityType = powerUpItem.getType(stack);
 
                 if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
@@ -217,7 +221,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EntityType<?> entityType = spawnEgg.getType(stack);
 
                 if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
@@ -237,7 +242,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
 
                 if (armorStand != null && !armorStand.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else armorStand.setPos(pos.getX() + 0.5D, pos.getY() - armorStand.getType().getHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(armorStand);
@@ -248,7 +254,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                         AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, cart.type, stack, null);
 
                 if (!abstractMinecart.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() - abstractMinecart.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(abstractMinecart);
@@ -259,7 +266,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                         : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
 
                 if (!boat.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         boat.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else boat.setPos(pos.getX() + 0.5D, pos.getY() - boat.getBbHeight(), pos.getZ() + 0.5D);
                     boat.setVariant(boatItem.type);
@@ -270,7 +278,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
 
                 if (!primedtnt.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         primedtnt.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else primedtnt.setPos(pos.getX() + 0.5D, pos.getY() - primedtnt.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(primedtnt);
@@ -285,7 +294,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                         new Vec3(0, -0.5, 0));
 
                 if (!windCharge.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         windCharge.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else windCharge.setPos(pos.getX() + 0.5D, pos.getY() - windCharge.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(windCharge);
@@ -296,7 +306,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                         new Vec3(0, -0.5, 0));
 
                 if (!fireball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         fireball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else fireball.setPos(pos.getX() + 0.5D, pos.getY() - fireball.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(fireball);
@@ -306,7 +317,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
                 if (!potion.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         potion.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else potion.setPos(pos.getX() + 0.5D, pos.getY() - potion.getBbHeight(), pos.getZ() + 0.5D);
                     potion.setItem(stack);
@@ -317,7 +329,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
                 if (!xpBottle.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else xpBottle.setPos(pos.getX() + 0.5D, pos.getY() - xpBottle.getBbHeight(), pos.getZ() + 0.5D);
                     xpBottle.setItem(stack);
@@ -328,7 +341,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
                 if (!endCrystal.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else {
                         endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
@@ -343,7 +357,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
 
                 if (!firework.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         firework.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else firework.setPos(pos.getX() + 0.5D, pos.getY() - firework.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(firework);
@@ -353,7 +368,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
                 if (!egg.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         egg.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else egg.setPos(pos.getX() + 0.5D, pos.getY() - egg.getBbHeight(), pos.getZ() + 0.5D);
                     egg.setItem(stack);
@@ -364,7 +380,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 
                 if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER))
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
                         entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
                     world.addFreshEntity(entity);
@@ -374,7 +391,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
 
                 if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                         entity.setDeltaMovement(new Vec3(
                                 world.random.triangle(0.0, 0.3),
@@ -391,7 +409,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
                 if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                         entity.setDeltaMovement(new Vec3(
                                 world.random.triangle(0.0, 0.2),
@@ -413,7 +432,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                     nbt.putInt("Type", 1);
                     entity.load(nbt);
 
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                         entity.setDeltaMovement(new Vec3(
                                 world.random.triangle(0.0, 0.2),
@@ -435,7 +455,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                     nbt.putInt("Type", 2);
                     entity.load(nbt);
 
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                         entity.setDeltaMovement(new Vec3(
                                 world.random.triangle(0.0, 0.2),
@@ -456,7 +477,8 @@ public class QuestionBlock extends Block implements EntityBlock {
         if (dropItemsAtPos) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
             world.addFreshEntity(itemEntity);
-        } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+        } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
             world.addFreshEntity(itemEntity);
         } else {
@@ -498,6 +520,8 @@ public class QuestionBlock extends Block implements EntityBlock {
             world.playSound(null, pos, CompatRegistry.BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
             world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get())
+            world.playSound(null, pos, CompatRegistry.CONFETTI_POPPER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
         else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
