@@ -105,7 +105,7 @@ public class ContainersMixin {
 
     @Unique
     private static void marioverse$spawnFromContainer(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean spawnMobs, boolean spawnPowerUps,
-                                                      boolean cannotEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
+                                                      boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && spawnPowerUps) {
                 EntityType<?> entityType = powerUpItem.getType(stack);
@@ -227,13 +227,13 @@ public class ContainersMixin {
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY) {
-                if (!cannotEmptyBuckets) {
+                if (canEmptyBuckets) {
                     if (bucket.emptyContents(null, world, pos, null, stack))
                         bucket.checkExtraContent(null, world, stack, pos);
                     marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
                 } else marioverse$spawnItem(world, pos, stack);
             } else if (stack.getItem() instanceof SolidBucketItem bucket) {
-                if (!cannotEmptyBuckets) {
+                if (canEmptyBuckets) {
                     if (bucket.emptyContents(null, world, pos, null, stack))
                         bucket.checkExtraContent(null, world, stack, pos);
                     marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
