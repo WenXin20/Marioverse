@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -175,7 +177,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             PrimedTnt primedtnt = new PrimedTnt(world, hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5, null);
             world.removeBlock(hitPos, Boolean.FALSE);
             world.addFreshEntity(primedtnt);
-        }
+        } else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG))
+            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.TRUE), 3);
         super.onHitBlock(hit);
     }
 

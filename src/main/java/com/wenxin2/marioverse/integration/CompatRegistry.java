@@ -5,10 +5,13 @@ import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatRegistry {
@@ -38,7 +41,13 @@ public class CompatRegistry {
     public static final Supplier<SoundEvent> CONFETTI_POPPER_SOUND = make("supplementaries:item.confetti_popper", BuiltInRegistries.SOUND_EVENT);
     public static final Supplier<SoundEvent> ICE_BOMB_SOUND = make("twilightforest:item.twilightforest.ice_bomb.fired", BuiltInRegistries.SOUND_EVENT);
 
+    public static final TagKey<Block> CANDLE_HOLDERS_BLOCK_TAG = blockTags("supplementaries", "candle_holders");
+
     private static <T> Supplier<@Nullable T> make(String name, Registry<T> registry) {
         return Suppliers.memoize(() -> registry.getOptional(ResourceLocation.parse(name)).orElse(null));
+    }
+
+    public static TagKey<Block> blockTags(String mod_id, String name) {
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(mod_id, name));
     }
 }
