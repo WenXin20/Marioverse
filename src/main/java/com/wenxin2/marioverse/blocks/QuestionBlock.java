@@ -375,30 +375,27 @@ public class QuestionBlock extends Block implements EntityBlock {
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY) {
-                if (ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                    if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
-                            || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
-                        if (bucket.emptyContents(null, world, pos.above(), null, stack))
-                            bucket.checkExtraContent(null, world, stack, pos.above());
-                    } else {
-                        if (bucket.emptyContents(null, world, pos.below(), null, stack))
-                            bucket.checkExtraContent(null, world, stack, pos.below());
-                    }
-                    spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof SolidBucketItem bucket) {
-                if (ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                    if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
-                            || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
-                        if (bucket.emptyContents(null, world, pos.above(), null, stack))
-                            bucket.checkExtraContent(null, world, stack, pos.above());
-                    } else {
-                        if (bucket.emptyContents(null, world, pos.below(), null, stack))
-                            bucket.checkExtraContent(null, world, stack, pos.below());
-                    }
-                    spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
+                    && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
+                if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
+                        || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
+                    if (bucket.emptyContents(null, world, pos.above(), null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos.above());
+                } else {
+                    if (bucket.emptyContents(null, world, pos.below(), null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos.below());
+                }
+                spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
+                if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
+                        || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
+                    if (bucket.emptyContents(null, world, pos.above(), null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos.above());
+                } else {
+                    if (bucket.emptyContents(null, world, pos.below(), null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos.below());
+                }
+                spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 

@@ -226,18 +226,15 @@ public class ContainersMixin {
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY) {
-                if (canEmptyBuckets) {
-                    if (bucket.emptyContents(null, world, pos, null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos);
-                    marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
-                } else marioverse$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof SolidBucketItem bucket) {
-                if (canEmptyBuckets) {
-                    if (bucket.emptyContents(null, world, pos, null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos);
-                    marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
-                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof BucketItem bucket
+                    && bucket.content != Fluids.EMPTY && canEmptyBuckets) {
+                if (bucket.emptyContents(null, world, pos, null, stack))
+                    bucket.checkExtraContent(null, world, stack, pos);
+                marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
+            } else if (stack.getItem() instanceof SolidBucketItem bucket && canEmptyBuckets) {
+                if (bucket.emptyContents(null, world, pos, null, stack))
+                    bucket.checkExtraContent(null, world, stack, pos);
+                marioverse$spawnItem(world, pos, new ItemStack(Items.BUCKET));
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 
