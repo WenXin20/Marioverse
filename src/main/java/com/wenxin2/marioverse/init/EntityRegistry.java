@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.HeftyGoombaEntity;
 import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
+import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
@@ -56,42 +57,53 @@ public class EntityRegistry {
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.156F, 0.2F).eyeHeight(0.175F).ridingOffset(0.1F)
                     .nameTagOffset(-0.05F).build("mini_goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
+            Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
+                    .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
-        event.register(EntityRegistry.MINI_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.HEFTY_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.MEGA_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
-        event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.MINI_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.PIRANHA_PLANT.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING, PiranhaPlantEntity::checkPiranhaPlantSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        AttributeSupplier.Builder genericMushroomAttribs = PathfinderMob.createMobAttributes()
+        AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
-        AttributeSupplier.Builder genericStarAttribs = PathfinderMob.createMobAttributes()
+        AttributeSupplier.Builder piranhaPlantAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 5.0F)
+                .add(Attributes.MAX_HEALTH, 20.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.0F);
+        AttributeSupplier.Builder powerUpAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
+        AttributeSupplier.Builder starAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.JUMP_STRENGTH, 0.5F)
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
-        AttributeSupplier.Builder genericPowerUpAttribs = PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
-        event.put(EntityRegistry.FIRE_FLOWER.get(), genericPowerUpAttribs.build());
-        event.put(EntityRegistry.MUSHROOM.get(), genericMushroomAttribs.build());
-        event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), genericMushroomAttribs.build());
-        event.put(EntityRegistry.SUPER_STAR.get(), genericStarAttribs.build());
+        event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
+        event.put(EntityRegistry.MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
+        event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
 
         event.put(EntityRegistry.FIRE_GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)
@@ -130,14 +142,12 @@ public class EntityRegistry {
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
 
         event.put(EntityRegistry.MINI_GOOMBA.get(), PathfinderMob.createMobAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 0.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.0F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.FOLLOW_RANGE, 4.0F)
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.2F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 12.0F).build());
-
     }
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity, MobCategory category,
@@ -145,6 +155,5 @@ public class EntityRegistry {
         return Marioverse.ENTITIES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(name));
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }

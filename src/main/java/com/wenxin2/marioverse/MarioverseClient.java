@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.HeftyGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MegaGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MiniGoombaRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.PiranhaPlantRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.MushroomRenderer;
@@ -104,6 +105,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.HEFTY_GOOMBA.get(), HeftyGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MEGA_GOOMBA.get(), MegaGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MINI_GOOMBA.get(), MiniGoombaRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.PIRANHA_PLANT.get(), PiranhaPlantRenderer::new);
     }
 
     @SubscribeEvent

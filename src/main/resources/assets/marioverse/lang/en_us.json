@@ -137,6 +137,7 @@
   "entity.marioverse.hefty_goomba": "Hefty Goomba",
   "entity.marioverse.mega_goomba": "Mega Goomba",
   "entity.marioverse.mini_goomba": "Mini Goomba",
+  "entity.marioverse.piranha_plant": "Piranha Plant",
 
   "item.marioverse.bowser_banner_pattern": "Banner Pattern",
   "item.marioverse.bowser_banner_pattern.desc": "Bowser",
@@ -158,6 +159,7 @@
   "item.marioverse.hefty_goomba_spawn_egg": "Hefty Goomba Spawn Egg",
   "item.marioverse.mega_goomba_spawn_egg": "Mega Goomba Spawn Egg",
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
+  "item.marioverse.piranha_plant_spawn_egg": "Piranha Plant Spawn Egg",
 
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
