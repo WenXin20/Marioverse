@@ -42,7 +42,8 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             lastCollisionTime = currentTime;
 
             if (entity instanceof Player player && !player.isSpectator()
-                    && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+                    && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                    && player.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)) {
                 AccessoriesCapability capability = AccessoriesCapability.get(player);
                 ItemStack offhandStack = player.getOffhandItem();
 
@@ -63,8 +64,9 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     this.level().broadcastEntityEvent(player, (byte) 126); // 1-Up Collected particle
                     this.remove(RemovalReason.KILLED);
                 }
-            } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()
-                    && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+            } else if (entity instanceof LivingEntity livingEntity
+                    && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                    && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
                 AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
                 ItemStack offhandStack = livingEntity.getOffhandItem();
 
