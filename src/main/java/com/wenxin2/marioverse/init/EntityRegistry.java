@@ -86,6 +86,7 @@ public class EntityRegistry {
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder piranhaPlantAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 5.0F)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0)
                 .add(Attributes.MAX_HEALTH, 20.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.0F);

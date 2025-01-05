@@ -1,5 +1,6 @@
 {
   "values": [
-    { "id": "#marioverse:power_ups", "required": false }
+    { "id": "#marioverse:power_ups", "required": false },
+    { "id": "marioverse:piranha_plant", "required": false }
   ]
 }
