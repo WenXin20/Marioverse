@@ -3,7 +3,35 @@
 	"animations": {
 		"piranha_plant.idle": {
 			"loop": true,
-			"animation_length": 4
+			"animation_length": 1,
+			"bones": {
+				"right_jaw": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, -30]
+						},
+						"0.5": {
+							"vector": [0, 0, 15]
+						},
+						"1.0": {
+							"vector": [0, 0, -30]
+						}
+					}
+				},
+				"left_jaw": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 30]
+						},
+						"0.5": {
+							"vector": [0, 0, -15]
+						},
+						"1.0": {
+							"vector": [0, 0, 30]
+						}
+					}
+				}
+			}
 		},
 		"piranha_plant.walk": {
 			"loop": true,
