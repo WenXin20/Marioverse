@@ -200,7 +200,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (!nearbyEntities.isEmpty()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
-                        && !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                        || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     return;
 
                 this.doHurtTarget(collidingEntity);
