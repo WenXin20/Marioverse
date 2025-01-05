@@ -68,7 +68,7 @@ public class ItemRegistry {
                 () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xB2333C, 0xF9A728, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xCC5F51, 0xFFCE00, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
         HEFTY_GOOMBA_SPAWN_EGG = registerItem("hefty_goomba_spawn_egg",
