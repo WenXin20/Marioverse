@@ -199,10 +199,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity collidingEntity : nearbyEntities) {
-                if ((!this.isSleeping() && !this.isHiding()) || collidingEntity instanceof PiranhaPlantEntity
-                        || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
-                        || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0)
-                        || !collidingEntity.getPersistentData().getBoolean("marioverse:has_super_star"))
+                if (collidingEntity instanceof PiranhaPlantEntity
+                        && !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     return;
 
                 this.doHurtTarget(collidingEntity);
