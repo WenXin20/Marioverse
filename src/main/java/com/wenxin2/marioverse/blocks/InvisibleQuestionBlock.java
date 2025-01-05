@@ -75,8 +75,9 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (!state.getValue(INVISIBLE))
             return Shapes.block();
         else if (state.getValue(INVISIBLE) && collisionContext instanceof EntityCollisionContext entityCollisionContext) {
-            if (entityCollisionContext.getEntity() instanceof Player player) {
-                if (player.getY() + player.getBbHeight() < pos.getY()) {
+            if (entityCollisionContext.getEntity() != null
+                    && entityCollisionContext.getEntity().getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)) {
+                if (entityCollisionContext.getEntity().getY() + entityCollisionContext.getEntity().getBbHeight() < pos.getY()) {
                     return Shapes.block();
                 }
             }
@@ -167,7 +168,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                 }
 
                 if (storedItem.isEmpty())
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE), 3);
 
                 return ItemInteractionResult.SUCCESS;
             } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
