@@ -184,9 +184,9 @@ public class QuestionBlock extends Block implements EntityBlock {
                         questionBlockEntity.setChanged();
                     }
 
-                    if (storedItem.isEmpty()) {
+                    if (storedItem.isEmpty())
                         world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                    }
+
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
