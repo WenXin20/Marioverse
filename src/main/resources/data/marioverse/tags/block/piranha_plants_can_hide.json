@@ -1,0 +1,7 @@
+{
+  "_comment": "Blocks that piranha plants can hide in",
+  "replace": false,
+  "values": [
+    { "id": "#marioverse:warp_pipes", "required": false }
+  ]
+}

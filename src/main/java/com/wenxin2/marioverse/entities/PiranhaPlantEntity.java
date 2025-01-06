@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.PiranhaPlantHideInBlockGoal;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -13,17 +14,20 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -41,6 +45,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation CONSTANT_BITES_ANIM = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
+    public static final RawAnimation EMERGE_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.emerge");
+    public static final RawAnimation HIDE_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.hide");
     public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -71,10 +77,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
     }
 
-    protected SoundEvent getBumpSound() {
-        return SoundRegistry.GOOMBA_BUMP.get();
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -83,7 +85,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(0, new PiranhaPlantHideInBlockGoal(this, 40, 40));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.PIRANHA_PLANT_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
@@ -94,6 +97,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
+        controllers.add(new AnimationController<>(this, "Hide", 5, this::hideAnimController));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
     }
 
@@ -109,6 +113,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     event.setAndContinue(CONSTANT_BITES_ANIM);
             }
         } else event.setAndContinue(IDLE_ANIM);
+        return PlayState.CONTINUE;
+    }
+
+    protected <E extends GeoAnimatable> PlayState hideAnimController(final AnimationState<E> event) {
+        if (this.isHiding()) {
+            event.setAndContinue(HIDE_ANIM);
+        } else if (this.level().getBlockState(this.blockPosition().below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE))
+            event.setAndContinue(EMERGE_ANIM);
         return PlayState.CONTINUE;
     }
 
@@ -137,17 +149,81 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return false;
     }
 
+//    @Override
+//    public boolean canBeCollidedWith() {
+//        return !this.isHiding();
+//    }
+
+    @Override
+    public boolean isInWall() {
+        if (isHiding()) {
+            return false;
+        } else return super.isInWall();
+    }
+
+    @Override
+    protected boolean wouldNotSuffocateAtTargetPose(Pose pose) {
+        AABB aabb = this.getDimensions(pose).makeBoundingBox(this.position());
+        return this.level().noBlockCollision(this, aabb) || this.isHiding();
+    }
+
+    @NotNull
+    @Override
+    protected AABB makeBoundingBox() {
+        AABB originalBoundingBox = super.makeBoundingBox();
+
+        if (isHiding()) {
+            double height = originalBoundingBox.getYsize() * 0.5;
+            return new AABB(originalBoundingBox.minX, originalBoundingBox.minY, originalBoundingBox.minZ,
+                    originalBoundingBox.maxX, originalBoundingBox.maxY * 0.5, originalBoundingBox.maxZ);
+        } else return super.makeBoundingBox();
+    }
+
     public boolean isHiding() {
-        return this.getHideFlag(8) && this.getPersistentData().getInt("marioverse:piranha_hide_cooldown") > 0;
+        return this.getHideFlag(8)/* && this.getPersistentData().getInt("marioverse:piranha_plant_hide_cooldown") > 0*/;
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.checkForCollisionsAndWakeUp();
+        this.checkForCollisions();
+        double targetY;
+
+//        int hideCooldown = this.getPersistentData().getInt("marioverse:piranha_plant_hide_cooldown");
+//        if (hideCooldown > 0) {
+//            --hideCooldown;
+//        }
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
+
+        if (this.isHiding()) {
+            this.noPhysics = true;
+            this.setNoGravity(true);
+        } else {
+            this.noPhysics = false;
+            this.setNoGravity(false);
+        }
+
+//        if (!this.isHiding()
+//                && this.level().getBlockState(this.blockPosition().below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+//            targetY = this.blockPosition().getY() - 1;
+//            this.tryToHide();
+//            this.getPersistentData().putInt("marioverse:piranha_plant_hide_cooldown", 40);
+//        } else {
+//            targetY = this.blockPosition().getY();
+//        }
+//
+//        double currentY = this.getY();
+//        double speed = 0.1;
+//
+//        if (Math.abs(targetY - currentY) > speed) {
+//            double direction = targetY > currentY ? speed : -speed;
+//            this.setDeltaMovement(0, direction, 0);
+//        } else {
+//            this.setDeltaMovement(0, 0, 0);
+//            this.setPos(this.getX(), targetY, this.getZ());
+//        }
     }
 
     @Override
@@ -192,9 +268,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return new Vec3(0.0, this.getEyeHeight() - 0.5D, this.getBbWidth() * 0.4F);
     }
 
-    public void checkForCollisionsAndWakeUp() {
+    public void checkForCollisions() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator()
+                this.getBoundingBox().inflate(0.15D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
         if (!nearbyEntities.isEmpty()) {
@@ -203,6 +279,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                         || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     return;
 
+                this.swing(InteractionHand.MAIN_HAND);
                 this.doHurtTarget(collidingEntity);
                 break;
             }
@@ -219,8 +296,16 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     public void tryToHide() {
         this.hide(Boolean.TRUE);
-        this.getPersistentData().putInt("marioverse:piranha_hide_cooldown", 40);
         this.stopInPlace();
+    }
+
+    public void stopHiding() {
+        this.hide(Boolean.FALSE);
+        this.isHideStoping();
+    }
+
+    public boolean isHideStoping() {
+        return this.getHideFlag(8);
     }
 
     private void setHideFlag(int i, boolean b) {
