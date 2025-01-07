@@ -1,13 +1,13 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
-import com.wenxin2.marioverse.entities.ai.goals.PiranhaPlantHideInBlockGoal;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -26,6 +26,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -73,6 +74,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public int getAmbientSoundInterval() {
+        return 120;
+    }
+
+    @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
     }
@@ -85,7 +91,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PiranhaPlantHideInBlockGoal(this, 40, 40));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.PIRANHA_PLANT_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
@@ -119,7 +124,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     protected <E extends GeoAnimatable> PlayState hideAnimController(final AnimationState<E> event) {
         if (this.isHiding()) {
             event.setAndContinue(HIDE_ANIM);
-        } else if (this.level().getBlockState(this.blockPosition().below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE))
+        } else if (this.level().getBlockState(this.blockPosition()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE))
             event.setAndContinue(EMERGE_ANIM);
         return PlayState.CONTINUE;
     }
@@ -145,14 +150,52 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+    }
+
+    @Override
+    public void tick() {
+
+        super.tick();
+        this.checkForCollisions();
+        this.hideInBlock();
+
+        if (this.isInWaterOrBubble())
+            this.ejectPassengers();
+    }
+
+    @Override
+    public void baseTick() {
+        int i = this.getAirSupply();
+
+        super.baseTick();
+        this.handleAirSupply(i);
+    }
+
+    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+                                                      MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
+                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
+    }
+
+    @Override
     public boolean isPushable() {
         return false;
     }
 
-//    @Override
-//    public boolean canBeCollidedWith() {
-//        return !this.isHiding();
-//    }
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
 
     @Override
     public boolean isInWall() {
@@ -179,84 +222,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         } else return super.makeBoundingBox();
     }
 
-    public boolean isHiding() {
-        return this.getHideFlag(8)/* && this.getPersistentData().getInt("marioverse:piranha_plant_hide_cooldown") > 0*/;
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        this.checkForCollisions();
-        double targetY;
-
-//        int hideCooldown = this.getPersistentData().getInt("marioverse:piranha_plant_hide_cooldown");
-//        if (hideCooldown > 0) {
-//            --hideCooldown;
-//        }
-
-        if (this.isInWaterOrBubble())
-            this.ejectPassengers();
-
-        if (this.isHiding()) {
-            this.noPhysics = true;
-            this.setNoGravity(true);
-        } else {
-            this.noPhysics = false;
-            this.setNoGravity(false);
-        }
-
-//        if (!this.isHiding()
-//                && this.level().getBlockState(this.blockPosition().below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-//            targetY = this.blockPosition().getY() - 1;
-//            this.tryToHide();
-//            this.getPersistentData().putInt("marioverse:piranha_plant_hide_cooldown", 40);
-//        } else {
-//            targetY = this.blockPosition().getY();
-//        }
-//
-//        double currentY = this.getY();
-//        double speed = 0.1;
-//
-//        if (Math.abs(targetY - currentY) > speed) {
-//            double direction = targetY > currentY ? speed : -speed;
-//            this.setDeltaMovement(0, direction, 0);
-//        } else {
-//            this.setDeltaMovement(0, 0, 0);
-//            this.setPos(this.getX(), targetY, this.getZ());
-//        }
-    }
-
-    @Override
-    public void baseTick() {
-        int i = this.getAirSupply();
-
-        super.baseTick();
-        this.handleAirSupply(i);
-    }
-
-    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
-                                                      MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
-                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
-                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
-    }
-
-    @Override
-    public int getAmbientSoundInterval() {
-        return 120;
-    }
-
-    protected void handleAirSupply(int airSupplyAmount) {
-        if (this.isAlive() && this.isInWaterOrBubble()) {
-            this.setAirSupply(airSupplyAmount);
-        }
-    }
-
-    @Override
-    public boolean isPushedByFluid() {
-        return false;
-    }
-
     @Override
     public boolean canBeLeashed() {
         return true;
@@ -268,12 +233,31 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return new Vec3(0.0, this.getEyeHeight() - 0.5D, this.getBbWidth() * 0.4F);
     }
 
+    public void hideInBlock() {
+        BlockPos pos = this.blockPosition();
+
+        if (this.isHiding()) {
+            this.setNoGravity(true);
+            if (this.level().getGameTime() % 262L == 0L
+                    && this.level().getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                    && this.level().getBlockState(pos.above()).getBlock() instanceof AirBlock) {
+                this.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+                this.stopHiding();
+            }
+        } else if (this.level().getGameTime() % 262L == 0L
+                && this.level().getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+            this.setNoGravity(false);
+            this.tryToHide();
+            this.setPos(pos.getX() + 0.5, pos.getY() - 1, pos.getZ() + 0.5);
+        }
+    }
+
     public void checkForCollisions() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.15D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
-        if (!nearbyEntities.isEmpty()) {
+        if (!nearbyEntities.isEmpty() && this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
                         || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
@@ -284,6 +268,16 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 break;
             }
         }
+    }
+
+    protected void handleAirSupply(int airSupplyAmount) {
+        if (this.isAlive() && this.isInWaterOrBubble()) {
+            this.setAirSupply(airSupplyAmount);
+        }
+    }
+
+    public boolean isHiding() {
+        return this.getHideFlag(8);
     }
 
     public void hide(boolean isHiding) {
