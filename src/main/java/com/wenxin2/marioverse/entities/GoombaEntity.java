@@ -22,6 +22,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -230,6 +231,24 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_RIDE_FLAGS, tag.getByte("RideFlags"));
+        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
+        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
+        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putByte("RideFlags", this.entityData.get(DATA_ID_RIDE_FLAGS));
+        tag.putByte("ScareFlags", this.entityData.get(DATA_ID_SCARE_FLAGS));
+        tag.putByte("SitFlags", this.entityData.get(DATA_ID_SIT_FLAGS));
+        tag.putByte("SleepFlags", this.entityData.get(DATA_ID_SLEEP_FLAGS));
     }
 
     public boolean isSitting() {
