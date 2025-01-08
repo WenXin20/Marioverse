@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
@@ -21,6 +22,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -46,8 +49,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation CONSTANT_BITES_ANIM = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
-    public static final RawAnimation EMERGE_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.emerge");
-    public static final RawAnimation HIDE_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.hide");
     public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -102,7 +103,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
-        controllers.add(new AnimationController<>(this, "Hide", 5, this::hideAnimController));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
     }
 
@@ -118,14 +118,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     event.setAndContinue(CONSTANT_BITES_ANIM);
             }
         } else event.setAndContinue(IDLE_ANIM);
-        return PlayState.CONTINUE;
-    }
-
-    protected <E extends GeoAnimatable> PlayState hideAnimController(final AnimationState<E> event) {
-        if (this.isHiding()) {
-            event.setAndContinue(HIDE_ANIM);
-        } else if (this.level().getBlockState(this.blockPosition()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE))
-            event.setAndContinue(EMERGE_ANIM);
         return PlayState.CONTINUE;
     }
 
@@ -163,8 +155,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public void tick() {
-
         super.tick();
+        this.noPhysics = true;
+        this.setNoGravity(true);
         this.checkForCollisions();
         this.hideInBlock();
 
@@ -233,23 +226,60 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return new Vec3(0.0, this.getEyeHeight() - 0.5D, this.getBbWidth() * 0.4F);
     }
 
+    private float currentScale = 1.0f;
+    private static final float SCALING_SPEED = 0.1f;
+
     public void hideInBlock() {
-        BlockPos pos = this.blockPosition();
+        AttributeInstance scale = this.getAttribute(Attributes.SCALE);
+        Level world = this.level();
+        BlockPos pos = BlockPos.containing(this.blockPosition().getX() + this.getBbWidth() / 2,
+                this.blockPosition().getY(), this.blockPosition().getZ() + this.getBbWidth() / 2);
+        BlockPos posAbove = pos.above();
+        BlockPos posBelow = pos.below();
+        double currentX = this.getX();
+        double currentY = this.getY();
+        double currentZ = this.getZ();
+        double targetX = pos.getX();
+        double targetYAbove = posAbove.getY();
+        double targetYBelow = posBelow.getY();
+        double targetZ = pos.getZ();
+        double deltaX = targetX - currentX;
+        double deltaYAbove = targetYAbove - currentY;
+        double deltaYBelow = targetYBelow - currentY;
+        double deltaZ = targetZ - currentZ;
+        double speed = 0.0252;
+        double distanceAbove = Math.sqrt(deltaX * deltaX + deltaYAbove * deltaYAbove + deltaZ * deltaZ);
+        double distanceBelow = Math.sqrt(deltaX * deltaX + deltaYBelow * deltaYBelow + deltaZ * deltaZ);
+
+        float targetScale = this.isHiding() ? 0.6f : 1.0f;
+        currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
+        if (scale != null && scale.getBaseValue() != currentScale)
+            scale.setBaseValue(currentScale);
 
         if (this.isHiding()) {
-            this.setNoGravity(true);
-            if (this.level().getGameTime() % 262L == 0L
-                    && this.level().getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                    && this.level().getBlockState(pos.above()).getBlock() instanceof AirBlock) {
-                this.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+            if (world.getGameTime() % 500L == 0L
+                    && world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                    && world.getBlockState(pos.above()).getBlock() instanceof AirBlock) {
+                if (distanceAbove > 0) {
+                    deltaX = (deltaX / distanceAbove) * (speed * 2);
+                    deltaYAbove = (deltaYAbove / distanceAbove) * (speed * 2);
+                    deltaZ = (deltaZ / distanceAbove) * (speed * 2);
+
+                    this.setDeltaMovement(deltaX, deltaYAbove, deltaZ);
+                }
                 this.stopHiding();
             }
-        } else if (this.level().getGameTime() % 262L == 0L
-                && this.level().getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-            this.setNoGravity(false);
+        } else if (world.getGameTime() % 131L == 0L
+                && world.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+            if (distanceBelow > 0) {
+                deltaX = (deltaX / distanceBelow) * speed;
+                deltaYBelow = (deltaYBelow / distanceBelow) * speed;
+                deltaZ = (deltaZ / distanceBelow) * speed;
+
+                this.setDeltaMovement(deltaX, deltaYBelow, deltaZ);
+            }
             this.tryToHide();
-            this.setPos(pos.getX() + 0.5, pos.getY() - 1, pos.getZ() + 0.5);
-        }
+        } else this.setDeltaMovement(0, 0, 0);
     }
 
     public void checkForCollisions() {
@@ -295,11 +325,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     public void stopHiding() {
         this.hide(Boolean.FALSE);
-        this.isHideStoping();
+        this.isHideStopping();
     }
 
-    public boolean isHideStoping() {
-        return this.getHideFlag(8);
+    public void isHideStopping() {
+        this.getHideFlag(8);
     }
 
     private void setHideFlag(int i, boolean b) {
