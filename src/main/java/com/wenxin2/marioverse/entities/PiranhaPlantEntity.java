@@ -248,7 +248,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (this.isHiding()) {
             if (world.getGameTime() % 300L == 0L &&
                     world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) &&
-                    world.getBlockState(posAbove).getBlock() instanceof AirBlock) {
+                    !world.getBlockState(posAbove).isSolid()) {
 
                 double deltaYAbove = posAbove.getY() - this.getY();
                 double distanceAbove = Math.abs(deltaYAbove);
