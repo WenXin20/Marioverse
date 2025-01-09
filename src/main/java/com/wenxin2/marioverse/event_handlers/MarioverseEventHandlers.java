@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
-import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -48,6 +47,8 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
+    private static final float SCALING_SPEED = 0.1F;
+
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
@@ -118,39 +119,8 @@ public class MarioverseEventHandlers {
                     event.setCanceled(true);
             }
 
-            if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
+            if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get())
                 tag.putBoolean("marioverse:has_mushroom", false);
-
-                if (!tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
-                        && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-
-                    AttributeInstance eyeHeightScale = player.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                    AttributeInstance heightScale = player.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                    AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
-                    if (eyeHeightScale != null && heightScale != null && widthScale != null) {
-                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id())
-                                && !heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id())
-                                && !widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                                    SoundSource.PLAYERS, 1.0F, 1.0F);
-                    }
-
-                    if (eyeHeightScale != null) {
-                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            eyeHeightScale.addPermanentModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (heightScale != null) {
-                        if (!heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            heightScale.addPermanentModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (widthScale != null) {
-                        if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            widthScale.addPermanentModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
-                    }
-                }
-            }
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
@@ -198,39 +168,8 @@ public class MarioverseEventHandlers {
                     event.setCanceled(true);
             }
 
-            if (healthAfterDamage <= threshold) {
+            if (healthAfterDamage <= threshold)
                 tag.putBoolean("marioverse:has_mushroom", false);
-
-                if (!tag.getBoolean("marioverse:has_mushroom")
-                        && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-
-                    AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                    AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                    AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
-                    if (eyeHeightScale != null && heightScale != null && widthScale != null) {
-                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id())
-                                && !heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id())
-                                && !widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                                    SoundSource.HOSTILE, 1.0F, 1.0F);
-                    }
-
-                    if (eyeHeightScale != null) {
-                        if (!eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            eyeHeightScale.addPermanentModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (heightScale != null) {
-                        if (!heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            heightScale.addPermanentModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (widthScale != null) {
-                        if (!widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            widthScale.addPermanentModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
-                    }
-                }
-            }
 
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
@@ -285,83 +224,11 @@ public class MarioverseEventHandlers {
         CompoundTag tag = entity.getPersistentData();
 
         if (entity instanceof Player player) {
-            if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()) {
+            if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get())
                 tag.putBoolean("marioverse:has_mushroom", true);
-                if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-                    AttributeInstance eyeHeightScale = player.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                    AttributeInstance heightScale = player.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                    AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
-                    if (eyeHeightScale != null) {
-                        if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (heightScale != null) {
-                        if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (widthScale != null) {
-                        if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
-                    }
-                }
-            } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-                AttributeInstance eyeHeightScale = player.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                AttributeInstance heightScale = player.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                AttributeInstance widthScale = player.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
-                if (eyeHeightScale != null) {
-                    if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                        eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
-                }
-                if (heightScale != null) {
-                    if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                        heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
-                }
-                if (widthScale != null) {
-                    if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                        widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
-                }
-            }
         } else if (entity instanceof LivingEntity livingEntity) {
-            if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+            if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get())
                 tag.putBoolean("marioverse:has_mushroom", true);
-                if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-                    AttributeInstance eyeHeightScale = livingEntity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                    AttributeInstance heightScale = livingEntity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                    AttributeInstance widthScale = livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
-                    if (eyeHeightScale != null) {
-                        if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (heightScale != null) {
-                        if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                            heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
-                    }
-                    if (widthScale != null) {
-                        if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                            widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
-                    }
-                }
-            } else if (tag.getBoolean("marioverse:has_mushroom") && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-                AttributeInstance eyeHeightScale = livingEntity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                AttributeInstance heightScale = livingEntity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                AttributeInstance widthScale = livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-
-                if (eyeHeightScale != null) {
-                    if (eyeHeightScale.hasModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                        eyeHeightScale.removeModifier(AttributesRegistry.EYE_HEIGHT_SCALE_DAMAGE_MODIFIER);
-                }
-                if (heightScale != null) {
-                    if (heightScale.hasModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER.id()))
-                        heightScale.removeModifier(AttributesRegistry.HEIGHT_SCALE_DAMAGE_MODIFIER);
-                }
-                if (widthScale != null) {
-                    if (widthScale.hasModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER.id()))
-                        widthScale.removeModifier(AttributesRegistry.WIDTH_SCALE_DAMAGE_MODIFIER);
-                }
-            }
         }
     }
 
