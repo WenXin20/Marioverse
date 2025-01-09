@@ -163,6 +163,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
+
+        AttributeInstance scale = this.getAttribute(Attributes.SCALE);
+        if (scale != null && this.level().getBlockState(this.blockPosition()).getBlock() instanceof FlowerPotBlock)
+            scale.setBaseValue(0.4F);
     }
 
     @Override
@@ -240,12 +244,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         float targetScale = this.isHiding() ? 0.3F : 1.0F;
         currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
 
-        if (scale != null) {
-            if (world.getBlockState(pos).getBlock() instanceof FlowerPotBlock)
-                scale.setBaseValue(0.4F);
-            else if (scale.getBaseValue() != currentScale) scale.setBaseValue(currentScale);
-        }
-
+        if (scale != null && scale.getBaseValue() != currentScale)
+            scale.setBaseValue(currentScale);
+        
         if (this.isHiding() && !world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 && !world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
             this.stopHiding();
