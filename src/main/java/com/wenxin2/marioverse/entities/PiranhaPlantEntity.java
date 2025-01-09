@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -156,8 +157,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        this.noPhysics = true;
-        this.setNoGravity(true);
         this.checkForCollisions();
         this.hideInBlock();
 
@@ -232,52 +231,45 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     public void hideInBlock() {
         AttributeInstance scale = this.getAttribute(Attributes.SCALE);
         Level world = this.level();
-        BlockPos pos = BlockPos.containing(this.blockPosition().getX() + this.getBbWidth() / 2,
-                this.blockPosition().getY(), this.blockPosition().getZ() + this.getBbWidth() / 2);
+        BlockPos pos = this.blockPosition();
         BlockPos posAbove = pos.above();
         BlockPos posBelow = pos.below();
-        double currentX = this.getX();
-        double currentY = this.getY();
-        double currentZ = this.getZ();
-        double targetX = pos.getX();
-        double targetYAbove = posAbove.getY();
-        double targetYBelow = posBelow.getY();
-        double targetZ = pos.getZ();
-        double deltaX = targetX - currentX;
-        double deltaYAbove = targetYAbove - currentY;
-        double deltaYBelow = targetYBelow - currentY;
-        double deltaZ = targetZ - currentZ;
-        double speed = 0.0252;
-        double distanceAbove = Math.sqrt(deltaX * deltaX + deltaYAbove * deltaYAbove + deltaZ * deltaZ);
-        double distanceBelow = Math.sqrt(deltaX * deltaX + deltaYBelow * deltaYBelow + deltaZ * deltaZ);
 
-        float targetScale = this.isHiding() ? 0.6f : 1.0f;
+        double speed = 0.02;
+        float targetScale = this.isHiding() ? 0.3f : 1.0f;
         currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
+
         if (scale != null && scale.getBaseValue() != currentScale)
             scale.setBaseValue(currentScale);
 
         if (this.isHiding()) {
-            if (world.getGameTime() % 500L == 0L
-                    && world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                    && world.getBlockState(pos.above()).getBlock() instanceof AirBlock) {
-                if (distanceAbove > 0) {
-                    deltaX = (deltaX / distanceAbove) * (speed * 2);
-                    deltaYAbove = (deltaYAbove / distanceAbove) * (speed * 2);
-                    deltaZ = (deltaZ / distanceAbove) * (speed * 2);
+            if (world.getGameTime() % 131L == 0L &&
+                    world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) &&
+                    world.getBlockState(posAbove).getBlock() instanceof AirBlock) {
 
-                    this.setDeltaMovement(deltaX, deltaYAbove, deltaZ);
+                double deltaYAbove = posAbove.getY() - this.getY();
+                double distanceAbove = Math.abs(deltaYAbove);
+
+                this.setNoGravity(false);
+                this.noPhysics = false;
+                if (distanceAbove > 0) {
+                    this.setDeltaMovement(0, 0.8, 0);
+                    this.move(MoverType.SELF, this.getDeltaMovement());
                 }
                 this.stopHiding();
             }
-        } else if (world.getGameTime() % 131L == 0L
-                && world.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-            if (distanceBelow > 0) {
-                deltaX = (deltaX / distanceBelow) * speed;
-                deltaYBelow = (deltaYBelow / distanceBelow) * speed;
-                deltaZ = (deltaZ / distanceBelow) * speed;
+        } else if (world.getGameTime() % 131L == 0L &&
+                world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
 
-                this.setDeltaMovement(deltaX, deltaYBelow, deltaZ);
-            }
+            double deltaYBelow = posBelow.getY() - this.getY();
+            double distanceBelow = Math.abs(deltaYBelow);
+
+            if (distanceBelow > 0)
+                this.setDeltaMovement(0,
+                        (deltaYBelow / distanceBelow) * speed, 0);
+
+            this.setNoGravity(true);
+            this.noPhysics = true;
             this.tryToHide();
         } else this.setDeltaMovement(0, 0, 0);
     }
