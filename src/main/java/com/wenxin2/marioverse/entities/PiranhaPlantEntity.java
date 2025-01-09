@@ -246,7 +246,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         if (scale != null && scale.getBaseValue() != currentScale)
             scale.setBaseValue(currentScale);
-        
+
         if (this.isHiding() && !world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 && !world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
             this.stopHiding();
