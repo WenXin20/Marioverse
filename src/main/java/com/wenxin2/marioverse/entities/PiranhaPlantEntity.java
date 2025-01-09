@@ -242,8 +242,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (scale != null && scale.getBaseValue() != currentScale)
             scale.setBaseValue(currentScale);
 
+
         if (this.isHiding()) {
-            if (world.getGameTime() % 131L == 0L &&
+            if (world.getGameTime() % 300L == 0L &&
                     world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) &&
                     world.getBlockState(posAbove).getBlock() instanceof AirBlock) {
 
@@ -258,15 +259,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 }
                 this.stopHiding();
             }
-        } else if (world.getGameTime() % 131L == 0L &&
+        } else if (world.getGameTime() % 300L == 0L &&
                 world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
 
             double deltaYBelow = posBelow.getY() - this.getY();
             double distanceBelow = Math.abs(deltaYBelow);
 
             if (distanceBelow > 0)
-                this.setDeltaMovement(0,
-                        (deltaYBelow / distanceBelow) * speed, 0);
+                this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
 
             this.setNoGravity(true);
             this.noPhysics = true;
