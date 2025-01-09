@@ -245,8 +245,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (this.isHiding() && !world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 && !world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
             this.stopHiding();
-            this.setNoGravity(false);
-            this.noPhysics = false;
             return;
         }
 
@@ -261,7 +259,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 this.setNoGravity(false);
                 this.noPhysics = false;
                 if (distanceAbove > 0) {
-                    this.setDeltaMovement(0, 0.8, 0);
+                    this.setDeltaMovement(0, 0.3, 0);
                     this.move(MoverType.SELF, this.getDeltaMovement());
                 }
                 this.stopHiding();
@@ -278,7 +276,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             this.setNoGravity(true);
             this.noPhysics = true;
             this.tryToHide();
-        } else this.setDeltaMovement(0, 0, 0);
+        } else this.setNoGravity(false);
     }
 
     public void checkForCollisions() {
