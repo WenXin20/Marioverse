@@ -1,5 +1,7 @@
 {
   "_comment": "Blacklist to prevent quick travel for entities in the Clear Warp Pipe",
   "replace": false,
-  "values": []
+  "values": [
+    { "id": "marioverse:piranha_plant", "required": false }
+  ]
 }
