@@ -242,6 +242,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (scale != null && scale.getBaseValue() != currentScale)
             scale.setBaseValue(currentScale);
 
+            this.setNoGravity(false);
+            this.noPhysics = false;
 
         if (this.isHiding()) {
             if (world.getGameTime() % 300L == 0L &&
