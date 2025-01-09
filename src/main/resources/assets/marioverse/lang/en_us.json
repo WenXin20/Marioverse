@@ -393,9 +393,10 @@
 
   "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
-  "marioverse.configuration.mini_goomba": "Mini Goomba",
   "marioverse.configuration.hefty_goomba": "Hefty Goomba",
   "marioverse.configuration.mega_goomba": "Mega Goomba",
+  "marioverse.configuration.mini_goomba": "Mini Goomba",
+  "marioverse.configuration.piranha_plant": "Piranha Plant",
 
   "marioverse.configuration.fire_flower": "Fire Flower",
   "marioverse.configuration.mushroom": "Mushroom",
@@ -446,6 +447,7 @@
   "configuration.marioverse.mushroom_health_healed": "Health Healed",
   "configuration.marioverse.one_up_heals_mobs": "Heals All Mobs",
   "configuration.marioverse.one_up_health_healed": "Health Healed",
+  "configuration.marioverse.piranha_plant_hide_duration": "Hide Duration",
   "configuration.marioverse.question_add_items": "Add Items in Survival",
   "configuration.marioverse.question_bucket_tweaks": "Buckets Place Liquids",
   "configuration.marioverse.question_remove_items": "Activate by Right-Click",

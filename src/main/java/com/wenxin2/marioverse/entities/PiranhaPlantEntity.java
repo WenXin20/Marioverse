@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -30,7 +31,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -225,8 +225,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return new Vec3(0.0, this.getEyeHeight() - 0.5D, this.getBbWidth() * 0.4F);
     }
 
-    private float currentScale = 1.0f;
-    private static final float SCALING_SPEED = 0.1f;
+    private float currentScale = 1.0F;
+    private static final float SCALING_SPEED = 0.1F;
 
     public void hideInBlock() {
         AttributeInstance scale = this.getAttribute(Attributes.SCALE);
@@ -236,7 +236,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         BlockPos posBelow = pos.below();
 
         double speed = 0.02;
-        float targetScale = this.isHiding() ? 0.3f : 1.0f;
+        float targetScale = this.isHiding() ? 0.3F : 1.0F;
         currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
 
         if (scale != null && scale.getBaseValue() != currentScale)
@@ -251,7 +251,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         }
 
         if (this.isHiding()) {
-            if (world.getGameTime() % 300L == 0L &&
+            if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L &&
                     world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) &&
                     !world.getBlockState(posAbove).isSolid()) {
 
@@ -266,7 +266,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 }
                 this.stopHiding();
             }
-        } else if (world.getGameTime() % 300L == 0L &&
+        } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L &&
                 world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
 
             double deltaYBelow = posBelow.getY() - this.getY();

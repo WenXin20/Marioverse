@@ -35,6 +35,7 @@ public class ConfigRegistry
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
+    public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
 
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_MUSHROOM = "mushroom";
@@ -117,6 +118,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
+    public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
@@ -407,6 +409,15 @@ public class ConfigRegistry
                             .comment("Allow mini goombas to push the mobs it is attached to.")
                             .comment("§9[Default: false]")
                             .define("mini_goombas_push", false);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_PIRANHA_PLANT);
+                    PIRANHA_PLANT_HIDE_DURATION = BUILDER.translation("configuration.marioverse.piranha_plant_hide_duration")
+                            .comment("Duration piranha plants hide and emerge from pipes.")
+                            .comment("Applies to any block in the '#marioverse:piranha_plant_can_hide' block tag.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 300]§b")
+                            .defineInRange("piranha_plant_hide_duration", 300, 80, 72000);
                 BUILDER.pop();
 
             BUILDER.pop();
