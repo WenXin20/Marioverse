@@ -76,7 +76,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
-    @Unique private static final float marioverse$SCALING_SPEED = 0.05F;
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique private int marioverse$warpCooldown;
     @Unique private int marioverse$consecutiveBounces;
@@ -448,124 +447,60 @@ public abstract class LivingEntityMixin extends Entity {
     public void marioverse$entityScale(LivingEntity entity) {
         Level world = entity.level();
         CompoundTag tag = entity.getPersistentData();
+        boolean hasMushroom = tag.getBoolean("marioverse:has_mushroom");
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        double targetEyeHeightScale = tag.getBoolean("marioverse:has_mushroom") ? 1.0D : 0.5D;
-        double targetHeightScale = tag.getBoolean("marioverse:has_mushroom") ? 1.0D : 0.5D;
-        double targetWidthScale = tag.getBoolean("marioverse:has_mushroom") ? 1.0D : 0.75D;
         float health = entity.getHealth();
+        float scalingSpeed = 0.05F;
 
-        double currentScale;
-        if (entity instanceof Player player) {
-            if (entity.getLastDamageSource() != null
-                    && !entity.isDamageSourceBlocked(entity.getLastDamageSource())
-                    && health <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()
-                    && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                    && !tag.getBoolean("marioverse:has_mushroom")
-                    && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
-                    && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-                if (eyeHeightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, eyeHeightScale.getBaseValue(), targetEyeHeightScale);
-                    if (eyeHeightScale.getBaseValue() != currentScale)
-                        eyeHeightScale.setBaseValue(currentScale);
-                }
+        double targetEyeHeightScale = hasMushroom ? 1.0D : 0.5D;
+        double targetHeightScale = hasMushroom ? 1.0D : 0.5D;
+        double targetWidthScale = hasMushroom ? 1.0D : 0.75D;
 
-                if (heightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, heightScale.getBaseValue(), targetHeightScale);
-                    if (heightScale.getBaseValue() != currentScale)
-                        heightScale.setBaseValue(currentScale);
-                }
+        boolean isPlayer = entity instanceof Player;
+        boolean shouldShrink = entity.getLastDamageSource() != null
+                && !entity.isDamageSourceBlocked(entity.getLastDamageSource())
+                && !hasMushroom
+                && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
+                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                && ((isPlayer && health <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
 
-                if (widthScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, widthScale.getBaseValue(), targetWidthScale);
-                    if (widthScale.getBaseValue() != currentScale)
-                        widthScale.setBaseValue(currentScale);
-                }
+        boolean shouldReset = (isPlayer && health > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && health > entity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
-                if (!marioverse$playedDamagedSound) {
-                    marioverse$playedDamagedSound = true;
-                    world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                }
+        if (shouldShrink) {
+            marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
+            marioverse$updateScale(heightScale, targetHeightScale, scalingSpeed);
+            marioverse$updateScale(widthScale, targetWidthScale, scalingSpeed);
+
+            if (!marioverse$playedDamagedSound) {
+                marioverse$playedDamagedSound = true;
+                SoundSource soundSource = isPlayer ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+                world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
             }
+        }
 
-            if (entity.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get()
-                    && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-                marioverse$playedDamagedSound = false;
+        if (shouldReset) {
+            marioverse$playedDamagedSound = false;
+            marioverse$resetScale(eyeHeightScale, scalingSpeed);
+            marioverse$resetScale(heightScale, scalingSpeed);
+            marioverse$resetScale(widthScale, scalingSpeed);
+        }
+    }
 
-                if (eyeHeightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, eyeHeightScale.getBaseValue(), 1.0F);
-                    if (eyeHeightScale.getBaseValue() != currentScale)
-                        eyeHeightScale.setBaseValue(currentScale);
-                }
+    @Unique
+    private void marioverse$resetScale(AttributeInstance scaleAttribute, float scalingSpeed) {
+        marioverse$updateScale(scaleAttribute, 1.0D, scalingSpeed);
+    }
 
-                if (heightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, heightScale.getBaseValue(), 1.0F);
-                    if (heightScale.getBaseValue() != currentScale)
-                        heightScale.setBaseValue(currentScale);
-                }
-
-                if (widthScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, widthScale.getBaseValue(), 1.0F);
-                    if (widthScale.getBaseValue() != currentScale)
-                        widthScale.setBaseValue(currentScale);
-                }
-            }
-        } else {
-            if (entity.getLastDamageSource() != null
-                    && !entity.isDamageSourceBlocked(entity.getLastDamageSource())
-                    && health <= entity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()
-                    && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                    && !tag.getBoolean("marioverse:has_mushroom")
-                    && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
-                    && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-                if (eyeHeightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, eyeHeightScale.getBaseValue(), targetEyeHeightScale);
-                    if (eyeHeightScale.getBaseValue() != currentScale)
-                        eyeHeightScale.setBaseValue(currentScale);
-                }
-
-                if (heightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, heightScale.getBaseValue(), targetHeightScale);
-                    if (heightScale.getBaseValue() != currentScale)
-                        heightScale.setBaseValue(currentScale);
-                }
-
-                if (widthScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, widthScale.getBaseValue(), targetWidthScale);
-                    if (widthScale.getBaseValue() != currentScale)
-                        widthScale.setBaseValue(currentScale);
-                }
-
-                if (!marioverse$playedDamagedSound) {
-                    marioverse$playedDamagedSound = true;
-                    world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                            SoundSource.NEUTRAL, 1.0F, 1.0F);
-                }
-            }
-
-            if (entity.getHealth() > entity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()
-                    && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()) {
-                marioverse$playedDamagedSound = false;
-
-                if (eyeHeightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, eyeHeightScale.getBaseValue(), 1.0F);
-                    if (eyeHeightScale.getBaseValue() != currentScale)
-                        eyeHeightScale.setBaseValue(currentScale);
-                }
-
-                if (heightScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, heightScale.getBaseValue(), 1.0F);
-                    if (heightScale.getBaseValue() != currentScale)
-                        heightScale.setBaseValue(currentScale);
-                }
-
-                if (widthScale != null) {
-                    currentScale = Mth.lerp(marioverse$SCALING_SPEED, widthScale.getBaseValue(), 1.0F);
-                    if (widthScale.getBaseValue() != currentScale)
-                        widthScale.setBaseValue(currentScale);
-                }
+    @Unique
+    private void marioverse$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed) {
+        if (scaleAttribute != null) {
+            double currentScale = Mth.lerp(scalingSpeed, scaleAttribute.getBaseValue(), targetScale);
+            if (scaleAttribute.getBaseValue() != currentScale) {
+                scaleAttribute.setBaseValue(currentScale);
             }
         }
     }
