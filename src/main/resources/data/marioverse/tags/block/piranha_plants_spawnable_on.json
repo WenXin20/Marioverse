@@ -1,0 +1,6 @@
+{
+  "_comment": "Blocks that piranha plants can spawn on",
+  "values": [
+    "#minecraft:dirt"
+  ]
+}
