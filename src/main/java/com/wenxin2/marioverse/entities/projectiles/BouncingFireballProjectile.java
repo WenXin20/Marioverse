@@ -202,7 +202,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
-                    player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                        player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), player.getHealth());
+                    else player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
                     player.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -226,7 +228,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
-                    livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                        livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
+                    else livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
                     livingEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),

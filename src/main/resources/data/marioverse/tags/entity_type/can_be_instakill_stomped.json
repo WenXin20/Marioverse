@@ -1,5 +1,5 @@
 {
-  "_comment": "All mobs that can be stomped on and killed instantly.",
+  "_comment": "Mobs that can be stomped on and killed instantly.",
   "replace": false,
   "values": [
     { "id": "marioverse:goomba", "required": false },
