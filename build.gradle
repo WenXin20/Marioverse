@@ -44,7 +44,6 @@ dependencies {
     implementation "curse.maven:ctm-${ctm_version}"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
     implementation "curse.maven:geckolib-${geckolib_version}"
-    // implementation "curse.maven:pehkui-${pehkui_version}"
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:selene-${moonlight_version}"
@@ -59,6 +58,7 @@ dependencies {
 
     // implementation "curse.maven:itemzoom-261725:5536959"
     // implementation "curse.maven:jei-${jei_version}"
+    // implementation "curse.maven:pehkui-${pehkui_version}"
     // implementation "curse.maven:structure-gel-api-${structure_gel_version}"
 }
 
