@@ -57,6 +57,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
+    @Nullable private BlockPos targetPosition;
+
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
     }
@@ -91,12 +93,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
+        builder.define(DATA_ID_HIDE_FLAGS, (byte) 0);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.PIRANHA_PLANT_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
@@ -204,27 +206,15 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean isInWall() {
-        if (isHiding()) {
+        if (isHiding())
             return false;
-        } else return super.isInWall();
+        else return super.isInWall();
     }
 
     @Override
     protected boolean wouldNotSuffocateAtTargetPose(Pose pose) {
         AABB aabb = this.getDimensions(pose).makeBoundingBox(this.position());
         return this.level().noBlockCollision(this, aabb) || this.isHiding();
-    }
-
-    @NotNull
-    @Override
-    protected AABB makeBoundingBox() {
-        AABB originalBoundingBox = super.makeBoundingBox();
-
-        if (isHiding()) {
-            double height = originalBoundingBox.getYsize() * 0.5;
-            return new AABB(originalBoundingBox.minX, originalBoundingBox.minY, originalBoundingBox.minZ,
-                    originalBoundingBox.maxX, originalBoundingBox.maxY * 0.5, originalBoundingBox.maxZ);
-        } else return super.makeBoundingBox();
     }
 
     @Override
@@ -235,10 +225,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected Vec3 getLeashOffset() {
-        return new Vec3(0.0, this.getEyeHeight() - 0.5D, this.getBbWidth() * 0.4F);
+        return new Vec3(0.0, this.getEyeHeight() - 0.75D, this.getBbWidth() * 0.7F);
     }
 
     private float currentScale = 1.0F;
+    private float targetScale = 1.0F;
+    private float scaleCooldown;
+    private boolean isLerping = false;
     private static final float SCALING_SPEED = 0.1F;
 
     public void hideInBlock() {
@@ -247,13 +240,34 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         BlockPos pos = this.blockPosition();
         BlockPos posAbove = pos.above();
         BlockPos posBelow = pos.below();
-
         double speed = 0.02;
-        float targetScale = this.isHiding() ? 0.3F : 1.0F;
-        currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
 
-        if (scale != null && scale.getBaseValue() != currentScale)
-            scale.setBaseValue(currentScale);
+        if (!isLerping && scaleCooldown == 0) {
+            if (this.isHiding())
+                targetScale = 0.3F;
+            else targetScale = 1.0F;
+
+            if (Math.abs(currentScale - targetScale) > 0.01F)
+                isLerping = true;
+        }
+
+        if (isLerping) {
+            currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
+            if (scale != null)
+                scale.setBaseValue(currentScale);
+
+            if (Math.abs(currentScale - targetScale) < 0.01F) {
+                currentScale = targetScale;
+                if (scale != null)
+                    scale.setBaseValue(currentScale);
+                isLerping = false;
+                scaleCooldown = 20;
+            }
+
+        }
+
+        if (scaleCooldown > 0)
+            scaleCooldown--;
 
         if (this.isHiding() && !world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 && !world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
@@ -262,10 +276,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         }
 
         if (this.isHiding()) {
-            if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L &&
-                    world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) &&
-                    !world.getBlockState(posAbove).isSolid()) {
-
+            if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
+                    && world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                    && !world.getBlockState(posAbove).isSolid()) {
                 double deltaYAbove = posAbove.getY() - this.getY();
                 double distanceAbove = Math.abs(deltaYAbove);
 
@@ -277,14 +290,15 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 }
                 this.stopHiding();
             }
-        } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L &&
-                world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-
+        } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
+                && world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) && !isLerping && scaleCooldown == 0) {
             double deltaYBelow = posBelow.getY() - this.getY();
             double distanceBelow = Math.abs(deltaYBelow);
 
             if (distanceBelow > 0)
                 this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
+//            this.setDeltaMovement(Vec3.ZERO);
+//            this.moveTo(posBelow, this.getYRot(), this.getXRot());
 
             this.setNoGravity(true);
             this.noPhysics = true;
