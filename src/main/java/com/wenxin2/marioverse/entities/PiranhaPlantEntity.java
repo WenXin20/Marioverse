@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
@@ -8,6 +9,7 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -35,6 +37,7 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -225,7 +228,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected Vec3 getLeashOffset() {
-        return new Vec3(0.0, this.getEyeHeight() - 0.75D, this.getBbWidth() * 0.7F);
+        return new Vec3(0.0, this.getEyeHeight() / 1.75, this.getBbWidth() / 2);
     }
 
     private float currentScale = 1.0F;
@@ -240,7 +243,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         BlockPos pos = this.blockPosition();
         BlockPos posAbove = pos.above();
         BlockPos posBelow = pos.below();
+        BlockState state = world.getBlockState(pos);
+        BlockState stateAbove = world.getBlockState(posAbove);
+        BlockState stateBelow = world.getBlockState(posBelow);
         double speed = 0.02;
+
+        if (scaleCooldown > 0)
+            scaleCooldown--;
 
         if (!isLerping && scaleCooldown == 0) {
             if (this.isHiding())
@@ -266,39 +275,107 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         }
 
-        if (scaleCooldown > 0)
-            scaleCooldown--;
-
-        if (this.isHiding() && !world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                && !world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+        if (this.isHiding() && !state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                && !stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                && !state.hasProperty(BlockStateProperties.FACING)
+                && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
             this.stopHiding();
             return;
         }
 
+        Direction[] prioritizedDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+
         if (this.isHiding()) {
+            // Handle emerging from hiding
+            for (Direction direction : prioritizedDirections) {
+                BlockPos offsetPos = pos.relative(direction.getOpposite());
+                BlockState offsetState = world.getBlockState(offsetPos);
+
+                // Check if the block has a FACING property or proceed without it
+                if (state.hasProperty(BlockStateProperties.FACING)
+                        && state.getValue(BlockStateProperties.FACING) == direction
+                        && state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) && !offsetState.isSolid()) {
+
+                    // Check if it's safe to emerge
+                    if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L) {
+                        double deltaX = offsetPos.getX() - this.getX();
+                        double deltaY = offsetPos.getY() - this.getY();
+                        double deltaZ = offsetPos.getZ() - this.getZ();
+                        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+                        this.setNoGravity(false);
+                        this.noPhysics = false;
+                        if (distance > 0) {
+                            this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
+                            this.move(MoverType.SELF, this.getDeltaMovement());
+                        }
+                        this.stopHiding();
+                        return;
+                    }
+                }
+
+                if (!state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                        && !offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+                    this.stopHiding();
+                    return;
+                }
+            }
+        } else {
+            // Handle hiding logic
+            for (Direction direction : prioritizedDirections) {
+                BlockPos offsetPos = pos.relative(direction.getOpposite());
+                BlockState offsetState = world.getBlockState(offsetPos);
+
+                // Check if the block has a FACING property or proceed without it
+                if (offsetState.hasProperty(BlockStateProperties.FACING)
+                        && offsetState.getValue(BlockStateProperties.FACING) == direction
+                        && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+
+                    // Check if it's safe to hide
+                    if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L && !isLerping && scaleCooldown == 0) {
+                        double deltaX = offsetPos.getX() - this.getX();
+                        double deltaY = offsetPos.getY() - this.getY();
+                        double deltaZ = offsetPos.getZ() - this.getZ();
+//                        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+                        double distance = Math.abs(deltaY);;
+
+                        if (distance > 0) {
+                            this.setDeltaMovement(0, (deltaY / distance) * speed, 0);
+//                            this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
+                        }
+                        this.setNoGravity(true);
+                        this.noPhysics = true;
+                        this.tryToHide();
+                    }
+                }
+            }
+        }
+
+        if (this.isHiding() && !state.hasProperty(BlockStateProperties.FACING)) {
             if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
-                    && world.getBlockState(pos).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                    && !world.getBlockState(posAbove).isSolid()) {
+                    && state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                    && !stateAbove.isSolid()) {
                 double deltaYAbove = posAbove.getY() - this.getY();
                 double distanceAbove = Math.abs(deltaYAbove);
 
                 this.setNoGravity(false);
                 this.noPhysics = false;
                 if (distanceAbove > 0) {
-                    this.setDeltaMovement(0, 0.3, 0);
+                    if (state.getBlock() instanceof ClearWarpPipeBlock)
+                        this.setDeltaMovement(0, 0.8, 0);
+                    else this.setDeltaMovement(0, 0.3, 0);
                     this.move(MoverType.SELF, this.getDeltaMovement());
                 }
                 this.stopHiding();
             }
         } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
-                && world.getBlockState(posBelow).is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) && !isLerping && scaleCooldown == 0) {
+                && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                && !stateBelow.hasProperty(BlockStateProperties.FACING) && !isLerping && scaleCooldown == 0) {
             double deltaYBelow = posBelow.getY() - this.getY();
             double distanceBelow = Math.abs(deltaYBelow);
 
             if (distanceBelow > 0)
                 this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
-//            this.setDeltaMovement(Vec3.ZERO);
-//            this.moveTo(posBelow, this.getYRot(), this.getXRot());
 
             this.setNoGravity(true);
             this.noPhysics = true;
