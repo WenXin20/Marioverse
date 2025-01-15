@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
-import java.util.Objects;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -46,15 +45,11 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
             } else {
 
                 EntityType<?> entityType = this.getType(stack);
-                BlockPos spawnPos = context.getClickedFace().getOpposite() == Direction.DOWN
+                BlockPos spawnPos = context.getClickedFace() == Direction.DOWN
                         ? (new BlockPos(pos.getX(), (int) (pos.getY() - entityType.getHeight()), pos.getZ())) : pos.relative(context.getClickedFace());
-                BlockPos pos1;
-                if (state.getCollisionShape(world, spawnPos).isEmpty())
-                    pos1 = spawnPos;
-                else pos1 = spawnPos.relative(direction);
 
-                Entity entity = entityType.spawn((ServerLevel) world, stack, context.getPlayer(), pos1, MobSpawnType.SPAWN_EGG, true,
-                        !Objects.equals(spawnPos, pos1) && direction == Direction.UP);
+                Entity entity = entityType.spawn((ServerLevel) world, stack, context.getPlayer(), spawnPos, MobSpawnType.SPAWN_EGG, true,
+                        direction == Direction.UP);
                 if (entity != null) {
                     stack.shrink(1);
                     world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
