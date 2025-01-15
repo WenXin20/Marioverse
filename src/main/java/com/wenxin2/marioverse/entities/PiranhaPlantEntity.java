@@ -36,6 +36,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
@@ -277,7 +278,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = entityPos.relative(direction);
             BlockState neighborState = this.level().getBlockState(neighborPos);
-            if (!neighborState.isAir() && neighborState.isFaceSturdy(this.level(), neighborPos, direction.getOpposite())) {
+            if (!neighborState.isAir() && !neighborState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
+                    && (neighborState.isFaceSturdy(this.level(), neighborPos, direction.getOpposite())
+                        || neighborState.getBlock() instanceof LeavesBlock)) {
                 return neighborPos;
             }
         }

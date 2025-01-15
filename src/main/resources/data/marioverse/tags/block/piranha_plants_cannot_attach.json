@@ -1,0 +1,7 @@
+{
+  "_comment": "Blocks that piranha plants cannot attach to",
+  "replace": false,
+  "values": [
+    "#minecraft:ice"
+  ]
+}
