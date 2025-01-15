@@ -59,6 +59,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private BlockPos attachedBlock = null;
+    private Direction attachedSide = null;
 
     @Nullable private BlockPos targetPosition;
 
@@ -174,6 +176,24 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         AttributeInstance scale = this.getAttribute(Attributes.SCALE);
         if (scale != null && this.level().getBlockState(this.blockPosition()).getBlock() instanceof FlowerPotBlock)
             scale.setBaseValue(0.4F);
+
+        if (attachedBlock != null) {
+            if (this.level().isEmptyBlock(attachedBlock)) {
+                this.detachFromBlock();
+            } else {
+                this.setNoGravity(true);
+                this.setDeltaMovement(Vec3.ZERO);
+            }
+        }
+
+        if (attachedBlock == null) {
+            BlockPos newBlock = this.findValidBlock();
+            if (newBlock != null) {
+                this.attachToBlock(newBlock, this.determineAttachmentSide(newBlock));
+            } else if (this.onGround() && this.getAttachedSide() != Direction.UP) {
+                setNoGravity(false);
+            }
+        }
     }
 
     @Override
@@ -229,6 +249,49 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Override
     protected Vec3 getLeashOffset() {
         return new Vec3(0.0, this.getEyeHeight() / 1.75, this.getBbWidth() / 2);
+    }
+
+    public Direction getAttachedSide() {
+        return attachedSide;
+    }
+
+    public void setAttachedSide(Direction side) {
+        this.attachedSide = side;
+    }
+
+    public void attachToBlock(BlockPos blockPos, Direction side) {
+        this.attachedBlock = blockPos;
+        this.attachedSide = side;
+        this.setNoGravity(true);
+        this.setDeltaMovement(Vec3.ZERO);
+    }
+
+    public void detachFromBlock() {
+        this.attachedBlock = null;
+        this.attachedSide = null;
+        this.setNoGravity(false);
+    }
+
+    private BlockPos findValidBlock() {
+        BlockPos entityPos = this.blockPosition();
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = entityPos.relative(direction);
+            BlockState neighborState = this.level().getBlockState(neighborPos);
+            if (!neighborState.isAir() && neighborState.isFaceSturdy(this.level(), neighborPos, direction.getOpposite())) {
+                return neighborPos;
+            }
+        }
+        return null;
+    }
+
+    private Direction determineAttachmentSide(BlockPos blockPos) {
+        BlockPos entityPos = this.blockPosition();
+        for (Direction direction : Direction.values()) {
+            if (blockPos.relative(direction.getOpposite()).equals(entityPos)) {
+                return direction.getOpposite();
+            }
+        }
+        return Direction.UP;
     }
 
     private float currentScale = 1.0F;

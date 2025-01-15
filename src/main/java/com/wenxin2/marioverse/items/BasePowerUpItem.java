@@ -27,44 +27,44 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
     @NotNull
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        if (!(level instanceof ServerLevel)) {
+        Level world = context.getLevel();
+        if (!(world instanceof ServerLevel)) {
             return InteractionResult.SUCCESS;
         } else {
             ItemStack stack = context.getItemInHand();
             BlockPos blockpos = context.getClickedPos();
             Direction direction = context.getClickedFace();
-            BlockState blockstate = level.getBlockState(blockpos);
+            BlockState blockstate = world.getBlockState(blockpos);
 
-            if (level.getBlockEntity(blockpos) instanceof Spawner spawner
+            if (world.getBlockEntity(blockpos) instanceof Spawner spawner
                     && (context.getPlayer() != null && context.getPlayer().isCreative())) {
                 EntityType<?> entitytype1 = this.getType(stack);
-                spawner.setEntityId(entitytype1, level.getRandom());
-                level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
-                level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
+                spawner.setEntityId(entitytype1, world.getRandom());
+                world.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
+                world.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
                 stack.shrink(1);
                 return InteractionResult.CONSUME;
-            } else if (level.getBlockEntity(blockpos) instanceof Spawner spawner
+            } else if (world.getBlockEntity(blockpos) instanceof Spawner spawner
                     && context.getPlayer() == null) {
                 EntityType<?> entitytype1 = this.getType(stack);
-                spawner.setEntityId(entitytype1, level.getRandom());
-                level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
-                level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
+                spawner.setEntityId(entitytype1, world.getRandom());
+                world.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
+                world.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
                 stack.shrink(1);
                 return InteractionResult.CONSUME;
             } else {
                 BlockPos blockpos1;
-                if (blockstate.getCollisionShape(level, blockpos).isEmpty()) {
+                if (blockstate.getCollisionShape(world, blockpos).isEmpty()) {
                     blockpos1 = blockpos;
                 } else {
                     blockpos1 = blockpos.relative(direction);
                 }
 
                 EntityType<?> entitytype = this.getType(stack);
-                if (entitytype.spawn((ServerLevel) level, stack, context.getPlayer(), blockpos1, MobSpawnType.SPAWN_EGG, true,
+                if (entitytype.spawn((ServerLevel) world, stack, context.getPlayer(), blockpos1, MobSpawnType.SPAWN_EGG, true,
                         !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
                     stack.shrink(1);
-                    level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
+                    world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
                 }
 
                 return InteractionResult.CONSUME;

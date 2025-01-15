@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
@@ -78,7 +79,7 @@ public class ItemRegistry {
         MINI_GOOMBA_SPAWN_EGG = registerItem("mini_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFF0000, 0xFFFFFF, new Item.Properties()));
+                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFF0000, 0xFFFFFF, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {
