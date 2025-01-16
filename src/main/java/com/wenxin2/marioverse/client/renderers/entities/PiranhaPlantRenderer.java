@@ -29,19 +29,19 @@ public class PiranhaPlantRenderer extends GeoEntityRenderer<PiranhaPlantEntity> 
                     break;
                 case NORTH:
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90));
-                    poseStack.translate(0, 0, 0.5D);
+                    poseStack.translate(0, -0.5, 0.5);
                     break;
                 case SOUTH:
                     poseStack.mulPose(Axis.XP.rotationDegrees(90));
-                    poseStack.translate(0, 0, -0.5D);
+                    poseStack.translate(0, -0.5, -0.5);
                     break;
                 case EAST:
                     poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
-                    poseStack.translate(-0.5D, 0, 0);
+                    poseStack.translate(-0.5, -0.5, 0);
                     break;
                 case WEST:
                     poseStack.mulPose(Axis.ZP.rotationDegrees(90));
-                    poseStack.translate(0.5D, 0, 0);
+                    poseStack.translate(0.5, -0.5, 0);
                     break;
             }
         }
