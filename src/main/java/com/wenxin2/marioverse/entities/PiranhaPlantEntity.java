@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -41,6 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -62,11 +65,17 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private BlockPos attachedBlock = null;
     private Direction attachedSide = null;
+    private PiranhaPlantPart[] subEntities;
+    public PiranhaPlantPart head;
+    private float lastWidth = -1.0F;
+    private float lastHeight = -1.0F;
 
     @Nullable private BlockPos targetPosition;
 
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
+        this.head = new PiranhaPlantPart(this, "head", 1.0F * this.getWidthAttribute(), 1.0F * this.getHeightAttribute());
+        this.subEntities = new PiranhaPlantPart[]{this.head};
     }
 
     @Override
@@ -167,6 +176,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public void tick() {
+        float currentWidth = getWidthAttribute();
+        float currentHeight = getHeightAttribute();
+
         super.tick();
         this.checkForCollisions();
         this.hideInBlock();
@@ -179,7 +191,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             scale.setBaseValue(0.4F);
 
         if (attachedBlock != null) {
-            if (this.level().isEmptyBlock(attachedBlock)) {
+            if (this.level().isEmptyBlock(attachedBlock) && !this.isHiding()) {
                 this.detachFromBlock();
             } else {
                 this.setNoGravity(true);
@@ -191,9 +203,15 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             BlockPos newBlock = this.findValidBlock();
             if (newBlock != null) {
                 this.attachToBlock(newBlock, this.determineAttachmentSide(newBlock));
-            } else if (this.onGround() && this.getAttachedSide() != Direction.UP) {
-                setNoGravity(false);
+            } else if (this.onGround() && this.getAttachedSide() == Direction.UP) {
+                this.setNoGravity(false);
             }
+        }
+
+        if (currentWidth != lastWidth || currentHeight != lastHeight) {
+            lastWidth = currentWidth;
+            lastHeight = currentHeight;
+            this.recreateHeadPart(currentWidth, currentHeight);
         }
     }
 
@@ -250,6 +268,74 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Override
     protected Vec3 getLeashOffset() {
         return new Vec3(0.0, this.getEyeHeight() / 1.75, this.getBbWidth() / 2);
+    }
+
+    @Override
+    public boolean isMultipartEntity() {
+        return true;
+    }
+
+    @Override
+    public PartEntity<?> @NotNull [] getParts() {
+        return this.subEntities;
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        Direction attachedSide = this.getAttachedSide();
+        if (attachedSide != null) {
+            Vec3 offset = calculateHitboxOffset(attachedSide);
+            this.tickPart(this.head, offset.x, offset.y, offset.z);
+        }
+    }
+
+    public boolean hurt(DamageSource source, float damageAmount) {
+        if (damageAmount < 0.01F) {
+            return false;
+        }
+        this.reallyHurt(source, damageAmount);
+        return true;
+    }
+
+    protected void reallyHurt(DamageSource source, float damageAmount) {
+        super.hurt(source, damageAmount);
+    }
+
+    private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
+        part.setPos(this.getX() + offsetX, this.getY() + offsetY, this.getZ() + offsetZ);
+    }
+
+    private void recreateHeadPart(float width, float height) {
+        this.head = new PiranhaPlantPart(this, "head", width, height);
+        this.subEntities = new PiranhaPlantPart[]{this.head};
+    }
+
+    private Vec3 calculateHitboxOffset(Direction attachedSide) {
+        double width = this.getWidthAttribute();
+        double height = this.getHeightAttribute();
+        double offsetX = 0.0;
+        double offsetY = 0.5 * height;
+        double offsetZ = 0.0;
+
+        switch (attachedSide) {
+            case UP -> offsetY = 1.0 * height;
+            case DOWN -> offsetY = -1.0 * height;
+            case NORTH -> offsetZ = -1.0 * width;
+            case SOUTH -> offsetZ = 1.0 * width;
+            case WEST -> offsetX = -1.0 * width;
+            case EAST -> offsetX = 1.0 * width;
+        }
+
+        return new Vec3(offsetX, offsetY, offsetZ);
+    }
+
+    private float getWidthAttribute() {
+        return (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+    }
+
+    private float getHeightAttribute() {
+        return (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
     }
 
     public Direction getAttachedSide() {
@@ -451,7 +537,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     public void checkForCollisions() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.15D), entity -> !entity.isSpectator()
+                this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
         if (!nearbyEntities.isEmpty() && this.isHiding()) {
