@@ -45,8 +45,7 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
             } else {
 
                 EntityType<?> entityType = this.getType(stack);
-                BlockPos spawnPos = context.getClickedFace() == Direction.DOWN
-                        ? (new BlockPos(pos.getX(), (int) (pos.getY() - entityType.getHeight()), pos.getZ())) : pos.relative(context.getClickedFace());
+                BlockPos spawnPos = pos.relative(context.getClickedFace());
 
                 Entity entity = entityType.spawn((ServerLevel) world, stack, context.getPlayer(), spawnPos, MobSpawnType.SPAWN_EGG, true,
                         direction == Direction.UP);

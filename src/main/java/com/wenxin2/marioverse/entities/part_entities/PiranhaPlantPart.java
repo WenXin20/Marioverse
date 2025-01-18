@@ -7,14 +7,16 @@ import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
@@ -58,27 +60,16 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
         this.checkForCollisions();
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float damageAmount) {
-        return !this.isInvulnerableTo(source) && this.parentMob.hurt(source, damageAmount);
-    }
-
     @NotNull
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
-        throw new UnsupportedOperationException();
+        return new ClientboundAddEntityPacket(this, entity);
     }
 
     @NotNull
     @Override
     public EntityDimensions getDimensions(Pose pose) {
         return this.size;
-    }
-
-    @Override
-    public void refreshDimensions() {
-        super.refreshDimensions();
-        this.setBoundingBox(this.size.makeBoundingBox(this.position()));
     }
 
     @Override
@@ -91,6 +82,21 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
         if (!parentMob.isSleeping()) {
             super.push(entity);
         }
+    }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
+    @Override
+    public InteractionResult interact(Player p_19978_, InteractionHand p_19979_) {
+        return super.interact(p_19978_, p_19979_);
     }
 
     @Override

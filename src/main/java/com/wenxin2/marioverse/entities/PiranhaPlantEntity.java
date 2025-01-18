@@ -23,6 +23,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -67,8 +68,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private Direction attachedSide = null;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
-    private float lastWidth = -1.0F;
-    private float lastHeight = -1.0F;
+    private float lastWidth = 1.0F;
+    private float lastHeight = 1.0F;
 
     @Nullable private BlockPos targetPosition;
 
@@ -223,6 +224,19 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         this.handleAirSupply(i);
     }
 
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        Direction attachedSide = this.getAttachedSide();
+
+        if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
+                || attachedSide == Direction.EAST || attachedSide == Direction.WEST) {
+            return EntityDimensions.scalable(1.0F, 1.0F);
+        } else if (attachedSide == Direction.DOWN)
+            return EntityDimensions.scalable(1.0F, 1.0F).withEyeHeight(-0.9F);
+
+        return super.getDefaultDimensions(pose);
+    }
+
     public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                       MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL
@@ -286,20 +300,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         Direction attachedSide = this.getAttachedSide();
         if (attachedSide != null) {
             Vec3 offset = calculateHitboxOffset(attachedSide);
-            this.tickPart(this.head, offset.x, offset.y, offset.z);
+            if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
+                    || attachedSide == Direction.EAST || attachedSide == Direction.WEST
+                    || attachedSide == Direction.DOWN)
+                this.tickPart(this.head, offset.x, offset.y, offset.z);
         }
-    }
-
-    public boolean hurt(DamageSource source, float damageAmount) {
-        if (damageAmount < 0.01F) {
-            return false;
-        }
-        this.reallyHurt(source, damageAmount);
-        return true;
-    }
-
-    protected void reallyHurt(DamageSource source, float damageAmount) {
-        super.hurt(source, damageAmount);
     }
 
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
@@ -315,7 +320,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         double width = this.getWidthAttribute();
         double height = this.getHeightAttribute();
         double offsetX = 0.0;
-        double offsetY = 0.5 * height;
+        double offsetY = 0.0;
         double offsetZ = 0.0;
 
         switch (attachedSide) {
@@ -435,7 +440,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             return;
         }
 
-        Direction[] prioritizedDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+        Direction[] prioritizedDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         if (this.isHiding()) {
             // Handle emerging from hiding
