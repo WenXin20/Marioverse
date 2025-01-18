@@ -8,16 +8,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,15 +76,23 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
     }
 
     @Override
+    public boolean hurt(DamageSource source, float damageAmount) {
+        if (this.level().isClientSide && source.getDirectEntity() instanceof Player player) {
+            this.level().sendPacketToServer(ServerboundInteractPacket.createAttackPacket(this.getParent(), player.isShiftKeyDown()));
+        }
+
+        return !this.isInvulnerableTo(source) && this.getParent().hurt(source, damageAmount);
+    }
+
+    @Override
     public boolean canBeHitByProjectile() {
         return this.isAlive();
     }
 
     @Override
     public void push(final Entity entity) {
-        if (!parentMob.isSleeping()) {
+        if (!this.getParent().isSleeping())
             super.push(entity);
-        }
     }
 
     @Override
@@ -94,9 +105,25 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
         return false;
     }
 
+    @NotNull
     @Override
-    public InteractionResult interact(Player p_19978_, InteractionHand p_19979_) {
-        return super.interact(p_19978_, p_19979_);
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if (this.level().isClientSide)
+            this.level().sendPacketToServer(ServerboundInteractPacket.createInteractionPacket(this.getParent(), player.isShiftKeyDown(), hand));
+        return super.interact(player, hand);
+    }
+
+    @NotNull
+    @Override
+    public InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
+        if (this.level().isClientSide)
+            this.level().sendPacketToServer(ServerboundInteractPacket.createInteractionPacket(this.getParent(), player.isShiftKeyDown(), hand, vec3));
+        return super.interactAt(player, vec3, hand);
+    }
+
+    @Override
+    public boolean canRiderInteract() {
+        return this.getParent().canRiderInteract();
     }
 
     @Override
@@ -109,14 +136,14 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
                 this.getBoundingBox().inflate(0.15D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
-        if (!nearbyEntities.isEmpty() && parentMob.isHiding()) {
+        if (!nearbyEntities.isEmpty() && this.getParent().isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
                         || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     return;
 
-                parentMob.swing(InteractionHand.MAIN_HAND);
-                parentMob.doHurtTarget(collidingEntity);
+                this.getParent().swing(InteractionHand.MAIN_HAND);
+                this.getParent().doHurtTarget(collidingEntity);
                 break;
             }
         }
