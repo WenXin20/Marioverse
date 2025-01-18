@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
@@ -24,10 +25,11 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
+public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements Leashable {
     public final PiranhaPlantEntity parentMob;
     public final String name;
     private final EntityDimensions size;
+    private Leashable.LeashData leashData;
 
     public PiranhaPlantPart(PiranhaPlantEntity parentMob, String name, float width, float height) {
         super(parentMob);
@@ -41,10 +43,14 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {}
+    public void readAdditionalSaveData(CompoundTag tag) {
+        this.leashData = this.readLeashData(tag);
+    }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {}
+    public void addAdditionalSaveData(CompoundTag tag) {
+        this.writeLeashData(tag, this.leashData);
+    }
 
     @Override
     public boolean isPickable() {
@@ -124,6 +130,22 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> {
     @Override
     public boolean canRiderInteract() {
         return this.getParent().canRiderInteract();
+    }
+
+    @Nullable
+    @Override
+    public LeashData getLeashData() {
+        return this.leashData;
+    }
+
+    @Override
+    public void setLeashData(@Nullable Leashable.LeashData leashData) {
+        this.leashData = leashData;
+    }
+
+    @Override
+    public boolean canBeLeashed() {
+        return true;
     }
 
     @Override
