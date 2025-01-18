@@ -38,6 +38,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,7 +65,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private BlockPos attachedBlock = null;
+    private BlockPos attachedBlockPos = null;
     private Direction attachedSide = null;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
@@ -191,8 +192,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (scale != null && this.level().getBlockState(this.blockPosition()).getBlock() instanceof FlowerPotBlock)
             scale.setBaseValue(0.4F);
 
-        if (attachedBlock != null) {
-            if (this.level().isEmptyBlock(attachedBlock) && !this.isHiding()) {
+        if (attachedBlockPos != null) {
+            if (this.level().isEmptyBlock(attachedBlockPos) && !this.isHiding()) {
+                this.detachFromBlock();
+            } else if (this.getBlockAttachedTo(this.level()).isAir() && !this.isHiding()) {
                 this.detachFromBlock();
             } else {
                 this.setNoGravity(true);
@@ -200,14 +203,16 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             }
         }
 
-        if (attachedBlock == null) {
+        if (attachedBlockPos == null) {
             BlockPos newBlock = this.findValidBlock();
-            if (newBlock != null) {
+            if (newBlock != null)
                 this.attachToBlock(newBlock, this.determineAttachmentSide(newBlock));
-            } else if (this.onGround() && this.getAttachedSide() == Direction.UP) {
+            else if (this.onGround() && this.getAttachedSide() == Direction.UP)
                 this.setNoGravity(false);
-            }
         }
+
+        if (!this.blockPosition().equals(this.attachedBlockPos))
+            this.attachedBlockPos = this.blockPosition();
 
         if (currentWidth != lastWidth || currentHeight != lastHeight) {
             lastWidth = currentWidth;
@@ -347,19 +352,23 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return attachedSide;
     }
 
+    public BlockState getBlockAttachedTo(Level world) {
+        return world.getBlockState(attachedBlockPos);
+    }
+
     public void setAttachedSide(Direction side) {
         this.attachedSide = side;
     }
 
     public void attachToBlock(BlockPos blockPos, Direction side) {
-        this.attachedBlock = blockPos;
+        this.attachedBlockPos = blockPos;
         this.attachedSide = side;
         this.setNoGravity(true);
         this.setDeltaMovement(Vec3.ZERO);
     }
 
     public void detachFromBlock() {
-        this.attachedBlock = null;
+        this.attachedBlockPos = null;
         this.attachedSide = null;
         this.setNoGravity(false);
     }
