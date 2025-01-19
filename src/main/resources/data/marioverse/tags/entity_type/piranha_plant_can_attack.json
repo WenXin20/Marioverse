@@ -5,6 +5,7 @@
     "minecraft:iron_golem",
     "minecraft:player",
     "minecraft:snow_golem",
+    "minecraft:wandering_trader",
     "minecraft:villager"
   ]
 }
