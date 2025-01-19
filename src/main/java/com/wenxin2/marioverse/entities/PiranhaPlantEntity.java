@@ -205,10 +205,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         if (attachedBlockPos == null) {
             BlockPos newPos = this.findValidBlockPos();
-            if (newPos != null)
+            if (newPos != null && this.determineAttachmentSide(newPos) != Direction.UP)
                 this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
-            else if (this.onGround() && this.getAttachedSide() == Direction.UP)
-                this.setNoGravity(false);
+            else if (this.onGround() && newPos != null && this.getAttachedSide() == Direction.UP)
+                this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
         }
 
         if (currentWidth != lastWidth || currentHeight != lastHeight) {
