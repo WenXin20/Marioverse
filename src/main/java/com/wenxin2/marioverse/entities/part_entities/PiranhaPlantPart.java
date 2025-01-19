@@ -83,10 +83,8 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
 
     @Override
     public boolean hurt(DamageSource source, float damageAmount) {
-        if (this.level().isClientSide && source.getDirectEntity() instanceof Player player) {
+        if (this.level().isClientSide && source.getDirectEntity() instanceof Player player)
             this.level().sendPacketToServer(ServerboundInteractPacket.createAttackPacket(this.getParent(), player.isShiftKeyDown()));
-        }
-
         return !this.isInvulnerableTo(source) && this.getParent().hurt(source, damageAmount);
     }
 
