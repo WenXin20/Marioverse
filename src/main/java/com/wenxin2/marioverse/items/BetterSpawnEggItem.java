@@ -53,8 +53,10 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
                     stack.shrink(1);
                     world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
 
-                    if (entity instanceof PiranhaPlantEntity piranhaPlant)
-                        piranhaPlant.setAttachedSide(context.getClickedFace().getOpposite());
+                    if (entity instanceof PiranhaPlantEntity piranhaPlant) {
+                        BlockPos newPos = piranhaPlant.findValidBlockPos();
+                        piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
+                    }
                 }
 
                 return InteractionResult.CONSUME;

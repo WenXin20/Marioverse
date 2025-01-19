@@ -207,9 +207,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             BlockPos newPos = this.findValidBlockPos();
             if (newPos != null && this.determineAttachmentSide(newPos) != Direction.UP)
                 this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
-            else if (this.onGround() && newPos != null && this.getAttachedSide() == Direction.UP)
+            else if (newPos != null && this.onGround() && this.getAttachedSide() == Direction.UP)
                 this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
         }
+
+        BlockPos newPos = this.findValidBlockPos();
+        if (newPos != null && !newPos.equals(attachedBlockPos))
+            this.setAttachedBlockPos(newPos);
 
         if (currentWidth != lastWidth || currentHeight != lastHeight) {
             lastWidth = currentWidth;
@@ -226,6 +230,17 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         this.handleAirSupply(i);
     }
 
+    @Override
+    public void aiStep() {
+        super.aiStep();
+        Direction attachedSide = this.getAttachedSide();
+        if (attachedSide != null) {
+            Vec3 offset = calculateHitboxOffset(attachedSide);
+            this.tickPart(this.head, offset.x, offset.y, offset.z);
+        } else this.tickPart(this.head, 0.0, 1.0, 00.0);
+    }
+
+    @NotNull
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         Direction attachedSide = this.getAttachedSide();
@@ -297,18 +312,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void aiStep() {
-        super.aiStep();
-        Direction attachedSide = this.getAttachedSide();
-        if (attachedSide != null) {
-            Vec3 offset = calculateHitboxOffset(attachedSide);
-            if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
-                    || attachedSide == Direction.EAST || attachedSide == Direction.WEST
-                    || attachedSide == Direction.DOWN)
-                this.tickPart(this.head, offset.x, offset.y, offset.z);
-        }
-    }
-
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
         part.setPos(this.getX() + offsetX, this.getY() + offsetY, this.getZ() + offsetZ);
     }
@@ -358,8 +361,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     public void attachToBlock(BlockPos blockPos, Direction side) {
+    public void setAttachedBlockPos(BlockPos pos) {
+        this.attachedBlockPos = pos;
+    }
+
+    public void attachToBlock(BlockPos blockPos, Direction direction) {
         this.attachedBlockPos = blockPos;
         this.attachedSide = side;
+        this.attachedSide = direction;
         this.setNoGravity(true);
         this.setDeltaMovement(Vec3.ZERO);
     }
@@ -371,6 +380,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     private BlockPos findValidBlockPos() {
+    public BlockPos findValidBlockPos() {
         BlockPos entityPos = this.blockPosition();
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = entityPos.relative(direction);
@@ -385,6 +395,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     private Direction determineAttachmentSide(BlockPos blockPos) {
+    public Direction determineAttachmentSide(BlockPos blockPos) {
         BlockPos entityPos = this.blockPosition();
         for (Direction direction : Direction.values()) {
             if (blockPos.relative(direction.getOpposite()).equals(entityPos)) {
