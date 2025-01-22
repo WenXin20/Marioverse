@@ -559,17 +559,17 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     public void checkForCollisions() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
+                this.getBoundingBox().inflate(0.01), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
-        if (!nearbyEntities.isEmpty() && this.isHiding()) {
+        if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
                         || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     return;
 
                 this.swing(InteractionHand.MAIN_HAND);
-                this.doHurtTarget(collidingEntity);
+                collidingEntity.hurt(DamageSourceRegistry.fireball(this, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 break;
             }
         }
