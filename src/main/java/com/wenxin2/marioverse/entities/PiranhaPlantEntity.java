@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -212,12 +213,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         BlockPos newPos = this.findValidBlockPos();
         if (newPos != null && !newPos.equals(attachedBlockPos))
             this.setAttachedBlockPos(newPos);
-
-        if (currentWidth != lastWidth || currentHeight != lastHeight) {
-            lastWidth = currentWidth;
-            lastHeight = currentHeight;
-            this.recreateHeadPart(currentWidth, currentHeight);
-        }
     }
 
     @Override
@@ -225,7 +220,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         int i = this.getAirSupply();
 
         super.baseTick();
-        this.handleAirSupply(i);
+        this.head.tick();
+        if (this.isAlive() && this.isInWaterOrBubble())
+            this.handleAirSupply(i);
     }
 
     @Override
@@ -259,7 +256,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (facing == null) {
             facing = Direction.UP;
         }
-        
+
         return switch (facing) {
             case UP ->
                     new AABB(
@@ -371,14 +368,32 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return true;
     }
 
+    public PiranhaPlantPart[] getSubEntities() {
+        return this.subEntities;
+    }
+
     @Override
     public PartEntity<?> @NotNull [] getParts() {
         return this.subEntities;
     }
 
     @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        if (true) return;
+        PiranhaPlantPart[] piranhaPlantPart = this.getSubEntities();
+
+        for (int i = 0; i < piranhaPlantPart.length; i++) {
+            piranhaPlantPart[i].setId(i + packet.getId());
+        }
+    }
+
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
+        double width = part.getBbWidth() / 2.0;
+        double height = part.getBbHeight();
         part.setPos(this.getX() + offsetX, this.getY() + offsetY, this.getZ() + offsetZ);
+        part.setBoundingBox(new AABB((this.getX() + offsetX) - width, this.getY() + offsetY, (this.getZ() + offsetZ) - width,
+                (this.getX() + offsetX) + width, (this.getY() + offsetY) + height, (this.getZ() + offsetZ) + width));
     }
 
     private void recreateHeadPart(float width, float height) {
