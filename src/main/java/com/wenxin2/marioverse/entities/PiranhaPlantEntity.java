@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
-import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
@@ -115,7 +114,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, true));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.PIRANHA_PLANT_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
 
@@ -569,7 +567,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     return;
 
                 this.swing(InteractionHand.MAIN_HAND);
-                collidingEntity.hurt(DamageSourceRegistry.fireball(this, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 break;
             }
         }

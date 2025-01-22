@@ -15,6 +15,11 @@ public class DamageSourceRegistry {
     public static final ResourceKey<DamageType> PLAYER_FIREBALL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_fireball"));
 
+    public static final ResourceKey<DamageType> PIRANHA_CHOMP =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "piranha_chomp"));
+    public static final ResourceKey<DamageType> PLAYER_PIRANHA_CHOMP =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_piranha_chomp"));
+
     public static final ResourceKey<DamageType> STOMP =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "stomp"));
     public static final ResourceKey<DamageType> PLAYER_STOMP =
@@ -46,6 +51,14 @@ public class DamageSourceRegistry {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SUPER_STAR), damagedEntity, attackingEntity);
         } else if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SUPER_STAR), null, attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource piranhaChomp(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (attackingEntity != null && damagedEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_PIRANHA_CHOMP), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PIRANHA_CHOMP), null, attackingEntity);
         } else return null;
     }
 }
