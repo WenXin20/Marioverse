@@ -252,6 +252,73 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return super.getDefaultDimensions(pose);
     }
 
+    @NotNull
+    @Override
+    public AABB makeBoundingBox() {
+        Direction facing = this.getAttachedSide();
+        if (facing == null) {
+            facing = Direction.UP;
+        }
+        
+        return switch (facing) {
+            case UP ->
+                    new AABB(
+                            this.getX() - 0.5, // min X
+                            this.getY(),       // min Y (start from current Y)
+                            this.getZ() - 0.5, // min Z
+                            this.getX() + 0.5, // max X
+                            this.getY() + 2.0, // max Y (increase height for DOWN)
+                            this.getZ() + 0.5  // max Z
+                    );
+            case DOWN ->
+                // When facing DOWN, adjust the height of the bounding box
+                    new AABB(
+                            this.getX() - 0.5, // min X
+                            this.getY() - 1.0,       // min Y (start from current Y)
+                            this.getZ() - 0.5, // min Z
+                            this.getX() + 0.5, // max X
+                            this.getY() + 1.0, // max Y (increase height for DOWN)
+                            this.getZ() + 0.5  // max Z
+                    );
+            case NORTH ->
+                // When facing NORTH or SOUTH, adjust the depth of the bounding box
+                    new AABB(
+                            this.getX() - 0.5,  // min X
+                            this.getY(),        // min Y (no change to height)
+                            this.getZ() - 1.0,  // min Z
+                            this.getX() + 0.5,  // max X
+                            this.getY() + 1.0,  // max Y (adjust height for NORTH/SOUTH)
+                            this.getZ() + 1.0   // max Z (adjust depth)
+                    );
+            case SOUTH ->
+                // When facing NORTH or SOUTH, adjust the depth of the bounding box
+                    new AABB(
+                            this.getX() - 0.5,  // min X
+                            this.getY(),        // min Y (no change to height)
+                            this.getZ() - 0.5,  // min Z
+                            this.getX() + 0.5,  // max X
+                            this.getY() + 1.0,  // max Y (adjust height for NORTH/SOUTH)
+                            this.getZ() + 2.0   // max Z (adjust depth)
+                    );
+            case EAST -> new AABB(
+                    this.getX() - 1.0,  // min X
+                    this.getY(),        // min Y (no change to height)
+                    this.getZ() - 0.5,  // min Z
+                    this.getX() + 1.0,  // max X (increase width for EAST/WEST)
+                    this.getY() + 2.0,  // max Y (adjust height)
+                    this.getZ() + 0.5   // max Z (no change to Z)
+            );
+            case WEST -> new AABB(
+                    this.getX() - 0.5,  // min X
+                    this.getY(),        // min Y (no change to height)
+                    this.getZ() - 0.5,  // min Z
+                    this.getX() + 1.0,  // max X (increase width for EAST/WEST)
+                    this.getY() + 1.0,  // max Y (adjust height)
+                    this.getZ() + 0.5   // max Z (no change to Z)
+            );
+        };
+    }
+
     public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                       MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL
@@ -358,7 +425,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         this.attachedSide = side;
     }
 
-    public void attachToBlock(BlockPos blockPos, Direction side) {
     public void setAttachedBlockPos(BlockPos pos) {
         this.attachedBlockPos = pos;
     }

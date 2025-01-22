@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.part_entities;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.init.DamageSourceRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -19,8 +20,10 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
@@ -64,8 +67,8 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
     }
 
     @Override
-    public void baseTick() {
-        super.baseTick();
+    public void tick() {
+        super.tick();
         this.checkForCollisions();
     }
 
@@ -153,17 +156,17 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
 
     public void checkForCollisions() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.15D), entity -> !entity.isSpectator()
+                this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
-        if (!nearbyEntities.isEmpty() && this.getParent().isHiding()) {
+        if (!nearbyEntities.isEmpty() && !this.getParent().isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
                         || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     return;
 
                 this.getParent().swing(InteractionHand.MAIN_HAND);
-                this.getParent().doHurtTarget(collidingEntity);
+                collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this.getParent()), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
                 break;
             }
         }
