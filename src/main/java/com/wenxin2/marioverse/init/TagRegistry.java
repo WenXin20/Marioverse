@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 
 public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
+    public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
 

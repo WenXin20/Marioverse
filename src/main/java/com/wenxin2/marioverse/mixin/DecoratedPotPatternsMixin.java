@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DecoratedPotPatterns.class)
 public class DecoratedPotPatternsMixin {
-    @Unique
-    private static final ResourceKey<DecoratedPotPattern> MV$BOWSER = marioverse$create("bowser");
+    @Unique private static final ResourceKey<DecoratedPotPattern> MV$BOWSER = marioverse$create("bowser");
+    @Unique private static final ResourceKey<DecoratedPotPattern> MV$PLUMBER = marioverse$create("plumber");
 
 
     @Inject(method = "getPatternFromItem", at = @At("TAIL"), cancellable = true)
@@ -26,12 +26,15 @@ public class DecoratedPotPatternsMixin {
         if (cir.getReturnValue() == null) {
             if (item == ItemRegistry.BOWSER_POTTERY_SHERD.get())
                 cir.setReturnValue(MV$BOWSER);
+            if (item == ItemRegistry.PLUMBER_POTTERY_SHERD.get())
+                cir.setReturnValue(MV$PLUMBER);
         }
     }
 
     @Inject(method = "bootstrap", at = @At("TAIL"))
     private static void bootstrap(Registry<DecoratedPotPattern> registry, CallbackInfoReturnable<DecoratedPotPattern> cir) {
         marioverse$register(registry, MV$BOWSER, "bowser_pottery_pattern");
+        marioverse$register(registry, MV$PLUMBER, "plumber_pottery_pattern");
     }
 
     @Unique

@@ -1,5 +1,6 @@
 {
   "values": [
-    { "id": "marioverse:bowser_pottery_sherd", "required": false }
+    { "id": "marioverse:bowser_pottery_sherd", "required": false },
+    { "id": "marioverse:plumber_pottery_sherd", "required": false }
   ]
 }

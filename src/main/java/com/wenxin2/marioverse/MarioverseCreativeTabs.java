@@ -54,7 +54,9 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
+            add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD.get());
+            add(event, ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
@@ -134,7 +136,9 @@ public class MarioverseCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             addAfter(event, Items.GUSTER_BANNER_PATTERN, ItemRegistry.BOWSER_BANNER_PATTERN.get());
+            addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN.get(), ItemRegistry.PLUMBER_BANNER_PATTERN.get());
             addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD.get());
+            addAfter(event, ItemRegistry.BOWSER_POTTERY_SHERD.get(), ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {

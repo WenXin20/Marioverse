@@ -28,6 +28,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_SHOES;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
+    public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
@@ -67,6 +69,11 @@ public class ItemRegistry {
                 () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
         BOWSER_POTTERY_SHERD = registerItem("bowser_pottery_sherd",
                 () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+        PLUMBER_BANNER_PATTERN = registerItem("plumber_banner_pattern",
+                () -> new BannerPatternItem(TagRegistry.PLUMBER_BANNER_PATTERN, new Item.Properties().stacksTo(1)));
+        PLUMBER_POTTERY_SHERD = registerItem("plumber_pottery_sherd",
+                () -> new Item(new Item.Properties()));
 
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xCC5F51, 0xFFCE00, new Item.Properties()));
