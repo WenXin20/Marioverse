@@ -65,12 +65,13 @@ public class PiranhaPlantRenderer extends GeoEntityRenderer<PiranhaPlantEntity> 
     }
 
     private static void renderHitboxes(PoseStack poseStack, VertexConsumer vertexConsumer, PiranhaPlantEntity entity) {
-        AABB customBoundingBox = entity.makeBoundingBox();
-        AABB relativeBox = customBoundingBox.move(-entity.getX(), -entity.getY(), -entity.getZ());
-        AABB relativeBoxInflate = customBoundingBox.move(-entity.getX(), -entity.getY(), -entity.getZ()).inflate(0.01);
+        AABB mainBoundingBox = entity.makeBoundingBox();
+        AABB headBoundingBox = entity.head.makeBoundingBox();
+        AABB relativeBox = mainBoundingBox.move(-entity.getX(), -entity.getY(), -entity.getZ());
+        AABB relativeBoxInflate = mainBoundingBox.move(-entity.getX(), -entity.getY(), -entity.getZ()).inflate(0.01);
 
         if (entity.isMultipartEntity()) {
-            AABB piranhaPart = customBoundingBox.move(-entity.head.getX(), -entity.head.getY(), -entity.head.getZ());
+            AABB piranhaPart = headBoundingBox.move(-entity.head.getX(), -entity.head.getY(), -entity.head.getZ());
 
             poseStack.pushPose();
                 LevelRenderer.renderLineBox(poseStack, vertexConsumer, piranhaPart, 0.25F, 1.0F, 0.0F, 1.0F);
