@@ -30,6 +30,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -68,8 +69,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
-    private float lastWidth = 1.0F;
-    private float lastHeight = 1.0F;
 
     @Nullable private BlockPos targetPosition;
 
@@ -176,12 +175,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public void tick() {
-        float currentWidth = getWidthAttribute();
-        float currentHeight = getHeightAttribute();
 
         super.tick();
         this.checkForCollisions();
-        this.hideInBlock();
+//        this.hideInBlock();
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
@@ -229,6 +226,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     public void aiStep() {
         super.aiStep();
         Direction attachedSide = this.getAttachedSide();
+
         if (attachedSide != null) {
             Vec3 offset = calculateHitboxOffset(attachedSide);
             this.tickPart(this.head, offset.x, offset.y, offset.z);
@@ -253,66 +251,31 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Override
     public AABB makeBoundingBox() {
         Direction facing = this.getAttachedSide();
-        if (facing == null) {
+        double height = this.getHeightAttribute();
+        double width = this.getWidthAttribute();
+
+        if (facing == null)
             facing = Direction.UP;
-        }
 
         return switch (facing) {
-            case UP ->
-                    new AABB(
-                            this.getX() - 0.5, // min X
-                            this.getY(),       // min Y (start from current Y)
-                            this.getZ() - 0.5, // min Z
-                            this.getX() + 0.5, // max X
-                            this.getY() + 2.0, // max Y (increase height for DOWN)
-                            this.getZ() + 0.5  // max Z
-                    );
-            case DOWN ->
-                // When facing DOWN, adjust the height of the bounding box
-                    new AABB(
-                            this.getX() - 0.5, // min X
-                            this.getY() - 1.0,       // min Y (start from current Y)
-                            this.getZ() - 0.5, // min Z
-                            this.getX() + 0.5, // max X
-                            this.getY() + 1.0, // max Y (increase height for DOWN)
-                            this.getZ() + 0.5  // max Z
-                    );
-            case NORTH ->
-                // When facing NORTH or SOUTH, adjust the depth of the bounding box
-                    new AABB(
-                            this.getX() - 0.5,  // min X
-                            this.getY(),        // min Y (no change to height)
-                            this.getZ() - 1.0,  // min Z
-                            this.getX() + 0.5,  // max X
-                            this.getY() + 1.0,  // max Y (adjust height for NORTH/SOUTH)
-                            this.getZ() + 1.0   // max Z (adjust depth)
-                    );
-            case SOUTH ->
-                // When facing NORTH or SOUTH, adjust the depth of the bounding box
-                    new AABB(
-                            this.getX() - 0.5,  // min X
-                            this.getY(),        // min Y (no change to height)
-                            this.getZ() - 0.5,  // min Z
-                            this.getX() + 0.5,  // max X
-                            this.getY() + 1.0,  // max Y (adjust height for NORTH/SOUTH)
-                            this.getZ() + 2.0   // max Z (adjust depth)
-                    );
+            case UP -> new AABB(
+                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 0.5 * width,
+                    this.getX() + 0.5 * width, this.getY() + 2.3125 * height, this.getZ() + 0.5 * width);
+            case DOWN -> new AABB(
+                    this.getX() - 0.5 * width, this.getY() - 1.3125, this.getZ() - 0.5 * width,
+                    this.getX() + 0.5 * width, this.getY() + 1.0 * height, this.getZ() + 0.5 * width);
+            case NORTH -> new AABB(
+                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 1.8125 * width,
+                    this.getX() + 0.5 * width, this.getY() + 1.0 * height, this.getZ() + 0.5 * width);
+            case SOUTH -> new AABB(
+                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 0.5 * width,
+                    this.getX() + 0.5 * width, this.getY() + 1.0 * height, this.getZ() + 1.8125 * width);
             case EAST -> new AABB(
-                    this.getX() - 1.0,  // min X
-                    this.getY(),        // min Y (no change to height)
-                    this.getZ() - 0.5,  // min Z
-                    this.getX() + 1.0,  // max X (increase width for EAST/WEST)
-                    this.getY() + 2.0,  // max Y (adjust height)
-                    this.getZ() + 0.5   // max Z (no change to Z)
-            );
+                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 0.5 * width,
+                    this.getX() + 1.8125 * width, this.getY() + 1.0 * height, this.getZ() + 0.5 * width);
             case WEST -> new AABB(
-                    this.getX() - 0.5,  // min X
-                    this.getY(),        // min Y (no change to height)
-                    this.getZ() - 0.5,  // min Z
-                    this.getX() + 1.0,  // max X (increase width for EAST/WEST)
-                    this.getY() + 1.0,  // max Y (adjust height)
-                    this.getZ() + 0.5   // max Z (no change to Z)
-            );
+                    this.getX() - 1.8125 * width, this.getY(), this.getZ() - 0.5  * width,
+                    this.getX() + 0.5  * width, this.getY() + 1.0  * height, this.getZ() + 0.5  * width);
         };
     }
 
@@ -391,14 +354,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
         double width = part.getBbWidth() / 2.0;
         double height = part.getBbHeight();
-        part.setPos(this.getX() + offsetX, this.getY() + offsetY, this.getZ() + offsetZ);
-        part.setBoundingBox(new AABB((this.getX() + offsetX) - width, this.getY() + offsetY, (this.getZ() + offsetZ) - width,
-                (this.getX() + offsetX) + width, (this.getY() + offsetY) + height, (this.getZ() + offsetZ) + width));
-    }
+        double heightScale = this.getHeightAttribute();
+        double widthScale = this.getWidthAttribute();
 
-    private void recreateHeadPart(float width, float height) {
-        this.head = new PiranhaPlantPart(this, "head", width, height);
-        this.subEntities = new PiranhaPlantPart[]{this.head};
+        part.setPos(this.getX() + offsetX, this.getY() + offsetY, this.getZ() + offsetZ);
+        part.setBoundingBox(new AABB(this.getX() + offsetX - width, this.getY() + offsetY, this.getZ() + offsetZ - width,
+                this.getX() + (offsetX + width * widthScale), this.getY() + (offsetY + height * heightScale), this.getZ() + (offsetZ + width * widthScale)));
     }
 
     private Vec3 calculateHitboxOffset(Direction attachedSide) {
@@ -420,12 +381,18 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return new Vec3(offsetX, offsetY, offsetZ);
     }
 
-    private float getWidthAttribute() {
-        return (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+    private float getHeightAttribute() {
+        AttributeMap attributeMap = this.getAttributes();
+        if (attributeMap != null)
+            return (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        else return 1.0F;
     }
 
-    private float getHeightAttribute() {
-        return (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+    private float getWidthAttribute() {
+        AttributeMap attributeMap = this.getAttributes();
+        if (attributeMap != null)
+            return (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+        else return 1.0F;
     }
 
     public Direction getAttachedSide() {
@@ -446,7 +413,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     public void attachToBlock(BlockPos blockPos, Direction direction) {
         this.attachedBlockPos = blockPos;
-        this.attachedSide = side;
         this.attachedSide = direction;
         this.setNoGravity(true);
         this.setDeltaMovement(Vec3.ZERO);
@@ -458,7 +424,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         this.setNoGravity(false);
     }
 
-    private BlockPos findValidBlockPos() {
     public BlockPos findValidBlockPos() {
         BlockPos entityPos = this.blockPosition();
         for (Direction direction : Direction.values()) {
@@ -473,7 +438,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return null;
     }
 
-    private Direction determineAttachmentSide(BlockPos blockPos) {
     public Direction determineAttachmentSide(BlockPos blockPos) {
         BlockPos entityPos = this.blockPosition();
         for (Direction direction : Direction.values()) {
@@ -528,21 +492,20 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         }
 
-        if (this.isHiding() && !state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                && !stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                && !state.hasProperty(BlockStateProperties.FACING)
-                && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
-            this.stopHiding();
-            return;
-        }
+//        if (this.isHiding() && !state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+//                && !stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+//                && !state.hasProperty(BlockStateProperties.FACING)
+//                && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
+//            this.stopHiding();
+//            return;
+//        }
 
         Direction[] prioritizedDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         if (this.isHiding()) {
             // Handle emerging from hiding
             for (Direction direction : prioritizedDirections) {
-                BlockPos offsetPos = pos.relative(direction.getOpposite());
-                BlockState offsetState = world.getBlockState(offsetPos);
+                BlockPos offsetPos = pos.relative(direction);
 
                 // Check if the block has a FACING property or proceed without it
                 if (state.hasProperty(BlockStateProperties.FACING)
@@ -554,6 +517,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                         double deltaX = offsetPos.getX() - this.getX();
                         double deltaY = offsetPos.getY() - this.getY();
                         double deltaZ = offsetPos.getZ() - this.getZ();
+                        double deltaZ = oppositePos.getZ() - this.getZ();
                         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
                         this.setNoGravity(false);
@@ -567,17 +531,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     }
                 }
 
-                if (!state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                        && !offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-                    this.stopHiding();
-                    return;
-                }
+//                if (!state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
             }
         } else {
+        } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L) {
             // Handle hiding logic
             for (Direction direction : prioritizedDirections) {
-                BlockPos offsetPos = pos.relative(direction.getOpposite());
-                BlockState offsetState = world.getBlockState(offsetPos);
+                BlockPos offsetPos = pos.relative(direction);
+                BlockPos oppositePos = pos.relative(direction.getOpposite());
 
                 // Check if the block has a FACING property or proceed without it
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
@@ -589,15 +550,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                         double deltaX = offsetPos.getX() - this.getX();
                         double deltaY = offsetPos.getY() - this.getY();
                         double deltaZ = offsetPos.getZ() - this.getZ();
+                        double deltaY = (oppositePos.getY() + 0.5) - this.getY();
 //                        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-                        double distance = Math.abs(deltaY);;
+                        double distance = Math.abs(deltaY);
 
-                        if (distance > 0) {
-                            this.setDeltaMovement(0, (deltaY / distance) * speed, 0);
-//                            this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
-                        }
                         this.setNoGravity(true);
                         this.noPhysics = true;
+//                      this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
                         this.tryToHide();
                     }
                 }

@@ -31,15 +31,15 @@ import org.jetbrains.annotations.NotNull;
 public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements Leashable {
     public final PiranhaPlantEntity parentMob;
     public final String name;
-    private final EntityDimensions size;
+    private EntityDimensions size;
     private Leashable.LeashData leashData;
 
     public PiranhaPlantPart(PiranhaPlantEntity parentMob, String name, float width, float height) {
         super(parentMob);
         this.size = EntityDimensions.scalable(width, height);
-        this.refreshDimensions();
         this.parentMob = parentMob;
         this.name = name;
+        this.refreshDimensions();
     }
 
     @Override
@@ -76,6 +76,12 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
         return new ClientboundAddEntityPacket(this, entity);
+    }
+
+    @NotNull
+    @Override
+    public AABB makeBoundingBox() {
+        return super.makeBoundingBox();
     }
 
     @NotNull
