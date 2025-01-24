@@ -70,8 +70,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
 
-    @Nullable private BlockPos targetPosition;
-
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
         this.head = new PiranhaPlantPart(this, "head", 1.0F * this.getWidthAttribute(), 1.0F * this.getHeightAttribute());
