@@ -10,7 +10,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public record RenamedBlockPayload(BlockPos pos) implements CustomPacketPayload {
+public record RenamedBlockPayload(BlockPos pos, boolean renderWonderFlag) implements CustomPacketPayload {
     public static final Type<RenamedBlockPayload> RENAMED_BLOCK_PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "renamed_block_payload"));
 
@@ -22,6 +22,7 @@ public record RenamedBlockPayload(BlockPos pos) implements CustomPacketPayload {
 
     public static final StreamCodec<FriendlyByteBuf, RenamedBlockPayload> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, RenamedBlockPayload::pos,
+            ByteBufCodecs.BOOL, RenamedBlockPayload::renderWonderFlag,
             RenamedBlockPayload::new
     );
 }

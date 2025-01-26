@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -25,12 +26,10 @@ public class RenamedBlockPacket {
                 Level level = Minecraft.getInstance().level;
                 if (level != null) {
                     BlockEntity blockEntity = level.getBlockEntity(payload.pos());
-                    if (blockEntity instanceof GoalPoleBlockEntity goalPoleBlockEntity) {
-                        // System.out.println("Packet Sent: " + goalPoleBlockEntity.getName());
-                        if (goalPoleBlockEntity.hasCustomName()) {
-                            goalPoleBlockEntity.getDisplayName();
-                        }
-                        goalPoleBlockEntity.setWonderFlag(Boolean.TRUE);
+                    if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
+                        goalPoleBE.setWonderFlag(payload.renderWonderFlag());
+                        goalPoleBE.markUpdated();
+                        goalPoleBE.markUpdatedClients();
                     }
                 }
             });

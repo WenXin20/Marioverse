@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
@@ -64,26 +66,29 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
             if (blockEntity.isAmericanFlag(blockEntity))
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
-            else if (!blockEntity.renderWonderFlag && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+            else if (!blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.CLASSIC_FLAG_SMALL_TEXTURE;
             else if (state.getValue(GoalPoleBlock.LOWERED))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
-            else if (blockEntity.renderWonderFlag)
+            else if (blockEntity.hasWonderFlag())
                 return this.WONDER_FLAG_SMALL_TEXTURE;
             else return this.BOWSER_FLAG_SMALL_TEXTURE;
+
         } else if (blockEntity.isAmericanFlag(blockEntity))
             return this.AMERICAN_FLAG_TEXTURE;
-        else if (!blockEntity.renderWonderFlag && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+
+        else if (!blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
             return this.CLASSIC_FLAG_TEXTURE;
+
         else if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if (blockEntity.renderWonderFlag && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE
+            if (blockEntity.hasWonderFlag() && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE
                     && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.WONDER_FLAG_TEXTURE;
             else if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag.png");
-        } else if (blockEntity.renderWonderFlag) {
-            blockEntity.setChanged();
+
+        } else if (blockEntity.hasWonderFlag()) {
             return this.WONDER_FLAG_TEXTURE;
         }
         else return this.BOWSER_FLAG_TEXTURE;
