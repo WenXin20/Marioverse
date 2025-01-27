@@ -5,7 +5,8 @@ import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
+import com.wenxin2.marioverse.network.client_bound.data.AmericaGoalPolePayload;
+import com.wenxin2.marioverse.network.client_bound.data.WonderGoalPolePayload;
 import java.util.Locale;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -47,11 +48,11 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private boolean playedAppearAnim;
     private boolean playedDisappearAnim;
     private boolean playedSwitchAnim;
-    public boolean renderWonderFlag;
+    private boolean renderWonderFlag;
+    private boolean renderAmericanFlag;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
-        this.renderWonderFlag = Boolean.FALSE;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         Block block = this.getBlockState().getBlock();
 
         if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if ((this.isAmericanFlag(this) || block == BlockRegistry.CLASSIC_GOAL_POLE.get()) && !this.playedDisappearAnim()
+            if ((this.isAmericanFlag() || block == BlockRegistry.CLASSIC_GOAL_POLE.get()) && !this.playedDisappearAnim()
                     && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
                 this.setPlayedDisappearAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
@@ -87,7 +88,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 if (this.getLevel() != null)
                     this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos());
                 event.setAndContinue(APPEAR_ANIM);
-            } else if (!this.playedSwitchAnim() && !this.isAmericanFlag(this) && block != BlockRegistry.CLASSIC_GOAL_POLE.get()) {
+            } else if (!this.playedSwitchAnim() && !this.isAmericanFlag() && block != BlockRegistry.CLASSIC_GOAL_POLE.get()) {
                 this.setPlayedSwitchAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
                     this.updateConnectedSwitchFlags(this.getLevel(), this.getBlockPos());
@@ -104,10 +105,17 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
         tag.putBoolean("playedSwitchAnim", this.playedSwitchAnim);
         tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
+        tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
 
         if (this.name != null) {
-            // System.out.println("Saved CustomName: " + this.name);
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
+//            PacketHandler.sendToAllClients(new AmericaGoalPolePayload(this.getBlockPos(), this.hasAmericanFlag()));
+            PacketHandler.sendToAllClients(new WonderGoalPolePayload(this.getBlockPos(), this.hasWonderFlag()));
+//            if (this.isWonderFlag()) {
+                this.setWonderFlag(true);
+//            } else if (this.isAmericanFlag()) {
+//                this.setAmericanFlag(true);
+//            }
         }
     }
 
@@ -118,23 +126,32 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
         this.playedSwitchAnim = tag.getBoolean("playedSwitchAnim");
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
+        this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
 
-//        System.out.println("Render Wonder Flag: " + this.hasWonderFlag());
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
-            // System.out.println("Loaded CustomName: " + this.name);
             this.markUpdated();
+            this.markUpdatedClients();
+//            PacketHandler.sendToAllClients(new AmericaGoalPolePayload(this.getBlockPos(), this.hasAmericanFlag()));
+            PacketHandler.sendToAllClients(new WonderGoalPolePayload(this.getBlockPos(), this.hasWonderFlag()));
+//            if (this.isWonderFlag()) {
+                this.setWonderFlag(true);
+//            } else if (this.isAmericanFlag()) {
+//                this.setAmericanFlag(true);
+//            }
         }
-
-        PacketHandler.sendToAllClients(new RenamedBlockPayload(this.getBlockPos()));
-        if (this.level != null)
-            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
     }
 
     public void markUpdated() {
         this.setChanged();
         if (this.level != null)
-            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+    }
+
+    public void markUpdatedClients() {
+        this.setChanged();
+        if (this.level != null && this.level.isClientSide)
+            this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     @Override
@@ -267,14 +284,14 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         }
     }
 
-    public boolean isAmericanFlag(GoalPoleBlockEntity blockEntity) {
-        return blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("america")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("america flag")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("usa")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("usa flag")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states of america")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states")
-                || blockEntity.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag");
+    public boolean isAmericanFlag() {
+        return this.getName().getString().toLowerCase(Locale.ROOT).equals("america")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("america flag")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("usa")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("usa flag")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states of america")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag");
     }
 
     public boolean isWonderFlag() {
@@ -287,10 +304,22 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public void setWonderFlag(boolean hasWonderFlag) {
         this.renderWonderFlag = hasWonderFlag;
         this.markUpdated();
-        this.getUpdatePacket();
+        if (this.level != null)
+            this.getUpdatePacket();
     }
 
     public boolean hasWonderFlag() {
         return this.renderWonderFlag;
+    }
+
+    public void setAmericanFlag(boolean hasAmericanFlag) {
+        this.renderAmericanFlag = hasAmericanFlag;
+        this.markUpdated();
+        if (this.level != null)
+            this.getUpdatePacket();
+    }
+
+    public boolean hasAmericanFlag() {
+        return this.renderAmericanFlag;
     }
 }

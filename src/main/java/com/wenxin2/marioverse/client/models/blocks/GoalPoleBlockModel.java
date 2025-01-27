@@ -5,8 +5,6 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
@@ -64,7 +62,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         String colorName = (color != null) ? color.getName().toLowerCase() : "white";
 
         if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.NONE) {
-            if (blockEntity.isAmericanFlag(blockEntity))
+            if (blockEntity.hasAmericanFlag())
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
             else if (!blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.CLASSIC_FLAG_SMALL_TEXTURE;
@@ -74,7 +72,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
                 return this.WONDER_FLAG_SMALL_TEXTURE;
             else return this.BOWSER_FLAG_SMALL_TEXTURE;
 
-        } else if (blockEntity.isAmericanFlag(blockEntity))
+        } else if (blockEntity.hasAmericanFlag())
             return this.AMERICAN_FLAG_TEXTURE;
 
         else if (!blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())

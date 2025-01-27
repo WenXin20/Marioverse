@@ -8,7 +8,8 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.RenamedBlockPayload;
+import com.wenxin2.marioverse.network.client_bound.data.AmericaGoalPolePayload;
+import com.wenxin2.marioverse.network.client_bound.data.WonderGoalPolePayload;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -163,7 +164,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 goalPoleBE.markUpdatedClients();
                 if (goalPoleBE.isWonderFlag()) {
                     goalPoleBE.setWonderFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new RenamedBlockPayload(pos, goalPoleBE.hasWonderFlag()));
+                    PacketHandler.sendToAllClients(new WonderGoalPolePayload(pos, goalPoleBE.hasWonderFlag()));
+                } else if (goalPoleBE.isAmericanFlag()) {
+                    goalPoleBE.setAmericanFlag(Boolean.TRUE);
+                    PacketHandler.sendToAllClients(new AmericaGoalPolePayload(pos, goalPoleBE.hasAmericanFlag()));
                 }
             }
         }
@@ -330,7 +334,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
             if (world.getBlockState(pos).getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get()
                     || (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity
-                        && blockEntity.isAmericanFlag(blockEntity))) {
+                        && blockEntity.isAmericanFlag())) {
                 if (world.getBlockState(posBelow).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
                     if (world.getBlockState(posBelow.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
                             && world.getBlockState(posBelow.above(2)).getValue(COLUMN) == ColumnBlockStates.MIDDLE)
