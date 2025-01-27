@@ -1,0 +1,5 @@
+{
+  "_comment": "Prevents burning entities from dropping coins",
+  "replace": false,
+  "values": []
+}
