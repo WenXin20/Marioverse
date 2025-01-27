@@ -35,7 +35,7 @@
         "condition": "minecraft:entity_properties",
         "entity": "this",
         "predicate": {
-          "type": "#marioverse:drops_coin_blacklist"
+          "type": "#marioverse:cannot_drop_coins"
         }
       }
     },
