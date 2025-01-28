@@ -66,6 +66,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_BRICK_SLAB.get());
             add(event, BlockRegistry.FUNGAL_BRICK_WALL.get());
             add(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
+            add(event, BlockRegistry.POLISHED_FUNGAL_STONE.get());
 
             add(event, BlockRegistry.QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());

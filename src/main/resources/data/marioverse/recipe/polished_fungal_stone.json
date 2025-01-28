@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:polished_fungal_stone",
+  "category": "building",
+  "pattern": [
+    "BM",
+    "MB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "M": {
+      "tag": "c:mushrooms"
+    }
+  },
+  "result": {
+    "id": "marioverse:polished_fungal_stone",
+    "count": 1
+  }
+}

@@ -45,6 +45,7 @@
     { "id": "marioverse:orange_warp_pipe", "required": false },
     { "id": "marioverse:pink_goal_pole", "required": false },
     { "id": "marioverse:pink_warp_pipe", "required": false },
+    { "id": "marioverse:polished_fungal_stone", "required": false },
     { "id": "marioverse:purple_goal_pole", "required": false },
     { "id": "marioverse:purple_warp_pipe", "required": false },
     { "id": "marioverse:purpur_block_pedestal", "required": false },
