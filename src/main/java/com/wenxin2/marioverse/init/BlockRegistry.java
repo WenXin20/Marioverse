@@ -60,6 +60,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE;
+    public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
@@ -116,6 +119,13 @@ public class BlockRegistry {
 
         POLISHED_FUNGAL_STONE = registerBlock("polished_fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
+
+        POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs", () -> stair(POLISHED_FUNGAL_STONE.get()));
+
+        POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab", () -> slab(POLISHED_FUNGAL_STONE.get()));
+
+        POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    { "id": "marioverse:fungal_brick_slab", "required": false }
+    { "id": "marioverse:fungal_brick_slab", "required": false },
+    { "id": "marioverse:polished_fungal_stone_slab", "required": false }
   ]
 }
