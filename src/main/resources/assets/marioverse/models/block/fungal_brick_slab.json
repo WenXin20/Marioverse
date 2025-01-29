@@ -2,7 +2,7 @@
   "parent": "minecraft:block/slab",
   "textures": {
     "bottom": "marioverse:block/fungal_bricks",
-    "side": "marioverse:block/fungal_bricks",
+    "side": "marioverse:block/fungal_brick_slab",
     "top": "marioverse:block/fungal_bricks"
   }
 }
