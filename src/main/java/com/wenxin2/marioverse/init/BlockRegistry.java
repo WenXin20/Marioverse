@@ -51,6 +51,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> FUNGAL_STONE;
+    public static final DeferredBlock<Block> FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
@@ -110,8 +113,14 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
+        FUNGAL_STONE_STAIRS = registerBlock("fungal_stone_stairs", () -> stair(FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_SLAB = registerBlock("fungal_stone_slab", () -> slab(FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
+
         FUNGAL_BRICKS = registerBlock("fungal_bricks",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
 
         FUNGAL_BRICK_STAIRS = registerBlock("fungal_brick_stairs", () -> stair(FUNGAL_BRICKS.get()));
 

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:fungal_stone_stairs",
+  "category": "building",
+  "pattern": [
+    "B  ",
+    "BB ",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "marioverse:fungal_stone"
+    }
+  },
+  "result": {
+    "id": "marioverse:fungal_stone_stairs",
+    "count": 4
+  }
+}
