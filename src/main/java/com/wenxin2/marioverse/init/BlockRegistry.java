@@ -85,23 +85,24 @@ public class BlockRegistry {
     static {
         COIN = registerBlock("coin",
                 () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(MarioverseSoundTypes.COIN_TYPE).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                        .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)
+                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
 
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
         INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
         STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
         FUNGAL_STONE = registerBlock("fungal_stone",
@@ -138,7 +139,7 @@ public class BlockRegistry {
 
         INVISIBLE_QUESTION_BRICKS = registerBlock("invisible_question_bricks",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .instrument(NoteBlockInstrument.BELL).strength(2.0F, 6.0F)
+                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
 
         STORAGE_BRICKS = registerBlock("storage_bricks",
@@ -275,15 +276,17 @@ public class BlockRegistry {
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
-                        .sound(SoundType.GLASS).isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.CHIME)
+                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(3.0F, 500.0F).requiresCorrectToolForDrops().noOcclusion()));
 
         // Keep below CLEAR_WARP_PIPE to prevent crash
         Arrays.stream(DyeColor.values()).forEach(color ->
                 WARP_PIPES.put(color, registerBlock(color.getName() + "_warp_pipe",
                         () -> new WarpPipeBlock(BlockBehaviour.Properties.of().mapColor(color)
-                                .sound(SoundType.NETHERITE_BLOCK).strength(3.5F, 1000.0F)
-                                .isViewBlocking(BlockRegistry::always).requiresCorrectToolForDrops()))));
+                                .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.BASS)
+                                .strength(3.5F, 1000.0F).isViewBlocking(BlockRegistry::always)
+                                .requiresCorrectToolForDrops()))));
 
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
@@ -291,10 +294,10 @@ public class BlockRegistry {
                         .replaceable().noCollission().noLootTable().liquid()));
 
         WATER_SPOUT = registerNoItemBlock("water_spout",
-                () -> new WaterSpoutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER).sound(MarioverseSoundTypes.WATER_SPOUT_TYPE)
-                        .pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlockRegistry::never)
-                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .replaceable().noCollission().noLootTable()));
+                () -> new WaterSpoutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WATER)
+                        .sound(MarioverseSoundTypes.WATER_SPOUT_TYPE).pushReaction(PushReaction.DESTROY)
+                        .isRedstoneConductor(BlockRegistry::never).isSuffocating(BlockRegistry::never)
+                        .isViewBlocking(BlockRegistry::never).replaceable().noCollission().noLootTable()));
     }
 
     public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
