@@ -3,15 +3,12 @@
   "group": "marioverse:polished_fungal_stone",
   "category": "building",
   "pattern": [
-    "BM",
-    "MB"
+    "SS",
+    "SS"
   ],
   "key": {
-    "B": {
-      "item": "minecraft:brick"
-    },
-    "M": {
-      "tag": "c:mushrooms"
+    "S": {
+      "item": "marioverse:fungal_stone"
     }
   },
   "result": {

@@ -58,6 +58,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD.get());
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
+            add(event, BlockRegistry.FUNGAL_STONE.get());
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
@@ -112,6 +113,10 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         }
 
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+            addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE.get());
+        }
+
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
             addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE.get());
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
@@ -158,7 +163,8 @@ public class MarioverseCreativeTabs {
             addAfter(event, Blocks.BRICK_WALL, BlockRegistry.BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_BRICKS.get());
 
-            addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.POLISHED_FUNGAL_STONE.get());
+            addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.FUNGAL_STONE.get());
+            addAfter(event, BlockRegistry.FUNGAL_STONE.get(), BlockRegistry.POLISHED_FUNGAL_STONE.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE.get(), BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get(), BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get(), BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());

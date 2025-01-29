@@ -21,6 +21,7 @@
     { "id": "marioverse:fungal_brick_wall", "required": false },
     { "id": "marioverse:fungal_bricks", "required": false },
     { "id": "marioverse:fungal_question_block", "required": false },
+    { "id": "marioverse:fungal_stone", "required": false },
     { "id": "marioverse:gray_goal_pole", "required": false },
     { "id": "marioverse:gray_warp_pipe", "required": false },
     { "id": "marioverse:green_goal_pole", "required": false },
