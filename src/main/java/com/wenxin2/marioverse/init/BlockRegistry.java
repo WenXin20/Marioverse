@@ -104,10 +104,13 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        FUNGAL_BRICKS = registerBlock("fungal_bricks",
+        FUNGAL_STONE = registerBlock("fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BELL)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        FUNGAL_BRICKS = registerBlock("fungal_bricks",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
 
         FUNGAL_BRICK_STAIRS = registerBlock("fungal_brick_stairs", () -> stair(FUNGAL_BRICKS.get()));
 
@@ -118,11 +121,8 @@ public class BlockRegistry {
         FUNGAL_BRICK_PEDESTAL = registerBlock("fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
-        FUNGAL_STONE = registerBlock("fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
-
         POLISHED_FUNGAL_STONE = registerBlock("polished_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get()).strength(1.5F, 6.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get()).strength(1.5F, 6.0F)));
 
         POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs", () -> stair(POLISHED_FUNGAL_STONE.get()));
 
