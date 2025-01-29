@@ -21,12 +21,15 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -51,6 +54,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> FUNGAL_STONE;
+    public static final DeferredBlock<Block> FUNGAL_STONE_BUTTON;
+    public static final DeferredBlock<Block> FUNGAL_STONE_PRESSURE_PLATE;
     public static final DeferredBlock<Block> FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
@@ -118,6 +123,10 @@ public class BlockRegistry {
         FUNGAL_STONE_SLAB = registerBlock("fungal_stone_slab", () -> slab(FUNGAL_STONE.get()));
 
         FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button", () -> button(FUNGAL_STONE.get(), BlockSetType.STONE, 25));
+
+        FUNGAL_STONE_PRESSURE_PLATE = registerBlock("fungal_stone_pressure_plate", () -> pressurePlate(FUNGAL_STONE.get(), BlockSetType.STONE));
 
         FUNGAL_BRICKS = registerBlock("fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
@@ -319,12 +328,20 @@ public class BlockRegistry {
         return Marioverse.BLOCKS.register(name, block);
     }
 
-    private static Block stair(Block block) {
-        return new StairBlock(block.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block));
+    private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {
+        return new ButtonBlock(blockSetType, ticksPressed, BlockBehaviour.Properties.ofFullCopy(block));
+    }
+
+    private static Block pressurePlate(Block block, BlockSetType blockSetType) {
+        return new PressurePlateBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(block));
     }
 
     private static Block slab(Block block) {
         return new SlabBlock(BlockBehaviour.Properties.ofFullCopy(block));
+    }
+
+    private static Block stair(Block block) {
+        return new StairBlock(block.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block));
     }
 
     private static Block wall(Block block) {
