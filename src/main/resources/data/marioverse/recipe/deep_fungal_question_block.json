@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:question_blocks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
+    },
+    {
+      "item": "marioverse:polished_deep_fungal_stone"
+    }
+  ],
+  "result": {
+    "id": "marioverse:deep_fungal_question_block"
+  }
+}

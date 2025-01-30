@@ -45,6 +45,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
@@ -99,12 +100,6 @@ public class BlockRegistry {
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
 
 
-        DEEP_FUNGAL_STONE = registerBlock("deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
-
-
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
@@ -155,6 +150,15 @@ public class BlockRegistry {
         POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab", () -> slab(POLISHED_FUNGAL_STONE.get()));
 
         POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
+
+
+        DEEP_FUNGAL_STONE = registerBlock("deep_fungal_stone",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
+
+        DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",

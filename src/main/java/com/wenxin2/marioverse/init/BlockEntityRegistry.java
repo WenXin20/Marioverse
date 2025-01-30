@@ -38,7 +38,7 @@ public class BlockEntityRegistry {
                         BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get()).build(null));
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.END_STONE_QUESTION_BRICKS.get(), BlockRegistry.FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.NETHER_QUESTION_BRICKS.get(), BlockRegistry.PURPUR_QUESTION_BLOCK.get(),
                         BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.RED_NETHER_QUESTION_BRICKS.get()).build(null));
