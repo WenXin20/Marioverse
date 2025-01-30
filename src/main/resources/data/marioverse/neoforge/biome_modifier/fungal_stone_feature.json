@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": ["marioverse:ore_fungal_stone_lower", "marioverse:ore_fungal_stone_upper"],
+  "step": "underground_ores"
+}
