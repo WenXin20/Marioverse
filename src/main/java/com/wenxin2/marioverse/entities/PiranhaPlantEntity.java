@@ -69,10 +69,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
+    public boolean isHiding;
 
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
-        this.head = new PiranhaPlantPart(this, "head", 1.0F * this.getWidthAttribute(), 1.0F * this.getHeightAttribute());
+        this.head = new PiranhaPlantPart(this, "head",
+                1.0F * this.getWidthAttribute() * this.getScaleAttribute(), 1.0F * this.getHeightAttribute() * this.getScaleAttribute());
         this.subEntities = new PiranhaPlantPart[]{this.head};
     }
 
@@ -107,6 +109,20 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_ID_HIDE_FLAGS, (byte) 0);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+        this.isHiding = tag.getBoolean("isHiding");
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+        tag.putBoolean("isHiding", this.isHiding);
     }
 
     @Override
@@ -160,23 +176,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
-    }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
-    }
-
-    @Override
     public void tick() {
 
         super.tick();
         this.checkForCollisions();
-//        this.hideInBlock();
+        this.hideInBlock();
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
@@ -251,29 +255,30 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         Direction facing = this.getAttachedSide();
         double height = this.getHeightAttribute();
         double width = this.getWidthAttribute();
+        double scale = this.getScaleAttribute();
 
         if (facing == null)
             facing = Direction.UP;
 
         return switch (facing) {
             case UP -> new AABB(
-                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 0.5 * width,
-                    this.getX() + 0.5 * width, this.getY() + 2.3125 * height, this.getZ() + 0.5 * width);
+                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                    this.getX() + 0.5 * width * scale, this.getY() + 2.3125 * height * scale, this.getZ() + 0.5 * width * scale);
             case DOWN -> new AABB(
-                    this.getX() - 0.5 * width, this.getY() - 1.3125, this.getZ() - 0.5 * width,
-                    this.getX() + 0.5 * width, this.getY() + 1.0 * height, this.getZ() + 0.5 * width);
+                    this.getX() - 0.5 * width * scale, this.getY() - 1.3125, this.getZ() - 0.5 * width * scale,
+                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
             case NORTH -> new AABB(
-                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 1.8125 * width,
-                    this.getX() + 0.5 * width, this.getY() + 1.0 * height, this.getZ() + 0.5 * width);
+                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 1.8125 * width * scale,
+                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
             case SOUTH -> new AABB(
-                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 0.5 * width,
-                    this.getX() + 0.5 * width, this.getY() + 1.0 * height, this.getZ() + 1.8125 * width);
+                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 1.8125 * width * scale);
             case EAST -> new AABB(
-                    this.getX() - 0.5 * width, this.getY(), this.getZ() - 0.5 * width,
-                    this.getX() + 1.8125 * width, this.getY() + 1.0 * height, this.getZ() + 0.5 * width);
+                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                    this.getX() + 1.8125 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
             case WEST -> new AABB(
-                    this.getX() - 1.8125 * width, this.getY(), this.getZ() - 0.5  * width,
-                    this.getX() + 0.5  * width, this.getY() + 1.0  * height, this.getZ() + 0.5  * width);
+                    this.getX() - 1.8125 * width * scale, this.getY(), this.getZ() - 0.5  * width * scale,
+                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
         };
     }
 
@@ -344,36 +349,38 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         if (true) return;
         PiranhaPlantPart[] piranhaPlantPart = this.getSubEntities();
 
-        for (int i = 0; i < piranhaPlantPart.length; i++) {
+        for (int i = 0; i < piranhaPlantPart.length; i++)
             piranhaPlantPart[i].setId(i + packet.getId());
-        }
     }
 
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
-        double width = part.getBbWidth() / 2.0;
         double height = part.getBbHeight();
+        double width = part.getBbWidth() / 2.0;
         double heightScale = this.getHeightAttribute();
         double widthScale = this.getWidthAttribute();
+        double scale = this.getScaleAttribute();
 
-        part.setPos(this.getX() + offsetX, this.getY() + offsetY, this.getZ() + offsetZ);
+        part.setPos(this.getX() + offsetX + 0.5, this.getY() + offsetY, this.getZ() + offsetZ + 0.5);
         part.setBoundingBox(new AABB(this.getX() + offsetX - width, this.getY() + offsetY, this.getZ() + offsetZ - width,
-                this.getX() + (offsetX + width * widthScale), this.getY() + (offsetY + height * heightScale), this.getZ() + (offsetZ + width * widthScale)));
+                this.getX() + (offsetX + width * widthScale * (scale / 2)), this.getY() + (offsetY + height * heightScale * scale),
+                this.getZ() + (offsetZ + width * widthScale * (scale / 2))));
     }
 
     private Vec3 calculateHitboxOffset(Direction attachedSide) {
-        double width = this.getWidthAttribute();
         double height = this.getHeightAttribute();
+        double width = this.getWidthAttribute();
+        double scale = this.getScaleAttribute();
         double offsetX = 0.0;
         double offsetY = 0.0;
         double offsetZ = 0.0;
 
         switch (attachedSide) {
-            case UP -> offsetY = 1.0 * height;
-            case DOWN -> offsetY = -1.0 * height;
-            case NORTH -> offsetZ = -1.0 * width;
-            case SOUTH -> offsetZ = 1.0 * width;
-            case WEST -> offsetX = -1.0 * width;
-            case EAST -> offsetX = 1.0 * width;
+            case UP -> offsetY = 1.0 * height * scale;
+            case DOWN -> offsetY = -1.0 * height * scale;
+            case NORTH -> offsetZ = -1.0 * width * scale;
+            case SOUTH -> offsetZ = 1.0 * width * scale;
+            case WEST -> offsetX = -1.0 * width * scale;
+            case EAST -> offsetX = 1.0 * width * scale;
         }
 
         return new Vec3(offsetX, offsetY, offsetZ);
@@ -390,6 +397,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         AttributeMap attributeMap = this.getAttributes();
         if (attributeMap != null)
             return (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+        else return 1.0F;
+    }
+
+    private float getScaleAttribute() {
+        AttributeMap attributeMap = this.getAttributes();
+        if (attributeMap != null)
+            return (float) this.getAttributeValue(Attributes.SCALE);
         else return 1.0F;
     }
 
@@ -485,9 +499,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 if (scale != null)
                     scale.setBaseValue(currentScale);
                 isLerping = false;
-                scaleCooldown = 20;
+                scaleCooldown = 40;
             }
-
         }
 
 //        if (this.isHiding() && !state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
@@ -504,6 +517,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             // Handle emerging from hiding
             for (Direction direction : prioritizedDirections) {
                 BlockPos offsetPos = pos.relative(direction);
+                BlockPos oppositePos = pos.relative(direction.getOpposite());
+                BlockState offsetState = world.getBlockState(offsetPos);
 
                 // Check if the block has a FACING property or proceed without it
                 if (state.hasProperty(BlockStateProperties.FACING)
@@ -512,31 +527,34 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
                     // Check if it's safe to emerge
                     if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L) {
-                        double deltaX = offsetPos.getX() - this.getX();
-                        double deltaY = offsetPos.getY() - this.getY();
-                        double deltaZ = offsetPos.getZ() - this.getZ();
+                        double deltaX = oppositePos.getX() - this.getX();
+                        double deltaY = oppositePos.getY() - this.getY();
                         double deltaZ = oppositePos.getZ() - this.getZ();
                         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
                         this.setNoGravity(false);
                         this.noPhysics = false;
                         if (distance > 0) {
-                            this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
+//                            this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
                             this.move(MoverType.SELF, this.getDeltaMovement());
                         }
+                        this.moveTo(offsetPos, this.getYRot(), this.getXRot());
                         this.stopHiding();
-                        return;
                     }
                 }
 
 //                if (!state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+//                        && !offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+//                    this.stopHiding();
+//                    return;
+//                }
             }
-        } else {
         } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L) {
             // Handle hiding logic
             for (Direction direction : prioritizedDirections) {
                 BlockPos offsetPos = pos.relative(direction);
                 BlockPos oppositePos = pos.relative(direction.getOpposite());
+                BlockState offsetState = world.getBlockState(oppositePos);
 
                 // Check if the block has a FACING property or proceed without it
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
@@ -544,22 +562,52 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
 
                     // Check if it's safe to hide
-                    if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L && !isLerping && scaleCooldown == 0) {
-                        double deltaX = offsetPos.getX() - this.getX();
-                        double deltaY = offsetPos.getY() - this.getY();
-                        double deltaZ = offsetPos.getZ() - this.getZ();
+                    if (!isLerping && scaleCooldown == 0) {
+                        double deltaX = (oppositePos.getX() + 0.5) - this.getX();
                         double deltaY = (oppositePos.getY() + 0.5) - this.getY();
+                        double deltaZ = (oppositePos.getZ() + 0.5) - this.getZ();
 //                        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
                         double distance = Math.abs(deltaY);
+                        double deltaYBelow = (posBelow.getY()) - this.getY();
+                        double deltaZNorth = (pos.north().getZ()) - this.getZ();
+                        double deltaZSouth = (pos.south().getZ()) - this.getZ();
+                        double deltaXEast = (pos.east().getX()) - this.getX();
+                        double deltaXWest = (pos.west().getX()) - this.getX();
+                        double distanceBelow = Math.abs(deltaYBelow);
+                        double distanceNorth = Math.abs(deltaZNorth);
+                        double distanceSouth = Math.abs(deltaZSouth);
+                        double distanceEast = Math.abs(deltaXEast);
+                        double distanceWest = Math.abs(deltaXWest);
 
                         this.setNoGravity(true);
                         this.noPhysics = true;
 //                      this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
+//                        if (distanceBelow > 0) {
+//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.UP)
+//                                this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
+//                        }
+//                        if (distanceSouth > 0) {
+//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.NORTH)
+//                                this.setDeltaMovement(0, 0, 0.3);
+//                        }
+//                        if (distanceNorth > 0) {
+//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.SOUTH)
+//                                this.setDeltaMovement(0, 0, (deltaZNorth / distanceNorth) * speed);
+//                        }
+//                        if (distanceWest > 0) {
+//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.EAST)
+//                                this.setDeltaMovement(0.3, 0, 0);
+//                        }
+//                        if (distanceWest > 0) {
+//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.WEST)
+//                                this.setDeltaMovement((deltaXWest / distanceWest) * speed, 0, 0);
+//                        }
+                        this.moveTo(oppositePos, this.getYRot(), this.getXRot());
                         this.tryToHide();
                     }
                 }
             }
-        }
+        } /*else this.setNoGravity(false);*/
 
         if (this.isHiding() && !state.hasProperty(BlockStateProperties.FACING)) {
             if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
@@ -576,6 +624,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     else this.setDeltaMovement(0, 0.3, 0);
                     this.move(MoverType.SELF, this.getDeltaMovement());
                 }
+                this.moveTo(posAbove, this.getYRot(), this.getXRot());
                 this.stopHiding();
             }
         } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
@@ -584,8 +633,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             double deltaYBelow = posBelow.getY() - this.getY();
             double distanceBelow = Math.abs(deltaYBelow);
 
-            if (distanceBelow > 0)
-                this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
+//            if (distanceBelow > 0)
+//                this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
+            this.moveTo(posBelow, this.getYRot(), this.getXRot());
 
             this.setNoGravity(true);
             this.noPhysics = true;
@@ -618,11 +668,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     public boolean isHiding() {
-        return this.getHideFlag(8);
+        return this.isHiding;
     }
 
     public void hide(boolean isHiding) {
         this.setHideFlag(8, isHiding);
+        this.isHiding = isHiding;
     }
 
     private boolean getHideFlag(int i) {
