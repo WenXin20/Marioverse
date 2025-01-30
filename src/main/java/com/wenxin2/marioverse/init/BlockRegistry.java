@@ -45,6 +45,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
@@ -96,6 +97,12 @@ public class BlockRegistry {
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
+
+
+        DEEP_FUNGAL_STONE = registerBlock("deep_fungal_stone",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
 
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
