@@ -1,0 +1,5 @@
+{
+  "_comment": "Blacklist to prevent items from being placed in the Question Blocks",
+  "replace": false,
+  "values": []
+}

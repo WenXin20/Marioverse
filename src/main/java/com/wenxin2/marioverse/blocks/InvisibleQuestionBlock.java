@@ -135,7 +135,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.QUESTION_BLOCK_ITEM_BLACKLIST)) {
+        if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
             ItemStack blockStack = questionBlockEntity.getStackInSlot();
 
             if (questionBlockEntity.getLootTable() != null)

@@ -42,7 +42,7 @@ public class TagRegistry {
     public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
-    public static final TagKey<Item> QUESTION_BLOCK_ITEM_BLACKLIST = itemTags("question_block_blacklist");
+    public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
 
     public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");

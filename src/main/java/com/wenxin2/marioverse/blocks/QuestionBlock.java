@@ -156,7 +156,7 @@ public class QuestionBlock extends Block implements EntityBlock {
             ItemStack heldItem = player.getItemInHand(hand);
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
-            if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.QUESTION_BLOCK_ITEM_BLACKLIST)) {
+            if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
                 ItemStack blockStack = questionBlockEntity.getStackInSlot();
 
                 if (questionBlockEntity.getLootTable() != null)
