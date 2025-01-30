@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:fungal_stone"
+  },
+  "result": {
+    "id": "marioverse:fungal_brick_slab",
+    "count": 2
+  }
+}
