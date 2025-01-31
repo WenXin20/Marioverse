@@ -189,7 +189,7 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE.get(), BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get(), BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get(), BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
-            
+
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get(), BlockRegistry.DEEP_FUNGAL_STONE.get());
             addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get());
             addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get(), BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get());

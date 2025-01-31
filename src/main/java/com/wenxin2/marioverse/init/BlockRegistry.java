@@ -162,7 +162,7 @@ public class BlockRegistry {
                         .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
 
         POLISHED_DEEP_FUNGAL_STONE = registerBlock("polished_deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get()).strength(1.5F, 6.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get()).strength(2.5F, 6.0F)));
 
         POLISHED_DEEP_FUNGAL_STONE_STAIRS = registerBlock("polished_deep_fungal_stone_stairs", () -> stair(POLISHED_DEEP_FUNGAL_STONE.get()));
 
