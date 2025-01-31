@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
+    { "id": "marioverse:deep_fungal_brick_pedestal", "required": false },
+    { "id": "marioverse:deep_fungal_brick_slab", "required": false },
+    { "id": "marioverse:deep_fungal_brick_stairs", "required": false },
+    { "id": "marioverse:deep_fungal_brick_wall", "required": false },
+    { "id": "marioverse:deep_fungal_bricks", "required": false },
     { "id": "marioverse:fungal_brick_pedestal", "required": false },
     { "id": "marioverse:fungal_brick_slab", "required": false },
     { "id": "marioverse:fungal_brick_stairs", "required": false },

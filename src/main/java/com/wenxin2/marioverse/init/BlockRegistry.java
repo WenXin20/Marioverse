@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -46,10 +48,15 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
-    public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
@@ -143,10 +150,12 @@ public class BlockRegistry {
 
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get()).mapColor(MapColor.GOLD)));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.TERRACOTTA_RED : MapColor.GOLD)));
 
         INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get()).mapColor(MapColor.GOLD)));
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.TERRACOTTA_RED : MapColor.NONE)));
 
         STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
@@ -166,8 +175,21 @@ public class BlockRegistry {
 
         POLISHED_DEEP_FUNGAL_STONE_WALL = registerBlock("polished_deep_fungal_stone_wall", () -> wall(POLISHED_DEEP_FUNGAL_STONE.get()));
 
+        DEEP_FUNGAL_BRICKS = registerBlock("deep_fungal_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
+
+        DEEP_FUNGAL_BRICK_STAIRS = registerBlock("deep_fungal_brick_stairs", () -> stair(DEEP_FUNGAL_BRICKS.get()));
+
+        DEEP_FUNGAL_BRICK_SLAB = registerBlock("deep_fungal_brick_slab", () -> slab(DEEP_FUNGAL_BRICKS.get()));
+
+        DEEP_FUNGAL_BRICK_WALL = registerBlock("deep_fungal_brick_wall", () -> wall(DEEP_FUNGAL_BRICKS.get()));
+
+        DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("deep_fungal_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get()).mapColor(MapColor.COLOR_LIGHT_GREEN)));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",

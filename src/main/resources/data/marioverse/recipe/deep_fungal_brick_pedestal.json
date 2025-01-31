@@ -8,11 +8,11 @@
   ],
   "key": {
     "B": {
-      "item": "marioverse:fungal_bricks"
+      "item": "marioverse:deep_fungal_bricks"
     }
   },
   "result": {
-    "id": "marioverse:fungal_brick_pedestal",
+    "id": "marioverse:deep_fungal_brick_pedestal",
     "count": 5
   }
 }
