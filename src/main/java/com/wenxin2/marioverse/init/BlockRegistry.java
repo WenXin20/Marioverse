@@ -21,6 +21,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -104,21 +105,6 @@ public class BlockRegistry {
                         .strength(0.5F, 0.5F).instabreak().noCollission()));
 
 
-        FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
-
-        INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
-
-        STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
-
         FUNGAL_STONE = registerBlock("fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
@@ -144,7 +130,7 @@ public class BlockRegistry {
         POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
 
         FUNGAL_BRICKS = registerBlock("fungal_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
 
         FUNGAL_BRICK_STAIRS = registerBlock("fungal_brick_stairs", () -> stair(FUNGAL_BRICKS.get()));
 
@@ -154,6 +140,16 @@ public class BlockRegistry {
 
         FUNGAL_BRICK_PEDESTAL = registerBlock("fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
+
+        FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get()).mapColor(MapColor.GOLD)));
+
+        INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get()).mapColor(MapColor.GOLD)));
+
+        STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
 
 
         DEEP_FUNGAL_STONE = registerBlock("deep_fungal_stone",
@@ -171,137 +167,87 @@ public class BlockRegistry {
         POLISHED_DEEP_FUNGAL_STONE_WALL = registerBlock("polished_deep_fungal_stone_wall", () -> wall(POLISHED_DEEP_FUNGAL_STONE.get()));
 
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get()).mapColor(MapColor.COLOR_LIGHT_GREEN)));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         INVISIBLE_QUESTION_BRICKS = registerBlock("invisible_question_bricks",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         STORAGE_BRICKS = registerBlock("storage_bricks",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         SMASHABLE_BRICKS = registerBlock("smashable_bricks",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         BRICK_PEDESTAL = registerBlock("brick_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
 
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         INVISIBLE_NETHER_QUESTION_BRICKS = registerBlock("invisible_nether_question_bricks",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         STORAGE_NETHER_BRICKS = registerBlock("storage_nether_bricks",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         SMASHABLE_NETHER_BRICKS = registerBlock("smashable_nether_bricks",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         NETHER_BRICK_PEDESTAL = registerBlock("nether_brick_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
 
         RED_NETHER_QUESTION_BRICKS = registerBlock("red_nether_question_bricks",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
         INVISIBLE_RED_NETHER_QUESTION_BRICKS = registerBlock("invisible_red_nether_question_bricks",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
         STORAGE_RED_NETHER_BRICKS = registerBlock("storage_red_nether_bricks",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
         SMASHABLE_RED_NETHER_BRICKS = registerBlock("smashable_red_nether_bricks",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
         RED_NETHER_BRICK_PEDESTAL = registerBlock("red_nether_brick_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
-                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
 
         END_STONE_QUESTION_BRICKS = registerBlock("end_stone_question_bricks",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
         INVISIBLE_END_STONE_QUESTION_BRICKS = registerBlock("invisible_end_stone_question_bricks",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
         STORAGE_END_STONE_BRICKS = registerBlock("storage_end_stone_bricks",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
         SMASHABLE_END_STONE_BRICKS = registerBlock("smashable_end_stone_bricks",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
         END_STONE_BRICK_PEDESTAL = registerBlock("end_stone_brick_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(3.0F, 9.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
 
         PURPUR_QUESTION_BLOCK = registerBlock("purpur_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         INVISIBLE_PURPUR_QUESTION_BLOCK = registerBlock("invisible_purpur_question_block",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         STORAGE_PURPUR_BLOCK = registerBlock("storage_purpur_block",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         SMASHABLE_PURPUR_BLOCK = registerBlock("smashable_purpur_block",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
-                        .instrument(NoteBlockInstrument.BASEDRUM).strength(1.5F, 6.0F)
-                        .requiresCorrectToolForDrops()));
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",
