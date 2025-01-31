@@ -103,17 +103,22 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
             add(event, BlockRegistry.FUNGAL_STONE_BUTTON.get());
 
-            add(event, BlockRegistry.FUNGAL_BRICKS.get());
-            add(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get());
-            add(event, BlockRegistry.FUNGAL_BRICK_SLAB.get());
-            add(event, BlockRegistry.FUNGAL_BRICK_WALL.get());
-
             add(event, BlockRegistry.POLISHED_FUNGAL_STONE.get());
             add(event, BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get());
             add(event, BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get());
             add(event, BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
 
+            add(event, BlockRegistry.FUNGAL_BRICKS.get());
+            add(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get());
+            add(event, BlockRegistry.FUNGAL_BRICK_SLAB.get());
+            add(event, BlockRegistry.FUNGAL_BRICK_WALL.get());
+
             add(event, BlockRegistry.DEEP_FUNGAL_STONE.get());
+
+            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get());
+            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get());
+            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get());
+            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get());
 
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
@@ -177,13 +182,19 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.FUNGAL_STONE.get(), BlockRegistry.FUNGAL_STONE_STAIRS.get());
             addAfter(event, BlockRegistry.FUNGAL_STONE_STAIRS.get(), BlockRegistry.FUNGAL_STONE_SLAB.get());
             addAfter(event, BlockRegistry.FUNGAL_STONE_SLAB.get(), BlockRegistry.FUNGAL_STONE_WALL.get());
-            addAfter(event, BlockRegistry.FUNGAL_STONE_SLAB.get(), BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
+            addAfter(event, BlockRegistry.FUNGAL_STONE_WALL.get(), BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
             addAfter(event, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get(), BlockRegistry.FUNGAL_STONE_BUTTON.get());
+
             addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON.get(), BlockRegistry.POLISHED_FUNGAL_STONE.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE.get(), BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get(), BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get());
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get(), BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
+            
             addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get(), BlockRegistry.DEEP_FUNGAL_STONE.get());
+            addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get());
+            addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get(), BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get());
+            addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get(), BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get());
+            addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get(), BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get());
 
             addAfter(event, Blocks.BRICK_WALL, BlockRegistry.BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_BRICKS.get());

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:polished_deep_fungal_stone_wall",
+  "category": "building",
+  "pattern": [
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "marioverse:polished_deep_fungal_stone"
+    }
+  },
+  "result": {
+    "id": "marioverse:polished_deep_fungal_stone_wall",
+    "count": 6
+  }
+}

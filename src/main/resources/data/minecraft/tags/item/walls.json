@@ -3,6 +3,7 @@
   "values": [
     { "id": "marioverse:fungal_brick_wall", "required": false },
     { "id": "marioverse:fungal_stone_wall", "required": false },
+    { "id": "marioverse:polished_deep_fungal_stone_wall", "required": false },
     { "id": "marioverse:polished_fungal_stone_wall", "required": false }
   ]
 }
