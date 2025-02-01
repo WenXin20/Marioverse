@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:deep_fungal_stone_slab",
+  "category": "building",
+  "pattern": [
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "marioverse:deep_fungal_stone"
+    }
+  },
+  "result": {
+    "id": "marioverse:deep_fungal_stone_slab",
+    "count": 6
+  }
+}

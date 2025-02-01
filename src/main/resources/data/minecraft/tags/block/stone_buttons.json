@@ -1,5 +1,6 @@
 {
   "values": [
+    { "id": "marioverse:deep_fungal_stone_button", "required": false },
     { "id": "marioverse:fungal_stone_button", "required": false }
   ]
 }

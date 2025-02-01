@@ -53,6 +53,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_BUTTON;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
@@ -117,15 +122,16 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
 
-        FUNGAL_STONE_STAIRS = registerBlock("fungal_stone_stairs", () -> stair(FUNGAL_STONE.get()));
-
-        FUNGAL_STONE_SLAB = registerBlock("fungal_stone_slab", () -> slab(FUNGAL_STONE.get()));
-
-        FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
-
         FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button", () -> button(FUNGAL_STONE.get(), BlockSetType.STONE, 25));
 
         FUNGAL_STONE_PRESSURE_PLATE = registerBlock("fungal_stone_pressure_plate", () -> pressurePlate(FUNGAL_STONE.get(), BlockSetType.STONE));
+
+        FUNGAL_STONE_SLAB = registerBlock("fungal_stone_slab", () -> slab(FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_STAIRS = registerBlock("fungal_stone_stairs", () -> stair(FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
+
 
         POLISHED_FUNGAL_STONE = registerBlock("polished_fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get()).strength(1.5F, 6.0F)));
@@ -136,12 +142,13 @@ public class BlockRegistry {
 
         POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
 
+
         FUNGAL_BRICKS = registerBlock("fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
 
-        FUNGAL_BRICK_STAIRS = registerBlock("fungal_brick_stairs", () -> stair(FUNGAL_BRICKS.get()));
-
         FUNGAL_BRICK_SLAB = registerBlock("fungal_brick_slab", () -> slab(FUNGAL_BRICKS.get()));
+
+        FUNGAL_BRICK_STAIRS = registerBlock("fungal_brick_stairs", () -> stair(FUNGAL_BRICKS.get()));
 
         FUNGAL_BRICK_WALL = registerBlock("fungal_brick_wall", () -> wall(FUNGAL_BRICKS.get()));
 
@@ -167,6 +174,17 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
 
+        DEEP_FUNGAL_STONE_BUTTON = registerBlock("deep_fungal_stone_button", () -> button(DEEP_FUNGAL_STONE.get(), BlockSetType.STONE, 35));
+
+        DEEP_FUNGAL_STONE_PRESSURE_PLATE = registerBlock("deep_fungal_stone_pressure_plate", () -> pressurePlate(DEEP_FUNGAL_STONE.get(), BlockSetType.STONE));
+
+        DEEP_FUNGAL_STONE_SLAB = registerBlock("deep_fungal_stone_slab", () -> slab(DEEP_FUNGAL_STONE.get()));
+
+        DEEP_FUNGAL_STONE_STAIRS = registerBlock("deep_fungal_stone_stairs", () -> stair(DEEP_FUNGAL_STONE.get()));
+
+        DEEP_FUNGAL_STONE_WALL = registerBlock("deep_fungal_stone_wall", () -> wall(DEEP_FUNGAL_STONE.get()));
+
+
         POLISHED_DEEP_FUNGAL_STONE = registerBlock("polished_deep_fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get()).strength(2.5F, 6.0F)));
 
@@ -175,6 +193,7 @@ public class BlockRegistry {
         POLISHED_DEEP_FUNGAL_STONE_SLAB = registerBlock("polished_deep_fungal_stone_slab", () -> slab(POLISHED_DEEP_FUNGAL_STONE.get()));
 
         POLISHED_DEEP_FUNGAL_STONE_WALL = registerBlock("polished_deep_fungal_stone_wall", () -> wall(POLISHED_DEEP_FUNGAL_STONE.get()));
+
 
         DEEP_FUNGAL_BRICKS = registerBlock("deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
@@ -187,6 +206,7 @@ public class BlockRegistry {
 
         DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
 
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
