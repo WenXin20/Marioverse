@@ -155,8 +155,8 @@ public class BlockRegistry {
 
         INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
-                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE)
-                                ? state.getValue(QuestionBlock.EMPTY) ? MapColor.NONE : MapColor.TERRACOTTA_RED : MapColor.GOLD)));
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.TERRACOTTA_RED
+                                : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.GOLD)));
 
         STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
@@ -194,8 +194,8 @@ public class BlockRegistry {
 
         INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_deep_fungal_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
-                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE)
-                                ? state.getValue(QuestionBlock.EMPTY) ? MapColor.NONE : MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)));
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.COLOR_CYAN
+                                : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_GREEN)));
 
         STORAGE_DEEP_FUNGAL_BRICKS = registerBlock("storage_deep_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
