@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:storage_bricks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
+    },
+    {
+      "item": "marioverse:deep_fungal_bricks"
+    }
+  ],
+  "result": {
+    "id": "marioverse:storage_deep_fungal_bricks"
+  }
+}

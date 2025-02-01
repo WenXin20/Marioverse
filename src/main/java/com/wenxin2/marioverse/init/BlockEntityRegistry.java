@@ -32,7 +32,7 @@ public class BlockEntityRegistry {
                                 BlockRegistry.COIN.get()).build(null));
 
         INVISIBLE_QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("invisible_question_block",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get()).build(null));
@@ -44,7 +44,7 @@ public class BlockEntityRegistry {
                         BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.RED_NETHER_QUESTION_BRICKS.get()).build(null));
 
         STORAGE_BRICKS_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("storage_bricks",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get(),
                         BlockRegistry.STORAGE_END_STONE_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get(),
                         BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_NETHER_BRICKS.get(),
                         BlockRegistry.STORAGE_PURPUR_BLOCK.get(), BlockRegistry.STORAGE_RED_NETHER_BRICKS.get()).build(null));

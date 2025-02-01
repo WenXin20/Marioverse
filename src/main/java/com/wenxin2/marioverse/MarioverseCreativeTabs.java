@@ -67,6 +67,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.PURPUR_QUESTION_BLOCK.get());
 
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
+            add(event, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get());
@@ -74,6 +75,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get());
 
             add(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
+            add(event, BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.STORAGE_BRICKS.get());
             add(event, BlockRegistry.STORAGE_NETHER_BRICKS.get());
             add(event, BlockRegistry.STORAGE_RED_NETHER_BRICKS.get());
@@ -239,14 +241,16 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.END_STONE_QUESTION_BRICKS.get(), BlockRegistry.PURPUR_QUESTION_BLOCK.get());
 
             addAfter(event, BlockRegistry.PURPUR_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
-            addAfter(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
+            addAfter(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get());
+            addAfter(event, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get());
             addAfter(event, BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get());
 
             addAfter(event, BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.STORAGE_FUNGAL_BRICKS.get());
-            addAfter(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get());
+            addAfter(event, BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get());
             addAfter(event, BlockRegistry.STORAGE_BRICKS.get(), BlockRegistry.STORAGE_NETHER_BRICKS.get());
             addAfter(event, BlockRegistry.STORAGE_NETHER_BRICKS.get(), BlockRegistry.STORAGE_RED_NETHER_BRICKS.get());
             addAfter(event, BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(), BlockRegistry.STORAGE_END_STONE_BRICKS.get());

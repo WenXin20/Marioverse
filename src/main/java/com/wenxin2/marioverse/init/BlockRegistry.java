@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -25,7 +24,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -69,6 +67,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
@@ -97,6 +96,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
@@ -155,7 +155,8 @@ public class BlockRegistry {
 
         INVISIBLE_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_fungal_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
-                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.TERRACOTTA_RED : MapColor.NONE)));
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE)
+                                ? state.getValue(QuestionBlock.EMPTY) ? MapColor.NONE : MapColor.TERRACOTTA_RED : MapColor.GOLD)));
 
         STORAGE_FUNGAL_BRICKS = registerBlock("storage_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
@@ -190,6 +191,14 @@ public class BlockRegistry {
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
                         .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)));
+
+        INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("invisible_deep_fungal_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE)
+                                ? state.getValue(QuestionBlock.EMPTY) ? MapColor.NONE : MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)));
+
+        STORAGE_DEEP_FUNGAL_BRICKS = registerBlock("storage_deep_fungal_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",
