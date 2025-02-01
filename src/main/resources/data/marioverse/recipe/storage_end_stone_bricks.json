@@ -1,22 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "marioverse:storage_bricks",
   "category": "building",
-  "pattern": [
-    " B ",
-    "BCB",
-    " B "
-  ],
-  "key": {
-    "B": {
-      "item": "minecraft:end_stone"
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
     },
-    "C": {
-      "tag": "c:chests"
+    {
+      "item": "minecraft:end_stone_bricks"
     }
-  },
+  ],
   "result": {
-    "id": "marioverse:storage_end_stone_bricks",
-    "count": 1
+    "id": "marioverse:storage_end_stone_bricks"
   }
 }

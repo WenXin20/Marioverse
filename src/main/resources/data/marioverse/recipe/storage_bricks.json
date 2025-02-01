@@ -1,22 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "marioverse:storage_bricks",
   "category": "building",
-  "pattern": [
-    " B ",
-    "BCB",
-    " B "
-  ],
-  "key": {
-    "B": {
-      "item": "minecraft:brick"
-    },
-    "C": {
+  "ingredients": [
+    {
       "tag": "c:chests/wooden"
+    },
+    {
+      "item": "minecraft:bricks"
     }
-  },
+  ],
   "result": {
-    "id": "marioverse:storage_bricks",
-    "count": 1
+    "id": "marioverse:storage_bricks"
   }
 }

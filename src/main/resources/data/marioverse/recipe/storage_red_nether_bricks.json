@@ -1,25 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "marioverse:storage_bricks",
   "category": "building",
-  "pattern": [
-    "WBW",
-    "BCB",
-    "WBW"
-  ],
-  "key": {
-    "B": {
-      "item": "minecraft:nether_brick"
-    },
-    "W": {
-      "item": "minecraft:nether_wart"
-    },
-    "C": {
+  "ingredients": [
+    {
       "tag": "c:chests/wooden"
+    },
+    {
+      "item": "minecraft:red_nether_bricks"
     }
-  },
+  ],
   "result": {
-    "id": "marioverse:storage_red_nether_bricks",
-    "count": 1
+    "id": "marioverse:storage_red_nether_bricks"
   }
 }

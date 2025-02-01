@@ -1,22 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "marioverse:storage_bricks",
   "category": "building",
-  "pattern": [
-    " B ",
-    "BCB",
-    " B "
-  ],
-  "key": {
-    "B": {
-      "item": "minecraft:popped_chorus_fruit"
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
     },
-    "C": {
-      "tag": "c:chests"
+    {
+      "item": "minecraft:purpur_block"
     }
-  },
+  ],
   "result": {
-    "id": "marioverse:storage_purpur_block",
-    "count": 1
+    "id": "marioverse:storage_purpur_block"
   }
 }
