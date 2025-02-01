@@ -5,7 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class SoundRegistry {
+public class
+SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
@@ -43,6 +44,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_WARPS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_CHOMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_DEATH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_HURT;
     public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_POWERS_UP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
@@ -144,6 +148,13 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_step")));
         MINI_GOOMBA_STOMP = Marioverse.SOUNDS.register("entity.mini_goomba_stomp",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_stomp")));
+
+        PIRANHA_PLANT_CHOMP = Marioverse.SOUNDS.register("entity.piranha_plant_chomp",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_chomp")));
+        PIRANHA_PLANT_DEATH = Marioverse.SOUNDS.register("entity.piranha_plant_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_death")));
+        PIRANHA_PLANT_HURT = Marioverse.SOUNDS.register("entity.piranha_plant_hurt",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_hurt")));
 
         SUPER_STAR_BOUNCE = Marioverse.SOUNDS.register("entity.super_star_bounce",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_bounce")));

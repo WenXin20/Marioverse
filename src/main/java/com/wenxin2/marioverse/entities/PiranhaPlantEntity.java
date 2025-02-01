@@ -69,7 +69,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
-    public boolean isHiding;
+    public boolean isHiding;private int attackCooldown = 0;
 
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
@@ -86,13 +86,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.GOOMBA_HURT.get();
+        return SoundRegistry.PIRANHA_PLANT_HURT.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.GOOMBA_STOMP.get();
+        return SoundRegistry.PIRANHA_PLANT_DEATH.get();
     }
 
     @Override
@@ -177,6 +177,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public void tick() {
+        if (this.attackCooldown > 0)
+            this.attackCooldown--;
 
         super.tick();
         this.checkForCollisions();
@@ -644,6 +646,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     public void checkForCollisions() {
+        if (this.attackCooldown > 0) {
+            this.attackCooldown--;
+            return;
+        }
+
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.01), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
@@ -656,6 +663,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
                 this.swing(InteractionHand.MAIN_HAND);
                 collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                this.attackCooldown = 20;
                 break;
             }
         }

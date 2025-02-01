@@ -110,6 +110,16 @@
   "entity.mini_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_stomp", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.mini_goomba_stomp" },
 
+  "entity.piranha_plant_chomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/piranha_plant/piranha_plant_chomp1", "stream": false },
+    { "name": "marioverse:entity/piranha_plant/piranha_plant_chomp2", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.piranha_plant_chomp" },
+  "entity.piranha_plant_death": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/piranha_plant/piranha_plant_death", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.piranha_plant_death" },
+  "entity.piranha_plant_hurt": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/piranha_plant/piranha_plant_hurt1", "stream": false },
+    { "name": "marioverse:entity/piranha_plant/piranha_plant_hurt2", "stream": false },
+    { "name": "marioverse:entity/piranha_plant/piranha_plant_hurt3", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.piranha_plant_hurt" },
+
   "entity.super_star_bounce": { "category": "neutral", "sounds": [{ "name": "marioverse:power_up/super_star_bounce", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.super_star_bounce" },
   "entity.super_star_theme": { "category": "music", "sounds": [{ "name": "marioverse:power_up/super_star_theme", "stream": false }],
