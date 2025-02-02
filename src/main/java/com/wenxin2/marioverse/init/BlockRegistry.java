@@ -79,6 +79,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -100,6 +101,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_STONE_BRICKS;
+    public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
@@ -107,6 +111,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_STONE_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
     static {
@@ -235,6 +240,22 @@ public class BlockRegistry {
 
         BRICK_PEDESTAL = registerBlock("brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
+
+
+        STONE_QUESTION_BRICKS = registerBlock("stone_question_bricks",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        INVISIBLE_STONE_QUESTION_BRICKS = registerBlock("invisible_stone_question_bricks",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        STORAGE_STONE_BRICKS = registerBlock("storage_stone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        SMASHABLE_STONE_BRICKS = registerBlock("smashable_stone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        STONE_BRICK_PEDESTAL = registerBlock("stone_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
 
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",

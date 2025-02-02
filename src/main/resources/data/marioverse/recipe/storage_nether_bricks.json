@@ -1,16 +1,22 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "group": "marioverse:storage_bricks",
   "category": "building",
-  "ingredients": [
-    {
-      "tag": "c:chests/wooden"
-    },
-    {
-      "item": "minecraft:nether_bricks"
-    }
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
   ],
+  "key": {
+    "B": {
+      "item": "minecraft:nether_bricks"
+    },
+    "C": {
+      "tag": "c:chests/wooden"
+    }
+  },
   "result": {
-    "id": "marioverse:storage_nether_bricks"
+    "id": "marioverse:storage_nether_bricks",
+    "count": 1
   }
 }

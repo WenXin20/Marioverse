@@ -20,6 +20,7 @@
   "block.marioverse.purpur_question_block": "Purpur Question Block",
   "block.marioverse.question_bricks": "Question Bricks",
   "block.marioverse.red_nether_question_bricks": "Red Nether Question Bricks",
+  "block.marioverse.stone_question_bricks": "Stone Question Bricks",
 
   "block.marioverse.invisible_deep_fungal_question_block": "Invisible Deep Fungal Question Block",
   "block.marioverse.invisible_end_stone_question_bricks": "Invisible End Stone Question Bricks",
@@ -28,6 +29,7 @@
   "block.marioverse.invisible_purpur_question_block": "Invisible Purpur Question Block",
   "block.marioverse.invisible_question_bricks": "Invisible Question Bricks",
   "block.marioverse.invisible_red_nether_question_bricks": "Invisible Red Nether Question Bricks",
+  "block.marioverse.invisible_stone_question_bricks": "Invisible Stone Question Bricks",
 
   "block.marioverse.storage_bricks": "Storage Bricks",
   "block.marioverse.storage_deep_fungal_bricks": "Storage Deep Fungal Bricks",
@@ -36,6 +38,23 @@
   "block.marioverse.storage_nether_bricks": "Storage Nether Bricks",
   "block.marioverse.storage_purpur_block": "Storage Purpur Block",
   "block.marioverse.storage_red_nether_bricks": "Storage Red Nether Bricks",
+  "block.marioverse.storage_stone_bricks": "Storage Stone Bricks",
+
+  "block.marioverse.smashable_bricks": "Smashable Bricks",
+  "block.marioverse.smashable_end_stone_bricks": "Smashable End Stone Bricks",
+  "block.marioverse.smashable_nether_bricks": "Smashable Nether Bricks",
+  "block.marioverse.smashable_purpur_block": "Smashable Purpur Block",
+  "block.marioverse.smashable_red_nether_bricks": "Smashable Red Nether Bricks",
+  "block.marioverse.smashable_stone_bricks": "Smashable Stone Bricks",
+
+  "block.marioverse.brick_pedestal": "Brick Pedestal",
+  "block.marioverse.deep_fungal_brick_pedestal": "Deep Fungal Brick Pedestal",
+  "block.marioverse.end_stone_brick_pedestal": "End Stone Brick Pedestal",
+  "block.marioverse.fungal_brick_pedestal": "Fungal Brick Pedestal",
+  "block.marioverse.nether_brick_pedestal": "Nether Brick Pedestal",
+  "block.marioverse.purpur_block_pedestal": "Purpur Block Pedestal",
+  "block.marioverse.red_nether_brick_pedestal": "Red Nether Brick Pedestal",
+  "block.marioverse.stone_brick_pedestal": "Stone Brick Pedestal",
 
   "block.marioverse.deep_fungal_brick_slab": "Deep Fungal Brick Slab",
   "block.marioverse.deep_fungal_brick_stairs": "Deep Fungal Brick Stairs",
@@ -66,20 +85,6 @@
   "block.marioverse.polished_fungal_stone_slab": "Polished Fungal Stone Slab",
   "block.marioverse.polished_fungal_stone_stairs": "Polished Fungal Stone Stairs",
   "block.marioverse.polished_fungal_stone_wall": "Polished Fungal Stone Wall",
-
-  "block.marioverse.smashable_bricks": "Smashable Bricks",
-  "block.marioverse.smashable_end_stone_bricks": "Smashable End Stone Bricks",
-  "block.marioverse.smashable_nether_bricks": "Smashable Nether Bricks",
-  "block.marioverse.smashable_purpur_block": "Smashable Purpur Block",
-  "block.marioverse.smashable_red_nether_bricks": "Smashable Red Nether Bricks",
-
-  "block.marioverse.brick_pedestal": "Brick Pedestal",
-  "block.marioverse.deep_fungal_brick_pedestal": "Deep Fungal Brick Pedestal",
-  "block.marioverse.end_stone_brick_pedestal": "End Stone Brick Pedestal",
-  "block.marioverse.fungal_brick_pedestal": "Fungal Brick Pedestal",
-  "block.marioverse.nether_brick_pedestal": "Nether Brick Pedestal",
-  "block.marioverse.purpur_block_pedestal": "Purpur Block Pedestal",
-  "block.marioverse.red_nether_brick_pedestal": "Red Nether Brick Pedestal",
 
   "block.marioverse.black_goal_pole": "Black Goal Pole",
   "block.marioverse.blue_goal_pole": "Blue Goal Pole",

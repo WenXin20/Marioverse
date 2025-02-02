@@ -15,6 +15,7 @@
     { "id": "marioverse:smashable_end_stone_bricks", "required": false },
     { "id": "marioverse:smashable_nether_bricks", "required": false },
     { "id": "marioverse:smashable_purpur_block", "required": false },
-    { "id": "marioverse:smashable_red_nether_bricks", "required": false }
+    { "id": "marioverse:smashable_red_nether_bricks", "required": false },
+    { "id": "marioverse:smashable_stone_bricks", "required": false }
   ]
 }

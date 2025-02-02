@@ -7,6 +7,7 @@
     { "id": "marioverse:nether_question_bricks", "required": false },
     { "id": "marioverse:purpur_question_block", "required": false },
     { "id": "marioverse:question_bricks", "required": false },
-    { "id": "marioverse:red_nether_question_bricks", "required": false }
+    { "id": "marioverse:red_nether_question_bricks", "required": false },
+    { "id": "marioverse:stone_question_bricks", "required": false }
   ]
 }

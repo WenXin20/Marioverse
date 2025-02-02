@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_all",
 	"textures": {
 		"all": "minecraft:block/cracked_nether_bricks"
