@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    { "id": "marioverse:amethyst_bricks", "required": false },
     { "id": "marioverse:black_goal_pole", "required": false },
     { "id": "marioverse:black_warp_pipe", "required": false },
     { "id": "marioverse:blue_goal_pole", "required": false },
@@ -11,6 +12,7 @@
     { "id": "marioverse:classic_goal_pole", "required": false },
     { "id": "marioverse:clear_warp_pipe", "required": false },
     { "id": "marioverse:coin", "required": false },
+    { "id": "marioverse:cracked_amethyst_bricks", "required": false },
     { "id": "marioverse:cyan_goal_pole", "required": false },
     { "id": "marioverse:cyan_warp_pipe", "required": false },
     { "id": "marioverse:deep_fungal_brick_pedestal", "required": false },

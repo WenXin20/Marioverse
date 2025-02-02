@@ -42,10 +42,12 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
@@ -216,6 +218,13 @@ public class BlockRegistry {
 
         DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
+
+        AMETHYST_BRICKS = registerBlock("amethyst_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+
+        CRACKED_AMETHYST_BRICKS = registerBlock("cracked_amethyst_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
 
 
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",

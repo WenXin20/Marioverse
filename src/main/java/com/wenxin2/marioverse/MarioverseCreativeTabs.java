@@ -133,7 +133,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get());
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get());
 
-
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get());
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get());
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get());
@@ -143,6 +142,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get());
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get());
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get());
+
+            add(event, BlockRegistry.AMETHYST_BRICKS.get());
+            add(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get());
 
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
@@ -238,7 +240,10 @@ public class MarioverseCreativeTabs {
             addAfter(event, Blocks.MUD_BRICK_WALL, BlockRegistry.MUD_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.MUD_BRICK_PEDESTAL.get(), BlockRegistry.SMASHABLE_MUD_BRICKS.get());
 
-            addAfter(event, BlockRegistry.SMASHABLE_MUD_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
+            addAfter(event, Blocks.AMETHYST_BLOCK, BlockRegistry.AMETHYST_BRICKS.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICKS.get(), BlockRegistry.CRACKED_AMETHYST_BRICKS.get());
+
+            addAfter(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_STAIRS.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get(), BlockRegistry.FUNGAL_BRICK_SLAB.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICK_SLAB.get(), BlockRegistry.FUNGAL_BRICK_WALL.get());
