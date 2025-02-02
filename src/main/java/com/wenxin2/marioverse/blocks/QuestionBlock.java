@@ -203,7 +203,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                             || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
-                            entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
+                            if (!entity.getType().is(TagRegistry.HAS_NO_DELTA_MOVEMENT))
+                                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                             entity.move(MoverType.SELF, entity.getDeltaMovement());
                         }
                     } else {
@@ -224,7 +225,8 @@ public class QuestionBlock extends Block implements EntityBlock {
                             || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
                         Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
                         if (entity != null && applyUpMotion) {
-                            entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
+                            if (!entity.getType().is(TagRegistry.HAS_NO_DELTA_MOVEMENT))
+                                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
                             entity.move(MoverType.SELF, entity.getDeltaMovement());
                         }
                     } else {
