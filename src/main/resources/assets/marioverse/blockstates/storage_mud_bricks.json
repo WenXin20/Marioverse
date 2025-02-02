@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/storage_mud_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_mud_bricks"
+    }
+  }
+}

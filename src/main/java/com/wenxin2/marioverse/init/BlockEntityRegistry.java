@@ -34,23 +34,23 @@ public class BlockEntityRegistry {
         INVISIBLE_QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("invisible_question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(),
-                        BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get(),
-                        BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(),
-                        BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get()).build(null));
+                        BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get(),
+                        BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(),
+                        BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get()).build(null));
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.END_STONE_QUESTION_BRICKS.get(), BlockRegistry.FUNGAL_QUESTION_BLOCK.get(),
-                        BlockRegistry.NETHER_QUESTION_BRICKS.get(), BlockRegistry.PURPUR_QUESTION_BLOCK.get(),
-                        BlockRegistry.QUESTION_BRICKS.get(), BlockRegistry.RED_NETHER_QUESTION_BRICKS.get(),
-                        BlockRegistry.STONE_QUESTION_BRICKS.get()).build(null));
+                        BlockRegistry.MUD_QUESTION_BRICKS.get(), BlockRegistry.NETHER_QUESTION_BRICKS.get(),
+                        BlockRegistry.PURPUR_QUESTION_BLOCK.get(), BlockRegistry.QUESTION_BRICKS.get(),
+                        BlockRegistry.RED_NETHER_QUESTION_BRICKS.get(), BlockRegistry.STONE_QUESTION_BRICKS.get()).build(null));
 
         STORAGE_BRICKS_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("storage_bricks",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get(),
-                        BlockRegistry.STORAGE_END_STONE_BRICKS.get(), BlockRegistry.STORAGE_BRICKS.get(),
-                        BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_NETHER_BRICKS.get(),
-                        BlockRegistry.STORAGE_PURPUR_BLOCK.get(), BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(),
-                        BlockRegistry.STORAGE_STONE_BRICKS.get()).build(null));
+                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new, BlockRegistry.STORAGE_BRICKS.get(),
+                        BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_END_STONE_BRICKS.get(),
+                        BlockRegistry.STORAGE_FUNGAL_BRICKS.get(), BlockRegistry.STORAGE_MUD_BRICKS.get(),
+                        BlockRegistry.STORAGE_NETHER_BRICKS.get(), BlockRegistry.STORAGE_PURPUR_BLOCK.get(),
+                        BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(), BlockRegistry.STORAGE_STONE_BRICKS.get()).build(null));
 
         GOAL_POLE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("goal_pole",
                 () -> BlockEntityType.Builder.of(GoalPoleBlockEntity::new,
