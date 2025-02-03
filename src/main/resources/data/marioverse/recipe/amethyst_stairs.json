@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:amethyst_stairs",
+  "category": "building",
+  "pattern": [
+    "B  ",
+    "BB ",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:amethyst_block"
+    }
+  },
+  "result": {
+    "id": "marioverse:amethyst_stairs",
+    "count": 4
+  }
+}

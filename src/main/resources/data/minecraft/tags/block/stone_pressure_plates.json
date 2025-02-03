@@ -1,5 +1,6 @@
 {
   "values": [
+    { "id": "marioverse:amethyst_pressure_plate", "required": false },
     { "id": "marioverse:deep_fungal_stone_pressure_plate", "required": false },
     { "id": "marioverse:fungal_stone_pressure_plate", "required": false }
   ]

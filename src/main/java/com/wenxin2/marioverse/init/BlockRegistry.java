@@ -43,6 +43,11 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
 
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> AMETHYST_BUTTON;
+    public static final DeferredBlock<Block> AMETHYST_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> AMETHYST_SLAB;
+    public static final DeferredBlock<Block> AMETHYST_STAIRS;
+    public static final DeferredBlock<Block> AMETHYST_WALL;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
@@ -221,6 +226,16 @@ public class BlockRegistry {
         DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
+
+        AMETHYST_BUTTON = registerBlock("amethyst_button", () -> button(Blocks.AMETHYST_BLOCK, BlockSetType.STONE, 40));
+
+        AMETHYST_PRESSURE_PLATE = registerBlock("amethyst_pressure_plate", () -> pressurePlate(Blocks.AMETHYST_BLOCK, BlockSetType.STONE));
+
+        AMETHYST_SLAB = registerBlock("amethyst_slab", () -> slab(Blocks.AMETHYST_BLOCK));
+
+        AMETHYST_STAIRS = registerBlock("amethyst_stairs", () -> stair(Blocks.AMETHYST_BLOCK));
+
+        AMETHYST_WALL = registerBlock("amethyst_wall", () -> wall(Blocks.AMETHYST_BLOCK));
 
         POLISHED_AMETHYST = registerBlock("polished_amethyst",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
