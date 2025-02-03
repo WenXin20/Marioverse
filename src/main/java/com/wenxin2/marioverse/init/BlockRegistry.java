@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -227,9 +228,9 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
 
-        AMETHYST_BUTTON = registerBlock("amethyst_button", () -> button(Blocks.AMETHYST_BLOCK, BlockSetType.STONE, 40));
+        AMETHYST_BUTTON = registerBlock("amethyst_button", () -> button(Blocks.AMETHYST_BLOCK, BlockSetTypeRegistry.AMETHYST, 40));
 
-        AMETHYST_PRESSURE_PLATE = registerBlock("amethyst_pressure_plate", () -> pressurePlate(Blocks.AMETHYST_BLOCK, BlockSetType.STONE));
+        AMETHYST_PRESSURE_PLATE = registerBlock("amethyst_pressure_plate", () -> pressurePlate(Blocks.AMETHYST_BLOCK, BlockSetTypeRegistry.AMETHYST));
 
         AMETHYST_SLAB = registerBlock("amethyst_slab", () -> slab(Blocks.AMETHYST_BLOCK));
 
