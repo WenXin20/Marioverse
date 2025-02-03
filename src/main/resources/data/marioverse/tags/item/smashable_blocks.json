@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     { "id": "marioverse:amethyst_bricks", "required": false },
+    { "id": "marioverse:chiseled_amethyst_bricks", "required": false },
     { "id": "marioverse:cracked_amethyst_bricks", "required": false },
     { "id": "marioverse:deep_fungal_brick_pedestal", "required": false },
     { "id": "marioverse:deep_fungal_brick_slab", "required": false },
@@ -13,6 +14,7 @@
     { "id": "marioverse:fungal_brick_stairs", "required": false },
     { "id": "marioverse:fungal_brick_wall", "required": false },
     { "id": "marioverse:fungal_bricks", "required": false },
+    { "id": "marioverse:polished_amethyst", "required": false },
     { "id": "marioverse:smashable_bricks", "required": false },
     { "id": "marioverse:smashable_end_stone_bricks", "required": false },
     { "id": "marioverse:smashable_mud_bricks", "required": false },

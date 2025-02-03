@@ -44,6 +44,7 @@ public class BlockRegistry {
 
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
@@ -88,6 +89,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
+    public static final DeferredBlock<Block> POLISHED_AMETHYST;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_STAIRS;
@@ -220,7 +222,13 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
 
+        POLISHED_AMETHYST = registerBlock("polished_amethyst",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+
         AMETHYST_BRICKS = registerBlock("amethyst_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+
+        CHISELED_AMETHYST_BRICKS = registerBlock("chiseled_amethyst_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
 
         CRACKED_AMETHYST_BRICKS = registerBlock("cracked_amethyst_bricks",
