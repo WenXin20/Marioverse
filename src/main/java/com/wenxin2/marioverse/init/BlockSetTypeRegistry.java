@@ -7,20 +7,23 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 public class BlockSetTypeRegistry {
     public static final BlockSetType AMETHYST = BlockSetType.register(
             new BlockSetType(
-                    "amethyst",
-                    true,
-                    true,
-                    false,
-                    BlockSetType.PressurePlateSensitivity.MOBS,
-                    SoundType.AMETHYST,
-                    SoundEvents.IRON_DOOR_CLOSE,
-                    SoundEvents.IRON_DOOR_OPEN,
-                    SoundEvents.IRON_TRAPDOOR_CLOSE,
-                    SoundEvents.IRON_TRAPDOOR_OPEN,
-                    SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF,
-                    SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
-                    SoundEvents.STONE_BUTTON_CLICK_OFF,
-                    SoundEvents.STONE_BUTTON_CLICK_ON
+                    "amethyst", true, true, false,
+                    BlockSetType.PressurePlateSensitivity.MOBS, SoundType.AMETHYST,
+                    SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
+                    SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
+                    SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
+                    SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON
+            )
+    );
+
+    public static final BlockSetType FUNGAL_STONE = BlockSetType.register(
+            new BlockSetType(
+                    "fungal_stone", true, true, false,
+                    BlockSetType.PressurePlateSensitivity.MOBS, SoundType.TUFF_BRICKS,
+                    SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
+                    SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
+                    SoundEvents.STONE_PRESSURE_PLATE_CLICK_OFF, SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
+                    SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON
             )
     );
 }
