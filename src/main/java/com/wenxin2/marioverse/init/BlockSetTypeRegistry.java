@@ -11,8 +11,8 @@ public class BlockSetTypeRegistry {
                     BlockSetType.PressurePlateSensitivity.MOBS, SoundType.AMETHYST,
                     SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
                     SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
-                    SoundEvents.AMETHYST_BLOCK_BREAK, SoundEvents.AMETHYST_BLOCK_PLACE,
-                    SoundEvents.AMETHYST_BLOCK_BREAK, SoundEvents.AMETHYST_BLOCK_PLACE
+                    SoundRegistry.AMETHYST_PRESSURE_PLATE_CLICK_OFF.get(), SoundRegistry.AMETHYST_PRESSURE_PLATE_CLICK_ON.get(),
+                    SoundRegistry.AMETHYST_BUTTON_CLICK_OFF.get(), SoundRegistry.AMETHYST_BUTTON_CLICK_ON.get()
             )
     );
 

@@ -7,6 +7,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class
 SoundRegistry {
+    public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_BUTTON_CLICK_OFF;
+    public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_BUTTON_CLICK_ON;
+    public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_OFF;
+    public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_ON;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
@@ -59,6 +63,15 @@ SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_BOUND;
 
     static {
+        AMETHYST_BUTTON_CLICK_OFF = Marioverse.SOUNDS.register("block.amethyst_button.click_off",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.amethyst_button.click_off")));
+        AMETHYST_BUTTON_CLICK_ON = Marioverse.SOUNDS.register("block.amethyst_button.click_on",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.amethyst_button.click_on")));
+        AMETHYST_PRESSURE_PLATE_CLICK_OFF = Marioverse.SOUNDS.register("block.amethyst_pressure_plate.click_off",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.amethyst_pressure_plate.click_off")));
+        AMETHYST_PRESSURE_PLATE_CLICK_ON = Marioverse.SOUNDS.register("block.amethyst_pressure_plate.click_on",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.amethyst_pressure_plate.click_on")));
+
         BLOCK_BONK = Marioverse.SOUNDS.register("block.block_bonk",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bonk")));
         BLOCK_SMASH = Marioverse.SOUNDS.register("block.block_smash",
