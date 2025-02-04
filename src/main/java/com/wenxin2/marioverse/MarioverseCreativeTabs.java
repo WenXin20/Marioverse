@@ -98,6 +98,7 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get());
+            add(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.STONE_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.BRICK_PEDESTAL.get());
             add(event, BlockRegistry.MUD_BRICK_PEDESTAL.get());
@@ -155,6 +156,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_AMETHYST_WALL.get());
             add(event, BlockRegistry.AMETHYST_BRICKS.get());
             add(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get());
+            add(event, BlockRegistry.AMETHYST_BRICK_STAIRS.get());
+            add(event, BlockRegistry.AMETHYST_BRICK_SLAB.get());
+            add(event, BlockRegistry.AMETHYST_BRICK_WALL.get());
             add(event, BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
 
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
@@ -265,7 +269,11 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.POLISHED_AMETHYST_SLAB.get(), BlockRegistry.POLISHED_AMETHYST_WALL.get());
             addAfter(event, BlockRegistry.POLISHED_AMETHYST_WALL.get(), BlockRegistry.AMETHYST_BRICKS.get());
             addAfter(event, BlockRegistry.AMETHYST_BRICKS.get(), BlockRegistry.CRACKED_AMETHYST_BRICKS.get());
-            addAfter(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get(), BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
+            addAfter(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get(), BlockRegistry.AMETHYST_BRICK_STAIRS.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICK_STAIRS.get(), BlockRegistry.AMETHYST_BRICK_SLAB.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICK_SLAB.get(), BlockRegistry.AMETHYST_BRICK_WALL.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICK_SLAB.get(), BlockRegistry.AMETHYST_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL.get(), BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
 
             addAfter(event, BlockRegistry.CHISELED_AMETHYST_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_STAIRS.get());

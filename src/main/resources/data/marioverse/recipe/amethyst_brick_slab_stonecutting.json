@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:amethyst_bricks"
+  },
+  "result": {
+    "id": "marioverse:amethyst_brick_slab",
+    "count": 2
+  }
+}

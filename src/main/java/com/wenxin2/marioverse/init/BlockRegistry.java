@@ -43,6 +43,10 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
 
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
+    public static final DeferredBlock<Block> AMETHYST_BRICK_STAIRS;
+    public static final DeferredBlock<Block> AMETHYST_BRICK_WALL;
     public static final DeferredBlock<Block> AMETHYST_BUTTON;
     public static final DeferredBlock<Block> AMETHYST_PRESSURE_PLATE;
     public static final DeferredBlock<Block> AMETHYST_SLAB;
@@ -257,6 +261,15 @@ public class BlockRegistry {
 
         CRACKED_AMETHYST_BRICKS = registerBlock("cracked_amethyst_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+
+        AMETHYST_BRICK_SLAB = registerBlock("amethyst_brick_slab", () -> slab(AMETHYST_BRICKS.get()));
+
+        AMETHYST_BRICK_STAIRS = registerBlock("amethyst_brick_stairs", () -> stair(AMETHYST_BRICKS.get()));
+
+        AMETHYST_BRICK_WALL = registerBlock("amethyst_brick_wall", () -> wall(AMETHYST_BRICKS.get()));
+
+        AMETHYST_BRICK_PEDESTAL = registerBlock("amethyst_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
 
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",

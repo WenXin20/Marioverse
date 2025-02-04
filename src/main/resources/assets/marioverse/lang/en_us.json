@@ -52,6 +52,7 @@
   "block.marioverse.smashable_stone_bricks": "Smashable Stone Bricks",
 
   "block.marioverse.brick_pedestal": "Brick Pedestal",
+  "block.marioverse.amethyst_brick_pedestal": "Amethyst Brick Pedestal",
   "block.marioverse.deep_fungal_brick_pedestal": "Deep Fungal Brick Pedestal",
   "block.marioverse.end_stone_brick_pedestal": "End Stone Brick Pedestal",
   "block.marioverse.fungal_brick_pedestal": "Fungal Brick Pedestal",
@@ -71,6 +72,9 @@
   "block.marioverse.polished_amethyst_stairs": "Polished Amethyst Stairs",
   "block.marioverse.polished_amethyst_wall": "Polished Amethyst Wall",
   "block.marioverse.amethyst_bricks": "Amethyst Bricks",
+  "block.marioverse.amethyst_brick_slab": "Amethyst Brick Slab",
+  "block.marioverse.amethyst_brick_stairs": "Amethyst Brick Stairs",
+  "block.marioverse.amethyst_brick_wall": "Amethyst Brick Wall",
   "block.marioverse.chiseled_amethyst_bricks": "Chiseled Amethyst Bricks",
   "block.marioverse.cracked_amethyst_bricks": "Cracked Amethyst Bricks",
 

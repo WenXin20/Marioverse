@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    { "id": "marioverse:amethyst_brick_slab", "required": false },
     { "id": "marioverse:amethyst_slab", "required": false },
     { "id": "marioverse:deep_fungal_brick_slab", "required": false },
     { "id": "marioverse:deep_fungal_stone_slab", "required": false },

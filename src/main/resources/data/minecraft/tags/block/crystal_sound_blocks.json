@@ -1,5 +1,9 @@
 {
   "values": [
+    { "id": "marioverse:amethyst_brick_pedestal", "required": false },
+    { "id": "marioverse:amethyst_brick_slab", "required": false },
+    { "id": "marioverse:amethyst_brick_stairs", "required": false },
+    { "id": "marioverse:amethyst_brick_wall", "required": false },
     { "id": "marioverse:amethyst_bricks", "required": false },
     { "id": "marioverse:amethyst_button", "required": false },
     { "id": "marioverse:amethyst_pressure_plate", "required": false },
