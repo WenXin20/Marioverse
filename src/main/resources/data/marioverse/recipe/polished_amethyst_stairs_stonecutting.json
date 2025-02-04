@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:polished_amethyst"
+  },
+  "result": {
+    "id": "marioverse:polished_amethyst_stairs",
+    "count": 1
+  }
+}

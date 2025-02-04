@@ -8,6 +8,9 @@
     { "id": "marioverse:amethyst_wall", "required": false },
     { "id": "marioverse:chiseled_amethyst_bricks", "required": false },
     { "id": "marioverse:cracked_amethyst_bricks", "required": false },
-    { "id": "marioverse:polished_amethyst", "required": false }
+    { "id": "marioverse:polished_amethyst", "required": false },
+    { "id": "marioverse:polished_amethyst_slab", "required": false },
+    { "id": "marioverse:polished_amethyst_stairs", "required": false },
+    { "id": "marioverse:polished_amethyst_wall", "required": false }
   ]
 }

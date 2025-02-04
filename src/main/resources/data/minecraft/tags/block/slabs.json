@@ -6,6 +6,7 @@
     { "id": "marioverse:deep_fungal_stone_slab", "required": false },
     { "id": "marioverse:fungal_brick_slab", "required": false },
     { "id": "marioverse:fungal_stone_slab", "required": false },
+    { "id": "marioverse:polished_amethyst_slab", "required": false },
     { "id": "marioverse:polished_deep_fungal_stone_slab", "required": false },
     { "id": "marioverse:polished_fungal_stone_slab", "required": false }
   ]

@@ -150,6 +150,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_PRESSURE_PLATE.get());
             add(event, BlockRegistry.AMETHYST_BUTTON.get());
             add(event, BlockRegistry.POLISHED_AMETHYST.get());
+            add(event, BlockRegistry.POLISHED_AMETHYST_STAIRS.get());
+            add(event, BlockRegistry.POLISHED_AMETHYST_SLAB.get());
+            add(event, BlockRegistry.POLISHED_AMETHYST_WALL.get());
             add(event, BlockRegistry.AMETHYST_BRICKS.get());
             add(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get());
             add(event, BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
@@ -257,7 +260,10 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.AMETHYST_WALL.get(), BlockRegistry.AMETHYST_PRESSURE_PLATE.get());
             addAfter(event, BlockRegistry.AMETHYST_PRESSURE_PLATE.get(), BlockRegistry.AMETHYST_BUTTON.get());
             addAfter(event, BlockRegistry.AMETHYST_BUTTON.get(), BlockRegistry.POLISHED_AMETHYST.get());
-            addAfter(event, BlockRegistry.POLISHED_AMETHYST.get(), BlockRegistry.AMETHYST_BRICKS.get());
+            addAfter(event, BlockRegistry.AMETHYST_BUTTON.get(), BlockRegistry.POLISHED_AMETHYST_STAIRS.get());
+            addAfter(event, BlockRegistry.POLISHED_AMETHYST_STAIRS.get(), BlockRegistry.POLISHED_AMETHYST_SLAB.get());
+            addAfter(event, BlockRegistry.POLISHED_AMETHYST_SLAB.get(), BlockRegistry.POLISHED_AMETHYST_WALL.get());
+            addAfter(event, BlockRegistry.POLISHED_AMETHYST_WALL.get(), BlockRegistry.AMETHYST_BRICKS.get());
             addAfter(event, BlockRegistry.AMETHYST_BRICKS.get(), BlockRegistry.CRACKED_AMETHYST_BRICKS.get());
             addAfter(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get(), BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
 

@@ -95,6 +95,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> POLISHED_AMETHYST;
+    public static final DeferredBlock<Block> POLISHED_AMETHYST_SLAB;
+    public static final DeferredBlock<Block> POLISHED_AMETHYST_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_AMETHYST_WALL;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_STAIRS;
@@ -238,7 +241,13 @@ public class BlockRegistry {
         AMETHYST_WALL = registerBlock("amethyst_wall", () -> wall(Blocks.AMETHYST_BLOCK));
 
         POLISHED_AMETHYST = registerBlock("polished_amethyst",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).strength(1.25F)));
+
+        POLISHED_AMETHYST_STAIRS = registerBlock("polished_amethyst_stairs", () -> stair(POLISHED_AMETHYST.get()));
+
+        POLISHED_AMETHYST_SLAB = registerBlock("polished_amethyst_slab", () -> slab(POLISHED_AMETHYST.get()));
+
+        POLISHED_AMETHYST_WALL = registerBlock("polished_amethyst_wall", () -> wall(POLISHED_AMETHYST.get()));
 
         AMETHYST_BRICKS = registerBlock("amethyst_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
