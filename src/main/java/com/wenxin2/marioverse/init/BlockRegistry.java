@@ -267,13 +267,13 @@ public class BlockRegistry {
         POLISHED_AMETHYST_WALL = registerBlock("polished_amethyst_wall", () -> wall(POLISHED_AMETHYST.get()));
 
         AMETHYST_BRICKS = registerBlock("amethyst_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
 
         CHISELED_AMETHYST_BRICKS = registerBlock("chiseled_amethyst_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
         CRACKED_AMETHYST_BRICKS = registerBlock("cracked_amethyst_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
         AMETHYST_BRICK_SLAB = registerBlock("amethyst_brick_slab", () -> slab(AMETHYST_BRICKS.get()));
 

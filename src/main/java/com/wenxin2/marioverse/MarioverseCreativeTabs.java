@@ -272,7 +272,7 @@ public class MarioverseCreativeTabs {
             addAfter(event, BlockRegistry.CRACKED_AMETHYST_BRICKS.get(), BlockRegistry.AMETHYST_BRICK_STAIRS.get());
             addAfter(event, BlockRegistry.AMETHYST_BRICK_STAIRS.get(), BlockRegistry.AMETHYST_BRICK_SLAB.get());
             addAfter(event, BlockRegistry.AMETHYST_BRICK_SLAB.get(), BlockRegistry.AMETHYST_BRICK_WALL.get());
-            addAfter(event, BlockRegistry.AMETHYST_BRICK_SLAB.get(), BlockRegistry.AMETHYST_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICK_WALL.get(), BlockRegistry.AMETHYST_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL.get(), BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
 
             addAfter(event, BlockRegistry.CHISELED_AMETHYST_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
@@ -333,7 +333,8 @@ public class MarioverseCreativeTabs {
 
             addAfter(event, BlockRegistry.STORAGE_PURPUR_BLOCK.get(), BlockRegistry.FUNGAL_BRICKS.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.DEEP_FUNGAL_BRICKS.get());
-            addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICKS.get(), BlockRegistry.SMASHABLE_STONE_BRICKS.get());
+            addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICKS.get(), BlockRegistry.AMETHYST_BRICKS.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICKS.get(), BlockRegistry.SMASHABLE_STONE_BRICKS.get());
             addAfter(event, BlockRegistry.SMASHABLE_STONE_BRICKS.get(), BlockRegistry.SMASHABLE_BRICKS.get());
             addAfter(event, BlockRegistry.SMASHABLE_BRICKS.get(), BlockRegistry.SMASHABLE_MUD_BRICKS.get());
             addAfter(event, BlockRegistry.SMASHABLE_MUD_BRICKS.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
@@ -343,7 +344,8 @@ public class MarioverseCreativeTabs {
 
             addAfter(event, BlockRegistry.SMASHABLE_PURPUR_BLOCK.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL.get(), BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get());
-            addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get(), BlockRegistry.STONE_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get(), BlockRegistry.AMETHYST_BRICK_PEDESTAL.get());
+            addAfter(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL.get(), BlockRegistry.STONE_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.STONE_BRICK_PEDESTAL.get(), BlockRegistry.BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.BRICK_PEDESTAL.get(), BlockRegistry.MUD_BRICK_PEDESTAL.get());
             addAfter(event, BlockRegistry.MUD_BRICK_PEDESTAL.get(), BlockRegistry.NETHER_BRICK_PEDESTAL.get());
