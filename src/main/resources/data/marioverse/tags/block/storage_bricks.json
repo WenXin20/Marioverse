@@ -6,6 +6,7 @@
     { "id": "marioverse:storage_deep_fungal_bricks", "required": false },
     { "id": "marioverse:storage_end_stone_bricks", "required": false },
     { "id": "marioverse:storage_fungal_bricks", "required": false },
+    { "id": "marioverse:storage_mossy_stone_bricks", "required": false },
     { "id": "marioverse:storage_mud_bricks", "required": false },
     { "id": "marioverse:storage_nether_bricks", "required": false },
     { "id": "marioverse:storage_purpur_block", "required": false },

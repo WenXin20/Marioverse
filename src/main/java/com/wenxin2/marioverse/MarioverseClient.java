@@ -122,6 +122,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_END_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_MOSSY_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_MUD_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_NETHER_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_PURPUR_QUESTION.get(), NoMovementParticle.Provider::new);
