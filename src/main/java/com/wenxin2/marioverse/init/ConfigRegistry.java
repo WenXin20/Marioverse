@@ -139,7 +139,7 @@ public class ConfigRegistry
                     .comment("§9[Default: false]")
                     .define("disable_reward_particles", false);
             DISPLAY_BUTTON_TOOLTIP = BUILDER.translation("configuration.marioverse.display_button_tooltip")
-                    .comment("Display tooltips on buttons for ticks to stay pressed.")
+                    .comment("Display \"ticks to stay pressed\" on button tooltips.")
                     .comment("§9[Default: true]")
                     .define("display_button_tooltip", true);
             RENDER_ONE_UP_CHARM = BUILDER.translation("configuration.marioverse.render_one_up_charm")
