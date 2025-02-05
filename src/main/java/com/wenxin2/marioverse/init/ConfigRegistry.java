@@ -49,7 +49,6 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
-    public static ModConfigSpec.BooleanValue DISPLAY_BUTTON_TOOLTIP;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
@@ -66,11 +65,14 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
+    public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TAB;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
+    public static ModConfigSpec.BooleanValue DISABLE_VANILLA_TABS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_DOORS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
+    public static ModConfigSpec.BooleanValue DISPLAY_BUTTON_TOOLTIP;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
@@ -521,6 +523,17 @@ public class ConfigRegistry
                         .comment("§9[Default: true]")
                         .define("wax_disables_warp_linking", true);
             BUILDER.pop();
+
+            DISABLE_MARIOVERSE_TAB = BUILDER.translation("configuration.marioverse.disable_marioverse_tab")
+                    .comment("Disable the Marioverse creative tab.")
+                    .comment("§cRequires world reload")
+                    .comment("§9[Default: false]")
+                    .define("disable_marioverse_tab", false);
+            DISABLE_VANILLA_TABS = BUILDER.translation("configuration.marioverse.disable_vanilla_tabs")
+                    .comment("Disable items in vanilla creative tabs.")
+                    .comment("§cRequires world reload")
+                    .comment("§9[Default: false]")
+                    .define("disable_vanilla_tabs", false);
 
         BUILDER.pop();
 
