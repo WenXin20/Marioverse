@@ -291,6 +291,8 @@
   "item.marioverse.warp_disruptor.message.prevent_player_warp": "§cPrevented §r%1$s §cfrom warping for §r%2$s §cticks",
   "item.marioverse.warp_disruptor.message.prevent_trapdoor_warp": "§cPrevented Trapdoor warping",
 
+  "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
+
 
   "accessories.slot.costume_hat": "Costume Hat",
   "accessories.slot.costume_shirt": "Costume Shirt",
@@ -515,6 +517,7 @@
   "configuration.marioverse.disable_text": "Disable Text",
   "configuration.marioverse.disable_warp_doors": "Disable Warp Doors",
   "configuration.marioverse.disable_warp_trapdoors": "Disable Warp Trapdoors",
+  "configuration.marioverse.display_button_tooltip": "Display Button Tooltip",
   "configuration.marioverse.enable_stompable_enemies": "Enable Stompable Enemies",
   "configuration.marioverse.equip_costumes_mobs": "Equips Costumes on Mobs",
   "configuration.marioverse.equip_costumes_players": "Equips Costumes on Players",

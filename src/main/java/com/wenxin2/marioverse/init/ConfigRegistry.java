@@ -49,6 +49,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
+    public static ModConfigSpec.BooleanValue DISPLAY_BUTTON_TOOLTIP;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
@@ -137,6 +138,10 @@ public class ConfigRegistry
                     .comment("Enable reward particles when squashing enemies.")
                     .comment("§9[Default: false]")
                     .define("disable_reward_particles", false);
+            DISPLAY_BUTTON_TOOLTIP = BUILDER.translation("configuration.marioverse.display_button_tooltip")
+                    .comment("Display tooltips on buttons for ticks to stay pressed.")
+                    .comment("§9[Default: true]")
+                    .define("display_button_tooltip", true);
             RENDER_ONE_UP_CHARM = BUILDER.translation("configuration.marioverse.render_one_up_charm")
                     .comment("Render the 1-Up on the player when in an Accessory slot.")
                     .comment("§9[Default: true]")
