@@ -186,7 +186,10 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (nearestPlayer != null) {
             if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                     || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                if (state.getBlock() == BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
+                if (state.getBlock() == BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_AMETHYST_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_BRICK_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())

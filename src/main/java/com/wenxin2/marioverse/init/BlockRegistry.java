@@ -49,6 +49,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> AMETHYST_BRICK_WALL;
     public static final DeferredBlock<Block> AMETHYST_BUTTON;
     public static final DeferredBlock<Block> AMETHYST_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> AMETHYST_SLAB;
     public static final DeferredBlock<Block> AMETHYST_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_WALL;
@@ -84,6 +85,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
@@ -124,6 +126,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_STONE_BRICKS;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
@@ -283,6 +286,17 @@ public class BlockRegistry {
 
         AMETHYST_BRICK_PEDESTAL = registerBlock("amethyst_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
+
+
+        AMETHYST_QUESTION_BLOCK = registerBlock("amethyst_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
+
+        INVISIBLE_AMETHYST_QUESTION_BLOCK = registerBlock("invisible_amethyst_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_PURPLE)));
+
+        STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
 
 
         STONE_QUESTION_BRICKS = registerBlock("stone_question_bricks",

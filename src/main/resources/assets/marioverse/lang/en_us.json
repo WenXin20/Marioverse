@@ -13,6 +13,7 @@
 
   "block.marioverse.coin": "Coin",
 
+  "block.marioverse.amethyst_question_block": "Amethyst Question Block",
   "block.marioverse.deep_fungal_question_block": "Deep Fungal Question Block",
   "block.marioverse.end_stone_question_bricks": "End Stone Question Bricks",
   "block.marioverse.fungal_question_block": "Fungal Question Block",
@@ -23,6 +24,7 @@
   "block.marioverse.red_nether_question_bricks": "Red Nether Question Bricks",
   "block.marioverse.stone_question_bricks": "Stone Question Bricks",
 
+  "block.marioverse.invisible_amethyst_question_block": "Invisible Amethyst Question Block",
   "block.marioverse.invisible_deep_fungal_question_block": "Invisible Deep Fungal Question Block",
   "block.marioverse.invisible_end_stone_question_bricks": "Invisible End Stone Question Bricks",
   "block.marioverse.invisible_fungal_question_block": "Invisible Fungal Question Block",
@@ -33,6 +35,7 @@
   "block.marioverse.invisible_red_nether_question_bricks": "Invisible Red Nether Question Bricks",
   "block.marioverse.invisible_stone_question_bricks": "Invisible Stone Question Bricks",
 
+  "block.marioverse.storage_amethyst_bricks": "Storage Amethyst Bricks",
   "block.marioverse.storage_bricks": "Storage Bricks",
   "block.marioverse.storage_deep_fungal_bricks": "Storage Deep Fungal Bricks",
   "block.marioverse.storage_end_stone_bricks": "Storage End Stone Bricks",
