@@ -361,6 +361,7 @@ public class MarioverseCreativeTabs {
 
             addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
+                addAfter(event, BlockRegistry.POLISHED_AMETHYST.get(), BlockRegistry.POLISHED_AMETHYST_STAIRS.get());
 
             addDyedBlocks(event, Blocks.SKELETON_SKULL, BlockRegistry.GOAL_POLES, false, false);
             addBefore(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), BlockRegistry.CLASSIC_GOAL_POLE.get());
