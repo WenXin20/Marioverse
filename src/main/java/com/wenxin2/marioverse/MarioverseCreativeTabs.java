@@ -64,6 +64,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_QUESTION_BLOCK.get());
             add(event, BlockRegistry.STONE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.MOSSY_STONE_QUESTION_BRICKS.get());
+            add(event, BlockRegistry.TUFF_QUESTION_BRICKS.get());
             add(event, BlockRegistry.QUESTION_BRICKS.get());
             add(event, BlockRegistry.MUD_QUESTION_BRICKS.get());
             add(event, BlockRegistry.NETHER_QUESTION_BRICKS.get());
@@ -76,6 +77,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get());
             add(event, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get());
+            add(event, BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get());
             add(event, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get());
@@ -88,6 +90,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
             add(event, BlockRegistry.STORAGE_STONE_BRICKS.get());
             add(event, BlockRegistry.STORAGE_MOSSY_STONE_BRICKS.get());
+            add(event, BlockRegistry.STORAGE_TUFF_BRICKS.get());
             add(event, BlockRegistry.STORAGE_BRICKS.get());
             add(event, BlockRegistry.STORAGE_MUD_BRICKS.get());
             add(event, BlockRegistry.STORAGE_NETHER_BRICKS.get());
@@ -97,6 +100,7 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.SMASHABLE_STONE_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS.get());
+            add(event, BlockRegistry.SMASHABLE_TUFF_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_MUD_BRICKS.get());
             add(event, BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
@@ -109,6 +113,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.STONE_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL.get());
+            add(event, BlockRegistry.TUFF_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.BRICK_PEDESTAL.get());
             add(event, BlockRegistry.MUD_BRICK_PEDESTAL.get());
             add(event, BlockRegistry.NETHER_BRICK_PEDESTAL.get());
