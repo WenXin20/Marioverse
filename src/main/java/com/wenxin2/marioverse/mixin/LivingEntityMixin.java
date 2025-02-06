@@ -52,6 +52,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -544,6 +545,10 @@ public abstract class LivingEntityMixin extends Entity {
                 if (!world.isClientSide)
                     questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
 
+
+                if (world.getBlockState(pos).is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
+                    PiglinAi.angerNearbyPiglins(player, false);
+
                 questionBlock.playSounds(world, pos, storedItem);
                 questionBlockEntity.removeItems();
                 questionBlockEntity.setChanged();
@@ -569,6 +574,7 @@ public abstract class LivingEntityMixin extends Entity {
                 if (!entitiesAbove.isEmpty()) {
                     for (Entity entityAbove : entitiesAbove) {
                         if (entityAbove instanceof LivingEntity livingEntity) {
+                            // TODO: Add custom damage source
                             livingEntity.hurt(world.damageSources().generic(), 4.0F);
                         }
                     }

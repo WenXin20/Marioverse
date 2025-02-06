@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.SmallFireball;
@@ -186,6 +188,9 @@ public class QuestionBlock extends Block implements EntityBlock {
 
                     if (storedItem.isEmpty())
                         world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+
+                    if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                        PiglinAi.angerNearbyPiglins(player, false);
 
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
