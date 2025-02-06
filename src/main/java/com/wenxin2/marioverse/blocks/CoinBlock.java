@@ -6,10 +6,12 @@ import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -81,9 +83,11 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
             world.removeBlock(pos, false);
             player.addItem(coinItem);
 
-            if (!player.addItem(coinItem)) {
+            if (!player.addItem(coinItem))
                 player.drop(coinItem, false);
-            }
+
+            if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                PiglinAi.angerNearbyPiglins(player, false);
         }
         super.entityInside(state, world, pos, entity);
     }
