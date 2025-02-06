@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/storage_tuff_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_tuff_bricks"
+    }
+  }
+}

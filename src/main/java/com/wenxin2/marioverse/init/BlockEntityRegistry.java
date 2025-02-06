@@ -43,7 +43,8 @@ public class BlockEntityRegistry {
                         BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(),
-                        BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get()).build(null));
+                        BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get(),
+                        BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get()).build(null));
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
@@ -57,7 +58,8 @@ public class BlockEntityRegistry {
                         BlockRegistry.PURPUR_QUESTION_BLOCK.get(),
                         BlockRegistry.QUESTION_BRICKS.get(),
                         BlockRegistry.RED_NETHER_QUESTION_BRICKS.get(),
-                        BlockRegistry.STONE_QUESTION_BRICKS.get()).build(null));
+                        BlockRegistry.STONE_QUESTION_BRICKS.get(),
+                        BlockRegistry.TUFF_QUESTION_BRICKS.get()).build(null));
 
         STORAGE_BRICKS_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("storage_bricks",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
@@ -71,7 +73,8 @@ public class BlockEntityRegistry {
                         BlockRegistry.STORAGE_NETHER_BRICKS.get(),
                         BlockRegistry.STORAGE_PURPUR_BLOCK.get(),
                         BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(),
-                        BlockRegistry.STORAGE_STONE_BRICKS.get()).build(null));
+                        BlockRegistry.STORAGE_STONE_BRICKS.get(),
+                        BlockRegistry.STORAGE_TUFF_BRICKS.get()).build(null));
 
         GOAL_POLE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("goal_pole",
                 () -> BlockEntityType.Builder.of(GoalPoleBlockEntity::new,

@@ -96,6 +96,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
@@ -128,6 +129,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_STONE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_TUFF_BRICKS;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
@@ -141,6 +143,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_STONE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_TUFF_BRICKS;
+    public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
 
     static {
@@ -336,6 +341,23 @@ public class BlockRegistry {
 
         MOSSY_STONE_BRICK_PEDESTAL = registerBlock("mossy_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+
+
+        TUFF_QUESTION_BRICKS = registerBlock("tuff_question_bricks",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
+        INVISIBLE_TUFF_QUESTION_BRICKS = registerBlock("invisible_tuff_question_bricks",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.TERRACOTTA_GRAY)));
+
+        STORAGE_TUFF_BRICKS = registerBlock("storage_tuff_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
+        SMASHABLE_TUFF_BRICKS = registerBlock("smashable_tuff_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
+        TUFF_BRICK_PEDESTAL = registerBlock("tuff_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",

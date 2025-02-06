@@ -11,6 +11,7 @@
     { "id": "marioverse:nether_brick_pedestal", "required": false },
     { "id": "marioverse:purpur_block_pedestal", "required": false },
     { "id": "marioverse:red_nether_brick_pedestal", "required": false },
-    { "id": "marioverse:stone_brick_pedestal", "required": false }
+    { "id": "marioverse:stone_brick_pedestal", "required": false },
+    { "id": "marioverse:tuff_brick_pedestal", "required": false }
   ]
 }
