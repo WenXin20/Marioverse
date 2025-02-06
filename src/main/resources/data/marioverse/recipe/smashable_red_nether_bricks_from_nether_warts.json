@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "marioverse:storage_bricks",
+  "group": "marioverse:smashable_bricks",
   "category": "building",
   "pattern": [
     " B ",

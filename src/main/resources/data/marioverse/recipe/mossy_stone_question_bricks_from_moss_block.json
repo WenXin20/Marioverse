@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:question_blocks",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "marioverse:stone_question_bricks"
+    },
+    {
+      "item": "minecraft:moss_block"
+    }
+  ],
+  "result": {
+    "id": "marioverse:mossy_stone_question_bricks"
+  }
+}

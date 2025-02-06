@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:storage_bricks",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "marioverse:storage_stone_bricks"
+    },
+    {
+      "item": "minecraft:vine"
+    }
+  ],
+  "result": {
+    "id": "marioverse:storage_mossy_stone_bricks"
+  }
+}
