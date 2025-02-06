@@ -1,0 +1,6 @@
+{
+  "values": [
+    { "id": "marioverse:deepslate_brick_pedestal", "required": false },
+    { "id": "marioverse:smashable_deepslate_bricks", "required": false }
+  ]
+}

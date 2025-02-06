@@ -1,0 +1,8 @@
+{
+  "values": [
+    { "id": "marioverse:coin", "required": false },
+    { "id": "marioverse:fungal_question_block", "required": false },
+    { "id": "marioverse:invisible_fungal_question_block", "required": false },
+    { "id": "marioverse:super_star", "required": false }
+  ]
+}
