@@ -20,6 +20,7 @@
     { "id": "marioverse:fungal_bricks", "required": false },
     { "id": "marioverse:smashable_bricks", "required": false },
     { "id": "marioverse:smashable_deepslate_bricks", "required": false },
+    { "id": "marioverse:smashable_deepslate_tiles", "required": false },
     { "id": "marioverse:smashable_end_stone_bricks", "required": false },
     { "id": "marioverse:smashable_mossy_stone_bricks", "required": false },
     { "id": "marioverse:smashable_mud_bricks", "required": false },

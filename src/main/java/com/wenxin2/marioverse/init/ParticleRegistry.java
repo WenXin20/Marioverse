@@ -17,6 +17,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_BRICK_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_DEEP_FUNGAL_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_DEEPSLATE_BRICK_QUESTION;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_DEEPSLATE_TILE_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_END_STONE_BRICK_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_FUNGAL_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_MOSSY_STONE_BRICK_QUESTION;
@@ -41,8 +42,9 @@ public class ParticleRegistry {
         INCREDIBLE = Marioverse.PARTICLES.register("incredible", () -> new SimpleParticleType(false));
         INVISIBLE_AMETHYST_QUESTION = Marioverse.PARTICLES.register("invisible_amethyst_question", () -> new SimpleParticleType(false));
         INVISIBLE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_brick_question", () -> new SimpleParticleType(false));
-        INVISIBLE_DEEP_FUNGAL_QUESTION = Marioverse.PARTICLES.register("invisible_deep_fungal_question", () -> new SimpleParticleType(false));
         INVISIBLE_DEEPSLATE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_deepslate_brick_question", () -> new SimpleParticleType(false));
+        INVISIBLE_DEEPSLATE_TILE_QUESTION = Marioverse.PARTICLES.register("invisible_deepslate_tile_question", () -> new SimpleParticleType(false));
+        INVISIBLE_DEEP_FUNGAL_QUESTION = Marioverse.PARTICLES.register("invisible_deep_fungal_question", () -> new SimpleParticleType(false));
         INVISIBLE_END_STONE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_end_stone_brick_question", () -> new SimpleParticleType(false));
         INVISIBLE_FUNGAL_QUESTION = Marioverse.PARTICLES.register("invisible_fungal_question", () -> new SimpleParticleType(false));
         INVISIBLE_MOSSY_STONE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_mossy_stone_brick_question", () -> new SimpleParticleType(false));

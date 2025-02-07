@@ -60,7 +60,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> DEEPSLATE_TILE_PEDESTAL;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> DEEPSLATE_QUESTION_TILES;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
@@ -89,6 +91,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_TILES;
     public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
@@ -126,6 +129,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_TILES;
     public static final DeferredBlock<Block> SMASHABLE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_MUD_BRICKS;
@@ -139,6 +143,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_DEEPSLATE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_DEEPSLATE_TILES;
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
@@ -380,6 +385,23 @@ public class BlockRegistry {
 
         DEEPSLATE_BRICK_PEDESTAL = registerBlock("deepslate_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
+
+
+        DEEPSLATE_QUESTION_TILES = registerBlock("deepslate_question_tiles",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
+
+        INVISIBLE_DEEPSLATE_QUESTION_TILES = registerBlock("invisible_deepslate_question_tiles",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.DEEPSLATE)));
+
+        STORAGE_DEEPSLATE_TILES = registerBlock("storage_deepslate_tiles",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
+
+        SMASHABLE_DEEPSLATE_TILES = registerBlock("smashable_deepslate_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
+
+        DEEPSLATE_TILE_PEDESTAL = registerBlock("deepslate_tile_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
 
 
         QUESTION_BRICKS = registerBlock("question_bricks",
