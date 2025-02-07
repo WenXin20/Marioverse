@@ -406,7 +406,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.SMASHABLE_MUD_BRICKS.get(), BlockRegistry.SMASHABLE_NETHER_BRICKS.get());
                 addAfter(event, BlockRegistry.SMASHABLE_NETHER_BRICKS.get(), BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get());
                 addAfter(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get(), BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS.get());
-                addAfter(event, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get(), BlockRegistry.SMASHABLE_END_STONE_BRICKS.get());
+                addAfter(event, BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS.get(), BlockRegistry.SMASHABLE_END_STONE_BRICKS.get());
                 addAfter(event, BlockRegistry.SMASHABLE_END_STONE_BRICKS.get(), BlockRegistry.SMASHABLE_PURPUR_BLOCK.get());
 
                 addAfter(event, BlockRegistry.SMASHABLE_PURPUR_BLOCK.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
