@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     { "id": "marioverse:storage_amethyst_bricks", "required": false },
+    { "id": "marioverse:storage_blackstone_bricks", "required": false },
     { "id": "marioverse:storage_bricks", "required": false },
     { "id": "marioverse:storage_deep_fungal_bricks", "required": false },
     { "id": "marioverse:storage_deepslate_bricks", "required": false },

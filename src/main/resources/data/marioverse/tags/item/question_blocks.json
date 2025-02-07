@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     { "id": "marioverse:amethyst_question_block", "required": false },
+    { "id": "marioverse:blackstone_question_bricks", "required": false },
     { "id": "marioverse:deep_fungal_question_block", "required": false },
     { "id": "marioverse:deepslate_question_bricks", "required": false },
     { "id": "marioverse:deepslate_question_tiles", "required": false },

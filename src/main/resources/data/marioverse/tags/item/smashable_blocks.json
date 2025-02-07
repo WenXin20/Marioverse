@@ -18,6 +18,7 @@
     { "id": "marioverse:fungal_brick_stairs", "required": false },
     { "id": "marioverse:fungal_brick_wall", "required": false },
     { "id": "marioverse:fungal_bricks", "required": false },
+    { "id": "marioverse:smashable_blackstone_bricks", "required": false },
     { "id": "marioverse:smashable_bricks", "required": false },
     { "id": "marioverse:smashable_deepslate_bricks", "required": false },
     { "id": "marioverse:smashable_deepslate_tiles", "required": false },
