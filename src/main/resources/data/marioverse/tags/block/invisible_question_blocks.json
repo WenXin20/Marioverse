@@ -14,6 +14,7 @@
     { "id": "marioverse:invisible_nether_question_bricks", "required": false },
     { "id": "marioverse:invisible_prismarine_question_bricks", "required": false },
     { "id": "marioverse:invisible_purpur_question_block", "required": false },
+    { "id": "marioverse:invisible_quartz_question_bricks", "required": false },
     { "id": "marioverse:invisible_question_bricks", "required": false },
     { "id": "marioverse:invisible_red_nether_question_bricks", "required": false },
     { "id": "marioverse:invisible_stone_question_bricks", "required": false },

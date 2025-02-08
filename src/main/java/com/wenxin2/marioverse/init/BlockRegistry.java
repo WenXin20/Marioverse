@@ -106,6 +106,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_PURPUR_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_STONE_QUESTION_BRICKS;
@@ -133,6 +134,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> QUARTZ_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
@@ -147,6 +150,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_PRISMARINE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_PURPUR_BLOCK;
+    public static final DeferredBlock<Block> SMASHABLE_QUARTZ_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_TUFF_BRICKS;
@@ -166,6 +170,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PRISMARINE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
+    public static final DeferredBlock<Block> STORAGE_QUARTZ_BRICKS;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_TUFF_BRICKS;
@@ -486,7 +491,7 @@ public class BlockRegistry {
         DARK_PRISMARINE_PEDESTAL = registerBlock("dark_prismarine_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
-        
+
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
@@ -570,6 +575,23 @@ public class BlockRegistry {
 
         PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
+
+        QUARTZ_QUESTION_BRICKS = registerBlock("quartz_question_bricks",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
+        INVISIBLE_QUARTZ_QUESTION_BRICKS = registerBlock("invisible_quartz_question_bricks",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.QUARTZ)));
+
+        STORAGE_QUARTZ_BRICKS = registerBlock("storage_quartz_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
+        SMASHABLE_QUARTZ_BRICKS = registerBlock("smashable_quartz_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
+        QUARTZ_BRICK_PEDESTAL = registerBlock("quartz_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",

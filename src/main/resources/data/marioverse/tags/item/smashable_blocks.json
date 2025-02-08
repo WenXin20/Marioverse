@@ -29,6 +29,7 @@
     { "id": "marioverse:smashable_nether_bricks", "required": false },
     { "id": "marioverse:smashable_prismarine_bricks", "required": false },
     { "id": "marioverse:smashable_purpur_block", "required": false },
+    { "id": "marioverse:smashable_quartz_bricks", "required": false },
     { "id": "marioverse:smashable_red_nether_bricks", "required": false },
     { "id": "marioverse:smashable_stone_bricks", "required": false },
     { "id": "marioverse:smashable_tuff_bricks", "required": false }

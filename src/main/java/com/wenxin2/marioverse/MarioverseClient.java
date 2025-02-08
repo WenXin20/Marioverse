@@ -131,6 +131,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_NETHER_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_PRISMARINE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_PURPUR_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_QUARTZ_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_RED_NETHER_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_TUFF_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);

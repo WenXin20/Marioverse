@@ -46,6 +46,7 @@ public class BlockEntityRegistry {
                         BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_PRISMARINE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get(),
+                        BlockRegistry.INVISIBLE_QUARTZ_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get(),
@@ -66,6 +67,7 @@ public class BlockEntityRegistry {
                         BlockRegistry.NETHER_QUESTION_BRICKS.get(),
                         BlockRegistry.PRISMARINE_QUESTION_BRICKS.get(),
                         BlockRegistry.PURPUR_QUESTION_BLOCK.get(),
+                        BlockRegistry.QUARTZ_QUESTION_BRICKS.get(),
                         BlockRegistry.QUESTION_BRICKS.get(),
                         BlockRegistry.RED_NETHER_QUESTION_BRICKS.get(),
                         BlockRegistry.STONE_QUESTION_BRICKS.get(),
@@ -87,6 +89,7 @@ public class BlockEntityRegistry {
                         BlockRegistry.STORAGE_NETHER_BRICKS.get(),
                         BlockRegistry.STORAGE_PRISMARINE_BRICKS.get(),
                         BlockRegistry.STORAGE_PURPUR_BLOCK.get(),
+                        BlockRegistry.STORAGE_QUARTZ_BRICKS.get(),
                         BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(),
                         BlockRegistry.STORAGE_STONE_BRICKS.get(),
                         BlockRegistry.STORAGE_TUFF_BRICKS.get()).build(null));
