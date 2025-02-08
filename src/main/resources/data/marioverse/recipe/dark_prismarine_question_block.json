@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "marioverse:question_blocks",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
+    },
+    {
+      "item": "minecraft:dark_prismarine"
+    }
+  ],
+  "result": {
+    "id": "marioverse:dark_prismarine_question_block"
+  }
+}

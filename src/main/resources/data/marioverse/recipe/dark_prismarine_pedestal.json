@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "marioverse:brick_pedestals",
+  "category": "building",
+  "pattern": [
+    "B B",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:dark_prismarine"
+    }
+  },
+  "result": {
+    "id": "marioverse:dark_prismarine_pedestal",
+    "count": 5
+  }
+}

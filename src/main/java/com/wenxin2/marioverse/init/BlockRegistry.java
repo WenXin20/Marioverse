@@ -61,6 +61,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
+    public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_TILES;
@@ -93,6 +95,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_TILES;
     public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
@@ -135,6 +138,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_DARK_PRISMARINE;
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_TILES;
     public static final DeferredBlock<Block> SMASHABLE_END_STONE_BRICKS;
@@ -151,6 +155,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_DARK_PRISMARINE;
     public static final DeferredBlock<Block> STORAGE_DEEPSLATE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_DEEPSLATE_TILES;
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
@@ -465,6 +470,23 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
 
 
+        DARK_PRISMARINE_QUESTION_BLOCK = registerBlock("dark_prismarine_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
+        INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK = registerBlock("invisible_dark_prismarine_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.DIAMOND)));
+
+        STORAGE_DARK_PRISMARINE = registerBlock("storage_dark_prismarine",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
+        SMASHABLE_DARK_PRISMARINE = registerBlock("smashable_dark_prismarine",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
+        DARK_PRISMARINE_PEDESTAL = registerBlock("dark_prismarine_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
+        
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 

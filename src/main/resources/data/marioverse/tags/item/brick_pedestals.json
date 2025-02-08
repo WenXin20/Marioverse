@@ -4,6 +4,7 @@
     { "id": "marioverse:amethyst_brick_pedestal", "required": false },
     { "id": "marioverse:blackstone_brick_pedestal", "required": false },
     { "id": "marioverse:brick_pedestal", "required": false },
+    { "id": "marioverse:dark_prismarine_pedestal", "required": false },
     { "id": "marioverse:deep_fungal_brick_pedestal", "required": false },
     { "id": "marioverse:deepslate_brick_pedestal", "required": false },
     { "id": "marioverse:deepslate_tile_pedestal", "required": false },
