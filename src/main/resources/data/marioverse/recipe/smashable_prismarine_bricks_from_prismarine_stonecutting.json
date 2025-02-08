@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:prismarine"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:smashable_prismarine_bricks"
+  }
+}
