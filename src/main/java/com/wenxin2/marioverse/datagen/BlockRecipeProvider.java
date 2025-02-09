@@ -25,8 +25,8 @@ public class BlockRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes(RecipeOutput output) {
         pedestalRecipe(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COPPER_QUESTION_BLOCK, Items.CUT_COPPER, output);
-        questionBlockRecipe(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COPPER_QUESTION_BLOCK, Items.COPPER_BLOCK, Tags.Items.CHESTS, output);
-        storageBrickRecipe(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STORAGE_CUT_COPPER, Items.CUT_COPPER, Tags.Items.CHESTS, output);
+        questionBlockRecipe(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COPPER_QUESTION_BLOCK, Items.COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, output);
+        storageBrickRecipe(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STORAGE_CUT_COPPER, Items.CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
 
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, Items.COPPER_BLOCK, BlockRegistry.SMASHABLE_CUT_COPPER);
         stonecutterResultFromBase(output, RecipeCategory.BUILDING_BLOCKS, Items.CUT_COPPER, BlockRegistry.SMASHABLE_CUT_COPPER);
