@@ -18,18 +18,21 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
+    public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
-    public static final TagKey<Block> ITEM_BRICK_BLOCKS = blockTags("storage_bricks");
+    public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
+    public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> MELTS = blockTags("melts");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
-    public static final TagKey<Block> QUESTION_BLOCK_BLOCKS = blockTags("question_blocks");
-    public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
+    public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
+    public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
+    public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
@@ -37,12 +40,17 @@ public class TagRegistry {
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
 
+    public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
+    public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
+    public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
-    public static final TagKey<Item> ITEM_BRICK_ITEMS = itemTags("storage_bricks");
+    public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
+    public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
-    public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
+    public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");
+    public static final TagKey<Item> STORAGE_BRICK_ITEMS = itemTags("storage_bricks");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
 
     public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");

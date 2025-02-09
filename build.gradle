@@ -163,9 +163,13 @@ publishing {
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
+ tasks.withType(JavaCompile).configureEach {
+     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+ }
+
+ tasks.withType(Copy).configureEach {
+     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+ }
 
 idea {
     module {

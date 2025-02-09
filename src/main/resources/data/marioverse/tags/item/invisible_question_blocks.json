@@ -1,23 +1,5 @@
 {
+  "_comment": "All invisible question blocks",
   "replace": false,
-  "values": [
-    { "id": "marioverse:invisible_amethyst_question_block", "required": false },
-    { "id": "marioverse:invisible_blackstone_question_bricks", "required": false },
-    { "id": "marioverse:invisible_dark_prismarine_question_block", "required": false },
-    { "id": "marioverse:invisible_deep_fungal_question_block", "required": false },
-    { "id": "marioverse:invisible_deepslate_question_bricks", "required": false },
-    { "id": "marioverse:invisible_deepslate_question_tiles", "required": false },
-    { "id": "marioverse:invisible_end_stone_question_bricks", "required": false },
-    { "id": "marioverse:invisible_fungal_question_block", "required": false },
-    { "id": "marioverse:invisible_mossy_stone_question_bricks", "required": false },
-    { "id": "marioverse:invisible_mud_question_bricks", "required": false },
-    { "id": "marioverse:invisible_nether_question_bricks", "required": false },
-    { "id": "marioverse:invisible_prismarine_question_bricks", "required": false },
-    { "id": "marioverse:invisible_purpur_question_block", "required": false },
-    { "id": "marioverse:invisible_quartz_question_bricks", "required": false },
-    { "id": "marioverse:invisible_question_bricks", "required": false },
-    { "id": "marioverse:invisible_red_nether_question_bricks", "required": false },
-    { "id": "marioverse:invisible_stone_question_bricks", "required": false },
-    { "id": "marioverse:invisible_tuff_question_bricks", "required": false }
-  ]
+  "values": []
 }

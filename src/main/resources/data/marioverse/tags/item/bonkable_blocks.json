@@ -1,21 +1,5 @@
 {
   "_comment": "Blocks that will make a Bonk sound when jumped into",
   "replace": false,
-  "values": [
-    { "id": "#marioverse:invisible_question_blocks", "required": false },
-    { "id": "#marioverse:question_blocks", "required": false },
-    { "id": "#marioverse:storage_bricks", "required": false },
-    { "id": "marioverse:polished_amethyst", "required": false },
-    { "id": "marioverse:polished_amethyst_slab", "required": false },
-    { "id": "marioverse:polished_amethyst_stairs", "required": false },
-    { "id": "marioverse:polished_amethyst_wall", "required": false },
-    { "id": "marioverse:polished_deep_fungal_stone", "required": false },
-    { "id": "marioverse:polished_deep_fungal_stone_slab", "required": false },
-    { "id": "marioverse:polished_deep_fungal_stone_stairs", "required": false },
-    { "id": "marioverse:polished_deep_fungal_stone_wall", "required": false },
-    { "id": "marioverse:polished_fungal_stone", "required": false },
-    { "id": "marioverse:polished_fungal_stone_slab", "required": false },
-    { "id": "marioverse:polished_fungal_stone_stairs", "required": false },
-    { "id": "marioverse:polished_fungal_stone_wall", "required": false }
-  ]
+  "values": []
 }
