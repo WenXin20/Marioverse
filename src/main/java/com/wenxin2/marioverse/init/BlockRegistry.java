@@ -11,6 +11,10 @@ import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperPedestalBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -28,6 +32,8 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.WeatheringCopperFullBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -600,20 +606,20 @@ public class BlockRegistry {
 
 
         COPPER_QUESTION_BLOCK = registerBlock("copper_question_block",
-                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)));
+                () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)));
 
         INVISIBLE_COPPER_QUESTION_BLOCK = registerBlock("invisible_copper_question_block",
-                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                () -> new WeatheringCopperInvisibleQuestionBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                         .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_ORANGE)));
 
         STORAGE_CUT_COPPER = registerBlock("storage_cut_copper",
-                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+                () -> new WeatheringCopperStorageBrickBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
         SMASHABLE_CUT_COPPER = registerBlock("smashable_cut_copper",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+                () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
-                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",

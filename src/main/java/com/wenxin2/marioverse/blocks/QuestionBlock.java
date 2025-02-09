@@ -74,18 +74,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class QuestionBlock extends Block implements EntityBlock {
-    public static final MapCodec<QuestionBlock> CODEC = simpleCodec(QuestionBlock::new);
     public static final BooleanProperty EMPTY = BooleanProperty.create("empty");
 
     public QuestionBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(EMPTY, Boolean.TRUE));
-    }
-
-    @NotNull
-    @Override
-    public MapCodec<QuestionBlock> codec() {
-        return CODEC;
     }
 
     @Override
