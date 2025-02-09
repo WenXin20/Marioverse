@@ -1,7 +1,11 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.datagen.BlockLootTableProvider;
+import com.wenxin2.marioverse.datagen.BlockRecipeProvider;
 import com.wenxin2.marioverse.datagen.ModBlockStateProvider;
 import com.wenxin2.marioverse.datagen.ModItemModelProvider;
+import java.util.concurrent.CompletableFuture;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -12,8 +16,11 @@ public class RegistryEventHandlers {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BlockLootTableProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new BlockRecipeProvider(output, lookupProvider));
     }
 }
