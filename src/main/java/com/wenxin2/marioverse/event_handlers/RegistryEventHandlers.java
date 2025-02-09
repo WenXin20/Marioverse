@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
-import com.wenxin2.marioverse.datagen.BlockLootTableProvider;
-import com.wenxin2.marioverse.datagen.BlockRecipeProvider;
+import com.wenxin2.marioverse.datagen.ModBlockLootTableProvider;
+import com.wenxin2.marioverse.datagen.ModBlockRecipeProvider;
 import com.wenxin2.marioverse.datagen.ModBlockStateProvider;
 import com.wenxin2.marioverse.datagen.ModItemModelProvider;
 import java.util.concurrent.CompletableFuture;
@@ -20,7 +20,7 @@ public class RegistryEventHandlers {
 
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
-        generator.addProvider(event.includeServer(), new BlockLootTableProvider(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new BlockRecipeProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModBlockLootTableProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModBlockRecipeProvider(output, lookupProvider));
     }
 }

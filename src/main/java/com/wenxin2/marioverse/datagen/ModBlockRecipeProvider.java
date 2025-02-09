@@ -18,8 +18,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 
-public class BlockRecipeProvider extends RecipeProvider {
-    public BlockRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+public class ModBlockRecipeProvider extends RecipeProvider {
+    public ModBlockRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider);
     }
 

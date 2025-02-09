@@ -14,9 +14,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockLootTableProvider extends LootTableProvider {
+public class ModBlockLootTableProvider extends LootTableProvider {
 
-    public BlockLootTableProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
+    public ModBlockLootTableProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, Set.of(), List.of(new LootTableProvider.SubProviderEntry(BlockSubProvider::new, LootContextParamSets.BLOCK)), completableFuture);
     }
 
