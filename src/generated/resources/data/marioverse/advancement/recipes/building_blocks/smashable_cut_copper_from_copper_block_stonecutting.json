@@ -1,21 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_block": {
+    "has_copper_block": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:cut_copper"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_chest": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#c:chests/wooden"
+            "items": "minecraft:copper_block"
           }
         ]
       },
@@ -23,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:storage_cut_copper"
+        "recipe": "marioverse:smashable_cut_copper_from_copper_block_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -31,13 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_block",
-      "has_chest"
+      "has_copper_block"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:storage_cut_copper"
+      "marioverse:smashable_cut_copper_from_copper_block_stonecutting"
     ]
   }
 }

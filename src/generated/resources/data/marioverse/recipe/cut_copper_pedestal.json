@@ -4,18 +4,14 @@
   "key": {
     "B": {
       "item": "minecraft:cut_copper"
-    },
-    "C": {
-      "tag": "c:chests/wooden"
     }
   },
   "pattern": [
-    " B ",
-    "BCB",
-    " B "
+    "B B",
+    "BBB"
   ],
   "result": {
     "count": 1,
-    "id": "marioverse:storage_cut_copper"
+    "id": "marioverse:cut_copper_pedestal"
   }
 }
