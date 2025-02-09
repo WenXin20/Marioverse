@@ -15,13 +15,6 @@ import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ModBlockStateProvider extends BlockStateProvider {
-    ConfiguredModel.Builder<?> cubeOverlayBuilder = ConfiguredModel.builder()
-            .modelFile(models().withExistingParent("smashable_cut_copper",
-                    "marioverse:block/cube_all_overlay"));
-    ConfiguredModel[] cubeOverlayModel = cubeOverlayBuilder.build();
-    VariantBlockStateBuilder variantBuilder = getVariantBuilder(BlockRegistry.SMASHABLE_CUT_COPPER.get());
-    VariantBlockStateBuilder.PartialBlockstate partialState = variantBuilder.partialState();
-
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
     }
