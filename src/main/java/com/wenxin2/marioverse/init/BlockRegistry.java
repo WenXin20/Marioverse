@@ -60,7 +60,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
@@ -95,6 +97,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_TILES;
@@ -141,6 +144,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_DARK_PRISMARINE;
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_TILES;
@@ -159,6 +163,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_DARK_PRISMARINE;
     public static final DeferredBlock<Block> STORAGE_DEEPSLATE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_DEEPSLATE_TILES;
@@ -592,6 +597,23 @@ public class BlockRegistry {
 
         QUARTZ_BRICK_PEDESTAL = registerBlock("quartz_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
+
+        COPPER_QUESTION_BLOCK = registerBlock("copper_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)));
+
+        INVISIBLE_COPPER_QUESTION_BLOCK = registerBlock("invisible_copper_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_ORANGE)));
+
+        STORAGE_CUT_COPPER = registerBlock("storage_cut_copper",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
+        SMASHABLE_CUT_COPPER = registerBlock("smashable_cut_copper",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
+        CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",

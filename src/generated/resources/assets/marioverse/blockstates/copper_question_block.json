@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/copper_question_block"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_copper_question_block"
+    }
+  }
+}

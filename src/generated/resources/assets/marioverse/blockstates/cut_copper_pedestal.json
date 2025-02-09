@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/cut_copper_pedestal"
+    },
+    "top=true": {
+      "model": "marioverse:block/cut_copper_pedestal_top"
+    }
+  }
+}

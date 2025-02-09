@@ -15,6 +15,7 @@
 
   "block.marioverse.amethyst_question_block": "Amethyst Question Block",
   "block.marioverse.blackstone_question_bricks": "Polished Blackstone Question Bricks",
+  "block.marioverse.copper_question_block": "Copper Question Block",
   "block.marioverse.dark_prismarine_question_block": "Dark Prismarine Question Block",
   "block.marioverse.deep_fungal_question_block": "Deep Fungal Question Block",
   "block.marioverse.deepslate_question_bricks": "Deepslate Question Bricks",
@@ -34,6 +35,7 @@
 
   "block.marioverse.invisible_amethyst_question_block": "Invisible Amethyst Question Block",
   "block.marioverse.invisible_blackstone_question_bricks": "Invisible Polished Blackstone Question Bricks",
+  "block.marioverse.invisible_copper_question_block": "Invisible Copper Question Block",
   "block.marioverse.invisible_dark_prismarine_question_block": "Invisible Dark Prismarine Question Block",
   "block.marioverse.invisible_deep_fungal_question_block": "Invisible Deep Fungal Question Block",
   "block.marioverse.invisible_deepslate_question_bricks": "Invisible Deepslate Question Bricks",
@@ -54,6 +56,7 @@
   "block.marioverse.storage_amethyst_bricks": "Storage Amethyst Bricks",
   "block.marioverse.storage_blackstone_bricks": "Storage Polished Blackstone Bricks",
   "block.marioverse.storage_bricks": "Storage Bricks",
+  "block.marioverse.storage_cut_copper": "Storage Cut Copper",
   "block.marioverse.storage_dark_prismarine": "Storage Dark Prismarine",
   "block.marioverse.storage_deep_fungal_bricks": "Storage Deep Fungal Bricks",
   "block.marioverse.storage_deepslate_bricks": "Storage Deepslate Bricks",
@@ -72,6 +75,7 @@
 
   "block.marioverse.smashable_blackstone_bricks": "Smashable Polished Blackstone Bricks",
   "block.marioverse.smashable_bricks": "Smashable Bricks",
+  "block.marioverse.smashable_cut_copper": "Smashable Cut Copper",
   "block.marioverse.smashable_dark_prismarine": "Smashable Dark Prismarine",
   "block.marioverse.smashable_deepslate_bricks": "Smashable Deepslate Bricks",
   "block.marioverse.smashable_deepslate_tiles": "Smashable Deepslate Tiles",
@@ -89,6 +93,7 @@
   "block.marioverse.amethyst_brick_pedestal": "Amethyst Brick Pedestal",
   "block.marioverse.blackstone_brick_pedestal": "Polished Blackstone Brick Pedestal",
   "block.marioverse.brick_pedestal": "Brick Pedestal",
+  "block.marioverse.cut_copper_pedestal": "Cut Copper Pedestal",
   "block.marioverse.dark_prismarine_pedestal": "Dark Prismarine Pedestal",
   "block.marioverse.deep_fungal_brick_pedestal": "Deep Fungal Brick Pedestal",
   "block.marioverse.deepslate_brick_pedestal": "Deepslate Brick Pedestal",
