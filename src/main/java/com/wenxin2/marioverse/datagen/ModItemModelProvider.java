@@ -1,14 +1,13 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class MarioverseItemModelProvider extends ItemModelProvider {
-    public MarioverseItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+public class ModItemModelProvider extends ItemModelProvider {
+    public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
     }
 

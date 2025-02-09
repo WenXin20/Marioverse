@@ -5,7 +5,6 @@ import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.init.BlockRegistry;
-import net.mehvahdjukaar.supplementaries.common.block.blocks.PedestalBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +14,7 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class MarioverseBlockStateProvider extends BlockStateProvider {
+public class ModBlockStateProvider extends BlockStateProvider {
     ConfiguredModel.Builder<?> cubeOverlayBuilder = ConfiguredModel.builder()
             .modelFile(models().withExistingParent("smashable_cut_copper",
                     "marioverse:block/cube_all_overlay"));
@@ -23,7 +22,7 @@ public class MarioverseBlockStateProvider extends BlockStateProvider {
     VariantBlockStateBuilder variantBuilder = getVariantBuilder(BlockRegistry.SMASHABLE_CUT_COPPER.get());
     VariantBlockStateBuilder.PartialBlockstate partialState = variantBuilder.partialState();
 
-    public MarioverseBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+    public ModBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
     }
 
