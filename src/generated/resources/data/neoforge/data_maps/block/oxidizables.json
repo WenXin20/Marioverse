@@ -1,0 +1,19 @@
+{
+  "values": {
+    "marioverse:copper_question_block": {
+      "next_oxidation_stage": "marioverse:exposed_copper_question_block"
+    },
+    "marioverse:cut_copper_pedestal": {
+      "next_oxidation_stage": "marioverse:exposed_cut_copper_pedestal"
+    },
+    "marioverse:invisible_copper_question_block": {
+      "next_oxidation_stage": "marioverse:invisible_exposed_copper_question_block"
+    },
+    "marioverse:smashable_cut_copper": {
+      "next_oxidation_stage": "marioverse:smashable_exposed_cut_copper"
+    },
+    "marioverse:storage_cut_copper": {
+      "next_oxidation_stage": "marioverse:storage_exposed_cut_copper"
+    }
+  }
+}

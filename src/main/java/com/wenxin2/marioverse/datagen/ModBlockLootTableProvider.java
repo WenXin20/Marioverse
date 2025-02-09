@@ -41,12 +41,24 @@ public class ModBlockLootTableProvider extends LootTableProvider {
             generatedBlocks.add(BlockRegistry.SMASHABLE_CUT_COPPER.get());
             generatedBlocks.add(BlockRegistry.STORAGE_CUT_COPPER.get());
 
+            generatedBlocks.add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get());
+            generatedBlocks.add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get());
+            generatedBlocks.add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get());
+            generatedBlocks.add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get());
+            generatedBlocks.add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get());
+
             add(BlockRegistry.SMASHABLE_CUT_COPPER.get(), createSilkTouchOnlyTable(BlockRegistry.SMASHABLE_CUT_COPPER.get()));
+            add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get(), createSilkTouchOnlyTable(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get()));
 
             dropSelf(BlockRegistry.COPPER_QUESTION_BLOCK.get());
             dropSelf(BlockRegistry.CUT_COPPER_PEDESTAL.get());
             dropSelf(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get());
             dropSelf(BlockRegistry.STORAGE_CUT_COPPER.get());
+
+            dropSelf(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get());
+            dropSelf(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get());
+            dropSelf(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get());
+            dropSelf(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get());
         }
     }
 }

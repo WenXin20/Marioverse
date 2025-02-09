@@ -3,6 +3,9 @@ package com.wenxin2.marioverse.blocks.entities;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -29,7 +32,10 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     public boolean isValidBlockState(BlockState state) {
         return this.getType().isValid(state) || state.getBlock() instanceof InvisibleQuestionBlock
-                || state.getBlock() instanceof StorageBrickBlock;
+                || state.getBlock() instanceof StorageBrickBlock
+                || state.getBlock() instanceof WeatheringCopperQuestionBlock
+                || state.getBlock() instanceof WeatheringCopperInvisibleQuestionBlock
+                || state.getBlock() instanceof WeatheringCopperStorageBrickBlock;
     }
 
     @NotNull

@@ -89,6 +89,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
@@ -109,6 +111,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_TILES;
     public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_MUD_QUESTION_BRICKS;
@@ -155,6 +158,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_DEEPSLATE_TILES;
     public static final DeferredBlock<Block> SMASHABLE_END_STONE_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_EXPOSED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_MUD_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
@@ -175,6 +179,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_DEEPSLATE_TILES;
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_EXPOSED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MUD_BRICKS;
@@ -619,7 +624,24 @@ public class BlockRegistry {
                 () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
-                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
+
+        EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("exposed_copper_question_block",
+                () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+
+        INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("invisible_exposed_copper_question_block",
+                () -> new WeatheringCopperInvisibleQuestionBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.TERRACOTTA_LIGHT_GRAY)));
+
+        STORAGE_EXPOSED_CUT_COPPER = registerBlock("storage_exposed_cut_copper",
+                () -> new WeatheringCopperStorageBrickBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+
+        SMASHABLE_EXPOSED_CUT_COPPER = registerBlock("smashable_exposed_cut_copper",
+                () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+
+        EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("exposed_cut_copper_pedestal",
+                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",

@@ -32,6 +32,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 mcLoc("minecraft:block/cut_copper"), modLoc("block/smashable_cut_copper_overlay"));
         registerStorageBrick(BlockRegistry.STORAGE_CUT_COPPER.get(), "storage_cut_copper",
                 mcLoc("minecraft:block/cut_copper"), modLoc("block/empty_copper_question_block"));
+
+        registerQuestionBlock(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get(), "exposed_copper_question_block",
+                modLoc("block/exposed_copper_question_block"), modLoc("block/empty_exposed_copper_question_block"));
+        registerPedestalBlock(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get(), "exposed_cut_copper_pedestal",
+                mcLoc("minecraft:block/exposed_cut_copper"));
+        registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get(), "exposed_copper_question_block",
+                modLoc("block/exposed_copper_question_block"), modLoc("block/empty_exposed_copper_question_block"),
+                modLoc("block/invisible_question_block"), modLoc("block/invisible_exposed_copper_question_block"));
+        registerOverlayBlock(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get(), "smashable_exposed_cut_copper",
+                mcLoc("minecraft:block/exposed_cut_copper"), modLoc("block/smashable_exposed_cut_copper_overlay"));
+        registerStorageBrick(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get(), "storage_exposed_cut_copper",
+                mcLoc("minecraft:block/exposed_cut_copper"), modLoc("block/empty_exposed_copper_question_block"));
     }
 
     private void registerInvisibleQuestionBlock(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture,

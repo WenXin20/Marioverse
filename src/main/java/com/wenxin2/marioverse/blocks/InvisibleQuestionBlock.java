@@ -199,6 +199,9 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_COPPER_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get())
+                    world.addParticle(ParticleRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION.get(),
+                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);

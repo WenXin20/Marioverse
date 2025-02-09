@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "minecraft:exposed_cut_copper"
+    }
+  },
+  "pattern": [
+    "B B",
+    "BBB"
+  ],
+  "result": {
+    "count": 5,
+    "id": "marioverse:exposed_cut_copper_pedestal"
+  }
+}

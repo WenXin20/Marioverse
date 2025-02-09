@@ -28,12 +28,18 @@ public class ModBlockRecipeProvider extends RecipeProvider {
         pedestalRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.CUT_COPPER_PEDESTAL, Items.CUT_COPPER, 5);
         questionBlockRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COPPER_QUESTION_BLOCK, Items.COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, 1);
         storageBrickRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STORAGE_CUT_COPPER, Items.CUT_COPPER, Tags.Items.CHESTS_WOODEN, 4);
-
         stonecutterRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.CUT_COPPER_PEDESTAL, Items.CUT_COPPER, 1);
         stonecutterRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_CUT_COPPER, Items.CUT_COPPER, 1);
-
         stonecutterFromBaseRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.CUT_COPPER_PEDESTAL, Items.COPPER_BLOCK, 1);
         stonecutterFromBaseRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_CUT_COPPER, Items.COPPER_BLOCK, 1);
+
+        pedestalRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Items.EXPOSED_CUT_COPPER, 5);
+        questionBlockRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, Items.EXPOSED_COPPER, Tags.Items.CHESTS_WOODEN, 1);
+        storageBrickRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, Items.EXPOSED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, 4);
+        stonecutterRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Items.EXPOSED_CUT_COPPER, 1);
+        stonecutterRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, Items.EXPOSED_CUT_COPPER, 1);
+        stonecutterFromBaseRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Items.EXPOSED_COPPER, 1);
+        stonecutterFromBaseRecipe(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, Items.EXPOSED_COPPER, 1);
     }
 
     private void pedestalRecipe(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {

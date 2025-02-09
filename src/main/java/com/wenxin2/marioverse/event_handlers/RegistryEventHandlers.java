@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.datagen.CopperMapProvider;
 import com.wenxin2.marioverse.datagen.ModBlockLootTableProvider;
 import com.wenxin2.marioverse.datagen.ModBlockRecipeProvider;
 import com.wenxin2.marioverse.datagen.ModBlockStateProvider;
@@ -23,9 +24,10 @@ public class RegistryEventHandlers {
 
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
+        generator.addProvider(event.includeServer(), blockTags);
+        generator.addProvider(event.includeServer(), new CopperMapProvider(output, lookupProvider));
         generator.addProvider(event.includeServer(), new ModBlockLootTableProvider(output, lookupProvider));
         generator.addProvider(event.includeServer(), new ModBlockRecipeProvider(output, lookupProvider));
-        generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ModItemTagsProvider(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
     }
 }
