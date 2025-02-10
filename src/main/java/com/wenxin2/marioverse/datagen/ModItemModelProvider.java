@@ -27,6 +27,11 @@ public class ModItemModelProvider extends ItemModelProvider {
                 modLoc("block/invisible_weathered_copper_question_block"));
         registerStorageBrick("storage_weathered_cut_copper",
                 mcLoc("minecraft:block/weathered_cut_copper"), modLoc("block/weathered_copper_question_block_overlay"));
+
+        registerInvisibleQuestionBlock("invisible_oxidized_copper_question_block",
+                modLoc("block/invisible_oxidized_copper_question_block"));
+        registerStorageBrick("storage_oxidized_cut_copper",
+                mcLoc("minecraft:block/oxidized_cut_copper"), modLoc("block/oxidized_copper_question_block_overlay"));
     }
 
     private void registerStorageBrick(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {

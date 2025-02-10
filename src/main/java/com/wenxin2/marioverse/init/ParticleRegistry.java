@@ -27,6 +27,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_MOSSY_STONE_BRICK_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_MUD_BRICK_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_NETHER_BRICK_QUESTION;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_OXIDIZED_COPPER_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_PRISMARINE_BRICK_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_PURPUR_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_QUARTZ_BRICK_QUESTION;
@@ -61,6 +62,7 @@ public class ParticleRegistry {
         INVISIBLE_MOSSY_STONE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_mossy_stone_brick_question", () -> new SimpleParticleType(false));
         INVISIBLE_MUD_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_mud_brick_question", () -> new SimpleParticleType(false));
         INVISIBLE_NETHER_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_nether_brick_question", () -> new SimpleParticleType(false));
+        INVISIBLE_OXIDIZED_COPPER_QUESTION = Marioverse.PARTICLES.register("invisible_oxidized_copper_question", () -> new SimpleParticleType(false));
         INVISIBLE_PRISMARINE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_prismarine_brick_question", () -> new SimpleParticleType(false));
         INVISIBLE_PURPUR_QUESTION = Marioverse.PARTICLES.register("invisible_purpur_question", () -> new SimpleParticleType(false));
         INVISIBLE_QUARTZ_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_quartz_brick_question", () -> new SimpleParticleType(false));

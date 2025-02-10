@@ -116,6 +116,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_QUARTZ_QUESTION_BRICKS;
@@ -130,6 +131,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> POLISHED_AMETHYST;
     public static final DeferredBlock<Block> POLISHED_AMETHYST_SLAB;
@@ -163,6 +166,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_MUD_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_NETHER_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_PRISMARINE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_QUARTZ_BRICKS;
@@ -186,6 +190,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MUD_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_PRISMARINE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> STORAGE_QUARTZ_BRICKS;
@@ -664,6 +669,23 @@ public class BlockRegistry {
 
         WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("weathered_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
+
+
+        OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("oxidized_copper_question_block",
+                () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
+        INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("invisible_oxidized_copper_question_block",
+                () -> new WeatheringCopperInvisibleQuestionBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.WARPED_NYLIUM)));
+
+        STORAGE_OXIDIZED_CUT_COPPER = registerBlock("storage_oxidized_cut_copper",
+                () -> new WeatheringCopperStorageBrickBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
+        SMASHABLE_OXIDIZED_CUT_COPPER = registerBlock("smashable_oxidized_cut_copper",
+                () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
+        OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("oxidized_cut_copper_pedestal",
+                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",

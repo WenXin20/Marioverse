@@ -26,6 +26,12 @@ public class CopperMapProvider extends DataMapProvider {
                 .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get()), false)
-                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get()), false);
+                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get()), false)
+
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get()), false);
     }
 }
