@@ -624,7 +624,7 @@ public class BlockRegistry {
                 () -> new WeatheringCopperFullBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
-                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+                () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
 
         EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("exposed_copper_question_block",
