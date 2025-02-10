@@ -4,12 +4,12 @@
     "marioverse:blackstone_brick_pedestal",
     "marioverse:brick_pedestal",
     "marioverse:cut_copper_pedestal",
-    "marioverse:exposed_cut_copper_pedestal",
     "marioverse:dark_prismarine_pedestal",
-    "marioverse:deep_fungal_brick_pedestal",
     "marioverse:deepslate_brick_pedestal",
     "marioverse:deepslate_tile_pedestal",
+    "marioverse:deep_fungal_brick_pedestal",
     "marioverse:end_stone_brick_pedestal",
+    "marioverse:exposed_cut_copper_pedestal",
     "marioverse:fungal_brick_pedestal",
     "marioverse:mossy_stone_brick_pedestal",
     "marioverse:mud_brick_pedestal",
@@ -19,6 +19,7 @@
     "marioverse:quartz_brick_pedestal",
     "marioverse:red_nether_brick_pedestal",
     "marioverse:stone_brick_pedestal",
-    "marioverse:tuff_brick_pedestal"
+    "marioverse:tuff_brick_pedestal",
+    "marioverse:weathered_cut_copper_pedestal"
   ]
 }

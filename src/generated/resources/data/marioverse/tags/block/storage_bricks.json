@@ -4,12 +4,12 @@
     "marioverse:storage_blackstone_bricks",
     "marioverse:storage_bricks",
     "marioverse:storage_cut_copper",
-    "marioverse:storage_exposed_cut_copper",
     "marioverse:storage_dark_prismarine",
-    "marioverse:storage_deep_fungal_bricks",
     "marioverse:storage_deepslate_bricks",
     "marioverse:storage_deepslate_tiles",
+    "marioverse:storage_deep_fungal_bricks",
     "marioverse:storage_end_stone_bricks",
+    "marioverse:storage_exposed_cut_copper",
     "marioverse:storage_fungal_bricks",
     "marioverse:storage_mossy_stone_bricks",
     "marioverse:storage_mud_bricks",
@@ -19,6 +19,7 @@
     "marioverse:storage_quartz_bricks",
     "marioverse:storage_red_nether_bricks",
     "marioverse:storage_stone_bricks",
-    "marioverse:storage_tuff_bricks"
+    "marioverse:storage_tuff_bricks",
+    "marioverse:storage_weathered_cut_copper"
   ]
 }

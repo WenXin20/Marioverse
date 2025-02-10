@@ -1,5 +1,7 @@
-// 1.21.1	2025-02-09T14:26:09.2035032	Item Models: marioverse
+// 1.21.1	2025-02-09T21:51:37.825815	Item Models: marioverse
 6fd6af301b236e3ba3f7d6ea2756d4c043109c1a assets/marioverse/models/item/invisible_copper_question_block.json
 383b6ba5ccf9eba42b55c5288a3632d11c19e666 assets/marioverse/models/item/invisible_exposed_copper_question_block.json
+dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_weathered_copper_question_block.json
 a37943ba98238ce7ed92359aa20b9143e06066e3 assets/marioverse/models/item/storage_cut_copper.json
 7d66009fa54d3294823b92ef51e1896fdd159acd assets/marioverse/models/item/storage_exposed_cut_copper.json
+f5131504d59e18f116c680f553efa1efafa2cdbb assets/marioverse/models/item/storage_weathered_cut_copper.json

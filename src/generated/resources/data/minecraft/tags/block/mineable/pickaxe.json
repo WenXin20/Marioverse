@@ -1,11 +1,9 @@
 {
   "values": [
-    "#marioverse:bonkable_blocks",
     "#marioverse:brick_pedestals",
     "#marioverse:goal_poles",
     "#marioverse:invisible_question_blocks",
     "#marioverse:question_blocks",
-    "#marioverse:smashable_blocks",
     "#marioverse:storage_bricks",
     "#marioverse:warp_pipes",
     "marioverse:amethyst_brick_slab",

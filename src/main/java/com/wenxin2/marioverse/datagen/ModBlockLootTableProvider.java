@@ -47,8 +47,15 @@ public class ModBlockLootTableProvider extends LootTableProvider {
             generatedBlocks.add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get());
             generatedBlocks.add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get());
 
+            generatedBlocks.add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
+            generatedBlocks.add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
+            generatedBlocks.add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get());
+            generatedBlocks.add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get());
+            generatedBlocks.add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get());
+
             add(BlockRegistry.SMASHABLE_CUT_COPPER.get(), createSilkTouchOnlyTable(BlockRegistry.SMASHABLE_CUT_COPPER.get()));
             add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get(), createSilkTouchOnlyTable(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get()));
+            add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get(), createSilkTouchOnlyTable(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get()));
 
             dropSelf(BlockRegistry.COPPER_QUESTION_BLOCK.get());
             dropSelf(BlockRegistry.CUT_COPPER_PEDESTAL.get());
@@ -59,6 +66,11 @@ public class ModBlockLootTableProvider extends LootTableProvider {
             dropSelf(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get());
             dropSelf(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get());
             dropSelf(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get());
+
+            dropSelf(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
+            dropSelf(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
+            dropSelf(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get());
+            dropSelf(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get());
         }
     }
 }
