@@ -21,6 +21,10 @@
     "marioverse:red_nether_brick_pedestal",
     "marioverse:stone_brick_pedestal",
     "marioverse:tuff_brick_pedestal",
+    "marioverse:waxed_cut_copper_pedestal",
+    "marioverse:waxed_exposed_cut_copper_pedestal",
+    "marioverse:waxed_oxidized_cut_copper_pedestal",
+    "marioverse:waxed_weathered_cut_copper_pedestal",
     "marioverse:weathered_cut_copper_pedestal"
   ]
 }

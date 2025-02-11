@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_block": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:exposed_copper"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_chest": {
       "conditions": {
         "items": [
           {
             "items": "#c:chests/wooden"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_exposed_copper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:exposed_copper"
           }
         ]
       },
@@ -31,7 +31,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_block",
+      "has_exposed_copper",
       "has_chest"
     ]
   ],

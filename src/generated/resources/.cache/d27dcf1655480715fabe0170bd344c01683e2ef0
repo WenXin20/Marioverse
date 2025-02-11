@@ -1,8 +1,8 @@
-// 1.21.1	2025-02-10T16:47:45.7693977	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-02-10T21:23:01.8238368	Tags for minecraft:block mod id marioverse
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/block/bonkable_blocks.json
-709f02e0df8de2f8ba6620dcd3ec500c1980a752 data/marioverse/tags/block/brick_pedestals.json
-2d30dcb9328730f0f7349ee53173d564491701b9 data/marioverse/tags/block/invisible_question_blocks.json
-c116398de813d1af115947f44a905fee2de16c05 data/marioverse/tags/block/question_blocks.json
-824e2acc5dd54934571137b3c7aa2476110e4c3b data/marioverse/tags/block/smashable_blocks.json
-1559761261b754abba8b2678865fbb1332dbcd49 data/marioverse/tags/block/storage_bricks.json
+f7457763b53a24c8d8ae61a993b4d23c995a01a5 data/marioverse/tags/block/brick_pedestals.json
+e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/block/invisible_question_blocks.json
+1268789ebd51852001cc17c80917126989d8380e data/marioverse/tags/block/question_blocks.json
+46b86808f46cfefdc573b0f247e88d72106e420b data/marioverse/tags/block/smashable_blocks.json
+0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/block/storage_bricks.json
 b2cb8c4968eb6a47681b56d1e2a5676745826516 data/minecraft/tags/block/mineable/pickaxe.json

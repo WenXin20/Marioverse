@@ -35,6 +35,10 @@
     "marioverse:smashable_red_nether_bricks",
     "marioverse:smashable_stone_bricks",
     "marioverse:smashable_tuff_bricks",
+    "marioverse:smashable_waxed_cut_copper",
+    "marioverse:smashable_waxed_exposed_cut_copper",
+    "marioverse:smashable_waxed_oxidized_cut_copper",
+    "marioverse:smashable_waxed_weathered_cut_copper",
     "marioverse:smashable_weathered_cut_copper"
   ]
 }

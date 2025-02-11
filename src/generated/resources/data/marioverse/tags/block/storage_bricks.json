@@ -21,6 +21,10 @@
     "marioverse:storage_red_nether_bricks",
     "marioverse:storage_stone_bricks",
     "marioverse:storage_tuff_bricks",
+    "marioverse:storage_waxed_cut_copper",
+    "marioverse:storage_waxed_exposed_cut_copper",
+    "marioverse:storage_waxed_oxidized_cut_copper",
+    "marioverse:storage_waxed_weathered_cut_copper",
     "marioverse:storage_weathered_cut_copper"
   ]
 }

@@ -124,6 +124,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_TUFF_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_WAXED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
@@ -173,6 +177,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_STONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_TUFF_BRICKS;
+    public static final DeferredBlock<Block> SMASHABLE_WAXED_CUT_COPPER;
+    public static final DeferredBlock<Block> SMASHABLE_WAXED_EXPOSED_CUT_COPPER;
+    public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
+    public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
@@ -197,10 +205,22 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_TUFF_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_WAXED_CUT_COPPER;
+    public static final DeferredBlock<Block> STORAGE_WAXED_EXPOSED_CUT_COPPER;
+    public static final DeferredBlock<Block> STORAGE_WAXED_OXIDIZED_CUT_COPPER;
+    public static final DeferredBlock<Block> STORAGE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
+    public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
 
@@ -686,6 +706,74 @@ public class BlockRegistry {
 
         OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("oxidized_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
+
+        WAXED_COPPER_QUESTION_BLOCK = registerBlock("waxed_copper_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_COPPER_BLOCK)));
+
+        INVISIBLE_WAXED_COPPER_QUESTION_BLOCK = registerBlock("invisible_waxed_copper_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_COPPER_BLOCK)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_ORANGE)));
+
+        STORAGE_WAXED_CUT_COPPER = registerBlock("storage_waxed_cut_copper",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
+        SMASHABLE_WAXED_CUT_COPPER = registerBlock("smashable_waxed_cut_copper",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
+        WAXED_CUT_COPPER_PEDESTAL = registerBlock("waxed_cut_copper_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
+
+        WAXED_EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("waxed_exposed_copper_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
+        INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("invisible_waxed_exposed_copper_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.TERRACOTTA_LIGHT_GRAY)));
+
+        STORAGE_WAXED_EXPOSED_CUT_COPPER = registerBlock("storage_waxed_exposed_cut_copper",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
+        SMASHABLE_WAXED_EXPOSED_CUT_COPPER = registerBlock("smashable_waxed_exposed_cut_copper",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
+        WAXED_EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("waxed_exposed_cut_copper_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
+
+        WAXED_WEATHERED_COPPER_QUESTION_BLOCK = registerBlock("waxed_weathered_copper_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+
+        INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK = registerBlock("invisible_waxed_weathered_copper_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.WARPED_STEM)));
+
+        STORAGE_WAXED_WEATHERED_CUT_COPPER = registerBlock("storage_waxed_weathered_cut_copper",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+
+        SMASHABLE_WAXED_WEATHERED_CUT_COPPER = registerBlock("smashable_waxed_weathered_cut_copper",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+
+        WAXED_WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("waxed_weathered_cut_copper_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+
+
+        WAXED_OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("waxed_oxidized_copper_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("invisible_waxed_oxidized_copper_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.WARPED_NYLIUM)));
+
+        STORAGE_WAXED_OXIDIZED_CUT_COPPER = registerBlock("storage_waxed_oxidized_cut_copper",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        SMASHABLE_WAXED_OXIDIZED_CUT_COPPER = registerBlock("smashable_waxed_oxidized_cut_copper",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
 
         CLASSIC_GOAL_POLE = registerBlock("classic_goal_pole",

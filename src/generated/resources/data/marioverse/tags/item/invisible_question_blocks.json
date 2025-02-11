@@ -21,6 +21,10 @@
     "marioverse:invisible_red_nether_question_bricks",
     "marioverse:invisible_stone_question_bricks",
     "marioverse:invisible_tuff_question_bricks",
+    "marioverse:invisible_waxed_copper_question_block",
+    "marioverse:invisible_waxed_exposed_copper_question_block",
+    "marioverse:invisible_waxed_oxidized_copper_question_block",
+    "marioverse:invisible_waxed_weathered_copper_question_block",
     "marioverse:invisible_weathered_copper_question_block"
   ]
 }

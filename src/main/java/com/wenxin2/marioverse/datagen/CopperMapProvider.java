@@ -7,6 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
+import net.neoforged.neoforge.registries.datamaps.builtin.Waxable;
 
 public class CopperMapProvider extends DataMapProvider {
     public CopperMapProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
@@ -33,5 +34,30 @@ public class CopperMapProvider extends DataMapProvider {
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get()), false)
                 .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get()), false);
+
+        builder(NeoForgeDataMaps.WAXABLES)
+                .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.SMASHABLE_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get()), false)
+
+                .add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get()), false)
+
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get()), false)
+
+                .add(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get()), false);
     }
 }

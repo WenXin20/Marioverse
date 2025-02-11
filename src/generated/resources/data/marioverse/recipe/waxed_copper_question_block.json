@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:waxed_copper_block"
+    },
+    {
+      "tag": "c:chests/wooden"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:waxed_copper_question_block"
+  }
+}

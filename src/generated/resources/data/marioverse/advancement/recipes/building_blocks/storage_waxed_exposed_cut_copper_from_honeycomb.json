@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_honeycomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:honeycomb"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_storage_exposed_cut_copper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:storage_exposed_cut_copper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:storage_waxed_exposed_cut_copper_from_honeycomb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_storage_exposed_cut_copper",
+      "has_honeycomb"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:storage_waxed_exposed_cut_copper_from_honeycomb"
+    ]
+  }
+}

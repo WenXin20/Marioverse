@@ -40,6 +40,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.STONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.TUFF_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get())
+                .add(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get())
+                .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .replace(false);
 
@@ -65,6 +69,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get())
                 .add(BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get())
+                .add(BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .replace(false);
 
@@ -90,6 +98,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.RED_NETHER_QUESTION_BRICKS.get())
                 .add(BlockRegistry.STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.TUFF_QUESTION_BRICKS.get())
+                .add(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .replace(false);
 
@@ -129,6 +141,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_STONE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_TUFF_BRICKS.get())
+                .add(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get())
+                .add(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
+                .add(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
+                .add(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
                 .replace(false);
 
@@ -154,6 +170,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_RED_NETHER_BRICKS.get())
                 .add(BlockRegistry.STORAGE_STONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_TUFF_BRICKS.get())
+                .add(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get())
+                .add(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get())
+                .add(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get())
+                .add(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get())
                 .replace(false);
 

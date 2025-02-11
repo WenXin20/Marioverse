@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_exposed_copper_question_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:exposed_copper_question_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_honeycomb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:honeycomb"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:waxed_exposed_copper_question_block_from_honeycomb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_exposed_copper_question_block",
+      "has_honeycomb"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:waxed_exposed_copper_question_block_from_honeycomb"
+    ]
+  }
+}

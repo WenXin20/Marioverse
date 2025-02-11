@@ -196,7 +196,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_BRICK_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get())
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get()
+                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_COPPER_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
@@ -214,7 +215,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_END_STONE_BRICK_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get())
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get()
+                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get())
@@ -226,7 +228,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_NETHER_BRICK_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get())
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get()
+                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_PRISMARINE_QUESTION_BRICKS.get())
@@ -247,7 +250,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements EntityBlock
                 else if (state.getBlock() == BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_TUFF_BRICK_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get())
+                else if (state.getBlock() == BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get()
+                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                     world.addParticle(ParticleRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION.get(),
                             x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
                 else world.addParticle(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(),

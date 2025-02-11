@@ -1,0 +1,64 @@
+{
+  "values": {
+    "marioverse:copper_question_block": {
+      "waxed": "marioverse:waxed_copper_question_block"
+    },
+    "marioverse:cut_copper_pedestal": {
+      "waxed": "marioverse:waxed_cut_copper_pedestal"
+    },
+    "marioverse:exposed_copper_question_block": {
+      "waxed": "marioverse:waxed_exposed_copper_question_block"
+    },
+    "marioverse:exposed_cut_copper_pedestal": {
+      "waxed": "marioverse:waxed_exposed_cut_copper_pedestal"
+    },
+    "marioverse:invisible_copper_question_block": {
+      "waxed": "marioverse:invisible_waxed_copper_question_block"
+    },
+    "marioverse:invisible_exposed_copper_question_block": {
+      "waxed": "marioverse:invisible_waxed_exposed_copper_question_block"
+    },
+    "marioverse:invisible_oxidized_copper_question_block": {
+      "waxed": "marioverse:invisible_waxed_oxidized_copper_question_block"
+    },
+    "marioverse:invisible_weathered_copper_question_block": {
+      "waxed": "marioverse:invisible_waxed_weathered_copper_question_block"
+    },
+    "marioverse:oxidized_copper_question_block": {
+      "waxed": "marioverse:waxed_oxidized_copper_question_block"
+    },
+    "marioverse:oxidized_cut_copper_pedestal": {
+      "waxed": "marioverse:waxed_oxidized_cut_copper_pedestal"
+    },
+    "marioverse:smashable_cut_copper": {
+      "waxed": "marioverse:smashable_waxed_cut_copper"
+    },
+    "marioverse:smashable_exposed_cut_copper": {
+      "waxed": "marioverse:smashable_waxed_exposed_cut_copper"
+    },
+    "marioverse:smashable_oxidized_cut_copper": {
+      "waxed": "marioverse:smashable_waxed_oxidized_cut_copper"
+    },
+    "marioverse:smashable_weathered_cut_copper": {
+      "waxed": "marioverse:smashable_waxed_weathered_cut_copper"
+    },
+    "marioverse:storage_cut_copper": {
+      "waxed": "marioverse:storage_waxed_cut_copper"
+    },
+    "marioverse:storage_exposed_cut_copper": {
+      "waxed": "marioverse:storage_waxed_exposed_cut_copper"
+    },
+    "marioverse:storage_oxidized_cut_copper": {
+      "waxed": "marioverse:storage_waxed_oxidized_cut_copper"
+    },
+    "marioverse:storage_weathered_cut_copper": {
+      "waxed": "marioverse:storage_waxed_weathered_cut_copper"
+    },
+    "marioverse:weathered_copper_question_block": {
+      "waxed": "marioverse:waxed_weathered_copper_question_block"
+    },
+    "marioverse:weathered_cut_copper_pedestal": {
+      "waxed": "marioverse:waxed_weathered_cut_copper_pedestal"
+    }
+  }
+}
