@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -48,6 +47,7 @@ import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.LingeringPotionItem;
@@ -62,6 +62,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -93,9 +94,20 @@ public class QuestionBlock extends Block implements EntityBlock {
     }
 
     @Override
-    protected void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean moved) {
-        Containers.dropContentsOnDestroy(oldState, newState, world, pos);
-        super.onRemove(oldState, world, pos, newState, moved);
+    public void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean moved) {
+        boolean isOxidizing = WeatheringCopper.getNext(oldState.getBlock()).isPresent();
+        boolean isScraping = WeatheringCopper.getPrevious(oldState.getBlock()).isPresent();
+        boolean isUnwaxing = HoneycombItem.getWaxed(newState).isPresent() && HoneycombItem.getWaxed(oldState).isEmpty();
+
+        if (!(newState.getBlock() instanceof WeatheringCopperQuestionBlock)
+                && !(newState.getBlock() instanceof QuestionBlock)) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof QuestionBlockEntity questionBlock)
+                Containers.dropContents(world, pos, questionBlock);
+        }
+
+        if (!isOxidizing && !isScraping && !isUnwaxing || newState.isAir())
+            super.onRemove(oldState, world, pos, newState, moved);
     }
 
     @Override
