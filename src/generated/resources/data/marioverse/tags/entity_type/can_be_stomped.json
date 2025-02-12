@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#marioverse:goombas",
+    "minecraft:slime",
+    {
+      "id": "dummmmmmy:test_dummy",
+      "required": false
+    }
+  ]
+}
