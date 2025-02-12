@@ -15,7 +15,10 @@ public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
     public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
+    public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
+    public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
+    public static final TagKey<Biome> HAS_WORLD_1_2 = biomeTags("has_structure/has_world_1-2");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
@@ -37,6 +40,7 @@ public class TagRegistry {
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
+    public static final TagKey<DamageType> IS_PIRANHA_CHOMP = damageTypeTags("is_piranha_chomp");
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
 
