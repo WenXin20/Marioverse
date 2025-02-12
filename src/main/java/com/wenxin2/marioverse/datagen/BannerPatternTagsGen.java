@@ -9,8 +9,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BannerPatternTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class ModBannerPatternTagsProvider extends BannerPatternTagsProvider {
-    public ModBannerPatternTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
+public class BannerPatternTagsGen extends BannerPatternTagsProvider {
+    public BannerPatternTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
     }
 

@@ -1,15 +1,15 @@
 package com.wenxin2.marioverse.event_handlers;
 
-import com.wenxin2.marioverse.datagen.CopperMapProvider;
-import com.wenxin2.marioverse.datagen.ModBannerPatternTagsProvider;
-import com.wenxin2.marioverse.datagen.ModBiomeTagsProvider;
-import com.wenxin2.marioverse.datagen.ModBlockLootTableProvider;
-import com.wenxin2.marioverse.datagen.ModBlockRecipeProvider;
-import com.wenxin2.marioverse.datagen.ModBlockStateProvider;
-import com.wenxin2.marioverse.datagen.ModBlockTagsProvider;
-import com.wenxin2.marioverse.datagen.ModDamageTypeTagsProvider;
-import com.wenxin2.marioverse.datagen.ModItemModelProvider;
-import com.wenxin2.marioverse.datagen.ModItemTagsProvider;
+import com.wenxin2.marioverse.datagen.CopperMapDataGen;
+import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
+import com.wenxin2.marioverse.datagen.BiomeTagsGen;
+import com.wenxin2.marioverse.datagen.BlockLootTableGen;
+import com.wenxin2.marioverse.datagen.BlockRecipeGen;
+import com.wenxin2.marioverse.datagen.BlockStateGen;
+import com.wenxin2.marioverse.datagen.BlockTagsGen;
+import com.wenxin2.marioverse.datagen.DamageTypeTagsGen;
+import com.wenxin2.marioverse.datagen.ItemModelGen;
+import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -23,17 +23,17 @@ public class RegistryEventHandlers {
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
-        ModBlockTagsProvider blockTags = new ModBlockTagsProvider(output, lookupProvider, existingFileHelper);
+        BlockTagsGen blockTags = new BlockTagsGen(output, lookupProvider, existingFileHelper);
 
-        generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
-        generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new CopperMapProvider(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new ModBlockLootTableProvider(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new ModBlockRecipeProvider(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new ModItemTagsProvider(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModDamageTypeTagsProvider(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModBiomeTagsProvider(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModBannerPatternTagsProvider(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BlockStateGen(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ItemModelGen(output, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BiomeTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BlockLootTableGen(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new BlockRecipeGen(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new BlockTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new CopperMapDataGen(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
     }
 }

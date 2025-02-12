@@ -9,8 +9,8 @@ import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
 import net.neoforged.neoforge.registries.datamaps.builtin.Waxable;
 
-public class CopperMapProvider extends DataMapProvider {
-    public CopperMapProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+public class CopperMapDataGen extends DataMapProvider {
+    public CopperMapDataGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider);
     }
 
