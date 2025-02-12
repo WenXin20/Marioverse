@@ -1,8 +1,22 @@
-// 1.21.1	2025-02-10T21:23:01.8238368	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-02-11T20:39:44.8143734	Tags for minecraft:block mod id marioverse
+fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/block/bonkable_blocks.json
 f7457763b53a24c8d8ae61a993b4d23c995a01a5 data/marioverse/tags/block/brick_pedestals.json
 e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/block/invisible_question_blocks.json
 1268789ebd51852001cc17c80917126989d8380e data/marioverse/tags/block/question_blocks.json
 46b86808f46cfefdc573b0f247e88d72106e420b data/marioverse/tags/block/smashable_blocks.json
 0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/block/storage_bricks.json
+20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
+fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
+92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
+28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
+6f5606af60ed09117c4f4bbddc3ceed269cb549c data/minecraft/tags/block/guarded_by_piglins.json
+2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 b2cb8c4968eb6a47681b56d1e2a5676745826516 data/minecraft/tags/block/mineable/pickaxe.json
+8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
+20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
+2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/block/slabs.json
+f0d8e8b53362e2a6d1046a11fa6956ba7e421406 data/minecraft/tags/block/stairs.json
+b26fbb315a12bd2dc06582d452419a7e01b30aba data/minecraft/tags/block/stone_buttons.json
+4dff94aa76ce63e003fe8293180db4bbd42d51ac data/minecraft/tags/block/stone_pressure_plates.json
+cbda176ca0b4e9fd1d8bb147c58002e709b3511a data/minecraft/tags/block/walls.json

@@ -1,0 +1,22 @@
+{
+  "values": [
+    "marioverse:amethyst_bricks",
+    "marioverse:amethyst_brick_slab",
+    "marioverse:amethyst_brick_stairs",
+    "marioverse:amethyst_brick_wall",
+    "marioverse:amethyst_button",
+    "marioverse:amethyst_pressure_plate",
+    "marioverse:amethyst_question_block",
+    "marioverse:amethyst_slab",
+    "marioverse:amethyst_stairs",
+    "marioverse:amethyst_wall",
+    "marioverse:chiseled_amethyst_bricks",
+    "marioverse:cracked_amethyst_bricks",
+    "marioverse:invisible_amethyst_question_block",
+    "marioverse:polished_amethyst",
+    "marioverse:polished_amethyst_slab",
+    "marioverse:polished_amethyst_stairs",
+    "marioverse:polished_amethyst_wall",
+    "marioverse:storage_amethyst_bricks"
+  ]
+}
