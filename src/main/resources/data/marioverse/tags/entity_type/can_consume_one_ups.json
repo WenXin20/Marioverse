@@ -1,8 +1,5 @@
 {
   "_comment": "Tag for entities that can use a 1-Up",
   "replace": false,
-  "values": [
-    "minecraft:player",
-    "minecraft:villager"
-  ]
+  "values": []
 }

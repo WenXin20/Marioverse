@@ -1,7 +1,5 @@
 {
   "_comment": "Mobs that fire flower fireballs will kill instantly",
   "replace": false,
-  "values": [
-    { "id": "marioverse:piranha_plant", "required": false }
-  ]
+  "values": []
 }

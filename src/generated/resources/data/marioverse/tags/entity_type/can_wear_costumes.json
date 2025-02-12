@@ -1,0 +1,26 @@
+{
+  "values": [
+    "#marioverse:goombas",
+    "minecraft:armor_stand",
+    "minecraft:bogged",
+    "minecraft:drowned",
+    "minecraft:giant",
+    "minecraft:husk",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:player",
+    "minecraft:skeleton",
+    "minecraft:stray",
+    "minecraft:wither_skeleton",
+    "minecraft:zombie",
+    "minecraft:zombified_piglin",
+    {
+      "id": "#accessories:defaulted_targets",
+      "required": false
+    },
+    {
+      "id": "dummmmmmy:test_dummy",
+      "required": false
+    }
+  ]
+}

@@ -1,8 +1,0 @@
-{
-  "values": [
-    { "id": "marioverse:fire_hat", "required": false },
-    { "id": "marioverse:fire_overalls", "required": false },
-    { "id": "marioverse:fire_shirt", "required": false },
-    { "id": "marioverse:fire_shoes", "required": false }
-  ]
-}

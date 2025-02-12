@@ -1,11 +1,5 @@
 {
-  "_comment": "Blacklist to prevent entities from teleporting using certain blocks, like the Warp Pipes",
+  "_comment": "Blacklist to prevent entities from teleporting using certain blocks, like Warp Pipes, Warp Doors, etc",
   "replace": false,
-  "values": [
-    "minecraft:elder_guardian",
-    "minecraft:ender_dragon",
-    "minecraft:wither",
-    { "id": "#c:bosses", "required": false },
-    { "id": "#twilightforest:bosses", "required": false }
-  ]
+  "values": []
 }

@@ -1,9 +1,5 @@
 {
   "_comment": "All mobs that can be stomped on.",
   "replace": false,
-  "values": [
-    "minecraft:slime",
-    { "id": "#marioverse:goombas", "required": false },
-    { "id": "dummmmmmy:test_dummy", "required": false }
-  ]
+  "values": []
 }

@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#c:boats",
+    "#c:bosses",
+    "#marioverse:power_ups",
+    "minecraft:armor_stand",
+    "minecraft:elder_guardian",
+    "minecraft:warden",
+    {
+      "id": "#twilightforest:bosses",
+      "required": false
+    }
+  ]
+}

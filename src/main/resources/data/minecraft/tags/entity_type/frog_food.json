@@ -1,8 +1,0 @@
-{
-  "values": [
-    { "id": "#marioverse:power_ups", "required": false },
-    { "id": "minecraft:armor_stand", "required": false },
-    { "id": "marioverse:mini_goomba", "required": false },
-    { "id": "marioverse:piranha_plant", "required": false }
-  ]
-}

@@ -1,0 +1,11 @@
+{
+  "values": [
+    "minecraft:iron_golem",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:player",
+    "minecraft:snow_golem",
+    "minecraft:villager",
+    "minecraft:wandering_trader"
+  ]
+}

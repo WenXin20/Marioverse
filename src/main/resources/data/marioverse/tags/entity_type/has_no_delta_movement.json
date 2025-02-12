@@ -1,7 +1,5 @@
 {
   "_comment": "Mobs that have no delta movement. Used by Question Blocks",
   "replace": false,
-  "values": [
-    { "id": "marioverse:piranha_plant", "required": false }
-  ]
+  "values": []
 }

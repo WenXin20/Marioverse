@@ -1,5 +1,5 @@
 {
-  "_comment": "Tag to prevent fireballs from hitting entities",
+  "_comment": "Tag to prevent fireballs from hitting mobs. Fireproof mobs are already immune.",
   "replace": false,
   "values": []
 }

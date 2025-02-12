@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#c:bosses",
+    "minecraft:elder_guardian",
+    "minecraft:ender_dragon",
+    "minecraft:wither",
+    {
+      "id": "#twilightforest:bosses",
+      "required": false
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.datagen.BlockRecipeGen;
 import com.wenxin2.marioverse.datagen.BlockStateGen;
 import com.wenxin2.marioverse.datagen.BlockTagsGen;
 import com.wenxin2.marioverse.datagen.DamageTypeTagsGen;
+import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,7 @@ public class RegistryEventHandlers {
 
         generator.addProvider(event.includeClient(), new BlockStateGen(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModelGen(output, existingFileHelper));
+
         generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BlockLootTableGen(output, lookupProvider));
@@ -34,6 +36,7 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), new BlockTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new CopperMapDataGen(output, lookupProvider));
         generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
     }
 }

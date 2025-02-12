@@ -1,10 +1,5 @@
 {
   "_comment": "Mobs that can be stomped on and killed instantly.",
   "replace": false,
-  "values": [
-    { "id": "marioverse:goomba", "required": false },
-    { "id": "marioverse:hefty_goomba", "required": false },
-    { "id": "marioverse:mega_goomba", "required": false },
-    { "id": "marioverse:mini_goomba", "required": false }
-  ]
+  "values": []
 }

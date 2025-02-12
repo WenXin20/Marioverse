@@ -1,9 +1,5 @@
 {
-  "_comment": "All mobs that can smash blocks in the smashable_blocks tag.",
+  "_comment": "All mobs that can smash blocks in the 'smashable_blocks' tag.",
   "replace": false,
-  "values": [
-    "minecraft:player",
-    "minecraft:villager",
-    "minecraft:wandering_trader"
-  ]
+  "values": []
 }
