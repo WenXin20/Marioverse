@@ -38,9 +38,7 @@ public class AdvancementDataGen extends AdvancementProvider {
     private static final class MyAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
         @Override
         public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
-            Advancement.Builder builder = Advancement.Builder.advancement();
-
-            AdvancementHolder PIPE_WRENCH = builder.parent(AdvancementSubProvider.createPlaceholder("minecraft:adventure/root"))
+            AdvancementHolder PIPE_WRENCH = Advancement.Builder.advancement().parent(AdvancementSubProvider.createPlaceholder("minecraft:adventure/root"))
                     .display(new ItemStack(ItemRegistry.PIPE_WRENCH.get()),
                             Component.translatable("advancements.adventure.marioverse.pipe_wrench.title"),
                             Component.translatable("advancements.adventure.marioverse.pipe_wrench.description"),
@@ -49,7 +47,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(50))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_pipe_wrench"), existingFileHelper);
 
-            AdvancementHolder CONFIGURE_PIPES = builder.parent(PIPE_WRENCH)
+            AdvancementHolder CONFIGURE_PIPES = Advancement.Builder.advancement().parent(PIPE_WRENCH)
                     .display(new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.GREEN)),
                             Component.translatable("advancements.adventure.marioverse.configure_pipes.title"),
                             Component.translatable("advancements.adventure.marioverse.configure_pipes.description"),
@@ -61,7 +59,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(100))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "configure_pipes"), existingFileHelper);
 
-            AdvancementHolder BRUSH_A_PIPE = builder.parent(CONFIGURE_PIPES)
+            AdvancementHolder BRUSH_A_PIPE = Advancement.Builder.advancement().parent(CONFIGURE_PIPES)
                     .display(new ItemStack(Items.BRUSH),
                             Component.translatable("advancements.adventure.marioverse.brush_a_pipe.title"),
                             Component.translatable("advancements.adventure.marioverse.brush_a_pipe.description"),
@@ -73,7 +71,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(125))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "brush_a_pipe"), existingFileHelper);
 
-            AdvancementHolder MAKE_A_PIPE_GLOW = builder.parent(CONFIGURE_PIPES)
+            AdvancementHolder MAKE_A_PIPE_GLOW = Advancement.Builder.advancement().parent(CONFIGURE_PIPES)
                     .display(new ItemStack(Items.GLOW_INK_SAC),
                             Component.translatable("advancements.adventure.marioverse.make_a_pipe_glow.title"),
                             Component.translatable("advancements.adventure.marioverse.make_a_pipe_glow.description"),
@@ -85,7 +83,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(125))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "make_a_pipe_glow"), existingFileHelper);
 
-            AdvancementHolder DYE_A_PIPE = builder.parent(CONFIGURE_PIPES)
+            AdvancementHolder DYE_A_PIPE = Advancement.Builder.advancement().parent(CONFIGURE_PIPES)
                     .display(new ItemStack(Items.RED_DYE),
                             Component.translatable("advancements.adventure.marioverse.dye_a_pipe.title"),
                             Component.translatable("advancements.adventure.marioverse.dye_a_pipe.description"),
@@ -97,7 +95,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(125))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dye_a_pipe"), existingFileHelper);
 
-            AdvancementHolder ALL_DYEABLE_WARP_PIPES = builder.parent(CONFIGURE_PIPES)
+            AdvancementHolder ALL_DYEABLE_WARP_PIPES = Advancement.Builder.advancement().parent(CONFIGURE_PIPES)
                     .display(new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.RED)),
                             Component.translatable("advancements.adventure.marioverse.dyeable_warp_pipes.title"),
                             Component.translatable("advancements.adventure.marioverse.dyeable_warp_pipes.description"),
@@ -121,7 +119,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(150))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_all_dyeable_warp_pipes"), existingFileHelper);
 
-            AdvancementHolder TRAVEL_IN_CLEAR_PIPE = builder.parent(ALL_DYEABLE_WARP_PIPES)
+            AdvancementHolder TRAVEL_IN_CLEAR_PIPE = Advancement.Builder.advancement().parent(ALL_DYEABLE_WARP_PIPES)
                     .display(new ItemStack(BlockRegistry.CLEAR_WARP_PIPE.get()),
                             Component.translatable("advancements.adventure.marioverse.travel_in_clear_pipe.title"),
                             Component.translatable("advancements.adventure.marioverse.travel_in_clear_pipe.description"),
