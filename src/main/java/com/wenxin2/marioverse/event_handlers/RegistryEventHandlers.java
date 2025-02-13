@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.datagen.AdvancementDataGen;
 import com.wenxin2.marioverse.datagen.CopperMapDataGen;
 import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
 import com.wenxin2.marioverse.datagen.BiomeTagsGen;
@@ -30,6 +31,7 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeClient(), new BlockStateGen(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModelGen(output, existingFileHelper));
 
+        generator.addProvider(event.includeServer(), new AdvancementDataGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new CopperMapDataGen(output, lookupProvider));
         generator.addProvider(event.includeServer(), new RegistryDataGen(output, lookupProvider));
 

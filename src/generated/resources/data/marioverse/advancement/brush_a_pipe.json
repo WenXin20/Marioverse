@@ -1,0 +1,85 @@
+{
+  "parent": "marioverse:configure_pipes",
+  "criteria": {
+    "brush_a_pipe": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "#marioverse:warp_pipes"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "minecraft:brush"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    },
+    "configure_pipes": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "#marioverse:warp_pipes"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "marioverse:pipe_wrench"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    },
+    "pipe_wrench": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:pipe_wrench"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.adventure.marioverse.brush_a_pipe.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:brush"
+    },
+    "title": {
+      "translate": "advancements.adventure.marioverse.brush_a_pipe.title"
+    }
+  },
+  "requirements": [
+    [
+      "pipe_wrench"
+    ],
+    [
+      "configure_pipes"
+    ],
+    [
+      "brush_a_pipe"
+    ]
+  ],
+  "rewards": {
+    "experience": 125
+  },
+  "sends_telemetry_event": true
+}

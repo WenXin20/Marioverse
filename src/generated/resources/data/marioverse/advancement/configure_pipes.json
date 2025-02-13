@@ -1,0 +1,60 @@
+{
+  "parent": "marioverse:obtain_pipe_wrench",
+  "criteria": {
+    "configure_pipes": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "#marioverse:warp_pipes"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "marioverse:pipe_wrench"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    },
+    "pipe_wrench": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:pipe_wrench"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.adventure.marioverse.configure_pipes.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "marioverse:green_warp_pipe"
+    },
+    "title": {
+      "translate": "advancements.adventure.marioverse.configure_pipes.title"
+    }
+  },
+  "requirements": [
+    [
+      "pipe_wrench"
+    ],
+    [
+      "configure_pipes"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

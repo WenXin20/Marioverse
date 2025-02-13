@@ -28,6 +28,5 @@ public class BannerPatternRegistry {
                 "block.marioverse.banner.plumber"));
     }
 
-    public static void init()
-    {}
+    public static void init() {}
 }
