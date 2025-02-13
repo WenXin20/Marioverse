@@ -7,7 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.DamageSourceRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -204,8 +204,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
         if (this.dead) {
             if (this.getLastDamageSource() != null
-                && (this.getLastDamageSource().is(DamageSourceRegistry.STOMP)
-                    || this.getLastDamageSource().is(DamageSourceRegistry.PLAYER_STOMP))) {
+                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 if (this.isInWaterOrBubble()) {
                     if (!this.isRunning() && !this.isWalking())
                         event.setAndContinue(SQUASH_ANIM);

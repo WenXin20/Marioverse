@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities.part_entities;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
-import com.wenxin2.marioverse.init.DamageSourceRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -172,7 +172,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                     return;
 
                 this.getParent().swing(InteractionHand.MAIN_HAND);
-                collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this.getParent()), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
+                collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent()), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
                 break;
             }
         }

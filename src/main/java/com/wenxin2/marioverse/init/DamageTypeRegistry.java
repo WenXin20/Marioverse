@@ -2,14 +2,17 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageEffects;
+import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
-public class DamageSourceRegistry {
+public class DamageTypeRegistry {
     public static final ResourceKey<DamageType> FIREBALL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "fireball"));
     public static final ResourceKey<DamageType> PLAYER_FIREBALL =
@@ -60,5 +63,27 @@ public class DamageSourceRegistry {
         } else if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PIRANHA_CHOMP), null, attackingEntity);
         } else return null;
+    }
+
+    public static void bootstrap(BootstrapContext<DamageType> context) {
+        context.register(FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.BURNING));
+        context.register(PLAYER_FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball.player",
+                DamageScaling.ALWAYS, 0.1f, DamageEffects.BURNING));
+
+        context.register(PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
+        context.register(PLAYER_PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp.player",
+                DamageScaling.ALWAYS, 0.5f, DamageEffects.THORNS));
+
+        context.register(STOMP, new DamageType(Marioverse.MOD_ID + ".stomp",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.HURT));
+        context.register(PLAYER_STOMP, new DamageType(Marioverse.MOD_ID + ".stomp.player",
+                DamageScaling.ALWAYS, 0.5f, DamageEffects.HURT));
+
+        context.register(SUPER_STAR, new DamageType(Marioverse.MOD_ID + ".super_star",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.75f, DamageEffects.HURT));
+        context.register(PLAYER_SUPER_STAR, new DamageType(Marioverse.MOD_ID + ".super_star.player",
+                DamageScaling.ALWAYS, 0.75f, DamageEffects.HURT));
     }
 }

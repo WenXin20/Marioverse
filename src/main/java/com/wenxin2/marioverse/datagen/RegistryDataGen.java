@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.init.BannerPatternRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
@@ -16,5 +17,6 @@ public class RegistryDataGen extends DatapackBuiltinEntriesProvider {
     }
 
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-            .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap);
+            .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap)
+            .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap);
 }

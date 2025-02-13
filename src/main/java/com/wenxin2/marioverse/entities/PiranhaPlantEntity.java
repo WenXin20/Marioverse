@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.DamageSourceRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
@@ -158,8 +158,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
         if (this.dead) {
             if (this.getLastDamageSource() != null
-                && (this.getLastDamageSource().is(DamageSourceRegistry.STOMP)
-                    || this.getLastDamageSource().is(DamageSourceRegistry.PLAYER_STOMP))) {
+                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 event.setAndContinue(SQUASH_ANIM);
                 return PlayState.CONTINUE;
             } else {
@@ -662,7 +662,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     return;
 
                 this.swing(InteractionHand.MAIN_HAND);
-                collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.attackCooldown = 20;
                 break;

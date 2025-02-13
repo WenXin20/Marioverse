@@ -1,0 +1,6 @@
+{
+  "effects": "thorns",
+  "exhaustion": 0.5,
+  "message_id": "marioverse.piranha_chomp.player",
+  "scaling": "always"
+}

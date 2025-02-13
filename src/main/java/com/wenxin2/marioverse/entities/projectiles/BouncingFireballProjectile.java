@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
-import com.wenxin2.marioverse.init.DamageSourceRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -194,7 +194,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         && player.getTeam() == this.getOwner().getTeam())
                     return;
 
-                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
+                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -204,8 +204,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     }
                 } else if (this.getOwner() != null) {
                     if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), player.getHealth());
-                    else player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                        player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth());
+                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
                     player.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -220,7 +220,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         && livingEntity.getTeam() == this.getOwner().getTeam()))
                     return;
 
-                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
+                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -230,8 +230,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     }
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                        livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
+                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
                     livingEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -241,7 +241,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
-                if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
+                if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -251,8 +251,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     }
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        partEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth());
-                    else partEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), 4.0F);
+                        partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth());
+                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
                     partEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
