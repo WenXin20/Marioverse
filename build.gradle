@@ -42,6 +42,7 @@ dependencies {
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     implementation "curse.maven:ctm-${ctm_version}"
+    implementation "curse.maven:every-compat-${every_compat_version}"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
     implementation "curse.maven:geckolib-${geckolib_version}"
     implementation "curse.maven:owo-lib-${owo_version}"
