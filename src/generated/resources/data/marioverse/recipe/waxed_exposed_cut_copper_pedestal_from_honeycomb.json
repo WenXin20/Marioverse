@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
+  "group": "marioverse:waxed_exposed_cut_copper_pedestal",
   "ingredients": [
     {
       "item": "marioverse:exposed_cut_copper_pedestal"

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:goal_poles_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/magenta"
+    },
+    {
+      "tag": "marioverse:dyeable_goal_poles"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:magenta_goal_pole"
+  }
+}

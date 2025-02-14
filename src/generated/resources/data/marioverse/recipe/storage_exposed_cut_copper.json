@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
+  "group": "marioverse:storage_bricks",
   "key": {
     "B": {
       "item": "minecraft:exposed_cut_copper"

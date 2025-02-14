@@ -2,19 +2,30 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRecipeGen extends RecipeProvider {
     public BlockRecipeGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
@@ -78,6 +89,78 @@ public class BlockRecipeGen extends RecipeProvider {
         waxedBlockRecipe(output, BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER, BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, Items.HONEYCOMB, 1);
         waxedBlockRecipe(output, BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER, BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, Items.HONEYCOMB, 1);
         waxedBlockRecipe(output, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER, Items.HONEYCOMB, 1);
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
+            Item woolItem = BuiltInRegistries.ITEM.stream().filter(item -> {
+                        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
+                        return itemId != null && itemId.getPath().endsWith("_wool") && itemId.getPath().startsWith(dyeColor.getName());
+                    }).findFirst().orElse(Items.WHITE_WOOL);
+
+            goalPoleRecipe(output, entry.getValue(), Tags.Items.INGOTS_GOLD, Tags.Items.INGOTS_IRON, woolItem, 1);
+            dyeItemTagRecipe("goal_poles_from_dye", output, RecipeCategory.BUILDING_BLOCKS, entry.getValue(), dyeItemTag, TagRegistry.DYEABLE_GOAL_POLE_ITEMS, 1);
+        }
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.AMETHYST_BRICKS, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.POLISHED_AMETHYST, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICK_PEDESTAL, Items.AMETHYST_BLOCK, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.CUT_COPPER_PEDESTAL, Items.CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_CUT_COPPER, Items.CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.CUT_COPPER_PEDESTAL, Items.COPPER_BLOCK, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_CUT_COPPER, Items.COPPER_BLOCK, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Items.EXPOSED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, Items.EXPOSED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Items.EXPOSED_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, Items.EXPOSED_COPPER, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Items.WEATHERED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, Items.WEATHERED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Items.WEATHERED_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, Items.WEATHERED_COPPER, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Items.OXIDIZED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER, Items.OXIDIZED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Items.OXIDIZED_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER, Items.OXIDIZED_COPPER, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, Items.WAXED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_CUT_COPPER, Items.WAXED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, Items.WAXED_COPPER_BLOCK, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_CUT_COPPER, Items.WAXED_COPPER_BLOCK, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, Items.WAXED_EXPOSED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER, Items.WAXED_EXPOSED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, Items.WAXED_EXPOSED_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER, Items.WAXED_EXPOSED_COPPER, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, Items.WAXED_WEATHERED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER, Items.WAXED_WEATHERED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, Items.WAXED_WEATHERED_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER, Items.WAXED_WEATHERED_COPPER, 1);
+
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, Items.WAXED_OXIDIZED_CUT_COPPER, 1);
+        stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER, Items.WAXED_OXIDIZED_CUT_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, Items.WAXED_OXIDIZED_COPPER, 1);
+        stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER, Items.WAXED_OXIDIZED_COPPER, 1);
+    }
+
+    private void goalPoleRecipe(RecipeOutput output, ItemLike outputItem, TagKey<Item> inputItemTag,
+                                TagKey<Item> inputItemTag2, ItemLike inputItem, int outputAmt) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('G', inputItemTag)
+                .define('I', inputItemTag2)
+                .define('W', inputItem)
+                .pattern(" G ")
+                .pattern("WI ")
+                .pattern(" I ")
+                .unlockedBy("has_gold_ingot", has(inputItemTag))
+                .unlockedBy("has_iron_ingot", has(inputItemTag2))
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":goal_poles")
+                .save(output);
     }
 
     private void pedestalRecipe(RecipeOutput output, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
@@ -86,6 +169,16 @@ public class BlockRecipeGen extends RecipeProvider {
                 .pattern("B B")
                 .pattern("BBB")
                 .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":brick_pedestals")
+                .save(output);
+    }
+
+    private void pressurePlateRecipe(RecipeOutput output, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, outputItem, outputAmt)
+                .define('P', inputItem)
+                .pattern("PP")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 
@@ -96,6 +189,7 @@ public class BlockRecipeGen extends RecipeProvider {
                 .requires(itemTag)
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .unlockedBy("has_chest", has(itemTag))
+                .group(Marioverse.MOD_ID + ":question_blocks")
                 .save(output);
     }
 
@@ -104,6 +198,7 @@ public class BlockRecipeGen extends RecipeProvider {
                 .define('S', inputItem)
                 .pattern("SSS")
                 .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 
@@ -114,6 +209,7 @@ public class BlockRecipeGen extends RecipeProvider {
                 .pattern("SS ")
                 .pattern("SSS")
                 .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 
@@ -123,19 +219,51 @@ public class BlockRecipeGen extends RecipeProvider {
                 .pattern("WWW")
                 .pattern("WWW")
                 .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 
     private void storageBrickRecipe(RecipeOutput output, ItemLike outputItem, ItemLike inputItem,
-                                    TagKey<Item> itemTag, int outputAmt) {
+                                    TagKey<Item> inputItemTag, int outputAmt) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('B', inputItem)
-                .define('C', itemTag)
+                .define('C', inputItemTag)
                 .pattern(" B ")
                 .pattern("BCB")
                 .pattern(" B ")
                 .unlockedBy(getHasName(inputItem), has(inputItem))
-                .unlockedBy("has_chest", has(itemTag))
+                .unlockedBy("has_chest", has(inputItemTag))
+                .group(Marioverse.MOD_ID + ":storage_bricks")
+                .save(output);
+    }
+
+    private void dyeItemRecipe(String groupName, RecipeOutput output, RecipeCategory category, ItemLike outputItem, TagKey<Item> inputItemTag,
+                               ItemLike inputItem, int outputAmt) {
+        ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+                .requires(inputItemTag)
+                .requires(inputItem)
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .unlockedBy("has_goal_pole", has(inputItemTag))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
+    }
+
+    private void dyeItemTagRecipe(String groupName, RecipeOutput output, RecipeCategory category, ItemLike outputItem,
+                                  TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, int outputAmt) {
+        ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+                .requires(inputItemTag)
+                .requires(inputItemTag2)
+                .unlockedBy("has_dye", has(inputItemTag))
+                .unlockedBy("has_goal_pole", has(inputItemTag2))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
+    }
+
+    private void singleItemRecipe(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+                .requires(inputItem)
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 
@@ -146,6 +274,19 @@ public class BlockRecipeGen extends RecipeProvider {
                 .requires(inputItem2)
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .unlockedBy(getHasName(inputItem2), has(inputItem2))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem2));
+    }
+
+    protected void stonecutting(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), category, outputItem, outputAmt)
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_stonecutting");
+    }
+
+    protected void stonecuttingFromBase(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), category, outputItem, outputAmt)
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem) + "_stonecutting");
     }
 }

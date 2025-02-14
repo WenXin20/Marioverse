@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
+  "group": "marioverse:smashable_waxed_oxidized_cut_copper",
   "ingredients": [
     {
       "item": "marioverse:smashable_oxidized_cut_copper"

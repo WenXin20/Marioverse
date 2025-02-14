@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:question_blocks",
+  "ingredients": [
+    {
+      "item": "marioverse:polished_amethyst"
+    },
+    {
+      "tag": "c:chests/wooden"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:amethyst_question_block"
+  }
+}

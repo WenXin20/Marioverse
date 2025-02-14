@@ -19,7 +19,7 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(DamageTypeTags.IS_FIRE)
                 .add(DamageTypeRegistry.FIREBALL)
-                .add(DamageTypeRegistry.PLAYER_FIREBALL);
+                .addOptional(DamageTypeRegistry.PLAYER_FIREBALL.registry());
 
         tag(TagRegistry.IS_FIREBALL)
                 .add(DamageTypeRegistry.FIREBALL)

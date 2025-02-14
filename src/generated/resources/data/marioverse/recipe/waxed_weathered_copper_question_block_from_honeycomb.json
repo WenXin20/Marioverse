@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
+  "group": "marioverse:waxed_weathered_copper_question_block",
   "ingredients": [
     {
       "item": "marioverse:weathered_copper_question_block"
