@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:goal_poles",
+  "key": {
+    "B": {
+      "item": "minecraft:bamboo"
+    },
+    "D": {
+      "tag": "c:dyes/lime"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "DG",
+    "WB",
+    " B"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:classic_goal_pole"
+  }
+}

@@ -102,6 +102,8 @@ public class BlockRecipeGen extends RecipeProvider {
             dyeItemTagRecipe("goal_poles_from_dye", output, RecipeCategory.BUILDING_BLOCKS, entry.getValue(), dyeItemTag, TagRegistry.DYEABLE_GOAL_POLE_ITEMS, 1);
         }
 
+        classicGoalPoleRecipe(output, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, 4);
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
@@ -109,6 +111,8 @@ public class BlockRecipeGen extends RecipeProvider {
             warpPipeRecipe(output, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, 4);
             dyeItemTagRecipe("warp_pipes_from_dye", output, RecipeCategory.BUILDING_BLOCKS, entry.getValue(), dyeItemTag, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, 1);
         }
+
+        warpPipeRecipe(output, BlockRegistry.CLEAR_WARP_PIPE, Tags.Items.INGOTS_COPPER, Tags.Items.GLASS_BLOCKS_COLORLESS, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, 4);
 
         stonecutting(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.AMETHYST_BRICKS, 1);
         stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.POLISHED_AMETHYST, 1);
@@ -155,6 +159,53 @@ public class BlockRecipeGen extends RecipeProvider {
         stonecuttingFromBase(output, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER, Items.WAXED_OXIDIZED_COPPER, 1);
     }
 
+    private void oneByTwoRecipe(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("##")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
+                .save(output);
+    }
+
+    private void twoByOneRecipe(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("#")
+                .pattern("#")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
+                .save(output);
+    }
+
+    private void twoByTwoRecipe(RecipeOutput output, RecipeCategory category, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("##")
+                .pattern("##")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
+                .save(output);
+    }
+
+    private void classicGoalPoleRecipe(RecipeOutput output, ItemLike outputItem, TagKey<Item> inputItemTag,
+                                TagKey<Item> inputItemTag2, ItemLike inputItem, ItemLike inputItem2, int outputAmt) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('B', inputItem2)
+                .define('D', inputItemTag2)
+                .define('G', inputItemTag)
+                .define('W', inputItem)
+                .pattern("DG")
+                .pattern("WB")
+                .pattern(" B")
+                .unlockedBy("has_gold_ingot", has(inputItemTag))
+                .unlockedBy("has_dye", has(inputItemTag2))
+                .unlockedBy(getHasName(inputItem2), has(inputItem2))
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":goal_poles")
+                .save(output);
+    }
+
     private void goalPoleRecipe(RecipeOutput output, ItemLike outputItem, TagKey<Item> inputItemTag,
                                 TagKey<Item> inputItemTag2, ItemLike inputItem, int outputAmt) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -178,15 +229,6 @@ public class BlockRecipeGen extends RecipeProvider {
                 .pattern("BBB")
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .group(Marioverse.MOD_ID + ":brick_pedestals")
-                .save(output);
-    }
-
-    private void pressurePlateRecipe(RecipeOutput output, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, outputItem, outputAmt)
-                .define('P', inputItem)
-                .pattern("PP")
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 
@@ -235,6 +277,16 @@ public class BlockRecipeGen extends RecipeProvider {
                 .save(output);
     }
 
+    private void wallRecipe(RecipeOutput output, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('W', inputItem)
+                .pattern("WWW")
+                .pattern("WWW")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
+                .save(output);
+    }
+
     private void warpPipeRecipe(RecipeOutput output, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2,
                                 TagKey<Item> inputItemTag3, TagKey<Item> inputItemTag4, int outputAmt) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -250,16 +302,6 @@ public class BlockRecipeGen extends RecipeProvider {
                 .unlockedBy("has_diamond", has(inputItemTag3))
                 .unlockedBy("has_ender_pearl", has(inputItemTag4))
                 .group(Marioverse.MOD_ID + ":warp_pipes")
-                .save(output);
-    }
-
-    private void wallRecipe(RecipeOutput output, ItemLike outputItem, ItemLike inputItem, int outputAmt) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
-                .define('W', inputItem)
-                .pattern("WWW")
-                .pattern("WWW")
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 

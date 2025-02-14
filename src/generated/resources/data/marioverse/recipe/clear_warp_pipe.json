@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:warp_pipes",
+  "key": {
+    "D": {
+      "tag": "c:glass_blocks/colorless"
+    },
+    "E": {
+      "tag": "c:ender_pearls"
+    },
+    "G": {
+      "tag": "c:gems/diamond"
+    },
+    "I": {
+      "tag": "c:ingots/copper"
+    }
+  },
+  "pattern": [
+    "IDI",
+    "IGI",
+    "IEI"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:clear_warp_pipe"
+  }
+}

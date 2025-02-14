@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_copper_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:ingots/copper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_diamond": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:gems/diamond"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:glass_blocks/colorless"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ender_pearl": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:ender_pearls"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:clear_warp_pipe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_copper_ingot",
+      "has_dye",
+      "has_diamond",
+      "has_ender_pearl"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:clear_warp_pipe"
+    ]
+  }
+}
