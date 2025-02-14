@@ -72,13 +72,13 @@ public class RegistryEventHandlers {
         if (event.getType() == VillagerProfession.CARTOGRAPHER) {
             for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
                 trades.get(3).add((entity, random) -> new MerchantOffer(
-                        new ItemCost(Items.EMERALD, 5),
+                        new ItemCost(Items.EMERALD, 1),
                         new ItemStack(entry.getValue(), 1),
                         15, 16, 0.05F));
             }
 
             trades.get(5).add((entity, random) -> new MerchantOffer(
-                    new ItemCost(Items.EMERALD, 10),
+                    new ItemCost(Items.EMERALD, 5),
                     new ItemStack(BlockRegistry.CLASSIC_GOAL_POLE, 1),
                     10, 30, 0.05F));
         }
@@ -112,13 +112,13 @@ public class RegistryEventHandlers {
                 8, 10, 0.2F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 10),
+                new ItemCost(Items.EMERALD, 5),
                 new ItemStack(BlockRegistry.CLASSIC_GOAL_POLE, 1),
                 8, 10, 0.2F));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             genericTrades.add((entity, random) -> new MerchantOffer(
-                    new ItemCost(Items.EMERALD, 5),
+                    new ItemCost(Items.EMERALD, 1),
                     new ItemStack(entry.getValue(), 1),
                     1, 16, 0.2F));
         }
