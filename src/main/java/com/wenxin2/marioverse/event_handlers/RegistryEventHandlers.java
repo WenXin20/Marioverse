@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import com.wenxin2.marioverse.datagen.RegistryDataGen;
+import com.wenxin2.marioverse.datagen.StonecuttingRecipeGen;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -63,6 +64,7 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new StonecuttingRecipeGen(output, lookupProvider));
     }
 
     @SubscribeEvent
