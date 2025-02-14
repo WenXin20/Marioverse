@@ -14,12 +14,12 @@
     }
   },
   "pattern": [
-    " G ",
-    "WI ",
-    " I "
+    " G",
+    "WI",
+    " I"
   ],
   "result": {
-    "count": 1,
+    "count": 4,
     "id": "marioverse:green_goal_pole"
   }
 }
