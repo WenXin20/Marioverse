@@ -105,5 +105,22 @@ public class RegistryEventHandlers {
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.FIRE_FLOWER.get(), 1),
                 1, 16, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 1),
+                new ItemStack(BlockRegistry.COIN, 8),
+                8, 10, 0.2F));
+
+        rareTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 10),
+                new ItemStack(BlockRegistry.CLASSIC_GOAL_POLE, 1),
+                8, 10, 0.2F));
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
+            genericTrades.add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 5),
+                    new ItemStack(entry.getValue(), 1),
+                    1, 16, 0.2F));
+        }
     }
 }
