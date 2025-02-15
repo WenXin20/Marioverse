@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverse:polished_deep_fungal_stone_stairs",
   "key": {
     "#": {
       "item": "marioverse:polished_deep_fungal_stone"

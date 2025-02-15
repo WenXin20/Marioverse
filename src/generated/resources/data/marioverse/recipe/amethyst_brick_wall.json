@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "marioverse:amethyst_brick_wall",
   "key": {
     "#": {
       "item": "marioverse:amethyst_bricks"

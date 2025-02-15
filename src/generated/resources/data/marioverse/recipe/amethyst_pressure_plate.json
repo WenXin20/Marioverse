@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
-  "group": "marioverse:amethyst_pressure_plate",
   "key": {
     "#": {
       "item": "minecraft:amethyst_block"

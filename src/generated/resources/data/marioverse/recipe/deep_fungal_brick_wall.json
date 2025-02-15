@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "marioverse:deep_fungal_brick_wall",
   "key": {
     "#": {
       "item": "marioverse:deep_fungal_bricks"

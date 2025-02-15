@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_amethyst_block": {
+    "has_amethyst_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:amethyst_block"
+            "items": "marioverse:amethyst_bricks"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_amethyst_block"
+      "has_amethyst_bricks"
     ]
   ],
   "rewards": {

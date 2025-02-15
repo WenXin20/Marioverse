@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverse:polished_fungal_stone_slab",
   "key": {
     "#": {
       "item": "marioverse:polished_fungal_stone"
