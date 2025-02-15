@@ -1,16 +1,6 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chest": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#c:chests/wooden"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_dark_prismarine": {
       "conditions": {
         "items": [
@@ -23,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:dark_prismarine_question_block"
+        "recipe": "marioverse:smashable_dark_prismarine_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -31,13 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_chest",
       "has_dark_prismarine"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:dark_prismarine_question_block"
+      "marioverse:smashable_dark_prismarine_stonecutting"
     ]
   }
 }

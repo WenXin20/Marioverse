@@ -46,7 +46,6 @@ public class BlockRecipeGen extends RecipeUtils {
         pedestalRecipe(5, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, Blocks.POLISHED_BLACKSTONE_BRICKS, output);
         pedestalRecipe(5, BlockRegistry.BRICK_PEDESTAL, Blocks.BRICKS, output);
         pedestalRecipe(5, BlockRegistry.CUT_COPPER_PEDESTAL, Blocks.CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.DARK_PRISMARINE_PEDESTAL, Blocks.DARK_PRISMARINE, output);
         pedestalRecipe(5, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Blocks.EXPOSED_CUT_COPPER, output);
         pedestalRecipe(5, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Blocks.OXIDIZED_CUT_COPPER, output);
         pedestalRecipe(5, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, Blocks.WAXED_CUT_COPPER, output);
@@ -57,7 +56,6 @@ public class BlockRecipeGen extends RecipeUtils {
 
         questionBlockRecipe(1, BlockRegistry.BLACKSTONE_QUESTION_BRICKS, Blocks.POLISHED_BLACKSTONE_BRICKS, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.COPPER_QUESTION_BLOCK, Blocks.COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK, Blocks.DARK_PRISMARINE, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, Blocks.EXPOSED_COPPER, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK, Blocks.OXIDIZED_COPPER, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.WAXED_COPPER_QUESTION_BLOCK, Blocks.WAXED_COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, output);
@@ -96,7 +94,6 @@ public class BlockRecipeGen extends RecipeUtils {
         stonecutting(1, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.POLISHED_BLACKSTONE_BRICKS, output);
         stonecutting(1, BlockRegistry.BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.BRICKS, output);
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
-        stonecutting(1, BlockRegistry.DARK_PRISMARINE_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.DARK_PRISMARINE, output);
         stonecutting(1, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_CUT_COPPER, output);
@@ -154,6 +151,8 @@ public class BlockRecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamiliesRegistry.FUNGAL_BRICKS, BlockRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamiliesRegistry.FUNGAL_BRICKS, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamiliesRegistry.POLISHED_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamiliesRegistry.DARK_PRISMARINE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         smeltingRecipe(200, 0.1F, BlockRegistry.CRACKED_AMETHYST_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICKS, output);
 

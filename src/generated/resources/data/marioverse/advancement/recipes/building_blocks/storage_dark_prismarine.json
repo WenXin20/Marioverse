@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:dark_prismarine_question_block"
+        "recipe": "marioverse:storage_dark_prismarine"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "marioverse:dark_prismarine_question_block"
+      "marioverse:storage_dark_prismarine"
     ]
   }
 }
