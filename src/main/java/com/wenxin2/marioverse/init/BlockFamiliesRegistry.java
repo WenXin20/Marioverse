@@ -25,8 +25,6 @@ public class BlockFamiliesRegistry extends BlockFamilies {
 
     public static final BlockFamily AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)
             .button(BlockRegistry.AMETHYST_BUTTON.get())
-            .chiseled(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
-            .cracked(BlockRegistry.CRACKED_AMETHYST_BRICKS.get())
             .polished(BlockRegistry.POLISHED_AMETHYST.get())
             .pressurePlate(BlockRegistry.AMETHYST_PRESSURE_PLATE.get())
             .slab(BlockRegistry.AMETHYST_SLAB.get())
@@ -36,6 +34,8 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamily AMETHYST_BRICKS = familyBuilder(BlockRegistry.AMETHYST_BRICKS.get())
+            .chiseled(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_AMETHYST_BRICKS.get())
             .slab(BlockRegistry.AMETHYST_BRICK_SLAB.get())
             .stairs(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
             .wall(BlockRegistry.AMETHYST_BRICK_WALL.get())

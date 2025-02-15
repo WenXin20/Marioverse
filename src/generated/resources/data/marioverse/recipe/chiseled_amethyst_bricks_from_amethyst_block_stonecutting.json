@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "marioverse:amethyst_bricks"
+    "item": "minecraft:amethyst_block"
   },
   "result": {
     "count": 1,

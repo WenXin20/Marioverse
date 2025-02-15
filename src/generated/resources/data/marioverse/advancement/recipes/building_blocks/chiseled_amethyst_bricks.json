@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_amethyst_slab": {
+    "has_amethyst_brick_slab": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:amethyst_slab"
+            "items": "marioverse:amethyst_brick_slab"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_amethyst_slab"
+      "has_amethyst_brick_slab"
     ]
   ],
   "rewards": {

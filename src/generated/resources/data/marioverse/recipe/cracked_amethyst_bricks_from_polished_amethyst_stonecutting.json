@@ -1,10 +1,10 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "marioverse:amethyst_bricks"
+    "item": "marioverse:polished_amethyst"
   },
   "result": {
     "count": 1,
-    "id": "marioverse:chiseled_amethyst_bricks"
+    "id": "marioverse:cracked_amethyst_bricks"
   }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_amethyst_bricks": {
+    "has_polished_blackstone": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:amethyst_bricks"
+            "items": "minecraft:polished_blackstone"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:chiseled_amethyst_bricks_stonecutting"
+        "recipe": "marioverse:blackstone_brick_pedestal_from_polished_blackstone_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_amethyst_bricks"
+      "has_polished_blackstone"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:chiseled_amethyst_bricks_stonecutting"
+      "marioverse:blackstone_brick_pedestal_from_polished_blackstone_stonecutting"
     ]
   }
 }
