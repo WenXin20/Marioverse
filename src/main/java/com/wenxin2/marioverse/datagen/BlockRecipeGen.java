@@ -104,9 +104,6 @@ public class BlockRecipeGen extends RecipeProvider {
         stonecutting(1, BlockRegistry.AMETHYST_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_AMETHYST, output);
         stonecutting(1, BlockRegistry.DEEP_FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, output);
         stonecutting(1, BlockRegistry.FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_FUNGAL_STONE, output);
-        stonecutting(1, BlockRegistry.POLISHED_AMETHYST, RecipeCategory.BUILDING_BLOCKS, Blocks.AMETHYST_BLOCK, output);
-        stonecutting(1, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
-        stonecutting(1, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
 
         stonecutting(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICKS, output);
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Items.CUT_COPPER, output);
