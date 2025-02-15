@@ -47,6 +47,9 @@ public class BlockRecipeGen extends RecipeProvider {
 
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
+        twoByTwoRecipe(4, BlockRegistry.AMETHYST_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_AMETHYST, output);
+        twoByTwoRecipe(4, BlockRegistry.DEEP_FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, output);
+        twoByTwoRecipe(4, BlockRegistry.FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_FUNGAL_STONE, output);
         twoItemTagRecipe(1, "warp_pipes", "_from_glass", BlockRegistry.CLEAR_WARP_PIPE, RecipeCategory.BUILDING_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, Tags.Items.GLASS_BLOCKS_COLORLESS, output);
         warpPipeRecipe(4, BlockRegistry.CLEAR_WARP_PIPE, Tags.Items.INGOTS_COPPER, Tags.Items.GLASS_BLOCKS_COLORLESS, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
 
@@ -98,6 +101,13 @@ public class BlockRecipeGen extends RecipeProvider {
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
 
 
+        stonecutting(1, BlockRegistry.AMETHYST_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_AMETHYST, output);
+        stonecutting(1, BlockRegistry.DEEP_FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, output);
+        stonecutting(1, BlockRegistry.FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_FUNGAL_STONE, output);
+        stonecutting(1, BlockRegistry.POLISHED_AMETHYST, RecipeCategory.BUILDING_BLOCKS, Blocks.AMETHYST_BLOCK, output);
+        stonecutting(1, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
+        stonecutting(1, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
+
         stonecutting(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICKS, output);
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Items.CUT_COPPER, output);
         stonecutting(1, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Items.EXPOSED_CUT_COPPER, output);
@@ -116,6 +126,10 @@ public class BlockRecipeGen extends RecipeProvider {
         stonecutting(1, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Items.WAXED_OXIDIZED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Items.WAXED_WEATHERED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Items.WEATHERED_CUT_COPPER, output);
+
+        stonecuttingFromBase(1, BlockRegistry.AMETHYST_BRICKS, RecipeCategory.BUILDING_BLOCKS, Blocks.AMETHYST_BLOCK, output);
+        stonecuttingFromBase(1, BlockRegistry.DEEP_FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
+        stonecuttingFromBase(1, BlockRegistry.FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
 
         stonecuttingFromBase(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_AMETHYST, output);
         stonecuttingFromBase(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Items.AMETHYST_BLOCK, output);

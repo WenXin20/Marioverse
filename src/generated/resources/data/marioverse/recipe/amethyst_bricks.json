@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:amethyst_bricks",
+  "key": {
+    "#": {
+      "item": "marioverse:polished_amethyst"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:amethyst_bricks"
+  }
+}
