@@ -110,6 +110,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder invisibleQuestionBlock(Block block) {
+            this.family.variants.put(BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder mosaic(Block block) {
             this.family.variants.put(BlockFamilyExtended.Variant.MOSAIC, block);
             return this;
@@ -203,6 +208,7 @@ public class BlockFamilyExtended {
         DOOR("door"),
         FENCE("fence"),
         FENCE_GATE("fence_gate"),
+        INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
         MOSAIC("mosaic"),
         PEDESTAL("pedestal"),
         POLISHED("polished"),

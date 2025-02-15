@@ -34,6 +34,7 @@ public class BlockFamiliesRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended POLISHED_AMETHYST = familyBuilder(BlockRegistry.POLISHED_AMETHYST.get())
             .bricks(BlockRegistry.AMETHYST_BRICKS.get())
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.AMETHYST_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
             .stairs(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
@@ -59,6 +60,7 @@ public class BlockFamiliesRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended POLISHED_DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
             .bricks(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
@@ -84,6 +86,7 @@ public class BlockFamiliesRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended POLISHED_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .bricks(BlockRegistry.FUNGAL_BRICKS.get())
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
@@ -91,9 +94,10 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended DARK_PRISMARINE = familyBuilder(Blocks.DARK_PRISMARINE)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
             .pedestal(BlockRegistry.DARK_PRISMARINE_PEDESTAL.get())
-            .smashableBlock(BlockRegistry.SMASHABLE_DARK_PRISMARINE.get())
             .questionBlock(BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_DARK_PRISMARINE.get())
             .storageBricks(BlockRegistry.STORAGE_DARK_PRISMARINE.get())
             .getFamily();
 

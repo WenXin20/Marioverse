@@ -372,7 +372,9 @@ public class RecipeUtils extends RecipeProvider {
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
                 if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
-                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
+                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
@@ -390,7 +392,9 @@ public class RecipeUtils extends RecipeProvider {
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
                 if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
-                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
+                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
