@@ -1,16 +1,18 @@
 package com.wenxin2.marioverse.datagen;
 
+import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.BlockFamilies;
-import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -34,12 +36,33 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRecipeGen extends RecipeProvider {
+    private static final Map<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>> SHAPE_BUILDERS =
+            ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>>builder()
+                    .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.CHISELED, (outputItem, inputItem) -> chiseledBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.CUT, (outputItem, inputItem) -> cutBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.DOOR, (outputItem, inputItem) -> doorBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.CUSTOM_FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.CUSTOM_FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.SIGN, (outputItem, inputItem) -> signBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.SLAB, (outputItem, inputItem) -> slabBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.STAIRS, (outputItem, inputItem) -> stairBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.QUESTION_BLOCK, (outputItem, inputItem) -> questionBlockBuilder(1, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.TRAPDOOR, (outputItem, inputItem) -> trapdoorBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.WALL, (outputItem, inputItem) -> wallBuilder(RecipeCategory.DECORATIONS, outputItem, Ingredient.of(inputItem)))
+                    .build();
+
     public BlockRecipeGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider);
     }
 
     protected void generateForEnabledBlockFamilies(RecipeOutput output, FeatureFlagSet set) {
-        BlockFamiliesRegistry.getAllFamilies().filter(BlockFamily::shouldGenerateRecipe).forEach(recipes -> generateRecipes(output, recipes, set));
+        BlockFamiliesRegistry.getAllExtendedFamilies().filter(BlockFamilyExtended::shouldGenerateRecipe).forEach(recipes -> generateRecipes(output, recipes, set));
     }
 
     @Override
@@ -54,7 +77,6 @@ public class BlockRecipeGen extends RecipeProvider {
         twoItemTagRecipe(1, "warp_pipes", "_from_glass", BlockRegistry.CLEAR_WARP_PIPE, RecipeCategory.BUILDING_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, Tags.Items.GLASS_BLOCKS_COLORLESS, output);
         warpPipeRecipe(4, BlockRegistry.CLEAR_WARP_PIPE, Tags.Items.INGOTS_COPPER, Tags.Items.GLASS_BLOCKS_COLORLESS, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
 
-        pedestalRecipe(5, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.AMETHYST_BRICKS, output);
         pedestalRecipe(5, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, Blocks.POLISHED_BLACKSTONE_BRICKS, output);
         pedestalRecipe(5, BlockRegistry.BRICK_PEDESTAL, Blocks.BRICKS, output);
         pedestalRecipe(5, BlockRegistry.CUT_COPPER_PEDESTAL, Blocks.CUT_COPPER, output);
@@ -67,7 +89,6 @@ public class BlockRecipeGen extends RecipeProvider {
         pedestalRecipe(5, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
         pedestalRecipe(5, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Blocks.WEATHERED_CUT_COPPER, output);
 
-        questionBlockRecipe(1, BlockRegistry.AMETHYST_QUESTION_BLOCK, BlockRegistry.POLISHED_AMETHYST, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.BLACKSTONE_QUESTION_BRICKS, Blocks.POLISHED_BLACKSTONE_BRICKS, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.COPPER_QUESTION_BLOCK, Blocks.COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, output);
         questionBlockRecipe(1, BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK, Blocks.DARK_PRISMARINE, Tags.Items.CHESTS_WOODEN, output);
@@ -111,7 +132,6 @@ public class BlockRecipeGen extends RecipeProvider {
         stonecutting(1, BlockRegistry.DEEP_FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, output);
         stonecutting(1, BlockRegistry.FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_FUNGAL_STONE, output);
 
-        stonecutting(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICKS, output);
         stonecutting(1, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.POLISHED_BLACKSTONE_BRICKS, output);
         stonecutting(1, BlockRegistry.BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.BRICKS, output);
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
@@ -137,8 +157,6 @@ public class BlockRecipeGen extends RecipeProvider {
         stonecuttingFromBase(1, BlockRegistry.DEEP_FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
         stonecuttingFromBase(1, BlockRegistry.FUNGAL_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
 
-        stonecuttingFromBase(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.POLISHED_AMETHYST, output);
-        stonecuttingFromBase(1, BlockRegistry.AMETHYST_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.AMETHYST_BLOCK, output);
         stonecuttingFromBase(1, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.BLACKSTONE, output);
         stonecuttingFromBase(1, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.POLISHED_BLACKSTONE, output);
         stonecuttingFromBase(4, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
@@ -439,15 +457,45 @@ public class BlockRecipeGen extends RecipeProvider {
                 .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
     }
 
-    protected void generateStonecuttingRecipes(RecipeOutput output, BlockFamily family, FeatureFlagSet featureFlags) {
+    protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
+        family.getVariants().forEach((variant, block) -> {
+                if (block.requiredFeatures().isSubsetOf(set)) {
+                    BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
+                    ItemLike itemlike = getBaseBlock(family, variant);
+                    if (bifunction != null) {
+                        RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
+                        family.getRecipeGroupPrefix().ifPresent(
+                                string -> recipebuilder.group(string +
+                                        (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup()))
+                        );
+                        recipebuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
+                        recipebuilder.save(output);
+                    }
+
+                    if (variant == BlockFamilyExtended.Variant.CRACKED)
+                        smeltingResultFromBase(output, block, itemlike);
+                }
+            }
+        );
+    }
+
+    protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
+        if (variant == BlockFamilyExtended.Variant.CHISELED) {
+            if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
+                throw new IllegalStateException("Slab is not defined for the family.");
+            else return family.get(BlockFamilyExtended.Variant.SLAB);
+        } else return family.getBaseBlock();
+    }
+
+    protected void generateStonecuttingRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet featureFlags) {
         family.getVariants().forEach((variant, block) -> {
             if (block.requiredFeatures().isSubsetOf(featureFlags)) {
-                ItemLike baseBlock = (variant == BlockFamily.Variant.CHISELED)
+                ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = BlockFamiliesRegistry.STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (variant != BlockFamily.Variant.BUTTON
-                        && variant != BlockFamily.Variant.DOOR && variant != BlockFamily.Variant.PRESSURE_PLATE) {
+                if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
+                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
                             .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(block) + "_stonecutting");
@@ -456,20 +504,36 @@ public class BlockRecipeGen extends RecipeProvider {
         });
     }
 
-    protected void generateStonecuttingFromBaseRecipes(RecipeOutput output, BlockFamily family, ItemLike inputItem, FeatureFlagSet featureFlags) {
+    protected void generateStonecuttingFromBaseRecipes(RecipeOutput output, BlockFamilyExtended family, ItemLike inputItem, FeatureFlagSet featureFlags) {
         family.getVariants().forEach((variant, block) -> {
             if (block.requiredFeatures().isSubsetOf(featureFlags)) {
-                ItemLike baseBlock = (variant == BlockFamily.Variant.CHISELED)
+                ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = BlockFamiliesRegistry.STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (variant != BlockFamily.Variant.BUTTON || variant != BlockFamily.Variant.PRESSURE_PLATE
-                        || variant != BlockFamily.Variant.DOOR) {
+                if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
+                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
                             .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(block, inputItem) + "_stonecutting");
                 }
             }
         });
+    }
+
+    private static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("# #")
+                .pattern("###")
+                .group(Marioverse.MOD_ID + ":brick_pedestals");
+    }
+
+    private static RecipeBuilder questionBlockBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItem)
+                .requires(Tags.Items.CHESTS_WOODEN)
+                .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
+                .group(Marioverse.MOD_ID + ":question_blocks");
     }
 }
