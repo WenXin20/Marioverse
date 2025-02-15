@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverse:storage_blocks",
+  "group": "marioverse:storage_bricks",
   "key": {
     "B": {
       "item": "minecraft:nether_wart"

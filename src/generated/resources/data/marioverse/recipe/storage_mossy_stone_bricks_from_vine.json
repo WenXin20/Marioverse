@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "group": "marioverse:storage_blocks",
+  "group": "marioverse:storage_bricks",
   "ingredients": [
     {
       "item": "marioverse:storage_stone_bricks"
