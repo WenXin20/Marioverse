@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioversedeep_fungal_brick_slab",
+  "key": {
+    "#": {
+      "item": "marioverse:deep_fungal_bricks"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:deep_fungal_brick_slab"
+  }
+}

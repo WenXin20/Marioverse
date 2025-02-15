@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioversedeep_fungal_brick_stairs",
+  "key": {
+    "#": {
+      "item": "marioverse:deep_fungal_bricks"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:deep_fungal_brick_stairs"
+  }
+}

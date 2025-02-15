@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "marioversedeep_fungal_stone_button",
+  "ingredients": [
+    {
+      "item": "marioverse:deep_fungal_stone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:deep_fungal_stone_button"
+  }
+}

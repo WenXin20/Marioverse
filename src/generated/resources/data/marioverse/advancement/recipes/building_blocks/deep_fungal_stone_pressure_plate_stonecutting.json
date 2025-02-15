@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deep_fungal_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:deep_fungal_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:deep_fungal_stone_pressure_plate_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_deep_fungal_stone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:deep_fungal_stone_pressure_plate_stonecutting"
+    ]
+  }
+}

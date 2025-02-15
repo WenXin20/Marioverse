@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deep_fungal_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:deep_fungal_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:deep_fungal_brick_slab_from_polished_deep_fungal_stone_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_deep_fungal_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:deep_fungal_brick_slab_from_polished_deep_fungal_stone_stonecutting"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverseamethyst_chiseled",
+  "key": {
+    "#": {
+      "item": "marioverse:amethyst_slab"
+    }
+  },
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:chiseled_amethyst_bricks"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverseamethyst_brick_stairs",
+  "key": {
+    "#": {
+      "item": "marioverse:amethyst_bricks"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:amethyst_brick_stairs"
+  }
+}

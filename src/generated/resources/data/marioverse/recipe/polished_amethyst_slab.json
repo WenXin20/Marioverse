@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioversepolished_amethyst_slab",
+  "key": {
+    "#": {
+      "item": "marioverse:polished_amethyst"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:polished_amethyst_slab"
+  }
+}

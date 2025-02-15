@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "marioverseamethyst_button",
+  "ingredients": [
+    {
+      "item": "minecraft:amethyst_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:amethyst_button"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:warp_pipes",
+  "ingredients": [
+    {
+      "tag": "marioverse:dyeable_warp_pipes"
+    },
+    {
+      "tag": "c:glass_blocks/colorless"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:clear_warp_pipe"
+  }
+}

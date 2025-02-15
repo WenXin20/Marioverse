@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:coin",
+  "key": {
+    "I": {
+      "tag": "c:ingots/gold"
+    },
+    "N": {
+      "tag": "c:nuggets/gold"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NIN",
+    "NNN"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:coin"
+  }
+}

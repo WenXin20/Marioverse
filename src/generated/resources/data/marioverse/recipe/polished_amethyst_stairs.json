@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioversepolished_amethyst_stairs",
+  "key": {
+    "#": {
+      "item": "marioverse:polished_amethyst"
+    }
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:polished_amethyst_stairs"
+  }
+}
