@@ -93,12 +93,124 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
             .getFamily();
 
+    public static final BlockFamilyExtended BLACKSTONE_BRICKS = familyBuilder(Blocks.POLISHED_BLACKSTONE_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_BLACKSTONE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BRICKS = familyBuilder(Blocks.BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_BRICKS.get())
+            .getFamily();
+
     public static final BlockFamilyExtended DARK_PRISMARINE = familyBuilder(Blocks.DARK_PRISMARINE)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
             .pedestal(BlockRegistry.DARK_PRISMARINE_PEDESTAL.get())
             .questionBlock(BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get())
             .smashableBlock(BlockRegistry.SMASHABLE_DARK_PRISMARINE.get())
             .storageBricks(BlockRegistry.STORAGE_DARK_PRISMARINE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended DEEPSLATE_BRICKS = familyBuilder(Blocks.DEEPSLATE_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.DEEPSLATE_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_DEEPSLATE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended DEEPSLATE_TILES = familyBuilder(Blocks.DEEPSLATE_TILES)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_TILES.get())
+            .pedestal(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
+            .questionBlock(BlockRegistry.DEEPSLATE_QUESTION_TILES.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get())
+            .storageBricks(BlockRegistry.STORAGE_DEEPSLATE_TILES.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended END_STONE_BRICKS = familyBuilder(Blocks.END_STONE_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_END_STONE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MOSSY_STONE_BRICKS = familyBuilder(Blocks.MOSSY_STONE_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.MOSSY_STONE_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_MOSSY_STONE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MUD_BRICKS = familyBuilder(Blocks.MUD_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.MUD_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.MUD_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_MUD_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_MUD_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended NETHER_BRICKS = familyBuilder(Blocks.NETHER_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.NETHER_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.NETHER_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_NETHER_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_NETHER_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended PRISMARINE_BRICKS = familyBuilder(Blocks.PRISMARINE_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_PRISMARINE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.PRISMARINE_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.PRISMARINE_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_PRISMARINE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_PRISMARINE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended PURPUR_BLOCK = familyBuilder(Blocks.PURPUR_BLOCK)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get())
+            .pedestal(BlockRegistry.PURPUR_BLOCK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.PURPUR_QUESTION_BLOCK.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_PURPUR_BLOCK.get())
+            .storageBricks(BlockRegistry.STORAGE_PURPUR_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended QUARTZ_BRICKS = familyBuilder(Blocks.QUARTZ_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_QUARTZ_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.QUARTZ_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.QUARTZ_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_QUARTZ_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_QUARTZ_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended RED_NETHER_BRICKS = familyBuilder(Blocks.RED_NETHER_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.RED_NETHER_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_RED_NETHER_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STONE_BRICKS = familyBuilder(Blocks.STONE_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.STONE_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.STONE_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_STONE_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_STONE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended TUFF_BRICKS = familyBuilder(Blocks.TUFF_BRICKS)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get())
+            .pedestal(BlockRegistry.TUFF_BRICK_PEDESTAL.get())
+            .questionBlock(BlockRegistry.TUFF_QUESTION_BRICKS.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_TUFF_BRICKS.get())
+            .storageBricks(BlockRegistry.STORAGE_TUFF_BRICKS.get())
             .getFamily();
 
 

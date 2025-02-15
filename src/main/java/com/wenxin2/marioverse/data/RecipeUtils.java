@@ -146,6 +146,19 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('B', inputItem)
+                .define('C', inputItem2)
+                .pattern(" B ")
+                .pattern("BCB")
+                .pattern(" B ")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .unlockedBy(getHasName(inputItem2), has(inputItem2))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem2));
+    }
+
     public void classicGoalPoleRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2,
                                       ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -285,13 +298,13 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void twoItemRecipe(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
+    public void twoItemRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
         ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
                 .requires(inputItem)
                 .requires(inputItem2)
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .unlockedBy(getHasName(inputItem2), has(inputItem2))
-                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + groupName)
                 .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem2));
     }
 
