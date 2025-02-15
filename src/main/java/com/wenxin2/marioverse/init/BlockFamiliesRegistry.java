@@ -13,17 +13,6 @@ import org.jetbrains.annotations.NotNull;
 public class BlockFamiliesRegistry extends BlockFamilies {
     private static final Map<Block, BlockFamilyExtended> MAP = Maps.newHashMap();
 
-    public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.of(
-            BlockFamilyExtended.Variant.BRICKS, 1,
-            BlockFamilyExtended.Variant.CHISELED, 1,
-            BlockFamilyExtended.Variant.CUT, 1,
-            BlockFamilyExtended.Variant.PEDESTAL, 1,
-            BlockFamilyExtended.Variant.POLISHED, 1,
-            BlockFamilyExtended.Variant.SLAB, 2,
-            BlockFamilyExtended.Variant.STAIRS, 1,
-            BlockFamilyExtended.Variant.WALL, 1
-    );
-
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)
             .button(BlockRegistry.AMETHYST_BUTTON.get())
             .polished(BlockRegistry.POLISHED_AMETHYST.get())
@@ -99,6 +88,13 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .slab(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended DARK_PRISMARINE = familyBuilder(Blocks.DARK_PRISMARINE)
+            .pedestal(BlockRegistry.DARK_PRISMARINE_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_DARK_PRISMARINE.get())
+            .questionBlock(BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get())
+            .storageBricks(BlockRegistry.STORAGE_DARK_PRISMARINE.get())
             .getFamily();
 
 

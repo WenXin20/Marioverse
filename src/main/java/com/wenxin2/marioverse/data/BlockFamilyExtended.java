@@ -146,6 +146,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder smashableBlock(Block block) {
+            this.family.variants.put(BlockFamilyExtended.Variant.SMASHABLE_BLOCKS, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder stairs(Block block) {
             this.family.variants.put(BlockFamilyExtended.Variant.STAIRS, block);
             return this;
@@ -205,6 +210,7 @@ public class BlockFamilyExtended {
         QUESTION_BLOCK("question_block"),
         SIGN("sign"),
         SLAB("slab"),
+        SMASHABLE_BLOCKS("smashable_blocks"),
         STAIRS("stairs"),
         STORAGE_BRICKS("storage_bricks"),
         TRAPDOOR("trapdoor"),

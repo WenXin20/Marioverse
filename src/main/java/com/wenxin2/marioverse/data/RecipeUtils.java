@@ -48,6 +48,18 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.WALL, (outputItem, inputItem) -> wallBuilder(RecipeCategory.DECORATIONS, outputItem, Ingredient.of(inputItem)))
                     .build();
 
+    public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.of(
+            BlockFamilyExtended.Variant.BRICKS, 1,
+            BlockFamilyExtended.Variant.CHISELED, 1,
+            BlockFamilyExtended.Variant.CUT, 1,
+            BlockFamilyExtended.Variant.PEDESTAL, 1,
+            BlockFamilyExtended.Variant.POLISHED, 1,
+            BlockFamilyExtended.Variant.SLAB, 2,
+            BlockFamilyExtended.Variant.SMASHABLE_BLOCKS, 1,
+            BlockFamilyExtended.Variant.STAIRS, 1,
+            BlockFamilyExtended.Variant.WALL, 1
+    );
+
     public RecipeUtils(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
         super(output, provider);
     }
@@ -357,7 +369,7 @@ public class RecipeUtils extends RecipeProvider {
             if (block.requiredFeatures().isSubsetOf(featureFlags)) {
                 ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
-                int outputAmount = BlockFamiliesRegistry.STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
+                int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
                 if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
@@ -375,7 +387,7 @@ public class RecipeUtils extends RecipeProvider {
             if (block.requiredFeatures().isSubsetOf(featureFlags)) {
                 ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
-                int outputAmount = BlockFamiliesRegistry.STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
+                int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
                 if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
