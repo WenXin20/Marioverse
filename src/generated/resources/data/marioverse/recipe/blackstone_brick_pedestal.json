@@ -3,13 +3,13 @@
   "category": "building",
   "group": "marioverse:brick_pedestals",
   "key": {
-    "B": {
+    "#": {
       "item": "minecraft:polished_blackstone_bricks"
     }
   },
   "pattern": [
-    "B B",
-    "BBB"
+    "# #",
+    "###"
   ],
   "result": {
     "count": 5,

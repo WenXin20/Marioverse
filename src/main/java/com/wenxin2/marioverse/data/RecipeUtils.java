@@ -156,7 +156,7 @@ public class RecipeUtils extends RecipeProvider {
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .unlockedBy(getHasName(inputItem2), has(inputItem2))
                 .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem2));
+                .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem));
     }
 
     public void classicGoalPoleRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2,
@@ -304,7 +304,7 @@ public class RecipeUtils extends RecipeProvider {
                 .requires(inputItem2)
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .unlockedBy(getHasName(inputItem2), has(inputItem2))
-                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + groupName)
+                .group(Marioverse.MOD_ID + ":" + groupName)
                 .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem2));
     }
 

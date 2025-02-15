@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:question_blocks",
+  "ingredients": [
+    {
+      "item": "minecraft:tuff_bricks"
+    },
+    {
+      "tag": "c:chests/wooden"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:tuff_question_bricks"
+  }
+}

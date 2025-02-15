@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:brick_pedestals",
+  "ingredients": [
+    {
+      "item": "marioverse:stone_brick_pedestal"
+    },
+    {
+      "item": "minecraft:moss_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:mossy_stone_brick_pedestal"
+  }
+}

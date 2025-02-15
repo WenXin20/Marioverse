@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:invisible_question_blocks",
+  "ingredients": [
+    {
+      "item": "marioverse:invisible_stone_question_bricks"
+    },
+    {
+      "item": "minecraft:moss_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_mossy_stone_question_bricks"
+  }
+}

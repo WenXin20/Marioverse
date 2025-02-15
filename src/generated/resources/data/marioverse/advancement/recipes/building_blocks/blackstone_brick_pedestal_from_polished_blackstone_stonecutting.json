@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_polished_blackstone": {
+    "has_polished_blackstone_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:polished_blackstone"
+            "items": "minecraft:polished_blackstone_bricks"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_polished_blackstone"
+      "has_polished_blackstone_bricks"
     ]
   ],
   "rewards": {

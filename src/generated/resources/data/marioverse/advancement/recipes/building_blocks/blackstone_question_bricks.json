@@ -31,8 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_polished_blackstone_bricks",
-      "has_chest"
+      "has_chest",
+      "has_polished_blackstone_bricks"
     ]
   ],
   "rewards": {

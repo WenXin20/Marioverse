@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_smashable_stone_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:smashable_stone_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:smashable_mossy_stone_bricks_from_vine"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_vine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:vine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_smashable_stone_bricks",
+      "has_vine"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:smashable_mossy_stone_bricks_from_vine"
+    ]
+  }
+}

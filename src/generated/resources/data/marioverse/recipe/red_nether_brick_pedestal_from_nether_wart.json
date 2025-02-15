@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:brick_pedestals",
+  "key": {
+    "B": {
+      "item": "minecraft:nether_wart"
+    },
+    "C": {
+      "item": "marioverse:nether_brick_pedestal"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:red_nether_brick_pedestal"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nether_question_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:nether_question_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nether_wart": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:nether_wart"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:red_nether_question_bricks_from_nether_wart"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_nether_wart",
+      "has_nether_question_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:red_nether_question_bricks_from_nether_wart"
+    ]
+  }
+}

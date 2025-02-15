@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:question_blocks",
+  "key": {
+    "B": {
+      "item": "minecraft:nether_wart"
+    },
+    "C": {
+      "item": "marioverse:nether_question_bricks"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:red_nether_question_bricks"
+  }
+}

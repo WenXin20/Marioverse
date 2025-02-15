@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:smashable_blocks",
+  "ingredients": [
+    {
+      "item": "marioverse:smashable_stone_bricks"
+    },
+    {
+      "item": "minecraft:moss_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:smashable_mossy_stone_bricks"
+  }
+}

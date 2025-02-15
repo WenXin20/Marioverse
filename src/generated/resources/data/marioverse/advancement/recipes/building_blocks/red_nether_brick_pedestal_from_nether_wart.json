@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_nether_brick_pedestal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:nether_brick_pedestal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nether_wart": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:nether_wart"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:red_nether_brick_pedestal_from_nether_wart"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_nether_wart",
+      "has_nether_brick_pedestal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:red_nether_brick_pedestal_from_nether_wart"
+    ]
+  }
+}
