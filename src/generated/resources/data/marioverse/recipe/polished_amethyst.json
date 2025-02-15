@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverseamethyst_polished",
+  "group": "marioverse:amethyst_polished",
   "key": {
     "S": {
       "item": "minecraft:amethyst_block"

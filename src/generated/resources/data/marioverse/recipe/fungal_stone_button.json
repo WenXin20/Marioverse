@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "redstone",
-  "group": "marioversefungal_stone_button",
+  "group": "marioverse:fungal_stone_button",
   "ingredients": [
     {
       "item": "marioverse:fungal_stone"

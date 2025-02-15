@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioversefungal_brick_slab",
+  "group": "marioverse:fungal_brick_slab",
   "key": {
     "#": {
       "item": "marioverse:fungal_bricks"

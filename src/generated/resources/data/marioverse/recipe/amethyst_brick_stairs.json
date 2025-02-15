@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverseamethyst_brick_stairs",
+  "group": "marioverse:amethyst_brick_stairs",
   "key": {
     "#": {
       "item": "marioverse:amethyst_bricks"

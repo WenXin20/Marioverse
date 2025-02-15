@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
-  "group": "marioversefungal_stone_pressure_plate",
+  "group": "marioverse:fungal_stone_pressure_plate",
   "key": {
     "#": {
       "item": "marioverse:fungal_stone"

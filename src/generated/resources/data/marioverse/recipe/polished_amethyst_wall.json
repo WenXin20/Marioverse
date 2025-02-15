@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "marioversepolished_amethyst_wall",
+  "group": "marioverse:polished_amethyst_wall",
   "key": {
     "#": {
       "item": "marioverse:polished_amethyst"

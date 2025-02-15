@@ -32,21 +32,21 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .slab(BlockRegistry.AMETHYST_SLAB.get())
             .stairs(BlockRegistry.AMETHYST_STAIRS.get())
             .wall(BlockRegistry.AMETHYST_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "amethyst")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":amethyst")
             .getFamily();
 
     public static final BlockFamily AMETHYST_BRICKS = familyBuilder(BlockRegistry.AMETHYST_BRICKS.get())
             .slab(BlockRegistry.AMETHYST_BRICK_SLAB.get())
             .stairs(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
             .wall(BlockRegistry.AMETHYST_BRICK_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "amethyst_brick")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":amethyst_brick")
             .getFamily();
 
     public static final BlockFamily POLISHED_AMETHYST = familyBuilder(BlockRegistry.POLISHED_AMETHYST.get())
             .slab(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
             .stairs(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
             .wall(BlockRegistry.POLISHED_AMETHYST_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "polished_amethyst")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":polished_amethyst")
             .getFamily();
 
     public static final BlockFamily DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.DEEP_FUNGAL_STONE.get())
@@ -56,21 +56,21 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .slab(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "deep_fungal_stone")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":deep_fungal_stone")
             .getFamily();
 
     public static final BlockFamily DEEP_FUNGAL_BRICKS = familyBuilder(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
             .slab(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
             .wall(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "deep_fungal_brick")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":deep_fungal_brick")
             .getFamily();
 
     public static final BlockFamily POLISHED_DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "polished_deep_fungal_stone")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":polished_deep_fungal_stone")
             .getFamily();
 
     public static final BlockFamily FUNGAL_STONE = familyBuilder(BlockRegistry.FUNGAL_STONE.get())
@@ -80,21 +80,21 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .slab(BlockRegistry.FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.FUNGAL_STONE_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "fungal_stone")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":fungal_stone")
             .getFamily();
 
     public static final BlockFamily FUNGAL_BRICKS = familyBuilder(BlockRegistry.FUNGAL_BRICKS.get())
             .slab(BlockRegistry.FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
             .wall(BlockRegistry.FUNGAL_BRICK_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "fungal_brick")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":fungal_brick")
             .getFamily();
 
     public static final BlockFamily POLISHED_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .slab(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
-            .recipeGroupPrefix(Marioverse.MOD_ID + "polished_fungal_stone")
+            .recipeGroupPrefix(Marioverse.MOD_ID + ":polished_fungal_stone")
             .getFamily();
 
 
