@@ -65,6 +65,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder bricks(Block block) {
+            this.family.variants.put(BlockFamilyExtended.Variant.BRICKS, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder chiseled(Block block) {
             this.family.variants.put(BlockFamilyExtended.Variant.CHISELED, block);
             return this;
@@ -146,6 +151,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder storageBricks(Block block) {
+            this.family.variants.put(BlockFamilyExtended.Variant.STORAGE_BRICKS, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder trapdoor(Block block) {
             this.family.variants.put(BlockFamilyExtended.Variant.TRAPDOOR, block);
             return this;
@@ -179,22 +189,24 @@ public class BlockFamilyExtended {
 
     public static enum Variant {
         BUTTON("button"),
+        BRICKS("bricks"),
         CHISELED("chiseled"),
         CRACKED("cracked"),
+        CUSTOM_FENCE("fence"),
+        CUSTOM_FENCE_GATE("fence_gate"),
         CUT("cut"),
         DOOR("door"),
-        CUSTOM_FENCE("fence"),
         FENCE("fence"),
-        CUSTOM_FENCE_GATE("fence_gate"),
         FENCE_GATE("fence_gate"),
         MOSAIC("mosaic"),
+        PEDESTAL("pedestal"),
+        POLISHED("polished"),
+        PRESSURE_PLATE("pressure_plate"),
+        QUESTION_BLOCK("question_block"),
         SIGN("sign"),
         SLAB("slab"),
         STAIRS("stairs"),
-        PEDESTAL("pedestal"),
-        PRESSURE_PLATE("pressure_plate"),
-        POLISHED("polished"),
-        QUESTION_BLOCK("question_block"),
+        STORAGE_BRICKS("storage_bricks"),
         TRAPDOOR("trapdoor"),
         WALL("wall"),
         WALL_SIGN("wall_sign");

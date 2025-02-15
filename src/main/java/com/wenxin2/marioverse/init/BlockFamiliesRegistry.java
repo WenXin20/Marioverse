@@ -14,12 +14,14 @@ public class BlockFamiliesRegistry extends BlockFamilies {
     private static final Map<Block, BlockFamilyExtended> MAP = Maps.newHashMap();
 
     public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.of(
-            BlockFamilyExtended.Variant.SLAB, 2,
-            BlockFamilyExtended.Variant.STAIRS, 1,
-            BlockFamilyExtended.Variant.WALL, 1,
+            BlockFamilyExtended.Variant.BRICKS, 1,
             BlockFamilyExtended.Variant.CHISELED, 1,
             BlockFamilyExtended.Variant.CUT, 1,
-            BlockFamilyExtended.Variant.POLISHED, 1
+            BlockFamilyExtended.Variant.PEDESTAL, 1,
+            BlockFamilyExtended.Variant.POLISHED, 1,
+            BlockFamilyExtended.Variant.SLAB, 2,
+            BlockFamilyExtended.Variant.STAIRS, 1,
+            BlockFamilyExtended.Variant.WALL, 1
     );
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)
@@ -37,10 +39,12 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.AMETHYST_BRICK_SLAB.get())
             .stairs(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_AMETHYST_BRICKS.get())
             .wall(BlockRegistry.AMETHYST_BRICK_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended POLISHED_AMETHYST = familyBuilder(BlockRegistry.POLISHED_AMETHYST.get())
+            .bricks(BlockRegistry.AMETHYST_BRICKS.get())
             .questionBlock(BlockRegistry.AMETHYST_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
             .stairs(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
@@ -60,10 +64,12 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get())
             .wall(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended POLISHED_DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
+            .bricks(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
             .questionBlock(BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
@@ -83,10 +89,12 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_FUNGAL_BRICKS.get())
             .wall(BlockRegistry.FUNGAL_BRICK_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended POLISHED_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_FUNGAL_STONE.get())
+            .bricks(BlockRegistry.FUNGAL_BRICKS.get())
             .questionBlock(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())

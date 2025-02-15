@@ -1,16 +1,6 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_amethyst_bricks": {
-      "conditions": {
-        "items": [
-          {
-            "items": "marioverse:amethyst_bricks"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_chest": {
       "conditions": {
         "items": [
@@ -21,9 +11,19 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_deep_fungal_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:deep_fungal_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:storage_amethyst_bricks"
+        "recipe": "marioverse:storage_deep_fungal_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,12 +32,12 @@
     [
       "has_the_recipe",
       "has_chest",
-      "has_amethyst_bricks"
+      "has_deep_fungal_bricks"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:storage_amethyst_bricks"
+      "marioverse:storage_deep_fungal_bricks"
     ]
   }
 }
