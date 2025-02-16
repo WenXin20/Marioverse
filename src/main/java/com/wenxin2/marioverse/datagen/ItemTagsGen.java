@@ -11,6 +11,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -23,12 +24,16 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
+        copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
+        copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
+        copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.SMASHABLE_BLOCKS, TagRegistry.SMASHABLE_BLOCK_ITEMS);
         copy(TagRegistry.STORAGE_BRICK_BLOCKS, TagRegistry.STORAGE_BRICK_ITEMS);
-        copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
+        copy(TagRegistry.WARP_PIPE_BLOCKS, TagRegistry.WARP_PIPE_ITEMS);
 
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
 
@@ -36,6 +41,12 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);
         copy(BlockTags.WALLS, ItemTags.WALLS);
+
+        for (DyeColor color : DyeColor.values()) {
+            tag(TagRegistry.itemTags("c", "dyed/" + color))
+                    .add(BlockRegistry.GOAL_POLES.get(color).asItem())
+                    .add(BlockRegistry.WARP_PIPES.get(color).asItem());
+        }
 
         tag(ItemTags.CHEST_ARMOR)
                 .add(ItemRegistry.FIRE_SHIRT.get());

@@ -6,7 +6,9 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -19,6 +21,40 @@ public class BlockTagsGen extends BlockTagsProvider {
     @Override
     @SuppressWarnings("unchecked")
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
+        BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
+
+        for (DyeColor color : DyeColor.values()) {
+            tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.GOAL_POLES.get(color).get())
+                    .add(BlockRegistry.WARP_PIPES.get(color).get());
+        }
+
+        tag(TagRegistry.GOAL_POLE_BLOCKS)
+                .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
+                .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
+
+        tag(TagRegistry.WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.CLEAR_WARP_PIPE.get());
+
+        tag(TagRegistry.BONKABLE_BLOCKS)
+                .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .add(BlockRegistry.POLISHED_AMETHYST.get())
+                .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
+                .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
+                .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_STONE.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
+
         tag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())
@@ -177,23 +213,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get())
                 .replace(false);
-
-        tag(TagRegistry.BONKABLE_BLOCKS)
-                .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
-                .addTag(TagRegistry.QUESTION_BLOCKS)
-                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .add(BlockRegistry.POLISHED_AMETHYST.get())
-                .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
-                .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
-                .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
-                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
-                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
-                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
-                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
-                .add(BlockRegistry.POLISHED_FUNGAL_STONE.get())
-                .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
-                .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
-                .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
 
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())

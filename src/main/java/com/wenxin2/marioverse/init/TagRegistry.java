@@ -105,6 +105,10 @@ public class TagRegistry {
         return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
+    public static TagKey<Block> blockTags(String mod_id, String name) {
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(mod_id, name));
+    }
+
     public static TagKey<DamageType> damageTypeTags(String name) {
         return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
@@ -115,5 +119,9 @@ public class TagRegistry {
 
     public static TagKey<Item> itemTags(String name) {
         return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
+
+    public static TagKey<Item> itemTags(String mod_id, String name) {
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(mod_id, name));
     }
 }
