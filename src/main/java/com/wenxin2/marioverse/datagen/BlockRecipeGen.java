@@ -39,9 +39,9 @@ public class BlockRecipeGen extends RecipeUtils {
     protected void buildRecipes(RecipeOutput output) {
         generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
-        chestplateRecipe(1, "fire_costume", ItemRegistry.FIRE_SHIRT, Blocks.WHITE_WOOL, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
+        fireShirtRecipe(1, ItemRegistry.FIRE_SHIRT, Blocks.WHITE_WOOL, Blocks.RED_WOOL, output);
         fireShoesRecipe(1, ItemRegistry.FIRE_SHOES, Blocks.BROWN_WOOL, Tags.Items.LEATHERS, output);
         helmetRecipe(1, "fire_costume", ItemRegistry.FIRE_HAT, Blocks.WHITE_WOOL, output);
         leggingsRecipe(1, "fire_costume", ItemRegistry.FIRE_OVERALLS, Blocks.RED_WOOL, output);

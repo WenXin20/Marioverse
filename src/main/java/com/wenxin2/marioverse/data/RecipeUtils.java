@@ -211,6 +211,18 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void fireShirtRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('W', inputItem)
+                .define('R', inputItem2)
+                .pattern("W W")
+                .pattern("RRR")
+                .pattern("RRR")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":fire_costume")
+                .save(output);
+    }
+
     public void fireShoesRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, TagKey<Item> inputItemTag, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('W', inputItem)
