@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:invisible_waxed_copper_question_block",
+  "ingredients": [
+    {
+      "item": "marioverse:invisible_copper_question_block"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_waxed_copper_question_block"
+  }
+}
