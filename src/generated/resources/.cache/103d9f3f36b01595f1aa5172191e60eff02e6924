@@ -1,0 +1,11 @@
+// 1.21.1	2025-02-16T10:56:30.8305299	Registries
+61b72938b4d73788d68c5721a35619b143f82eb2 data/marioverse/banner_pattern/bowser.json
+d4a73076526d03c9ff5d2be3525ff57d5d09ecaf data/marioverse/banner_pattern/plumber.json
+e81856322face9c5f784a3b8d077999ee3fcda91 data/marioverse/damage_type/fireball.json
+845ec4e9c0a8f252b320bcada24f96fbb9d191f1 data/marioverse/damage_type/piranha_chomp.json
+991ed5f29cb11234050b7d43d6b2d14014f5497f data/marioverse/damage_type/player_fireball.json
+2218aec64f0c8e6894e47b4f2b827625dc72b8fe data/marioverse/damage_type/player_piranha_chomp.json
+0f75cc39ca159195ea31c3a3c65a380d0d75d9cc data/marioverse/damage_type/player_stomp.json
+bc67876a234d2815baf1258a7196c9b745b22bb8 data/marioverse/damage_type/player_super_star.json
+0c92f4aae51ef79ff99f8fbb28072cdeaac7b5c0 data/marioverse/damage_type/stomp.json
+616e93eae16b46ee49f2a4da6717f85c8b5570ce data/marioverse/damage_type/super_star.json
