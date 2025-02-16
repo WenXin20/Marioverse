@@ -159,6 +159,27 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem));
     }
 
+    public void bootsRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("# #")
+                .pattern("# #")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output);
+    }
+
+    public void chestplateRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("# #")
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output);
+    }
+
     public void classicGoalPoleRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2,
                                       ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -190,6 +211,18 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void fireShoesRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, TagKey<Item> inputItemTag, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('W', inputItem)
+                .define('L', inputItemTag)
+                .pattern("W W")
+                .pattern("L L")
+                .unlockedBy("has_leather", has(inputItemTag))
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":fire_costume")
+                .save(output);
+    }
+
     public void goalPoleRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag,
                                TagKey<Item> inputItemTag2, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -203,6 +236,27 @@ public class RecipeUtils extends RecipeProvider {
                 .unlockedBy("has_iron_ingot", has(inputItemTag2))
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .group(Marioverse.MOD_ID + ":goal_poles")
+                .save(output);
+    }
+
+    public void helmetRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("###")
+                .pattern("# #")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output);
+    }
+
+    public void leggingsRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("###")
+                .pattern("# #")
+                .pattern("# #")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":" + groupName)
                 .save(output);
     }
 
@@ -343,6 +397,12 @@ public class RecipeUtils extends RecipeProvider {
 
     protected void smeltingRecipe(int cookingTime, float xp, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, RecipeOutput output) {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(inputItem), category, outputItem, xp, cookingTime)
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
+    }
+
+    protected static void smeltingResultFromBase(RecipeOutput output, ItemLike outputItem, ItemLike inputItem) {
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, outputItem, 0.1F, 200)
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
     }

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:fire_costume",
+  "key": {
+    "#": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "###",
+    "# #"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:fire_hat"
+  }
+}

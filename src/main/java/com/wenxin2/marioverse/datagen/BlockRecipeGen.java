@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.data.RecipeUtils;
 import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -38,8 +39,12 @@ public class BlockRecipeGen extends RecipeUtils {
     protected void buildRecipes(RecipeOutput output) {
         generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        chestplateRecipe(1, "fire_costume", ItemRegistry.FIRE_SHIRT, Blocks.WHITE_WOOL, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
+        fireShoesRecipe(1, ItemRegistry.FIRE_SHOES, Blocks.BROWN_WOOL, Tags.Items.LEATHERS, output);
+        helmetRecipe(1, "fire_costume", ItemRegistry.FIRE_HAT, Blocks.WHITE_WOOL, output);
+        leggingsRecipe(1, "fire_costume", ItemRegistry.FIRE_OVERALLS, Blocks.RED_WOOL, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, output);
@@ -202,7 +207,6 @@ public class BlockRecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamiliesRegistry.TUFF_BRICKS, Blocks.TUFF, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamiliesRegistry.TUFF_BRICKS, Blocks.POLISHED_TUFF, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
-        smeltingRecipe(200, 0.1F, BlockRegistry.CRACKED_AMETHYST_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.AMETHYST_BRICKS, output);
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             DyeColor dyeColor = entry.getKey();
