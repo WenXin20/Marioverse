@@ -11,9 +11,9 @@
     }
   },
   "pattern": [
-    "NNN",
+    " N ",
     "NIN",
-    "NNN"
+    " N "
   ],
   "result": {
     "count": 4,
