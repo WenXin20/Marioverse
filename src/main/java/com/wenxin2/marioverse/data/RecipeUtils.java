@@ -294,6 +294,21 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void warpDisruptorRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('E', inputItem)
+                .define('G', inputItemTag)
+                .define('S', inputItemTag2)
+                .pattern("  E")
+                .pattern(" G ")
+                .pattern("S  ")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .unlockedBy("has_gold_ingot", has(inputItemTag))
+                .unlockedBy("has_stick", has(inputItemTag2))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
+                .save(output);
+    }
+
     public void warpPipeRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2,
                                TagKey<Item> inputItemTag3, TagKey<Item> inputItemTag4, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -309,6 +324,19 @@ public class RecipeUtils extends RecipeProvider {
                 .unlockedBy("has_diamond", has(inputItemTag3))
                 .unlockedBy("has_ender_pearl", has(inputItemTag4))
                 .group(Marioverse.MOD_ID + ":warp_pipes")
+                .save(output);
+    }
+
+    public void wrenchRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('C', inputItemTag)
+                .define('I', inputItemTag2)
+                .pattern("C C")
+                .pattern(" C ")
+                .pattern(" I ")
+                .unlockedBy("has_copper_ingot", has(inputItemTag))
+                .unlockedBy("has_iron_ingot", has(inputItemTag2))
+                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
 

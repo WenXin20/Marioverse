@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:warp_disruptor",
+  "key": {
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "  E",
+    " G ",
+    "S  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:warp_disruptor"
+  }
+}

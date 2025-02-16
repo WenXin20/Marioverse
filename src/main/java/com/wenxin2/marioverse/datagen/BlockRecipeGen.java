@@ -61,7 +61,9 @@ public class BlockRecipeGen extends RecipeUtils {
         twoItemRecipe(1, "storage_bricks", BlockRegistry.STORAGE_MOSSY_STONE_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STORAGE_STONE_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "storage_bricks", BlockRegistry.STORAGE_MOSSY_STONE_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STORAGE_STONE_BRICKS, Blocks.VINE, output);
         twoItemTagRecipe(1, "warp_pipes", "_from_glass", BlockRegistry.CLEAR_WARP_PIPE, RecipeCategory.BUILDING_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, Tags.Items.GLASS_BLOCKS_COLORLESS, output);
+        warpDisruptorRecipe(1, ItemRegistry.WARP_DISRUPTOR, Items.ENDER_EYE, Tags.Items.INGOTS_GOLD, Tags.Items.RODS_WOODEN, output);
         warpPipeRecipe(4, BlockRegistry.CLEAR_WARP_PIPE, Tags.Items.INGOTS_COPPER, Tags.Items.GLASS_BLOCKS_COLORLESS, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
+        wrenchRecipe(1, ItemRegistry.PIPE_WRENCH, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_IRON, output);
 
         pedestalRecipe(5, BlockRegistry.CUT_COPPER_PEDESTAL, Blocks.CUT_COPPER, output);
         pedestalRecipe(5, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Blocks.EXPOSED_CUT_COPPER, output);
