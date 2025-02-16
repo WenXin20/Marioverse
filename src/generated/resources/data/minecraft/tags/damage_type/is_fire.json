@@ -1,12 +1,6 @@
 {
   "values": [
-    {
-      "id": "minecraft:damage_type",
-      "required": false
-    },
-    {
-      "id": "minecraft:damage_type",
-      "required": false
-    }
+    "marioverse:fireball",
+    "marioverse:player_fireball"
   ]
 }

@@ -13,14 +13,18 @@ import com.wenxin2.marioverse.datagen.DamageTypeTagsGen;
 import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
-import com.wenxin2.marioverse.datagen.RegistryDataGen;
+import com.wenxin2.marioverse.init.BannerPatternRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -33,6 +37,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
@@ -53,7 +58,10 @@ public class RegistryEventHandlers {
 
         generator.addProvider(event.includeServer(), new AdvancementDataGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new CopperMapDataGen(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new RegistryDataGen(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, lookupProvider,
+                new RegistrySetBuilder()
+                .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap)
+                .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap), Set.of(Marioverse.MOD_ID)));
 
         generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(output, lookupProvider, existingFileHelper));
