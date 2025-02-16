@@ -59,7 +59,7 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), new BiomeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BlockLootTableGen(output, lookupProvider));
         generator.addProvider(event.includeServer(), new BlockRecipeGen(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new BlockTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, lookupProvider, existingFileHelper));
