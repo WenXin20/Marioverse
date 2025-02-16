@@ -38,6 +38,7 @@ public class BlockRecipeGen extends RecipeUtils {
     @Override
     protected void buildRecipes(RecipeOutput output) {
         generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
@@ -64,33 +65,6 @@ public class BlockRecipeGen extends RecipeUtils {
         warpDisruptorRecipe(1, ItemRegistry.WARP_DISRUPTOR, Items.ENDER_EYE, Tags.Items.INGOTS_GOLD, Tags.Items.RODS_WOODEN, output);
         warpPipeRecipe(4, BlockRegistry.CLEAR_WARP_PIPE, Tags.Items.INGOTS_COPPER, Tags.Items.GLASS_BLOCKS_COLORLESS, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
         wrenchRecipe(1, ItemRegistry.PIPE_WRENCH, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_IRON, output);
-
-        pedestalRecipe(5, BlockRegistry.CUT_COPPER_PEDESTAL, Blocks.CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Blocks.EXPOSED_CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Blocks.OXIDIZED_CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, Blocks.WAXED_CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, Blocks.WAXED_EXPOSED_CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
-        pedestalRecipe(5, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Blocks.WEATHERED_CUT_COPPER, output);
-
-        questionBlockRecipe(1, BlockRegistry.COPPER_QUESTION_BLOCK, Blocks.COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, Blocks.EXPOSED_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK, Blocks.OXIDIZED_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.WAXED_COPPER_QUESTION_BLOCK, Blocks.WAXED_COPPER_BLOCK, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK, Blocks.WAXED_EXPOSED_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK, Blocks.WAXED_OXIDIZED_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK, Blocks.WAXED_WEATHERED_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        questionBlockRecipe(1, BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, Blocks.WEATHERED_COPPER, Tags.Items.CHESTS_WOODEN, output);
-
-        storageBrickRecipe(4, BlockRegistry.STORAGE_CUT_COPPER, Blocks.CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, Blocks.EXPOSED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER, Blocks.OXIDIZED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_WAXED_CUT_COPPER, Blocks.WAXED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER, Blocks.WAXED_EXPOSED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, Blocks.WAXED_OXIDIZED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER, Blocks.WAXED_WEATHERED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
-        storageBrickRecipe(4, BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, Blocks.WEATHERED_CUT_COPPER, Tags.Items.CHESTS_WOODEN, output);
 
         waxedBlockRecipe(1, BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK, BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK, BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);

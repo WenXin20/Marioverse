@@ -31,8 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oxidized_cut_copper",
-      "has_chest"
+      "has_chest",
+      "has_oxidized_cut_copper"
     ]
   ],
   "rewards": {

@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-16T10:56:30.8223289	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-02-16T17:16:18.5325898	Tags for minecraft:block mod id marioverse
 3b455723b4e4650e767c7e9f0a14454376ce160b data/c/tags/block/dyed/black.json
 f0f2eb84485434688b24e187d244b322fb364904 data/c/tags/block/dyed/blue.json
 45e84c5a20aa8cc5633462eb7b6b9282fc777d27 data/c/tags/block/dyed/brown.json
@@ -17,14 +17,14 @@ b6abed74bf2ee659a9626d2d4974fa106f1c976b data/c/tags/block/dyed/red.json
 4485bb19972b29dde4603809c5868b6cbe7483ef data/c/tags/block/dyed/yellow.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/block/bonkable_blocks.json
-f7457763b53a24c8d8ae61a993b4d23c995a01a5 data/marioverse/tags/block/brick_pedestals.json
+c730d7fcb3a659712b13105d1c5a4eb9526bd113 data/marioverse/tags/block/brick_pedestals.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
-e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/block/invisible_question_blocks.json
-1268789ebd51852001cc17c80917126989d8380e data/marioverse/tags/block/question_blocks.json
-46b86808f46cfefdc573b0f247e88d72106e420b data/marioverse/tags/block/smashable_blocks.json
-0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/block/storage_bricks.json
+1f644c8a5d7b9eaed9e42675cb87a57fc2339b97 data/marioverse/tags/block/invisible_question_blocks.json
+1c6b9091c21e4014987ca342a6f7d3b9bbd9155a data/marioverse/tags/block/question_blocks.json
+8c4fd1b0cd3d83601eda24c43e84189c9d5a59a4 data/marioverse/tags/block/smashable_blocks.json
+458788f9d9e14bd2ac0ea6f937beae54b3f8992e data/marioverse/tags/block/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json

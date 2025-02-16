@@ -3,13 +3,13 @@
   "category": "building",
   "group": "marioverse:brick_pedestals",
   "key": {
-    "B": {
+    "#": {
       "item": "minecraft:waxed_weathered_cut_copper"
     }
   },
   "pattern": [
-    "B B",
-    "BBB"
+    "# #",
+    "###"
   ],
   "result": {
     "count": 5,

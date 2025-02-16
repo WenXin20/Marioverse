@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamilies;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
@@ -211,6 +212,94 @@ public class BlockFamiliesRegistry extends BlockFamilies {
             .questionBlock(BlockRegistry.TUFF_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_TUFF_BRICKS.get())
             .storageBricks(BlockRegistry.STORAGE_TUFF_BRICKS.get())
+            .getFamily();
+    
+    public static final BlockFamilyExtended COPPER_BLOCK = familyBuilder(Blocks.COPPER_BLOCK)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+    
+    public static final BlockFamilyExtended CUT_COPPER = familyBuilder(Blocks.CUT_COPPER)
+            .pedestal(BlockRegistry.CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_CUT_COPPER.get())
+            .getFamily();
+    
+    public static final BlockFamilyExtended WAXED_COPPER_BLOCK = familyBuilder(Blocks.WAXED_COPPER_BLOCK)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_CUT_COPPER = familyBuilder(Blocks.WAXED_CUT_COPPER)
+            .pedestal(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended EXPOSED_COPPER = familyBuilder(Blocks.EXPOSED_COPPER)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended EXPOSED_CUT_COPPER = familyBuilder(Blocks.EXPOSED_CUT_COPPER)
+            .pedestal(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_EXPOSED_COPPER = familyBuilder(Blocks.WAXED_EXPOSED_COPPER)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_EXPOSED_CUT_COPPER = familyBuilder(Blocks.WAXED_EXPOSED_CUT_COPPER)
+            .pedestal(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WEATHERED_COPPER = familyBuilder(Blocks.WEATHERED_COPPER)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WEATHERED_CUT_COPPER = familyBuilder(Blocks.WEATHERED_CUT_COPPER)
+            .pedestal(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_WEATHERED_COPPER = familyBuilder(Blocks.WAXED_WEATHERED_COPPER)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_WEATHERED_CUT_COPPER = familyBuilder(Blocks.WAXED_WEATHERED_CUT_COPPER)
+            .pedestal(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended OXIDIZED_COPPER = familyBuilder(Blocks.OXIDIZED_COPPER)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended OXIDIZED_CUT_COPPER = familyBuilder(Blocks.OXIDIZED_CUT_COPPER)
+            .pedestal(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_OXIDIZED_COPPER = familyBuilder(Blocks.WAXED_OXIDIZED_COPPER)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WAXED_OXIDIZED_CUT_COPPER = familyBuilder(Blocks.WAXED_OXIDIZED_CUT_COPPER)
+            .pedestal(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get())
+            .smashableBlock(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
+            .storageBricks(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get())
             .getFamily();
 
 
