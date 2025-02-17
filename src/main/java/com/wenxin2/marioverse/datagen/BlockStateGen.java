@@ -31,8 +31,8 @@ public class BlockStateGen extends BlockStateProvider {
 
                 if (variant == pedestal) {
                     String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation texture;
                     String removePedestalName = blockName.replace("_pedestal", "s");
+                    ResourceLocation texture;
 
                     if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(pedestal)
                             || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
