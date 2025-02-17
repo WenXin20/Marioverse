@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/purpur_block_pedestal"
+    },
+    "top=true": {
+      "model": "marioverse:block/purpur_block_pedestal_top"
+    }
+  }
+}

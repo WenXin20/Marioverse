@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/tuff_brick_pedestal"
+    },
+    "top=true": {
+      "model": "marioverse:block/tuff_brick_pedestal_top"
+    }
+  }
+}

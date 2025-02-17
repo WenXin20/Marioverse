@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/deep_fungal_brick_pedestal"
+    },
+    "top=true": {
+      "model": "marioverse:block/deep_fungal_brick_pedestal_top"
+    }
+  }
+}

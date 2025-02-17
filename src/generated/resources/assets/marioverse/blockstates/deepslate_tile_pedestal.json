@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/deepslate_tile_pedestal"
+    },
+    "top=true": {
+      "model": "marioverse:block/deepslate_tile_pedestal_top"
+    }
+  }
+}

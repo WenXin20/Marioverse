@@ -1,10 +1,10 @@
 {
   "variants": {
     "top=false": {
-      "model": "marioverse:block/exposed_cut_copper_pedestal"
+      "model": "marioverse:block/waxed_exposed_cut_copper_pedestal"
     },
     "top=true": {
-      "model": "marioverse:block/exposed_cut_copper_pedestal_top"
+      "model": "marioverse:block/waxed_exposed_cut_copper_pedestal_top"
     }
   }
 }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/dark_prismarine_pedestal"
+    },
+    "top=true": {
+      "model": "marioverse:block/dark_prismarine_pedestal_top"
+    }
+  }
+}
