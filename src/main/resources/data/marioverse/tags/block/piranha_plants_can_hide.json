@@ -1,8 +1,5 @@
 {
   "_comment": "Blocks that piranha plants can hide in",
   "replace": false,
-  "values": [
-    "minecraft:decorated_pot",
-    { "id": "#marioverse:warp_pipes", "required": false }
-  ]
+  "values": []
 }

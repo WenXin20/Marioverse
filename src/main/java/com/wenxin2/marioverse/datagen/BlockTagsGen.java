@@ -11,6 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -47,14 +48,6 @@ public class BlockTagsGen extends BlockTagsProvider {
             });
         });
 
-        tag(TagRegistry.GOAL_POLE_BLOCKS)
-                .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
-                .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
-
-        tag(TagRegistry.WARP_PIPE_BLOCKS)
-                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
-                .add(BlockRegistry.CLEAR_WARP_PIPE.get());
-
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
@@ -71,6 +64,40 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
+
+        tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
+                .addTag(BlockTags.INFINIBURN_END)
+                .addTag(BlockTags.INFINIBURN_NETHER)
+                .addTag(BlockTags.INFINIBURN_OVERWORLD)
+                .addTag(BlockTags.SOUL_FIRE_BASE_BLOCKS);
+
+        tag(TagRegistry.GOAL_POLE_BLOCKS)
+                .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
+                .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
+
+        tag(TagRegistry.MELTS)
+                .add(Blocks.POWDER_SNOW)
+                .add(Blocks.SNOW);
+
+        tag(TagRegistry.MELTS_INTO_ICE)
+                .add(Blocks.PACKED_ICE);
+
+        tag(TagRegistry.MELTS_INTO_PACKED_ICE)
+                .add(Blocks.BLUE_ICE);
+
+        tag(TagRegistry.MELTS_INTO_WATER)
+                .add(Blocks.FROSTED_ICE)
+                .add(Blocks.ICE);
+
+        tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(Blocks.DECORATED_POT);
+
+        tag(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
+                .addTag(BlockTags.ICE);
+
+        tag(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON)
+                .addTag(BlockTags.DIRT);
 
         tag(TagRegistry.SMASHABLE_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
@@ -91,6 +118,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
                 .replace(false);
+
+        tag(TagRegistry.WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.CLEAR_WARP_PIPE.get());
+
+        tag(TagRegistry.WRENCH_EFFICIENT)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())

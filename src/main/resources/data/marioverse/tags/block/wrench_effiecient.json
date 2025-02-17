@@ -1,7 +1,5 @@
 {
   "_comment": "Blocks that will break faster with the wrench",
   "replace": false,
-  "values": [
-    { "id": "#marioverse:warp_pipes", "required": false }
-  ]
+  "values": []
 }

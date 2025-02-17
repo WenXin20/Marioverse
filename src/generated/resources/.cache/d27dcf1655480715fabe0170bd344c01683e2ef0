@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-16T17:47:22.6715574	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-02-16T18:10:48.0564616	Tags for minecraft:block mod id marioverse
 3b455723b4e4650e767c7e9f0a14454376ce160b data/c/tags/block/dyed/black.json
 f0f2eb84485434688b24e187d244b322fb364904 data/c/tags/block/dyed/blue.json
 45e84c5a20aa8cc5633462eb7b6b9282fc777d27 data/c/tags/block/dyed/brown.json
@@ -17,15 +17,24 @@ b6abed74bf2ee659a9626d2d4974fa106f1c976b data/c/tags/block/dyed/red.json
 4485bb19972b29dde4603809c5868b6cbe7483ef data/c/tags/block/dyed/yellow.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/block/bonkable_blocks.json
-77f24877cb646eb537a393c964c0ff0ada0515af data/marioverse/tags/block/brick_pedestals.json
+c2b29bdd83969ce7da2ea9ec90fc579e0ced3830 data/marioverse/tags/block/brick_pedestals.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
+36acea09e34b7355ffdae3631aacdc775724c27a data/marioverse/tags/block/fireball_sets_on_fire.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
-469b620ec18007dbb23464f18116b96df6f8c3c8 data/marioverse/tags/block/invisible_question_blocks.json
-bb15b20b38336fffd33d8e9007bef230cfa1f7d7 data/marioverse/tags/block/question_blocks.json
-3de775a1ff5fb71b9088c0bb4ea72883808a903f data/marioverse/tags/block/smashable_blocks.json
-44929831f4faf8a53e94c68b8f07b08d29b8158b data/marioverse/tags/block/storage_bricks.json
+1dea3e5e5abf331960982541b5dcfecec8fbe95b data/marioverse/tags/block/invisible_question_blocks.json
+e6a968de6c4bf32c65f2aaf5943a8af49adefda7 data/marioverse/tags/block/melts.json
+4342dbe120758da700a1d9f914789a75c43c98e9 data/marioverse/tags/block/melts_into_ice.json
+f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/marioverse/tags/block/melts_into_packed_ice.json
+59cf3672223aaddb9a134569a973a414572c9389 data/marioverse/tags/block/melts_into_water.json
+0a6d57dbfee5c2462339b802e3d71f90b2dbf41c data/marioverse/tags/block/piranha_plants_cannot_attach.json
+f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plants_can_hide.json
+69c396cb051bbe9a130e6979b67065e5041b179d data/marioverse/tags/block/piranha_plants_spawnable_on.json
+1dc062ca0f7c4cfa8dc1c8064f8fe7ebb2853b44 data/marioverse/tags/block/question_blocks.json
+027386693414be6dba4f67b6b4b40e612e6a0fdb data/marioverse/tags/block/smashable_blocks.json
+8fc630af72eb85d0d0a40019468d46cd07aa1bcb data/marioverse/tags/block/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json
+d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json

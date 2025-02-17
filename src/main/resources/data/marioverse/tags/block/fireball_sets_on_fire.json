@@ -1,8 +1,5 @@
 {
   "_comment": "Blocks that will be set on fire by fireballs",
   "replace": false,
-  "values": [
-    "#minecraft:infiniburn_nether",
-    "#minecraft:soul_fire_base_blocks"
-  ]
+  "values": []
 }
