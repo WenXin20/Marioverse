@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/end_stone_question_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_end_stone_question_bricks"
+    }
+  }
+}

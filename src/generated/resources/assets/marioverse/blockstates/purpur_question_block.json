@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/purpur_question_block"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_purpur_question_block"
+    }
+  }
+}

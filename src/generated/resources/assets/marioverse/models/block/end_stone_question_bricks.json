@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/empty_end_stone_question_bricks",
+    "side": "marioverse:block/end_stone_question_bricks",
+    "top": "marioverse:block/empty_end_stone_question_bricks"
+  }
+}
