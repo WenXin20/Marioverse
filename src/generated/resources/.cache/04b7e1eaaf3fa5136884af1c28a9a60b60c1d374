@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-16T18:10:48.0624659	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-02-16T18:44:33.3255441	Tags for minecraft:item mod id marioverse
 3b455723b4e4650e767c7e9f0a14454376ce160b data/c/tags/item/dyed/black.json
 f0f2eb84485434688b24e187d244b322fb364904 data/c/tags/item/dyed/blue.json
 45e84c5a20aa8cc5633462eb7b6b9282fc777d27 data/c/tags/item/dyed/brown.json
@@ -17,14 +17,17 @@ b6abed74bf2ee659a9626d2d4974fa106f1c976b data/c/tags/item/dyed/red.json
 4485bb19972b29dde4603809c5868b6cbe7483ef data/c/tags/item/dyed/yellow.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/item/stones.json
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/item/bonkable_blocks.json
-c2b29bdd83969ce7da2ea9ec90fc579e0ced3830 data/marioverse/tags/item/brick_pedestals.json
+39702a388afeecb017abed90ac3184c37a6e2e22 data/marioverse/tags/item/brick_pedestals.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_question_blocks.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
-1dea3e5e5abf331960982541b5dcfecec8fbe95b data/marioverse/tags/item/invisible_question_blocks.json
-1dc062ca0f7c4cfa8dc1c8064f8fe7ebb2853b44 data/marioverse/tags/item/question_blocks.json
-027386693414be6dba4f67b6b4b40e612e6a0fdb data/marioverse/tags/item/smashable_blocks.json
-8fc630af72eb85d0d0a40019468d46cd07aa1bcb data/marioverse/tags/item/storage_bricks.json
+94adbb0e72a6d264c7548c8be5c7b8ae045b4cfd data/marioverse/tags/item/invisible_question_blocks.json
+2ff76f4951e2539aca15983032d907765f212cb1 data/marioverse/tags/item/power_ups.json
+d86fcc12b9ab7a61520349358f5728351dafc514 data/marioverse/tags/item/power_up_costumes.json
+706fcc4e7d8ea3a5e255909c649da1af8300fdb3 data/marioverse/tags/item/question_blocks.json
+cef5366154ac77d20f7fabab64cc10e9b08742d8 data/marioverse/tags/item/smashable_blocks.json
+dfba7a34901f504618a348177b0e4a77ddb84f1c data/marioverse/tags/item/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 72f494e9eacb1166c72e06258d0992dac66f35d7 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json

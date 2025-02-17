@@ -17,7 +17,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagsGen extends ItemTagsProvider {
-    public ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
+    public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, blockTagProvider, Marioverse.MOD_ID, existingFileHelper);
     }
@@ -47,6 +47,20 @@ public class ItemTagsGen extends ItemTagsProvider {
                     .add(BlockRegistry.GOAL_POLES.get(color).asItem())
                     .add(BlockRegistry.WARP_PIPES.get(color).asItem());
         }
+
+        tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
+
+        tag(TagRegistry.POWER_UP_COSTUME_ITEMS)
+                .add(ItemRegistry.FIRE_HAT.get())
+                .add(ItemRegistry.FIRE_OVERALLS.get())
+                .add(ItemRegistry.FIRE_SHIRT.get())
+                .add(ItemRegistry.FIRE_SHOES.get());
+
+        tag(TagRegistry.POWER_UP_ITEMS)
+                .add(ItemRegistry.FIRE_FLOWER.get())
+                .add(ItemRegistry.MUSHROOM.get())
+                .add(ItemRegistry.ONE_UP_MUSHROOM.get())
+                .add(ItemRegistry.SUPER_STAR.get());
 
         tag(ItemTags.CHEST_ARMOR)
                 .add(ItemRegistry.FIRE_SHIRT.get());

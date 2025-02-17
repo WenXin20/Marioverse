@@ -1,10 +1,5 @@
 {
-  "_comment": "Tag for all power up items",
+  "_comment": "Tag for all power up costume items",
   "replace": false,
-  "values": [
-    { "id": "marioverse:fire_hat", "required": false },
-    { "id": "marioverse:fire_pants", "required": false },
-    { "id": "marioverse:fire_shirt", "required": false },
-    { "id": "marioverse:fire_shoes", "required": false }
-  ]
+  "values": []
 }
