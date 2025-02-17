@@ -1,12 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "marioverse:block/smashable_waxed_cut_copper"
-      },
-      {
-        "model": "marioverse:block/smashable_waxed_cut_copper"
-      }
-    ]
+    "": {
+      "model": "marioverse:block/smashable_waxed_cut_copper"
+    }
   }
 }

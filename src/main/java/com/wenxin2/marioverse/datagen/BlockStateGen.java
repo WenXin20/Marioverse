@@ -193,10 +193,21 @@ public class BlockStateGen extends BlockStateProvider {
                         overlayTexture = modLoc("block/" + unWaxedName + "_overlay");
                         registerOverlayBlock(block, blockName, mainTexture, overlayTexture);
                     } else if (removeSmashableName.startsWith("blackstone_")) {
-                        String blackstoneName = removeSmashableName.replace("blackstone_", "polished_blackstone_");
-                        mainTexture = mcLoc("minecraft:block/" + blackstoneName);
-                        overlayTexture = modLoc("block/" + blockName + "_overlay");
-                        registerOverlayBlock(block, blockName, mainTexture, overlayTexture);
+                        String crackedBlockName = removeSmashableName.replace("blackstone_", "cracked_polished_blackstone_");
+                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                        registerBlock(block, blockName, mainTexture);
+                    } else if (removeSmashableName.startsWith("deepslate_tiles")) {
+                        String crackedBlockName = removeSmashableName.replace("deepslate_tiles", "cracked_deepslate_tiles");
+                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                        registerBlock(block, blockName, mainTexture);
+                    } else if (removeSmashableName.startsWith("nether_")) {
+                        String crackedBlockName = removeSmashableName.replace("nether_", "cracked_nether_");
+                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                        registerBlock(block, blockName, mainTexture);
+                    } else if (removeSmashableName.startsWith("stone_")) {
+                        String crackedBlockName = removeSmashableName.replace("stone_", "cracked_stone_");
+                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                        registerBlock(block, blockName, mainTexture);
                     } else {
                         mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
@@ -253,15 +264,20 @@ public class BlockStateGen extends BlockStateProvider {
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
+    private void registerBlock(Block block, String modelName, ResourceLocation mainTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
+                .texture("all", mainTexture);
+
+        simpleBlockWithItem(block, model);
+    }
+
     private void registerOverlayBlock(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
                 .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
 
         simpleBlockWithItem(block, model);
-
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
-        variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
     private void registerPedestalBlock(Block block, String modelName, ResourceLocation mainTexture) {

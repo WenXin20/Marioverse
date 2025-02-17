@@ -1,12 +1,7 @@
 {
   "variants": {
-    "": [
-      {
-        "model": "marioverse:block/smashable_weathered_cut_copper"
-      },
-      {
-        "model": "marioverse:block/smashable_weathered_cut_copper"
-      }
-    ]
+    "": {
+      "model": "marioverse:block/smashable_weathered_cut_copper"
+    }
   }
 }
