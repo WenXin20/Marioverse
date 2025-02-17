@@ -26,7 +26,41 @@ public class BlockStateGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant pedestal = BlockFamilyExtended.Variant.PEDESTAL;
                 BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
+
+                if (variant == pedestal) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    ResourceLocation texture;
+                    String removePedestalName = blockName.replace("_pedestal", "s");
+
+                    if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(pedestal)
+                            || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
+                            || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(pedestal)) {
+                        texture = modLoc("block/" + removePedestalName);
+                        registerPedestalBlock(block, blockName, texture);
+                    } else if (blockName.startsWith("waxed_")) {
+                        String unWaxedName = blockName.replace("waxed_", "");
+                        removePedestalName = unWaxedName.replace("_pedestal", "");
+                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                        registerPedestalBlock(block, blockName, texture);
+                    } else if (blockName.endsWith("_copper_pedestal") || blockName.endsWith("_block_pedestal")
+                            || blockName.endsWith("_prismarine_pedestal")) {
+                        String unWaxedName = blockName.replace("waxed_", "");
+                        removePedestalName = unWaxedName.replace("_pedestal", "");
+                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                        registerPedestalBlock(block, blockName, texture);
+                    } else if (blockName.startsWith("blackstone_")) {
+                        String blackstoneName = blockName.replace("blackstone_", "polished_blackstone_");
+                        removePedestalName = blackstoneName.replace("_pedestal", "s");
+                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                        registerPedestalBlock(block, blockName, texture);
+                    } else {
+                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                        registerPedestalBlock(block, blockName, texture);
+                    }
+                }
+
                 if (variant == questionBlock) {
                     String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
                     ResourceLocation emptyTexture;
@@ -42,7 +76,7 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + blockName);
                         registerQuestionBlock(block, blockName, sideTexture, topTexture, emptyTexture);
                     } else if (blockName.startsWith("waxed_")) {
-                        String unWaxedName = blockName.replace("waxed_", ""); // Get the corresponding regular copper name
+                        String unWaxedName = blockName.replace("waxed_", "");
                         mainTexture = modLoc("block/" + unWaxedName);
                         emptyTexture = modLoc("block/empty_" + unWaxedName);
                         registerQuestionBlock(block, blockName, mainTexture, emptyTexture);
@@ -55,8 +89,6 @@ public class BlockStateGen extends BlockStateProvider {
             });
         });
 
-        registerPedestalBlock(BlockRegistry.CUT_COPPER_PEDESTAL.get(), "cut_copper_pedestal",
-                mcLoc("minecraft:block/cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get(), "copper_question_block",
                 modLoc("block/copper_question_block"), modLoc("block/empty_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -65,8 +97,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_CUT_COPPER.get(), "storage_cut_copper",
                 mcLoc("minecraft:block/cut_copper"), modLoc("block/empty_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get(), "exposed_cut_copper_pedestal",
-                mcLoc("minecraft:block/exposed_cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get(), "exposed_copper_question_block",
                 modLoc("block/exposed_copper_question_block"), modLoc("block/empty_exposed_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -75,8 +105,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get(), "storage_exposed_cut_copper",
                 mcLoc("minecraft:block/exposed_cut_copper"), modLoc("block/empty_exposed_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get(), "weathered_cut_copper_pedestal",
-                mcLoc("minecraft:block/weathered_cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get(), "weathered_copper_question_block",
                 modLoc("block/weathered_copper_question_block"), modLoc("block/empty_weathered_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -85,8 +113,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get(), "storage_weathered_cut_copper",
                 mcLoc("minecraft:block/weathered_cut_copper"), modLoc("block/empty_weathered_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get(), "oxidized_cut_copper_pedestal",
-                mcLoc("minecraft:block/oxidized_cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get(), "oxidized_copper_question_block",
                 modLoc("block/oxidized_copper_question_block"), modLoc("block/empty_oxidized_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -95,8 +121,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get(), "storage_oxidized_cut_copper",
                 mcLoc("minecraft:block/oxidized_cut_copper"), modLoc("block/empty_oxidized_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get(), "waxed_cut_copper_pedestal",
-                mcLoc("minecraft:block/cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get(), "waxed_copper_question_block",
                 modLoc("block/copper_question_block"), modLoc("block/empty_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -105,8 +129,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get(), "storage_waxed_cut_copper",
                 mcLoc("minecraft:block/cut_copper"), modLoc("block/empty_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get(), "exposed_cut_copper_pedestal",
-                mcLoc("minecraft:block/exposed_cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get(), "waxed_exposed_copper_question_block",
                 modLoc("block/exposed_copper_question_block"), modLoc("block/empty_exposed_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -115,8 +137,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get(), "storage_waxed_exposed_cut_copper",
                 mcLoc("minecraft:block/exposed_cut_copper"), modLoc("block/empty_exposed_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get(), "waxed_weathered_cut_copper_pedestal",
-                mcLoc("minecraft:block/weathered_cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get(), "waxed_weathered_copper_question_block",
                 modLoc("block/weathered_copper_question_block"), modLoc("block/empty_weathered_copper_question_block"),
                 modLoc("block/invisible_question_block"));
@@ -125,8 +145,6 @@ public class BlockStateGen extends BlockStateProvider {
         registerStorageBrick(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get(), "storage_waxed_weathered_cut_copper",
                 mcLoc("minecraft:block/weathered_cut_copper"), modLoc("block/empty_weathered_copper_question_block"));
 
-        registerPedestalBlock(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get(), "waxed_oxidized_cut_copper_pedestal",
-                mcLoc("minecraft:block/oxidized_cut_copper"));
         registerInvisibleQuestionBlock(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get(), "waxed_oxidized_copper_question_block",
                 modLoc("block/oxidized_copper_question_block"), modLoc("block/empty_oxidized_copper_question_block"),
                 modLoc("block/invisible_question_block"));
