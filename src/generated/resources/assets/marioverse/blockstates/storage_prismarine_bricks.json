@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/storage_prismarine_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_storage_prismarine_bricks"
+    }
+  }
+}

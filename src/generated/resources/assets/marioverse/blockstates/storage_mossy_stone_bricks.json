@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/storage_mossy_stone_bricks"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_storage_mossy_stone_bricks"
+    }
+  }
+}
