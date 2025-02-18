@@ -23,11 +23,11 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        genInvisibleQuestionBlockVariants();
-        genPedestalVariants();
-        genQuestionBlockVariants();
-        genSmashableBlockVariants();
-        genStorageBrickVariants();
+        this.genInvisibleQuestionBlockVariants();
+        this.genPedestalVariants();
+        this.genQuestionBlockVariants();
+        this.genSmashableBlockVariants();
+        this.genStorageBrickVariants();
     }
 
     private void genPedestalVariants() {
