@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/deep_fungal_bricks",
+    "side": "marioverse:block/storage_deep_fungal_bricks",
+    "top": "marioverse:block/deep_fungal_bricks"
+  }
+}

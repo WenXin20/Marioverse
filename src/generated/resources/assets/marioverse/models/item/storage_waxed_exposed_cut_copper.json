@@ -1,3 +1,7 @@
 {
-  "parent": "marioverse:block/storage_waxed_exposed_cut_copper"
+  "parent": "marioverse:item/template_storage_bricks",
+  "textures": {
+    "all": "minecraft:block/exposed_cut_copper",
+    "overlay": "marioverse:block/exposed_copper_question_block_overlay"
+  }
 }

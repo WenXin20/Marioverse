@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:item/template_storage_bricks",
+  "textures": {
+    "all": "minecraft:block/prismarine_bricks",
+    "overlay": "marioverse:block/prismarine_question_bricks_overlay"
+  }
+}

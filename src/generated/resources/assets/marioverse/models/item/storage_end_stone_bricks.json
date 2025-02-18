@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:item/template_storage_bricks",
+  "textures": {
+    "all": "minecraft:block/end_stone_bricks",
+    "overlay": "marioverse:block/end_stone_question_bricks_overlay"
+  }
+}
