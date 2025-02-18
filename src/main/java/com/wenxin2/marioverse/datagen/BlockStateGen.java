@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
-import com.wenxin2.marioverse.init.BlockRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -28,30 +27,7 @@ public class BlockStateGen extends BlockStateProvider {
         genPedestalVariants();
         genQuestionBlockVariants();
         genSmashableBlockVariants();
-
-        registerStorageBrick(BlockRegistry.STORAGE_CUT_COPPER.get(), "storage_cut_copper",
-                mcLoc("minecraft:block/cut_copper"), modLoc("block/empty_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get(), "storage_exposed_cut_copper",
-                mcLoc("minecraft:block/exposed_cut_copper"), modLoc("block/empty_exposed_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get(), "storage_weathered_cut_copper",
-                mcLoc("minecraft:block/weathered_cut_copper"), modLoc("block/empty_weathered_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get(), "storage_oxidized_cut_copper",
-                mcLoc("minecraft:block/oxidized_cut_copper"), modLoc("block/empty_oxidized_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get(), "storage_waxed_cut_copper",
-                mcLoc("minecraft:block/cut_copper"), modLoc("block/empty_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get(), "storage_waxed_exposed_cut_copper",
-                mcLoc("minecraft:block/exposed_cut_copper"), modLoc("block/empty_exposed_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get(), "storage_waxed_weathered_cut_copper",
-                mcLoc("minecraft:block/weathered_cut_copper"), modLoc("block/empty_weathered_copper_question_block"));
-
-        registerStorageBrick(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get(), "storage_waxed_oxidized_cut_copper",
-                mcLoc("minecraft:block/oxidized_cut_copper"), modLoc("block/empty_oxidized_copper_question_block"));
+        genStorageBrickVariants();
     }
 
     private void genPedestalVariants() {
@@ -212,6 +188,54 @@ public class BlockStateGen extends BlockStateProvider {
                         mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
                         registerOverlayBlock(block, blockName, mainTexture, overlayTexture);
+                    }
+                }
+            });
+        });
+    }
+
+    private void genStorageBrickVariants() {
+        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
+
+                if (variant == storageBrick) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    String removeStorageName = blockName.replace("storage_", "");
+                    String questionBlockName = removeStorageName
+                            .replace("block", "question_block")
+                            .replace("bricks", "question_bricks")
+                            .replace("cut_copper", "copper_question_block")
+                            .replace("dark_prismarine", "dark_prismarine_question_block")
+                            .replace("tiles", "question_tiles");
+                    ResourceLocation mainTexture;
+                    ResourceLocation emptyTexture;
+
+                    if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(storageBrick)
+                            || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(storageBrick)) {
+                        questionBlockName = removeStorageName
+                                .replace("bricks", "question_block");
+                        mainTexture = modLoc("block/" + blockName);
+                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+                    } else if (removeStorageName.startsWith("waxed_")) {
+                        String unWaxedName = blockName.replace("waxed_", "");
+                        removeStorageName = unWaxedName.replace("storage_", "");
+                        questionBlockName = removeStorageName
+                                .replace("cut_copper", "copper_question_block");
+                        mainTexture = mcLoc("minecraft:block/" + removeStorageName);
+                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+                    } else if (questionBlockName.startsWith("blackstone_")) {
+                        String crackedBlockName = removeStorageName.replace("blackstone_", "polished_blackstone_");
+                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+                    } else {
+                        mainTexture = mcLoc("minecraft:block/" + removeStorageName);
+                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
                     }
                 }
             });
