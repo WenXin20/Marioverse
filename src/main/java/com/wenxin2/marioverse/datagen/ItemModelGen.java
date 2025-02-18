@@ -16,31 +16,30 @@ public class ItemModelGen extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+        this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
+    }
 
-        registerInvisibleQuestionBlock("invisible_copper_question_block",
-                modLoc("block/invisible_copper_question_block"));
+    private void genInvisibleQuestionBlockVariants() {
+        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
 
-        registerInvisibleQuestionBlock("invisible_exposed_copper_question_block",
-                modLoc("block/invisible_exposed_copper_question_block"));
+                if (variant == questionBlock) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    ResourceLocation mainTexture;
 
-        registerInvisibleQuestionBlock("invisible_weathered_copper_question_block",
-                modLoc("block/invisible_weathered_copper_question_block"));
-
-        registerInvisibleQuestionBlock("invisible_oxidized_copper_question_block",
-                modLoc("block/invisible_oxidized_copper_question_block"));
-
-        registerInvisibleQuestionBlock("invisible_waxed_copper_question_block",
-                modLoc("block/invisible_copper_question_block"));
-
-        registerInvisibleQuestionBlock("invisible_waxed_exposed_copper_question_block",
-                modLoc("block/invisible_exposed_copper_question_block"));
-
-        registerInvisibleQuestionBlock("invisible_waxed_weathered_copper_question_block",
-                modLoc("block/invisible_weathered_copper_question_block"));
-
-        registerInvisibleQuestionBlock("invisible_waxed_oxidized_copper_question_block",
-                modLoc("block/invisible_oxidized_copper_question_block"));
+                    if (blockName.startsWith("invisible_waxed_")) {
+                        String removeWaxedName = blockName.replace("waxed_", "");
+                        mainTexture = modLoc("block/" + removeWaxedName);
+                        registerInvisibleQuestionBlock(blockName, mainTexture);
+                    } else {
+                        mainTexture = modLoc("block/" + blockName);
+                        registerInvisibleQuestionBlock(blockName, mainTexture);
+                    }
+                }
+            });
+        });
     }
 
     private void genStorageBrickVariants() {
