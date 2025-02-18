@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "marioverse:item/blue_goal_pole"
+  }
+}
