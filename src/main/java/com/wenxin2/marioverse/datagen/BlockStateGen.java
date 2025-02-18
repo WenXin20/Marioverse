@@ -4,17 +4,23 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
+import java.util.Map;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockStateGen extends BlockStateProvider {
     public BlockStateGen(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -28,6 +34,17 @@ public class BlockStateGen extends BlockStateProvider {
         this.genQuestionBlockVariants();
         this.genSmashableBlockVariants();
         this.genStorageBrickVariants();
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
+            String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
+            ResourceLocation entranceTexture = modLoc("block/" + blockName + "_entrance_side");
+            ResourceLocation sideTexture = modLoc("block/" + blockName + "_side");
+            ResourceLocation bottomTexture = modLoc("block/" + blockName + "_bottom");
+            ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+            ResourceLocation topClosedTexture = modLoc("block/" + blockName + "_top_closed");
+
+            this.warpPipeModel(entry.getValue().get(), blockName, entranceTexture, sideTexture, bottomTexture, topTexture, topClosedTexture);
+        }
     }
 
     private void genInvisibleQuestionBlockVariants() {
@@ -383,5 +400,70 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
+    }
+
+    private void warpPipeModel(Block block, String modelName, ResourceLocation entranceTexture, ResourceLocation bottomTexture,
+                               ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation topClosedTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", bottomTexture);
+        ModelFile modelEntrance = models()
+                .withExistingParent(modelName + "_entrance", mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture).texture("side", entranceTexture).texture("top", topTexture);
+        ModelFile modelClosed = models()
+                .withExistingParent(modelName + "_entrance_closed", mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture).texture("side", entranceTexture).texture("top", topClosedTexture);
+
+        simpleBlockItem(block, modelEntrance);
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+
+        for (Direction direction : Direction.values()) {
+            int xRot = getXRotation(direction);
+            int yRot = getYRotation(direction);
+
+            for (boolean entrance : new boolean[]{false, true}) {
+                for (boolean closed : new boolean[]{false, true}) {
+                    for (boolean bubbles : new boolean[]{false, true}) {
+                        for (boolean waterSpout : new boolean[]{false, true}) {
+                            ModelFile selectedModel = getModelForState(model, modelEntrance, modelClosed, entrance, closed);
+
+                            variantBuilder.partialState()
+                                    .with(WarpPipeBlock.FACING, direction)
+                                    .with(WarpPipeBlock.ENTRANCE, entrance)
+                                    .with(WarpPipeBlock.CLOSED, closed)
+                                    .with(WarpPipeBlock.BUBBLES, bubbles)
+                                    .with(WarpPipeBlock.WATER_SPOUT, waterSpout)
+                                    .addModels(new ConfiguredModel(selectedModel, xRot, yRot, false));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private int getXRotation(Direction direction) {
+        return switch (direction) {
+            case UP -> 0;
+            case DOWN -> 180;
+            case NORTH, SOUTH, EAST, WEST -> 90;
+        };
+    }
+
+    private int getYRotation(Direction direction) {
+        return switch (direction) {
+            case NORTH -> 0;
+            case SOUTH -> 180;
+            case EAST -> 90;
+            case WEST -> 270;
+            default -> 0;
+        };
+    }
+
+    private ModelFile getModelForState(ModelFile model, ModelFile modelEntrance, ModelFile modelClosed, boolean entrance, boolean closed) {
+        if (entrance) {
+            return closed ? modelClosed : modelEntrance;
+        }
+        return model;
     }
 }
