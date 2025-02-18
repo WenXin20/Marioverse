@@ -461,9 +461,8 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private ModelFile getModelForState(ModelFile model, ModelFile modelEntrance, ModelFile modelClosed, boolean entrance, boolean closed) {
-        if (entrance) {
+        if (entrance)
             return closed ? modelClosed : modelEntrance;
-        }
         return model;
     }
 }
