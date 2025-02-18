@@ -32,10 +32,12 @@ public class ItemModelGen extends ItemModelProvider {
                     if (blockName.startsWith("invisible_waxed_")) {
                         String removeWaxedName = blockName.replace("waxed_", "");
                         mainTexture = modLoc("block/" + removeWaxedName);
-                        registerInvisibleQuestionBlock(blockName, mainTexture);
+
+                        this.invisibleQuestionBlockModel(blockName, mainTexture);
                     } else {
                         mainTexture = modLoc("block/" + blockName);
-                        registerInvisibleQuestionBlock(blockName, mainTexture);
+
+                        this.invisibleQuestionBlockModel(blockName, mainTexture);
                     }
                 }
             });
@@ -66,7 +68,8 @@ public class ItemModelGen extends ItemModelProvider {
                             || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(storageBrick)) {
                         sideTexture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeStorageName);
-                        registerCubeBottomTop(blockName, sideTexture, topTexture);
+
+                        this.cubeBottomTopModel(blockName, sideTexture, topTexture);
                     } else if (removeStorageName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeStorageName = unWaxedName.replace("storage_", "");
@@ -74,33 +77,36 @@ public class ItemModelGen extends ItemModelProvider {
                                 .replace("cut_copper", "copper_question_block");
                         mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                         overlayTexture = modLoc("block/" + questionBlockName + "_overlay");
-                        registerStorageBrick(blockName, mainTexture, overlayTexture);
+
+                        this.storageBrickModel(blockName, mainTexture, overlayTexture);
                     } else if (questionBlockName.startsWith("blackstone_")) {
                         String crackedBlockName = removeStorageName.replace("blackstone_", "polished_blackstone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
                         overlayTexture = modLoc("block/" + questionBlockName + "_overlay");
-                        registerStorageBrick(blockName, mainTexture, overlayTexture);
+
+                        this.storageBrickModel(blockName, mainTexture, overlayTexture);
                     } else {
                         mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                         overlayTexture = modLoc("block/" + questionBlockName + "_overlay");
-                        registerStorageBrick(blockName, mainTexture, overlayTexture);
+
+                        this.storageBrickModel(blockName, mainTexture, overlayTexture);
                     }
                 }
             });
         });
     }
 
-    private void registerStorageBrick(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+    private void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
         getBuilder(modelName).parent(getExistingFile(modLoc("item/template_storage_bricks")))
                 .texture("all", mainTexture).texture("overlay", overlayTexture);
     }
 
-    private void registerCubeBottomTop(String modelName, ResourceLocation sideTexture, ResourceLocation topTexture) {
+    private void cubeBottomTopModel(String modelName, ResourceLocation sideTexture, ResourceLocation topTexture) {
         getBuilder(modelName).parent(getExistingFile(mcLoc("minecraft:block/cube_bottom_top"))).texture("bottom", topTexture)
                 .texture("side", sideTexture).texture("top", topTexture);
     }
 
-    private void registerInvisibleQuestionBlock(String modelName, ResourceLocation mainTexture) {
+    private void invisibleQuestionBlockModel(String modelName, ResourceLocation mainTexture) {
         getBuilder(modelName).parent(getExistingFile(mcLoc("item/generated")))
                 .texture("layer0", mainTexture);
     }

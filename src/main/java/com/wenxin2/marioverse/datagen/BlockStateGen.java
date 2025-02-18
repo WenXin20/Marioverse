@@ -30,6 +30,50 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStorageBrickVariants();
     }
 
+    private void genInvisibleQuestionBlockVariants() {
+        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
+
+                if (variant == questionBlock) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    ResourceLocation emptyTexture;
+                    ResourceLocation mainTexture;
+                    ResourceLocation sideTexture;
+                    ResourceLocation topTexture;
+                    ResourceLocation invisibleTexture;
+
+                    if (block == BlockFamiliesRegistry.POLISHED_AMETHYST.get(questionBlock)
+                            || block == BlockFamiliesRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
+                            || block == BlockFamiliesRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
+                        String removeInvisibleName = blockName.replace("invisible_", "");
+                        sideTexture = modLoc("block/" + removeInvisibleName + "_side");
+                        topTexture = modLoc("block/" + removeInvisibleName + "_top");
+                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                        invisibleTexture = modLoc("block/invisible_question_block");
+
+                        this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
+                    } else if (blockName.startsWith("invisible_waxed_")) {
+                        String removeInvisibleName = blockName.replace("invisible_", "");
+                        String removeWaxedName = removeInvisibleName.replace("waxed_", "");
+                        mainTexture = modLoc("block/" + removeWaxedName);
+                        emptyTexture = modLoc("block/empty_" + removeWaxedName);
+                        invisibleTexture = modLoc("block/invisible_question_block");
+
+                        this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
+                    } else {
+                        String removeInvisibleName = blockName.replace("invisible_", "");
+                        mainTexture = modLoc("block/" + removeInvisibleName);
+                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                        invisibleTexture = modLoc("block/invisible_question_block");
+
+                        this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
+                    }
+                }
+            });
+        });
+    }
+
     private void genPedestalVariants() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
@@ -44,26 +88,31 @@ public class BlockStateGen extends BlockStateProvider {
                             || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
                             || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(pedestal)) {
                         texture = modLoc("block/" + removePedestalName);
-                        registerPedestalBlock(block, blockName, texture);
+
+                        this.pedestalModel(block, blockName, texture);
                     } else if (blockName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removePedestalName = unWaxedName.replace("_pedestal", "");
                         texture = mcLoc("minecraft:block/" + removePedestalName);
-                        registerPedestalBlock(block, blockName, texture);
+
+                        this.pedestalModel(block, blockName, texture);
                     } else if (blockName.endsWith("_copper_pedestal") || blockName.endsWith("_block_pedestal")
                             || blockName.endsWith("_prismarine_pedestal")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removePedestalName = unWaxedName.replace("_pedestal", "");
                         texture = mcLoc("minecraft:block/" + removePedestalName);
-                        registerPedestalBlock(block, blockName, texture);
+
+                        this.pedestalModel(block, blockName, texture);
                     } else if (blockName.startsWith("blackstone_")) {
                         String blackstoneName = blockName.replace("blackstone_", "polished_blackstone_");
                         removePedestalName = blackstoneName.replace("_pedestal", "s");
                         texture = mcLoc("minecraft:block/" + removePedestalName);
-                        registerPedestalBlock(block, blockName, texture);
+
+                        this.pedestalModel(block, blockName, texture);
                     } else {
                         texture = mcLoc("minecraft:block/" + removePedestalName);
-                        registerPedestalBlock(block, blockName, texture);
+
+                        this.pedestalModel(block, blockName, texture);
                     }
                 }
             });
@@ -88,57 +137,19 @@ public class BlockStateGen extends BlockStateProvider {
                         sideTexture = modLoc("block/" + blockName + "_side");
                         topTexture = modLoc("block/" + blockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
-                        registerQuestionBlock(block, blockName, sideTexture, topTexture, emptyTexture);
+
+                        this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
                     } else if (blockName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         mainTexture = modLoc("block/" + unWaxedName);
                         emptyTexture = modLoc("block/empty_" + unWaxedName);
-                        registerQuestionBlock(block, blockName, mainTexture, emptyTexture);
+
+                        this.questionBlockModel(block, blockName, mainTexture, emptyTexture);
                     } else {
                         mainTexture = modLoc("block/" + blockName);
                         emptyTexture = modLoc("block/empty_" + blockName);
-                        registerQuestionBlock(block, blockName, mainTexture, emptyTexture);
-                    }
-                }
-            });
-        });
-    }
 
-    private void genInvisibleQuestionBlockVariants() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
-
-                if (variant == questionBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation emptyTexture;
-                    ResourceLocation mainTexture;
-                    ResourceLocation sideTexture;
-                    ResourceLocation topTexture;
-                    ResourceLocation invisibleTexture;
-
-                    if (block == BlockFamiliesRegistry.POLISHED_AMETHYST.get(questionBlock)
-                            || block == BlockFamiliesRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
-                            || block == BlockFamiliesRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        sideTexture = modLoc("block/" + removeInvisibleName + "_side");
-                        topTexture = modLoc("block/" + removeInvisibleName + "_top");
-                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
-                        registerInvisibleQuestionBlock(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
-                    } else if (blockName.startsWith("invisible_waxed_")) {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        String removeWaxedName = removeInvisibleName.replace("waxed_", "");
-                        mainTexture = modLoc("block/" + removeWaxedName);
-                        emptyTexture = modLoc("block/empty_" + removeWaxedName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
-                        registerInvisibleQuestionBlock(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
-                    } else {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        mainTexture = modLoc("block/" + removeInvisibleName);
-                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
-                        registerInvisibleQuestionBlock(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
+                        this.questionBlockModel(block, blockName, mainTexture, emptyTexture);
                     }
                 }
             });
@@ -161,33 +172,40 @@ public class BlockStateGen extends BlockStateProvider {
                             || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(smashableBlock)) {
                         mainTexture = modLoc("block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
-                        registerOverlayBlock(block, blockName, mainTexture, overlayTexture);
+
+                        this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
                     } else if (removeSmashableName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeSmashableName = unWaxedName.replace("smashable_", "");
                         mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + unWaxedName + "_overlay");
-                        registerOverlayBlock(block, blockName, mainTexture, overlayTexture);
+
+                        this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
                     } else if (removeSmashableName.startsWith("blackstone_")) {
                         String crackedBlockName = removeSmashableName.replace("blackstone_", "cracked_polished_blackstone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
-                        registerBlock(block, blockName, mainTexture);
+
+                        this.cubeAllModel(block, blockName, mainTexture);
                     } else if (removeSmashableName.startsWith("deepslate_tiles")) {
                         String crackedBlockName = removeSmashableName.replace("deepslate_tiles", "cracked_deepslate_tiles");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
-                        registerBlock(block, blockName, mainTexture);
+
+                        this.cubeAllModel(block, blockName, mainTexture);
                     } else if (removeSmashableName.startsWith("nether_")) {
                         String crackedBlockName = removeSmashableName.replace("nether_", "cracked_nether_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
-                        registerBlock(block, blockName, mainTexture);
+
+                        this.cubeAllModel(block, blockName, mainTexture);
                     } else if (removeSmashableName.startsWith("stone_")) {
                         String crackedBlockName = removeSmashableName.replace("stone_", "cracked_stone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
-                        registerBlock(block, blockName, mainTexture);
+
+                        this.cubeAllModel(block, blockName, mainTexture);
                     } else {
                         mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
-                        registerOverlayBlock(block, blockName, mainTexture, overlayTexture);
+
+                        this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
                     }
                 }
             });
@@ -218,7 +236,8 @@ public class BlockStateGen extends BlockStateProvider {
                                 .replace("bricks", "question_block");
                         mainTexture = modLoc("block/" + blockName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
-                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+
+                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
                     } else if (removeStorageName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeStorageName = unWaxedName.replace("storage_", "");
@@ -226,24 +245,27 @@ public class BlockStateGen extends BlockStateProvider {
                                 .replace("cut_copper", "copper_question_block");
                         mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
-                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+
+                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
                     } else if (questionBlockName.startsWith("blackstone_")) {
                         String crackedBlockName = removeStorageName.replace("blackstone_", "polished_blackstone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
-                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+
+                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
                     } else {
                         mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
-                        registerStorageBrick(block, blockName, mainTexture, emptyTexture);
+
+                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
                     }
                 }
             });
         });
     }
 
-    private void registerInvisibleQuestionBlock(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
-                                                ResourceLocation emptyTexture, ResourceLocation invisibleTexture) {
+    private void invisibleQuestionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                             ResourceLocation emptyTexture, ResourceLocation invisibleTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", topTexture).texture("side", sideTexture).texture("top", topTexture);
@@ -265,8 +287,8 @@ public class BlockStateGen extends BlockStateProvider {
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void registerInvisibleQuestionBlock(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture,
-                                                ResourceLocation invisibleTexture) {
+    private void invisibleQuestionBlockModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture,
+                                             ResourceLocation invisibleTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
@@ -288,7 +310,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void registerBlock(Block block, String modelName, ResourceLocation mainTexture) {
+    private void cubeAllModel(Block block, String modelName, ResourceLocation mainTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
                 .texture("all", mainTexture);
@@ -296,7 +318,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void registerOverlayBlock(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+    private void cubeOverlayModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
                 .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
@@ -304,7 +326,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void registerPedestalBlock(Block block, String modelName, ResourceLocation mainTexture) {
+    private void pedestalModel(Block block, String modelName, ResourceLocation mainTexture) {
         ModelFile modelTop = models()
                 .withExistingParent(modelName + "_top", modLoc("block/template_brick_pedestal_top"))
                 .texture("bricks", mainTexture);
@@ -319,8 +341,8 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
     }
 
-    private void registerQuestionBlock(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
-                                       ResourceLocation emptyTexture) {
+    private void questionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                    ResourceLocation emptyTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", topTexture).texture("side", sideTexture).texture("top", topTexture);
@@ -335,7 +357,7 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void registerQuestionBlock(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+    private void questionBlockModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
@@ -350,7 +372,7 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void registerStorageBrick(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+    private void storageBrickModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_all"))
                 .texture("all", mainTexture);
