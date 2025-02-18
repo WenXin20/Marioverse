@@ -3,11 +3,20 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
+import java.util.Map;
+import java.util.Objects;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class ItemModelGen extends ItemModelProvider {
     public ItemModelGen(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -18,6 +27,52 @@ public class ItemModelGen extends ItemModelProvider {
     protected void registerModels() {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
+
+        this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
+        this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
+        this.basicItem(ItemRegistry.FIRE_FLOWER.get());
+        this.basicItem(ItemRegistry.FIRE_HAT.get());
+        this.basicItem(ItemRegistry.FIRE_OVERALLS.get());
+        this.basicItem(ItemRegistry.FIRE_SHIRT.get());
+        this.basicItem(ItemRegistry.FIRE_SHOES.get());
+        this.basicItem(ItemRegistry.MUSHROOM.get());
+        this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
+        this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
+        this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
+        this.basicItem(ItemRegistry.SUPER_STAR.get());
+
+        this.handheldItem(ItemRegistry.PIPE_WRENCH.get());
+        this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
+
+        this.spawnEggItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
+        this.spawnEggItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
+
+        this.spawnEggItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get(), "item/template_hefty_spawn_egg");
+        this.spawnEggItem(ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get(), "item/template_mega_spawn_egg");
+        this.spawnEggItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get(), "item/template_mini_spawn_egg");
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet())
+            this.handheldItem(entry.getValue().asItem());
+    }
+
+    public void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+        getBuilder(modelName).parent(getExistingFile(modLoc("item/template_storage_bricks")))
+                .texture("all", mainTexture).texture("overlay", overlayTexture);
+    }
+
+    public void cubeBottomTopModel(String modelName, ResourceLocation sideTexture, ResourceLocation topTexture) {
+        getBuilder(modelName).parent(getExistingFile(mcLoc("minecraft:block/cube_bottom_top"))).texture("bottom", topTexture)
+                .texture("side", sideTexture).texture("top", topTexture);
+    }
+
+    public void invisibleQuestionBlockModel(String modelName, ResourceLocation mainTexture) {
+        getBuilder(modelName).parent(getExistingFile(mcLoc("item/generated")))
+                .texture("layer0", mainTexture);
+    }
+
+    public void spawnEggItem(Item item, String parentModelPath) {
+        getBuilder(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)).toString()).parent(new ModelFile
+                .UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, parentModelPath)));
     }
 
     private void genInvisibleQuestionBlockVariants() {
@@ -94,20 +149,5 @@ public class ItemModelGen extends ItemModelProvider {
                 }
             });
         });
-    }
-
-    private void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
-        getBuilder(modelName).parent(getExistingFile(modLoc("item/template_storage_bricks")))
-                .texture("all", mainTexture).texture("overlay", overlayTexture);
-    }
-
-    private void cubeBottomTopModel(String modelName, ResourceLocation sideTexture, ResourceLocation topTexture) {
-        getBuilder(modelName).parent(getExistingFile(mcLoc("minecraft:block/cube_bottom_top"))).texture("bottom", topTexture)
-                .texture("side", sideTexture).texture("top", topTexture);
-    }
-
-    private void invisibleQuestionBlockModel(String modelName, ResourceLocation mainTexture) {
-        getBuilder(modelName).parent(getExistingFile(mcLoc("item/generated")))
-                .texture("layer0", mainTexture);
     }
 }
