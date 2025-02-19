@@ -1,14 +1,11 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.data.BlockFamilyExtended;
-import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;

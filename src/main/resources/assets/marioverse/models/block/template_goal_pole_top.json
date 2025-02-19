@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
-		"particle": "marioverse:block/goal_pole_top",
-		"side": "marioverse:block/goal_pole_top"
+		"side": "marioverse:block/goal_pole_top",
+		"particle": "#side"
 	},
 	"elements": [
 		{

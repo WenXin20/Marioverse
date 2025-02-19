@@ -2,9 +2,11 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
@@ -29,11 +31,24 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
+
         this.genInvisibleQuestionBlockVariants();
         this.genPedestalVariants();
         this.genQuestionBlockVariants();
         this.genSmashableBlockVariants();
         this.genStorageBrickVariants();
+
+        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
+            String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
+            String removeColorName = blockName.replace(entry.getKey() + "_", "");
+            ResourceLocation texture = modLoc("block/" + removeColorName);
+
+
+            this.goalPoleModel(entry.getValue().get(), removeColorName, texture);
+        }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -281,6 +296,22 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
+    private void cubeAllModel(Block block, String modelName, ResourceLocation mainTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
+                .texture("all", mainTexture);
+
+        simpleBlockWithItem(block, model);
+    }
+
+    private void cubeOverlayModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
+                .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
+
+        simpleBlockWithItem(block, model);
+    }
+
     private void invisibleQuestionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
                                              ResourceLocation emptyTexture, ResourceLocation invisibleTexture) {
         ModelFile model = models()
@@ -327,20 +358,22 @@ public class BlockStateGen extends BlockStateProvider {
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void cubeAllModel(Block block, String modelName, ResourceLocation mainTexture) {
+    private void goalPoleModel(Block block, String modelName, ResourceLocation mainTexture) {
         ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
-                .texture("all", mainTexture);
+                .withExistingParent(modelName, modLoc("block/template_goal_pole"))
+                .texture("side", mainTexture);
+        ModelFile modelNone = models()
+                .withExistingParent(modelName + "_none", modLoc("block/template_goal_pole_none"))
+                .texture("side", mainTexture + "_none");
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_goal_pole_top"))
+                .texture("side", mainTexture + "_top");
 
-        simpleBlockWithItem(block, model);
-    }
-
-    private void cubeOverlayModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
-        ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
-                .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
-
-        simpleBlockWithItem(block, model);
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.BOTTOM).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.MIDDLE).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.TOP).addModels(new ConfiguredModel(modelTop));
+        variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.NONE).addModels(new ConfiguredModel(modelNone));
     }
 
     private void pedestalModel(Block block, String modelName, ResourceLocation mainTexture) {
