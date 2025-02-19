@@ -8,7 +8,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
-import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
+import com.wenxin2.marioverse.init.BlockFamilyRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import java.util.Map;
 import net.minecraft.core.Direction;
@@ -70,7 +70,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genInvisibleQuestionBlocks() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
 
@@ -82,9 +82,9 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation topTexture;
                     ResourceLocation invisibleTexture;
 
-                    if (block == BlockFamiliesRegistry.POLISHED_AMETHYST.get(questionBlock)
-                            || block == BlockFamiliesRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
-                            || block == BlockFamiliesRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
+                    if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
                         String removeInvisibleName = blockName.replace("invisible_", "");
                         sideTexture = modLoc("block/" + removeInvisibleName + "_side");
                         topTexture = modLoc("block/" + removeInvisibleName + "_top");
@@ -114,7 +114,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genPedestals() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant pedestal = BlockFamilyExtended.Variant.PEDESTAL;
 
@@ -123,9 +123,9 @@ public class BlockStateGen extends BlockStateProvider {
                     String removePedestalName = blockName.replace("_pedestal", "s");
                     ResourceLocation texture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(pedestal)
-                            || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
-                            || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(pedestal)) {
+                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(pedestal)
+                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)) {
                         texture = modLoc("block/" + removePedestalName);
 
                         this.pedestalModel(block, blockName, texture);
@@ -159,7 +159,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genQuestionBlocks() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
 
@@ -170,9 +170,9 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation sideTexture;
                     ResourceLocation topTexture;
 
-                    if (block == BlockFamiliesRegistry.POLISHED_AMETHYST.get(questionBlock)
-                            || block == BlockFamiliesRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
-                            || block == BlockFamiliesRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
+                    if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
                         sideTexture = modLoc("block/" + blockName + "_side");
                         topTexture = modLoc("block/" + blockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
@@ -196,7 +196,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genSlabs() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant slab = BlockFamilyExtended.Variant.SLAB;
 
@@ -206,12 +206,12 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation texture;
                     ResourceLocation topTexture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST.get(slab)) {
+                    if (block == BlockFamilyRegistry.AMETHYST.get(slab)) {
                         texture = mcLoc("block/" + removeSlabName + "_block");
                         this.slabBlock(slabBlock, texture, texture);
-                    } else if (block == BlockFamiliesRegistry.POLISHED_AMETHYST.get(slab)
-                            || block == BlockFamiliesRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
-                            || block == BlockFamiliesRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
+                    } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                         texture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeSlabName);
                         this.slabDoubleBlock(slabBlock, blockName, texture, topTexture, topTexture);
@@ -225,7 +225,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genSmashableBlocks() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant smashableBlock = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
@@ -235,9 +235,9 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation mainTexture;
                     ResourceLocation overlayTexture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(smashableBlock)
-                            || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(smashableBlock)
-                            || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(smashableBlock)) {
+                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(smashableBlock)
+                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(smashableBlock)
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(smashableBlock)) {
                         mainTexture = modLoc("block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
 
@@ -281,7 +281,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genStairs() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant stairs = BlockFamilyExtended.Variant.STAIRS;
 
@@ -290,7 +290,7 @@ public class BlockStateGen extends BlockStateProvider {
                     String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks");
                     ResourceLocation texture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST.get(stairs)) {
+                    if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
                         texture = mcLoc("block/" + removeStairName + "_block");
                         this.stairsBlock(stairBlock, removeStairName, texture);
                     } else {
@@ -303,7 +303,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genStorageBricks() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
 
@@ -319,9 +319,9 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation mainTexture;
                     ResourceLocation emptyTexture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(storageBrick)
-                            || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(storageBrick)) {
+                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)) {
                         questionBlockName = removeStorageName
                                 .replace("bricks", "question_block");
                         mainTexture = modLoc("block/" + blockName);
@@ -355,7 +355,7 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genWalls() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant wall = BlockFamilyExtended.Variant.WALL;
 
@@ -364,7 +364,7 @@ public class BlockStateGen extends BlockStateProvider {
                     String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks");
                     ResourceLocation texture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST.get(wall)) {
+                    if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {
                         texture = mcLoc("block/" + removeWallName + "_block");
                         this.wallBlock(wallBlock, removeWallName, texture);
                     } else {

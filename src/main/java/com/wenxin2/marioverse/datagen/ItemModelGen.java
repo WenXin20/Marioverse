@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
-import com.wenxin2.marioverse.init.BlockFamiliesRegistry;
+import com.wenxin2.marioverse.init.BlockFamilyRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import java.util.Map;
@@ -78,7 +78,7 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     private void genInvisibleQuestionBlockVariants() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
 
@@ -102,7 +102,7 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     private void genStorageBrickVariants() {
-        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
 
@@ -120,9 +120,9 @@ public class ItemModelGen extends ItemModelProvider {
                     ResourceLocation topTexture;
                     ResourceLocation overlayTexture;
 
-                    if (block == BlockFamiliesRegistry.AMETHYST_BRICKS.get(storageBrick)
-                            || block == BlockFamiliesRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamiliesRegistry.FUNGAL_BRICKS.get(storageBrick)) {
+                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)) {
                         sideTexture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeStorageName);
 
