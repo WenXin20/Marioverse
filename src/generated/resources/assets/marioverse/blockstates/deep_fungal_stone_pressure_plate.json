@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "marioverse:block/deep_fungal_stone_pressure_plate"
+    },
+    "powered=true": {
+      "model": "marioverse:block/deep_fungal_stone_pressure_plate_down"
+    }
+  }
+}
