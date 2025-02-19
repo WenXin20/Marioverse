@@ -1,9 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/cube_bottom_top",
-	"textures": {
-		"bottom": "marioverse:block/amethyst_bricks",
-		"side": "marioverse:block/storage_amethyst_bricks",
-		"top": "marioverse:block/amethyst_bricks"
-	}
-}
