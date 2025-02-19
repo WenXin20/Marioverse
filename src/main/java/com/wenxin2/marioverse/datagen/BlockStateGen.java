@@ -17,6 +17,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -38,6 +39,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genPedestalVariants();
         this.genQuestionBlockVariants();
+        this.genSlabVariants();
         this.genSmashableBlockVariants();
         this.genStorageBrickVariants();
         this.genWallVariants();
@@ -191,6 +193,35 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
+    private void genSlabVariants() {
+        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant slab = BlockFamilyExtended.Variant.SLAB;
+
+                if (variant == slab && block instanceof SlabBlock slabBlock) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    String removeSlabName = blockName.replace("_slab", "").replace("brick", "bricks");
+                    ResourceLocation texture;
+                    ResourceLocation topTexture;
+
+                    if (block == BlockFamiliesRegistry.AMETHYST.get(slab)) {
+                        texture = mcLoc("block/" + removeSlabName + "_block");
+                        this.slabBlock(slabBlock, texture, texture);
+                    } else if (block == BlockFamiliesRegistry.POLISHED_AMETHYST.get(slab)
+                            || block == BlockFamiliesRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
+                            || block == BlockFamiliesRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
+                        texture = modLoc("block/" + blockName);
+                        topTexture = modLoc("block/" + removeSlabName);
+                        this.slabDoubleBlock(slabBlock, blockName, texture, topTexture, topTexture);
+                    } else {
+                        texture = modLoc("block/" + removeSlabName);
+                        this.slabBlock(slabBlock, texture, texture);
+                    }
+                }
+            });
+        });
+    }
+
     private void genSmashableBlockVariants() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
@@ -303,9 +334,8 @@ public class BlockStateGen extends BlockStateProvider {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant wall = BlockFamilyExtended.Variant.WALL;
-                WallBlock wallBlock = (WallBlock) block;
 
-                if (variant == wall && wallBlock != null) {
+                if (variant == wall && block instanceof WallBlock wallBlock) {
                     String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
                     String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks");
                     ResourceLocation texture;
@@ -453,6 +483,15 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
+    }
+
+    public void slabDoubleBlock(SlabBlock block, String modelName, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+        slabBlock(block, models().slab(modelName, side, bottom, top),
+                models().slabTop(modelName + "_top", side, bottom, top),
+                models().withExistingParent(modelName + "_double", mcLoc("block/cube_bottom_top"))
+                        .texture("side", side)
+                        .texture("bottom", bottom)
+                        .texture("top", top));
     }
 
     private void storageBrickModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
