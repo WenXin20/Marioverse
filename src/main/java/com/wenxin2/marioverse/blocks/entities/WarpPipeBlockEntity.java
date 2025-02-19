@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.HashMap;
@@ -147,12 +148,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
         super.applyImplicitComponents(input);
         this.name = input.get(DataComponents.CUSTOM_NAME);
+        this.pipeName = input.get(DataComponentRegistry.PIPE_NAME);
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder builder) {
         super.collectImplicitComponents(builder);
         builder.set(DataComponents.CUSTOM_NAME, this.name);
+        builder.set(DataComponentRegistry.PIPE_NAME, this.pipeName);
     }
 
     @Override

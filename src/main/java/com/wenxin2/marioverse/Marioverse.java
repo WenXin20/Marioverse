@@ -52,6 +52,7 @@ public class Marioverse {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Registries.ATTRIBUTE, Marioverse.MOD_ID);
 
     public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
+        COMPONENTS.register(bus);
         BLOCKS.register(bus);
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
@@ -61,7 +62,6 @@ public class Marioverse {
         MENUS.register(bus);
         SOUNDS.register(bus);
         LOOT_CODECS.register(bus);
-        COMPONENTS.register(bus);
         MarioverseCreativeTabs.TABS.register(bus);
 
         BlockRegistry.init();
@@ -71,6 +71,7 @@ public class Marioverse {
         MenuRegistry.init();
         ParticleRegistry.init();
         SoundRegistry.init();
+        DataComponentRegistry.init();
         AttributesRegistry.init();
         ConfigRegistry.register(container);
 
