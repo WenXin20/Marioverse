@@ -1,3 +1,6 @@
 {
-  "parent": "marioverse:block/amethyst_pressure_plate"
+  "parent": "minecraft:block/pressure_plate_up",
+  "textures": {
+    "texture": "minecraft:block/amethyst_block"
+  }
 }

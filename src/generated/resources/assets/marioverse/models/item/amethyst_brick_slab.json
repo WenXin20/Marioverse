@@ -1,3 +1,8 @@
 {
-  "parent": "marioverse:block/amethyst_brick_slab"
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "marioverse:block/amethyst_bricks",
+    "side": "marioverse:block/amethyst_bricks",
+    "top": "marioverse:block/amethyst_bricks"
+  }
 }

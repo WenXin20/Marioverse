@@ -44,6 +44,14 @@ public class BlockStateGen extends BlockStateProvider {
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
+        this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
+        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
+        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
+        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
+        this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), waterSpoutName, modLoc("block/" + waterSpoutName + "_flow"),
+                modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
+        this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
+
         this.genButtons();
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
@@ -55,14 +63,6 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStairs();
         this.genStorageBricks();
         this.genWalls();
-
-        this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
-        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
-        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
-        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
-        this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), waterSpoutName, modLoc("block/" + waterSpoutName + "_flow"),
-                modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
-        this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -227,11 +227,11 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(pressurePlate)) {
                         texture = mcLoc("block/" + removePressurePlateName + "_block");
                         this.pressurePlateBlock(pressurePlateBlock, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                        this.itemModels().pressurePlate(blockName, texture);
                     } else {
                         texture = modLoc("block/" + removePressurePlateName);
                         this.pressurePlateBlock(pressurePlateBlock, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                        this.itemModels().pressurePlate(blockName, texture);
                     }
                 }
             });
@@ -289,18 +289,18 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(slab)) {
                         texture = mcLoc("block/" + removeSlabName + "_block");
                         this.slabBlock(slabBlock, texture, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                        this.itemModels().slab(blockName, texture, texture, texture);
                     } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
                             || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
                             || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                         texture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeSlabName);
                         this.slabDoubleBlock(slabBlock, blockName, texture, topTexture, topTexture);
-                        this.itemModels().withExistingParent(blockName, texture);
+                        this.itemModels().slab(blockName, texture, topTexture, topTexture);
                     } else {
                         texture = modLoc("block/" + removeSlabName);
                         this.slabBlock(slabBlock, texture, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                        this.itemModels().slab(blockName, texture, texture, texture);
                     }
                 }
             });
@@ -376,11 +376,11 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
                         texture = mcLoc("block/" + removeStairName + "_block");
                         this.stairsBlock(stairBlock, removeStairName, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                        this.itemModels().stairs(blockName, texture, texture, texture);
                     } else {
                         texture = modLoc("block/" + removeStairName);
                         this.stairsBlock(stairBlock, removeStairName, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                        this.itemModels().stairs(blockName, texture, texture, texture);
                     }
                 }
             });

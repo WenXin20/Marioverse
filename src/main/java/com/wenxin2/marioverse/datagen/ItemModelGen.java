@@ -59,7 +59,7 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
-        getBuilder(modelName).parent(getExistingFile(modLoc("item/template_storage_bricks")))
+        getBuilder(modelName).parent(getExistingFile(modLoc("block/template_storage_bricks")))
                 .texture("all", mainTexture).texture("overlay", overlayTexture);
     }
 
