@@ -209,15 +209,18 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(slab)) {
                         texture = mcLoc("block/" + removeSlabName + "_block");
                         this.slabBlock(slabBlock, texture, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
                     } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
                             || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
                             || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                         texture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeSlabName);
                         this.slabDoubleBlock(slabBlock, blockName, texture, topTexture, topTexture);
+                        this.itemModels().withExistingParent(blockName, texture);
                     } else {
                         texture = modLoc("block/" + removeSlabName);
                         this.slabBlock(slabBlock, texture, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
                     }
                 }
             });
@@ -293,9 +296,11 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
                         texture = mcLoc("block/" + removeStairName + "_block");
                         this.stairsBlock(stairBlock, removeStairName, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
                     } else {
                         texture = modLoc("block/" + removeStairName);
                         this.stairsBlock(stairBlock, removeStairName, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
                     }
                 }
             });
@@ -367,9 +372,11 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {
                         texture = mcLoc("block/" + removeWallName + "_block");
                         this.wallBlock(wallBlock, removeWallName, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
                     } else {
                         texture = modLoc("block/" + removeWallName);
                         this.wallBlock(wallBlock, removeWallName, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
                     }
                 }
             });
