@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +43,7 @@ public class Marioverse {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MOD_ID);
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Marioverse.MOD_ID);
+    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_CODECS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Marioverse.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
@@ -59,7 +61,7 @@ public class Marioverse {
         MENUS.register(bus);
         SOUNDS.register(bus);
         LOOT_CODECS.register(bus);
-        DataComponentRegistry.COMPONENTS.register(bus);
+        COMPONENTS.register(bus);
         MarioverseCreativeTabs.TABS.register(bus);
 
         BlockRegistry.init();
