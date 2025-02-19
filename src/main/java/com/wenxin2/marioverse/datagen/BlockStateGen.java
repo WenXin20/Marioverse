@@ -366,10 +366,10 @@ public class BlockStateGen extends BlockStateProvider {
 
                     if (block == BlockFamiliesRegistry.AMETHYST.get(wall)) {
                         texture = mcLoc("block/" + removeWallName + "_block");
-                        this.wallBlock(wallBlock, blockName, texture);
+                        this.wallBlock(wallBlock, removeWallName, texture);
                     } else {
                         texture = modLoc("block/" + removeWallName);
-                        this.wallBlock(wallBlock, blockName, texture);
+                        this.wallBlock(wallBlock, removeWallName, texture);
                     }
                 }
             });
