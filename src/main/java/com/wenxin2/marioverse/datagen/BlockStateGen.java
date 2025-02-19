@@ -37,14 +37,14 @@ public class BlockStateGen extends BlockStateProvider {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
 
-        this.genInvisibleQuestionBlockVariants();
-        this.genPedestalVariants();
-        this.genQuestionBlockVariants();
-        this.genSlabVariants();
-        this.genSmashableBlockVariants();
-        this.genStorageBrickVariants();
-        this.genStairsVariants();
-        this.genWallVariants();
+        this.genInvisibleQuestionBlocks();
+        this.genPedestals();
+        this.genQuestionBlocks();
+        this.genSlabs();
+        this.genSmashableBlocks();
+        this.genStorageBricks();
+        this.genStairs();
+        this.genWalls();
 
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
         this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
@@ -69,7 +69,7 @@ public class BlockStateGen extends BlockStateProvider {
         }
     }
 
-    private void genInvisibleQuestionBlockVariants() {
+    private void genInvisibleQuestionBlocks() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
@@ -113,7 +113,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genPedestalVariants() {
+    private void genPedestals() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant pedestal = BlockFamilyExtended.Variant.PEDESTAL;
@@ -158,7 +158,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genQuestionBlockVariants() {
+    private void genQuestionBlocks() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
@@ -195,7 +195,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genSlabVariants() {
+    private void genSlabs() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant slab = BlockFamilyExtended.Variant.SLAB;
@@ -224,7 +224,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genSmashableBlockVariants() {
+    private void genSmashableBlocks() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant smashableBlock = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
@@ -280,7 +280,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genStairsVariants() {
+    private void genStairs() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant stairs = BlockFamilyExtended.Variant.STAIRS;
@@ -302,7 +302,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genStorageBrickVariants() {
+    private void genStorageBricks() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
@@ -354,7 +354,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genWallVariants() {
+    private void genWalls() {
         BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
             blockFamily.getVariants().forEach((variant, block) -> {
                 BlockFamilyExtended.Variant wall = BlockFamilyExtended.Variant.WALL;
