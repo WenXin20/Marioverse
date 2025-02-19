@@ -98,6 +98,64 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     @Override
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+        this.lockKey.addToTag(tag);
+        tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
+        tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
+        tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
+        tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
+        tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
+        tag.putBoolean(DISPLAY_TEXT_WEST, this.displayTextWest);
+        tag.putBoolean(DISPLAY_TEXT_ABOVE, this.displayTextAbove);
+        tag.putBoolean(DISPLAY_TEXT_BELOW, this.displayTextBelow);
+
+        if (this.name != null) {
+            tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
+        }
+
+        PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeName).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
+            tag.put(PIPE_NAME, pipeName);
+        });
+    }
+
+    @Override
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
+        this.lockKey = LockCode.fromTag(tag);
+        this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
+        this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
+        this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
+        this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
+        this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
+        this.displayTextWest = tag.getBoolean(DISPLAY_TEXT_WEST);
+        this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
+        this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
+
+        if (tag.contains(CUSTOM_NAME, 8)) {
+            this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
+        }
+
+        if (tag.contains(PIPE_NAME)) {
+            PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
+                this.pipeName = this.loadLines(text);
+            });
+        }
+    }
+
+    @Override
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        this.name = input.get(DataComponents.CUSTOM_NAME);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CUSTOM_NAME, this.name);
+    }
+
+    @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
@@ -134,18 +192,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public Component getName() {
         return !this.pipeName.getMessage(0, false).contains(Component.empty())
                 ? this.pipeName.getMessage(0, false) : this.name != null ? this.name : DEFAULT_NAME;
-    }
-
-    @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
-        super.applyImplicitComponents(input);
-        this.name = input.get(DataComponents.CUSTOM_NAME);
-    }
-
-    @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
-        super.collectImplicitComponents(builder);
-        builder.set(DataComponents.CUSTOM_NAME, this.name);
     }
 
     protected PipeText createDefaultPipeText() {
@@ -291,52 +337,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         }
 
         return text;
-    }
-
-    @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadAdditional(tag, provider);
-        this.lockKey = LockCode.fromTag(tag);
-        this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
-        this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
-        this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
-        this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
-        this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
-        this.displayTextWest = tag.getBoolean(DISPLAY_TEXT_WEST);
-        this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
-        this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
-
-        if (tag.contains(CUSTOM_NAME, 8)) {
-            this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
-        }
-
-        if (tag.contains(PIPE_NAME)) {
-            PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
-                this.pipeName = this.loadLines(text);
-            });
-        }
-    }
-
-    @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        super.saveAdditional(tag, provider);
-        this.lockKey.addToTag(tag);
-        tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
-        tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
-        tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
-        tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
-        tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
-        tag.putBoolean(DISPLAY_TEXT_WEST, this.displayTextWest);
-        tag.putBoolean(DISPLAY_TEXT_ABOVE, this.displayTextAbove);
-        tag.putBoolean(DISPLAY_TEXT_BELOW, this.displayTextBelow);
-
-        if (this.name != null) {
-            tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
-        }
-
-        PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeName).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
-            tag.put(PIPE_NAME, pipeName);
-        });
     }
 
     public void closePipe(ServerPlayer player) {
