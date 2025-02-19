@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "marioverse:block/empty_deepslate_question_tiles",
-    "side": "marioverse:block/deepslate_question_tiles",
-    "top": "marioverse:block/empty_deepslate_question_tiles"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "marioverse:block/fungal_stone",
-    "side": "marioverse:block/fungal_stone",
-    "top": "marioverse:block/fungal_stone"
-  }
-}

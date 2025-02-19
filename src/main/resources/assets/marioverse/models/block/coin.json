@@ -1,7 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"render_type": "cutout",
-	"textures": {
-		"particle": "marioverse:block/coin"
-	}
-}

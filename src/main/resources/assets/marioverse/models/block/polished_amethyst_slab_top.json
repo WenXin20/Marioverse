@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "marioverse:block/polished_amethyst",
-    "side": "marioverse:block/polished_amethyst_slab",
-    "top": "marioverse:block/polished_amethyst"
-  }
-}

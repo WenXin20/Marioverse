@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-19T10:19:41.560631	Block States: marioverse
+// 1.21.1	2025-02-19T10:23:52.5377124	Block States: marioverse
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
 07916a68f71d59889c172935856afee8a78b0aa0 assets/marioverse/blockstates/amethyst_brick_pedestal.json
 01efc778a6938f89048d3d1b2ff1e8a4e39ed424 assets/marioverse/blockstates/amethyst_brick_slab.json
@@ -724,4 +724,3 @@ e633579cd40096d6f50ad4d5a5b50f4132808294 assets/marioverse/models/item/waxed_wea
 cb64db502baa94b8fd7eb7639c02dfdd7c7c587c assets/marioverse/models/item/weathered_cut_copper_pedestal.json
 4a3aebc9ad4adc98395a5a674a99a45b33fa4b8c assets/marioverse/models/item/white_warp_pipe.json
 a19288504f314e833fec5c33e6af83b5f310a4e8 assets/marioverse/models/item/yellow_warp_pipe.json
-bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f assets/minecraft/models/block/water.json

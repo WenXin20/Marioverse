@@ -1,6 +1,0 @@
-{
-	"parent": "marioverse:block/template_brick_pedestal",
-	"textures": {
-		"bricks": "block/bricks"
-	}
-}
