@@ -1,0 +1,6 @@
+{
+  "parent": "marioverse:block/template_goal_pole_none",
+  "textures": {
+    "side": "marioverse:block/goal_pole_none"
+  }
+}

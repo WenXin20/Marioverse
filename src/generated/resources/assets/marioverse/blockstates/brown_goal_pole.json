@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "column=bottom": {
+      "model": "marioverse:block/goal_pole"
+    },
+    "column=middle": {
+      "model": "marioverse:block/goal_pole"
+    },
+    "column=none": {
+      "model": "marioverse:block/goal_pole_none"
+    },
+    "column=top": {
+      "model": "marioverse:block/goal_pole_top"
+    }
+  }
+}
