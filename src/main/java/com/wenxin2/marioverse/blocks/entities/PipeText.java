@@ -8,17 +8,25 @@ import java.util.Optional;
 import java.util.function.Function;
 import javax.annotation.Nullable;
 import net.minecraft.Util;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.component.Unbreakable;
 
 public class PipeText {
-    private static final Codec<Component[]> LINES_CODEC = ComponentSerialization.FLAT_CODEC.listOf()
+    public static final Codec<Unbreakable> CODEC = RecordCodecBuilder.create(
+            p_337955_ -> p_337955_.group(Codec.BOOL.optionalFieldOf("show_in_tooltip", Boolean.valueOf(true)).forGetter(Unbreakable::showInTooltip))
+                    .apply(p_337955_, Unbreakable::new)
+    );
+    public static final Codec<Component[]> LINES_CODEC = ComponentSerialization.FLAT_CODEC.listOf()
             .comapFlatMap((list) -> Util.fixedSize(list, 1)
                     .map((components) -> new Component[]{components.getFirst()}),
                     (components) -> List.of(components[0]));
@@ -27,6 +35,7 @@ public class PipeText {
                     LINES_CODEC.optionalFieldOf("filtered_pipe_name").forGetter(PipeText::getOnlyFilteredMessages),
             DyeColor.CODEC.fieldOf("color").orElse(DyeColor.BLACK).forGetter((pipeText) -> pipeText.color),
                     Codec.BOOL.fieldOf("has_glowing_text").orElse(false).forGetter((pipeText) -> pipeText.hasGlowingText)).apply(instance, PipeText::load));
+//    public static final StreamCodec<RegistryFriendlyByteBuf, PipeText> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(ComponentSerialization.FLAT_CODEC);
     public static final int LINES = 1;
     private final Component[] messages;
     private final Component[] filteredMessages;

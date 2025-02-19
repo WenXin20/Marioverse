@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamilyRegistry;
+import com.wenxin2.marioverse.init.DataComponentRegistry;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,8 +52,10 @@ public class BlockLootTableGen extends LootTableProvider {
                 if (block.getLootTable() != BuiltInLootTables.EMPTY) {
                     if (isBlockInVariants(block))
                         this.genBlockVariants(block);
-                    else if (block instanceof GoalPoleBlock || block instanceof WarpPipeBlock)
+                    else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
+                    else if (block instanceof WarpPipeBlock)
+                        this.add(block, this.createNameableWarpPipeBETable(block));
                     else this.dropSelf(block);
                 }
             });
@@ -81,12 +84,13 @@ public class BlockLootTableGen extends LootTableProvider {
             });
         }
 
-        protected LootTable.Builder createNameableBlockEntityTable(Block block) {
+        protected LootTable.Builder createNameableWarpPipeBETable(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
-                                            .include(DataComponents.CUSTOM_NAME))))
+                                            .include(DataComponents.CUSTOM_NAME)
+                                            .include(DataComponentRegistry.PIPE_NAME.get()))))
             );
         }
     }
