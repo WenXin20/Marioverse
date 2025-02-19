@@ -86,11 +86,11 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(button)) {
                         texture = mcLoc("block/" + removeButtonName + "_block");
                         this.buttonBlock(buttonBlock, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
+                        this.itemModels().buttonInventory(blockName, texture);
                     } else {
                         texture = modLoc("block/" + removeButtonName);
                         this.buttonBlock(buttonBlock, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
+                        this.itemModels().buttonInventory(blockName, texture);
                     }
                 }
             });
@@ -424,11 +424,11 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {
                         texture = mcLoc("block/" + removeWallName + "_block");
                         this.wallBlock(wallBlock, removeWallName, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
+                        this.itemModels().wallInventory(blockName, texture);
                     } else {
                         texture = modLoc("block/" + removeWallName);
                         this.wallBlock(wallBlock, removeWallName, texture);
-                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
+                        this.itemModels().wallInventory(blockName, texture);
                     }
                 }
             });
