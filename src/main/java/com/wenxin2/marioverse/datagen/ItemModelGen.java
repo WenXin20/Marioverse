@@ -28,7 +28,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
 
-        this.basicItem(BlockRegistry.COIN.get().asItem());
+        this.basicItem(BlockRegistry.COIN.asItem());
 
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
@@ -43,6 +43,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
 
+        this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem());
         this.handheldItem(ItemRegistry.PIPE_WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
 

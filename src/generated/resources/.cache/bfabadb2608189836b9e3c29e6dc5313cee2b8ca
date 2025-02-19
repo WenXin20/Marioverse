@@ -1,9 +1,10 @@
-// 1.21.1	2025-02-19T10:40:02.8210557	Item Models: marioverse
+// 1.21.1	2025-02-19T11:29:05.903616	Item Models: marioverse
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 7604aa5c9489fa9cfb52b226b622387902f3f70e assets/marioverse/models/item/blue_goal_pole.json
 1e88be9dc1710d4e0ec985de4696fc54df15dd4b assets/marioverse/models/item/bowser_banner_pattern.json
 afffda4529829c1e11ca56b1133f78c0e10f226f assets/marioverse/models/item/bowser_pottery_sherd.json
 9f1f87f6f5deb9d3975b8e55376168fd538c2685 assets/marioverse/models/item/brown_goal_pole.json
+406af49b0154b1ca3e79bcff3013f086cd9d1c7e assets/marioverse/models/item/classic_goal_pole.json
 fb209281fa76443b140297c0ff36c8fa23f5d6ce assets/marioverse/models/item/coin.json
 7b9eb2cab5d4b45f11a8c37d85a874da8a8a9964 assets/marioverse/models/item/cyan_goal_pole.json
 0a071eda79e87a6dc996e8323c07ed7899626107 assets/marioverse/models/item/fire_flower.json
