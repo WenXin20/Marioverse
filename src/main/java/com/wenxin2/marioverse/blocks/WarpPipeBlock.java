@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -234,8 +235,9 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-            if (stack.has(DataComponents.CUSTOM_NAME)) {
+            if (stack.has(DataComponents.CUSTOM_NAME) || stack.has(DataComponentRegistry.PIPE_NAME)) {
                 pipeBlockEntity.setCustomName(stack.getHoverName());
+                pipeBlockEntity.setPipeName(stack.getHoverName());
                 pipeBlockEntity.setChanged();
             }
         }

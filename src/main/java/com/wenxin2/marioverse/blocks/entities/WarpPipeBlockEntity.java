@@ -61,7 +61,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private static final int MAX_TEXT_LINE_WIDTH = 78;
     private static final int TEXT_LINE_HEIGHT = 10;
 
-    public PipeText pipeName = this.createDefaultPipeText();
+    public PipeText pipeText = this.createDefaultPipeText();
     public static final String SPOUT_HEIGHT = "SpoutHeight";
     public static final String BUBBLES_DISTANCE = "BubblesDistance";
     public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
@@ -74,6 +74,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String PIPE_NAME = "PipeName";
     @Nullable
     public Component name;
+    public Component pipeName;
     private LockCode lockKey = LockCode.NO_LOCK;
     public int spoutHeight = 4;
     public int bubblesDistance = 3;
@@ -111,11 +112,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         tag.putBoolean(DISPLAY_TEXT_ABOVE, this.displayTextAbove);
         tag.putBoolean(DISPLAY_TEXT_BELOW, this.displayTextBelow);
 
-        if (this.name != null) {
+        if (this.name != null)
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
-        }
+        if (this.pipeName != null)
+            tag.putString(PIPE_NAME, Component.Serializer.toJson(this.pipeName, provider));
 
-        PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeName).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
+        PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeText).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
             tag.put(PIPE_NAME, pipeName);
         });
     }
@@ -133,14 +135,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
         this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
 
-        if (tag.contains(CUSTOM_NAME, 8)) {
+        if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
-        }
 
         if (tag.contains(PIPE_NAME)) {
             PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
-                this.pipeName = this.loadLines(text);
+                this.pipeText = this.loadLines(text);
             });
+            this.pipeName = parseCustomNameSafe(tag.getString(PIPE_NAME), provider);
         }
     }
 
@@ -174,6 +176,13 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.getUpdatePacket();
     }
 
+    public void setPipeName(Component name) {
+        this.pipeName = name;
+        this.pipeText.setMessage(0, name);
+        this.markUpdated();
+        this.getUpdatePacket();
+    }
+
     @NotNull
     @Override
     public Component getDisplayName() {
@@ -193,8 +202,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     @NotNull
     @Override
     public Component getName() {
-        return !this.pipeName.getMessage(0, false).contains(Component.empty())
-                ? this.pipeName.getMessage(0, false) : this.name != null ? this.name : DEFAULT_NAME;
+        return !this.pipeText.getMessage(0, false).contains(Component.empty())
+                ? this.pipeText.getMessage(0, false) : this.name != null ? this.name : DEFAULT_NAME;
     }
 
     protected PipeText createDefaultPipeText() {
@@ -210,12 +219,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     public PipeText getPipeText() {
-        return this.pipeName;
+        return this.pipeText;
     }
 
     public Component getPipeNameComponent() {
-        return !this.pipeName.getMessage(0, false).contains(Component.empty())
-                ? this.pipeName.getMessage(0, false) : this.name != null ? this.name : DEFAULT_NAME;
+        return !this.pipeText.getMessage(0, false).contains(Component.empty())
+                ? this.pipeText.getMessage(0, false) : this.name != null ? this.name : DEFAULT_NAME;
     }
 
     public boolean updateText(UnaryOperator<PipeText> text) {
@@ -226,8 +235,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     public boolean setText(PipeText text) {
-        if (text != this.pipeName) {
-            this.pipeName = text;
+        if (text != this.pipeText) {
+            this.pipeText = text;
             this.markUpdated();
             this.getUpdatePacket();
             return true;

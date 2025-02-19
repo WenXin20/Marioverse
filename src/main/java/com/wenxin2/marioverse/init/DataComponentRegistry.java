@@ -2,14 +2,17 @@ package com.wenxin2.marioverse.init;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.entities.PipeText;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_BOUND =
@@ -17,10 +20,10 @@ public class DataComponentRegistry {
                     () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL)
                             .networkSynchronized(ByteBufCodecs.BOOL).build());
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<PipeText>> PIPE_NAME =
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Component>> PIPE_NAME =
             Marioverse.COMPONENTS.register("pipe_name",
-                    () -> DataComponentType.<PipeText>builder().persistent(PipeText.DIRECT_CODEC)
-                            .cacheEncoding().build());
+                    () -> DataComponentType.<Component>builder().persistent(ComponentSerialization.FLAT_CODEC)
+                            .networkSynchronized(ComponentSerialization.STREAM_CODEC).cacheEncoding().build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_X =
             Marioverse.COMPONENTS.register("pos_x",
