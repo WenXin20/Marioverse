@@ -17,6 +17,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -39,6 +40,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genQuestionBlockVariants();
         this.genSmashableBlockVariants();
         this.genStorageBrickVariants();
+        this.genWallVariants();
 
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
         this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
@@ -291,6 +293,29 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                         this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
+                    }
+                }
+            });
+        });
+    }
+
+    private void genWallVariants() {
+        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant wall = BlockFamilyExtended.Variant.WALL;
+                WallBlock wallBlock = (WallBlock) block;
+
+                if (variant == wall && wallBlock != null) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks");
+                    ResourceLocation texture;
+
+                    if (block == BlockFamiliesRegistry.AMETHYST.get(wall)) {
+                        texture = mcLoc("block/" + removeWallName + "_block");
+                        this.wallBlock(wallBlock, blockName, texture);
+                    } else {
+                        texture = modLoc("block/" + removeWallName);
+                        this.wallBlock(wallBlock, blockName, texture);
                     }
                 }
             });
