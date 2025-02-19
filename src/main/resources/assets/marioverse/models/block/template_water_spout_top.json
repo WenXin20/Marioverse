@@ -4,9 +4,9 @@
 	"render_type": "translucent",
 	"textures": {
 		"splash": "marioverse:block/water_spout_splash",
-		"particle": "marioverse:block/water_spout_flow",
 		"side": "marioverse:block/water_spout_flow",
-		"top": "marioverse:block/water_spout_still"
+		"top": "marioverse:block/water_spout_still",
+		"particle": "#side"
 	},
 	"elements": [
 		{

@@ -3,8 +3,8 @@
 	"parent": "minecraft:block/cube_bottom_top",
 	"render_type": "translucent",
 	"textures": {
-		"particle": "marioverse:block/water_spout_flow",
-		"side": "marioverse:block/water_spout_flow"
+		"side": "marioverse:block/water_spout_flow",
+		"particle": "#side"
 	},
 	"elements": [
 		{

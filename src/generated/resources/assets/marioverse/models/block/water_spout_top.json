@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_water_spout_top",
+  "textures": {
+    "side": "marioverse:block/water_spout_flow",
+    "splash": "marioverse:block/water_spout_splash",
+    "top": "marioverse:block/water_spout_still"
+  }
+}

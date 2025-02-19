@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamilyRegistry;
@@ -41,6 +42,7 @@ public class BlockStateGen extends BlockStateProvider {
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
+        String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
         this.genButtons();
         this.genInvisibleQuestionBlocks();
@@ -58,6 +60,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
+        this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), waterSpoutName, modLoc("block/" + waterSpoutName + "_flow"),
+                modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -611,6 +615,19 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
+    }
+
+    private void waterSpoutModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_water_spout"))
+                .texture("side", sideTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_water_spout_top"))
+                .texture("splash", splashTexture).texture("side", sideTexture).texture("top", topTexture);
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().with(WaterSpoutBlock.TOP, false).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(WaterSpoutBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
     }
 
     private void warpPipeModel(Block block, String modelName, ResourceLocation entranceTexture, ResourceLocation bottomTexture,
