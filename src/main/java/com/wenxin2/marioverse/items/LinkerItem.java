@@ -3,12 +3,9 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
-import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
+import com.wenxin2.marioverse.init.DataComponentRegistry;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -154,45 +151,45 @@ public class LinkerItem extends TieredItem {
     }
 
     public static boolean getIsBound(ItemStack stack) {
-        return stack.getOrDefault(LinkerDataComponents.IS_BOUND.get(), Boolean.FALSE);
+        return stack.getOrDefault(DataComponentRegistry.IS_BOUND.get(), Boolean.FALSE);
     }
 
     public static void setIsBound(ItemStack stack, boolean isBound) {
-        stack.set(LinkerDataComponents.IS_BOUND.get(), isBound);
+        stack.set(DataComponentRegistry.IS_BOUND.get(), isBound);
     }
 
     public static BlockPos getWarpPos(ItemStack stack) {
-        return stack.getOrDefault(LinkerDataComponents.WARP_POS, null);
+        return stack.getOrDefault(DataComponentRegistry.WARP_POS, null);
     }
 
     public static void setWarpPos(ItemStack stack, BlockPos warpPos) {
-        stack.set(LinkerDataComponents.WARP_POS, warpPos);
+        stack.set(DataComponentRegistry.WARP_POS, warpPos);
     }
 
     public static String getWarpDimension(ItemStack stack) {
-        return stack.getOrDefault(LinkerDataComponents.WARP_DIMENSION.get(), "");
+        return stack.getOrDefault(DataComponentRegistry.WARP_DIMENSION.get(), "");
     }
 
     public static void setWarpDimension(ItemStack stack, String dimension) {
-        stack.set(LinkerDataComponents.WARP_DIMENSION.get(), dimension);
+        stack.set(DataComponentRegistry.WARP_DIMENSION.get(), dimension);
     }
 
     public static UUID getWarpUUID(ItemStack stack) {
         UUID uuid = UUID.randomUUID();
-        return stack.getOrDefault(LinkerDataComponents.WARP_UUID.get(), null);
+        return stack.getOrDefault(DataComponentRegistry.WARP_UUID.get(), null);
     }
 
     public static UUID setWarpUUID(ItemStack stack, UUID warpUUID) {
-        stack.set(LinkerDataComponents.WARP_UUID.get(), warpUUID);
+        stack.set(DataComponentRegistry.WARP_UUID.get(), warpUUID);
         return warpUUID;
     }
 
     public static GlobalPos getGlobalWarpPos(ItemStack stack) {
-        return stack.getOrDefault(LinkerDataComponents.GLOBAL_WARP_POS.get(), null);
+        return stack.getOrDefault(DataComponentRegistry.GLOBAL_WARP_POS.get(), null);
     }
 
     public static void setGlobalWarpPos(ItemStack stack, GlobalPos globalPos) {
-        stack.set(LinkerDataComponents.GLOBAL_WARP_POS.get(), globalPos);
+        stack.set(DataComponentRegistry.GLOBAL_WARP_POS.get(), globalPos);
     }
 
 

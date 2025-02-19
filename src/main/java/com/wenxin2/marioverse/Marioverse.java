@@ -13,7 +13,7 @@ import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
-import com.wenxin2.marioverse.items.data_components.LinkerDataComponents;
+import com.wenxin2.marioverse.init.DataComponentRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +59,7 @@ public class Marioverse {
         MENUS.register(bus);
         SOUNDS.register(bus);
         LOOT_CODECS.register(bus);
-        LinkerDataComponents.COMPONENTS.register(bus);
+        DataComponentRegistry.COMPONENTS.register(bus);
         MarioverseCreativeTabs.TABS.register(bus);
 
         BlockRegistry.init();

@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.items.data_components;
+package com.wenxin2.marioverse.init;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
@@ -7,12 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class LinkerDataComponents {
-    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Marioverse.MOD_ID);
+public class DataComponentRegistry {
+    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Marioverse.MOD_ID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_BOUND =
             COMPONENTS.register("is_bound",
