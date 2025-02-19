@@ -44,10 +44,11 @@ public class BlockStateGen extends BlockStateProvider {
         this.genPedestals();
         this.genPressurePlates();
         this.genQuestionBlocks();
+        this.genSimpleBlockWithItem();
         this.genSlabs();
         this.genSmashableBlocks();
-        this.genStorageBricks();
         this.genStairs();
+        this.genStorageBricks();
         this.genWalls();
 
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
@@ -92,6 +93,23 @@ public class BlockStateGen extends BlockStateProvider {
                         this.buttonBlock(buttonBlock, texture);
                         this.itemModels().buttonInventory(blockName, texture);
                     }
+                }
+            });
+        });
+    }
+
+    private void genSimpleBlockWithItem() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
+                BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
+                BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
+                BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
+
+                if (variant == bricks || variant == chiseled || variant == cracked || variant == polished) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    ResourceLocation texture = modLoc("block/" + blockName);
+                    this.cubeAllModel(block, "block/" + blockName, texture);
                 }
             });
         });
