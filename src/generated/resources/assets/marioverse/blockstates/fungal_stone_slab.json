@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/fungal_stone_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/fungal_stone"
+    },
+    "type=top": {
+      "model": "marioverse:block/fungal_stone_slab_top"
+    }
+  }
+}
