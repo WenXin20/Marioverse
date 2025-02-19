@@ -38,6 +38,8 @@ public class BlockStateGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
+        String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
+        String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
 
         this.genButtons();
         this.genInvisibleQuestionBlocks();
@@ -51,8 +53,10 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStorageBricks();
         this.genWalls();
 
-        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
         this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
+        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
+        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
+        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -109,7 +113,7 @@ public class BlockStateGen extends BlockStateProvider {
                 if (variant == bricks || variant == chiseled || variant == cracked || variant == polished) {
                     String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
                     ResourceLocation texture = modLoc("block/" + blockName);
-                    this.cubeAllModel(block, "block/" + blockName, texture);
+                    this.cubeAllModel(block, blockName, texture);
                 }
             });
         });
