@@ -2,7 +2,9 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamilyRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
@@ -41,15 +43,16 @@ public class BlockLootTableGen extends LootTableProvider {
         @Override
         protected Iterable<Block> getKnownBlocks() {
             return Marioverse.BLOCKS.getEntries().stream().map(DeferredHolder::value)
-                    .filter(value -> value instanceof Block)
-                    .map(value -> (Block) value).toList();
+                    .filter(block -> block instanceof Block && !(block instanceof PipeBubblesBlock) && !(block instanceof WaterSpoutBlock))
+                    .map(block -> (Block) block).toList();
         }
 
         @Override
         protected void generate() {
             Marioverse.BLOCKS.getEntries().forEach(deferredHolder -> {
                 Block block = deferredHolder.get();
-                if (block.getLootTable() != BuiltInLootTables.EMPTY) {
+                if (block.getLootTable() != BuiltInLootTables.EMPTY && !(block instanceof PipeBubblesBlock)
+                        && !(block instanceof WaterSpoutBlock)) {
                     if (isBlockInVariants(block))
                         this.genBlockVariants(block);
                     else if (block instanceof GoalPoleBlock)
