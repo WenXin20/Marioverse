@@ -17,6 +17,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
@@ -38,6 +39,7 @@ public class BlockStateGen extends BlockStateProvider {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
 
+        this.genButtons();
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
         this.genPressurePlates();
@@ -69,6 +71,30 @@ public class BlockStateGen extends BlockStateProvider {
 
             this.warpPipeModel(entry.getValue().get(), blockName, entranceTexture, sideTexture, bottomTexture, topTexture, topClosedTexture);
         }
+    }
+
+    private void genButtons() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant button = BlockFamilyExtended.Variant.BUTTON;
+
+                if (variant == button && block instanceof ButtonBlock buttonBlock) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    String removeButtonName = blockName.replace("_button", "").replace("brick", "bricks");
+                    ResourceLocation texture;
+
+                    if (block == BlockFamilyRegistry.AMETHYST.get(button)) {
+                        texture = mcLoc("block/" + removeButtonName + "_block");
+                        this.buttonBlock(buttonBlock, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
+                    } else {
+                        texture = modLoc("block/" + removeButtonName);
+                        this.buttonBlock(buttonBlock, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName + "_inventory"));
+                    }
+                }
+            });
+        });
     }
 
     private void genInvisibleQuestionBlocks() {
