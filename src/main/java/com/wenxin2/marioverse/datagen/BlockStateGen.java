@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
@@ -650,6 +651,88 @@ public class BlockStateGen extends BlockStateProvider {
                 }
             }
         }
+    }
+
+    private void clearWarpPipeModel(Block block, String modelName) {
+        ModelFile baseModel = models()
+                .withExistingParent(modelName, modLoc("block/clear_warp_pipe/clear_warp_pipe"));
+
+        ModelFile entranceModel = models()
+                .withExistingParent(modelName + "_entrance", modLoc("block/clear_warp_pipe/clear_warp_pipe_entrance"));
+
+        ModelFile closedModel = models()
+                .withExistingParent(modelName + "_closed", modLoc("block/clear_warp_pipe/clear_warp_pipe_closed"));
+
+        ModelFile entranceClosedModel = models()
+                .withExistingParent(modelName + "_entrance_closed", modLoc("block/clear_warp_pipe/clear_warp_pipe_entrance_closed"));
+
+        // Directional Models
+        ModelFile northModel = models()
+                .withExistingParent(modelName + "_n", modLoc("block/clear_warp_pipe/clear_warp_pipe_n"));
+        ModelFile southModel = models()
+                .withExistingParent(modelName + "_s", modLoc("block/clear_warp_pipe/clear_warp_pipe_s"));
+        ModelFile eastModel = models()
+                .withExistingParent(modelName + "_e", modLoc("block/clear_warp_pipe/clear_warp_pipe_e"));
+        ModelFile westModel = models()
+                .withExistingParent(modelName + "_w", modLoc("block/clear_warp_pipe/clear_warp_pipe_w"));
+        ModelFile upModel = models()
+                .withExistingParent(modelName + "_u", modLoc("block/clear_warp_pipe/clear_warp_pipe_u"));
+        ModelFile downModel = models()
+                .withExistingParent(modelName + "_d", modLoc("block/clear_warp_pipe/clear_warp_pipe_d"));
+
+        // Multi-direction Models
+        ModelFile nsModel = models()
+                .withExistingParent(modelName + "_ns", modLoc("block/clear_warp_pipe/clear_warp_pipe_ns"));
+        ModelFile ewModel = models()
+                .withExistingParent(modelName + "_ew", modLoc("block/clear_warp_pipe/clear_warp_pipe_ew"));
+        ModelFile udModel = models()
+                .withExistingParent(modelName + "_ud", modLoc("block/clear_warp_pipe/clear_warp_pipe_ud"));
+        ModelFile nsewModel = models()
+                .withExistingParent(modelName + "_nsew", modLoc("block/clear_warp_pipe/clear_warp_pipe_nsew"));
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+
+        // Base Pipe (No entrance or closed)
+        variantBuilder.partialState()
+                .addModels(new ConfiguredModel(baseModel));
+
+        // Entrance Open and Closed Variants
+        variantBuilder.partialState().with(ClearWarpPipeBlock.ENTRANCE, true)
+                .with(ClearWarpPipeBlock.CLOSED, false)
+                .addModels(new ConfiguredModel(entranceModel));
+
+        variantBuilder.partialState().with(ClearWarpPipeBlock.ENTRANCE, true)
+                .with(ClearWarpPipeBlock.CLOSED, true)
+                .addModels(new ConfiguredModel(entranceClosedModel));
+
+        // Closed Pipe Variant (without "entrance")
+        variantBuilder.partialState().with(ClearWarpPipeBlock.CLOSED, true)
+                .addModels(new ConfiguredModel(closedModel));
+
+        // Single Connection States
+        variantBuilder.partialState().with(ClearWarpPipeBlock.NORTH, true)
+                .addModels(new ConfiguredModel(northModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.SOUTH, true)
+                .addModels(new ConfiguredModel(southModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.EAST, true)
+                .addModels(new ConfiguredModel(eastModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.WEST, true)
+                .addModels(new ConfiguredModel(westModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.UP, true)
+                .addModels(new ConfiguredModel(upModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.DOWN, true)
+                .addModels(new ConfiguredModel(downModel));
+
+        // Multi-Directional Connection States
+        variantBuilder.partialState().with(ClearWarpPipeBlock.NORTH, true).with(ClearWarpPipeBlock.SOUTH, true)
+                .addModels(new ConfiguredModel(nsModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.EAST, true).with(ClearWarpPipeBlock.WEST, true)
+                .addModels(new ConfiguredModel(ewModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.UP, true).with(ClearWarpPipeBlock.DOWN, true)
+                .addModels(new ConfiguredModel(udModel));
+        variantBuilder.partialState().with(ClearWarpPipeBlock.NORTH, true).with(ClearWarpPipeBlock.SOUTH, true)
+                .with(ClearWarpPipeBlock.EAST, true).with(ClearWarpPipeBlock.WEST, true)
+                .addModels(new ConfiguredModel(nsewModel));
     }
 
     private int getXRotation(Direction direction) {
