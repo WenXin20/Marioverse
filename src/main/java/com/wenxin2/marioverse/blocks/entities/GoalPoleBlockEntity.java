@@ -181,8 +181,9 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.name = name;
     }
 
+    @NotNull
     @Override
-    public @NotNull Component getName() {
+    public  Component getName() {
         return this.name != null ? this.name : DEFAULT_NAME;
     }
 

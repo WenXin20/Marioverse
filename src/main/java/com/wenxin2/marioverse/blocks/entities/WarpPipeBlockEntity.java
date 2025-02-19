@@ -19,6 +19,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
@@ -111,6 +113,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.getUpdatePacket();
     }
 
+    @NotNull
     @Override
     public Component getDisplayName() {
         return this.getName();
@@ -126,10 +129,23 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return this.name = name;
     }
 
+    @NotNull
     @Override
-    public @NotNull Component getName() {
+    public Component getName() {
         return !this.pipeName.getMessage(0, false).contains(Component.empty())
                 ? this.pipeName.getMessage(0, false) : this.name != null ? this.name : DEFAULT_NAME;
+    }
+
+    @Override
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        this.name = input.get(DataComponents.CUSTOM_NAME);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CUSTOM_NAME, this.name);
     }
 
     protected PipeText createDefaultPipeText() {
@@ -291,7 +307,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
 
         if (tag.contains(CUSTOM_NAME, 8)) {
-            this.name = Component.Serializer.fromJson(tag.getString(CUSTOM_NAME), provider);
+            this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
         }
 
         if (tag.contains(PIPE_NAME)) {
