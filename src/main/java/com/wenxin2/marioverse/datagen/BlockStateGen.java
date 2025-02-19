@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -42,6 +43,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genSlabVariants();
         this.genSmashableBlockVariants();
         this.genStorageBrickVariants();
+        this.genStairsVariants();
         this.genWallVariants();
 
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
@@ -272,6 +274,28 @@ public class BlockStateGen extends BlockStateProvider {
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
 
                         this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
+                    }
+                }
+            });
+        });
+    }
+
+    private void genStairsVariants() {
+        BlockFamiliesRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant stairs = BlockFamilyExtended.Variant.STAIRS;
+
+                if (variant == stairs && block instanceof StairBlock stairBlock) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks");
+                    ResourceLocation texture;
+
+                    if (block == BlockFamiliesRegistry.AMETHYST.get(stairs)) {
+                        texture = mcLoc("block/" + removeStairName + "_block");
+                        this.stairsBlock(stairBlock, removeStairName, texture);
+                    } else {
+                        texture = modLoc("block/" + removeStairName);
+                        this.stairsBlock(stairBlock, removeStairName, texture);
                     }
                 }
             });
