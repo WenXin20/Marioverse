@@ -17,6 +17,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
@@ -39,6 +40,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
+        this.genPressurePlates();
         this.genQuestionBlocks();
         this.genSlabs();
         this.genSmashableBlocks();
@@ -152,6 +154,30 @@ public class BlockStateGen extends BlockStateProvider {
                         texture = mcLoc("minecraft:block/" + removePedestalName);
 
                         this.pedestalModel(block, blockName, texture);
+                    }
+                }
+            });
+        });
+    }
+
+    private void genPressurePlates() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+            blockFamily.getVariants().forEach((variant, block) -> {
+                BlockFamilyExtended.Variant pressurePlate = BlockFamilyExtended.Variant.PRESSURE_PLATE;
+
+                if (variant == pressurePlate && block instanceof PressurePlateBlock pressurePlateBlock) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    String removePressurePlateName = blockName.replace("_pressure_plate", "").replace("brick", "bricks");
+                    ResourceLocation texture;
+
+                    if (block == BlockFamilyRegistry.AMETHYST.get(pressurePlate)) {
+                        texture = mcLoc("block/" + removePressurePlateName + "_block");
+                        this.pressurePlateBlock(pressurePlateBlock, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
+                    } else {
+                        texture = modLoc("block/" + removePressurePlateName);
+                        this.pressurePlateBlock(pressurePlateBlock, texture);
+                        this.itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
                     }
                 }
             });
