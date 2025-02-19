@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-18T19:57:37.4230755	Block States: marioverse
+// 1.21.1	2025-02-18T20:13:30.861685	Block States: marioverse
 07916a68f71d59889c172935856afee8a78b0aa0 assets/marioverse/blockstates/amethyst_brick_pedestal.json
 ef9e38747e095e9193c0cabd208009620f34ed9a assets/marioverse/blockstates/amethyst_question_block.json
 a95d30e1271dbab633c72ad057c7e47b693821ba assets/marioverse/blockstates/blackstone_brick_pedestal.json
@@ -11,6 +11,7 @@ d070c8b0b95211362c25c88714c331ae0d9df1f2 assets/marioverse/blockstates/brick_ped
 0ae031da0075fc7a9b940021a4aa12f8c5f51d03 assets/marioverse/blockstates/brown_goal_pole.json
 f1cc7e5e516dfa13efb5128547f6bf8832ce8298 assets/marioverse/blockstates/brown_warp_pipe.json
 08fd365b132ed99d7d54b58ec6ebcbc6a8e8de72 assets/marioverse/blockstates/classic_goal_pole.json
+e1078fe2bd2a446bfce47cfe2b18239f3c9776ce assets/marioverse/blockstates/coin.json
 b57e7feb172ff6fb4150e0d15f372ce16c3f3825 assets/marioverse/blockstates/copper_question_block.json
 d75197914cd8229ff61d98e8c4cfc61e3eec0075 assets/marioverse/blockstates/cut_copper_pedestal.json
 0ae031da0075fc7a9b940021a4aa12f8c5f51d03 assets/marioverse/blockstates/cyan_goal_pole.json
@@ -179,6 +180,7 @@ be6f9af18db5d6b02a9799f2b739f20c1d8bf0ce assets/marioverse/models/block/brick_pe
 828bded923971910342f73c0c9b4c5d177132525 assets/marioverse/models/block/classic_goal_pole.json
 13cb3510ce155b633fdf43d4fcb2999b22fa6352 assets/marioverse/models/block/classic_goal_pole_none.json
 241cf7c1b7033a5458e487c57c3d2a0ae33cca80 assets/marioverse/models/block/classic_goal_pole_top.json
+97d051af6bdb02e22da0da30dc5b327078ddb21c assets/marioverse/models/block/coin.json
 f71afffa5baf8c854130dde28e1406b4174acb56 assets/marioverse/models/block/copper_question_block.json
 34fc40f0e38da6749cd7633bcf88c73ea3f6e64e assets/marioverse/models/block/cut_copper_pedestal.json
 3b5dec5db702a3b12fb5359e6828d7da5764a896 assets/marioverse/models/block/cut_copper_pedestal_top.json

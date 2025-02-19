@@ -32,6 +32,7 @@ public class BlockStateGen extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
+        String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
 
         this.genInvisibleQuestionBlockVariants();
         this.genPedestalVariants();
@@ -40,12 +41,12 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStorageBrickVariants();
 
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
+        this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
             String removeColorName = blockName.replace(entry.getKey() + "_", "");
             ResourceLocation texture = modLoc("block/" + removeColorName);
-
 
             this.goalPoleModel(entry.getValue().get(), removeColorName, texture);
         }
@@ -310,6 +311,13 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
 
         simpleBlockWithItem(block, model);
+    }
+
+    private void coinModel(Block block, String modelName, ResourceLocation mainTexture) {
+        ModelFile model = models().getBuilder(modelName).texture("particle", mainTexture).renderType("cutout");
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
     private void invisibleQuestionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
