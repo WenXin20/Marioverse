@@ -653,6 +653,7 @@ public class BlockStateGen extends BlockStateProvider {
         }
     }
 
+    // Unfinished
     private void clearWarpPipeModel(Block block, String modelName) {
         ModelFile baseModel = models()
                 .withExistingParent(modelName, modLoc("block/clear_warp_pipe/clear_warp_pipe"));
