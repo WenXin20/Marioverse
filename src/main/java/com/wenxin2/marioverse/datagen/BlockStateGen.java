@@ -62,6 +62,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), waterSpoutName, modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
+        this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -562,6 +563,14 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
+    }
+
+    private void pipeBubblesModel(Block block) {
+        ModelFile model = models().getExistingFile(ResourceLocation
+                .fromNamespaceAndPath("minecraft", "block/water"));
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
     private void questionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
