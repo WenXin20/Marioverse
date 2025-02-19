@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "top=true": { "model": "marioverse:block/mossy_stone_brick_pedestal_top" },
-    "top=false": { "model": "marioverse:block/mossy_stone_brick_pedestal" }
-  }
-}

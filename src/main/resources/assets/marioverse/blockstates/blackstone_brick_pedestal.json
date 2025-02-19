@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "top=true": { "model": "marioverse:block/blackstone_brick_pedestal_top" },
-    "top=false": { "model": "marioverse:block/blackstone_brick_pedestal" }
-  }
-}
