@@ -116,7 +116,12 @@ public class RegistryEventHandlers {
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 1),
-                new ItemStack(BlockRegistry.COIN, 8),
+                new ItemStack(BlockRegistry.COIN, 9),
+                8, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 1),
+                new ItemStack(BlockRegistry.STAR_COIN, 1),
                 8, 10, 0.2F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
