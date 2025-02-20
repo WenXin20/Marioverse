@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-19T16:23:38.1056376	Loot Tables
+// 1.21.1	2025-02-19T22:39:23.2303655	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 0968a986ea9b50ba23d46fb87fc714d14b9e6dec data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -160,6 +160,7 @@ e94129e6bbca0147c8f6d174c2e9284edfbdf963 data/marioverse/loot_table/blocks/smash
 f0fb0b3f046a37eafd38a44d066f3dfb1e25f45c data/marioverse/loot_table/blocks/smashable_waxed_oxidized_cut_copper.json
 48b3d1c7c59b339afffcd19d80413f6e11f0fb19 data/marioverse/loot_table/blocks/smashable_waxed_weathered_cut_copper.json
 0536c4677dc3cf6d19c5f13cf96d842e78c28ed1 data/marioverse/loot_table/blocks/smashable_weathered_cut_copper.json
+da5ca000e4336e86463ab2b6013fdb3e336b7be5 data/marioverse/loot_table/blocks/star_coin.json
 0a34a3fbd072a992fd7bf608b90216dede0ef967 data/marioverse/loot_table/blocks/stone_brick_pedestal.json
 07c5fac738b5a9af25198be443c35f49cfba5c11 data/marioverse/loot_table/blocks/stone_question_bricks.json
 674b1d15429db700523ef0ff491b84eca7d9c2c1 data/marioverse/loot_table/blocks/storage_amethyst_bricks.json

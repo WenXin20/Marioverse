@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-16T20:14:45.5180344	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-02-19T22:39:23.243733	Tags for minecraft:block mod id marioverse
 3b455723b4e4650e767c7e9f0a14454376ce160b data/c/tags/block/dyed/black.json
 f0f2eb84485434688b24e187d244b322fb364904 data/c/tags/block/dyed/blue.json
 45e84c5a20aa8cc5633462eb7b6b9282fc777d27 data/c/tags/block/dyed/brown.json
@@ -39,9 +39,9 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
-6f5606af60ed09117c4f4bbddc3ceed269cb549c data/minecraft/tags/block/guarded_by_piglins.json
+6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
-b2cb8c4968eb6a47681b56d1e2a5676745826516 data/minecraft/tags/block/mineable/pickaxe.json
+93894fcb3427f6fbdc0acd851993d7eb2acfdf75 data/minecraft/tags/block/mineable/pickaxe.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/block/slabs.json

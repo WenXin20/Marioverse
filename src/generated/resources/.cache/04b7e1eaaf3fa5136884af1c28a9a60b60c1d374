@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-16T20:14:45.5225394	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-02-19T22:39:23.2483194	Tags for minecraft:item mod id marioverse
 3b455723b4e4650e767c7e9f0a14454376ce160b data/c/tags/item/dyed/black.json
 f0f2eb84485434688b24e187d244b322fb364904 data/c/tags/item/dyed/blue.json
 45e84c5a20aa8cc5633462eb7b6b9282fc777d27 data/c/tags/item/dyed/brown.json
@@ -35,7 +35,7 @@ c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/du
 4cc87d912492c475c40afadd99bf73503d34b307 data/minecraft/tags/item/foot_armor.json
 65cd24289d626ec8908245851cadebd6b6628810 data/minecraft/tags/item/head_armor.json
 e5dce42ae68a49207c2cc69b7a4fede5bd6b51b1 data/minecraft/tags/item/leg_armor.json
-88f04e85c23832ccc44b52f80ca6c8a481a471ca data/minecraft/tags/item/piglin_loved.json
+7f9574628a87aaae387dc53522a9cc6c93b84593 data/minecraft/tags/item/piglin_loved.json
 2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/item/slabs.json
 f0d8e8b53362e2a6d1046a11fa6956ba7e421406 data/minecraft/tags/item/stairs.json
 b26fbb315a12bd2dc06582d452419a7e01b30aba data/minecraft/tags/item/stone_buttons.json

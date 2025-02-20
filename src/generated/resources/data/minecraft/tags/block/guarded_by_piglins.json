@@ -3,6 +3,7 @@
     "#marioverse:invisible_question_blocks",
     "#marioverse:question_blocks",
     "#marioverse:storage_bricks",
-    "marioverse:coin"
+    "marioverse:coin",
+    "marioverse:star_coin"
   ]
 }

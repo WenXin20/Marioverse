@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    },
+    {
+      "item": "marioverse:coin"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:star_coin"
+  }
+}

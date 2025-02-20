@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-19T19:11:46.4940598	Item Models: marioverse
+// 1.21.1	2025-02-19T22:39:23.2387281	Item Models: marioverse
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 7604aa5c9489fa9cfb52b226b622387902f3f70e assets/marioverse/models/item/blue_goal_pole.json
 1e88be9dc1710d4e0ec985de4696fc54df15dd4b assets/marioverse/models/item/bowser_banner_pattern.json
@@ -59,6 +59,7 @@ d8a3acf65b44e338b04ea80adce5e17f5ce6d262 assets/marioverse/models/item/plumber_b
 0d1fea66147a98e071d9361736d86ba391ed70c7 assets/marioverse/models/item/plumber_pottery_sherd.json
 4191c90bfd84ea70c786494d1d4e166b2430aff7 assets/marioverse/models/item/purple_goal_pole.json
 86c5bcd807697a8e28d82cee40ee733573fb7046 assets/marioverse/models/item/red_goal_pole.json
+4077bc7f089dedd90ab5d5bbc21f8bc73131b1d0 assets/marioverse/models/item/star_coin.json
 0d0b746657645950929cda4bc1e8358df86ed2ee assets/marioverse/models/item/storage_amethyst_bricks.json
 07f5e2bedcc686c66190e69b616b245abfd7e70e assets/marioverse/models/item/storage_blackstone_bricks.json
 6f3763b2f4f657390a7516c21a21479d00b34e10 assets/marioverse/models/item/storage_bricks.json
