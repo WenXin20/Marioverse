@@ -76,17 +76,17 @@ public class ItemRegistry {
                 () -> new Item(new Item.Properties()));
 
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xCC5F51, 0xFFCE00, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         HEFTY_GOOMBA_SPAWN_EGG = registerItem("hefty_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.HEFTY_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.HEFTY_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MEGA_GOOMBA_SPAWN_EGG = registerItem("mega_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.MEGA_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.MEGA_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MINI_GOOMBA_SPAWN_EGG = registerItem("mini_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xCC5F51, 0xF7CDA5, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
-                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFF0000, 0xFFFFFF, new Item.Properties()));
+                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {

@@ -33,12 +33,18 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.FIRE_FLOWER.get());
+        this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.FIRE_HAT.get());
         this.basicItem(ItemRegistry.FIRE_OVERALLS.get());
         this.basicItem(ItemRegistry.FIRE_SHIRT.get());
         this.basicItem(ItemRegistry.FIRE_SHOES.get());
+        this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
+        this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
@@ -46,14 +52,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem());
         this.handheldItem(ItemRegistry.PIPE_WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
-
-        this.spawnEggItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
-        this.spawnEggItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
-        this.spawnEggItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
-
-        this.spawnEggItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get(), "item/template_hefty_spawn_egg");
-        this.spawnEggItem(ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get(), "item/template_mega_spawn_egg");
-        this.spawnEggItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get(), "item/template_mini_spawn_egg");
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet())
             this.handheldItem(entry.getValue().asItem());

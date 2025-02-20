@@ -1,3 +1,6 @@
 {
-  "parent": "marioverse:item/template_mini_spawn_egg"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/mini_goomba_spawn_egg"
+  }
 }
