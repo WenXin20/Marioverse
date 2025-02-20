@@ -182,6 +182,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
@@ -225,6 +226,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
 
     static {
+        STAR_COIN = registerBlock("star_coin",
+                () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)
+                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                        .strength(0.5F, 0.5F).instabreak().noCollission()));
+
         COIN = registerBlock("coin",
                 () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)

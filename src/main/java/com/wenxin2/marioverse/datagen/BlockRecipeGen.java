@@ -51,6 +51,7 @@ public class BlockRecipeGen extends RecipeUtils {
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, output);
         plusRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.SMASHABLE_NETHER_BRICKS, output);
         plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, output);
+        threeByThreePacker(output, RecipeCategory.MISC, BlockRegistry.STAR_COIN, BlockRegistry.COIN);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);

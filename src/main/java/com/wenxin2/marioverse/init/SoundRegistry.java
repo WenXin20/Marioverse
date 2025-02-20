@@ -53,6 +53,7 @@ SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_HURT;
     public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_POWERS_UP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_BREAK;
@@ -79,6 +80,8 @@ SoundRegistry {
         BLOCK_SMASH_FAIL = Marioverse.SOUNDS.register("block.block_smash_fail",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash_fail")));
 
+        STAR_COIN_PICKUP = Marioverse.SOUNDS.register("block.star_coin_pickup",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.star_coin_pickup")));
         COIN_PICKUP = Marioverse.SOUNDS.register("block.coin_pickup",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_pickup")));
         COIN_PLACE = Marioverse.SOUNDS.register("block.coin_place",

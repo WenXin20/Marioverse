@@ -24,6 +24,9 @@
   "block.block_smash_fail": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash_fail", "stream": false }],
     "subtitle": "subtitles.marioverse.block.block_smash_fail" },
 
+  "block.star_coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/star_coin_pickup", "stream": false, "pitch": 1.0, "volume": 1.0 }],
+    "subtitle": "subtitles.marioverse.block.star_coin_pickup" },
+
   "block.coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },
 

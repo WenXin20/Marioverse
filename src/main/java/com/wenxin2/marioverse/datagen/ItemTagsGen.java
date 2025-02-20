@@ -85,6 +85,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.COIN.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
                 .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.asItem())
+                .add(BlockRegistry.STAR_COIN.asItem())
                 .add(ItemRegistry.SUPER_STAR.get());
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)

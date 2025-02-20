@@ -54,7 +54,7 @@ public class BlockLootTableGen extends LootTableProvider {
                 if (block.getLootTable() != BuiltInLootTables.EMPTY && !(block instanceof PipeBubblesBlock)
                         && !(block instanceof WaterSpoutBlock)) {
                     if (isBlockInVariants(block))
-                        this.genBlockVariants(block);
+                        this.genBlockVariants();
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof WarpPipeBlock)
@@ -65,7 +65,6 @@ public class BlockLootTableGen extends LootTableProvider {
         }
 
         private boolean isBlockInVariants(Block block) {
-            // Iterate over all BlockFamilies
             for (BlockFamilyExtended blockFamily : BlockFamilyRegistry.getAllExtendedFamilies().toList()) {
                 for (Map.Entry<BlockFamilyExtended.Variant, Block> entry : blockFamily.getVariants().entrySet()) {
                     if (entry.getValue().equals(block))
@@ -75,7 +74,7 @@ public class BlockLootTableGen extends LootTableProvider {
             return false;
         }
 
-        private void genBlockVariants(Block block) {
+        private void genBlockVariants() {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;

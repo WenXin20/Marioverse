@@ -29,6 +29,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.genStorageBrickVariants();
 
         this.basicItem(BlockRegistry.COIN.asItem());
+        this.basicItem(BlockRegistry.STAR_COIN.asItem());
 
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());

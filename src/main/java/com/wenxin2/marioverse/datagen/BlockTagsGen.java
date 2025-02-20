@@ -290,7 +290,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .add(BlockRegistry.COIN.get());
+                .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.STAR_COIN.get());
 
         tag(BlockTags.IMPERMEABLE)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
@@ -394,6 +395,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.STAR_COIN.get())
                 .replace(false);
     }
 }

@@ -12,6 +12,7 @@
   "menu.marioverse.question_block": "Question Block",
 
   "block.marioverse.coin": "Coin",
+  "block.marioverse.star_coin": "Star Coin",
 
   "block.marioverse.amethyst_question_block": "Amethyst Question Block",
   "block.marioverse.blackstone_question_bricks": "Polished Blackstone Question Bricks",
@@ -408,7 +409,7 @@
   "subtitles.marioverse.block.block_bonk": "Block bonked",
   "subtitles.marioverse.block.block_smash": "Block smashed",
   "subtitles.marioverse.block.block_smash_fail": "Block smash failed",
-  "subtitles.marioverse.block.coin_pickup": "Coin picked up",
+  "subtitles.marioverse.block.coin_pickup": "Coin collected",
   "subtitles.marioverse.block.coin_place": "Coin placed",
   "subtitles.marioverse.block.goal_pole_finish": "Course clear",
   "subtitles.marioverse.block.item_spawns": "Item spawns",
@@ -418,6 +419,7 @@
   "subtitles.marioverse.block.pipe_warps": "Pipe warps",
   "subtitles.marioverse.block.pipes_linked": "Pipes linked",
   "subtitles.marioverse.block.power_up_spawns": "Power Up spawns",
+  "subtitles.marioverse.block.star_coin_pickup": "Star Coin collected",
   "subtitles.marioverse.block.water_spout.break": "Water Spout shrinks",
   "subtitles.marioverse.block.water_spout.fall": "Water Spout falls",
   "subtitles.marioverse.block.water_spout.hit": "Water Spout splashes",

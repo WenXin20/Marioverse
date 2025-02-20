@@ -40,11 +40,13 @@ public class BlockStateGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
-        String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
+        String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
+        String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
         this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
+        this.coinModel(BlockRegistry.STAR_COIN.get(), starCoinName, modLoc("block/" + starCoinName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
@@ -79,7 +80,11 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
         if (entity instanceof Player player) {
             ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-            world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
+
+            if (state.getBlock() == BlockRegistry.STAR_COIN.get())
+                world.playSound(player, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
+            else world.playSound(player, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
+
             world.removeBlock(pos, false);
             player.addItem(coinItem);
 
