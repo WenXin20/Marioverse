@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
@@ -22,6 +23,7 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> INVISIBLE_QUESTION_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> QUESTION_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> STORAGE_BRICKS_BLOCK_ENTITY;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StarCoinBlockEntity>> STAR_COIN_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpDoorBlockEntity>> WARP_DOOR_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpPipeBlockEntity>> WARP_PIPE_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpTrapDoorBlockEntity>> WARP_TRAPDOOR_BLOCK_ENTITY;
@@ -30,6 +32,10 @@ public class BlockEntityRegistry {
         COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("coin",
                 () -> BlockEntityType.Builder.of(CoinBlockEntity::new,
                                 BlockRegistry.COIN.get()).build(null));
+
+        STAR_COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("star_coin",
+                () -> BlockEntityType.Builder.of(StarCoinBlockEntity::new,
+                                BlockRegistry.STAR_COIN.get()).build(null));
 
         INVISIBLE_QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("invisible_question_block",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,

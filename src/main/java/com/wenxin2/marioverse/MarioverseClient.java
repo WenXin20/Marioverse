@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtensio
 import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRenderer;
+import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
@@ -88,6 +89,7 @@ public class MarioverseClient {
     private static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), GoalPoleBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.STAR_COIN_BLOCK_ENTITY.get(), StarCoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), WarpPipeBlockEntityRenderer::new);
     }
 

@@ -14,12 +14,12 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class CoinBlockEntity extends BlockEntity implements GeoBlockEntity {
-    protected static final RawAnimation SPIN_ANIM = RawAnimation.begin().thenLoop("animation.coin.spin");
+public class StarCoinBlockEntity extends BlockEntity implements GeoBlockEntity {
+    protected static final RawAnimation SPIN_ANIM = RawAnimation.begin().thenLoop("animation.star_coin.spin");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public CoinBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), pos, state);
+    public StarCoinBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegistry.STAR_COIN_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override
