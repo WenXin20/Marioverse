@@ -11,6 +11,16 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "marioverse:star_coin",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "lower",
+                "quadrant": "north_west"
+              }
+            }
+          ],
           "name": "marioverse:star_coin"
         }
       ],

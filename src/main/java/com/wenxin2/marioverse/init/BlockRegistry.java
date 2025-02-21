@@ -230,14 +230,16 @@ public class BlockRegistry {
         STAR_COIN = registerBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)
-                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .strength(0.5F, 0.5F).instabreak().noCollission()));
+                        .pushReaction(PushReaction.DESTROY).isSuffocating(BlockRegistry::never)
+                        .isViewBlocking(BlockRegistry::never).strength(0.5F, 0.5F)
+                        .instabreak().noCollission()));
 
         COIN = registerBlock("coin",
                 () -> new CoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)
-                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .strength(0.5F, 0.5F).instabreak().noCollission()));
+                        .pushReaction(PushReaction.DESTROY).isSuffocating(BlockRegistry::never)
+                        .isViewBlocking(BlockRegistry::never).strength(0.5F, 0.5F)
+                        .instabreak().noCollission()));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

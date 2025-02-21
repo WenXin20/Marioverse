@@ -3,8 +3,10 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
+import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.init.BlockFamilyRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
@@ -19,12 +22,15 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +63,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.genBlockVariants();
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
+                    else if (block instanceof StarCoinBlock)
+                        this.add(block, this.createCoinTable(block));
                     else if (block instanceof WarpPipeBlock)
                         this.add(block, this.createNameableWarpPipeBETable(block));
                     else this.dropSelf(block);
@@ -93,6 +101,17 @@ public class BlockLootTableGen extends LootTableProvider {
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponents.CUSTOM_NAME)
                                             .include(DataComponentRegistry.PIPE_NAME.get()))))
+            );
+        }
+
+        protected LootTable.Builder createCoinTable(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                    .hasProperty(StarCoinBlock.HALF, DoubleBlockHalf.LOWER)
+                                                    .hasProperty(StarCoinBlock.QUADRANT, QuadrantBlockStates.NORTH_WEST)))))
             );
         }
     }
