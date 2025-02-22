@@ -2,9 +2,18 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
+import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
+import com.wenxin2.marioverse.init.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -37,7 +46,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     public static final EnumProperty<QuadrantBlockStates> QUADRANT = EnumProperty.create("quadrant", QuadrantBlockStates.class);
 
     protected static final VoxelShape LOWER_NORTH_WEST = Block.box(5.0, 3.5, 5.0, 27.0, 25.5, 27.0).optimize();
-    protected static final VoxelShape LOWER_NORTH_EAST = Block.box(5.0, 3.5, 5.0, 27.0, 25.5, 27.0).optimize();
+    protected static final VoxelShape LOWER_NORTH_EAST = Block.box(-11.0, 3.5, 5.0, 16.0, 25.5, 27.0).optimize();
 
     public StarCoinBlock(Properties properties) {
         super(properties);
@@ -53,13 +62,40 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        return LOWER_NORTH_WEST;
+        if (state.getValue(QUADRANT) == QuadrantBlockStates.NORTH_EAST)
+            return LOWER_NORTH_EAST;
+        else return LOWER_NORTH_WEST;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new StarCoinBlockEntity(pos, state);
+    }
+
+    @Override
+    protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+
+        ItemStack coinItem = new ItemStack(this.asItem());
+
+        if (entity instanceof Player player) {
+            QuadrantBlockStates quadrant = state.getValue(QUADRANT);
+            DoubleBlockHalf half = state.getValue(HALF);
+            BlockPos basePos = getPartPos(pos, quadrant, half);
+            BlockPos basePosAbove = getPartPos(pos.above(), quadrant, half);
+
+            world.playSound(player, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
+            removeStructure(world, basePos);
+            removeStructure(world, basePosAbove);
+            player.addItem(coinItem);
+
+            if (!player.addItem(coinItem))
+                player.drop(coinItem, false);
+
+            if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                PiglinAi.angerNearbyPiglins(player, false);
+        }
+        super.entityInside(state, world, pos, entity);
     }
 
     @Override
@@ -253,14 +289,26 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 && world.getBlockState(northWestPos.relative(Direction.EAST).above()).canBeReplaced()
                 && world.getBlockState(northWestPos.relative(Direction.SOUTH).above()).canBeReplaced()
                 && world.getBlockState(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above()).canBeReplaced();
-//        return world.getBlockState(partPos).canBeReplaced()
-//                && world.getBlockState(partPos.east()).canBeReplaced()
-//                && world.getBlockState(partPos.south()).canBeReplaced()
-//                && world.getBlockState(partPos.south().east()).canBeReplaced()
-//                && world.getBlockState(partPos.above()).canBeReplaced()
-//                && world.getBlockState(partPos.east().above()).canBeReplaced()
-//                && world.getBlockState(partPos.south().above()).canBeReplaced()
-//                && world.getBlockState(partPos.south().east().above()).canBeReplaced();
+    }
+
+    private void removeStructure(Level world, BlockPos basePos) {
+        world.removeBlock(basePos, false);
+        world.removeBlock(basePos.east(), false);
+        world.removeBlock(basePos.south(), false);
+        world.removeBlock(basePos.south().east(), false);
+        world.removeBlock(basePos.above(), false);
+        world.removeBlock(basePos.east().above(), false);
+        world.removeBlock(basePos.south().above(), false);
+        world.removeBlock(basePos.south().east().above(), false);
+
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.east(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.south(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.south().east(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.east().above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.south().above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        ParticleUtils.spawnParticlesOnBlockFaces(world, basePos.south().east().above(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
     }
 
     protected static void preventDropFromParts(Level world, BlockPos pos, BlockState state, Player player) {
