@@ -31,7 +31,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.chisel.ctm.client.util.Dir;
 
 public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -73,18 +72,18 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
         Direction facing = context.getHorizontalDirection();
         DoubleBlockHalf half = (pos.getY() % 2 == 0) ? DoubleBlockHalf.LOWER : DoubleBlockHalf.UPPER;
-        QuadrantBlockStates quadrant = this.determineQuadrant(facing);
 
-        BlockPos[] offsets = getPlacementOffsets(facing);
-
-        for (BlockPos offset : offsets) {
-            BlockPos partPos = pos.offset(offset);
-            if (partPos.getY() >= world.getMaxBuildHeight() || !world.getBlockState(partPos).canBeReplaced(context)) {
-                return null;
-            }
+        if (!canPlaceBlock(world, pos.relative(facing.getClockWise()))
+                || !canPlaceBlock(world, pos.relative(facing, 1))
+                || !canPlaceBlock(world, pos.relative(facing.getClockWise()).relative(facing))
+                || !canPlaceBlock(world, pos.above())
+                || !canPlaceBlock(world, pos.relative(facing.getClockWise()).above())
+                || !canPlaceBlock(world, pos.relative(facing, 1).above())
+                || !canPlaceBlock(world, pos.relative(facing.getClockWise()).relative(facing).above())) {
+            return null;
         }
 
-        return this.defaultBlockState().setValue(HALF, half).setValue(QUADRANT, quadrant).setValue(WATERLOGGED, waterlogged);
+        return this.defaultBlockState().setValue(HALF, half).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST).setValue(WATERLOGGED, waterlogged);
     }
 
     @NotNull
@@ -99,37 +98,90 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 return state.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
         }
         return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
-
-//        if (pos == this.getQuadrantPos(pos, quadrant) && pos == this.getHalfPos(pos, half)) {
-//            if (neighborState.is(this) && neighborState.getValue(HALF) != half && neighborState.getValue(QUADRANT) != quadrant)
-//                if (neighborState.getValue(WATERLOGGED))
-//                    return Blocks.WATER.defaultBlockState();
-//                else return Blocks.AIR.defaultBlockState();
-//        }
     }
 
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity entity, ItemStack stack) {
+//        if (entity != null) {
+//            Direction facing = entity.getDirection();
+//
+//            if (canPlaceBlock(world, pos.relative(facing.getClockWise()))
+//                    && canPlaceBlock(world, pos.relative(facing, 1))
+//                    && canPlaceBlock(world, pos.relative(facing.getClockWise()).relative(facing))
+//                    && canPlaceBlock(world, pos.above())
+//                    && canPlaceBlock(world, pos.relative(facing.getClockWise()).above())
+//                    && canPlaceBlock(world, pos.relative(facing, 1).above())
+//                    && canPlaceBlock(world, pos.relative(facing.getClockWise()).relative(facing).above())) {
+//                world.setBlock(pos, state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
+//                        .setValue(WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.relative(facing.getClockWise())))
+//                    world.setBlock(pos.relative(facing.getClockWise()), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise())).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.relative(facing, 1)))
+//                    world.setBlock(pos.relative(facing, 1), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing, 1)).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.relative(facing.getClockWise()).relative(facing)))
+//                    world.setBlock(pos.relative(facing.getClockWise()).relative(facing), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise()).relative(facing)).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.above()))
+//                    world.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.above()).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.relative(facing.getClockWise()).above()))
+//                    world.setBlock(pos.relative(facing.getClockWise()).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise()).above()).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.relative(facing, 1).above()))
+//                    world.setBlock(pos.relative(facing, 1).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing, 1).above()).getType() == Fluids.WATER), 3);
+//
+//                if (canPlaceBlock(world, pos.relative(facing.getClockWise()).relative(facing).above()))
+//                    world.setBlock(pos.relative(facing.getClockWise()).relative(facing).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
+//                            .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise()).relative(facing).above()).getType() == Fluids.WATER), 3);
+//            }
+//        }
         if (entity != null) {
-            Direction facing = entity.getDirection();
-            BlockPos posRelative = pos.relative(facing);
+            // Always determine NORTH_WEST position based on world coordinates
+            BlockPos northWestPos = pos.relative(Direction.NORTH).relative(Direction.WEST);
 
-            world.setBlock(pos, state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.east()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.relative(facing.getClockWise()), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.east()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.relative(facing, 1), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.south()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.relative(facing.getClockWise()).relative(facing), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.south().east()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.above()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.relative(facing.getClockWise()).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.above().east()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.relative(facing, 1).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.above().south()).getType() == Fluids.WATER), 3);
-            world.setBlock(pos.relative(facing.getClockWise()).relative(facing).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
-                    .setValue(WATERLOGGED, world.getFluidState(posRelative.above().south().east()).getType() == Fluids.WATER), 3);
+            if (canPlaceBlock(world, northWestPos.relative(Direction.EAST))
+                    && canPlaceBlock(world, northWestPos.relative(Direction.SOUTH))
+                    && canPlaceBlock(world, northWestPos.relative(Direction.SOUTH).relative(Direction.EAST))
+                    && canPlaceBlock(world, northWestPos.above())
+                    && canPlaceBlock(world, northWestPos.relative(Direction.EAST).above())
+                    && canPlaceBlock(world, northWestPos.relative(Direction.SOUTH).above())
+                    && canPlaceBlock(world, northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above())) {
+
+                // Lower half
+                world.setBlock(northWestPos, state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos).getType() == Fluids.WATER), 3);
+
+                world.setBlock(northWestPos.relative(Direction.EAST), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.relative(Direction.EAST)).getType() == Fluids.WATER), 3);
+
+                world.setBlock(northWestPos.relative(Direction.SOUTH), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.relative(Direction.SOUTH)).getType() == Fluids.WATER), 3);
+
+                world.setBlock(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST), state.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST)).getType() == Fluids.WATER), 3);
+
+                // Upper half
+                world.setBlock(northWestPos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.above()).getType() == Fluids.WATER), 3);
+
+                world.setBlock(northWestPos.relative(Direction.EAST).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.relative(Direction.EAST).above()).getType() == Fluids.WATER), 3);
+
+                world.setBlock(northWestPos.relative(Direction.SOUTH).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.relative(Direction.SOUTH).above()).getType() == Fluids.WATER), 3);
+
+                world.setBlock(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above(), state.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
+                        .setValue(WATERLOGGED, world.getFluidState(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above()).getType() == Fluids.WATER), 3);
+            }
         }
     }
 
@@ -144,7 +196,6 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
             world.addParticle(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(),
                     x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
         }
-
     }
 
     @NotNull
