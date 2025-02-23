@@ -126,8 +126,9 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     @NotNull
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
-        if (!neighborState.is(this))
-            return state.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
+        if (state.getValue(WATERLOGGED))
+            worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
+
         return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
     }
 
@@ -240,20 +241,25 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
         if (!world.isClientSide) {
             if (areCoinPartsValid(world, partPos)) {
-                BlockState stateAboveWaterOrAir = world.getBlockState(partPos).getFluidState().is(Fluids.WATER)
-                        ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
-
-                world.levelEvent(player, 2001, partPos, Block.getId(world.getBlockState(partPos)));
-
-                world.setBlock(partPos, stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.east(), stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.south(), stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.south().east(), stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.above(), stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.east().above(), stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.south().above(), stateAboveWaterOrAir, 35);
-                world.setBlock(partPos.south().east().above(), stateAboveWaterOrAir, 35);
+                replaceWithCorrectFluidState(world, partPos, player);
+                replaceWithCorrectFluidState(world, partPos.east(), player);
+                replaceWithCorrectFluidState(world, partPos.south(), player);
+                replaceWithCorrectFluidState(world, partPos.south().east(), player);
+                replaceWithCorrectFluidState(world, partPos.above(), player);
+                replaceWithCorrectFluidState(world, partPos.east().above(), player);
+                replaceWithCorrectFluidState(world, partPos.south().above(), player);
+                replaceWithCorrectFluidState(world, partPos.south().east().above(), player);
             }
         }
+    }
+
+    private void replaceWithCorrectFluidState(Level world, BlockPos pos, Player player) {
+        BlockState currentState = world.getBlockState(pos);
+        BlockState replacementState = currentState.getFluidState().is(Fluids.WATER)
+                ? Blocks.WATER.defaultBlockState()
+                : Blocks.AIR.defaultBlockState();
+
+        world.levelEvent(player, 2001, pos, Block.getId(currentState));
+        world.setBlock(pos, replacementState, 35);
     }
 }

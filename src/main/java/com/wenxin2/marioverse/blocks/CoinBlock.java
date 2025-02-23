@@ -66,9 +66,8 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
     @NotNull
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
+        if (state.getValue(WATERLOGGED))
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
-        }
 
         return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
     }
