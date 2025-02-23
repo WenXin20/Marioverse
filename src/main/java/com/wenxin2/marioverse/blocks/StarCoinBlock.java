@@ -45,6 +45,12 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
     protected static final VoxelShape LOWER_NORTH_WEST = Block.box(5.0, 3.5, 5.0, 27.0, 25.5, 27.0).optimize();
     protected static final VoxelShape LOWER_NORTH_EAST = Block.box(-11.0, 3.5, 5.0, 11.0, 25.5, 27.0).optimize();
+    protected static final VoxelShape LOWER_SOUTH_WEST = Block.box(5.0, 3.5, -11.0, 27.0, 25.5, 11.0).optimize();
+    protected static final VoxelShape LOWER_SOUTH_EAST = Block.box(-11.0, 3.5, -11.0, 11.0, 25.5, 11.0).optimize();
+    protected static final VoxelShape UPPER_NORTH_WEST = Block.box(5.0,  -11.0, 5.0, 27.0, 11.0, 27.0).optimize();
+    protected static final VoxelShape UPPER_NORTH_EAST = Block.box(-11.0,  -11.0, 5.0, 11.0, 11.0, 27.0).optimize();
+    protected static final VoxelShape UPPER_SOUTH_WEST = Block.box(5.0,  -11.0, -11.0, 27.0, 11.0, 11.0).optimize();
+    protected static final VoxelShape UPPER_SOUTH_EAST = Block.box(-11.0,  -11.0, -11.0, 11.0, 11.0, 11.0).optimize();
 
     public StarCoinBlock(Properties properties) {
         super(properties);
@@ -60,9 +66,27 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (state.getValue(QUADRANT) == QuadrantBlockStates.NORTH_EAST)
-            return LOWER_NORTH_EAST;
-        else return LOWER_NORTH_WEST;
+        if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
+
+            if (state.getValue(QUADRANT) == QuadrantBlockStates.NORTH_EAST)
+                return LOWER_NORTH_EAST;
+            else if (state.getValue(QUADRANT) == QuadrantBlockStates.SOUTH_WEST)
+                return LOWER_SOUTH_WEST;
+            else if (state.getValue(QUADRANT) == QuadrantBlockStates.SOUTH_EAST)
+                return LOWER_SOUTH_EAST;
+            else return LOWER_NORTH_WEST;
+
+        } else if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+
+            if (state.getValue(QUADRANT) == QuadrantBlockStates.NORTH_EAST)
+                return UPPER_NORTH_EAST;
+            else if (state.getValue(QUADRANT) == QuadrantBlockStates.SOUTH_WEST)
+                return UPPER_SOUTH_WEST;
+            else if (state.getValue(QUADRANT) == QuadrantBlockStates.SOUTH_EAST)
+                return UPPER_SOUTH_EAST;
+            else return UPPER_NORTH_WEST;
+
+        } else return LOWER_NORTH_WEST;
     }
 
     @Nullable
@@ -180,8 +204,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         BlockPos partPos = getPartPos(pos, quadrant, half);
         if (!world.isClientSide) {
             if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
-                this.removeCoinParts(world, partPos);
                 world.levelEvent(player, 2001, partPos, Block.getId(world.getBlockState(partPos)));
+                this.removeCoinParts(world, partPos);
             }
         }
         return super.playerWillDestroy(world, pos, state, player);
