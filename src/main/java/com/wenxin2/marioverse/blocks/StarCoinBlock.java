@@ -79,10 +79,10 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         if (entity instanceof Player player) {
             QuadrantBlockStates quadrant = state.getValue(QUADRANT);
             DoubleBlockHalf half = state.getValue(HALF);
-            BlockPos basePos = getPartPos(pos, quadrant, half);
+            BlockPos partPos = getPartPos(pos, quadrant, half);
 
             world.playSound(player, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
-            removeCoinParts(world, basePos);
+            removeCoinParts(world, partPos);
             player.addItem(coinItem);
 
             if (!player.addItem(coinItem))
@@ -175,9 +175,14 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     @NotNull
     @Override
     public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+        QuadrantBlockStates quadrant = state.getValue(QUADRANT);
+        DoubleBlockHalf half = state.getValue(HALF);
+        BlockPos partPos = getPartPos(pos, quadrant, half);
         if (!world.isClientSide) {
-            if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos))
-                preventDropFromParts(world, pos, state, player);
+            if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
+                this.removeCoinParts(world, partPos);
+                world.levelEvent(player, 2001, partPos, Block.getId(world.getBlockState(partPos)));
+            }
         }
         return super.playerWillDestroy(world, pos, state, player);
     }
