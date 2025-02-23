@@ -4,15 +4,20 @@ import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
+import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -97,23 +102,49 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-
         ItemStack coinItem = new ItemStack(this.asItem());
 
-        if (entity instanceof Player player) {
+        if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS)) {
             QuadrantBlockStates quadrant = state.getValue(QUADRANT);
             DoubleBlockHalf half = state.getValue(HALF);
             BlockPos partPos = getPartPos(pos, quadrant, half);
+            boolean itemAdded = false;
 
-            world.playSound(player, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
-            removeCoinParts(world, partPos);
-            player.addItem(coinItem);
+            world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
+            removeCoinParts(world, partPos, entity);
 
-            if (!player.addItem(coinItem))
-                player.drop(coinItem, false);
+            if (entity instanceof Player player) {
+                itemAdded = player.addItem(coinItem);
 
-            if (state.is(BlockTags.GUARDED_BY_PIGLINS))
-                PiglinAi.angerNearbyPiglins(player, false);
+                if (!itemAdded)
+                    player.drop(coinItem, false);
+
+                if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                    PiglinAi.angerNearbyPiglins(player, false);
+            } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
+                livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
+                itemAdded = true;
+            } else if (entity instanceof InventoryCarrier carrier) {
+                SimpleContainer inventory = carrier.getInventory();
+                for (int i = 0; i < inventory.getContainerSize(); i++) {
+                    if (inventory.getItem(i).isEmpty()) {
+                        inventory.setItem(i, coinItem);
+                        itemAdded = true;
+                        break;
+                    }
+                }
+            } else if (entity instanceof Container container) {
+                for (int i = 0; i < container.getContainerSize(); i++) {
+                    if (container.getItem(i).isEmpty()) {
+                        container.setItem(i, coinItem);
+                        itemAdded = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!itemAdded)
+                entity.spawnAtLocation(coinItem);
         }
     }
 
@@ -205,7 +236,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         if (!world.isClientSide) {
             if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
                 world.levelEvent(player, 2001, partPos, Block.getId(world.getBlockState(partPos)));
-                this.removeCoinParts(world, partPos);
+                this.removeCoinParts(world, partPos, player);
             }
         }
         return super.playerWillDestroy(world, pos, state, player);
@@ -251,15 +282,18 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 && world.getBlockState(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above()).canBeReplaced();
     }
 
-    private void removeCoinParts(Level world, BlockPos pos) {
+    private void removeCoinParts(Level world, BlockPos pos, Entity entity) {
         BlockPos[] positions = {
                 pos, pos.east(), pos.south(), pos.south().east(),
                 pos.above(), pos.east().above(), pos.south().above(), pos.south().east().above()
         };
 
         for (BlockPos partPos : positions) {
+            if (!(entity instanceof Player))
+                entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint
+            else ParticleUtils.spawnParticlesOnBlockFaces(world, partPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+
             world.removeBlock(partPos, false);
-            ParticleUtils.spawnParticlesOnBlockFaces(world, partPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
         }
     }
 

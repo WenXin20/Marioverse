@@ -1,5 +1,6 @@
 {
   "values": [
+    "minecraft:piglin",
     "minecraft:player",
     "minecraft:villager",
     "minecraft:wandering_trader"

@@ -368,7 +368,9 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         RandomSource random = entity.getRandom();
 
-        if (id == 114) {
+        if (id == 113) {
+            ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        } else if (id == 114) {
             this.marioverse$starParticles(entity, ParticleRegistry.COIN_GLINT.get());
         } else if (id == 115) {
             if (this.level().isClientSide) {

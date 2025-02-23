@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-16T10:56:30.8582711	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-02-22T21:19:23.8433309	Tags for minecraft:entity_type mod id marioverse
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
@@ -12,8 +12,9 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/can_co
 c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_consume_super_stars.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_hit_question_blocks.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_lower_flags.json
+d23a92e536b60de5c7c73b6061973a2d76ab3bf0 data/marioverse/tags/entity_type/can_pick_up_coins.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_smash_blocks.json
-6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_stomp_enemies.json
+4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_stomp_enemies.json
 7dd0275f20a44994a64b94303c24167101dd39ab data/marioverse/tags/entity_type/can_wear_costumes.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/damage_cannot_shrink.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/decorated_pot_cannot_spawn.json

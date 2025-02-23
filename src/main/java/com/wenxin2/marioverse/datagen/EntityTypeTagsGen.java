@@ -105,13 +105,21 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_LOWER_FLAGS)
                 .add(EntityType.PLAYER);
 
+        tag(TagRegistry.CAN_PICK_UP_COINS)
+                .add(EntityType.PIGLIN)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
+
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.CAN_STOMP_ENEMIES)
-                .add(EntityType.PLAYER);
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.CAN_WEAR_COSTUMES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
