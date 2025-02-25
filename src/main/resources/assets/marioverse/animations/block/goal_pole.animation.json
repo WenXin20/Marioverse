@@ -78,26 +78,10 @@
 		},
 		"animation.goal_pole.wave": {
 			"loop": true,
-			"animation_length": 8,
 			"bones": {
 				"flag": {
 					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0],
-							"easing": "easeInSine"
-						},
-						"2.0": {
-							"vector": [0, 22.5, 0],
-							"easing": "easeInSine"
-						},
-						"6.0": {
-							"vector": [0, -22.5, 0],
-							"easing": "easeInSine"
-						},
-						"8.0": {
-							"vector": [0, 0, 0],
-							"easing": "easeInSine"
-						}
+						"vector": [0, "20 * math.sin(100 * query.anim_time + 2)", 0]
 					}
 				}
 			}

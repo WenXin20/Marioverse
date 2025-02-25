@@ -37,7 +37,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, Nameable {
     protected static final RawAnimation APPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.appear");
     protected static final RawAnimation DISAPPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.disappear");
-    protected static final RawAnimation SWITCH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.switch");
+    public static final RawAnimation SWITCH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.switch");
     protected static final RawAnimation WAVE_ANIM = RawAnimation.begin().thenLoop("animation.goal_pole.wave");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -50,6 +50,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private boolean playedSwitchAnim;
     private boolean renderWonderFlag;
     private boolean renderAmericanFlag;
+    private boolean animationFinished = false;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -57,8 +58,14 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "switch", 5, this::switchAnimController));
-        controllers.add(new AnimationController<>(this, "wave", 5, this::waveAnimController));
+//        controllers.add(new AnimationController<>(this, "switch", 5, this::switchAnimController));
+        controllers.add(new AnimationController<>(this, "appear_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("appear", APPEAR_ANIM));
+        controllers.add(new AnimationController<>(this, "disappear_controller", 5, this::disappearAnimController)
+                .triggerableAnim("disappear", DISAPPEAR_ANIM));
+        controllers.add(new AnimationController<>(this, "switch_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("switch", SWITCH_ANIM));
+        controllers.add(new AnimationController<>(this, "wave_controller", 5, state -> state.setAndContinue(WAVE_ANIM)));
     }
 
     @Override
@@ -71,7 +78,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return PlayState.CONTINUE;
     }
 
-    protected <E extends GeoAnimatable> PlayState switchAnimController(final AnimationState<E> event) {
+    protected <E extends GeoAnimatable> PlayState disappearAnimController(final AnimationState<E> event) {
         BlockState state = this.getBlockState();
         Block block = this.getBlockState().getBlock();
 
@@ -82,20 +89,17 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 if (this.getLevel() != null)
                     this.updateConnectedDisappearFlags(this.getLevel(), this.getBlockPos());
                 event.setAndContinue(DISAPPEAR_ANIM);
-            } else if (!this.playedAppearAnim()
-                    && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
-                this.setPlayedAppearAnim(Boolean.TRUE);
-                if (this.getLevel() != null)
-                    this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos());
-                event.setAndContinue(APPEAR_ANIM);
-            } else if (!this.playedSwitchAnim() && !this.isAmericanFlag() && block != BlockRegistry.CLASSIC_GOAL_POLE.get()) {
-                this.setPlayedSwitchAnim(Boolean.TRUE);
-                if (this.getLevel() != null)
-                    this.updateConnectedSwitchFlags(this.getLevel(), this.getBlockPos());
-                event.setAndContinue(SWITCH_ANIM);
             }
         }
         return PlayState.CONTINUE;
+    }
+
+    public boolean isAnimationFinished() {
+        return animationFinished;
+    }
+
+    public void setAnimationFinished(boolean isAnimationDone) {
+        this.animationFinished = isAnimationDone;
     }
 
     @Override
@@ -231,7 +235,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.markUpdated();
     }
 
-    private void updateConnectedAppearFlags(Level world, BlockPos pos) {
+    public void updateConnectedAppearFlags(Level world, BlockPos pos) {
         BlockPos posAbove = pos.above();
         while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posAbove).getValue(GoalPoleBlock.LOWERED)) {
@@ -249,7 +253,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         }
     }
 
-    private void updateConnectedDisappearFlags(Level world, BlockPos pos) {
+    public void updateConnectedDisappearFlags(Level world, BlockPos pos) {
         BlockPos posAbove = pos.above();
         while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posAbove).getValue(GoalPoleBlock.LOWERED)) {
@@ -267,7 +271,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         }
     }
 
-    private void updateConnectedSwitchFlags(Level world, BlockPos pos) {
+    public void updateConnectedSwitchFlags(Level world, BlockPos pos) {
         BlockPos posAbove = pos.above();
         while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posAbove).getValue(GoalPoleBlock.LOWERED)) {

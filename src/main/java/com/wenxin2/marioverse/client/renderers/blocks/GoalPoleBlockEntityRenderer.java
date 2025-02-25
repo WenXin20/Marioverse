@@ -21,9 +21,8 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
     public void render(GoalPoleBlockEntity animatable, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         BlockState state = animatable.getBlockState();
 
-        if (state.getValue(GoalPoleBlock.FLAG) && animatable.getLevel() != null) {
+        if (state.getValue(GoalPoleBlock.FLAG) && animatable.getLevel() != null)
             super.render(animatable, partialTicks, stack, buffer, packedLight, packedOverlay);
-        }
     }
 
     @NotNull
