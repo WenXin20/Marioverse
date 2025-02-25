@@ -81,7 +81,7 @@
 			"bones": {
 				"flag": {
 					"rotation": {
-						"vector": [0, "20 * math.sin(100 * query.anim_time + 2)", 0]
+						"vector": [0, "15 * math.sin(200 * query.anim_time + 2 + 5 * math.sin(20 * query.anim_time)) * (0.5 + 0.5 * math.cos(25 * query.anim_time))", 0]
 					}
 				}
 			}
