@@ -228,6 +228,9 @@ public class QuestionBlock extends BaseEntityBlock {
                     if (!world.isClientSide)
                         this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
+                    if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                        PiglinAi.angerNearbyPiglins(player, false);
+
                     this.playSounds(world, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
@@ -235,9 +238,6 @@ public class QuestionBlock extends BaseEntityBlock {
 
                 if (storedItem.isEmpty())
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-
-                if (state.is(BlockTags.GUARDED_BY_PIGLINS))
-                    PiglinAi.angerNearbyPiglins(player, false);
 
                 return InteractionResult.SUCCESS;
             } else return InteractionResult.PASS;

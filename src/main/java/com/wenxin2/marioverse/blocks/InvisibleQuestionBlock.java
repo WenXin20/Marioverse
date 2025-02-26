@@ -43,6 +43,7 @@ import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
@@ -139,7 +140,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (heldItem.isEmpty() && blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
+        if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
             ItemStack blockStack = questionBE.getTheItem();
 
             if (world.isClientSide) {
@@ -151,6 +152,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                         && blockStack.getCount() < blockStack.getMaxStackSize())) {
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     ItemStack itemstack = stack.consumeAndReturn(1, player);
+
                     float f;
                     if (questionBE.isEmpty()) {
                         questionBE.setTheItem(itemstack);
