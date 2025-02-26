@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "marioverse:block/storage_deep_fungal_bricks"
+    "all": "marioverse:block/deep_fungal_bricks"
   }
 }

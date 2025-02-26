@@ -411,7 +411,7 @@ public class BlockStateGen extends BlockStateProvider {
                             || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)) {
                         questionBlockName = removeStorageName
                                 .replace("bricks", "question_block");
-                        mainTexture = modLoc("block/" + blockName);
+                        mainTexture = modLoc("block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                         this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
