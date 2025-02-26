@@ -49,10 +49,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public Component name;
     private boolean playedAppearAnim;
     private boolean playedDisappearAnim;
-    private boolean playedSwitchAnim;
     private boolean renderWonderFlag;
     private boolean renderAmericanFlag;
-    private boolean animationFinished = false;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -101,17 +99,15 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 if (this.getLevel() != null)
                     this.updateConnectedDisappearFlags(this.getLevel(), this.getBlockPos());
                 event.setAndContinue(DISAPPEAR);
+            } else if (!this.playedAppearAnim()
+                    && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
+                this.setPlayedAppearAnim(Boolean.TRUE);
+                if (this.getLevel() != null)
+                    this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos());
+                event.setAndContinue(APPEAR);
             }
         }
         return PlayState.CONTINUE;
-    }
-
-    public boolean isAnimationFinished() {
-        return animationFinished;
-    }
-
-    public void setAnimationFinished(boolean isAnimationDone) {
-        this.animationFinished = isAnimationDone;
     }
 
     @Override
@@ -119,19 +115,15 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         super.saveAdditional(tag, provider);
         tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
         tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
-        tag.putBoolean("playedSwitchAnim", this.playedSwitchAnim);
         tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
         tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
 
         if (this.name != null) {
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
-            if (this.isWonderFlag()) {
-//                this.setWonderFlag(true);
+            if (this.isWonderFlag())
                 PacketHandler.sendToAllClients(new WonderGoalPolePayload(this.getBlockPos(), this.hasWonderFlag()));
-            } else if (this.isAmericanFlag()) {
-//                this.setAmericanFlag(true);
+            else if (this.isAmericanFlag())
                 PacketHandler.sendToAllClients(new AmericaGoalPolePayload(this.getBlockPos(), this.hasAmericanFlag()));
-            }
         }
     }
 
@@ -140,7 +132,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         super.loadAdditional(tag, provider);
         this.playedAppearAnim = tag.getBoolean("playedAppearAnim");
         this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
-        this.playedSwitchAnim = tag.getBoolean("playedSwitchAnim");
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
         this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
 
@@ -228,10 +219,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.playedDisappearAnim;
     }
 
-    public boolean playedSwitchAnim() {
-        return this.playedSwitchAnim;
-    }
-
     public void setPlayedAppearAnim(boolean playedAppearAnim) {
         this.playedAppearAnim = playedAppearAnim;
         this.markUpdated();
@@ -239,11 +226,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     public void setPlayedDisappearAnim(boolean playedDisappearAnim) {
         this.playedDisappearAnim = playedDisappearAnim;
-        this.markUpdated();
-    }
-
-    public void setPlayedSwitchAnim(boolean playedSwitchAnim) {
-        this.playedSwitchAnim = playedSwitchAnim;
         this.markUpdated();
     }
 
@@ -278,24 +260,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         while (world.getBlockState(posBelow).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posBelow).getValue(GoalPoleBlock.LOWERED)) {
             this.setPlayedDisappearAnim(Boolean.TRUE);
-            this.markUpdated();
-            posBelow = posBelow.below();
-        }
-    }
-
-    public void updateConnectedSwitchFlags(Level world, BlockPos pos) {
-        BlockPos posAbove = pos.above();
-        while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock &&
-                world.getBlockState(posAbove).getValue(GoalPoleBlock.LOWERED)) {
-            this.setPlayedSwitchAnim(Boolean.TRUE);
-            this.markUpdated();
-            posAbove = posAbove.above();
-        }
-
-        BlockPos posBelow = pos.below();
-        while (world.getBlockState(posBelow).getBlock() instanceof GoalPoleBlock &&
-                world.getBlockState(posBelow).getValue(GoalPoleBlock.LOWERED)) {
-            this.setPlayedSwitchAnim(Boolean.TRUE);
             this.markUpdated();
             posBelow = posBelow.below();
         }

@@ -52,7 +52,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.animatable.GeoBlockEntity;
 
 public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final MapCodec<GoalPoleBlock> CODEC = simpleCodec(GoalPoleBlock::new);
@@ -241,18 +240,16 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 world.setBlock(pos, state.setValue(LOWERED, Boolean.TRUE), 3);
                 if (world.getBlockEntity(topPos) != null && world.getBlockEntity(topPos) instanceof GoalPoleBlockEntity blockEntity) {
                     blockEntity.markUpdated();
-//                    if (!blockEntity.playedSwitchAnim()) {
-                        this.spawnPoofParticles(world, topPos.below(), ParticleTypes.POOF, 10);
-//                    }
-                    if ((blockEntity.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())/* && !this.playedDisappearAnim()*/
+                    this.spawnPoofParticles(world, topPos.below(), ParticleTypes.POOF, 10);
+
+                    if ((blockEntity.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
                             && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
                         blockEntity.triggerAnim("disappear_controller", "disappear");
                         blockEntity.updateConnectedDisappearFlags(world, pos);
-                    } else if (/*!blockEntity.playedAppearAnim()
-                            &&*/ state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
+                    } else if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
                         blockEntity.triggerAnim("appear_controller", "appear");
                         blockEntity.updateConnectedAppearFlags(world, pos);
-                    } else if (/*!blockEntity.playedSwitchAnim() && */!blockEntity.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get()) {
+                    } else if (!blockEntity.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get()) {
                         blockEntity.triggerAnim("switch_controller", "switch");
                     }
                 }
