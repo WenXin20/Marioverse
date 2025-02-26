@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -161,14 +162,18 @@ public class QuestionBlockEntity extends BlockEntity implements RandomizableCont
     @Override
     public void setChanged() {
         if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
+            Level world = this.level;
+            BlockState state = world.getBlockState(this.getBlockPos());
 
-            if (this.getLootTable() != null || this.hasItems())
-                this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-            else this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+            if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE) && (this.getLootTable() != null || this.hasItems()))
+                world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.TRUE), 3);
+            else if (this.getLootTable() != null || this.hasItems())
+                world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+            else world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
-            if (!this.level.isClientSide()) {
-                this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
-                this.level.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
+            if (!world.isClientSide()) {
+                world.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+                world.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
             }
         }
         super.setChanged();
