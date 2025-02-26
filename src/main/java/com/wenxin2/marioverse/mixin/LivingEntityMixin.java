@@ -536,10 +536,10 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
-            ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+            ItemStack storedItem = questionBlockEntity.getTheItem();
 
-            if (questionBlockEntity.getLootTable() != null)
-                questionBlock.unpackLootTable(this, questionBlockEntity);
+//            if (questionBlockEntity.getLootTable() != null)
+//                questionBlock.unpackLootTable(this, questionBlockEntity);
 
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 this.marioverse$dropCoin(world, pos, this);
@@ -552,7 +552,7 @@ public abstract class LivingEntityMixin extends Entity {
                     PiglinAi.angerNearbyPiglins(player, false);
 
                 questionBlock.playSounds(world, pos, storedItem);
-                questionBlockEntity.removeItems();
+                questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();
             }
 

@@ -7,26 +7,37 @@ import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.NotNull;
 
-public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
-    private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-    private boolean lootTableProcessed = false;
-    private boolean lastPowered = false;
+public class QuestionBlockEntity extends BlockEntity implements RandomizableContainer, ContainerSingleItem.BlockContainerSingleItem {
+    @Nullable protected ResourceKey<LootTable> lootTable;
+    private ItemStack item = ItemStack.EMPTY;
+    protected long lootTableSeed;
+    private boolean lastPowered;
 
     public QuestionBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 1;
     }
 
     @Override
@@ -39,45 +50,120 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @NotNull
-    public NonNullList<ItemStack> getItems() {
-        return this.items;
+    @Override
+    public BlockEntity getContainerBlockEntity() {
+        return this;
     }
 
     @Override
-    public void setItems(NonNullList<ItemStack> items) {
-        this.items = items;
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.saveAdditional(tag, provider);
+
+        tag.putBoolean("lastPowered", this.lastPowered);
+        if (!this.trySaveLootTable(tag) && !this.item.isEmpty())
+            tag.put("item", this.item.save(provider));
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int slots, Inventory inventory) {
-        return null;
-    }
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        super.loadAdditional(tag, provider);
 
-    public ItemStack getStackInSlot() {
-        return this.items.getFirst();
-    }
-
-    public boolean hasItems() {
-        return !this.items.getFirst().isEmpty();
+        this.lastPowered = tag.getBoolean("lastPowered");
+        if (!this.tryLoadLootTable(tag)) {
+            if (tag.contains("item", 10))
+                this.item = ItemStack.parse(provider, tag.getCompound("item")).orElse(ItemStack.EMPTY);
+            else this.item = ItemStack.EMPTY;
+        }
     }
 
     @Override
-    public int getContainerSize() {
-        return 1;
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        this.item = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.item)));
+    }
+
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @NotNull
     @Override
-    protected Component getDefaultName() {
-        return Component.translatable("menu.marioverse.question_block");
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return this.saveCustomOnly(provider);
+    }
+
+    public void setFromItem(ItemStack stack) {
+        this.applyComponentsFromItemStack(stack);
+    }
+
+    @Override
+    public void setTheItem(ItemStack stack) {
+        this.unpackLootTable(null);
+        this.item = stack;
+    }
+
+    @NotNull
+    @Override
+    public ItemStack getTheItem() {
+        this.unpackLootTable(null);
+        return this.item;
+    }
+
+    @NotNull
+    @Override
+    public ItemStack splitTheItem(int splitAmt) {
+        this.unpackLootTable(null);
+        ItemStack itemstack = this.item.split(splitAmt);
+
+        if (this.item.isEmpty())
+            this.item = ItemStack.EMPTY;
+
+        return itemstack;
+    }
+
+    public boolean hasItems() {
+        return !this.item.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public ResourceKey<LootTable> getLootTable() {
+        return this.lootTable;
+    }
+
+    @Override
+    public void setLootTable(@Nullable ResourceKey<LootTable> lootTable) {
+        this.lootTable = lootTable;
+    }
+
+    @Override
+    public long getLootTableSeed() {
+        return this.lootTableSeed;
+    }
+
+    @Override
+    public void setLootTableSeed(long lootTableSeed) {
+        this.lootTableSeed = lootTableSeed;
+    }
+
+    @Override
+    public void removeComponentsFromTag(CompoundTag tag) {
+        super.removeComponentsFromTag(tag);
+        tag.remove("item");
     }
 
     @Override
     public void setChanged() {
         if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
-            if (this.getLootTable() != null || this.hasItems()) {
+
+            if (this.getLootTable() != null || this.hasItems())
                 this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-            }
             else this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
             if (!this.level.isClientSide()) {
@@ -86,65 +172,6 @@ public class QuestionBlockEntity extends RandomizableContainerBlockEntity {
             }
         }
         super.setChanged();
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        super.saveAdditional(tag, provider);
-        if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items, provider);
-        }
-        tag.putBoolean("lastPowered", this.lastPowered);
-        tag.putBoolean("lootTableProcessed", this.lootTableProcessed);
-    }
-
-    @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-        super.loadAdditional(tag, provider);
-        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, this.items, provider);
-        }
-        this.lastPowered = tag.getBoolean("lastPowered");
-        this.lootTableProcessed = tag.getBoolean("lootTableProcessed");
-    }
-
-    public void addItem(ItemStack stack) {
-        ItemStack existingStack = this.items.getFirst();
-        if (existingStack.isEmpty()) {
-            this.items.set(0, stack.split(stack.getMaxStackSize()));
-        } else if (ItemStack.isSameItemSameComponents(existingStack, stack)) {
-            int countToAdd = Math.min(stack.getMaxStackSize() - existingStack.getCount(), stack.getCount());
-            existingStack.grow(countToAdd);
-        }
-        this.setChanged();
-    }
-
-    public boolean removeItems() {
-        ItemStack storedStack = this.items.getFirst();
-        if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
-            storedStack.shrink(1);  // Remove one item
-            if (storedStack.isEmpty()) {
-                this.items.set(0, ItemStack.EMPTY);
-                if (!this.hasItems() && this.hasLootTableBeenProcessed())
-                    this.clearLootTable();
-            }
-            this.setChanged();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasLootTableBeenProcessed() {
-        return this.lootTableProcessed;
-    }
-
-    public void processLootTable() {
-        this.lootTableProcessed = true;
-    }
-
-    public void clearLootTable() {
-        this.lootTable = null;
     }
 
     public boolean isLastPowered() {

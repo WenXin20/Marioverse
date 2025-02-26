@@ -1,8 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
-import net.minecraft.world.level.block.EntityBlock;
-
-public class StorageBrickBlock extends QuestionBlock implements EntityBlock {
+public class StorageBrickBlock extends QuestionBlock {
     public StorageBrickBlock(Properties properties) {
         super(properties);
     }

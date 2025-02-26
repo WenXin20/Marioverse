@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -12,10 +13,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -59,8 +62,9 @@ import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -74,12 +78,19 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class QuestionBlock extends Block implements EntityBlock {
+public class QuestionBlock extends BaseEntityBlock {
+    public static final MapCodec<QuestionBlock> CODEC = simpleCodec(QuestionBlock::new);
     public static final BooleanProperty EMPTY = BooleanProperty.create("empty");
 
     public QuestionBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(EMPTY, Boolean.TRUE));
+    }
+
+    @NotNull
+    @Override
+    protected MapCodec<? extends QuestionBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -91,6 +102,12 @@ public class QuestionBlock extends Block implements EntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new QuestionBlockEntity(pos, state);
+    }
+
+    @NotNull
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override
@@ -121,26 +138,22 @@ public class QuestionBlock extends Block implements EntityBlock {
         if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
             boolean isPowered = world.hasNeighborSignal(pos);
             if (isPowered && !state.getValue(EMPTY) && !questionBlockEntity.isLastPowered()) {
-                ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+                ItemStack storedItem = questionBlockEntity.getTheItem();
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
                         this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
                     this.playSounds(world, pos, storedItem);
-                    questionBlockEntity.removeItems();
+                    questionBlockEntity.splitTheItem(1);
                     questionBlockEntity.setChanged();
                 }
 
-                if (storedItem.isEmpty()) {
+                if (storedItem.isEmpty())
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                }
 
-                Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
-                if (questionBlockEntity.getLootTable() != null && nearestPlayer != null) {
-                    this.unpackLootTable(nearestPlayer, questionBlockEntity);
+                if (questionBlockEntity.getLootTable() != null)
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-                }
             }
             questionBlockEntity.setLastPowered(isPowered);
         }
@@ -158,49 +171,77 @@ public class QuestionBlock extends Block implements EntityBlock {
 
     @NotNull
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, 
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-            ItemStack heldItem = player.getItemInHand(hand);
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+        ItemStack heldItem = player.getItemInHand(hand);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
 
-            if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
-                ItemStack blockStack = questionBlockEntity.getStackInSlot();
+        if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
+            ItemStack blockStack = questionBE.getTheItem();
 
-                if (questionBlockEntity.getLootTable() != null)
-                    this.unpackLootTable(player, questionBlockEntity);
-
-                if (!heldItem.isEmpty() && questionBlockEntity.getLootTable() == null
+            if (world.isClientSide) {
+                return ItemInteractionResult.CONSUME;
+            } else {
+                if (!heldItem.isEmpty()
                         && (ConfigRegistry.QUESTION_ADD_ITEMS.get() || player.isCreative())
-                        && (!questionBlockEntity.hasItems() || ItemStack.isSameItemSameComponents(heldItem, blockStack))) {
-                    questionBlockEntity.addItem(heldItem);
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
-                    questionBlockEntity.setChanged();
-                    if(!player.isCreative())
-                        stack.shrink(heldItem.getCount());
-                    return ItemInteractionResult.SUCCESS;
-                } else if (heldItem.isEmpty() && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
-                        && !state.getValue(EMPTY)) {
-                    ItemStack storedItem = questionBlockEntity.getItems().getFirst();
+                        && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack)
+                        && blockStack.getCount() < blockStack.getMaxStackSize())) {
+                    player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+                    ItemStack itemstack = stack.consumeAndReturn(1, player);
 
-                    if (!storedItem.isEmpty()) {
-                        if (!world.isClientSide)
-                            this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
-
-                        this.playSounds(world, pos, storedItem);
-                        questionBlockEntity.removeItems();
-                        questionBlockEntity.setChanged();
+                    float f;
+                    if (questionBE.isEmpty()) {
+                        questionBE.setTheItem(itemstack);
+                        f = (float) itemstack.getCount() / (float) itemstack.getMaxStackSize();
+                    } else {
+                        blockStack.grow(1);
+                        f = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                     }
+                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * f);
 
-                    if (storedItem.isEmpty())
-                        world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-
-                    if (state.is(BlockTags.GUARDED_BY_PIGLINS))
-                        PiglinAi.angerNearbyPiglins(player, false);
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+                    questionBE.setChanged();
+                    world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @NotNull
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+        ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
+
+        if (world.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
+            ItemStack blockStack = questionBE.getTheItem();
+
+            if ((heldItem.isEmpty() || !ItemStack.isSameItemSameComponents(heldItem, blockStack))
+                    && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
+                    && !state.getValue(EMPTY)) {
+                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+
+                ItemStack storedItem = questionBE.getTheItem();
+
+                if (!storedItem.isEmpty()) {
+                    if (!world.isClientSide)
+                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+
+                    this.playSounds(world, pos, storedItem);
+                    questionBE.splitTheItem(1);
+                    questionBE.setChanged();
+                }
+
+                if (storedItem.isEmpty())
+                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+
+                if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                    PiglinAi.angerNearbyPiglins(player, false);
+
+                return InteractionResult.SUCCESS;
+            } else return InteractionResult.PASS;
+        } else return InteractionResult.PASS;
     }
 
     public void spawnFromQuestionBlock(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos, boolean applyUpMotion) {
@@ -599,13 +640,5 @@ public class QuestionBlock extends Block implements EntityBlock {
         else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get())
             world.playSound(null, pos, CompatRegistry.ICE_BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    public void unpackLootTable(Entity entity, QuestionBlockEntity questionBlockEntity) {
-        if (entity instanceof Player player) {
-            questionBlockEntity.unpackLootTable(player);
-        }
-        questionBlockEntity.processLootTable();
-        questionBlockEntity.setChanged();
     }
 }

@@ -91,7 +91,7 @@ public class ContainersMixin {
 
                 marioverse$playSounds(world, questionBE.getBlockPos(), container.getItem(i), questionBE);
 
-                marioverse$stackCount = questionBE.getStackInSlot().getCount();
+                marioverse$stackCount = questionBE.getTheItem().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
                     marioverse$spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i), null,
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
@@ -99,7 +99,7 @@ public class ContainersMixin {
                 }
 
                 for (int j = 0; j < marioverse$stackCount; j++)
-                    questionBE.removeItems();
+                    questionBE.removeTheItem();
             }
         }
     }
