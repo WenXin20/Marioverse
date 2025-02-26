@@ -76,12 +76,32 @@
 				}
 			}
 		},
-		"animation.goal_pole.wave": {
+		"animation.goal_pole.windy_calm": {
 			"loop": true,
 			"bones": {
 				"flag": {
 					"rotation": {
-						"vector": [0, "15 * math.sin(200 * query.anim_time + 2 + 5 * math.sin(20 * query.anim_time)) * (0.5 + 0.5 * math.cos(25 * query.anim_time))", 0]
+						"vector": [0, "(5 * math.sin(200 * query.anim_time + 2 + 5) * (1.0 * math.cos(25 * query.anim_time)))", 0]
+					}
+				}
+			}
+		},
+		"animation.goal_pole.windy_rain": {
+			"loop": true,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"vector": [0, "(15 * math.sin(200 * query.anim_time) * (2.0 * math.cos(150 * query.anim_time)))", 0]
+					}
+				}
+			}
+		},
+		"animation.goal_pole.windy_thunder": {
+			"loop": true,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"vector": [0, "(25 * math.sin(200 * query.anim_time) * (3.0 * math.cos(175 * query.anim_time)))", 0]
 					}
 				}
 			}

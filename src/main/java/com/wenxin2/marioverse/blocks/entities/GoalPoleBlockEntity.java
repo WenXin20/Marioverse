@@ -35,10 +35,12 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, Nameable {
-    protected static final RawAnimation APPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.appear");
-    protected static final RawAnimation DISAPPEAR_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.disappear");
-    public static final RawAnimation SWITCH_ANIM = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.switch");
-    protected static final RawAnimation WAVE_ANIM = RawAnimation.begin().thenLoop("animation.goal_pole.wave");
+    protected static final RawAnimation APPEAR = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.appear");
+    protected static final RawAnimation DISAPPEAR = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.disappear");
+    public static final RawAnimation SWITCH = RawAnimation.begin().thenPlayAndHold("animation.goal_pole.switch");
+    protected static final RawAnimation WINDY_CALM = RawAnimation.begin().thenLoop("animation.goal_pole.windy_calm");
+    protected static final RawAnimation WINDY_RAIN = RawAnimation.begin().thenLoop("animation.goal_pole.windy_rain");
+    protected static final RawAnimation WINDY_THUNDER = RawAnimation.begin().thenLoop("animation.goal_pole.windy_thunder");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.goal_pole");
@@ -58,14 +60,13 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-//        controllers.add(new AnimationController<>(this, "switch", 5, this::switchAnimController));
         controllers.add(new AnimationController<>(this, "appear_controller", 5, state -> PlayState.STOP)
-                .triggerableAnim("appear", APPEAR_ANIM));
-        controllers.add(new AnimationController<>(this, "disappear_controller", 5, this::disappearAnimController)
-                .triggerableAnim("disappear", DISAPPEAR_ANIM));
+                .triggerableAnim("appear", APPEAR));
+        controllers.add(new AnimationController<>(this, "disappear_controller", 5, this::disappearController)
+                .triggerableAnim("disappear", DISAPPEAR));
         controllers.add(new AnimationController<>(this, "switch_controller", 5, state -> PlayState.STOP)
-                .triggerableAnim("switch", SWITCH_ANIM));
-        controllers.add(new AnimationController<>(this, "wave_controller", 5, state -> state.setAndContinue(WAVE_ANIM)));
+                .triggerableAnim("switch", SWITCH));
+        controllers.add(new AnimationController<>(this, "windy_controller", 20, this::windyController));
     }
 
     @Override
@@ -73,12 +74,23 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.cache;
     }
 
-    protected <E extends GeoAnimatable> PlayState waveAnimController(final AnimationState<E> event) {
-        event.setAndContinue(WAVE_ANIM);
+    protected <E extends GeoAnimatable> PlayState windyController(final AnimationState<E> event) {
+
+        if (this.getLevel() != null && this.getLevel().canSeeSky(this.getBlockPos())) {
+            Level world = this.getLevel();
+
+            if (world.isThundering())
+                event.setAndContinue(WINDY_THUNDER);
+            else if (world.isRaining())
+                event.setAndContinue(WINDY_RAIN);
+            else event.setAndContinue(WINDY_CALM);
+
+        } else event.setAndContinue(WINDY_CALM);
+
         return PlayState.CONTINUE;
     }
 
-    protected <E extends GeoAnimatable> PlayState disappearAnimController(final AnimationState<E> event) {
+    protected <E extends GeoAnimatable> PlayState disappearController(final AnimationState<E> event) {
         BlockState state = this.getBlockState();
         Block block = this.getBlockState().getBlock();
 
@@ -88,7 +100,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 this.setPlayedDisappearAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
                     this.updateConnectedDisappearFlags(this.getLevel(), this.getBlockPos());
-                event.setAndContinue(DISAPPEAR_ANIM);
+                event.setAndContinue(DISAPPEAR);
             }
         }
         return PlayState.CONTINUE;
