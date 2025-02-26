@@ -165,7 +165,7 @@ public class QuestionBlockEntity extends BlockEntity implements RandomizableCont
             Level world = this.level;
             BlockState state = world.getBlockState(this.getBlockPos());
 
-            if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE) && (this.getLootTable() != null || this.hasItems()))
+            if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE) && (this.getLootTable() != null))
                 world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.TRUE), 3);
             else if (this.getLootTable() != null || this.hasItems())
                 world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);

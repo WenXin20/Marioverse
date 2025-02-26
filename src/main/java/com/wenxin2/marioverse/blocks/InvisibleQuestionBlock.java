@@ -195,6 +195,9 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     if (state.is(BlockTags.GUARDED_BY_PIGLINS))
                         PiglinAi.angerNearbyPiglins(player, false);
 
+                    if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
+                        world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
+
                     this.playSounds(world, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
@@ -202,9 +205,6 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
                 if (storedItem.isEmpty())
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE), 3);
-
-                if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
-                    world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
                 return InteractionResult.SUCCESS;
             } else return InteractionResult.PASS;
