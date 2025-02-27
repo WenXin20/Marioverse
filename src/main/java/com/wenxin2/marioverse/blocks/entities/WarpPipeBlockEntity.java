@@ -142,8 +142,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
                 this.pipeText = this.loadLines(text);
             });
-            this.pipeName = parseCustomNameSafe(tag.getString(PIPE_NAME), provider);
         }
+        if (tag.contains(PIPE_NAME, 8))
+            this.pipeName = parseCustomNameSafe(tag.getString(PIPE_NAME), provider);
     }
 
     @Override
