@@ -135,27 +135,27 @@ public class QuestionBlock extends BaseEntityBlock {
     @Override
     protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
+        if (blockEntity instanceof QuestionBlockEntity questionBE && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
             boolean isPowered = world.hasNeighborSignal(pos);
-            if (isPowered && !state.getValue(EMPTY) && !questionBlockEntity.isLastPowered()) {
-                ItemStack storedItem = questionBlockEntity.getTheItem();
+            if (isPowered && !state.getValue(EMPTY) && !questionBE.isLastPowered()) {
+                ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
                         this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
                     this.playSounds(world, pos, storedItem);
-                    questionBlockEntity.splitTheItem(1);
-                    questionBlockEntity.setChanged();
+                    questionBE.splitTheItem(1);
+                    questionBE.setChanged();
                 }
 
                 if (storedItem.isEmpty())
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
-                if (questionBlockEntity.getLootTable() != null)
+                if (questionBE.getLootTable() != null)
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
             }
-            questionBlockEntity.setLastPowered(isPowered);
+            questionBE.setLastPowered(isPowered);
         }
     }
 

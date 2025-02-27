@@ -7,12 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_BOUND =

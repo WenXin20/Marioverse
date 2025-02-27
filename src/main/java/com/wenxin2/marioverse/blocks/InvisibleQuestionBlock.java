@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
@@ -46,13 +47,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<InvisibleQuestionBlock> CODEC = simpleCodec(InvisibleQuestionBlock::new);
     public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public InvisibleQuestionBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(EMPTY, Boolean.TRUE)
-                .setValue(INVISIBLE, Boolean.TRUE).setValue(WATERLOGGED, Boolean.FALSE));
+                .setValue(INVISIBLE, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE));
+    }
+
+    @NotNull
+    @Override
+    protected MapCodec<? extends InvisibleQuestionBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -104,32 +112,30 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
     @Override
     protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof QuestionBlockEntity questionBlockEntity && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
+        if (blockEntity instanceof QuestionBlockEntity questionBE && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
             boolean isPowered = world.hasNeighborSignal(pos);
-            if (isPowered && !state.getValue(EMPTY) && !questionBlockEntity.isLastPowered()) {
-                ItemStack storedItem = questionBlockEntity.getTheItem();
+            if (isPowered && !state.getValue(EMPTY) && !questionBE.isLastPowered()) {
+                ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
                     if (!world.isClientSide)
                         this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
+                    if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
+                        world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
+
                     this.playSounds(world, pos, storedItem);
-                    questionBlockEntity.splitTheItem(1);
-                    questionBlockEntity.setChanged();
+                    questionBE.splitTheItem(1);
+                    questionBE.setChanged();
                 }
 
-                if (storedItem.isEmpty()) {
+                if (storedItem.isEmpty())
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                }
 
-                if (state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
-                    world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
-                }
-
-                if (questionBlockEntity.getLootTable() != null)
+                if (questionBE.getLootTable() != null)
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(INVISIBLE, Boolean.TRUE), 3);
             }
-            questionBlockEntity.setLastPowered(isPowered);
+            questionBE.setLastPowered(isPowered);
         }
     }
 
@@ -312,12 +318,6 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         return state.getFluidState().isEmpty() && state.getValue(INVISIBLE);
-    }
-
-    @NotNull
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
     }
 
     @Override
