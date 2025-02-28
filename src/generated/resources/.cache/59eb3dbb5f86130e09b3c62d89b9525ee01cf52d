@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-27T19:48:40.0812122	Loot Tables
+// 1.21.1	2025-02-27T20:24:54.7369733	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 0968a986ea9b50ba23d46fb87fc714d14b9e6dec data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -23,6 +23,7 @@ cc3658065432c08845b5e46d29c7d68b7c9e5753 data/marioverse/loot_table/blocks/blue_
 a649cef081aac183af0ba6a65955bec5a0553cee data/marioverse/loot_table/blocks/brown_goal_pole.json
 e753ac03ac2aadf01ed0040903ec85f6af4804db data/marioverse/loot_table/blocks/brown_warp_pipe.json
 fa5bc026a052c01b757852f0256c3a4624222794 data/marioverse/loot_table/blocks/chiseled_amethyst_bricks.json
+b635c4903fa0f79bf32765f57f72bcf613d5ee40 data/marioverse/loot_table/blocks/classic_checkpoint_flag.json
 91366376d536f6e135d2ae22d13c372555386dbf data/marioverse/loot_table/blocks/classic_goal_pole.json
 2bc91b6195df148fa12da96201f187bd0de8a50a data/marioverse/loot_table/blocks/clear_warp_pipe.json
 14db128484db76b9fea603a9ea3fa03b00c16037 data/marioverse/loot_table/blocks/coin.json

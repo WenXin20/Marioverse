@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:checkpoint_flags",
+  "key": {
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "M": {
+      "item": "marioverse:mushroom"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "MG",
+    "WG",
+    " S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:classic_checkpoint_flag"
+  }
+}

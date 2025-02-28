@@ -1,5 +1,6 @@
 {
   "values": [
-    "#marioverse:dyeable_checkpoint_flags"
+    "#marioverse:dyeable_checkpoint_flags",
+    "marioverse:classic_checkpoint_flag"
   ]
 }
