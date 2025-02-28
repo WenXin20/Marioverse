@@ -66,6 +66,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
     public static final DeferredBlock<Block> COIN;
@@ -786,6 +787,11 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        CLASSIC_CHECKPOINT_FLAG = registerBlock("classic_checkpoint_flag",
+                () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
+                        .strength(2.5F, 3.0F).requiresCorrectToolForDrops().noCollission()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CHECKPOINT_FLAGS.put(color, registerBlock(color.getName() + "_checkpoint_flag",

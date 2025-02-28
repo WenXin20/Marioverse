@@ -79,7 +79,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .replace(false);
 
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
-                .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS);
+                .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
+                .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
 
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)

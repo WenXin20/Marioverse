@@ -40,6 +40,7 @@ public class BlockRecipeGen extends RecipeUtils {
         generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
         waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
         fireShirtRecipe(1, ItemRegistry.FIRE_SHIRT, Blocks.WHITE_WOOL, Blocks.RED_WOOL, output);

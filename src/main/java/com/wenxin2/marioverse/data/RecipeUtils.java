@@ -197,6 +197,24 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void classicCheckpointFlagRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, ItemLike inputItem,
+                                            ItemLike inputItem2, ItemLike inputItem3, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('M', inputItem)
+                .define('W', inputItem2)
+                .define('G', inputItemTag)
+                .define('S', inputItem3)
+                .pattern("MG")
+                .pattern("WG")
+                .pattern(" S")
+                .unlockedBy("has_gold_ingot", has(inputItemTag))
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .unlockedBy(getHasName(inputItem2), has(inputItem2))
+                .unlockedBy(getHasName(inputItem3), has(inputItem3))
+                .group(Marioverse.MOD_ID + ":checkpoint_flags")
+                .save(output);
+    }
+
     public void classicGoalPoleRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2,
                                       ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)

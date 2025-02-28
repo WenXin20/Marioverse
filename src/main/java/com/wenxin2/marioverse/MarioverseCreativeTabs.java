@@ -574,9 +574,10 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
 
-                addDyedBlocks(event, Blocks.SKELETON_SKULL, BlockRegistry.CHECKPOINT_FLAGS, false, false);
+                addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), BlockRegistry.CHECKPOINT_FLAGS, false, false);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE.get(), BlockRegistry.GOAL_POLES, false, false);
-                addBefore(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), BlockRegistry.CLASSIC_GOAL_POLE.get());
+                addBefore(event, Blocks.SKELETON_SKULL, BlockRegistry.CLASSIC_GOAL_POLE.get());
+                addBefore(event, BlockRegistry.CLASSIC_GOAL_POLE.get(), BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
             }
         }
     }
