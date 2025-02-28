@@ -237,8 +237,6 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)) {
-
-
             if (!state.getValue(CLAIMED)) {
                 if (entity instanceof ServerPlayer player)
                     player.setRespawnPosition(world.dimension(), pos, player.getYRot(), true, true);
