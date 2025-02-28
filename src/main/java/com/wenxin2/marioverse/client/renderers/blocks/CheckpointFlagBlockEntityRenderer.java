@@ -24,15 +24,6 @@ public class CheckpointFlagBlockEntityRenderer extends GeoBlockRenderer<Checkpoi
         addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
-//    @Override
-//    public void render(CheckpointFlagBlockEntity animatable, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-//        BlockState state = animatable.getBlockState();
-//
-//        if (state.getValue(GoalPoleBlock.FLAG) && animatable.getLevel() != null)
-//            super.render(animatable, partialTicks, stack, buffer, packedLight, packedOverlay);
-//    }
-
-
     @Override
     public boolean shouldRender(CheckpointFlagBlockEntity blockEntity, Vec3 vec3) {
         if (blockEntity.getBlockState().getValue(CheckpointFlagBlock.PART) == TripleBlockStates.BOTTOM)
@@ -44,13 +35,15 @@ public class CheckpointFlagBlockEntityRenderer extends GeoBlockRenderer<Checkpoi
     @Override
     public AABB getRenderBoundingBox(CheckpointFlagBlockEntity animatable) {
 
-        return new AABB(
-                animatable.getBlockPos().getX() - 0.8,
-                animatable.getBlockPos().getY(),
-                animatable.getBlockPos().getZ() - 0.8,
-                animatable.getBlockPos().getX() + 1.8,
-                animatable.getBlockPos().getY() + 1.0,
-                animatable.getBlockPos().getZ() + 1.8
-        );
+        if (animatable.getBlockState().getValue(CheckpointFlagBlock.PART) == TripleBlockStates.BOTTOM) {
+            return new AABB(
+                    animatable.getBlockPos().getX(),
+                    animatable.getBlockPos().getY(),
+                    animatable.getBlockPos().getZ(),
+                    animatable.getBlockPos().getX() + 1.0,
+                    animatable.getBlockPos().getY() + 3.0,
+                    animatable.getBlockPos().getZ() + 1.0
+            );
+        } else return new AABB(0, 0, 0, 0, 0, 0);
     }
 }
