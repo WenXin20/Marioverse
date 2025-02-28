@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:checkpoint_flags_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/brown"
+    },
+    {
+      "tag": "marioverse:dyeable_checkpoint_flags"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:brown_checkpoint_flag"
+  }
+}
