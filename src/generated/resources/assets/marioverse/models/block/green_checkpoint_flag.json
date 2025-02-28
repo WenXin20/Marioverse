@@ -1,0 +1,6 @@
+{
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "marioverse:entity/checkpoint_flag/green_checkpoint_flag"
+  }
+}
