@@ -1,6 +1,6 @@
 {
   "render_type": "minecraft:cutout",
   "textures": {
-    "particle": "marioverse:entity/checkpoint_flag/lime_checkpoint_flag"
+    "particle": "marioverse:item/lime_checkpoint_flag"
   }
 }

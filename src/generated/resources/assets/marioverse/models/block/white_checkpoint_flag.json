@@ -1,6 +1,6 @@
 {
   "render_type": "minecraft:cutout",
   "textures": {
-    "particle": "marioverse:entity/checkpoint_flag/white_checkpoint_flag"
+    "particle": "marioverse:item/white_checkpoint_flag"
   }
 }

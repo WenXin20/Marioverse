@@ -66,7 +66,7 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
 
     protected static final VoxelShape CHECKPOINT_FLAG_TOP =
             Shapes.or(Block.box(7, 0, 7, 9, 4, 9),
-            Block.box(5, 4, 5, 11, 10, 11)).optimize();
+            Block.box(6, 4, 6, 10, 8, 10)).optimize();
     protected static final VoxelShape CHECKPOINT_FLAG_MIDDLE =
             Block.box(7, 0, 7, 9, 16, 9).optimize();
     protected static final VoxelShape CHECKPOINT_FLAG_BOTTOM =
@@ -241,7 +241,7 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
 
             if (!state.getValue(CLAIMED)) {
                 if (entity instanceof ServerPlayer player)
-                    player.setRespawnPosition(world.dimension(), pos, player.getYRot(), false, true);
+                    player.setRespawnPosition(world.dimension(), pos, player.getYRot(), true, true);
 
                 if (!(entity instanceof Player))
                     entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint

@@ -68,7 +68,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
-            ResourceLocation texture = modLoc("entity/checkpoint_flag/" + blockName);
+            ResourceLocation texture = modLoc("item/" + blockName);
 
             this.enptyModel(entry.getValue().get(), blockName, texture);
         }

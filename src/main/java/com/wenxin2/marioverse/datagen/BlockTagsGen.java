@@ -356,6 +356,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
