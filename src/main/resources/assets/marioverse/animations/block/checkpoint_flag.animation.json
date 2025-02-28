@@ -1,0 +1,67 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.checkpoint_flag.switch": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 1,
+			"bones": {
+				"flag": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.125": {
+							"vector": [1.1875, 1.1875, 1.1875]
+						},
+						"0.3333": {
+							"vector": [0.7, 0.7, 0.7]
+						},
+						"0.5": {
+							"vector": [0, 0, 0]
+						},
+						"0.6667": {
+							"vector": [0.7, 0.7, 0.7]
+						},
+						"0.9167": {
+							"vector": [1.1875, 1.1875, 1.1875]
+						},
+						"1.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
+		},
+		"animation.checkpoint_flag.windy_calm": {
+			"loop": true,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"vector": [0, "(5 * math.sin(200 * query.anim_time + 2 + 5) * (1.0 * math.cos(25 * query.anim_time)))", 0]
+					}
+				}
+			}
+		},
+		"animation.checkpoint_flag.windy_rain": {
+			"loop": true,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"vector": [0, "(15 * math.sin(200 * query.anim_time) * (2.0 * math.cos(150 * query.anim_time)))", 0]
+					}
+				}
+			}
+		},
+		"animation.checkpoint_flag.windy_thunder": {
+			"loop": true,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"vector": [0, "(25 * math.sin(200 * query.anim_time) * (3.0 * math.cos(175 * query.anim_time)))", 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

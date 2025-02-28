@@ -51,6 +51,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.SLIME)
                 .addOptional(TEST_DUMMY);
 
+        tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
+
         tag(TagRegistry.CAN_BONK_BLOCKS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)

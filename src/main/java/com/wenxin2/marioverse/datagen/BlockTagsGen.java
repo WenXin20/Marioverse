@@ -21,11 +21,13 @@ public class BlockTagsGen extends BlockTagsProvider {
     @Override
     @SuppressWarnings("unchecked")
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
             tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
@@ -75,6 +77,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .replace(false);
+
+        tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS);
 
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)

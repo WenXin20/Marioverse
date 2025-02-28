@@ -22,6 +22,8 @@ public class TagRegistry {
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
+    public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
+    public static final TagKey<Block> DYEABLE_CHECKPOINT_FLAG_BLOCKS = blockTags("dyeable_checkpoint_flags");
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
@@ -48,6 +50,8 @@ public class TagRegistry {
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
+    public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
+    public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
@@ -72,6 +76,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
+    public static final TagKey<EntityType<?>> CAN_CLAIM_CHECKPOINT_FLAGS = entityTypeTags("can_claim_checkpoint_flags");
     public static final TagKey<EntityType<?>> CAN_PICK_UP_COINS = entityTypeTags("can_pick_up_coins");
     public static final TagKey<EntityType<?>> CAN_SMASH_BLOCKS = entityTypeTags("can_smash_blocks");
     public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags("can_stomp_enemies");

@@ -26,6 +26,8 @@ public class ItemTagsGen extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
+        copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
+        copy(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
@@ -44,6 +46,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         for (DyeColor color : DyeColor.values()) {
             tag(TagRegistry.itemTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).asItem())
                     .add(BlockRegistry.GOAL_POLES.get(color).asItem())
                     .add(BlockRegistry.WARP_PIPES.get(color).asItem());
         }

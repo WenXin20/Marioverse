@@ -52,6 +52,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.COIN.get());
             add(event, ItemRegistry.WARP_DISRUPTOR.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
+            addDyedBlocks(event, ItemRegistry.PIPE_WRENCH.get(), BlockRegistry.CHECKPOINT_FLAGS, true, true);
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
@@ -264,7 +265,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE.get());
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
 
-                addAfter(event, Blocks.PINK_BANNER, BlockRegistry.CLASSIC_GOAL_POLE.get());
+                addDyedBlocks(event, Blocks.PINK_BANNER, BlockRegistry.CHECKPOINT_FLAGS, true, true);
+                addAfter(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.PINK), BlockRegistry.CLASSIC_GOAL_POLE.get());
                 addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE.get(), BlockRegistry.GOAL_POLES, true, true);
             }
 
@@ -285,7 +287,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get(), BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get());
                 addAfter(event, Items.REDSTONE_LAMP, BlockRegistry.CLEAR_WARP_PIPE.get());
                 addAfter(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get());
-                addAfter(event, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), BlockRegistry.GOAL_POLES.get(DyeColor.RED).get());
+                addAfter(event, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.RED).get());
+                addAfter(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.RED).get(), BlockRegistry.GOAL_POLES.get(DyeColor.RED).get());
                 addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED).get(), BlockRegistry.BRICK_PEDESTAL.get());
             }
 
@@ -571,7 +574,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE.get());
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE.get(), BlockRegistry.WARP_PIPES, true, true);
 
-                addDyedBlocks(event, Blocks.SKELETON_SKULL, BlockRegistry.GOAL_POLES, false, false);
+                addDyedBlocks(event, Blocks.SKELETON_SKULL, BlockRegistry.CHECKPOINT_FLAGS, false, false);
+                addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE.get(), BlockRegistry.GOAL_POLES, false, false);
                 addBefore(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), BlockRegistry.CLASSIC_GOAL_POLE.get());
             }
         }

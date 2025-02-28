@@ -168,6 +168,24 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void checkpointFlagRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag,
+                               TagKey<Item> inputItemTag2, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('G', inputItemTag)
+                .define('I', inputItemTag2)
+                .define('W', inputItem)
+                .define('S', inputItem2)
+                .pattern(" G")
+                .pattern("WI")
+                .pattern(" S")
+                .unlockedBy("has_gold_ingot", has(inputItemTag))
+                .unlockedBy("has_iron_ingot", has(inputItemTag2))
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .unlockedBy(getHasName(inputItem2), has(inputItem2))
+                .group(Marioverse.MOD_ID + ":checkpoint_flags")
+                .save(output);
+    }
+
     public void chestplateRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('#', inputItem)

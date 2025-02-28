@@ -189,6 +189,18 @@ public class BlockRecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.TUFF_BRICKS, Blocks.POLISHED_TUFF, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
+            Item woolItem = BuiltInRegistries.ITEM.stream().filter(item -> {
+                ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
+                return itemId != null && itemId.getPath().endsWith("_wool") && itemId.getPath().startsWith(dyeColor.getName());
+            }).findFirst().orElse(Items.WHITE_WOOL);
+
+            checkpointFlagRecipe(1, entry.getValue(), Tags.Items.INGOTS_GOLD, Tags.Items.INGOTS_IRON, woolItem, Blocks.SMOOTH_STONE_SLAB, output);
+            dyeItemTagRecipe(1, "checkpoint_flags_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS, output);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
