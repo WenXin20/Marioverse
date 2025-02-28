@@ -45,8 +45,8 @@ public class BlockStateGen extends BlockStateProvider {
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
-        this.coinModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
-        this.coinModel(BlockRegistry.STAR_COIN.get(), starCoinName, modLoc("block/" + starCoinName));
+        this.enptyModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
+        this.enptyModel(BlockRegistry.STAR_COIN.get(), starCoinName, modLoc("block/" + starCoinName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
@@ -65,6 +65,13 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStairs();
         this.genStorageBricks();
         this.genWalls();
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
+            String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
+            ResourceLocation texture = modLoc("entity/checkpoint_flag/" + blockName);
+
+            this.enptyModel(entry.getValue().get(), blockName, texture);
+        }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -481,7 +488,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void coinModel(Block block, String modelName, ResourceLocation mainTexture) {
+    private void enptyModel(Block block, String modelName, ResourceLocation mainTexture) {
         ModelFile model = models().getBuilder(modelName).texture("particle", mainTexture).renderType("cutout");
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);

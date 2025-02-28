@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
@@ -789,13 +790,13 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         CLASSIC_CHECKPOINT_FLAG = registerBlock("classic_checkpoint_flag",
-                () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                () -> new CheckpointFlagBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                         .strength(2.5F, 3.0F).requiresCorrectToolForDrops().noCollission()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CHECKPOINT_FLAGS.put(color, registerBlock(color.getName() + "_checkpoint_flag",
-                        () -> new GoalPoleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        () -> new CheckpointFlagBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                                 .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                                 .strength(2.5F, 3.0F).requiresCorrectToolForDrops().noCollission()))));
 

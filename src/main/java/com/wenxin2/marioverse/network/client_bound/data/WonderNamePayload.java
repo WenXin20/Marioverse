@@ -9,19 +9,19 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public record WonderGoalPolePayload(BlockPos pos, boolean renderRenamedFlag) implements CustomPacketPayload {
-    public static final Type<WonderGoalPolePayload> WONDER_GOAL_POLE_PAYLOAD =
+public record WonderNamePayload(BlockPos pos, boolean renderRenamedFlag) implements CustomPacketPayload {
+    public static final Type<WonderNamePayload> WONDER_GOAL_POLE_PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "wonder_goal_pole_payload"));
 
     @NotNull
     @Override
-    public Type<WonderGoalPolePayload> type() {
+    public Type<WonderNamePayload> type() {
         return WONDER_GOAL_POLE_PAYLOAD;
     }
 
-    public static final StreamCodec<FriendlyByteBuf, WonderGoalPolePayload> STREAM_CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, WonderGoalPolePayload::pos,
-            ByteBufCodecs.BOOL, WonderGoalPolePayload::renderRenamedFlag,
-            WonderGoalPolePayload::new
+    public static final StreamCodec<FriendlyByteBuf, WonderNamePayload> STREAM_CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC, WonderNamePayload::pos,
+            ByteBufCodecs.BOOL, WonderNamePayload::renderRenamedFlag,
+            WonderNamePayload::new
     );
 }

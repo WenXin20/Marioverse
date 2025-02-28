@@ -28,6 +28,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -92,6 +93,12 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
             else return UPPER_NORTH_WEST;
 
         } else return LOWER_NORTH_WEST;
+    }
+
+    @NotNull
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Nullable
@@ -227,6 +234,18 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         }
     }
 
+    @Override
+    public void destroy(LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
+        QuadrantBlockStates quadrant = state.getValue(QUADRANT);
+        DoubleBlockHalf half = state.getValue(HALF);
+        BlockPos partPos = getPartPos(pos, quadrant, half);
+        if (!worldAccessor.isClientSide()) {
+            worldAccessor.levelEvent(2001, partPos, Block.getId(worldAccessor.getBlockState(partPos)));
+            this.removeCoinParts(worldAccessor, partPos);
+        }
+        super.destroy(worldAccessor, pos, state);
+    }
+
     @NotNull
     @Override
     public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
@@ -244,6 +263,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
     private boolean canPlaceBlock(Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
+
         return (state.isAir() || state.canBeReplaced() || state.is(this))
                 && world.getWorldBorder().isWithinBounds(pos);
     }
@@ -282,18 +302,31 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 && world.getBlockState(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above()).canBeReplaced();
     }
 
-    private void removeCoinParts(Level world, BlockPos pos, Entity entity) {
+    private void removeCoinParts(Level world, BlockPos pos, @Nullable Entity entity) {
         BlockPos[] positions = {
                 pos, pos.east(), pos.south(), pos.south().east(),
                 pos.above(), pos.east().above(), pos.south().above(), pos.south().east().above()
         };
 
         for (BlockPos partPos : positions) {
-            if (!(entity instanceof Player))
-                entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint
-            else ParticleUtils.spawnParticlesOnBlockFaces(world, partPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+            if (entity != null) {
+                if (!(entity instanceof Player))
+                    entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint
+                else ParticleUtils.spawnParticlesOnBlockFaces(world, partPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+            }
 
             world.removeBlock(partPos, false);
+        }
+    }
+
+    private void removeCoinParts(LevelAccessor world, BlockPos pos) {
+        BlockPos[] positions = {
+                pos, pos.east(), pos.south(), pos.south().east(),
+                pos.above(), pos.east().above(), pos.south().above(), pos.south().east().above()
+        };
+
+        for (BlockPos partPos : positions) {
+            world.destroyBlock(partPos, false);
         }
     }
 

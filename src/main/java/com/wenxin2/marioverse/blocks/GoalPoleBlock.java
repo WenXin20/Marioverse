@@ -8,8 +8,8 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.AmericaGoalPolePayload;
-import com.wenxin2.marioverse.network.client_bound.data.WonderGoalPolePayload;
+import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
+import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -164,10 +164,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 goalPoleBE.markUpdatedClients();
                 if (goalPoleBE.isWonderFlag()) {
                     goalPoleBE.setWonderFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new WonderGoalPolePayload(pos, goalPoleBE.hasWonderFlag()));
+                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, goalPoleBE.hasWonderFlag()));
                 } else if (goalPoleBE.isAmericanFlag()) {
                     goalPoleBE.setAmericanFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new AmericaGoalPolePayload(pos, goalPoleBE.hasAmericanFlag()));
+                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, goalPoleBE.hasAmericanFlag()));
                 }
             }
         }

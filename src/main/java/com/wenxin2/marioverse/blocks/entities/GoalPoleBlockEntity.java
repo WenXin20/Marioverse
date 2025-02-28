@@ -5,8 +5,8 @@ import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
-import com.wenxin2.marioverse.network.client_bound.data.AmericaGoalPolePayload;
-import com.wenxin2.marioverse.network.client_bound.data.WonderGoalPolePayload;
+import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
+import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.Locale;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -121,9 +121,9 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         if (this.name != null) {
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
             if (this.isWonderFlag())
-                PacketHandler.sendToAllClients(new WonderGoalPolePayload(this.getBlockPos(), this.hasWonderFlag()));
+                PacketHandler.sendToAllClients(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
             else if (this.isAmericanFlag())
-                PacketHandler.sendToAllClients(new AmericaGoalPolePayload(this.getBlockPos(), this.hasAmericanFlag()));
+                PacketHandler.sendToAllClients(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
         }
     }
 
@@ -139,8 +139,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
             this.markUpdated();
             this.markUpdatedClients();
-            PacketHandler.sendToAllClients(new AmericaGoalPolePayload(this.getBlockPos(), this.hasAmericanFlag()));
-            PacketHandler.sendToAllClients(new WonderGoalPolePayload(this.getBlockPos(), this.hasWonderFlag()));
+            PacketHandler.sendToAllClients(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
+            PacketHandler.sendToAllClients(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
 //            if (this.isWonderFlag()) {
 //                this.setWonderFlag(true);
 //            } else if (this.isAmericanFlag()) {

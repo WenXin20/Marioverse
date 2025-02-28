@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
@@ -19,6 +20,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoinBlockEntity>> COIN_BLOCK_ENTITY;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CheckpointFlagBlockEntity>> CHECKPOINT_FLAG_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GoalPoleBlockEntity>> GOAL_POLE_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> INVISIBLE_QUESTION_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> QUESTION_BLOCK_ENTITY;
@@ -123,6 +125,11 @@ public class BlockEntityRegistry {
                         BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get(),
                         BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get(),
                         BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get()).build(null));
+
+        CHECKPOINT_FLAG_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("checkpoint_flag",
+                () -> BlockEntityType.Builder.of(CheckpointFlagBlockEntity::new,
+                        Stream.concat(BlockRegistry.CHECKPOINT_FLAGS.values().stream().map(DeferredBlock::get),
+                                Stream.of(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get())).toArray(Block[]::new)).build(null));
 
         GOAL_POLE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("goal_pole",
                 () -> BlockEntityType.Builder.of(GoalPoleBlockEntity::new,

@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.network.client_bound.handler;
 
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
-import com.wenxin2.marioverse.network.client_bound.data.AmericaGoalPolePayload;
+import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,7 +14,7 @@ public class AmericaGoalPolePacket {
         return INSTANCE;
     }
 
-    public void handle(final AmericaGoalPolePayload payload, IPayloadContext context) {
+    public void handle(final AmericaNamePayload payload, IPayloadContext context) {
         if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
                 Level level = Minecraft.getInstance().level;
