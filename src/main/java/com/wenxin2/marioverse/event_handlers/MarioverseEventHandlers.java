@@ -259,7 +259,7 @@ public class MarioverseEventHandlers {
 
                 if (block instanceof CheckpointFlagBlock) {
                     player.setHealth(0.5F);
-                    player.getFoodData().setFoodLevel(18);
+                    player.getFoodData().setFoodLevel(16);
                 }
             }
         }

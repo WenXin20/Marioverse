@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
@@ -14,6 +13,7 @@ import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -49,6 +49,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -148,7 +149,7 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
                     .setValue(WATERLOGGED, world.getFluidState(pos.above(2)).getType() == Fluids.WATER), 3);
         }
 
-        if (blockEntity instanceof GoalPoleBlockEntity checkpointFlagBE) {
+        if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
             if (stack.has(DataComponents.CUSTOM_NAME) && checkpointFlagBE.getCustomName() != null) {
                 checkpointFlagBE.setCustomName(stack.getHoverName());
                 checkpointFlagBE.markUpdated();
@@ -237,19 +238,31 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)) {
+            if (entity instanceof ServerPlayer player && pos != player.getRespawnPosition()) {
+                Vec3i respawnPos = new Vec3i(pos.getX(), pos.getY(), pos.getZ());
+
+                if (state.getValue(PART) == TripleBlockStates.TOP) {
+                    player.setRespawnPosition(world.dimension(), new BlockPos(respawnPos).below(2), player.getYRot(), false, true);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, new BlockPos(respawnPos).below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                    player.setRespawnPosition(world.dimension(), new BlockPos(respawnPos).below(), player.getYRot(), false, true);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, new BlockPos(respawnPos).below(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                } else {
+                    player.setRespawnPosition(world.dimension(), new BlockPos(respawnPos), player.getYRot(), false, true);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, new BlockPos(respawnPos), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                }
+            }
+
             if (!state.getValue(CLAIMED)) {
-                if (entity instanceof ServerPlayer player)
-                    player.setRespawnPosition(world.dimension(), pos, player.getYRot(), true, true);
 
                 if (!(entity instanceof Player))
-                    entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint
-                else ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                    entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO
 
-                if (world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity) {
-                    blockEntity.markUpdated();
+                if (world.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                    checkpointFlagBE.markUpdated();
 
-                    if (!blockEntity.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
-                        blockEntity.triggerAnim("switch_controller", "switch");
+                    if (!checkpointFlagBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
+                        checkpointFlagBE.triggerAnim("switch_controller", "switch");
                 }
 
                 world.scheduleTick(pos, this, 3);
