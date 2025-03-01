@@ -32,6 +32,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEntity, Nameable {
+    public static final RawAnimation CLAIM = RawAnimation.begin().thenPlayAndHold("animation.checkpoint_flag.claim");
     public static final RawAnimation SWITCH = RawAnimation.begin().thenPlayAndHold("animation.checkpoint_flag.switch");
     protected static final RawAnimation WINDY_CALM = RawAnimation.begin().thenLoop("animation.checkpoint_flag.windy_calm");
     protected static final RawAnimation WINDY_RAIN = RawAnimation.begin().thenLoop("animation.checkpoint_flag.windy_rain");
@@ -51,6 +52,8 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "claim_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("claim", CLAIM));
         controllers.add(new AnimationController<>(this, "switch_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("switch", SWITCH));
         controllers.add(new AnimationController<>(this, "windy_controller", 20, this::windyController));

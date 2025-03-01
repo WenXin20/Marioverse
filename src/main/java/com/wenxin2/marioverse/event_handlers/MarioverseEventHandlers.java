@@ -94,6 +94,9 @@ public class MarioverseEventHandlers {
                 || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
             tag.putBoolean("marioverse:has_super_star", false);
 
+        if (!tag.contains("marioverse:claimed_checkpoint_flag_pos")
+                && (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))) {
+        }
         if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity)) {
             if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
@@ -255,9 +258,9 @@ public class MarioverseEventHandlers {
 
             if (respawnPos != null) {
                 Level world = player.level();
-                Block block = world.getBlockState(respawnPos).getBlock();
+                BlockState state = world.getBlockState(respawnPos);
 
-                if (block instanceof CheckpointFlagBlock) {
+                if (state.getBlock() instanceof CheckpointFlagBlock) {
                     player.setHealth(0.5F);
                     player.getFoodData().setFoodLevel(16);
                 }

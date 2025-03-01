@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -49,7 +50,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -238,36 +238,71 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)) {
-            if (entity instanceof ServerPlayer player && pos != player.getRespawnPosition()) {
-                Vec3i respawnPos = new Vec3i(pos.getX(), pos.getY(), pos.getZ());
-
-                if (state.getValue(PART) == TripleBlockStates.TOP) {
-                    player.setRespawnPosition(world.dimension(), new BlockPos(respawnPos).below(2), player.getYRot(), false, true);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, new BlockPos(respawnPos).below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                    player.setRespawnPosition(world.dimension(), new BlockPos(respawnPos).below(), player.getYRot(), false, true);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, new BlockPos(respawnPos).below(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                } else {
-                    player.setRespawnPosition(world.dimension(), new BlockPos(respawnPos), player.getYRot(), false, true);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, new BlockPos(respawnPos), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                }
-            }
+//            if (entity.getPersistentData().contains("marioverse:claimed_checkpoint_flag_pos")) {
+//                int savedX = entity.getPersistentData().getInt("marioverse:checkpoint_pos.x");
+//                int savedY = entity.getPersistentData().getInt("marioverse:checkpoint_pos.y");
+//                int savedZ = entity.getPersistentData().getInt("marioverse:checkpoint_pos.z");
+//                BlockPos checkpointPos = new BlockPos(savedX, savedY, savedZ);
+//
+//                if (!checkpointPos.equals(pos)) {
+//                    if (state.getValue(PART) == TripleBlockStates.TOP)
+//                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+//                    else if (state.getValue(PART) == TripleBlockStates.MIDDLE)
+//                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+//                    else
+//                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+//                }
+//            }
 
             if (!state.getValue(CLAIMED)) {
-
-                if (!(entity instanceof Player))
-                    entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO
-
                 if (world.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
 
+                    if (!(entity instanceof Player)) {
+                        entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO
+                        checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
+                        checkpointFlagBE.triggerAnim("claim_controller", "claim");
+                    } else ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+
                     if (!checkpointFlagBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
-                        checkpointFlagBE.triggerAnim("switch_controller", "switch");
+                        checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
+                    checkpointFlagBE.triggerAnim("claim_controller", "claim");
                 }
 
                 world.scheduleTick(pos, this, 3);
                 world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
+            }
+
+            if (entity instanceof ServerPlayer player && pos != player.getRespawnPosition()) {
+                BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+
+//                if (pos != player.getRespawnPosition()) {
+//                    entity.level().broadcastEntityEvent(entity, (byte) 113);
+
+                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                    checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
+                    checkpointFlagBE.triggerAnim("claim_controller", "claim");
+                }
+
+                if (state.getValue(PART) == TripleBlockStates.TOP) {
+                    player.setRespawnPosition(world.dimension(), respawnPos.below(2), player.getYRot(), false, true);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                    player.setRespawnPosition(world.dimension(), respawnPos.below(), player.getYRot(), false, true);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                } else {
+                    player.setRespawnPosition(world.dimension(), respawnPos, player.getYRot(), false, true);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                }
+//                }
+
+//                BlockPos checkpointPos = new BlockPos(respawnPos);
+//                CompoundTag posTag = new CompoundTag();
+//                posTag.putInt("x", checkpointPos.getX());
+//                posTag.putInt("y", checkpointPos.getY());
+//                posTag.putInt("z", checkpointPos.getZ());
+//                entity.getPersistentData().put("marioverse:claimed_checkpoint_flag_pos", posTag);
             }
         }
     }

@@ -1,6 +1,25 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
+		"animation.checkpoint_flag.claim": {
+			"loop": true,
+			"bones": {
+				"flag": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"pole": {
+					"rotation": {
+						"vector": [
+							"25 * math.sin(600 * query.anim_time) * (1 - math.min(query.anim_time / 1, 1))",
+							0,
+							"25 * math.cos(600 * query.anim_time) * (1 - math.min(query.anim_time / 1, 1))"
+						]
+					}
+				}
+			}
+		},
 		"animation.checkpoint_flag.switch": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 1,
