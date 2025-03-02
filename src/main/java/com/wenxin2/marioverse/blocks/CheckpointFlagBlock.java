@@ -285,7 +285,7 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
 
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 && entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown") <= 0) {
-            if (!statePart.getValue(CLAIMED)) {
+            if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
                 if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
 
