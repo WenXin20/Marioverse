@@ -38,6 +38,7 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
@@ -45,6 +46,7 @@ public class BlockStateGen extends BlockStateProvider {
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
+        this.enptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), classicCheckpointName, modLoc("item/" + classicCheckpointName));
         this.enptyModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
         this.enptyModel(BlockRegistry.STAR_COIN.get(), starCoinName, modLoc("block/" + starCoinName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
