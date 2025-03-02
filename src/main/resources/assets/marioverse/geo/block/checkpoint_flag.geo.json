@@ -111,7 +111,7 @@
 				{
 					"name": "flag_rotator",
 					"parent": "pole",
-					"pivot": [0, 29, -1]
+					"pivot": [0, 29, 0]
 				},
 				{
 					"name": "flag",
@@ -136,14 +136,14 @@
 							"origin": [0.05, 26, -12],
 							"size": [0, 7, 7],
 							"uv": {
-								"west": {"uv": [0, 23], "uv_size": [7, 7]}
+								"west": {"uv": [24, 10], "uv_size": [7, 7]}
 							}
 						},
 						{
 							"origin": [-0.05, 26, -12],
 							"size": [0, 7, 7],
 							"uv": {
-								"west": {"uv": [7, 23], "uv_size": [-7, 7]}
+								"west": {"uv": [31, 10], "uv_size": [-7, 7]}
 							}
 						}
 					]
