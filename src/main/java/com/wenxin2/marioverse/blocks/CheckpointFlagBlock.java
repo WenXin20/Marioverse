@@ -11,11 +11,14 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.List;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -232,77 +235,67 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     protected void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
+        if (serverWorld.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
+            /*&& this.canStopTriggerAnimation(serverWorld)*/)
+            checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
         super.tick(state, serverWorld, pos, random);
     }
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)) {
-//            if (entity.getPersistentData().contains("marioverse:claimed_checkpoint_flag_pos")) {
-//                int savedX = entity.getPersistentData().getInt("marioverse:checkpoint_pos.x");
-//                int savedY = entity.getPersistentData().getInt("marioverse:checkpoint_pos.y");
-//                int savedZ = entity.getPersistentData().getInt("marioverse:checkpoint_pos.z");
-//                BlockPos checkpointPos = new BlockPos(savedX, savedY, savedZ);
-//
-//                if (!checkpointPos.equals(pos)) {
-//                    if (state.getValue(PART) == TripleBlockStates.TOP)
-//                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-//                    else if (state.getValue(PART) == TripleBlockStates.MIDDLE)
-//                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-//                    else
-//                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-//                }
-//            }
+        BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
 
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)) {
             if (!state.getValue(CLAIMED)) {
                 if (world.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
 
                     if (!(entity instanceof Player)) {
-                        entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO
-                        checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
-                        checkpointFlagBE.triggerAnim("claim_controller", "claim");
+                        entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO: add glowing star particle
                     } else ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
 
                     if (!checkpointFlagBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
-                        checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
+                        checkpointFlagBE.triggerAnim("switch_controller", "switch");
+
+                    world.scheduleTick(pos, this, 40);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
                 }
 
                 world.scheduleTick(pos, this, 3);
                 world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
-                world.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
             }
 
-            if (entity instanceof ServerPlayer player && pos != player.getRespawnPosition()) {
-                BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+            if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
+                BlockPos playerRespawnPos = player.getRespawnPosition();
 
-//                if (pos != player.getRespawnPosition()) {
-//                    entity.level().broadcastEntityEvent(entity, (byte) 113);
-
-                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-                    checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
+                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
+                        && !(respawnPos.equals(playerRespawnPos)
+                            || respawnPos.below().equals(playerRespawnPos)
+                            || respawnPos.below(2).equals(playerRespawnPos))) {
+                    world.scheduleTick(pos, this, 40);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
+
+                    if (state.getValue(PART) == TripleBlockStates.TOP) {
+                        world.playSound(null, pos.below(2), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS); // TODO
+                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                        player.setRespawnPosition(world.dimension(), respawnPos.below(2), player.getYRot(), false, true);
+                    } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                        world.playSound(null, pos.below(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
+                        player.setRespawnPosition(world.dimension(), respawnPos.below(), player.getYRot(), false, true);
+                    } else {
+                        world.playSound(null, pos, SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
+                        player.setRespawnPosition(world.dimension(), respawnPos, player.getYRot(), false, true);
+                    }
                 }
 
-                if (state.getValue(PART) == TripleBlockStates.TOP) {
-                    player.setRespawnPosition(world.dimension(), respawnPos.below(2), player.getYRot(), false, true);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                    player.setRespawnPosition(world.dimension(), respawnPos.below(), player.getYRot(), false, true);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                } else {
-                    player.setRespawnPosition(world.dimension(), respawnPos, player.getYRot(), false, true);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                }
-//                }
+                Tag newRespawnTag = NbtUtils.writeBlockPos(player.getRespawnPosition());
+                entity.getPersistentData().put("marioverse:checkpoint_respawn_pos", newRespawnTag);
+            }
 
-//                BlockPos checkpointPos = new BlockPos(respawnPos);
-//                CompoundTag posTag = new CompoundTag();
-//                posTag.putInt("x", checkpointPos.getX());
-//                posTag.putInt("y", checkpointPos.getY());
-//                posTag.putInt("z", checkpointPos.getZ());
-//                entity.getPersistentData().put("marioverse:claimed_checkpoint_flag_pos", posTag);
+
+            if (entity.getPersistentData().contains("marioverse:checkpoint_respawn_pos")
+                    && !pos.equals(entity.getPersistentData().get("marioverse:checkpoint_respawn_pos"))) {
+                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
             }
         }
     }

@@ -261,7 +261,7 @@ public class MarioverseEventHandlers {
                 BlockState state = world.getBlockState(respawnPos);
 
                 if (state.getBlock() instanceof CheckpointFlagBlock) {
-                    player.setHealth(0.5F);
+                    player.setHealth(0.5F); // TODO: Add config
                     player.getFoodData().setFoodLevel(16);
                 }
             }
