@@ -267,35 +267,26 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
 
             if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
                 BlockPos playerRespawnPos = player.getRespawnPosition();
+                BlockPos newRespawnPos = switch (state.getValue(PART)) {
+                    case TOP -> respawnPos.below(2);
+                    case MIDDLE -> respawnPos.below();
+                    default -> respawnPos;
+                };
 
                 if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
-                        && !(respawnPos.equals(playerRespawnPos)
-                            || respawnPos.below().equals(playerRespawnPos)
-                            || respawnPos.below(2).equals(playerRespawnPos))) {
-                    world.scheduleTick(pos, this, 40);
+                        && !(newRespawnPos.equals(playerRespawnPos))) {
+                    world.scheduleTick(newRespawnPos, this, 40);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
 
-                    if (state.getValue(PART) == TripleBlockStates.TOP) {
-                        world.playSound(null, pos.below(2), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS); // TODO
-                        ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(2), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-                        player.setRespawnPosition(world.dimension(), respawnPos.below(2), player.getYRot(), false, true);
-                    } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                        world.playSound(null, pos.below(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
-                        player.setRespawnPosition(world.dimension(), respawnPos.below(), player.getYRot(), false, true);
-                    } else {
-                        world.playSound(null, pos, SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
-                        player.setRespawnPosition(world.dimension(), respawnPos, player.getYRot(), false, true);
-                    }
+                    world.playSound(null, newRespawnPos, SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS); // TODO
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                    player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
+
+                    if (world instanceof  ServerLevel serverWorld)
+                        serverWorld.sendParticles(ParticleRegistry.COIN_GLINT.get(),
+                                newRespawnPos.getX() + 0.5, newRespawnPos.getY() + 0.5, newRespawnPos.getZ() + 0.5,
+                                10, 0.4, 0.4, 0.4, 0.2);
                 }
-
-                Tag newRespawnTag = NbtUtils.writeBlockPos(player.getRespawnPosition());
-                entity.getPersistentData().put("marioverse:checkpoint_respawn_pos", newRespawnTag);
-            }
-
-
-            if (entity.getPersistentData().contains("marioverse:checkpoint_respawn_pos")
-                    && !pos.equals(entity.getPersistentData().get("marioverse:checkpoint_respawn_pos"))) {
-                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
             }
         }
     }
