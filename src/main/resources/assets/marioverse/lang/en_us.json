@@ -595,6 +595,7 @@
   "marioverse.configuration.mobs": "Mobs",
   "marioverse.configuration.power_ups": "Power Ups",
 
+  "marioverse.configuration.checkpoint_flags": "Checkpoint Flags",
   "marioverse.configuration.decorated_pots": "Decorated Pots",
   "marioverse.configuration.question_blocks": "Question Blocks",
   "marioverse.configuration.warp_doors": "Warp Doors",
@@ -621,6 +622,9 @@
   "configuration.marioverse.allow_fast_travel": "Allow Fast Travel",
   "configuration.marioverse.allow_warp_unwaxing": "Allow Warp Unwaxing",
   "configuration.marioverse.blindness_effect": "Blindness When Warping",
+  "configuration.marioverse.checkpoint_flag_food_amt": "Respawned Food Amount",
+  "configuration.marioverse.checkpoint_flag_modify_health": "Modify Respawn Health",
+  "configuration.marioverse.checkpoint_flag_respawn_health": "Respawned Health",
   "configuration.marioverse.creative_wrench_pipe_linking": "Link Pipes Creative Only",
   "configuration.marioverse.damage_shrinks_all_mobs": "Damage Shrinks All Mobs",
   "configuration.marioverse.damage_shrinks_players": "Damage Shrinks Player",

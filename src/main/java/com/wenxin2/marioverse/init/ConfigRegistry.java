@@ -23,6 +23,7 @@ public class ConfigRegistry
     public static final String CATEGORY_POWER_UPS = "power_ups";
     public static final String CATEGORY_TELEPORTATION = "teleportation";
 
+    public static final String CATEGORY_CHECKPOINT_FLAGS = "checkpoint_flags";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
     public static final String CATEGORY_QUESTION_BLOCK = "question_blocks";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
@@ -49,6 +50,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_MODIFY_HEALTH;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
@@ -104,6 +106,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WARP_LINKING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
+    public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
     public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
@@ -113,6 +116,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
     public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
 
+    public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_RANDOM_COUNT;
@@ -162,6 +166,21 @@ public class ConfigRegistry
         BUILDER.push(CATEGORY_COMMON);
 
             BUILDER.push(CATEGORY_BLOCKS);
+
+                BUILDER.push(CATEGORY_CHECKPOINT_FLAGS);
+                        CHECKPOINT_FLAG_MODIFY_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_modify_health")
+                                .comment("Checkpoint flags respawn players with modified health & food levels.")
+                                .comment("§9[Default: true]")
+                                .define("checkpoint_flag_modify_health", true);
+                        CHECKPOINT_FLAG_RESPAWN_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_respawn_health")
+                                .comment("Amount of health checkpoint flags respawn the player at.")
+                                .comment("§9[Default: 5.0F]§b")
+                                .defineInRange("checkpoint_flag_respawn_health", 10.0F, 0.0F, 100.0F);
+                        CHECKPOINT_FLAG_FOOD_AMT = BUILDER.translation("configuration.marioverse.checkpoint_flag_food_amt")
+                                .comment("Amount of food checkpoint flags respawn the player with.")
+                                .comment("§9[Default: 16]§b")
+                                .defineInRange("checkpoint_flag_food_amt", 16, 0, 100);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_DECORATED_POTS);
                     DISABLE_DECORATED_POT_TWEAKS = BUILDER.translation("configuration.marioverse.disable_decorated_pot_tweaks")
