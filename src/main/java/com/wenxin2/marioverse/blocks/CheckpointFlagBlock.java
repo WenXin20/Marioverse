@@ -11,14 +11,9 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.List;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -157,6 +152,43 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
                 checkpointFlagBE.setCustomName(stack.getHoverName());
                 checkpointFlagBE.markUpdated();
                 checkpointFlagBE.markUpdatedClients();
+
+
+                // Ensure the top and middle block entities are also updated for the new states
+                BlockEntity middleBlockEntity = world.getBlockEntity(pos.above());
+                if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                    if (stack.has(DataComponents.CUSTOM_NAME) && middleFlagBE.getCustomName() == null) {
+                        middleFlagBE.setCustomName(stack.getHoverName());
+                        middleFlagBE.markUpdated();
+                        middleFlagBE.markUpdatedClients();
+
+                        if (middleFlagBE.isWonderFlag()) {
+                            middleFlagBE.setWonderFlag(Boolean.TRUE);
+                            PacketHandler.sendToAllClients(new WonderNamePayload(pos, middleFlagBE.hasWonderFlag()));
+                        } else if (middleFlagBE.isAmericanFlag()) {
+                            middleFlagBE.setAmericanFlag(Boolean.TRUE);
+                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos, middleFlagBE.hasAmericanFlag()));
+                        }
+                    }
+                }
+
+                BlockEntity topBlockEntity = world.getBlockEntity(pos.above(2));
+                if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                    if (stack.has(DataComponents.CUSTOM_NAME) && topFlagBE.getCustomName() == null) {
+                        topFlagBE.setCustomName(stack.getHoverName());
+                        topFlagBE.markUpdated();
+                        topFlagBE.markUpdatedClients();
+
+                        if (topFlagBE.isWonderFlag()) {
+                            topFlagBE.setWonderFlag(Boolean.TRUE);
+                            PacketHandler.sendToAllClients(new WonderNamePayload(pos, topFlagBE.hasWonderFlag()));
+                        } else if (topFlagBE.isAmericanFlag()) {
+                            topFlagBE.setAmericanFlag(Boolean.TRUE);
+                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos, topFlagBE.hasAmericanFlag()));
+                        }
+                    }
+                }
+
                 if (checkpointFlagBE.isWonderFlag()) {
                     checkpointFlagBE.setWonderFlag(Boolean.TRUE);
                     PacketHandler.sendToAllClients(new WonderNamePayload(pos, checkpointFlagBE.hasWonderFlag()));
@@ -235,8 +267,7 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
 
     @Override
     protected void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
-        if (serverWorld.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
-            /*&& this.canStopTriggerAnimation(serverWorld)*/)
+        if (serverWorld.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE)
             checkpointFlagBE.stopTriggeredAnim("claim_controller", "claim");
         super.tick(state, serverWorld, pos, random);
     }
@@ -244,26 +275,33 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+        BlockPos statePos = switch (state.getValue(PART)) {
+            case TOP -> pos.below(2);
+            case MIDDLE -> pos.below();
+            default -> pos;
+        };
+        BlockState statePart = world.getBlockState(statePos);
+
 
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 && entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown") <= 0) {
-            if (!state.getValue(CLAIMED)) {
-                if (world.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+            if (!statePart.getValue(CLAIMED)) {
+                if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
 
                     if (!(entity instanceof Player)) {
                         entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO: add glowing star particle
-                    } else ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                    } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
 
-                    if (!checkpointFlagBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
+                    if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
                         checkpointFlagBE.triggerAnim("switch_controller", "switch");
 
-                    world.scheduleTick(pos, this, 40);
+                    world.scheduleTick(statePos, this, 40);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
                 }
 
-                world.scheduleTick(pos, this, 3);
-                world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
+                world.scheduleTick(statePos, this, 3);
+                world.setBlock(statePos, statePart.setValue(CLAIMED, Boolean.TRUE), 3);
             }
 
             if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())
