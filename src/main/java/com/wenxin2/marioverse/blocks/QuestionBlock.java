@@ -111,7 +111,7 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
         boolean isOxidizing = WeatheringCopper.getNext(oldState.getBlock()).isPresent();
         boolean isScraping = WeatheringCopper.getPrevious(oldState.getBlock()).isPresent();
         boolean isUnwaxing = HoneycombItem.getWaxed(newState).isPresent() && HoneycombItem.getWaxed(oldState).isEmpty();
@@ -124,7 +124,7 @@ public class QuestionBlock extends BaseEntityBlock {
         }
 
         if (!isOxidizing && !isScraping && !isUnwaxing || newState.isAir())
-            super.onRemove(oldState, world, pos, newState, moved);
+            super.onRemove(oldState, world, pos, newState, isMoving);
     }
 
     @Override
@@ -340,7 +340,9 @@ public class QuestionBlock extends BaseEntityBlock {
                 } else spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
                     && entityHitBlock instanceof Player player) {
-                player.addItem(stack.copyWithCount(1));
+                boolean itemAdded = player.addItem(stack.copyWithCount(1));
+                if (!itemAdded)
+                    player.drop(stack.copyWithCount(1), false);
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new Vec3(0, -0.5, 0));

@@ -622,6 +622,8 @@
   "configuration.marioverse.allow_fast_travel": "Allow Fast Travel",
   "configuration.marioverse.allow_warp_unwaxing": "Allow Warp Unwaxing",
   "configuration.marioverse.blindness_effect": "Blindness When Warping",
+  "configuration.marioverse.checkpoint_flag_add_items": "Add Items in Survival",
+  "configuration.marioverse.checkpoint_flag_remove_items": "Remove Items in Survival",
   "configuration.marioverse.checkpoint_flag_food_amt": "Respawned Food Amount",
   "configuration.marioverse.checkpoint_flag_modify_health": "Modify Respawn Health",
   "configuration.marioverse.checkpoint_flag_respawn_health": "Respawned Health",

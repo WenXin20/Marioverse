@@ -15,11 +15,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -31,13 +36,16 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEntity, Nameable {
+public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEntity, Nameable, RandomizableContainer, ContainerSingleItem.BlockContainerSingleItem {
     public static final RawAnimation CLAIM = RawAnimation.begin().thenPlayAndHold("animation.checkpoint_flag.claim");
     public static final RawAnimation SWITCH = RawAnimation.begin().thenPlayAndHold("animation.checkpoint_flag.switch");
     protected static final RawAnimation WINDY_CALM = RawAnimation.begin().thenLoop("animation.checkpoint_flag.windy_calm");
     protected static final RawAnimation WINDY_RAIN = RawAnimation.begin().thenLoop("animation.checkpoint_flag.windy_rain");
     protected static final RawAnimation WINDY_THUNDER = RawAnimation.begin().thenLoop("animation.checkpoint_flag.windy_thunder");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    @Nullable protected ResourceKey<LootTable> lootTable;
+    private ItemStack item = ItemStack.EMPTY;
+    protected long lootTableSeed;
 
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.checkpoint_flag");
     public static final String CUSTOM_NAME = "CustomName";
@@ -56,7 +64,7 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
                 .triggerableAnim("claim", CLAIM));
         controllers.add(new AnimationController<>(this, "switch_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("switch", SWITCH));
-        controllers.add(new AnimationController<>(this, "windy_controller", 20, this::windyController));
+        controllers.add(new AnimationController<>(this, "windy_controller", 5, this::windyController));
     }
 
     @Override
@@ -86,6 +94,9 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
         tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
         tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
 
+        if (!this.trySaveLootTable(tag) && !this.item.isEmpty())
+            tag.put("item", this.item.save(provider));
+
         if (this.name != null) {
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
             if (this.isWonderFlag())
@@ -100,6 +111,12 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
         super.loadAdditional(tag, provider);
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
         this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
+
+        if (!this.tryLoadLootTable(tag)) {
+            if (tag.contains("item", 10))
+                this.item = ItemStack.parse(provider, tag.getCompound("item")).orElse(ItemStack.EMPTY);
+            else this.item = ItemStack.EMPTY;
+        }
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -125,6 +142,35 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        this.name = input.get(DataComponents.CUSTOM_NAME);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CUSTOM_NAME, this.name);
+    }
+
+    @Override
+    public void removeComponentsFromTag(CompoundTag tag) {
+        tag.remove("CustomName");
+        tag.remove("item");
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 1;
+    }
+
+    @NotNull
+    @Override
+    public BlockEntity getContainerBlockEntity() {
+        return this;
     }
 
     public void setCustomName(Component name) {
@@ -155,21 +201,64 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
         return this.name != null ? this.name : DEFAULT_NAME;
     }
 
+    @NotNull
     @Override
-    protected void applyImplicitComponents(DataComponentInput input) {
-        super.applyImplicitComponents(input);
-        this.name = input.get(DataComponents.CUSTOM_NAME);
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return this.saveCustomOnly(provider);
+    }
+
+    public void setFromItem(ItemStack stack) {
+        this.applyComponentsFromItemStack(stack);
     }
 
     @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
-        super.collectImplicitComponents(builder);
-        builder.set(DataComponents.CUSTOM_NAME, this.name);
+    public void setTheItem(ItemStack stack) {
+        this.unpackLootTable(null);
+        this.item = stack;
+    }
+
+    @NotNull
+    @Override
+    public ItemStack getTheItem() {
+        this.unpackLootTable(null);
+        return this.item;
+    }
+
+    @NotNull
+    @Override
+    public ItemStack splitTheItem(int splitAmt) {
+        this.unpackLootTable(null);
+        ItemStack itemstack = this.item.split(splitAmt);
+
+        if (this.item.isEmpty())
+            this.item = ItemStack.EMPTY;
+
+        return itemstack;
+    }
+
+    public boolean hasItems() {
+        return !this.item.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public ResourceKey<LootTable> getLootTable() {
+        return this.lootTable;
     }
 
     @Override
-    public void removeComponentsFromTag(CompoundTag tag) {
-        tag.remove("CustomName");
+    public void setLootTable(@Nullable ResourceKey<LootTable> lootTable) {
+        this.lootTable = lootTable;
+    }
+
+    @Override
+    public long getLootTableSeed() {
+        return this.lootTableSeed;
+    }
+
+    @Override
+    public void setLootTableSeed(long lootTableSeed) {
+        this.lootTableSeed = lootTableSeed;
     }
 
     public boolean isAmericanFlag() {

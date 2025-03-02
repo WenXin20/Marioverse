@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.event_handlers;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
@@ -264,6 +265,16 @@ public class MarioverseEventHandlers {
                         && ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
                     player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
                     player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
+                }
+
+                if (state.getBlock() instanceof CheckpointFlagBlock flagBlock
+                        && world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE) {
+                    ItemStack storedItem = flagBE.getTheItem();
+
+                    if (!storedItem.isEmpty()) {
+                        flagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true, true);
+                        flagBlock.playSounds(world, respawnPos, storedItem);
+                    }
                 }
             }
         }

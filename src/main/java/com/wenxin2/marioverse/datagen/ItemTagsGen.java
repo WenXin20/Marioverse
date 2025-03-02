@@ -51,6 +51,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                     .add(BlockRegistry.WARP_PIPES.get(color).asItem());
         }
 
+        tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
+
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
         tag(TagRegistry.POWER_UP_COSTUME_ITEMS)

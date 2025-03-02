@@ -50,7 +50,9 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_MODIFY_HEALTH;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
@@ -168,19 +170,27 @@ public class ConfigRegistry
             BUILDER.push(CATEGORY_BLOCKS);
 
                 BUILDER.push(CATEGORY_CHECKPOINT_FLAGS);
-                        CHECKPOINT_FLAG_MODIFY_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_modify_health")
-                                .comment("Checkpoint flags respawn players with modified health & food levels.")
-                                .comment("§9[Default: true]")
-                                .define("checkpoint_flag_modify_health", true);
-                        CHECKPOINT_FLAG_RESPAWN_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_respawn_health")
-                                .comment("Amount of health checkpoint flags respawn the player at.")
-                                .comment("§9[Default: 5.0F]§b")
-                                .defineInRange("checkpoint_flag_respawn_health", 10.0F, 0.0F, 100.0F);
-                        CHECKPOINT_FLAG_FOOD_AMT = BUILDER.translation("configuration.marioverse.checkpoint_flag_food_amt")
-                                .comment("Amount of food checkpoint flags respawn the player with.")
-                                .comment("§9[Default: 16]§b")
-                                .defineInRange("checkpoint_flag_food_amt", 16, 0, 100);
-                BUILDER.pop();
+                    CHECKPOINT_FLAG_MODIFY_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_modify_health")
+                            .comment("Checkpoint flags respawn players with modified health & food levels.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_modify_health", true);
+                    CHECKPOINT_FLAG_RESPAWN_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_respawn_health")
+                            .comment("Amount of health checkpoint flags respawn the player at.")
+                            .comment("§9[Default: 5.0F]§b")
+                            .defineInRange("checkpoint_flag_respawn_health", 10.0F, 0.0F, 100.0F);
+                    CHECKPOINT_FLAG_FOOD_AMT = BUILDER.translation("configuration.marioverse.checkpoint_flag_food_amt")
+                            .comment("Amount of food checkpoint flags respawn the player with.")
+                            .comment("§9[Default: 16]§b")
+                            .defineInRange("checkpoint_flag_food_amt", 16, 0, 100);
+                    CHECKPOINT_FLAG_ADD_ITEMS = BUILDER.translation("configuration.marioverse.checkpoint_flag_add_items")
+                            .comment("Allow survival players to add items using right-click.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_add_items", true);
+                            BUILDER.pop();
+                    CHECKPOINT_FLAG_REMOVE_ITEMS = BUILDER.translation("configuration.marioverse.checkpoint_flag_remove_items")
+                            .comment("Allow survival players to remove items using right-click.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_remove_items", true);
 
                 BUILDER.push(CATEGORY_DECORATED_POTS);
                     DISABLE_DECORATED_POT_TWEAKS = BUILDER.translation("configuration.marioverse.disable_decorated_pot_tweaks")
@@ -215,11 +225,11 @@ public class ConfigRegistry
                             .comment("§9[Default: true]")
                             .define("question_spawns_mobs", true);
                     QUESTION_ADD_ITEMS = BUILDER.translation("configuration.marioverse.question_add_items")
-                            .comment("Allow players to add items to question blocks using right-click.")
+                            .comment("Allow survival players to add items to question blocks using right-click.")
                             .comment("§9[Default: true]")
                             .define("question_add_items", true);
                     QUESTION_REMOVE_ITEMS = BUILDER.translation("configuration.marioverse.question_remove_items")
-                            .comment("Allow players to activate question blocks using right-click.")
+                            .comment("Allow survival players to activate question blocks using right-click.")
                             .comment("§9[Default: true]")
                             .define("question_remove_items", true);
                     REDSTONE_OPENS_QUESTION = BUILDER.translation("configuration.marioverse.redstone_opens_question")

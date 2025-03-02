@@ -49,6 +49,7 @@ public class TagRegistry {
 
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
+    public static final TagKey<Item> CANNOT_PLACE_IN_CHECKPOINT_FLAGS = itemTags("cannot_place_in_checkpoint_flags");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");

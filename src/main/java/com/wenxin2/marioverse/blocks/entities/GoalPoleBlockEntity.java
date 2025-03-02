@@ -64,7 +64,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 .triggerableAnim("disappear", DISAPPEAR));
         controllers.add(new AnimationController<>(this, "switch_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("switch", SWITCH));
-        controllers.add(new AnimationController<>(this, "windy_controller", 20, this::windyController));
+        controllers.add(new AnimationController<>(this, "windy_controller", 5, this::windyController));
     }
 
     @Override
