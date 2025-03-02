@@ -100,6 +100,7 @@ public abstract class LivingEntityMixin extends Entity {
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
+        int checkpointCooldown = this.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
         int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
         int superStarCooldown = this.getPersistentData().getInt("marioverse:super_star_cooldown");
         boolean hasSuperStar = this.getPersistentData().getBoolean("marioverse:has_super_star");
@@ -192,6 +193,9 @@ public abstract class LivingEntityMixin extends Entity {
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS) && this.getDeltaMovement().y > 0)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
+
+        if (checkpointCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", checkpointCooldown - 1);
 
         if (fireballCooldown > 0)
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);

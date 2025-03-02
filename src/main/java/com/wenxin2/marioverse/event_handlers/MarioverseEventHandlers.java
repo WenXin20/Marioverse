@@ -34,7 +34,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -94,9 +93,10 @@ public class MarioverseEventHandlers {
                 || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
             tag.putBoolean("marioverse:has_super_star", false);
 
-        if (!tag.contains("marioverse:claimed_checkpoint_flag_pos")
-                && (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))) {
-        }
+        if (!tag.contains("marioverse:claimed_checkpoint_flag_cooldown")
+                && (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)))
+            tag.putInt("marioverse:claimed_checkpoint_flag_cooldown", 0);
+
         if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity)) {
             if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {

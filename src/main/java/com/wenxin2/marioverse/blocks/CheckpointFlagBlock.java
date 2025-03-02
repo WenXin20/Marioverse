@@ -245,7 +245,8 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
 
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)) {
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                && entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown") <= 0) {
             if (!state.getValue(CLAIMED)) {
                 if (world.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
@@ -265,7 +266,8 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
                 world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
             }
 
-            if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
+            if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())
+                    && player.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown") <= 0) {
                 BlockPos playerRespawnPos = player.getRespawnPosition();
                 BlockPos newRespawnPos = switch (state.getValue(PART)) {
                     case TOP -> respawnPos.below(2);
@@ -281,6 +283,7 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
                     world.playSound(null, newRespawnPos, SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS); // TODO
                     ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
                     player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
+                    player.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", 40);
 
                     if (world instanceof  ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.COIN_GLINT.get(),
