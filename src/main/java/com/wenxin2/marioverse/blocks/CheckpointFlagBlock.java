@@ -301,7 +301,18 @@ public class CheckpointFlagBlock extends Block implements SimpleWaterloggedBlock
                 }
 
                 world.scheduleTick(statePos, this, 3);
-                world.setBlock(statePos, statePart.setValue(CLAIMED, Boolean.TRUE), 3);
+                world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
+
+                if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
+                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    world.setBlock(pos.above(2), world.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                } else {
+                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                }
             }
 
             if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())
