@@ -67,6 +67,8 @@ import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -476,7 +478,7 @@ public class QuestionBlock extends BaseEntityBlock {
                             .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above(3)).is(FluidTags.WATER)), 3);
 
                     CheckpointFlagBlockEntity flagBE = (CheckpointFlagBlockEntity) world.getBlockEntity(pos.above());
-                    checkpointFlagNBT(world, pos.above(), stack, Direction.UP, flagBE);
+                    checkpointFlagNBT(world, pos.above(), stack, Direction.UP, flagBE, entityHitBlock);
 
                 } else if (world.getBlockState(pos.below()).canBeReplaced()
                         && world.getBlockState(pos.below(2)).canBeReplaced()
@@ -490,7 +492,7 @@ public class QuestionBlock extends BaseEntityBlock {
                             .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below()).is(FluidTags.WATER)), 3);
 
                     CheckpointFlagBlockEntity flagBE = (CheckpointFlagBlockEntity) world.getBlockEntity(pos.below());
-                    checkpointFlagNBT(world, pos.below(), stack, Direction.DOWN, flagBE);
+                    checkpointFlagNBT(world, pos.below(), stack, Direction.DOWN, flagBE, entityHitBlock);
 
                 } else this.spawnItem(world, pos, stack, dropItemsAtPos);
 
@@ -629,46 +631,11 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    private static void checkpointFlagNBT(Level world, BlockPos pos, ItemStack stack, Direction direction, CheckpointFlagBlockEntity flagBE) {
+    private static void checkpointFlagNBT(Level world, BlockPos pos, ItemStack stack, Direction direction, CheckpointFlagBlockEntity flagBE, Entity entityHitBlock) {
         if (stack.has(DataComponents.CUSTOM_NAME)) {
             flagBE.setCustomName(stack.getHoverName());
             flagBE.markUpdated();
             flagBE.markUpdatedClients();
-
-            // Ensure the top and middle block entities are also updated for the new states
-            BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
-            if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                if (stack.has(DataComponents.CUSTOM_NAME) && middleFlagBE.getCustomName() == null) {
-                    middleFlagBE.setCustomName(stack.getHoverName());
-                    middleFlagBE.markUpdated();
-                    middleFlagBE.markUpdatedClients();
-
-                    if (middleFlagBE.isWonderFlag()) {
-                        middleFlagBE.setWonderFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new WonderNamePayload(pos, middleFlagBE.hasWonderFlag()));
-                    } else if (middleFlagBE.isAmericanFlag()) {
-                        middleFlagBE.setAmericanFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos, middleFlagBE.hasAmericanFlag()));
-                    }
-                }
-            }
-
-            BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
-            if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                if (stack.has(DataComponents.CUSTOM_NAME) && topFlagBE.getCustomName() == null) {
-                    topFlagBE.setCustomName(stack.getHoverName());
-                    topFlagBE.markUpdated();
-                    topFlagBE.markUpdatedClients();
-
-                    if (topFlagBE.isWonderFlag()) {
-                        topFlagBE.setWonderFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new WonderNamePayload(pos, topFlagBE.hasWonderFlag()));
-                    } else if (topFlagBE.isAmericanFlag()) {
-                        topFlagBE.setAmericanFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos, topFlagBE.hasAmericanFlag()));
-                    }
-                }
-            }
 
             if (flagBE.isWonderFlag()) {
                 flagBE.setWonderFlag(Boolean.TRUE);
@@ -676,6 +643,88 @@ public class QuestionBlock extends BaseEntityBlock {
             } else if (flagBE.isAmericanFlag()) {
                 flagBE.setAmericanFlag(Boolean.TRUE);
                 PacketHandler.sendToAllClients(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
+            }
+
+            BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
+            if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                if (middleFlagBE.getCustomName() == null) {
+                    middleFlagBE.setCustomName(stack.getHoverName());
+                    middleFlagBE.markUpdated();
+                    middleFlagBE.markUpdatedClients();
+
+                    if (middleFlagBE.isWonderFlag()) {
+                        middleFlagBE.setWonderFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new WonderNamePayload(pos.relative(direction), middleFlagBE.hasWonderFlag()));
+                    } else if (middleFlagBE.isAmericanFlag()) {
+                        middleFlagBE.setAmericanFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos.relative(direction), middleFlagBE.hasAmericanFlag()));
+                    }
+                }
+            }
+
+            BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
+            if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                if (topFlagBE.getCustomName() == null) {
+                    topFlagBE.setCustomName(stack.getHoverName());
+                    topFlagBE.markUpdated();
+                    topFlagBE.markUpdatedClients();
+
+                    if (topFlagBE.isWonderFlag()) {
+                        topFlagBE.setWonderFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new WonderNamePayload(pos.relative(direction, 2), topFlagBE.hasWonderFlag()));
+                    } else if (topFlagBE.isAmericanFlag()) {
+                        topFlagBE.setAmericanFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos.relative(direction, 2), topFlagBE.hasAmericanFlag()));
+                    }
+                }
+            }
+        }
+
+        if (stack.has(DataComponents.CONTAINER_LOOT)) {
+            SeededContainerLoot lootTableReference = stack.get(DataComponents.CONTAINER_LOOT);
+
+            if (lootTableReference != null) {
+                flagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                flagBE.markUpdated();
+                flagBE.markUpdatedClients();
+
+                BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
+                if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                    middleFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                    middleFlagBE.markUpdated();
+                    middleFlagBE.markUpdatedClients();
+                }
+
+                BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
+                if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                    topFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                    topFlagBE.markUpdated();
+                    topFlagBE.markUpdatedClients();
+                }
+            }
+        }
+
+        if (stack.has(DataComponents.CONTAINER)) {
+            ItemContainerContents containerContents = stack.get(DataComponents.CONTAINER);
+
+            if (containerContents != null) {
+                flagBE.setTheItem(containerContents.copyOne());
+                flagBE.markUpdated();
+                flagBE.markUpdatedClients();
+
+                BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
+                if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                    middleFlagBE.setTheItem(containerContents.copyOne());
+                    middleFlagBE.markUpdated();
+                    middleFlagBE.markUpdatedClients();
+                }
+
+                BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
+                if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                    topFlagBE.setTheItem(containerContents.copyOne());
+                    topFlagBE.markUpdated();
+                    topFlagBE.markUpdatedClients();
+                }
             }
         }
     }

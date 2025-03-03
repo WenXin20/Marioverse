@@ -243,8 +243,14 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 checkpointFlagBE.markUpdated();
                 checkpointFlagBE.markUpdatedClients();
 
+                if (checkpointFlagBE.isWonderFlag()) {
+                    checkpointFlagBE.setWonderFlag(Boolean.TRUE);
+                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, checkpointFlagBE.hasWonderFlag()));
+                } else if (checkpointFlagBE.isAmericanFlag()) {
+                    checkpointFlagBE.setAmericanFlag(Boolean.TRUE);
+                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, checkpointFlagBE.hasAmericanFlag()));
+                }
 
-                // Ensure the top and middle block entities are also updated for the new states
                 BlockEntity middleBlockEntity = world.getBlockEntity(pos.above());
                 if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
                     if (stack.has(DataComponents.CUSTOM_NAME) && middleFlagBE.getCustomName() == null) {
@@ -254,10 +260,10 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                         if (middleFlagBE.isWonderFlag()) {
                             middleFlagBE.setWonderFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new WonderNamePayload(pos, middleFlagBE.hasWonderFlag()));
+                            PacketHandler.sendToAllClients(new WonderNamePayload(pos.above(), middleFlagBE.hasWonderFlag()));
                         } else if (middleFlagBE.isAmericanFlag()) {
                             middleFlagBE.setAmericanFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos, middleFlagBE.hasAmericanFlag()));
+                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos.above(), middleFlagBE.hasAmericanFlag()));
                         }
                     }
                 }
@@ -271,33 +277,16 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                         if (topFlagBE.isWonderFlag()) {
                             topFlagBE.setWonderFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new WonderNamePayload(pos, topFlagBE.hasWonderFlag()));
+                            PacketHandler.sendToAllClients(new WonderNamePayload(pos.above(2), topFlagBE.hasWonderFlag()));
                         } else if (topFlagBE.isAmericanFlag()) {
                             topFlagBE.setAmericanFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos, topFlagBE.hasAmericanFlag()));
+                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos.above(2), topFlagBE.hasAmericanFlag()));
                         }
                     }
-                }
-
-                if (checkpointFlagBE.isWonderFlag()) {
-                    checkpointFlagBE.setWonderFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, checkpointFlagBE.hasWonderFlag()));
-                } else if (checkpointFlagBE.isAmericanFlag()) {
-                    checkpointFlagBE.setAmericanFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, checkpointFlagBE.hasAmericanFlag()));
                 }
             }
         }
     }
-
-//    @Override
-//    public void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-//        BlockEntity blockEntity = world.getBlockEntity(pos);
-//
-//        if (blockEntity instanceof CheckpointFlagBlockEntity flagBE)
-//            Containers.dropContents(world, pos, flagBE); // TODO: Check item drops
-//        else super.onRemove(oldState, world, pos, newState, isMoving);
-//    }
 
     @Override
     public void destroy(LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
@@ -344,20 +333,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     this.spawnDestroyParticles(world, player, pos.below(2), world.getBlockState(pos.below(2)));
                 }
             }
-
-//            BlockEntity blockentity = world.getBlockEntity(pos);
-//            if (blockentity instanceof CheckpointFlagBlockEntity flagBE) {
-//                if (/*player.isCreative() && */!flagBE.isEmpty()) {
-//                    ItemStack stack = getColoredItemStack(this.getColor());
-//                    stack.applyComponents(blockentity.collectComponents());
-//                    DataComponentMap.Builder builder = DataComponentMap.builder();
-//                    flagBE.collectImplicitComponents(builder);
-//                    stack.applyComponents(builder.build());
-//                    popResource(world, pos, stack);
-//                } else {
-//                    flagBE.unpackLootTable(player);
-//                }
-//            }
         }
         return super.playerWillDestroy(world, pos, state, player);
     }
@@ -435,9 +410,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                             if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
                                 middleFlagBE.setTheItem(stackConsumed);
                         } else {
-                            if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                            if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                                 bottomFlagBE.setTheItem(stackConsumed);
-                            if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                            if (world.getBlockEntity(pos.above(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                                 bottomFlagBE.setTheItem(stackConsumed);
                         }
                     } else {
@@ -491,14 +466,13 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
                             middleFlagBE.splitTheItem(1);
                     } else {
-                        if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                        if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                             bottomFlagBE.splitTheItem(1);
-                        if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                        if (world.getBlockEntity(pos.above(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                             bottomFlagBE.splitTheItem(1);
                     }
-                }
-
-                return InteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
+                } else return InteractionResult.PASS;
             } else return InteractionResult.PASS;
         } else return InteractionResult.PASS;
     }
