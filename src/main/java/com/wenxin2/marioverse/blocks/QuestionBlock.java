@@ -1,14 +1,21 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
+import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -445,12 +452,46 @@ public class QuestionBlock extends BaseEntityBlock {
                 if (world.getBlockState(pos.above()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above());
+                    this.spawnItem(world, pos.above(), new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (world.getBlockState(pos.below()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.below(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.below());
                 } else if (!world.getBlockState(pos.below()).canBeReplaced())
                     this.spawnItem(world, pos, stack, dropItemsAtPos);
                 else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CheckpointFlagBlock block) {
+                int randomRotation = world.random.nextInt(17);
+
+                if (world.getBlockState(pos.above()).canBeReplaced()
+                        && world.getBlockState(pos.above(2)).canBeReplaced()
+                        && world.getBlockState(pos.above(3)).canBeReplaced()) {
+
+                    world.setBlock(pos.above(), block.defaultBlockState().setValue(CheckpointFlagBlock.ROTATION, randomRotation)
+                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above()).is(FluidTags.WATER)), 3);
+                    world.setBlock(pos.above(2), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.MIDDLE)
+                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above(2)).is(FluidTags.WATER)), 3);
+                    world.setBlock(pos.above(3), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.TOP)
+                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above(3)).is(FluidTags.WATER)), 3);
+
+                    CheckpointFlagBlockEntity flagBE = (CheckpointFlagBlockEntity) world.getBlockEntity(pos.above());
+                    checkpointFlagNBT(world, pos.above(), stack, Direction.UP, flagBE);
+
+                } else if (world.getBlockState(pos.below()).canBeReplaced()
+                        && world.getBlockState(pos.below(2)).canBeReplaced()
+                        && world.getBlockState(pos.below(3)).canBeReplaced()) {
+
+                    world.setBlock(pos.below(3), block.defaultBlockState().setValue(CheckpointFlagBlock.ROTATION, randomRotation)
+                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below(3)).is(FluidTags.WATER)), 3);
+                    world.setBlock(pos.below(2), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.MIDDLE)
+                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below(2)).is(FluidTags.WATER)), 3);
+                    world.setBlock(pos.below(), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.TOP)
+                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below()).is(FluidTags.WATER)), 3);
+
+                    CheckpointFlagBlockEntity flagBE = (CheckpointFlagBlockEntity) world.getBlockEntity(pos.below());
+                    checkpointFlagNBT(world, pos.below(), stack, Direction.DOWN, flagBE);
+
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 
@@ -583,6 +624,57 @@ public class QuestionBlock extends BaseEntityBlock {
                     stack.copyWithCount(1);
                 } else this.spawnItem(world, pos, stack, dropItemsAtPos);
             } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+        }
+    }
+
+    private static void checkpointFlagNBT(Level world, BlockPos pos, ItemStack stack, Direction direction, CheckpointFlagBlockEntity flagBE) {
+        if (stack.has(DataComponents.CUSTOM_NAME)) {
+            flagBE.setCustomName(stack.getHoverName());
+            flagBE.markUpdated();
+            flagBE.markUpdatedClients();
+
+            // Ensure the top and middle block entities are also updated for the new states
+            BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
+            if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                if (stack.has(DataComponents.CUSTOM_NAME) && middleFlagBE.getCustomName() == null) {
+                    middleFlagBE.setCustomName(stack.getHoverName());
+                    middleFlagBE.markUpdated();
+                    middleFlagBE.markUpdatedClients();
+
+                    if (middleFlagBE.isWonderFlag()) {
+                        middleFlagBE.setWonderFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new WonderNamePayload(pos, middleFlagBE.hasWonderFlag()));
+                    } else if (middleFlagBE.isAmericanFlag()) {
+                        middleFlagBE.setAmericanFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos, middleFlagBE.hasAmericanFlag()));
+                    }
+                }
+            }
+
+            BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
+            if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                if (stack.has(DataComponents.CUSTOM_NAME) && topFlagBE.getCustomName() == null) {
+                    topFlagBE.setCustomName(stack.getHoverName());
+                    topFlagBE.markUpdated();
+                    topFlagBE.markUpdatedClients();
+
+                    if (topFlagBE.isWonderFlag()) {
+                        topFlagBE.setWonderFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new WonderNamePayload(pos, topFlagBE.hasWonderFlag()));
+                    } else if (topFlagBE.isAmericanFlag()) {
+                        topFlagBE.setAmericanFlag(Boolean.TRUE);
+                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos, topFlagBE.hasAmericanFlag()));
+                    }
+                }
+            }
+
+            if (flagBE.isWonderFlag()) {
+                flagBE.setWonderFlag(Boolean.TRUE);
+                PacketHandler.sendToAllClients(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
+            } else if (flagBE.isAmericanFlag()) {
+                flagBE.setAmericanFlag(Boolean.TRUE);
+                PacketHandler.sendToAllClients(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
+            }
         }
     }
 
