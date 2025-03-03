@@ -53,8 +53,10 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_APPLIES_POWER_UPS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_BUCKET_TWEAKS;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_CLAIM_USES_ITEMS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_MODIFY_HEALTH;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_REMOVE_ITEMS;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_RESPAWN_USES_ITEMS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
@@ -185,6 +187,14 @@ public class ConfigRegistry
                             .comment("Amount of food checkpoint flags respawn the player with.")
                             .comment("§9[Default: 16]§b")
                             .defineInRange("checkpoint_flag_food_amt", 16, 0, 100);
+                    CHECKPOINT_FLAG_CLAIM_USES_ITEMS = BUILDER.translation("configuration.marioverse.checkpoint_flag_claim_uses_item")
+                            .comment("Allow checkpoint flags to use stored items when the player claims the checkpoint.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_claim_uses_item", true);
+                    CHECKPOINT_FLAG_RESPAWN_USES_ITEMS = BUILDER.translation("configuration.marioverse.checkpoint_flag_respawn_uses_item")
+                            .comment("Allow checkpoint flags to use stored items when the player respawns.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_respawn_uses_item", true);
                     CHECKPOINT_FLAG_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.checkpoint_flag_bucket_tweaks")
                             .comment("Allow checkpoint flags to place bucket liquids and blocks.")
                             .comment("§9[Default: true]")

@@ -460,7 +460,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     }
                 }
 
-                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE) {
+                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
+                        && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()) {
                     ItemStack storedItem = flagBE.getTheItem();
 
                     if (!storedItem.isEmpty()) {

@@ -268,7 +268,8 @@ public class MarioverseEventHandlers {
                 }
 
                 if (state.getBlock() instanceof CheckpointFlagBlock flagBlock
-                        && world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE) {
+                        && world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
+                        && ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_USES_ITEMS.get()) {
                     ItemStack storedItem = flagBE.getTheItem();
 
                     if (!storedItem.isEmpty()) {
