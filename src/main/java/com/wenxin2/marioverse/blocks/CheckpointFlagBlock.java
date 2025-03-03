@@ -654,20 +654,21 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 if (bucket.content.isSame(Fluids.WATER)) {
                     if (bucket.emptyContents(null, world, pos, null, stack))
                         bucket.checkExtraContent(null, world, stack, pos);
+                    this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (world.getBlockState(pos.above(3)).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(3), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above(3));
+                    this.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
                     this.spawnItem(world, pos, stack, dropItemsAtPos);
-                else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
 
             } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
                 if (world.getBlockState(pos.above(3)).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(3), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above(3));
-                } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
-                    this.spawnItem(world, pos, stack, dropItemsAtPos);
-                else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+                    this.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 

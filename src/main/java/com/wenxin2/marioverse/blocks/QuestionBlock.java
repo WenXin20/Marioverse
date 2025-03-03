@@ -442,12 +442,14 @@ public class QuestionBlock extends BaseEntityBlock {
                 if (world.getBlockState(pos.above()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above());
+                    this.spawnItem(world, pos.above(), new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (world.getBlockState(pos.below()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.below(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.below());
+                    this.spawnItem(world, pos.below(), new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (!world.getBlockState(pos.below()).canBeReplaced())
-                    this.spawnItem(world, pos, stack, dropItemsAtPos);
-                else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+                    this.spawnItem(world, pos.below(), stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
                 if (world.getBlockState(pos.above()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(), null, stack))
@@ -456,9 +458,9 @@ public class QuestionBlock extends BaseEntityBlock {
                 } else if (world.getBlockState(pos.below()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.below(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.below());
-                } else if (!world.getBlockState(pos.below()).canBeReplaced())
-                    this.spawnItem(world, pos, stack, dropItemsAtPos);
-                else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+                    this.spawnItem(world, pos.below(), new ItemStack(Items.BUCKET), dropItemsAtPos);
+                } else this.spawnItem(world, pos.below(), stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CheckpointFlagBlock block) {
                 int randomRotation = world.random.nextInt(17);
 
