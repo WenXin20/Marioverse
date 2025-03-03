@@ -89,6 +89,7 @@ import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -237,26 +238,24 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     .setValue(WATERLOGGED, world.getFluidState(pos.above(2)).getType() == Fluids.WATER), 3);
         }
 
-        if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-            if (stack.has(DataComponents.CUSTOM_NAME) && checkpointFlagBE.getCustomName() != null) {
-                checkpointFlagBE.setCustomName(stack.getHoverName());
-                checkpointFlagBE.markUpdated();
-                checkpointFlagBE.markUpdatedClients();
+        if (blockEntity instanceof CheckpointFlagBlockEntity flagBE) {
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
+                flagBE.setCustomName(stack.getHoverName());
+                flagBE.markUpdated();
 
-                if (checkpointFlagBE.isWonderFlag()) {
-                    checkpointFlagBE.setWonderFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, checkpointFlagBE.hasWonderFlag()));
-                } else if (checkpointFlagBE.isAmericanFlag()) {
-                    checkpointFlagBE.setAmericanFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, checkpointFlagBE.hasAmericanFlag()));
+                if (flagBE.isWonderFlag()) {
+                    flagBE.setWonderFlag(Boolean.TRUE);
+                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
+                } else if (flagBE.isAmericanFlag()) {
+                    flagBE.setAmericanFlag(Boolean.TRUE);
+                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
                 }
 
                 BlockEntity middleBlockEntity = world.getBlockEntity(pos.above());
                 if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                    if (stack.has(DataComponents.CUSTOM_NAME) && middleFlagBE.getCustomName() == null) {
+                    if (middleFlagBE.getCustomName() == null) {
                         middleFlagBE.setCustomName(stack.getHoverName());
                         middleFlagBE.markUpdated();
-                        middleFlagBE.markUpdatedClients();
 
                         if (middleFlagBE.isWonderFlag()) {
                             middleFlagBE.setWonderFlag(Boolean.TRUE);
@@ -270,10 +269,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                 BlockEntity topBlockEntity = world.getBlockEntity(pos.above(2));
                 if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                    if (stack.has(DataComponents.CUSTOM_NAME) && topFlagBE.getCustomName() == null) {
+                    if (topFlagBE.getCustomName() == null) {
                         topFlagBE.setCustomName(stack.getHoverName());
                         topFlagBE.markUpdated();
-                        topFlagBE.markUpdatedClients();
 
                         if (topFlagBE.isWonderFlag()) {
                             topFlagBE.setWonderFlag(Boolean.TRUE);
@@ -281,6 +279,44 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         } else if (topFlagBE.isAmericanFlag()) {
                             topFlagBE.setAmericanFlag(Boolean.TRUE);
                             PacketHandler.sendToAllClients(new AmericaNamePayload(pos.above(2), topFlagBE.hasAmericanFlag()));
+                        }
+                    }
+                }
+
+                if (stack.has(DataComponents.CONTAINER_LOOT)) {
+                    SeededContainerLoot lootTableReference = stack.get(DataComponents.CONTAINER_LOOT);
+
+                    if (lootTableReference != null) {
+                        flagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                        flagBE.markUpdated();
+
+                        if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                            middleFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                            middleFlagBE.markUpdated();
+                        }
+
+                        if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                            topFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                            topFlagBE.markUpdated();
+                        }
+                    }
+                }
+
+                if (stack.has(DataComponents.CONTAINER)) {
+                    ItemContainerContents containerContents = stack.get(DataComponents.CONTAINER);
+
+                    if (containerContents != null) {
+                        flagBE.setTheItem(containerContents.copyOne());
+                        flagBE.markUpdated();
+
+                        if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                            middleFlagBE.setTheItem(containerContents.copyOne());
+                            middleFlagBE.markUpdated();
+                        }
+
+                        if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                            topFlagBE.setTheItem(containerContents.copyOne());
+                            topFlagBE.markUpdated();
                         }
                     }
                 }
@@ -614,7 +650,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     private boolean canPlaceBlock(Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
 
-        return (state.canBeReplaced() || state.canBeReplaced() || state.is(this))
+        return (state.isAir() || state.canBeReplaced() || state.is(this))
                 && world.getWorldBorder().isWithinBounds(pos);
     }
 

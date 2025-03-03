@@ -635,7 +635,6 @@ public class QuestionBlock extends BaseEntityBlock {
         if (stack.has(DataComponents.CUSTOM_NAME)) {
             flagBE.setCustomName(stack.getHoverName());
             flagBE.markUpdated();
-            flagBE.markUpdatedClients();
 
             if (flagBE.isWonderFlag()) {
                 flagBE.setWonderFlag(Boolean.TRUE);
@@ -650,7 +649,6 @@ public class QuestionBlock extends BaseEntityBlock {
                 if (middleFlagBE.getCustomName() == null) {
                     middleFlagBE.setCustomName(stack.getHoverName());
                     middleFlagBE.markUpdated();
-                    middleFlagBE.markUpdatedClients();
 
                     if (middleFlagBE.isWonderFlag()) {
                         middleFlagBE.setWonderFlag(Boolean.TRUE);
@@ -667,7 +665,6 @@ public class QuestionBlock extends BaseEntityBlock {
                 if (topFlagBE.getCustomName() == null) {
                     topFlagBE.setCustomName(stack.getHoverName());
                     topFlagBE.markUpdated();
-                    topFlagBE.markUpdatedClients();
 
                     if (topFlagBE.isWonderFlag()) {
                         topFlagBE.setWonderFlag(Boolean.TRUE);
@@ -686,20 +683,17 @@ public class QuestionBlock extends BaseEntityBlock {
             if (lootTableReference != null) {
                 flagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
                 flagBE.markUpdated();
-                flagBE.markUpdatedClients();
 
                 BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
                 if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
                     middleFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
                     middleFlagBE.markUpdated();
-                    middleFlagBE.markUpdatedClients();
                 }
 
                 BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
                 if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
                     topFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
                     topFlagBE.markUpdated();
-                    topFlagBE.markUpdatedClients();
                 }
             }
         }
@@ -710,20 +704,17 @@ public class QuestionBlock extends BaseEntityBlock {
             if (containerContents != null) {
                 flagBE.setTheItem(containerContents.copyOne());
                 flagBE.markUpdated();
-                flagBE.markUpdatedClients();
 
                 BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
                 if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
                     middleFlagBE.setTheItem(containerContents.copyOne());
                     middleFlagBE.markUpdated();
-                    middleFlagBE.markUpdatedClients();
                 }
 
                 BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
                 if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
                     topFlagBE.setTheItem(containerContents.copyOne());
                     topFlagBE.markUpdated();
-                    topFlagBE.markUpdatedClients();
                 }
             }
         }

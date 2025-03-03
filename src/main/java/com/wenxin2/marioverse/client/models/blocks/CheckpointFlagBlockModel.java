@@ -4,9 +4,6 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
-import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
-import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import java.util.Map;
 import java.util.Optional;
@@ -43,7 +40,6 @@ public class CheckpointFlagBlockModel extends GeoModel<CheckpointFlagBlockEntity
     public ResourceLocation getTextureResource(CheckpointFlagBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
         Block block = blockEntity.getBlockState().getBlock();
-        BlockPos pos = blockEntity.getBlockPos();
         DyeColor color = null;
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
