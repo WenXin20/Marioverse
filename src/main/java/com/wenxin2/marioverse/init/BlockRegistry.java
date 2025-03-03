@@ -790,13 +790,13 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         CLASSIC_CHECKPOINT_FLAG = registerBlock("classic_checkpoint_flag",
-                () -> new CheckpointFlagBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                () -> new CheckpointFlagBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                         .strength(2.5F, 3.0F).requiresCorrectToolForDrops().noCollission()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CHECKPOINT_FLAGS.put(color, registerBlock(color.getName() + "_checkpoint_flag",
-                        () -> new CheckpointFlagBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        () -> new CheckpointFlagBlock(color, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                                 .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
                                 .strength(2.5F, 3.0F).requiresCorrectToolForDrops().noCollission()))));
 

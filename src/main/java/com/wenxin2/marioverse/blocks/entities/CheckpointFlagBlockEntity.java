@@ -4,10 +4,12 @@ import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import java.util.List;
 import java.util.Locale;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -18,7 +20,9 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -148,18 +152,22 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
     protected void applyImplicitComponents(DataComponentInput input) {
         super.applyImplicitComponents(input);
         this.name = input.get(DataComponents.CUSTOM_NAME);
+        ItemContainerContents contents = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
+        this.item = contents.copyOne();
+//        input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(NonNullList.of((this.item)));
     }
 
     @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+    public void collectImplicitComponents(DataComponentMap.Builder builder) {
         super.collectImplicitComponents(builder);
         builder.set(DataComponents.CUSTOM_NAME, this.name);
+        if (!this.item.isEmpty())
+            builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.item)));
     }
 
     @Override
     public void removeComponentsFromTag(CompoundTag tag) {
         tag.remove("CustomName");
-        tag.remove("item");
     }
 
     @Override

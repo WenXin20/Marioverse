@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
@@ -19,12 +20,16 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -35,7 +40,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -62,10 +66,12 @@ import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
@@ -82,10 +88,12 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.WindChargeItem;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -104,6 +112,8 @@ import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -113,13 +123,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<CheckpointFlagBlock> CODEC = simpleCodec(CheckpointFlagBlock::new);
+    public static final MapCodec<CheckpointFlagBlock> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
+                            .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
+                    .apply(instance, (dyeColor, properties) -> new CheckpointFlagBlock(dyeColor.orElse(null), properties))
+    );
     public static final EnumProperty<TripleBlockStates> PART = EnumProperty.create("part", TripleBlockStates.class);
     public static final BooleanProperty CLAIMED = BooleanProperty.create("claimed");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final Component UNKNOWN_CONTENTS = Component.translatable("marioverse.container.checkpoint_flag.unknownContents");
+    public static final ResourceLocation CONTENTS = ResourceLocation.withDefaultNamespace("contents");
     public static final int MAX = RotationSegment.getMaxSegmentIndex();
     private static final int ROTATIONS = MAX + 1;
+    @Nullable private final DyeColor color;
 
     protected static final VoxelShape CHECKPOINT_FLAG_TOP =
             Shapes.or(Block.box(7, 0, 7, 9, 4, 9),
@@ -130,10 +147,11 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             Shapes.or(Block.box(4, 0, 4, 12, 2, 12),
             Block.box(7, 2, 7, 9, 16, 9)).optimize();
 
-    public CheckpointFlagBlock(Properties properties) {
+    public CheckpointFlagBlock(@Nullable DyeColor color, Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(CLAIMED, Boolean.FALSE)
                 .setValue(PART, TripleBlockStates.BOTTOM).setValue(ROTATION, 0).setValue(WATERLOGGED, Boolean.FALSE));
+        this.color = color;
     }
 
     @NotNull
@@ -167,6 +185,20 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CheckpointFlagBlockEntity(pos, state);
+    }
+
+    @NotNull
+    @Override
+    public ItemStack getCloneItemStack(LevelReader worldReader, BlockPos pos, BlockState state) {
+        if (worldReader.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity flagBE) {
+            ItemStack stack = new ItemStack(this.asItem());
+            DataComponentMap.Builder builder = DataComponentMap.builder();
+            flagBE.collectImplicitComponents(builder);
+            DataComponentMap components = builder.build();
+
+            stack.applyComponents(components);
+            return stack;
+        } else return super.getCloneItemStack(worldReader, pos, state);
     }
 
     @Override
@@ -258,14 +290,14 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
     }
 
-    @Override
-    public void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-
-        if (blockEntity instanceof CheckpointFlagBlockEntity flagBE)
-            Containers.dropContents(world, pos, flagBE); // TODO: Check item drops
-        else super.onRemove(oldState, world, pos, newState, isMoving);
-    }
+//    @Override
+//    public void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+//        BlockEntity blockEntity = world.getBlockEntity(pos);
+//
+//        if (blockEntity instanceof CheckpointFlagBlockEntity flagBE)
+//            Containers.dropContents(world, pos, flagBE); // TODO: Check item drops
+//        else super.onRemove(oldState, world, pos, newState, isMoving);
+//    }
 
     @Override
     public void destroy(LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
@@ -312,8 +344,36 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     this.spawnDestroyParticles(world, player, pos.below(2), world.getBlockState(pos.below(2)));
                 }
             }
+
+//            BlockEntity blockentity = world.getBlockEntity(pos);
+//            if (blockentity instanceof CheckpointFlagBlockEntity flagBE) {
+//                if (/*player.isCreative() && */!flagBE.isEmpty()) {
+//                    ItemStack stack = getColoredItemStack(this.getColor());
+//                    stack.applyComponents(blockentity.collectComponents());
+//                    DataComponentMap.Builder builder = DataComponentMap.builder();
+//                    flagBE.collectImplicitComponents(builder);
+//                    stack.applyComponents(builder.build());
+//                    popResource(world, pos, stack);
+//                } else {
+//                    flagBE.unpackLootTable(player);
+//                }
+//            }
         }
         return super.playerWillDestroy(world, pos, state, player);
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        BlockEntity blockentity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if (blockentity instanceof CheckpointFlagBlockEntity flagBE) {
+            builder = builder.withDynamicDrop(CONTENTS, stack -> {
+                for (int i = 0; i < flagBE.getContainerSize(); i++) {
+                    stack.accept(flagBE.getItem(i));
+                }
+            });
+        }
+
+        return super.getDrops(state, builder);
     }
 
     @NotNull
@@ -357,17 +417,34 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         && (blockStack.isEmpty() || ItemStack.isSameItemSameComponents(heldItem, blockStack)
                         && blockStack.getCount() < blockStack.getMaxStackSize())) {
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-                    ItemStack itemstack = stack.consumeAndReturn(1, player);
+                    ItemStack stackConsumed = stack.consumeAndReturn(1, player);
 
-                    float f;
+                    float soundPitch;
                     if (flagBE.isEmpty()) {
-                        flagBE.setTheItem(itemstack);
-                        f = (float) itemstack.getCount() / (float) itemstack.getMaxStackSize();
+                        soundPitch = (float) stackConsumed.getCount() / (float) stackConsumed.getMaxStackSize();
+                        flagBE.setTheItem(stackConsumed);
+
+                        if (state.getValue(PART) == TripleBlockStates.TOP) {
+                            if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity topFlagBE)
+                                topFlagBE.setTheItem(stackConsumed);
+                            if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity topFlagBE)
+                                topFlagBE.setTheItem(stackConsumed);
+                        } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                            if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                                middleFlagBE.setTheItem(stackConsumed);
+                            if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                                middleFlagBE.setTheItem(stackConsumed);
+                        } else {
+                            if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                                bottomFlagBE.setTheItem(stackConsumed);
+                            if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                                bottomFlagBE.setTheItem(stackConsumed);
+                        }
                     } else {
+                        soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                         blockStack.grow(1);
-                        f = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                     }
-                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * f);
+                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
                     flagBE.setChanged();
                     world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
@@ -402,6 +479,23 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                     flagBE.splitTheItem(1);
                     flagBE.setChanged();
+
+                    if (state.getValue(PART) == TripleBlockStates.TOP) {
+                        if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity topFlagBE)
+                            topFlagBE.splitTheItem(1);
+                        if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity topFlagBE)
+                            topFlagBE.splitTheItem(1);
+                    } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                        if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                            middleFlagBE.splitTheItem(1);
+                        if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                            middleFlagBE.splitTheItem(1);
+                    } else {
+                        if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                            bottomFlagBE.splitTheItem(1);
+                        if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                            bottomFlagBE.splitTheItem(1);
+                    }
                 }
 
                 return InteractionResult.SUCCESS;
@@ -465,8 +559,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     ItemStack storedItem = flagBE.getTheItem();
 
                     if (!storedItem.isEmpty()) {
-                        this.spawnFromCheckpointFlag(world, respawnPos, storedItem, entity, true, false);
+                        this.spawnFromCheckpointFlag(world, respawnPos, storedItem, entity, true);
                         this.playSounds(world, respawnPos, storedItem);
+                        flagBE.splitTheItem(1);
                     }
                 }
             }
@@ -506,13 +601,40 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        return super.getAnalogOutputSignal(state, world, pos);
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
     }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
         super.appendHoverText(stack, tooltipContext, list, options);
         list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+        if (stack.has(DataComponents.CONTAINER_LOOT)) {
+            list.add(UNKNOWN_CONTENTS);
+        }
+
+        int i = 0;
+        int j = 0;
+
+        for (ItemStack itemstack : stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItems()) {
+            j++;
+            if (i <= 4) {
+                i++;
+                list.add(Component.translatable("marioverse.container.checkpoint_flag.itemCount", itemstack.getHoverName(), itemstack.getCount()));
+            }
+        }
+
+        if (j - i > 0) {
+            list.add(Component.translatable("marioverse.container.checkpoint_flag.more", j - i).withStyle(ChatFormatting.ITALIC));
+        }
+    }
+
+    @Nullable
+    public DyeColor getColor() {
+        return this.color;
+    }
+
+    public static ItemStack getColoredItemStack(@Nullable DyeColor color) {
+        return new ItemStack(BlockRegistry.CHECKPOINT_FLAGS.get(color));
     }
 
     private boolean canPlaceBlock(Level world, BlockPos pos) {
@@ -522,7 +644,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 && world.getWorldBorder().isWithinBounds(pos);
     }
 
-    public void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos, boolean applyUpMotion) {
+    public void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos) {
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
                 
