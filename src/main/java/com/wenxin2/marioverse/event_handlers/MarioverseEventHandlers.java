@@ -272,7 +272,7 @@ public class MarioverseEventHandlers {
                     ItemStack storedItem = flagBE.getTheItem();
 
                     if (!storedItem.isEmpty()) {
-                        flagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true, true);
+                        flagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true, false);
                         flagBlock.playSounds(world, respawnPos, storedItem);
                     }
                 }

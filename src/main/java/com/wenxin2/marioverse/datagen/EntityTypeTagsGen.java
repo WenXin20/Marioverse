@@ -166,6 +166,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WITHER)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
+        tag(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
+
         tag(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 

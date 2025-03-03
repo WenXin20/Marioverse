@@ -51,8 +51,11 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
     public static ModConfigSpec.BooleanValue BLINDNESS_EFFECT;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_ADD_ITEMS;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_APPLIES_POWER_UPS;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_MODIFY_HEALTH;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_REMOVE_ITEMS;
+    public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
@@ -182,6 +185,18 @@ public class ConfigRegistry
                             .comment("Amount of food checkpoint flags respawn the player with.")
                             .comment("§9[Default: 16]§b")
                             .defineInRange("checkpoint_flag_food_amt", 16, 0, 100);
+                    CHECKPOINT_FLAG_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.checkpoint_flag_bucket_tweaks")
+                            .comment("Allow checkpoint flags to place bucket liquids and blocks.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_bucket_tweaks", true);
+                    CHECKPOINT_FLAG_APPLIES_POWER_UPS = BUILDER.translation("configuration.marioverse.checkpoint_flag_applies_power_ups")
+                            .comment("Allow checkpoint flags to apply power ups when the player respawns.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_applies_power_ups", true);
+                    CHECKPOINT_FLAG_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.checkpoint_flag_spawns_mobs")
+                            .comment("Allow checkpoint flags to spawn mobs when the player respawns.")
+                            .comment("§9[Default: true]")
+                            .define("checkpoint_flag_spawns_mobs", true);
                     CHECKPOINT_FLAG_ADD_ITEMS = BUILDER.translation("configuration.marioverse.checkpoint_flag_add_items")
                             .comment("Allow survival players to add items using right-click.")
                             .comment("§9[Default: true]")
@@ -213,7 +228,7 @@ public class ConfigRegistry
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCK);
                     QUESTION_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.question_bucket_tweaks")
-                            .comment("Allow question blocks to place bucket liquids.")
+                            .comment("Allow question blocks to place bucket liquids and blocks.")
                             .comment("§9[Default: true]")
                             .define("question_bucket_tweaks", true);
                     QUESTION_SPAWNS_POWER_UPS = BUILDER.translation("configuration.marioverse.question_spawns_power_ups")

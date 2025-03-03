@@ -5,14 +5,19 @@ import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import io.wispforest.accessories.api.AccessoriesCapability;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
@@ -34,11 +39,13 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -385,10 +392,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 ItemStack storedItem = flagBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
-//                    if (!world.isClientSide)
-//                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
-//                    this.playSounds(world, pos, storedItem);
-
                     if (state.is(BlockTags.GUARDED_BY_PIGLINS))
                         PiglinAi.angerNearbyPiglins(player, false);
 
@@ -438,14 +441,23 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
 
                 if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    world.setBlock(pos.above(2), world.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                    if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
+                            && world.getBlockState(pos.above(2)).hasProperty(CLAIMED)) {
+                        world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                        world.setBlock(pos.above(2), world.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                    }
                 } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
+                            && world.getBlockState(pos.below()).hasProperty(CLAIMED)) {
+                        world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                        world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    }
                 } else {
-                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                    if (world.getBlockState(pos.below()).hasProperty(CLAIMED)
+                            && world.getBlockState(pos.below(2)).hasProperty(CLAIMED)) {
+                        world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                        world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                    }
                 }
             }
 
@@ -496,310 +508,231 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     private boolean canPlaceBlock(Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
 
-        return (state.isAir() || state.canBeReplaced() || state.is(this))
+        return (state.canBeReplaced() || state.canBeReplaced() || state.is(this))
                 && world.getWorldBorder().isWithinBounds(pos);
     }
 
     public void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos, boolean applyUpMotion) {
         if (world instanceof ServerLevel serverWorld) {
-            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get()) {
-                EntityType<?> entityType = powerUpItem.getType(stack);
-
-                if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                        if (entity != null && applyUpMotion) {
-                            if (!entity.getType().is(TagRegistry.HAS_NO_DELTA_MOVEMENT))
-                                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
-                            entity.move(MoverType.SELF, entity.getDeltaMovement());
-                        }
-                    } else {
-                        Entity entity = entityType.create(serverWorld);
-                        if (entity != null)
-                            entityType.spawn(serverWorld, stack, null,
-                                    BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
-                                    MobSpawnType.SPAWN_EGG, true, false);
-                    }
-                    stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()
+            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
+                
+                this.spawnPowerUps(world, pos, stack, entityHitBlock, powerUpItem, dropItemsAtPos);
+            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()
                     && !(stack.getItem() instanceof BasePowerUpItem)) {
                 EntityType<?> entityType = spawnEgg.getType(stack);
 
-                if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                        if (entity != null && applyUpMotion) {
-                            if (!entity.getType().is(TagRegistry.HAS_NO_DELTA_MOVEMENT))
-                                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
-                            entity.move(MoverType.SELF, entity.getDeltaMovement());
-                        }
-                    } else {
-                        Entity entity = entityType.create(serverWorld);
-                        if (entity != null)
-                            entityType.spawn(serverWorld, stack, null,
-                                    BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
-                                    MobSpawnType.SPAWN_EGG, true, false);
-                    }
+                if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+
+                    Entity entity = entityType.create(serverWorld);
+                    if (entity != null)
+                        entityType.spawn(serverWorld, stack, null,
+                                BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
+                                MobSpawnType.SPAWN_EGG, true, false);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof ArmorStandItem) {
                 Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
                 ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
 
-                if (armorStand != null && !armorStand.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else armorStand.setPos(pos.getX() + 0.5D, pos.getY() - armorStand.getType().getHeight(), pos.getZ() + 0.5D);
+                if (armorStand != null && !armorStand.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(armorStand);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof MinecartItem cart) {
                 AbstractMinecart abstractMinecart =
                         AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, cart.type, stack, null);
 
-                if (!abstractMinecart.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() - abstractMinecart.getBbHeight(), pos.getZ() + 0.5D);
+                if (!abstractMinecart.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(abstractMinecart);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof BoatItem boatItem) {
                 Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D)
                         : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
 
-                if (!boat.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        boat.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else boat.setPos(pos.getX() + 0.5D, pos.getY() - boat.getBbHeight(), pos.getZ() + 0.5D);
+                if (!boat.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                     boat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     boat.setVariant(boatItem.type);
                     world.addFreshEntity(boat);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
                 PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
 
-                if (!primedtnt.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        primedtnt.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else primedtnt.setPos(pos.getX() + 0.5D, pos.getY() - primedtnt.getBbHeight(), pos.getZ() + 0.5D);
+                if (!primedtnt.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(primedtnt);
                     stack.copyWithCount(1);
                     serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
                     && entityHitBlock instanceof Player player) {
                 boolean itemAdded = player.addItem(stack.copyWithCount(1));
                 if (!itemAdded)
                     player.drop(stack.copyWithCount(1), false);
+
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new Vec3(0, -0.5, 0));
 
-                if (!windCharge.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        windCharge.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else windCharge.setPos(pos.getX() + 0.5D, pos.getY() - windCharge.getBbHeight(), pos.getZ() + 0.5D);
+                if (!windCharge.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(windCharge);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof FireChargeItem) {
                 SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new Vec3(0, -0.5, 0));
 
-                if (!fireball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        fireball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else fireball.setPos(pos.getX() + 0.5D, pos.getY() - fireball.getBbHeight(), pos.getZ() + 0.5D);
+                if (!fireball.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(fireball);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof ThrowablePotionItem) {
                 ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
-                if (!potion.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        potion.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else potion.setPos(pos.getX() + 0.5D, pos.getY() - potion.getBbHeight(), pos.getZ() + 0.5D);
+                if (!potion.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    potion.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     potion.setItem(stack);
                     world.addFreshEntity(potion);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof ExperienceBottleItem) {
                 ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
-                if (!xpBottle.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else xpBottle.setPos(pos.getX() + 0.5D, pos.getY() - xpBottle.getBbHeight(), pos.getZ() + 0.5D);
+                if (!xpBottle.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    xpBottle.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     xpBottle.setItem(stack);
                     world.addFreshEntity(xpBottle);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof EndCrystalItem) {
                 EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
-                if (!endCrystal.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else {
-                        endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
-                        endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                if (!endCrystal.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
+                    endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
                     endCrystal.setShowBottom(false);
                     world.addFreshEntity(endCrystal);
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof FireworkRocketItem) {
                 FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
 
-                if (!firework.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        firework.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else firework.setPos(pos.getX() + 0.5D, pos.getY() - firework.getBbHeight(), pos.getZ() + 0.5D);
+                if (!firework.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    firework.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(firework);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof EggItem) {
                 ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
-                if (!egg.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        egg.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else egg.setPos(pos.getX() + 0.5D, pos.getY() - egg.getBbHeight(), pos.getZ() + 0.5D);
+                if (!egg.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    egg.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     egg.setItem(stack);
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
-                    && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
-                        || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
-                    if (bucket.emptyContents(null, world, pos.above(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.above());
-                } else {
-                    if (bucket.emptyContents(null, world, pos.below(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.below());
-                }
-                spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
-            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above()).isAir() || !world.getFluidState(pos.above()).isEmpty()
-                        || (!world.getBlockState(pos.below()).isAir() && world.getFluidState(pos.below()).isEmpty())) {
-                    if (bucket.emptyContents(null, world, pos.above(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.above());
-                } else {
-                    if (bucket.emptyContents(null, world, pos.below(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.below());
-                }
-                spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+                    && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
+                if (bucket.content.isSame(Fluids.WATER)) {
+                    if (bucket.emptyContents(null, world, pos, null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos);
+                } else if (world.getBlockState(pos.above(3)).canBeReplaced()) {
+                    if (bucket.emptyContents(null, world, pos.above(3), null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos.above(3));
+                } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
+                    this.spawnItem(world, pos, stack, dropItemsAtPos);
+                else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+
+            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
+                if (world.getBlockState(pos.above(3)).canBeReplaced()) {
+                    if (bucket.emptyContents(null, world, pos.above(3), null, stack))
+                        bucket.checkExtraContent(null, world, stack, pos.above(3));
+                } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
+                    this.spawnItem(world, pos, stack, dropItemsAtPos);
+                else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
                 Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
 
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.3),
-                                world.random.triangle(0.5, 0.3),
-                                world.random.triangle(0.0, 0.3)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(
+                            world.random.triangle(0.0, 0.3),
+                            world.random.triangle(0.5, 0.3),
+                            world.random.triangle(0.0, 0.3)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            world.random.triangle(0.5, 0.2),
+                            world.random.triangle(0.0, 0.2)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                     CompoundTag nbt = new CompoundTag();
                     entity.save(nbt);
                     nbt.putInt("Type", 1);
                     entity.load(nbt);
 
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                     CompoundTag nbt = new CompoundTag();
                     entity.save(nbt);
                     nbt.putInt("Type", 2);
                     entity.load(nbt);
 
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
             } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
                 Creeper entity = EntityType.CREEPER.create(serverWorld);
 
@@ -815,30 +748,20 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     entity.setSilent(true);
                     entity.load(nbt);
 
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(entity);
                 }
                 world.gameEvent(null, GameEvent.EXPLODE, pos);
             } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
                 Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
 
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    }
-                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else spawnItem(world, pos, stack, dropItemsAtPos);
-            } else spawnItem(world, pos, stack, dropItemsAtPos);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+
+            } else this.spawnItem(world, pos, stack, dropItemsAtPos);
         }
     }
 
@@ -846,13 +769,138 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (dropItemsAtPos) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
             world.addFreshEntity(itemEntity);
-        } else if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                || (!world.getBlockState(pos.below()).isAir() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
+        } else if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
             world.addFreshEntity(itemEntity);
         } else {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() - 0.5D, pos.getZ() + 0.5D, stack.copyWithCount(1));
             world.addFreshEntity(itemEntity);
+        }
+    }
+
+    public void spawnPowerUps(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, BasePowerUpItem powerUpItem, boolean dropItemsAtPos) {
+        EntityType<?> entityType = powerUpItem.getType(stack);
+
+        if (world instanceof ServerLevel serverWorld) {
+            if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                Entity spawnedEntity = entityType.create(serverWorld);
+                if (spawnedEntity != null) {
+                    if (stack.getItem() == ItemRegistry.MUSHROOM.get()) {
+                        applyMushroomPowerUp(world, entityHitBlock);
+                    } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()) {
+                        applyOneUpMushroomPowerUp(world, stack, entityHitBlock);
+                    } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()) {
+                        applyFireFlowerPowerUp(world, entityHitBlock);
+                    } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()) {
+                        applySuperStarPowerUp(world, entityHitBlock);
+                    } else {
+                        entityType.spawn(serverWorld, stack, null,
+                                BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
+                                MobSpawnType.SPAWN_EGG, true, false);
+                    }
+                }
+                stack.copyWithCount(1);
+            } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+        }
+    }
+
+    public static void applyMushroomPowerUp(Level world, Entity entityHitBlock) {
+        if (entityHitBlock instanceof Player player && !player.isSpectator()
+                && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                world.broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
+            }
+            
+            if (!world.isClientSide) {
+                if (player.getHealth() < player.getMaxHealth())
+                    player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                    world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
+        }
+    }
+
+    public static void applyOneUpMushroomPowerUp(Level world, ItemStack stack, Entity entityHitBlock) {
+        if (entityHitBlock instanceof Player player && !player.isSpectator()
+                && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                && player.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)) {
+            AccessoriesCapability capability = AccessoriesCapability.get(player);
+            ItemStack offhandStack = player.getOffhandItem();
+
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            } else if (offhandStack.isEmpty())
+                player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(stack.getItem()));
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                if (offhandStack.getCount() >= 8) {
+                    player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
+                } else offhandStack.grow(1);
+            }
+
+            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                world.playSound(null, player, SoundRegistry.ONE_UP_COLLECTED.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                world.broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
+                world.broadcastEntityEvent(player, (byte) 126); // 1-Up Collected particle
+            }
+        }
+    }
+
+    public static void applyFireFlowerPowerUp(Level world, Entity entityHitBlock) {
+        if (entityHitBlock instanceof Player player && !player.isSpectator()
+                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
+            AccessoriesCapability capability = AccessoriesCapability.get(player);
+
+            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
+                    world.broadcastEntityEvent(player, (byte) 20); // Poof particle
+                else world.broadcastEntityEvent(player, (byte) 123); // Fire Powered Up particle
+            }
+
+            if (player.getHealth() < player.getMaxHealth())
+                player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+            player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+            world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
+
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
+                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
+                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
+                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
+                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
+
+                if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_HAT.get())
+                    containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHIRT.get())
+                    containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHIRT.get()));
+                if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_OVERALLS.get())
+                    containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_OVERALLS.get()));
+                if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
+                    containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
+            }
+        }
+    }
+
+    public static void applySuperStarPowerUp(Level world, Entity entityHitBlock) {
+        if (entityHitBlock instanceof Player player && !player.isSpectator()
+                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
+
+            world.broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
+            player.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.TRUE);
+            player.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
+            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
+
+            world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
+
         }
     }
 
