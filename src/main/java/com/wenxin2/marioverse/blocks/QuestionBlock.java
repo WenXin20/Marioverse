@@ -432,8 +432,7 @@ public class QuestionBlock extends BaseEntityBlock {
                 } else this.spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
                     && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above()).canBeReplaced() || !world.getFluidState(pos.above()).isEmpty()
-                        || (!world.getBlockState(pos.below()).canBeReplaced() && world.getFluidState(pos.below()).isEmpty())) {
+                if (world.getBlockState(pos.above()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above());
                 } else if (world.getBlockState(pos.below()).canBeReplaced()) {
@@ -443,8 +442,7 @@ public class QuestionBlock extends BaseEntityBlock {
                     this.spawnItem(world, pos, stack, dropItemsAtPos);
                 else this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
             } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above()).canBeReplaced() || !world.getFluidState(pos.above()).isEmpty()
-                        || (!world.getBlockState(pos.below()).canBeReplaced() && world.getFluidState(pos.below()).isEmpty())) {
+                if (world.getBlockState(pos.above()).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above());
                 } else if (world.getBlockState(pos.below()).canBeReplaced()) {
