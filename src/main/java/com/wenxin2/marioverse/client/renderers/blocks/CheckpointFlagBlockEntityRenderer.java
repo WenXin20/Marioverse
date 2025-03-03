@@ -34,7 +34,7 @@ public class CheckpointFlagBlockEntityRenderer extends GeoBlockRenderer<Checkpoi
                     animatable.getBlockPos().getY(),
                     animatable.getBlockPos().getZ() - 0.5,
                     animatable.getBlockPos().getX() + 1.5,
-                    animatable.getBlockPos().getY() + 3.0,
+                    animatable.getBlockPos().getY() + 2.5,
                     animatable.getBlockPos().getZ() + 1.5
 
             );
