@@ -459,6 +459,15 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
                     }
                 }
+
+                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE) {
+                    ItemStack storedItem = flagBE.getTheItem();
+
+                    if (!storedItem.isEmpty()) {
+                        this.spawnFromCheckpointFlag(world, respawnPos, storedItem, entity, true, false);
+                        this.playSounds(world, respawnPos, storedItem);
+                    }
+                }
             }
 
             if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())
