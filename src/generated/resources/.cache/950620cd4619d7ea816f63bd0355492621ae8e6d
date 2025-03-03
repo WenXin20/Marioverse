@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-27T19:48:40.0886437	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-03T09:21:35.5877949	Tags for minecraft:entity_type mod id marioverse
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
@@ -17,6 +17,7 @@ d23a92e536b60de5c7c73b6061973a2d76ab3bf0 data/marioverse/tags/entity_type/can_pi
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_smash_blocks.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_stomp_enemies.json
 7dd0275f20a44994a64b94303c24167101dd39ab data/marioverse/tags/entity_type/can_wear_costumes.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/checkpoint_flag_cannot_spawn.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/damage_cannot_shrink.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/decorated_pot_cannot_spawn.json
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/fireball_can_instakill.json

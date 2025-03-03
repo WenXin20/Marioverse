@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
@@ -60,12 +61,14 @@ public class BlockLootTableGen extends LootTableProvider {
                         && !(block instanceof WaterSpoutBlock)) {
                     if (isBlockInVariants(block))
                         this.genBlockVariants();
+                    else if (block instanceof CheckpointFlagBlock)
+                        this.add(block, this.createStorageBlockDrop(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof StarCoinBlock)
-                        this.add(block, this.createCoinTable(block));
+                        this.add(block, this.createCoinDrop(block));
                     else if (block instanceof WarpPipeBlock)
-                        this.add(block, this.createNameableWarpPipeBETable(block));
+                        this.add(block, this.createNameableWarpPipeBEDrop(block));
                     else this.dropSelf(block);
                 }
             });
@@ -93,7 +96,7 @@ public class BlockLootTableGen extends LootTableProvider {
             });
         }
 
-        protected LootTable.Builder createNameableWarpPipeBETable(Block block) {
+        protected LootTable.Builder createNameableWarpPipeBEDrop(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(LootItem.lootTableItem(block)
@@ -103,7 +106,19 @@ public class BlockLootTableGen extends LootTableProvider {
             );
         }
 
-        protected LootTable.Builder createCoinTable(Block block) {
+        protected LootTable.Builder createStorageBlockDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                        LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                .add(LootItem.lootTableItem(block)
+                                        .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                                        .include(DataComponents.CUSTOM_NAME)
+                                                        .include(DataComponents.CONTAINER)
+                                                        .include(DataComponents.LOCK)
+                                                        .include(DataComponents.CONTAINER_LOOT))))
+            );
+        }
+
+        protected LootTable.Builder createCoinDrop(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(LootItem.lootTableItem(block)
