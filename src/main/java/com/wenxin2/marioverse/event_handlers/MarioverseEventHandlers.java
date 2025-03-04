@@ -272,7 +272,7 @@ public class MarioverseEventHandlers {
                     if (world instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
                                 respawnPos.getX() + 0.5, respawnPos.getY() + 0.5, respawnPos.getZ() + 0.5,
-                                10, 0.4, 0.4, 0.4, 0.6);
+                                10, 0.4, 0.5, 0.4, 0.6);
                 }
 
                 if (state.getBlock() instanceof CheckpointFlagBlock flagBlock

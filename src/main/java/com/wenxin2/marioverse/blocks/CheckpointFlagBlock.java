@@ -598,7 +598,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     if (world instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
                                 newRespawnPos.getX() + 0.5, newRespawnPos.getY() + 0.5, newRespawnPos.getZ() + 0.5,
-                                10, 0.4, 0.4, 0.4, 0.6);
+                                10, 0.4, 0.5, 0.4, 0.6);
                 }
             }
         }
