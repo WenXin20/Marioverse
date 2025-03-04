@@ -21,6 +21,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.FIREBALL)
                 .add(DamageTypeRegistry.PLAYER_FIREBALL);
 
+        tag(TagRegistry.IS_BONKED)
+                .add(DamageTypeRegistry.BONKED)
+                .add(DamageTypeRegistry.PLAYER_BONKED);
+
         tag(TagRegistry.IS_FIREBALL)
                 .add(DamageTypeRegistry.FIREBALL)
                 .add(DamageTypeRegistry.PLAYER_FIREBALL);
@@ -28,6 +32,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
         tag(TagRegistry.IS_PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PLAYER_PIRANHA_CHOMP);
+
+        tag(TagRegistry.IS_SHRAPNEL)
+                .add(DamageTypeRegistry.SHRAPNEL)
+                .add(DamageTypeRegistry.PLAYER_SHRAPNEL);
 
         tag(TagRegistry.IS_SUPER_STAR)
                 .add(DamageTypeRegistry.SUPER_STAR)

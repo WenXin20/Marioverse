@@ -1,6 +1,8 @@
-// 1.21.1	2025-02-16T15:48:32.7985169	Tags for minecraft:damage_type mod id marioverse
+// 1.21.1	2025-03-04T12:24:09.8294052	Tags for minecraft:damage_type mod id marioverse
+d17fa6576e98e83edf16933949729bce0a820987 data/marioverse/tags/damage_type/is_bonked.json
 a8e6821f58c53ed94b2eb3995415501e2111f35d data/marioverse/tags/damage_type/is_fireball.json
 596bb1ac996a2b30ecbebc669c541cb02dfcc3c0 data/marioverse/tags/damage_type/is_piranha_chomp.json
+ce9c860ae5eb372d2f0ff25cf6db665ebd70f01b data/marioverse/tags/damage_type/is_shrapnel.json
 57cc73e219d6d846a77b7d763520b0b5d40b9df0 data/marioverse/tags/damage_type/is_super_star.json
 7d9431e9715dd54613ee4c8e9110ef996404b53b data/marioverse/tags/damage_type/shield_blocks.json
 a8e6821f58c53ed94b2eb3995415501e2111f35d data/minecraft/tags/damage_type/is_fire.json

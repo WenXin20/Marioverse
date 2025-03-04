@@ -42,8 +42,10 @@ public class TagRegistry {
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
+    public static final TagKey<DamageType> IS_BONKED = damageTypeTags("is_bonked");
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
     public static final TagKey<DamageType> IS_PIRANHA_CHOMP = damageTypeTags("is_piranha_chomp");
+    public static final TagKey<DamageType> IS_SHRAPNEL = damageTypeTags("is_shrapnel");
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
 

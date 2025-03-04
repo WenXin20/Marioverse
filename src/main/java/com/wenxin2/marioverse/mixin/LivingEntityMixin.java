@@ -528,7 +528,7 @@ public abstract class LivingEntityMixin extends Entity {
             ItemStack storedItem = questionBlockEntity.getTheItem();
 
             if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                marioverse$hitEntityAbove(pos, world);
+                marioverse$hitEntityAbove(pos, world, entity);
             }
 
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
@@ -563,7 +563,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     private void marioverse$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
 
-        marioverse$hitEntityAbove(pos, world);
+        marioverse$hitEntityAbove(pos, world, entity);
 
         if (entity.getPersistentData().getBoolean("marioverse:has_mushroom")) {
             if (state.getBlock() instanceof SlabBlock) {
@@ -588,16 +588,17 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Unique
-    private static void marioverse$hitEntityAbove(BlockPos pos, Level world) {
+    private static void marioverse$hitEntityAbove(BlockPos pos, Level world, LivingEntity attackingEntity) {
         AABB boundingBox = new AABB(pos.above()).inflate(0.01);
         List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
 
         if (!entitiesAbove.isEmpty()) {
             for (Entity entityAbove : entitiesAbove) {
                 if (entityAbove instanceof LivingEntity livingEntity && livingEntity.onGround()) {
-                    // TODO: Add custom damage source
                     entityAbove.setDeltaMovement(entityAbove.getDeltaMovement().add(0, 0.5, 0));
-                    livingEntity.hurt(world.damageSources().generic(), 4.0F);
+                    if (world.getBlockState(pos).getBlock() instanceof QuestionBlock)
+                        livingEntity.hurt(DamageTypeRegistry.bonked(livingEntity, attackingEntity), 4.0F);
+                    else livingEntity.hurt(DamageTypeRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
                 }
             }
         }
