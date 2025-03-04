@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BaseCostumeItem;
@@ -22,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -261,10 +263,16 @@ public class MarioverseEventHandlers {
                 Level world = player.level();
                 BlockState state = world.getBlockState(respawnPos);
 
-                if (state.getBlock() instanceof CheckpointFlagBlock
-                        && ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
-                    player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
-                    player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
+                if (state.getBlock() instanceof CheckpointFlagBlock) {
+                    if (ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
+                        player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
+                        player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
+                    }
+
+                    if (world instanceof ServerLevel serverWorld)
+                        serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
+                                respawnPos.getX() + 0.5, respawnPos.getY() + 0.5, respawnPos.getZ() + 0.5,
+                                10, 0.4, 0.4, 0.4, 0.6);
                 }
 
                 if (state.getBlock() instanceof CheckpointFlagBlock flagBlock

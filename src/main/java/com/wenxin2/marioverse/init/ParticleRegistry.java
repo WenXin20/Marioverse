@@ -10,6 +10,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> EXCELLENT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FANTASTIC;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FIRE_POWERED_UP;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GLOWING_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GOOD;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GREAT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INCREDIBLE;
@@ -45,6 +46,7 @@ public class ParticleRegistry {
         EXCELLENT = Marioverse.PARTICLES.register("excellent", () -> new SimpleParticleType(false));
         FANTASTIC = Marioverse.PARTICLES.register("fantastic", () -> new SimpleParticleType(false));
         FIRE_POWERED_UP = Marioverse.PARTICLES.register("fire_powered_up", () -> new SimpleParticleType(false));
+        GLOWING_STAR = Marioverse.PARTICLES.register("glowing_star", () -> new SimpleParticleType(true));
         GOOD = Marioverse.PARTICLES.register("good", () -> new SimpleParticleType(false));
         GREAT = Marioverse.PARTICLES.register("great", () -> new SimpleParticleType(false));
         INCREDIBLE = Marioverse.PARTICLES.register("incredible", () -> new SimpleParticleType(false));

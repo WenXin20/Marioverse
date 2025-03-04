@@ -531,8 +531,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     checkpointFlagBE.markUpdated();
 
                     if (!(entity instanceof Player)) {
-                        entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint TODO: add glowing star particle
-                    } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                        entity.level().broadcastEntityEvent(entity, (byte) 112);
+                    } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
 
                     if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
                         checkpointFlagBE.triggerAnim("switch_controller", "switch");
@@ -591,14 +591,14 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
 
                     world.playSound(null, newRespawnPos, SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS); // TODO
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
                     player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
                     player.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", 40);
 
-                    if (world instanceof  ServerLevel serverWorld)
-                        serverWorld.sendParticles(ParticleRegistry.COIN_GLINT.get(),
+                    if (world instanceof ServerLevel serverWorld)
+                        serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
                                 newRespawnPos.getX() + 0.5, newRespawnPos.getY() + 0.5, newRespawnPos.getZ() + 0.5,
-                                10, 0.4, 0.4, 0.4, 0.2);
+                                10, 0.4, 0.4, 0.4, 0.6);
                 }
             }
         }
