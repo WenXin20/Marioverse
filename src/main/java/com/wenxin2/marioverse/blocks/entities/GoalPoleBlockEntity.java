@@ -137,15 +137,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
-            this.markUpdated();
-            this.markUpdatedClients();
             PacketHandler.sendToAllClients(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
             PacketHandler.sendToAllClients(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
-//            if (this.isWonderFlag()) {
-//                this.setWonderFlag(true);
-//            } else if (this.isAmericanFlag()) {
-//                this.setAmericanFlag(true);
-//            }
         }
     }
 
@@ -166,10 +159,21 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    @Override
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        this.name = input.get(DataComponents.CUSTOM_NAME);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CUSTOM_NAME, this.name);
+    }
+
     public void setCustomName(Component name) {
         this.name = name;
         this.markUpdated();
-        this.getUpdatePacket();
     }
 
     @NotNull
@@ -192,18 +196,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     public  Component getName() {
         return this.name != null ? this.name : DEFAULT_NAME;
-    }
-
-    @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
-        super.applyImplicitComponents(input);
-        this.name = input.get(DataComponents.CUSTOM_NAME);
-    }
-
-    @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
-        super.collectImplicitComponents(builder);
-        builder.set(DataComponents.CUSTOM_NAME, this.name);
     }
 
     @Override
@@ -284,9 +276,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     public void setWonderFlag(boolean hasWonderFlag) {
         this.renderWonderFlag = hasWonderFlag;
-        this.markUpdated();
-        if (this.level != null)
-            this.getUpdatePacket();
     }
 
     public boolean hasWonderFlag() {
@@ -295,9 +284,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     public void setAmericanFlag(boolean hasAmericanFlag) {
         this.renderAmericanFlag = hasAmericanFlag;
-        this.markUpdated();
-        if (this.level != null)
-            this.getUpdatePacket();
     }
 
     public boolean hasAmericanFlag() {

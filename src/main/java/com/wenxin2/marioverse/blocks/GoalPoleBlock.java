@@ -158,10 +158,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
         if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
-            if (stack.has(DataComponents.CUSTOM_NAME) && goalPoleBE.getCustomName() != null) {
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
                 goalPoleBE.setCustomName(stack.getHoverName());
                 goalPoleBE.markUpdated();
-                goalPoleBE.markUpdatedClients();
+
                 if (goalPoleBE.isWonderFlag()) {
                     goalPoleBE.setWonderFlag(Boolean.TRUE);
                     PacketHandler.sendToAllClients(new WonderNamePayload(pos, goalPoleBE.hasWonderFlag()));
