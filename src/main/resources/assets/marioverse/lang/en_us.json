@@ -420,8 +420,8 @@
   "accessories.slot.costume_pants": "Costume Pants",
   "accessories.slot.costume_shoes": "Costume Shoes",
 
-  "death.attack.marioverse.bonked": "%1$s took a hit from below",
-  "death.attack.marioverse.bonked.player": "%1$s took a hit from below by %2$s",
+  "death.attack.marioverse.bonked": "%1$s took a deadly hit from below",
+  "death.attack.marioverse.bonked.player": "%2$s caused %1$s to take a deadly hit from below",
   "death.attack.marioverse.fireball": "%1$s was fireballed",
   "death.attack.marioverse.fireball.item": "%1$s was fireballed by %2$s using %3$s",
   "death.attack.marioverse.fireball.player": "%1$s was fireballed whilst fighting %2$s",
