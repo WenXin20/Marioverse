@@ -14,6 +14,7 @@ SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHECKPOINT_FLAG_CLAIMED;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
@@ -79,6 +80,9 @@ SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash")));
         BLOCK_SMASH_FAIL = Marioverse.SOUNDS.register("block.block_smash_fail",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash_fail")));
+
+        CHECKPOINT_FLAG_CLAIMED = Marioverse.SOUNDS.register("block.checkpoint_flag_claimed",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.checkpoint_flag_claimed")));
 
         STAR_COIN_PICKUP = Marioverse.SOUNDS.register("block.star_coin_pickup",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.star_coin_pickup")));

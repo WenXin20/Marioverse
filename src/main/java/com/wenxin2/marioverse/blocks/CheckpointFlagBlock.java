@@ -590,7 +590,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.scheduleTick(newRespawnPos, this, 40);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
 
-                    world.playSound(null, newRespawnPos, SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS); // TODO
+                    world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
                     ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
                     player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
                     player.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", 40);

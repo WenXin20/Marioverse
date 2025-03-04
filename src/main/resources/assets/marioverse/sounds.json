@@ -24,6 +24,9 @@
   "block.block_smash_fail": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash_fail", "stream": false }],
     "subtitle": "subtitles.marioverse.block.block_smash_fail" },
 
+  "block.checkpoint_flag_claimed": { "category": "block", "sounds": [{ "name": "marioverse:block/checkpoint_flag_claimed", "stream": false, "pitch": 1.0, "volume": 1.0 }],
+    "subtitle": "subtitles.marioverse.block.checkpoint_flag_claimed" },
+
   "block.star_coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/star_coin_pickup", "stream": false, "pitch": 1.0, "volume": 1.0 }],
     "subtitle": "subtitles.marioverse.block.star_coin_pickup" },
 
