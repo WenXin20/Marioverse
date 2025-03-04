@@ -122,8 +122,8 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
-            this.markUpdated();
-            this.markUpdatedClients();
+//            this.markUpdated();
+//            this.markUpdatedClients();
             PacketHandler.sendToAllClients(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
             PacketHandler.sendToAllClients(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
         }
@@ -181,7 +181,7 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
     public void setCustomName(Component name) {
         this.name = name;
         this.markUpdated();
-        this.getUpdatePacket();
+//        this.getUpdatePacket();
     }
 
     @NotNull
@@ -285,9 +285,8 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
 
     public void setWonderFlag(boolean hasWonderFlag) {
         this.renderWonderFlag = hasWonderFlag;
-        this.markUpdated();
-        if (this.level != null)
-            this.getUpdatePacket();
+//        if (this.level != null)
+//            this.getUpdatePacket();
     }
 
     public boolean hasWonderFlag() {
@@ -296,9 +295,8 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
 
     public void setAmericanFlag(boolean hasAmericanFlag) {
         this.renderAmericanFlag = hasAmericanFlag;
-        this.markUpdated();
-        if (this.level != null)
-            this.getUpdatePacket();
+//        if (this.level != null)
+//            this.getUpdatePacket();
     }
 
     public boolean hasAmericanFlag() {
