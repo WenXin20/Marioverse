@@ -544,15 +544,25 @@ public abstract class LivingEntityMixin extends Entity {
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getTheItem();
 
-//            if (questionBlockEntity.getLootTable() != null)
-//                questionBlock.unpackLootTable(this, questionBlockEntity);
+            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                AABB boundingBox = new AABB(pos.above()).inflate(0.5);
+                List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
+
+                if (!entitiesAbove.isEmpty()) {
+                    for (Entity entityAbove : entitiesAbove) {
+                        if (entityAbove instanceof LivingEntity livingEntity) {
+                            // TODO: Add custom damage source
+                            livingEntity.hurt(world.damageSources().generic(), 4.0F);
+                        }
+                    }
+                }
+            }
 
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
                 this.marioverse$dropCoin(world, pos, this);
 
                 if (!world.isClientSide)
                     questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
-
 
                 if (world.getBlockState(pos).is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
                     PiglinAi.angerNearbyPiglins(player, false);
@@ -573,20 +583,6 @@ public abstract class LivingEntityMixin extends Entity {
                 BlockState currentState = world.getBlockState(pos);
                 world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
                 world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
-            }
-
-            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                AABB boundingBox = new AABB(pos.above()).inflate(0.5);
-                List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
-
-                if (!entitiesAbove.isEmpty()) {
-                    for (Entity entityAbove : entitiesAbove) {
-                        if (entityAbove instanceof LivingEntity livingEntity) {
-                            // TODO: Add custom damage source
-                            livingEntity.hurt(world.damageSources().generic(), 4.0F);
-                        }
-                    }
-                }
             }
         }
     }
