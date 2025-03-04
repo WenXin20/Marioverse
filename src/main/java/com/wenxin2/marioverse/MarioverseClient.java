@@ -114,7 +114,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), SuspendedTownParticle.HappyVillagerProvider::new);
+        event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.EXCELLENT.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FIRE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);

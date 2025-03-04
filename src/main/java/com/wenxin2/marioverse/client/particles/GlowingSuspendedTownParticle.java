@@ -76,4 +76,23 @@ public class GlowingSuspendedTownParticle extends GlowParticle {
             return particle;
         }
     }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class CoinGlintProvider extends GlowParticle.WaxOffProvider {
+        private final SpriteSet sprite;
+        public CoinGlintProvider(SpriteSet spriteSet) {
+            super(spriteSet);
+            this.sprite = spriteSet;
+        }
+
+        @Override
+        public Particle createParticle(SimpleParticleType type, ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Particle particle = new GlowingSuspendedTownParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.sprite);
+
+            particle.setColor(1.0F, 1.0F, 1.0F);
+            particle.setLifetime(world.random.nextInt(30) + 10);
+            particle.setParticleSpeed(xSpeed * 0.01 / 2.0, ySpeed * 0.01, zSpeed * 0.01 / 2.0);
+            return particle;
+        }
+    }
 }
