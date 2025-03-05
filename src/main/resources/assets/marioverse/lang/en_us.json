@@ -5,12 +5,16 @@
   "attribute.marioverse.generic.height_scale": "Height Scale",
   "attribute.marioverse.generic.width_scale": "Width Scale",
 
-  "block.marioverse.warp_door": " Warp Door",
-
   "menu.marioverse.checkpoint_flag": "Checkpoint Flag",
   "menu.marioverse.goal_pole": "Goal Pole",
   "menu.marioverse.warp_pipe": "Warp Pipe",
   "menu.marioverse.question_block": "Question Block",
+
+  "container.marioverse.checkpoint_flag.itemCount": "%s x%s",
+  "container.marioverse.checkpoint_flag.more": "and %s more...",
+  "container.marioverse.checkpoint_flag.unknownContents": "???????",
+
+  "block.marioverse.warp_door": " Warp Door",
 
   "block.marioverse.coin": "Coin",
   "block.marioverse.star_coin": "Star Coin",

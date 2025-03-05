@@ -135,7 +135,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static final BooleanProperty CLAIMED = BooleanProperty.create("claimed");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final Component UNKNOWN_CONTENTS = Component.translatable("marioverse.container.checkpoint_flag.unknownContents");
+    private static final Component UNKNOWN_CONTENTS = Component.translatable("container.marioverse.checkpoint_flag.unknownContents");
     public static final ResourceLocation CONTENTS = ResourceLocation.withDefaultNamespace("contents");
     public static final int MAX = RotationSegment.getMaxSegmentIndex();
     private static final int ROTATIONS = MAX + 1;
@@ -631,12 +631,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             j++;
             if (i <= 4) {
                 i++;
-                list.add(Component.translatable("marioverse.container.checkpoint_flag.itemCount", itemstack.getHoverName(), itemstack.getCount()));
+                list.add(Component.translatable("container.marioverse.checkpoint_flag.itemCount", itemstack.getHoverName(), itemstack.getCount()));
             }
         }
 
         if (j - i > 0) {
-            list.add(Component.translatable("marioverse.container.checkpoint_flag.more", j - i).withStyle(ChatFormatting.ITALIC));
+            list.add(Component.translatable("container.marioverse.checkpoint_flag.more", j - i).withStyle(ChatFormatting.ITALIC));
         }
     }
 
