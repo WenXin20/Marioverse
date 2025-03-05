@@ -241,8 +241,8 @@ public abstract class PlayerMixin extends Entity {
                 if (this.marioverse$getWarpCooldown() == 0) {
                     this.marioverse$warp(pos, state, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
-                } /* else if (this.getWarpCooldown() <= 10)
-                displayDestinationMissingMessage(); */
+                } /* else if (this.marioverse$getWarpCooldown() <= 10 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getWarpUuid()) == null && !warpBE.hasDestinationPos())
+                    marioverse$displayDestinationMissingMessage();*/
                 else if (warpBE.hasDestinationPos())
                     this.marioverse$displayCooldownMessage(state);
             }

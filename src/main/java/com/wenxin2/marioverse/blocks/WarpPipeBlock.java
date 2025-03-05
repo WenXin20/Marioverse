@@ -282,6 +282,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 pipeBlockEntity.setPipeName(stack.getHoverName());
                 pipeBlockEntity.setChanged();
             }
+            pipeBlockEntity.onLoad();
         }
     }
 
@@ -393,6 +394,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             UUID uuid = UUID.randomUUID();
             pipeBlockEntity.setUuid(uuid);
             pipeBlockEntity.setChanged();
+            BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
         }
 
         if (state.getValue(WATER_SPOUT) && state.getValue(FACING) == Direction.UP && pipeBlockEntity != null

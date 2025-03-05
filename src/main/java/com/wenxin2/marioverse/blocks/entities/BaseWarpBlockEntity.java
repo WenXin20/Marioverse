@@ -114,6 +114,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public void setWarpUuid(UUID uuid) {
         this.warpUuid = uuid;
         this.setChanged();
+        this.onLoad();
     }
 
     public void markUpdated() {
