@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -12,6 +13,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +25,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -350,8 +353,14 @@ public class QuestionBlock extends BaseEntityBlock {
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
                     && entityHitBlock instanceof Player player) {
                 boolean itemAdded = player.addItem(stack.copyWithCount(1));
+
+                if (blockItem.getBlock() instanceof StarCoinBlock)
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(4, 6));
+                else ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(2, 3));
+
                 if (!itemAdded)
                     player.drop(stack.copyWithCount(1), false);
+
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new Vec3(0, -0.5, 0));

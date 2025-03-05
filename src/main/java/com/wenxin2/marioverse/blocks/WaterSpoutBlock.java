@@ -148,10 +148,8 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
 
     public void addParticles(Level world, ParticleOptions particleOptions, double xPos, double yPos, double zPos,
                              int amt, double xMotion, double yMotion, double zMotion, double speed) {
-        if (!world.isClientSide) {
-            ServerLevel serverWorld = (ServerLevel)world;
+        if (world instanceof ServerLevel serverWorld)
             serverWorld.sendParticles(particleOptions, xPos, yPos, zPos, amt, xMotion, yMotion, zMotion, speed);
-        }
     }
 
     public void addAlwaysVisibleParticles(Level world, ParticleOptions particleOptions, double xPos, double yPos, double zPos,

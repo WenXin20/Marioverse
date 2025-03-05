@@ -18,10 +18,12 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.function.Supplier;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -277,8 +279,8 @@ public abstract class LivingEntityMixin extends Entity {
                 livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
                 this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
-                this.level().broadcastEntityEvent(this, (byte) 115); // 1-Up Pop Up
-                this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Particle
+                this.level().broadcastEntityEvent(livingEntity, (byte) 115); // 1-Up Pop Up
+                this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Particle
 
                 if (livingEntity instanceof ServerPlayer serverplayer) {
                     serverplayer.awardStat(Stats.ITEM_USED.get(ItemRegistry.ONE_UP_MUSHROOM.get()), 1);
@@ -355,7 +357,19 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         RandomSource random = entity.getRandom();
 
-        if (id == 112) {
+        if (id == 109) {
+            ParticleUtils.spawnParticlesOnBlockFaces(entity.level(),
+                    BlockPos.containing(entity.getX() + 0.5D, entity.getY() + entity.getBbHeight(), entity.getZ() + 0.5D),
+                    ParticleRegistry.COIN_GLINT.get(), UniformInt.of(2, 3));
+        } else if (id == 110) {
+            ParticleUtils.spawnParticlesOnBlockFaces(entity.level(),
+                    BlockPos.containing(entity.getX() + 0.5D, entity.getY() + entity.getBbHeight(), entity.getZ() + 0.5D),
+                    ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+        } else if (id == 111) {
+            this.level().addParticle(ParticleTypes.CRIT,
+                    entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ(),
+                    0.0, 1.0, 0.0);
+        } else if (id == 112) {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
         } else if (id == 113) {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
@@ -539,6 +553,10 @@ public abstract class LivingEntityMixin extends Entity {
 
                 if (world.getBlockState(pos).is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
                     PiglinAi.angerNearbyPiglins(player, false);
+
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnParticlesOnBlockFace(serverWorld, pos, Direction.DOWN, ParticleTypes.CRIT,
+                            UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
                 questionBlock.playSounds(world, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);

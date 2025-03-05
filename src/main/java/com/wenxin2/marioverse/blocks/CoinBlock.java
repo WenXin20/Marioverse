@@ -4,12 +4,13 @@ import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -95,9 +96,8 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
         boolean itemAdded = false;
 
         if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS)) {
-            if (!(entity instanceof Player))
-                entity.level().broadcastEntityEvent(entity, (byte) 113); // Coin Glint
-            else ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
 
             world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
             world.removeBlock(pos, false);
