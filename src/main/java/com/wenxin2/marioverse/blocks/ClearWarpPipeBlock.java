@@ -471,7 +471,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         double entityZ = entity.getZ();
 
         Collection<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
-        for (ServerPlayer player : players) {
+        for (ServerPlayer player : players) { // TODO
             for (int i = 0; i < 2; i++) {
                 player.connection.send(new ClientboundLevelParticlesPacket(
                         ParticleTypes.EFFECT, false,

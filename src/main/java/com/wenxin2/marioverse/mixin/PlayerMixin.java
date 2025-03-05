@@ -164,8 +164,8 @@ public abstract class PlayerMixin extends Entity {
             if (state.getBlock() instanceof WarpPipeBlock)
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
         } else if (warpBE.getUuid() != null && warpBE.getWarpUuid() != null
-                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid(), world, pos) != null) {
-            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid(), world, pos);
+                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid()) != null) {
+            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid());
             BlockState warpState = world.getBlockState(warpPos);
 
             this.marioverse$updateDoor(pos, state, warpPos, warpState);

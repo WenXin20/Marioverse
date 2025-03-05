@@ -48,11 +48,6 @@ public class NearestAttackableTagGoal extends TargetGoal {
     }
 
     protected void findTarget() {
-//        if (this.target != null && this.target.isAlive()
-//                && this.mob.distanceToSqr(this.target) < this.getFollowDistance() * this.getFollowDistance()) {
-//            return;
-//        }
-
         if (this.target == null || !this.target.isAlive()) {
             List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
                     LivingEntity.class,

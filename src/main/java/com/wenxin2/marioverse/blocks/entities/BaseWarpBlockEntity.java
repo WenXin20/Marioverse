@@ -35,6 +35,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public boolean isWaxed;
     public UUID uuid;
     public UUID warpUuid;
+    public static final Map<UUID, BlockPos> WARP_LOCATIONS = new HashMap<>();
 
     public BaseWarpBlockEntity(final BlockEntityType<?> tileEntity, BlockPos pos, BlockState state) {
         super(tileEntity, pos, state);
@@ -163,6 +164,18 @@ public class BaseWarpBlockEntity extends BlockEntity {
             tag.putUUID(WARP_UUID, this.getWarpUuid());
     }
 
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        WARP_LOCATIONS.remove(this.getWarpUuid());
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        WARP_LOCATIONS.put(this.getWarpUuid(), this.getBlockPos());
+    }
+
     @NotNull
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
@@ -198,34 +211,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
         }
     }
 
-    public static BlockPos findMatchingUUID(UUID uuid, Level world, BlockPos pos) {
-        BlockPos closestPos = null;
-        double closestDistanceSq = Double.MAX_VALUE;
-        int maxDistance = 64; // How far it searches for warp pipes with a matching UUID
-
-        for (int x = -maxDistance; x <= maxDistance; x++) {
-            for (int y = Math.max(-maxDistance, world.getMinBuildHeight() - pos.getY()); y <= Math.min(maxDistance, world.getMaxBuildHeight() - pos.getY()); y++) {
-                for (int z = -maxDistance; z <= maxDistance; z++) {
-                    BlockPos checkingPos = pos.offset(x, y, z);
-
-                    if (world.getBlockEntity(checkingPos) instanceof BaseWarpBlockEntity) {
-                        BlockEntity blockEntity = world.getBlockEntity(checkingPos);
-
-                        if (blockEntity instanceof BaseWarpBlockEntity warpBlockEntity) {
-                            UUID warpUUID = warpBlockEntity.getWarpUuid();
-
-                            if (uuid.equals(warpUUID)) {
-                                double distanceSq = pos.distToCenterSqr(checkingPos.getX(), checkingPos.getY(), checkingPos.getZ());
-                                if (distanceSq < closestDistanceSq) {
-                                    closestPos = checkingPos.immutable();
-                                    closestDistanceSq = distanceSq;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return closestPos;
+    public static BlockPos findMatchingUUID(UUID uuid) {
+        return WARP_LOCATIONS.getOrDefault(uuid, null);
     }
 }

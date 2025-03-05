@@ -23,7 +23,6 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
-import java.util.function.Supplier;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -891,8 +890,8 @@ public abstract class LivingEntityMixin extends Entity {
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
         } else if (warpBE.getUuid() != null && warpBE.getWarpUuid() != null
-                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid(), world, pos) != null) {
-            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid(), world, pos);
+                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid()) != null) {
+            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid());
             BlockState warpState = world.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
