@@ -6,8 +6,10 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -27,25 +29,33 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 public abstract class BaseSpawnerExtended extends BaseSpawner {
+    public static final String SPAWN_DATA_TAG = "SpawnData";
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final int EVENT_SPAWN = 1;
-    private int spawnDelay = 20;
     private SimpleWeightedRandomList<SpawnData> spawnPotentials = SimpleWeightedRandomList.empty();
-    @Nullable private SpawnData nextSpawnData;
-    private double spin;
-    private double oSpin;
-    private int minSpawnDelay = 200;
-    private int maxSpawnDelay = 800;
-    private int spawnCount = 4;
     @Nullable private Entity displayEntity;
-    private int maxNearbyEntities = 6;
+    @Nullable private SpawnData nextSpawnData;
+    private double oSpin;
+    private double spin;
+    private int maxNearbyEntities = 1;
+    private int maxSpawnDelay = 200;
+    private int minSpawnDelay = 300;
     private int requiredPlayerRange = 16;
+    private int spawnCount = 1;
+    private int spawnDelay = 20;
     private int spawnRange = 1;
+
+    public void setEntityId(EntityType<?> entityType, @Nullable Level world, RandomSource random, BlockPos pos) {
+        this.getOrCreateNextSpawnData(world, random, pos)
+                .getEntityToSpawn()
+                .putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).toString());
+    }
 
     private boolean isNearPlayer(Level world, BlockPos pos) {
         boolean within16Blocks = world.hasNearbyAlivePlayer(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, this.requiredPlayerRange);
@@ -81,11 +91,11 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                 SpawnData spawnData = this.getOrCreateNextSpawnData(serverWorld, random, pos);
                 BlockState state = serverWorld.getBlockState(pos);
                 boolean hasFacing = state.hasProperty(BlockStateProperties.FACING);
-                Direction facing = state.getOptionalValue(BlockStateProperties.FACING).orElse(Direction.UP); // Default to UP if missing
+                Direction facing = state.getOptionalValue(BlockStateProperties.FACING).orElse(Direction.UP);
 
                 for (int i = 0; i < this.spawnCount; i++) {
-                    CompoundTag entityTag = spawnData.getEntityToSpawn();
-                    Optional<EntityType<?>> entityTypeOpt = EntityType.by(entityTag);
+                    CompoundTag tag = spawnData.getEntityToSpawn();
+                    Optional<EntityType<?>> entityTypeOpt = EntityType.by(tag);
                     if (entityTypeOpt.isEmpty()) {
                         this.delay(serverWorld, pos);
                         return;
@@ -94,37 +104,69 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                     EntityType<?> entityType = entityTypeOpt.get();
 
                     // Check if the same entity type is already within 1 block
-                    int nearbyEntities = serverWorld.getEntities(
-                            EntityTypeTest.forExactClass(entityType.getBaseClass()),
-                            new AABB(pos).inflate(1), // 1 block radius
-                            EntitySelector.NO_SPECTATORS
-                    ).size();
+                    int nearbyEntities = serverWorld.getEntities(entityType,
+                            new AABB(pos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
                     if (nearbyEntities >= this.maxNearbyEntities) {
                         this.delay(serverWorld, pos);
                         return;
                     }
 
+                    ListTag listtag = tag.getList("Pos", 6);
+                    int j = listtag.size();
+                    double x = j >= 1 ? listtag.getDouble(0)
+                            : (double)pos.getX() + (random.nextDouble() - random.nextDouble()) * (double)this.spawnRange + 0.5;
+                    double y = j >= 2 ? listtag.getDouble(1) : (double)(pos.getY() + random.nextInt(3) - 1);
+                    double z = j >= 3 ? listtag.getDouble(2)
+                            : (double)pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double)this.spawnRange + 0.5;
+
                     BlockPos spawnPos;
                     if (hasFacing) {
-                        // Spawn only on the designated block face
                         spawnPos = pos.relative(facing);
-                    } else {
-                        // Default spawner behavior: spawn in a random nearby spot
-                        spawnPos = pos.offset(
-                                random.nextInt(3) - 1,
-                                random.nextInt(3) - 1,
-                                random.nextInt(3) - 1
-                        );
-                    }
+                        double entityWidth = entityType.getWidth() / 2.0;
+                        double entityHeight = entityType.getHeight();
 
-                    double x = spawnPos.getX() + 0.5;
-                    double y = spawnPos.getY() + 0.5;
-                    double z = spawnPos.getZ() + 0.5;
+                        switch (facing) {
+                            case UP:
+                                x = spawnPos.getX() + 0.5;
+                                y = spawnPos.getY() + 0.1; // Slightly above the block
+                                z = spawnPos.getZ() + 0.5;
+                                break;
+                            case DOWN:
+                                x = spawnPos.getX() + 0.5;
+                                y = spawnPos.getY() - entityHeight - 0.1; // Below the block
+                                z = spawnPos.getZ() + 0.5;
+                                break;
+                            case NORTH:
+                                x = spawnPos.getX() + 0.5;
+                                y = spawnPos.getY();
+                                z = spawnPos.getZ() - entityWidth - 0.1; // Slightly in front
+                                break;
+                            case SOUTH:
+                                x = spawnPos.getX() + 0.5;
+                                y = spawnPos.getY();
+                                z = spawnPos.getZ() + entityWidth + 0.1;
+                                break;
+                            case WEST:
+                                x = spawnPos.getX() - entityWidth - 0.1;
+                                y = spawnPos.getY();
+                                z = spawnPos.getZ() + 0.5;
+                                break;
+                            case EAST:
+                                x = spawnPos.getX() + entityWidth + 0.1;
+                                y = spawnPos.getY();
+                                z = spawnPos.getZ() + 0.5;
+                                break;
+                        }
+                    }
+                    else spawnPos = BlockPos.containing(x, y, z);
 
                     if (serverWorld.noCollision(entityType.getSpawnAABB(x, y, z))) {
-                        Entity entity = EntityType.loadEntityRecursive(entityTag, serverWorld, e -> {
-                            e.moveTo(x, y, z, e.getYRot(), e.getXRot());
+                        double finalX = x;
+                        double finalY = y;
+                        double finalZ = z;
+                        Entity entity = EntityType.loadEntityRecursive(tag, serverWorld, e -> {
+                            e.moveTo(finalX, finalY, finalZ, e.getYRot(), e.getXRot());
                             return e;
                         });
 
@@ -153,17 +195,15 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
 
                         serverWorld.levelEvent(2004, pos, 0);
                         serverWorld.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnPos);
-                        if (entity instanceof Mob) {
-                            ((Mob) entity).spawnAnim();
-                        }
 
+                        if (entity instanceof Mob mob)
+                            mob.spawnAnim();
                         spawned = true;
                     }
                 }
 
-                if (spawned) {
+                if (spawned)
                     this.delay(serverWorld, pos);
-                }
             }
         }
     }
@@ -191,5 +231,83 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
             this.setNextSpawnData(world, pos, this.spawnPotentials.getRandom(random).map(WeightedEntry.Wrapper::data).orElseGet(SpawnData::new));
             return this.nextSpawnData;
         }
+    }
+
+    private Vec3 getOffsetForFace(Direction facing, double entityWidth, double entityHeight) {
+        double halfWidth = entityWidth / 2.0;
+
+        switch (facing) {
+            case UP:
+                return new Vec3(0.5, 1.0, 0.5);
+            case DOWN:
+                return new Vec3(0.5, -entityHeight, 0.5);
+            case NORTH:
+                return new Vec3(0.5, 0.5, -halfWidth);
+            case SOUTH:
+                return new Vec3(0.5, 0.5, 1.0 + halfWidth);
+            case WEST:
+                return new Vec3(-halfWidth, 0.5, 0.5);
+            case EAST:
+                return new Vec3(1.0 + halfWidth, 0.5, 0.5);
+            default:
+                return new Vec3(0.5, 0.5, 0.5);
+        }
+    }
+
+    public void load(@Nullable Level world, BlockPos pos, CompoundTag tag) {
+        this.spawnDelay = tag.getShort("Delay");
+        boolean hasSpawnData = tag.contains("SpawnData", 10);
+        if (hasSpawnData) {
+            SpawnData spawndata = SpawnData.CODEC
+                    .parse(NbtOps.INSTANCE, tag.getCompound("SpawnData"))
+                    .resultOrPartial(p_186391_ -> LOGGER.warn("Invalid SpawnData: {}", p_186391_))
+                    .orElseGet(SpawnData::new);
+            this.setNextSpawnData(world, pos, spawndata);
+        }
+
+        boolean hasSpawnPotentials = tag.contains("SpawnPotentials", 9);
+        if (hasSpawnPotentials) {
+            ListTag listTag = tag.getList("SpawnPotentials", 10);
+            this.spawnPotentials = SpawnData.LIST_CODEC
+                    .parse(NbtOps.INSTANCE, listTag)
+                    .resultOrPartial(p_186388_ -> LOGGER.warn("Invalid SpawnPotentials list: {}", p_186388_))
+                    .orElseGet(SimpleWeightedRandomList::empty);
+        } else this.spawnPotentials = SimpleWeightedRandomList.single(this.nextSpawnData != null
+                ? this.nextSpawnData : new SpawnData());
+
+        if (tag.contains("MinSpawnDelay", 99)) {
+            this.minSpawnDelay = tag.getShort("MinSpawnDelay");
+            this.maxSpawnDelay = tag.getShort("MaxSpawnDelay");
+            this.spawnCount = tag.getShort("SpawnCount");
+        }
+
+        if (tag.contains("MaxNearbyEntities", 99)) {
+            this.maxNearbyEntities = tag.getShort("MaxNearbyEntities");
+            this.requiredPlayerRange = tag.getShort("RequiredPlayerRange");
+        }
+
+        if (tag.contains("SpawnRange", 99))
+            this.spawnRange = tag.getShort("SpawnRange");
+
+        this.displayEntity = null;
+    }
+
+    public CompoundTag save(CompoundTag tag) {
+        tag.putShort("Delay", (short)this.spawnDelay);
+        tag.putShort("MinSpawnDelay", (short)this.minSpawnDelay);
+        tag.putShort("MaxSpawnDelay", (short)this.maxSpawnDelay);
+        tag.putShort("SpawnCount", (short)this.spawnCount);
+        tag.putShort("MaxNearbyEntities", (short)this.maxNearbyEntities);
+        tag.putShort("RequiredPlayerRange", (short)this.requiredPlayerRange);
+        tag.putShort("SpawnRange", (short)this.spawnRange);
+        if (this.nextSpawnData != null) {
+            tag.put("SpawnData", SpawnData.CODEC
+                    .encodeStart(NbtOps.INSTANCE, this.nextSpawnData)
+                    .getOrThrow(p_337966_ -> new IllegalStateException("Invalid SpawnData: " + p_337966_))
+            );
+        }
+
+        tag.put("SpawnPotentials", SpawnData.LIST_CODEC.encodeStart(NbtOps.INSTANCE, this.spawnPotentials).getOrThrow());
+        return tag;
     }
 }
