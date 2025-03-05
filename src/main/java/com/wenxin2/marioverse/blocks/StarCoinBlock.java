@@ -174,7 +174,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
         BlockPos northWestPos = pos.relative(Direction.NORTH).relative(Direction.WEST);
 
-        if (!canPlaceBlock(world, northWestPos.relative(Direction.EAST))
+        if (!canPlaceBlock(world, northWestPos)
+                ||!canPlaceBlock(world, northWestPos.relative(Direction.EAST))
                 || !canPlaceBlock(world, northWestPos.relative(Direction.SOUTH))
                 || !canPlaceBlock(world, northWestPos.relative(Direction.SOUTH).relative(Direction.EAST))
                 || !canPlaceBlock(world, northWestPos.above())
@@ -200,7 +201,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         if (entity != null) {
             BlockPos northWestPos = pos.relative(Direction.NORTH).relative(Direction.WEST);
 
-            if (canPlaceBlock(world, northWestPos.relative(Direction.EAST))
+            if (canPlaceBlock(world, northWestPos)
+                    && canPlaceBlock(world, northWestPos.relative(Direction.EAST))
                     && canPlaceBlock(world, northWestPos.relative(Direction.SOUTH))
                     && canPlaceBlock(world, northWestPos.relative(Direction.SOUTH).relative(Direction.EAST))
                     && canPlaceBlock(world, northWestPos.above())
