@@ -185,7 +185,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.FIREBALL_CAN_INSTAKILL)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
-        tag(TagRegistry.FIREBALL_IMMUNE);
+        tag(TagRegistry.FIREBALL_IMMUNE)
+                .add(EntityRegistry.FIRE_FLOWER.get());
 
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get());

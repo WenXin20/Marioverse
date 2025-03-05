@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-03T09:21:35.5877949	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-04T21:04:30.7386184	Tags for minecraft:entity_type mod id marioverse
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
@@ -21,7 +21,7 @@ d23a92e536b60de5c7c73b6061973a2d76ab3bf0 data/marioverse/tags/entity_type/can_pi
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/damage_cannot_shrink.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/decorated_pot_cannot_spawn.json
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/fireball_can_instakill.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/fireball_immune.json
+94735d55ac3c38c4b4ecad73db5d6c66d7de8dae data/marioverse/tags/entity_type/fireball_immune.json
 5c0ea3693c1e50e0546387ff7d73dcb461eaed8f data/marioverse/tags/entity_type/fire_goomba_can_attack.json
 c959718662e068d5a9673ddbab109b3434e0d089 data/marioverse/tags/entity_type/goombas.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/goomba_can_attack.json
