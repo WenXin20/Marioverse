@@ -129,18 +129,18 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                         switch (facing) {
                             case UP:
                                 x = spawnPos.getX() + 0.5;
-                                y = spawnPos.getY() + 0.1; // Slightly above the block
+                                y = spawnPos.getY() + 0.1;
                                 z = spawnPos.getZ() + 0.5;
                                 break;
                             case DOWN:
                                 x = spawnPos.getX() + 0.5;
-                                y = spawnPos.getY() - entityHeight - 0.1; // Below the block
+                                y = spawnPos.getY() + entityHeight + 0.1;
                                 z = spawnPos.getZ() + 0.5;
                                 break;
                             case NORTH:
                                 x = spawnPos.getX() + 0.5;
                                 y = spawnPos.getY();
-                                z = spawnPos.getZ() - entityWidth - 0.1; // Slightly in front
+                                z = spawnPos.getZ() + entityWidth + 0.1;
                                 break;
                             case SOUTH:
                                 x = spawnPos.getX() + 0.5;
@@ -148,7 +148,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                                 z = spawnPos.getZ() + entityWidth + 0.1;
                                 break;
                             case WEST:
-                                x = spawnPos.getX() - entityWidth - 0.1;
+                                x = spawnPos.getX() + entityWidth + 0.1;
                                 y = spawnPos.getY();
                                 z = spawnPos.getZ() + 0.5;
                                 break;
