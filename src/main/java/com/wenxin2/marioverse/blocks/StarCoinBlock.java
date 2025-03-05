@@ -119,7 +119,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
             boolean itemAdded = false;
 
             world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
-            removeCoinParts(world, partPos);
+            removeCoinPartsWithParticles(world, partPos, entity);
 
             if (entity instanceof Player player) {
                 itemAdded = player.addItem(coinItem);
@@ -244,7 +244,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         BlockPos partPos = this.getPartPos(pos, quadrant, half);
         if (!world.isClientSide() && !(newState.getBlock() instanceof StarCoinBlock)) {
             world.levelEvent(2001, partPos, Block.getId(world.getBlockState(partPos)));
-            this.removeCoinParts(world, partPos);
+            this.removeCoinPartsWithParticles(world, partPos, null);
         }
         super.onRemove(oldState, world, pos, newState, isMoving);
     }
@@ -270,7 +270,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         if (!world.isClientSide) {
             if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
                 world.levelEvent(player, 2001, partPos, Block.getId(world.getBlockState(partPos)));
-                this.removeCoinParts(world, partPos);
+                this.removeCoinPartsWithParticles(world, partPos, player);
             }
         }
         return super.playerWillDestroy(world, pos, state, player);
@@ -317,14 +317,14 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 && world.getBlockState(northWestPos.relative(Direction.SOUTH).relative(Direction.EAST).above()).canBeReplaced();
     }
 
-    private void removeCoinParts(Level world, BlockPos pos) {
+    private void removeCoinPartsWithParticles(Level world, BlockPos pos, @Nullable Entity entity) {
         BlockPos[] positions = {
                 pos, pos.east(), pos.south(), pos.south().east(),
                 pos.above(), pos.east().above(), pos.south().above(), pos.south().east().above()
         };
 
         for (BlockPos partPos : positions) {
-            if (world instanceof ServerLevel serverWorld)
+            if (world instanceof ServerLevel serverWorld && entity != null)
                 ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, partPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
             world.removeBlock(partPos, false);
         }
