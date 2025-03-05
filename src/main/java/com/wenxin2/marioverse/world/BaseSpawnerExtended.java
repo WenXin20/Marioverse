@@ -192,8 +192,6 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                             this.delay(serverWorld, pos);
                             return;
                         }
-
-                        serverWorld.levelEvent(2004, pos, 0);
                         serverWorld.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnPos);
 
                         if (entity instanceof Mob mob)
