@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
+import com.wenxin2.marioverse.world.BaseSpawnerExtended;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
@@ -93,10 +94,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public boolean displayTextAbove;
     public boolean displayTextBelow;
 
-    private final BaseSpawner spawner = new BaseSpawner() {
+    private final BaseSpawnerExtended spawner = new BaseSpawnerExtended() {
         @Override
         public void broadcastEvent(Level world, BlockPos pos, int eventId) {
-            world.blockEvent(pos, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), eventId, 0);
+            if (world.getBlockState(pos).getBlock() instanceof WarpPipeBlock block)
+                world.blockEvent(pos, BlockRegistry.WARP_PIPES.get(block.getColor()).get(), eventId, 0);
         }
 
         @Override

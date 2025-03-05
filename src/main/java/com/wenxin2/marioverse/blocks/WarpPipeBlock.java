@@ -1,15 +1,18 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -37,6 +40,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -66,16 +70,22 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class WarpPipeBlock extends BaseEntityDirectionalBlock {
-    public static final MapCodec<WarpPipeBlock> CODEC = simpleCodec(WarpPipeBlock::new);
+    public static final MapCodec<WarpPipeBlock> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
+                            .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
+                    .apply(instance, (dyeColor, properties) -> new WarpPipeBlock(dyeColor.orElse(null), properties))
+    );
     public static final BooleanProperty ENTRANCE = BooleanProperty.create("entrance");
     public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
     public static final BooleanProperty BUBBLES = BooleanProperty.create("bubbles");
     public static final BooleanProperty WATER_SPOUT = BooleanProperty.create("water_spout");
+    @Nullable private final DyeColor color;
 
-    public WarpPipeBlock(BlockBehaviour.Properties properties) {
+    public WarpPipeBlock(@Nullable DyeColor color, BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATER_SPOUT, Boolean.FALSE)
                 .setValue(BUBBLES, Boolean.TRUE).setValue(ENTRANCE, Boolean.TRUE).setValue(CLOSED, Boolean.FALSE));
+        this.color = color;
     }
 
     @Override
@@ -108,6 +118,15 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
         super.appendHoverText(stack, context, list, options);
         Spawner.appendHoverText(stack, list, "SpawnData");
+    }
+
+    @Nullable
+    public DyeColor getColor() {
+        return this.color;
+    }
+
+    public static ItemStack getColoredItemStack(@Nullable DyeColor color) {
+        return new ItemStack(BlockRegistry.WARP_PIPES.get(color));
     }
 
     @Override

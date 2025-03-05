@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -45,6 +46,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -92,8 +94,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     public static final VoxelShape PIPE_ALL = Shapes.or(
             Block.box(4, 4, 4, 12, 12, 12)).optimize();
 
-    public ClearWarpPipeBlock(Properties properties) {
-        super(properties);
+    public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
+        super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP)
                 .setValue(ENTRANCE, Boolean.TRUE).setValue(CLOSED, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE)
                 .setValue(UP, Boolean.FALSE).setValue(NORTH, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE)

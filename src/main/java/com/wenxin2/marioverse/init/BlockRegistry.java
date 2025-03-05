@@ -814,7 +814,7 @@ public class BlockRegistry {
 
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
-                () -> new ClearWarpPipeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
+                () -> new ClearWarpPipeBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.CHIME)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(3.0F, 500.0F).requiresCorrectToolForDrops().noOcclusion()));
@@ -822,7 +822,7 @@ public class BlockRegistry {
         // Keep below CLEAR_WARP_PIPE to prevent crash
         Arrays.stream(DyeColor.values()).forEach(color ->
                 WARP_PIPES.put(color, registerBlock(color.getName() + "_warp_pipe",
-                        () -> new WarpPipeBlock(BlockBehaviour.Properties.of().mapColor(color)
+                        () -> new WarpPipeBlock(color, BlockBehaviour.Properties.of().mapColor(color)
                                 .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.BASS)
                                 .strength(3.5F, 1000.0F).isViewBlocking(BlockRegistry::always)
                                 .requiresCorrectToolForDrops()))));
