@@ -1,12 +1,14 @@
 package com.wenxin2.marioverse.blocks.entities;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -32,17 +34,23 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SpawnData;
+import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -53,7 +61,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable {
+public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable, Spawner {
     // Store a map to track whether entities have teleported or not
     public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -85,6 +93,27 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public boolean displayTextAbove;
     public boolean displayTextBelow;
 
+    private final BaseSpawner spawner = new BaseSpawner() {
+        @Override
+        public void broadcastEvent(Level world, BlockPos pos, int eventId) {
+            world.blockEvent(pos, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN).get(), eventId, 0);
+        }
+
+        @Override
+        public void setNextSpawnData(@Nullable Level world, BlockPos pos, SpawnData data) {
+            super.setNextSpawnData(world, pos, data);
+            if (world != null) {
+                BlockState blockstate = world.getBlockState(pos);
+                world.sendBlockUpdated(pos, blockstate, blockstate, 4);
+            }
+        }
+
+        @Override
+        public Either<BlockEntity, Entity> getOwner() {
+            return Either.left(WarpPipeBlockEntity.this);
+        }
+    };
+
     public WarpPipeBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), pos, state);
     }
@@ -103,6 +132,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         this.lockKey.addToTag(tag);
+        this.spawner.save(tag);
         tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
         tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
@@ -126,6 +156,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         this.lockKey = LockCode.fromTag(tag);
+        this.spawner.load(this.level, this.worldPosition, tag);
         this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
@@ -166,9 +197,45 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        CompoundTag tag = this.saveCustomOnly(provider);
+        tag.remove("SpawnPotentials");
+        return tag;
+    }
+
     @Nullable
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         return new WarpPipeMenu(id, inventory, ContainerLevelAccess.create(this.level, this.getBlockPos()));
+    }
+
+    public static void clientTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
+        warpPipeBE.spawner.clientTick(world, pos);
+    }
+
+    public static void serverTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
+        if (world instanceof ServerLevel serverWorld)
+            warpPipeBE.spawner.serverTick(serverWorld, pos);
+    }
+
+    @Override
+    public boolean triggerEvent(int id, int type) {
+        return this.level != null ? this.spawner.onEventTriggered(this.level, id) : super.triggerEvent(id, type);
+    }
+
+    @Override
+    public boolean onlyOpCanSetNbt() {
+        return true;
+    }
+
+    @Override
+    public void setEntityId(@NotNull EntityType<?> entityType, RandomSource random) {
+        this.spawner.setEntityId(entityType, this.level, random, this.worldPosition);
+        this.setChanged();
+    }
+
+    public BaseSpawner getSpawner() {
+        return this.spawner;
     }
 
     public void setCustomName(Component name) {

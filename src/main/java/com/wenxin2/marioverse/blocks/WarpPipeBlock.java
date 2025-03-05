@@ -3,11 +3,13 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -17,6 +19,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -38,16 +41,19 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -59,7 +65,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
+public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     public static final MapCodec<WarpPipeBlock> CODEC = simpleCodec(WarpPipeBlock::new);
     public static final BooleanProperty ENTRANCE = BooleanProperty.create("entrance");
     public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
@@ -85,6 +91,23 @@ public class WarpPipeBlock extends DirectionalBlock implements EntityBlock {
     @Override
     public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state) {
         return new WarpPipeBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), world.isClientSide ? WarpPipeBlockEntity::clientTick : WarpPipeBlockEntity::serverTick);
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
+        super.appendHoverText(stack, context, list, options);
+        Spawner.appendHoverText(stack, list, "SpawnData");
     }
 
     @Override
