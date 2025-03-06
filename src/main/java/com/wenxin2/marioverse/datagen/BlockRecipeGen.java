@@ -46,7 +46,7 @@ public class BlockRecipeGen extends RecipeUtils {
         fireShirtRecipe(1, ItemRegistry.FIRE_SHIRT, Blocks.WHITE_WOOL, Blocks.RED_WOOL, output);
         fireShoesRecipe(1, ItemRegistry.FIRE_SHOES, Blocks.BROWN_WOOL, Tags.Items.LEATHERS, output);
         helmetRecipe(1, "fire_costume", ItemRegistry.FIRE_HAT, Blocks.WHITE_WOOL, output);
-        leggingsRecipe(1, "fire_costume", ItemRegistry.FIRE_OVERALLS, Blocks.RED_WOOL, output);
+        leggingsRecipe(1, "fire_costume", ItemRegistry.FIRE_PANTS, Blocks.RED_WOOL, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, output);

@@ -57,7 +57,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.POWER_UP_COSTUME_ITEMS)
                 .add(ItemRegistry.FIRE_HAT.get())
-                .add(ItemRegistry.FIRE_OVERALLS.get())
+                .add(ItemRegistry.FIRE_PANTS.get())
                 .add(ItemRegistry.FIRE_SHIRT.get())
                 .add(ItemRegistry.FIRE_SHOES.get());
 
@@ -89,7 +89,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.FIRE_HAT.get());
 
         tag(ItemTags.LEG_ARMOR)
-                .add(ItemRegistry.FIRE_OVERALLS.get());
+                .add(ItemRegistry.FIRE_PANTS.get());
 
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
@@ -108,7 +108,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.TRIMMABLE_ARMOR)
                 .add(ItemRegistry.FIRE_HAT.get())
-                .add(ItemRegistry.FIRE_OVERALLS.get())
+                .add(ItemRegistry.FIRE_PANTS.get())
                 .add(ItemRegistry.FIRE_SHIRT.get())
                 .add(ItemRegistry.FIRE_SHOES.get());
     }

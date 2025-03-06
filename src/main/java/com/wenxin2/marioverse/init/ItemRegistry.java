@@ -23,7 +23,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_HAT;
-    public static final DeferredItem<Item> FIRE_OVERALLS;
+    public static final DeferredItem<Item> FIRE_PANTS;
     public static final DeferredItem<Item> FIRE_SHIRT;
     public static final DeferredItem<Item> FIRE_SHOES;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
@@ -60,7 +60,7 @@ public class ItemRegistry {
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
         FIRE_SHIRT = registerItem("fire_shirt",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
-        FIRE_OVERALLS = registerItem("fire_overalls",
+        FIRE_PANTS = registerItem("fire_pants",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
         FIRE_SHOES = registerItem("fire_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));

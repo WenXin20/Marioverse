@@ -95,8 +95,8 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_HAT.get()));
                     if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHIRT.get())
                         containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_OVERALLS.get())
-                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_OVERALLS.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_PANTS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_PANTS.get()));
                     if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }
@@ -158,8 +158,8 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_HAT.get()));
                     if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHIRT.get())
                         containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_OVERALLS.get())
-                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_OVERALLS.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_PANTS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_PANTS.get()));
                     if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
                 }

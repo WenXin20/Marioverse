@@ -45,7 +45,7 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.FIRE_HAT.get());
             add(event, ItemRegistry.FIRE_SHIRT.get());
-            add(event, ItemRegistry.FIRE_OVERALLS.get());
+            add(event, ItemRegistry.FIRE_PANTS.get());
             add(event, ItemRegistry.FIRE_SHOES.get());
 
             add(event, BlockRegistry.STAR_COIN.get());
