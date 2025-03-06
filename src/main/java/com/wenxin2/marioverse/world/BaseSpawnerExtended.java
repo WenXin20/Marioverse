@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.world;
 
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -92,12 +93,16 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                 for (int i = 0; i < this.spawnCount; i++) {
                     CompoundTag tag = spawnData.getEntityToSpawn();
                     Optional<EntityType<?>> entityTypeOpt = EntityType.by(tag);
+                    if (entityTypeOpt.isEmpty()) {
+                        this.delay(serverWorld, pos);
+                        return;
+                    }
 
                     EntityType<?> entityType = entityTypeOpt.get();
                     int nearbyEntities = serverWorld.getEntities(entityType,
                             new AABB(pos).inflate(1), EntitySelector.NO_SPECTATORS).size();
-                    if (entityTypeOpt.isEmpty() || nearbyEntities >= this.maxNearbyEntities
-                            || (state.hasProperty(WarpPipeBlock.CLOSED) && state.getValue(WarpPipeBlock.CLOSED))) {
+                    if (nearbyEntities >= this.maxNearbyEntities || entityType.is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_MOBS)
+                            || state.hasProperty(WarpPipeBlock.CLOSED) && state.getValue(WarpPipeBlock.CLOSED)) {
                         this.delay(serverWorld, pos);
                         return;
                     }
