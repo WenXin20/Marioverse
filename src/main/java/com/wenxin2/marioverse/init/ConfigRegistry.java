@@ -39,6 +39,7 @@ public class ConfigRegistry
     public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
 
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
+    public static final String CATEGORY_ICE_FLOWER = "ice_flower";
     public static final String CATEGORY_MUSHROOM = "mushroom";
     public static final String CATEGORY_ONE_UP = "one_up";
     public static final String CATEGORY_SUPER_STAR = "super_star";
@@ -87,6 +88,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue FORCE_GOOMBA_MASKS;
+    public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
@@ -129,9 +131,13 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_RANDOM_COUNT;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_RANDOM_COUNT;
+    public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
+    public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
+    public static ModConfigSpec.IntValue MAX_MOB_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
+    public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
@@ -500,13 +506,37 @@ public class ConfigRegistry
                             .comment("§9[Default: 50]§b")
                             .defineInRange("fireball_cooldown", 50, 1, 72000);
                     MAX_PLAYER_FIREBALLS = BUILDER.translation("configuration.marioverse.max_player_fireballs")
-                            .comment("Max amount of fireballs that can be shot before a cooldown by the player.")
+                            .comment("Max amount of fireballs that can be shot before a cooldown for the player.")
                             .comment("§9[Default: 2]§b")
                             .defineInRange("max_player_fireballs", 2, 0, 100);
                     MAX_MOB_FIREBALLS = BUILDER.translation("configuration.marioverse.max_mob_fireballs")
-                            .comment("Base amount of fireballs that can be shot before a cooldown by mobs.")
+                            .comment("Base amount of fireballs that can be shot before a cooldown for mobs.")
                             .comment("§9[Default: 2]§b")
                             .defineInRange("max_mob_fireballs", 2, 0, 100);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_ICE_FLOWER);
+                    ICE_FLOWER_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.ice_flower_powers_all_mobs")
+                            .comment("Allow Ice Flowers to power all mobs.")
+                            .comment("§9[Default: false]")
+                            .define("ice_flower_powers_all_mobs", false);
+                    ICE_BALL_COOLDOWN = BUILDER.translation("configuration.marioverse.ice_ball_cooldown")
+                            .comment("Cooldown between max amount of ice_balls shot.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 50]§b")
+                            .defineInRange("ice_ball_cooldown", 50, 1, 72000);
+                    MAX_ICE_BALL_BOUNCES = BUILDER.translation("configuration.marioverse.max_ice_ball_bounces")
+                            .comment("Max amount that ice_balls can bounce before disintegrating.")
+                            .comment("§9[Default: 2]§b")
+                            .defineInRange("max_ice_ball_bounces", 2, 0, 100);
+                    MAX_PLAYER_ICE_BALLS = BUILDER.translation("configuration.marioverse.max_player_ice_balls")
+                            .comment("Max amount of ice_balls that can be shot before a cooldown for the player.")
+                            .comment("§9[Default: 2]§b")
+                            .defineInRange("max_player_ice_balls", 2, 0, 100);
+                    MAX_MOB_ICE_BALLS = BUILDER.translation("configuration.marioverse.max_mob_ice_balls")
+                            .comment("Base amount of ice_balls that can be shot before a cooldown for mobs.")
+                            .comment("§9[Default: 2]§b")
+                            .defineInRange("max_mob_ice_balls", 2, 0, 100);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);
