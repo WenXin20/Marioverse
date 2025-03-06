@@ -840,7 +840,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5,
-                        new Vec3(0, -0.5, 0));
+                        new Vec3(0, -1.0, 0));
 
                 if (!windCharge.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                     windCharge.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
@@ -883,7 +883,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
                 if (!endCrystal.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                     endCrystal.setPos(spawnPos.getX() + 0.5D, spawnPos.getY() - endCrystal.getBbHeight(), spawnPos.getZ() + 0.5D);
-                    endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
+                    endCrystal.setDeltaMovement(new Vec3(0, -1.0, 0));
                     endCrystal.setShowBottom(false);
                     world.addFreshEntity(endCrystal);
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, spawnPos);
