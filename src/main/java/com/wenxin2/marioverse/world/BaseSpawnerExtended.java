@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.world;
 
 import com.mojang.logging.LogUtils;
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -91,16 +92,12 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                 for (int i = 0; i < this.spawnCount; i++) {
                     CompoundTag tag = spawnData.getEntityToSpawn();
                     Optional<EntityType<?>> entityTypeOpt = EntityType.by(tag);
-                    if (entityTypeOpt.isEmpty()) {
-                        this.delay(serverWorld, pos);
-                        return;
-                    }
 
                     EntityType<?> entityType = entityTypeOpt.get();
                     int nearbyEntities = serverWorld.getEntities(entityType,
                             new AABB(pos).inflate(1), EntitySelector.NO_SPECTATORS).size();
-
-                    if (nearbyEntities >= this.maxNearbyEntities) {
+                    if (entityTypeOpt.isEmpty() || nearbyEntities >= this.maxNearbyEntities
+                            || (state.hasProperty(WarpPipeBlock.CLOSED) && state.getValue(WarpPipeBlock.CLOSED))) {
                         this.delay(serverWorld, pos);
                         return;
                     }
@@ -114,7 +111,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                             : (double) pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
 
                     BlockPos spawnPos;
-                    if (hasFacing) {
+                    if (state.hasProperty(BlockStateProperties.FACING)) {
                         spawnPos = pos.relative(facing);
                         double entityWidth = entityType.getWidth() / 2.0;
                         double entityHeight = entityType.getHeight();
