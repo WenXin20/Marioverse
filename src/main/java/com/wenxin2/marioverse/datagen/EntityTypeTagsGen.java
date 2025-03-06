@@ -258,5 +258,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ELDER_GUARDIAN)
                 .add(EntityType.WARDEN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
+
+        tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN);
     }
 }

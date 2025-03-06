@@ -101,7 +101,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                     EntityType<?> entityType = entityTypeOpt.get();
                     int nearbyEntities = serverWorld.getEntities(entityType,
                             new AABB(pos).inflate(1), EntitySelector.NO_SPECTATORS).size();
-                    if (nearbyEntities >= this.maxNearbyEntities || entityType.is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_MOBS)
+                    if (nearbyEntities >= this.maxNearbyEntities || entityType.is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
                             || state.hasProperty(WarpPipeBlock.CLOSED) && state.getValue(WarpPipeBlock.CLOSED)) {
                         this.delay(serverWorld, pos);
                         return;

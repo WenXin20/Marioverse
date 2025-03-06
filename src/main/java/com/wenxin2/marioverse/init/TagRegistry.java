@@ -102,7 +102,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
-    public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN_MOBS = entityTypeTags("warp_pipe_cannot_spawn");
+    public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN = entityTypeTags("warp_pipe_cannot_spawn");
 
 
     private static TagKey<BannerPattern> bannerPatternTags(String name) {
