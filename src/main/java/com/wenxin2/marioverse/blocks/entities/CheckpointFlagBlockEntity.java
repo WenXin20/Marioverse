@@ -160,6 +160,12 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
             builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.item)));
     }
 
+    @NotNull
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return this.saveCustomOnly(provider);
+    }
+
     @Override
     public int getContainerSize() {
         return 1;
@@ -196,12 +202,6 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
     @Override
     public  Component getName() {
         return this.name != null ? this.name : DEFAULT_NAME;
-    }
-
-    @NotNull
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-        return this.saveCustomOnly(provider);
     }
 
     public void setFromItem(ItemStack stack) {

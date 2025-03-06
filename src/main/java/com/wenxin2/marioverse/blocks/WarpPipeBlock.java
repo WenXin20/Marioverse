@@ -36,12 +36,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
@@ -65,11 +65,13 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.LavaFluid;
 import net.minecraft.world.level.material.WaterFluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 public class WarpPipeBlock extends BaseEntityDirectionalBlock {
@@ -132,9 +134,30 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         return new ItemStack(BlockRegistry.WARP_PIPES.get(color));
     }
 
+    @NotNull
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+        ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (state.getValue(ENTRANCE) && player.isCreative()
+                && blockEntity instanceof WarpPipeBlockEntity pipeBE
+                && heldItem.isEmpty()) {
+            pipeBE.splitTheItem(1);
+            pipeBE.markUpdated();
+            world.sendBlockUpdated(pos, state, state, 3);
+            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+            world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.PASS;
+    }
+
     @Override
     public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hit) {
+        ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         Item item = stack.getItem();
 
@@ -150,12 +173,16 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
-        if (state.getValue(ENTRANCE) && player.isCreative()
-                && !player.getItemInHand(hand).is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
-                && !(player.getItemInHand(hand).getItem() instanceof SpawnEggItem)
-                && blockEntity instanceof WarpPipeBlockEntity pipeBE) {
+        if (state.getValue(ENTRANCE) && player.isCreative() && !heldItem.isEmpty()
+                && !heldItem.is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
+                && !(heldItem.getItem() instanceof SpawnEggItem)
+                && blockEntity instanceof WarpPipeBlockEntity pipeBE
+                && !ItemStack.isSameItemSameComponents(heldItem, pipeBE.getTheItem())) {
 
-            pipeBE.setSpawnedItemStack(player.getItemInHand(hand));
+            pipeBE.setTheItem(player.getItemInHand(hand).copyWithCount(1));
+            pipeBE.markUpdated();
+            world.sendBlockUpdated(pos, state, state, 3);
+            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             if (!player.getAbilities().instabuild)
                 player.getItemInHand(hand).shrink(1);
 

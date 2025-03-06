@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.world.BaseSpawnerExtended;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
@@ -71,21 +72,19 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.PotionItem;
-import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -97,13 +96,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable, Spawner {
+public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable, Spawner, ContainerSingleItem.BlockContainerSingleItem {
     // Store a map to track whether entities have teleported or not
     public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -191,7 +190,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
         if (this.pipeName != null)
             tag.putString(PIPE_NAME, Component.Serializer.toJson(this.pipeName, provider));
-        if (!this.spawnItemStack.isEmpty() && this.spawnItemStack != ItemStack.EMPTY)
+        if (!this.spawnItemStack.isEmpty())
             tag.put("SpawnItem", this.spawnItemStack.save(provider));
 
         PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeText).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
@@ -220,8 +219,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (tag.contains(PIPE_NAME, 8))
             this.pipeName = parseCustomNameSafe(tag.getString(PIPE_NAME), provider);
 
-        if (tag.contains("SpawnItem", 8))
-            this.spawnItemStack = ItemStack.parseOptional(provider, tag.getCompound("StoredItem"));
+        if (tag.contains("SpawnItem", 10))
+            this.spawnItemStack = ItemStack.parse(provider, tag.getCompound("SpawnItem")).orElse(ItemStack.EMPTY);
+        else this.spawnItemStack = ItemStack.EMPTY;
 
         if (tag.contains(PIPE_NAME)) {
             PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
@@ -233,8 +233,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     @Override
     protected void applyImplicitComponents(BlockEntity.DataComponentInput input) {
         super.applyImplicitComponents(input);
+        ItemContainerContents contents = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.pipeName = input.get(DataComponentRegistry.PIPE_NAME);
+        this.spawnItemStack = contents.copyOne();
     }
 
     @Override
@@ -242,6 +244,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         super.collectImplicitComponents(builder);
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.PIPE_NAME, this.pipeName);
+        if (!this.spawnItemStack.isEmpty())
+            builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.spawnItemStack)));
     }
 
     @Override
@@ -261,6 +265,39 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return new WarpPipeMenu(id, inventory, ContainerLevelAccess.create(this.level, this.getBlockPos()));
     }
 
+    @Override
+    public int getContainerSize() {
+        return 1;
+    }
+
+    @NotNull
+    @Override
+    public BlockEntity getContainerBlockEntity() {
+        return this;
+    }
+
+    @Override
+    public void setTheItem(ItemStack stack) {
+        this.spawnItemStack = stack;
+    }
+
+    @NotNull
+    @Override
+    public ItemStack getTheItem() {
+        return this.spawnItemStack;
+    }
+
+    @NotNull
+    @Override
+    public ItemStack splitTheItem(int splitAmt) {
+        ItemStack itemstack = this.spawnItemStack.split(splitAmt);
+
+        if (this.spawnItemStack.isEmpty())
+            this.spawnItemStack = ItemStack.EMPTY;
+
+        return itemstack;
+    }
+
     public static void clientTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
         warpPipeBE.spawner.clientTick(world, pos);
     }
@@ -275,7 +312,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             } else {
                 RandomSource random = RandomSource.create();
                 int itemCount = 1 + random.nextInt(5);
-                ItemStack stack = new ItemStack(warpPipeBE.getSpawnedItemStack().getItem(), itemCount);
+                ItemStack stack = warpPipeBE.getTheItem().copyWithCount(itemCount);
 
                 warpPipeBE.spawnFromWarpPipe(world, pos, stack);
                 warpPipeBE.playSounds(world, pos, stack);
@@ -298,15 +335,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void setEntityId(@NotNull EntityType<?> entityType, RandomSource random) {
         this.spawner.setEntityId(entityType, this.level, random, this.worldPosition);
         this.setChanged();
-    }
-
-    public void setSpawnedItemStack(ItemStack stack) {
-        this.spawnItemStack = stack;
-        this.markUpdated();
-    }
-
-    public ItemStack getSpawnedItemStack() {
-        return this.spawnItemStack;
     }
 
     public BaseSpawner getSpawner() {
