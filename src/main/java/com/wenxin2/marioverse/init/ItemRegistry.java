@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
+import com.wenxin2.marioverse.items.IceCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -29,6 +30,10 @@ public class ItemRegistry {
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> ICE_HAT;
+    public static final DeferredItem<Item> ICE_PANTS;
+    public static final DeferredItem<Item> ICE_SHIRT;
+    public static final DeferredItem<Item> ICE_SHOES;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
@@ -68,6 +73,14 @@ public class ItemRegistry {
 
         ICE_FLOWER = registerItem("ice_flower",
                 () -> new BasePowerUpItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ICE_HAT = registerItem("ice_hat",
+                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
+        ICE_SHIRT = registerItem("ice_shirt",
+                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
+        ICE_PANTS = registerItem("ice_pants",
+                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
+        ICE_SHOES = registerItem("ice_shoes",
+                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
                 () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));

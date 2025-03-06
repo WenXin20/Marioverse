@@ -91,14 +91,14 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_HAT.get())
-                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_HAT.get())); // TODO
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHIRT.get())
-                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_PANTS.get())
-                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_PANTS.get()));
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
-                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get())
+                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get())
+                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get())
+                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
                 }
             } else if (entity instanceof LivingEntity livingEntity
                     && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -143,9 +143,9 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
-                // TODO
+                
                 if (livingEntity instanceof GoombaEntity goomba && goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-                    goomba.equipItemIfPossible(new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                    goomba.equipItemIfPossible(new ItemStack(ItemRegistry.ICE_HAT.get()));
                 }
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
@@ -153,15 +153,15 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shirt"));
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
-                    // TODO
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_HAT.get())
-                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_HAT.get()));
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHIRT.get())
-                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_PANTS.get())
-                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_PANTS.get()));
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
-                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
+
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get())
+                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get())
+                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get())
+                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
                 }
             }
         }

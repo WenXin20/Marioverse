@@ -59,10 +59,15 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.FIRE_HAT.get())
                 .add(ItemRegistry.FIRE_PANTS.get())
                 .add(ItemRegistry.FIRE_SHIRT.get())
-                .add(ItemRegistry.FIRE_SHOES.get());
+                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.ICE_HAT.get())
+                .add(ItemRegistry.ICE_PANTS.get())
+                .add(ItemRegistry.ICE_SHIRT.get())
+                .add(ItemRegistry.ICE_SHOES.get());
 
         tag(TagRegistry.POWER_UP_ITEMS)
                 .add(ItemRegistry.FIRE_FLOWER.get())
+                .add(ItemRegistry.ICE_FLOWER.get())
                 .add(ItemRegistry.MUSHROOM.get())
                 .add(ItemRegistry.ONE_UP_MUSHROOM.get())
                 .add(ItemRegistry.SUPER_STAR.get());
@@ -73,7 +78,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
         tag(ItemTags.CHEST_ARMOR)
-                .add(ItemRegistry.FIRE_SHIRT.get());
+                .add(ItemRegistry.FIRE_SHIRT.get())
+                .add(ItemRegistry.ICE_SHIRT.get());
 
         tag(ItemTags.DECORATED_POT_SHERDS)
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
@@ -83,13 +89,16 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PIPE_WRENCH.get());
 
         tag(ItemTags.FOOT_ARMOR)
-                .add(ItemRegistry.FIRE_SHOES.get());
+                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.ICE_SHOES.get());
 
         tag(ItemTags.HEAD_ARMOR)
-                .add(ItemRegistry.FIRE_HAT.get());
+                .add(ItemRegistry.FIRE_HAT.get())
+                .add(ItemRegistry.ICE_HAT.get());
 
         tag(ItemTags.LEG_ARMOR)
-                .add(ItemRegistry.FIRE_PANTS.get());
+                .add(ItemRegistry.FIRE_PANTS.get())
+                .add(ItemRegistry.ICE_PANTS.get());
 
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
@@ -106,10 +115,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
                 .add(BlockRegistry.FUNGAL_STONE.asItem());
 
-        tag(ItemTags.TRIMMABLE_ARMOR)
-                .add(ItemRegistry.FIRE_HAT.get())
-                .add(ItemRegistry.FIRE_PANTS.get())
-                .add(ItemRegistry.FIRE_SHIRT.get())
-                .add(ItemRegistry.FIRE_SHOES.get());
+        tag(ItemTags.TRIMMABLE_ARMOR);
     }
 }
