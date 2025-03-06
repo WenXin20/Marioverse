@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.DataComponentRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.List;
@@ -40,11 +41,13 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -144,6 +147,18 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 }
             }
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        if (state.getValue(ENTRANCE) && player.isCreative()
+                && !player.getItemInHand(hand).is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
+                && !(player.getItemInHand(hand).getItem() instanceof SpawnEggItem)
+                && blockEntity instanceof WarpPipeBlockEntity pipeBE) {
+
+            pipeBE.setSpawnedItemStack(player.getItemInHand(hand));
+            if (!player.getAbilities().instabuild)
+                player.getItemInHand(hand).shrink(1);
+
             return ItemInteractionResult.SUCCESS;
         }
 
@@ -247,9 +262,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             }
 
             if (isSuccesfulTool) {
-                if (!player.isCreative()) {
+                if (!player.isCreative())
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                }
 
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
@@ -259,9 +273,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             }
 
             if (isSuccesful) {
-                if (!player.isCreative()) {
+                if (!player.isCreative())
                     stack.shrink(1);
-                }
 
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);

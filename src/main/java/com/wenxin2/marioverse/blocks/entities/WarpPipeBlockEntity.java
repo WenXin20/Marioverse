@@ -4,7 +4,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
+import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
@@ -43,11 +45,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -56,6 +60,7 @@ import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -81,12 +86,13 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String DISPLAY_TEXT_BELOW = "displayTextBelow";
     public static final String CUSTOM_NAME = "CustomName";
     public static final String PIPE_NAME = "PipeName";
-    @Nullable
-    public Component name;
+    @Nullable public Component name;
     public Component pipeName;
     private LockCode lockKey = LockCode.NO_LOCK;
+    private ItemStack spawnItemStack = ItemStack.EMPTY;
     public int spoutHeight = 4;
     public int bubblesDistance = 3;
+    public int spawnItemDelay = 20;
     public boolean displayTextNorth;
     public boolean displayTextSouth;
     public boolean displayTextEast;
@@ -135,6 +141,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         super.saveAdditional(tag, provider);
         this.lockKey.addToTag(tag);
         this.spawner.save(tag);
+        tag.putShort("SpawnItemDelay", (short) this.spawnItemDelay);
         tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
         tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
@@ -148,6 +155,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
         if (this.pipeName != null)
             tag.putString(PIPE_NAME, Component.Serializer.toJson(this.pipeName, provider));
+        if (!this.spawnItemStack.isEmpty() && this.spawnItemStack != ItemStack.EMPTY)
+            tag.put("SpawnItem", this.spawnItemStack.save(provider));
 
         PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeText).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
             tag.put(PIPE_NAME, pipeName);
@@ -159,6 +168,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         super.loadAdditional(tag, provider);
         this.lockKey = LockCode.fromTag(tag);
         this.spawner.load(this.level, this.worldPosition, tag);
+        this.spawnItemDelay = tag.getShort("SpawnItemDelay");
         this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
@@ -171,13 +181,17 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
 
+        if (tag.contains(PIPE_NAME, 8))
+            this.pipeName = parseCustomNameSafe(tag.getString(PIPE_NAME), provider);
+
+        if (tag.contains("SpawnItem", 8))
+            this.spawnItemStack = ItemStack.parseOptional(provider, tag.getCompound("StoredItem"));
+
         if (tag.contains(PIPE_NAME)) {
             PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
                 this.pipeText = this.loadLines(text);
             });
         }
-        if (tag.contains(PIPE_NAME, 8))
-            this.pipeName = parseCustomNameSafe(tag.getString(PIPE_NAME), provider);
     }
 
     @Override
@@ -218,6 +232,102 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static void serverTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
         if (world instanceof ServerLevel serverWorld)
             warpPipeBE.spawner.serverTick(serverWorld, pos);
+
+        if (state.hasProperty(WarpPipeBlock.CLOSED) && !state.getValue(WarpPipeBlock.CLOSED)) {
+            if (warpPipeBE.spawnItemDelay > 0) {
+                warpPipeBE.spawnItemDelay--;
+            } else {
+                RandomSource random = RandomSource.create();
+                int itemCount = 1 + random.nextInt(5);
+                Direction facing = state.getOptionalValue(BlockStateProperties.FACING).orElse(Direction.UP);
+                ItemStack stack = new ItemStack(warpPipeBE.getSpawnedItemStack().getItem(), itemCount);
+
+                double x;
+                double y;
+                double z;
+                double entityWidth = 0.25 / 2.0;
+                double entityHeight = 0.25;
+                BlockPos spawnPos = pos.relative(facing);
+
+                switch (facing) {
+                    default:
+                        x = spawnPos.getX() + 0.5;
+                        y = spawnPos.getY() + 0.1;
+                        z = spawnPos.getZ() + 0.5;
+                        break;
+                    case DOWN:
+                        x = spawnPos.getX() + 0.5;
+                        y = spawnPos.getY() + 1.0 - entityHeight - 0.1;
+                        z = spawnPos.getZ() + 0.5;
+                        break;
+                    case NORTH:
+                        x = spawnPos.getX() + 0.5;
+                        y = spawnPos.getY();
+                        z = spawnPos.getZ() + entityWidth + 0.1;
+                        break;
+                    case SOUTH:
+                        x = spawnPos.getX() + 0.5;
+                        y = spawnPos.getY();
+                        z = spawnPos.getZ() + entityWidth + 0.1;
+                        break;
+                    case WEST:
+                        x = spawnPos.getX() + entityWidth + 0.1;
+                        y = spawnPos.getY();
+                        z = spawnPos.getZ() + 0.5;
+                        break;
+                    case EAST:
+                        x = spawnPos.getX() + entityWidth + 0.1;
+                        y = spawnPos.getY();
+                        z = spawnPos.getZ() + 0.5;
+                        break;
+                }
+
+                double baseSpeed  = 0.2;
+                Vec3 velocity = switch (facing) {
+                    case NORTH -> new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            world.random.triangle(0.5, 0.2),
+                            -baseSpeed
+                    );
+                    case SOUTH -> new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            world.random.triangle(0.5, 0.2),
+                            baseSpeed
+                    );
+                    case EAST -> new Vec3(
+                            baseSpeed,
+                            world.random.triangle(0.5, 0.2),
+                            world.random.triangle(0.0, 0.2)
+                    );
+                    case WEST -> new Vec3(
+                            -baseSpeed,
+                            world.random.triangle(0.5, 0.2),
+                            world.random.triangle(0.0, 0.2)
+                    );
+                    case UP -> new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            baseSpeed,
+                            world.random.triangle(0.0, 0.2)
+                    );
+                    case DOWN -> new Vec3(
+                            world.random.triangle(0.0, 0.2),
+                            -baseSpeed,
+                            world.random.triangle(0.0, 0.2)
+                    );
+                };
+
+                ItemEntity itemEntity = new ItemEntity(world, x, y, z, stack);
+                itemEntity.setDeltaMovement(velocity);
+                world.addFreshEntity(itemEntity);
+
+                if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof StarCoinBlock)
+                    world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
+                    world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                warpPipeBE.spawnItemDelay = 180;
+            }
+        }
     }
 
     @Override
@@ -234,6 +344,15 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void setEntityId(@NotNull EntityType<?> entityType, RandomSource random) {
         this.spawner.setEntityId(entityType, this.level, random, this.worldPosition);
         this.setChanged();
+    }
+
+    public void setSpawnedItemStack(ItemStack stack) {
+        this.spawnItemStack = stack;
+        this.markUpdated();
+    }
+
+    public ItemStack getSpawnedItemStack() {
+        return this.spawnItemStack;
     }
 
     public BaseSpawner getSpawner() {
