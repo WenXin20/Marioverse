@@ -89,6 +89,26 @@ public class MarioverseEventHandlers {
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:fireball_count", 0);
 
+        if (!tag.contains("marioverse:ice_flower")
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
+            tag.putBoolean("marioverse:ice_flower", false);
+
+        if (!tag.contains("marioverse:ice_ball_ready")
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
+            tag.putBoolean("marioverse:ice_ball_ready", false);
+
+        if (!tag.contains("marioverse:ice_ball_cooldown")
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
+            tag.putInt("marioverse:ice_ball_cooldown", 0);
+
+        if (!tag.contains("marioverse:ice_ball_count")
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                    || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
+            tag.putInt("marioverse:ice_ball_count", 0);
+
         if (!tag.contains("marioverse:has_mushroom"))
             tag.putBoolean("marioverse:has_mushroom", true);
 

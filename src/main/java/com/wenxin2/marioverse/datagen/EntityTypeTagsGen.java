@@ -69,7 +69,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.CREEPER)
-                .add(EntityType.DROWNED)
                 .add(EntityType.ENDERMAN)
                 .add(EntityType.EVOKER)
                 .add(EntityType.GIANT)
@@ -79,7 +78,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PIGLIN_BRUTE)
                 .add(EntityType.PLAYER)
                 .add(EntityType.SKELETON)
-                .add(EntityType.STRAY)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .add(EntityType.WITCH)
@@ -87,6 +85,29 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIE)
                 .add(EntityType.ZOMBIE_VILLAGER)
                 .add(EntityType.ZOMBIFIED_PIGLIN)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(TEST_DUMMY);
+
+        tag(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(EntityTypeTags.ILLAGER)
+                .addTag(EntityTypeTags.ILLAGER_FRIENDS)
+                .add(EntityType.ARMOR_STAND)
+                .add(EntityType.BOGGED)
+                .add(EntityType.CREEPER)
+                .add(EntityType.DROWNED)
+                .add(EntityType.ENDERMAN)
+                .add(EntityType.EVOKER)
+                .add(EntityType.GIANT)
+                .add(EntityType.IRON_GOLEM)
+                .add(EntityType.PLAYER)
+                .add(EntityType.SKELETON)
+                .add(EntityType.STRAY)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .add(EntityType.WITCH)
+                .add(EntityType.ZOMBIE)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
                 .addOptional(TEST_DUMMY);
 
@@ -188,6 +209,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.FIREBALL_IMMUNE)
                 .add(EntityRegistry.FIRE_FLOWER.get());
 
+        tag(TagRegistry.ICE_BALL_CAN_INSTAKILL);
+
+        tag(TagRegistry.ICE_BALL_IMMUNE)
+                .add(EntityRegistry.ICE_FLOWER.get());
+
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get());
 
@@ -244,6 +270,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
+                .add(EntityRegistry.ICE_FLOWER.get())
                 .add(EntityRegistry.MUSHROOM.get())
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());

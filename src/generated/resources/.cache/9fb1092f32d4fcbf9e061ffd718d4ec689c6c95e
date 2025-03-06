@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-27T20:24:54.7600082	Recipes
+// 1.21.1	2025-03-06T16:32:07.1719469	Recipes
 f3621246c81622abafae1a7048b239763ef0b8bf data/marioverse/advancement/recipes/building_blocks/amethyst_bricks.json
 e0366bd9acfb9f3f9d38d6883a40acb9ee7188c5 data/marioverse/advancement/recipes/building_blocks/amethyst_bricks_from_amethyst_block_stonecutting.json
 58633c9d1ddfe351de5b78bcbf07fbb975ddc922 data/marioverse/advancement/recipes/building_blocks/amethyst_bricks_stonecutting.json
@@ -415,7 +415,7 @@ f54cc5cabbeeea531d1cd8680e27ec20d3113189 data/marioverse/advancement/recipes/dec
 2ddfde38b6e384a56f538b13993f747a0d3b55d2 data/marioverse/advancement/recipes/decorations/polished_fungal_stone_wall.json
 6c15e2685307e304eef3abf015f661e2d446c9c4 data/marioverse/advancement/recipes/misc/coin.json
 c3d8b8c10b1564695406679cba5715cc2fe7d7bf data/marioverse/advancement/recipes/misc/fire_hat.json
-537ba0fdf1bfa72697cb235e5b65f21a98d73664 data/marioverse/advancement/recipes/misc/fire_pants.json
+5e5df2d84eabec5c1b20f2dd088565485e2527fe data/marioverse/advancement/recipes/misc/fire_pants.json
 ae811fc10bfd839e0503a07d9a0a472277084d51 data/marioverse/advancement/recipes/misc/fire_shirt.json
 3528c00d38d1776c4f7f60683f93aefb1a93e93c data/marioverse/advancement/recipes/misc/fire_shoes.json
 70ee71a1b016163d26a39a2c7e8cc27b11c6487f data/marioverse/advancement/recipes/misc/pipe_wrench.json
@@ -554,7 +554,7 @@ e07e62f0169e0fc0ddb14e70c82de6ac5f17e9c4 data/marioverse/recipe/exposed_cut_copp
 ffe1b68287c31e57c7437d3cc5870bb62d062171 data/marioverse/recipe/exposed_cut_copper_pedestal_from_exposed_copper_stonecutting.json
 a69266ffb1e0290e844e759d88cac5871b302833 data/marioverse/recipe/exposed_cut_copper_pedestal_stonecutting.json
 867370d39b8cad9f4e4787c57680358cc815718e data/marioverse/recipe/fire_hat.json
-09f771394fa34748fd1dd6661aba96a29e683a14 data/marioverse/recipe/fire_pants.json
+12eae23c790394f9810162382912972c95df2784 data/marioverse/recipe/fire_pants.json
 d1be670d2086cbdc50773ae450a8120317ed8073 data/marioverse/recipe/fire_shirt.json
 41dc457fc7979b017cf8ccf3192e3c84e2db2fd3 data/marioverse/recipe/fire_shoes.json
 7162d361dcfa6bccb125c1e0ffa22c0f6519b18e data/marioverse/recipe/fungal_bricks.json

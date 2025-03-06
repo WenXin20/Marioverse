@@ -28,14 +28,15 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_SHOES;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
-    public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
-    public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
+    public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PIPE_WRENCH;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
+    public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
+    public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
 
@@ -64,6 +65,9 @@ public class ItemRegistry {
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
         FIRE_SHOES = registerItem("fire_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
+
+        ICE_FLOWER = registerItem("ice_flower",
+                () -> new BasePowerUpItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
                 () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));

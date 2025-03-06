@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
@@ -28,11 +29,12 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
-
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL = register("bouncing_fireball", BouncingFireballProjectile::new,
             MobCategory.AMBIENT, 0.3f, 0.3f);
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
+            MobCategory.AMBIENT, 0.6f, 0.6f);
+    public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER = register("ice_flower", IceFlowerEntity::new,
             MobCategory.AMBIENT, 0.6f, 0.6f);
     public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
@@ -102,6 +104,7 @@ public class EntityRegistry {
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
+        event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
