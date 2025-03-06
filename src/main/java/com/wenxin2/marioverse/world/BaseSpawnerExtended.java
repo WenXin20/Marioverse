@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -14,22 +13,18 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.random.WeightedEntry;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -102,8 +97,6 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                     }
 
                     EntityType<?> entityType = entityTypeOpt.get();
-
-                    // Check if the same entity type is already within 1 block
                     int nearbyEntities = serverWorld.getEntities(entityType,
                             new AABB(pos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
@@ -112,13 +105,13 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                         return;
                     }
 
-                    ListTag listtag = tag.getList("Pos", 6);
-                    int j = listtag.size();
-                    double x = j >= 1 ? listtag.getDouble(0)
-                            : (double)pos.getX() + (random.nextDouble() - random.nextDouble()) * (double)this.spawnRange + 0.5;
-                    double y = j >= 2 ? listtag.getDouble(1) : (double)(pos.getY() + random.nextInt(3) - 1);
-                    double z = j >= 3 ? listtag.getDouble(2)
-                            : (double)pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double)this.spawnRange + 0.5;
+                    ListTag listTag = tag.getList("Pos", 6);
+                    int j = listTag.size();
+                    double x = j >= 1 ? listTag.getDouble(0)
+                            : (double) pos.getX() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
+                    double y = j >= 2 ? listTag.getDouble(1) : (double) (pos.getY() + random.nextInt(3) - 1);
+                    double z = j >= 3 ? listTag.getDouble(2)
+                            : (double) pos.getZ() + (random.nextDouble() - random.nextDouble()) * (double) this.spawnRange + 0.5;
 
                     BlockPos spawnPos;
                     if (hasFacing) {
@@ -134,7 +127,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                                 break;
                             case DOWN:
                                 x = spawnPos.getX() + 0.5;
-                                y = spawnPos.getY() + entityHeight + 0.1;
+                                y = spawnPos.getY() + 1.0 - entityHeight - 0.1;
                                 z = spawnPos.getZ() + 0.5;
                                 break;
                             case NORTH:
@@ -158,8 +151,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                                 z = spawnPos.getZ() + 0.5;
                                 break;
                         }
-                    }
-                    else spawnPos = BlockPos.containing(x, y, z);
+                    } else spawnPos = BlockPos.containing(x, y, z);
 
                     if (serverWorld.noCollision(entityType.getSpawnAABB(x, y, z))) {
                         double finalX = x;
@@ -178,10 +170,6 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
                         entity.moveTo(x, y, z, random.nextFloat() * 360.0F, 0.0F);
 
                         if (entity instanceof Mob mob) {
-                            if (!EventHooks.checkSpawnPositionSpawner(mob, serverWorld, MobSpawnType.SPAWNER, spawnData, this)) {
-                                continue;
-                            }
-
                             EventHooks.finalizeMobSpawnSpawner(mob, serverWorld,
                                     serverWorld.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.SPAWNER, null, this, true);
 
@@ -231,34 +219,13 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
         }
     }
 
-    private Vec3 getOffsetForFace(Direction facing, double entityWidth, double entityHeight) {
-        double halfWidth = entityWidth / 2.0;
-
-        switch (facing) {
-            case UP:
-                return new Vec3(0.5, 1.0, 0.5);
-            case DOWN:
-                return new Vec3(0.5, -entityHeight, 0.5);
-            case NORTH:
-                return new Vec3(0.5, 0.5, -halfWidth);
-            case SOUTH:
-                return new Vec3(0.5, 0.5, 1.0 + halfWidth);
-            case WEST:
-                return new Vec3(-halfWidth, 0.5, 0.5);
-            case EAST:
-                return new Vec3(1.0 + halfWidth, 0.5, 0.5);
-            default:
-                return new Vec3(0.5, 0.5, 0.5);
-        }
-    }
-
     public void load(@Nullable Level world, BlockPos pos, CompoundTag tag) {
         this.spawnDelay = tag.getShort("Delay");
         boolean hasSpawnData = tag.contains("SpawnData", 10);
         if (hasSpawnData) {
             SpawnData spawndata = SpawnData.CODEC
                     .parse(NbtOps.INSTANCE, tag.getCompound("SpawnData"))
-                    .resultOrPartial(p_186391_ -> LOGGER.warn("Invalid SpawnData: {}", p_186391_))
+                    .resultOrPartial(warn -> LOGGER.warn("Invalid SpawnData: {}", warn))
                     .orElseGet(SpawnData::new);
             this.setNextSpawnData(world, pos, spawndata);
         }
@@ -268,7 +235,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
             ListTag listTag = tag.getList("SpawnPotentials", 10);
             this.spawnPotentials = SpawnData.LIST_CODEC
                     .parse(NbtOps.INSTANCE, listTag)
-                    .resultOrPartial(p_186388_ -> LOGGER.warn("Invalid SpawnPotentials list: {}", p_186388_))
+                    .resultOrPartial(warn -> LOGGER.warn("Invalid SpawnPotentials list: {}", warn))
                     .orElseGet(SimpleWeightedRandomList::empty);
         } else this.spawnPotentials = SimpleWeightedRandomList.single(this.nextSpawnData != null
                 ? this.nextSpawnData : new SpawnData());
@@ -301,7 +268,7 @@ public abstract class BaseSpawnerExtended extends BaseSpawner {
         if (this.nextSpawnData != null) {
             tag.put("SpawnData", SpawnData.CODEC
                     .encodeStart(NbtOps.INSTANCE, this.nextSpawnData)
-                    .getOrThrow(p_337966_ -> new IllegalStateException("Invalid SpawnData: " + p_337966_))
+                    .getOrThrow(warn -> new IllegalStateException("Invalid SpawnData: " + warn))
             );
         }
 
