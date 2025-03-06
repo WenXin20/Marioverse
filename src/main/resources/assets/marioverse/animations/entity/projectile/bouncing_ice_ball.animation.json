@@ -1,11 +1,11 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.bouncing_iceball.idle": {
+		"animation.bouncing_ice_ball.idle": {
 			"loop": true,
 			"animation_length": 0.75,
 			"bones": {
-				"iceball": {
+				"ice_ball": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 0, 0],
