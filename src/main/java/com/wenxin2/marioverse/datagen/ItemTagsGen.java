@@ -68,6 +68,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SUPER_STAR.get());
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
+                .addTag(TagRegistry.WARP_PIPE_ITEMS)
                 .add(ItemRegistry.PIPE_WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 

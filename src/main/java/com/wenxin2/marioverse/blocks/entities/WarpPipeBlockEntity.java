@@ -909,26 +909,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                     stack.copyWithCount(1);
                 } else this.spawnItem(world, spawnPos, stack);
 
-            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
-                    && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
-                if (bucket.content.isSame(Fluids.WATER)) {
-                    if (bucket.emptyContents(null, world, spawnPos, null, stack))
-                        bucket.checkExtraContent(null, world, stack, spawnPos);
-                    this.spawnItem(world, spawnPos, new ItemStack(Items.BUCKET));
-                } else if (world.getBlockState(spawnPos.above(3)).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, spawnPos.above(3), null, stack))
-                        bucket.checkExtraContent(null, world, stack, spawnPos.above(3));
-                    this.spawnItem(world, spawnPos.above(3), new ItemStack(Items.BUCKET));
-                } else if (!world.getBlockState(spawnPos.above(3)).canBeReplaced())
-                    this.spawnItem(world, spawnPos, stack);
-
-            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(spawnPos.above(3)).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, spawnPos.above(3), null, stack))
-                        bucket.checkExtraContent(null, world, stack, spawnPos.above(3));
-                    this.spawnItem(world, spawnPos.above(3), new ItemStack(Items.BUCKET));
-                } else this.spawnItem(world, spawnPos, stack);
-
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 
