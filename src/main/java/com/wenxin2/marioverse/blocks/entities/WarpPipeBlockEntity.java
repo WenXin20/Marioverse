@@ -1103,11 +1103,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                     baseSpeed,
                     world.random.triangle(0.0, 0.2)
             );
-            case DOWN -> new Vec3(
-                    world.random.triangle(0.0, 0.2),
-                    -baseSpeed,
-                    world.random.triangle(0.0, 0.2)
-            );
+            case DOWN -> new Vec3(0, -baseSpeed, 0);
         };
 
         ItemEntity itemEntity = new ItemEntity(world, x, y, z, stack);
