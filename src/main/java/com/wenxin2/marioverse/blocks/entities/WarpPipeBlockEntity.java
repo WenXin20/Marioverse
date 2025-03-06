@@ -18,7 +18,7 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
-import com.wenxin2.marioverse.world.BaseSpawnerExtended;
+import com.wenxin2.marioverse.world.PipeSpawner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +135,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public boolean displayTextAbove;
     public boolean displayTextBelow;
 
-    private final BaseSpawnerExtended spawner = new BaseSpawnerExtended() {
+    private final PipeSpawner spawner = new PipeSpawner() {
         @Override
         public void broadcastEvent(Level world, BlockPos pos, int eventId) {
             if (world.getBlockState(pos).getBlock() instanceof WarpPipeBlock block)

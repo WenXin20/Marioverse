@@ -31,7 +31,7 @@ import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-public abstract class BaseSpawnerExtended extends BaseSpawner {
+public abstract class PipeSpawner extends BaseSpawner {
     public static final String SPAWN_DATA_TAG = "SpawnData";
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final int EVENT_SPAWN = 1;
