@@ -28,6 +28,7 @@ public class TagRegistry {
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
+    public static final TagKey<Block> ICE_BALL_FREEZES = blockTags("ice_ball_freezes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> MELTS = blockTags("melts");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
@@ -44,6 +45,7 @@ public class TagRegistry {
 
     public static final TagKey<DamageType> IS_BONKED = damageTypeTags("is_bonked");
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
+    public static final TagKey<DamageType> IS_ICE_BALL = damageTypeTags("ice_ball");
     public static final TagKey<DamageType> IS_PIRANHA_CHOMP = damageTypeTags("is_piranha_chomp");
     public static final TagKey<DamageType> IS_SHRAPNEL = damageTypeTags("is_shrapnel");
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
@@ -96,6 +98,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags("goombas");
     public static final TagKey<EntityType<?>> HAS_NO_DELTA_MOVEMENT = entityTypeTags("has_no_delta_movement");
     public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags("hefty_goomba_can_attack");
+    public static final TagKey<EntityType<?>> ICE_BALL_CAN_INSTAKILL = entityTypeTags("ice_ball_can_instakill");
+    public static final TagKey<EntityType<?>> ICE_BALL_IMMUNE = entityTypeTags("ice_ball_immune");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
