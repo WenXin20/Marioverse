@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-04T21:04:30.7386184	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-06T00:37:28.1351117	Tags for minecraft:entity_type mod id marioverse
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
@@ -34,6 +34,7 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/piranh
 2ff76f4951e2539aca15983032d907765f212cb1 data/marioverse/tags/entity_type/power_ups.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json
 a4f847c3081ba18874a22c7344ebfceea66563f6 data/marioverse/tags/entity_type/super_star_immune.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/warp_pipe_cannot_spawn.json
 274852023b3f992243a2bce7a8dda7372d2e1533 data/minecraft/tags/entity_type/can_breathe_under_water.json
 274852023b3f992243a2bce7a8dda7372d2e1533 data/minecraft/tags/entity_type/fall_damage_immune.json
 3d4e508b89aac80b92c9f3ee60b3114d5772ed83 data/minecraft/tags/entity_type/frog_food.json
