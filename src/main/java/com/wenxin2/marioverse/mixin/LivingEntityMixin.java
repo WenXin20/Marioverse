@@ -81,7 +81,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityMixin extends Entity {
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique private int marioverse$warpCooldown;
     @Unique private int marioverse$consecutiveBounces;
     @Unique private int marioverse$oneUpsRewarded;
     @Unique private boolean marioverse$playedDamagedSound;
@@ -101,10 +100,11 @@ public abstract class LivingEntityMixin extends Entity {
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
-        int checkpointCooldown = this.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
-        int fireballCooldown = this.getPersistentData().getInt("marioverse:fireball_cooldown");
-        int superStarCooldown = this.getPersistentData().getInt("marioverse:super_star_cooldown");
-        boolean hasSuperStar = this.getPersistentData().getBoolean("marioverse:has_super_star");
+        int checkpointCooldown = entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
+        int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
+        int superStarCooldown = entity.getPersistentData().getInt("marioverse:super_star_cooldown");
+        int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
+        boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -155,9 +155,6 @@ public abstract class LivingEntityMixin extends Entity {
             marioverse$oneUpsRewarded = 0;
         }
 
-        if (this.marioverse$warpCooldown > 0)
-            --this.marioverse$warpCooldown;
-
         if (entity.onGround() && entity.getDeltaMovement().y <= 0
                 && entity.getPersistentData().getBoolean("marioverse:has_smashed_block"))
             entity.getPersistentData().putBoolean("marioverse:has_smashed_block", false);
@@ -186,6 +183,9 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (superStarCooldown > 0)
             entity.getPersistentData().putInt("marioverse:super_star_cooldown", superStarCooldown - 1);
+
+        if (warpCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
 
         if (superStarCooldown == 0 && hasSuperStar)
             entity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.FALSE);
@@ -825,12 +825,14 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     public int marioverse$getWarpCooldown() {
-        return marioverse$warpCooldown;
+        LivingEntity entity = (LivingEntity) (Object) this;
+        return entity.getPersistentData().getInt("marioverse:warp_cooldown");
     }
 
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
-        this.marioverse$warpCooldown = cooldown;
+        LivingEntity entity = (LivingEntity) (Object) this;
+        entity.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
     }
 
     @Unique

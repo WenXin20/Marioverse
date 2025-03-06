@@ -31,8 +31,6 @@ public abstract class PlayerMixin extends Entity {
 
     @Shadow public abstract void displayClientMessage(Component component, boolean isAboveHotbar);
 
-    @Unique private int marioverse$warpCooldown;
-
     public PlayerMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
     }
@@ -47,6 +45,8 @@ public abstract class PlayerMixin extends Entity {
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
+
+        int warpCooldown = player.getPersistentData().getInt("marioverse:warp_cooldown");
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -83,26 +83,29 @@ public abstract class PlayerMixin extends Entity {
                 && !player.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
 
-        if (this.marioverse$warpCooldown > 0)
-            --this.marioverse$warpCooldown;
+        if (warpCooldown > 0)
+            player.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
 
         int preventWarpCooldown = this.getPersistentData().getInt("marioverse:prevent_warp_cooldown");
         if (preventWarpCooldown > 0)
-            this.getPersistentData().putInt("marioverse:prevent_warp_cooldown", preventWarpCooldown - 1);
+            player.getPersistentData().putInt("marioverse:prevent_warp_cooldown", preventWarpCooldown - 1);
+
         if (preventWarpCooldown == 0 && this.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            this.getPersistentData().putBoolean("marioverse:prevent_warp", false);
+            player.getPersistentData().putBoolean("marioverse:prevent_warp", false);
 
         super.baseTick();
     }
 
     @Unique
     public int marioverse$getWarpCooldown() {
-        return marioverse$warpCooldown;
+        Player player = (Player) (Object) this;
+        return player.getPersistentData().getInt("marioverse:warp_cooldown");
     }
 
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
-        this.marioverse$warpCooldown = cooldown;
+        Player player = (Player) (Object) this;
+        player.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
     }
 
     @Unique

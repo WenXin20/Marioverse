@@ -62,7 +62,11 @@ public class MarioverseEventHandlers {
 
         if (!(entity instanceof LivingEntity)) return;
 
-        if (!tag.contains("marioverse:prevent_warp"))
+        if (!tag.contains("marioverse:prevent_warp")
+                && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                && (ConfigRegistry.TELEPORT_MOBS.get()
+                    || ConfigRegistry.TELEPORT_PLAYERS.get())
+                    || ConfigRegistry.TELEPORT_NON_MOBS.get())
             tag.putBoolean("marioverse:prevent_warp", false);
 
         if (!tag.contains("marioverse:has_fire_flower")
@@ -99,6 +103,13 @@ public class MarioverseEventHandlers {
         if (!tag.contains("marioverse:claimed_checkpoint_flag_cooldown")
                 && (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)))
             tag.putInt("marioverse:claimed_checkpoint_flag_cooldown", 0);
+
+        if (!tag.contains("marioverse:warp_cooldown")
+                && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                && (ConfigRegistry.TELEPORT_MOBS.get()
+                    || ConfigRegistry.TELEPORT_PLAYERS.get())
+                    || ConfigRegistry.TELEPORT_NON_MOBS.get())
+            tag.putInt("marioverse:warp_cooldown", 0);
 
         if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity)) {
             if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)

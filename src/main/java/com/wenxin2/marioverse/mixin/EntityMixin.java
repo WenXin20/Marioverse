@@ -46,10 +46,7 @@ public abstract class EntityMixin {
     @Shadow public abstract int getId();
     @Shadow public abstract BlockPos blockPosition();
     @Shadow public abstract EntityType<?> getType();
-    @Shadow public abstract void setPos(Vec3 p_146885_);
-
-    @Unique
-    private int marioverse$warpCooldown;
+    @Shadow public abstract void setPos(Vec3 vec3);
 
     @Inject(at = @At("TAIL"), method = "baseTick")
     public void baseTick(CallbackInfo ci) {
@@ -61,6 +58,8 @@ public abstract class EntityMixin {
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
+
+        int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -99,8 +98,8 @@ public abstract class EntityMixin {
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
 
-        if (this.marioverse$warpCooldown > 0)
-            --this.marioverse$warpCooldown;
+        if (warpCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
     }
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
@@ -222,12 +221,14 @@ public abstract class EntityMixin {
 
     @Unique
     public int marioverse$getWarpCooldown() {
-        return marioverse$warpCooldown;
+        Entity entity = (Entity) (Object) this;
+        return entity.getPersistentData().getInt("marioverse:warp_cooldown");
     }
 
     @Unique
     public void marioverse$setWarpCooldown(int cooldown) {
-        this.marioverse$warpCooldown = cooldown;
+        Entity entity = (Entity) (Object) this;
+        entity.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
     }
 
     @Unique
