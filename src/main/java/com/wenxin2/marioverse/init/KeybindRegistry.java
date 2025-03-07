@@ -13,6 +13,7 @@ import org.lwjgl.glfw.GLFW;
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class KeybindRegistry {
     public static KeyMapping FIREBALL_SHOOT_KEY;
+    public static KeyMapping ICE_BALL_SHOOT_KEY;
 
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
@@ -20,6 +21,12 @@ public class KeybindRegistry {
                 KeyConflictContext.IN_GAME,
                 InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R,
                 "gui.marioverse.controls");
+        ICE_BALL_SHOOT_KEY = new KeyMapping("key.marioverse.bouncing_ice_ball",
+                KeyConflictContext.IN_GAME,
+                InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R,
+                "gui.marioverse.controls");
+
         event.register(FIREBALL_SHOOT_KEY);
+        event.register(ICE_BALL_SHOOT_KEY);
     }
 }
