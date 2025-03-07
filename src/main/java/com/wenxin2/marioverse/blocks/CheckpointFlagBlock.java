@@ -941,6 +941,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         applyOneUpMushroomPowerUp(world, stack, entityHitBlock);
                     } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()) {
                         applyFireFlowerPowerUp(world, entityHitBlock);
+                    } else if (stack.getItem() == ItemRegistry.ICE_FLOWER.get()) {
+                        applyIceFlowerPowerUp(world, entityHitBlock);
                     } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()) {
                         applySuperStarPowerUp(world, entityHitBlock);
                     } else {
@@ -1014,8 +1016,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
             if (player.getHealth() < player.getMaxHealth())
                 player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-            player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
             player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+            player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
             world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
 
@@ -1033,6 +1035,44 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_PANTS.get()));
                 if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.FIRE_SHOES.get())
                     containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.FIRE_SHOES.get()));
+            }
+        }
+    }
+
+    public static void applyIceFlowerPowerUp(Level world, Entity entityHitBlock) {
+        if (entityHitBlock instanceof Player player && !player.isSpectator()
+                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && player.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)) {
+            AccessoriesCapability capability = AccessoriesCapability.get(player);
+
+            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                if (player.getPersistentData().getBoolean("marioverse:has_ice_flower"))
+                    world.broadcastEntityEvent(player, (byte) 20); // Poof particle
+                else if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, player, 10);
+            }
+
+            if (player.getHealth() < player.getMaxHealth())
+                player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+            player.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
+            world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
+
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
+                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
+                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
+                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
+                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
+
+                if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get())
+                    containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
+                if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get())
+                    containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
+                if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get())
+                    containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
+                if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get())
+                    containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
             }
         }
     }
