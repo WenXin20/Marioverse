@@ -126,7 +126,9 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
 
-                if (livingEntity instanceof GoombaEntity goomba && goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+                if (livingEntity instanceof GoombaEntity goomba
+                        && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                            || goomba.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUME_ITEMS)))  {
                     goomba.equipItemIfPossible(new ItemStack(ItemRegistry.ICE_HAT.get()));
                 }
 
