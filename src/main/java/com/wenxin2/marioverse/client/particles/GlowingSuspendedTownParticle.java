@@ -53,7 +53,7 @@ public class GlowingSuspendedTownParticle extends GlowParticle {
 
             particle.setColor(1.0F, 1.0F, 1.0F);
             particle.scale(1.5F);
-            particle.setParticleSpeed(0.0, 0.5, 0.0);
+            particle.setParticleSpeed(0.0, 0.1, 0.0);
             return particle;
         }
     }
