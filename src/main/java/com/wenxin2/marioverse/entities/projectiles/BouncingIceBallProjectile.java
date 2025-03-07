@@ -105,7 +105,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             double y = this.getY() + this.getBbHeight() / 2;
             double z = this.getZ();
             this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
-            this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, y, z, 0, 0, 0);
+            this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, y, z, 0.2, 0, 0.2);
         }
     }
 
