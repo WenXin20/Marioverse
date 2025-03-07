@@ -8,30 +8,27 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public class ServerParticleUtils {
-    public static void spawnParticlesOnBlockFaces(ServerLevel serverWorld, BlockPos pos, ParticleOptions particleOptions, IntProvider count) {
+    public static void spawnParticlesOnBlockFaces(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, IntProvider count) {
         for (Direction direction : Direction.values()) {
-            spawnParticlesOnBlockFace(serverWorld, pos, direction, particleOptions, count,
+            spawnParticlesOnBlockFace(particleOptions, serverWorld, pos, direction, count,
                     () -> getRandomSpeedRanges(serverWorld.getRandom()), 0.55);
         }
     }
 
-    public static void spawnParticlesOnBlockFace(
-            ServerLevel serverWorld, BlockPos pos, Direction direction, ParticleOptions particleOptions, IntProvider count,
-            Supplier<Vec3> motionSupplier, double offset
-    ) {
+    public static void spawnParticlesOnBlockFace(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, Direction direction,
+                                                 IntProvider count, Supplier<Vec3> motionSupplier, double offset) {
         int particleAmount = count.sample(serverWorld.random);
 
         for (int i = 0; i < particleAmount; i++) {
-            spawnParticleOnFace(serverWorld, pos, direction, particleOptions, motionSupplier.get(), offset);
+            spawnParticleOnFace(particleOptions, serverWorld, pos, direction, motionSupplier.get(), offset);
         }
     }
 
-    public static void spawnParticleOnFace(
-            ServerLevel serverWorld, BlockPos pos, Direction face, ParticleOptions particleOptions, Vec3 motion, double offset
-    ) {
+    public static void spawnParticleOnFace(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, Direction face, Vec3 motion, double offset) {
         Vec3 center = Vec3.atCenterOf(pos);
         int xStep = face.getStepX();
         int yStep = face.getStepY();

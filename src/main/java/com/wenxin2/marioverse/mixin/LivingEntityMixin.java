@@ -554,7 +554,7 @@ public abstract class LivingEntityMixin extends Entity {
                     PiglinAi.angerNearbyPiglins(player, false);
 
                 if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticlesOnBlockFace(serverWorld, pos, Direction.DOWN, ParticleTypes.CRIT,
+                    ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
                 questionBlock.playSounds(world, pos, storedItem);

@@ -355,8 +355,8 @@ public class QuestionBlock extends BaseEntityBlock {
                 boolean itemAdded = player.addItem(stack.copyWithCount(1));
 
                 if (blockItem.getBlock() instanceof StarCoinBlock)
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(4, 6));
-                else ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(2, 3));
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(4, 6));
+                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
 
                 if (!itemAdded)
                     player.drop(stack.copyWithCount(1), false);

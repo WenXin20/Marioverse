@@ -325,7 +325,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
         for (BlockPos partPos : positions) {
             if (world instanceof ServerLevel serverWorld && entity != null)
-                ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, partPos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, partPos, UniformInt.of(1, 1));
             world.removeBlock(partPos, false);
         }
     }

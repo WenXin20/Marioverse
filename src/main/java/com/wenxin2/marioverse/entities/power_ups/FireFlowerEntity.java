@@ -79,8 +79,9 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-                player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                 player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+                player.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.FALSE);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
@@ -112,11 +113,13 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 else this.level().broadcastEntityEvent(livingEntity, (byte) 123); // Fire Powered Up particle
 
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                    livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+                    livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.FALSE);
                 } else {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+                    livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.FALSE);
                     this.level().broadcastEntityEvent(livingEntity, (byte) 123); // Fire Powered Up particle
                     float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
                     int numParticles = (int) (scaleFactor * 20);

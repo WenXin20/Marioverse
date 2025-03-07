@@ -97,7 +97,7 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
         if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS)) {
             if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
 
             world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
             world.removeBlock(pos, false);

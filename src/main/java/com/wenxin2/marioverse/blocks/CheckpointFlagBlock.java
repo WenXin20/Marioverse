@@ -28,7 +28,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -721,8 +720,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 boolean itemAdded = player.addItem(stack.copyWithCount(1));
 
                 if (blockItem.getBlock() instanceof StarCoinBlock)
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(2, 3));
-                else ServerParticleUtils.spawnParticlesOnBlockFaces(serverWorld, pos, ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
+                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
 
                 if (!itemAdded)
                     player.drop(stack.copyWithCount(1), false);
