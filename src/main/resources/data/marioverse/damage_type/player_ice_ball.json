@@ -1,0 +1,6 @@
+{
+  "effects": "freezing",
+  "exhaustion": 0.1,
+  "message_id": "marioverse.ice_ball.player",
+  "scaling": "always"
+}

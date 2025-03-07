@@ -180,7 +180,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         && player.getTeam() == this.getOwner().getTeam())
                     return;
 
-                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -190,8 +190,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     }
                 } else if (this.getOwner() != null) {
                     if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth());
-                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 2.0F); //TODO
+                        player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
+                    else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F); //TODO
                 }
                 this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -205,7 +205,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         && livingEntity.getTeam() == this.getOwner().getTeam()))
                     return;
 
-                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -215,8 +215,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     }
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 2.0F); // TODO
+                        livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
+                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F); // TODO
                 }
                 this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -225,7 +225,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
-                if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+                if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -235,8 +235,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     }
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth());
-                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 2.0F);
+                        partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth());
+                    else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F);
                     partEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,

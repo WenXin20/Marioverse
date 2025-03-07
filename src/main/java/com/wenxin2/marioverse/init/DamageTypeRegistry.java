@@ -23,6 +23,11 @@ public class DamageTypeRegistry {
     public static final ResourceKey<DamageType> PLAYER_FIREBALL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_fireball"));
 
+    public static final ResourceKey<DamageType> ICE_BALL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "ice_ball"));
+    public static final ResourceKey<DamageType> PLAYER_ICE_BALL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_ice_ball"));
+
     public static final ResourceKey<DamageType> PIRANHA_CHOMP =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "piranha_chomp"));
     public static final ResourceKey<DamageType> PLAYER_PIRANHA_CHOMP =
@@ -57,6 +62,14 @@ public class DamageTypeRegistry {
             return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_FIREBALL), projectile, shooter);
         } else if (shooter != null) {
             return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(FIREBALL), null, shooter);
+        } else return null;
+    }
+
+    public static DamageSource iceBall(@Nullable Entity projectile, @Nullable Entity shooter) {
+        if (shooter != null && projectile != null) {
+            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_ICE_BALL), projectile, shooter);
+        } else if (shooter != null) {
+            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ICE_BALL), null, shooter);
         } else return null;
     }
 
@@ -102,6 +115,11 @@ public class DamageTypeRegistry {
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.BURNING));
         context.register(PLAYER_FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball.player",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.BURNING));
+
+        context.register(ICE_BALL, new DamageType(Marioverse.MOD_ID + ".ice_ball",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.FREEZING));
+        context.register(PLAYER_ICE_BALL, new DamageType(Marioverse.MOD_ID + ".ice_ball.player",
+                DamageScaling.ALWAYS, 0.1f, DamageEffects.FREEZING));
 
         context.register(PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
