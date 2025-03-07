@@ -2,6 +2,7 @@
   "_comment": "Tag for accessories that can be equipped in the shoes slot",
   "replace": false,
   "values": [
-    { "id": "marioverse:fire_shoes", "required": false }
+    { "id": "marioverse:fire_shoes", "required": false },
+    { "id": "marioverse:ice_shoes", "required": false }
   ]
 }

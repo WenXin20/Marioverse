@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.network.client_bound.handler.WonderNamePacket;
 import com.wenxin2.marioverse.network.client_bound.handler.SwingHandPacket;
 import com.wenxin2.marioverse.network.server_bound.data.ClosePipeButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
+import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
@@ -15,6 +16,7 @@ import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.handler.ClosePipeButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.FireballShootPacket;
+import com.wenxin2.marioverse.network.server_bound.handler.IceBallShootPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesSliderPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.RenamePipePacket;
@@ -43,6 +45,7 @@ public class PacketHandler {
         // Sends to server
         registrar.playToServer(ClosePipeButtonPayload.CLOSE_STATE_PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
         registrar.playToServer(FireballShootPayload.FIREBALL_SHOOT_PAYLOAD, FireballShootPayload.STREAM_CODEC, FireballShootPacket.get()::handle);
+        registrar.playToServer(IceBallShootPayload.ICE_BALL_SHOOT_PAYLOAD, IceBallShootPayload.STREAM_CODEC, IceBallShootPacket.get()::handle);
         registrar.playToServer(PipeBubblesButtonPayload.BUBBLES_STATE_PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
         registrar.playToServer(PipeBubblesSliderPayload.BUBBLES_DISTANCE_PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
         registrar.playToServer(RenamePipePayload.RENAME_PIPE_PAYLOAD, RenamePipePayload.STREAM_CODEC, RenamePipePacket.get()::handle);

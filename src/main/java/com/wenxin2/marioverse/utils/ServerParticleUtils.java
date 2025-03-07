@@ -62,9 +62,9 @@ public class ServerParticleUtils {
             double y = entity.getY();
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y + offsetY - 0.2, z, 1, 0, 0.5, 0, 0.0);
-            serverWorld.sendParticles(particleOptions, x, y + offsetY / 2, z, 1, 0, 0.5, 0, 0.0);
-            serverWorld.sendParticles(particleOptions, x, y + 0.2, z, 1, 0, 0.5, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + offsetY - 0.2, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + offsetY / 2, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + 0.2, z, 1, 0, 0, 0, 0.0);
         }
     }
 

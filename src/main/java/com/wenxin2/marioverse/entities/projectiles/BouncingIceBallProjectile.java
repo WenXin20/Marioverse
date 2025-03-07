@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -12,13 +13,10 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -30,7 +28,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
-import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
@@ -38,21 +35,20 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class BouncingFireballProjectile extends ThrowableProjectile implements GeoEntity {
-    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.bouncing_fireball.idle");
+public class BouncingIceBallProjectile extends ThrowableProjectile implements GeoEntity {
+    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.bouncing_ice_ball.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    private String BOUNCE_COUNT = "marioverse:ice_ball_bounce_count";
 
-    public BouncingFireballProjectile(EntityType<? extends BouncingFireballProjectile> entityType, Level world) {
+    public BouncingIceBallProjectile(EntityType<? extends BouncingIceBallProjectile> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -79,6 +75,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         super.tick();
         Vec3 motion = this.getDeltaMovement();
 
+        if (!this.getPersistentData().contains(BOUNCE_COUNT))
+            this.getPersistentData().putInt(BOUNCE_COUNT, 0);
+
         if (!this.isInWater()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
         } else {
@@ -103,7 +102,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             double x = this.getX();
             double y = this.getY() + this.getBbHeight() / 2;
             double z = this.getZ();
-            this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+            this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
+            this.level().addParticle(ParticleTypes.WAX_OFF, x, y, z, 0, 0, 0);
         }
     }
 
@@ -125,56 +125,45 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         BlockState stateAbove = this.level().getBlockState(hitPos.above());
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            if (!world.isClientSide) {
+            if (!world.isClientSide)
                 world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            }
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn on side hit
-        } else {
+        } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < 2) {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
-            world.broadcastEntityEvent(this, (byte) 61); // Smoke particle
+            world.broadcastEntityEvent(this, (byte) 60); // Snow particle
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+
+            if (this.getPersistentData().contains(BOUNCE_COUNT))
+                this.getPersistentData().putInt(BOUNCE_COUNT, this.getPersistentData().getInt(BOUNCE_COUNT) + 1);
+        } else {
+            if (!world.isClientSide)
+                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            this.discard();
         }
 
-        if (state.is(Blocks.SNOW)) {
-            ParticleUtils.spawnParticleOnFace(world, hitPos, Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
-            world.removeBlock(hitPos, Boolean.FALSE);
-        }
-        else if (state.is(TagRegistry.MELTS))
-            world.removeBlock(hitPos, Boolean.FALSE);
-        else if (stateAbove.is(Blocks.SNOW) || stateAbove.is(Blocks.POWDER_SNOW)) {
-            ParticleUtils.spawnParticleOnFace(world, hitPos.above(), Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
-            world.removeBlock(hitPos.above(), Boolean.FALSE);
-        }
-        else if (state.is(TagRegistry.MELTS_INTO_WATER))
-            world.setBlock(hitPos, Blocks.WATER.defaultBlockState(), 3);
-        else if (state.is(TagRegistry.MELTS_INTO_ICE))
+        if (state.is(TagRegistry.FREEZES_INTO_ICE)) {
+            if (state.getBlock() == Blocks.WATER && stateAbove.canBeReplaced())
+                world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
+            else if (state.getBlock() != Blocks.WATER)
+                world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
+        } else if (state.is(TagRegistry.FREEZES_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
-        else if (state.is(BlockTags.SOUL_FIRE_BASE_BLOCKS) && world.getBlockState(hitPos.above()).isAir())
-            world.setBlock(hitPos.above(), Blocks.SOUL_FIRE.defaultBlockState(), 3);
-        else if (state.is(TagRegistry.FIREBALL_SETS_ON_FIRE) && world.getBlockState(hitPos.above()).isAir())
-            world.setBlock(hitPos.above(), Blocks.FIRE.defaultBlockState(), 3);
-        else if (state.is(Blocks.OBSIDIAN) && world.getBlockState(hitPos.above()).isAir())
-            world.setBlock(hitPos.above(), Blocks.FIRE.defaultBlockState(), 3);
-        else if (state.is(Blocks.WET_SPONGE))
-            world.setBlock(hitPos, Blocks.SPONGE.defaultBlockState(), 3);
         else if (state.getBlock() instanceof CampfireBlock)
-            world.setBlock(hitPos, state.setValue(CampfireBlock.LIT, Boolean.TRUE), 3);
+            world.setBlock(hitPos, state.setValue(CampfireBlock.LIT, Boolean.FALSE), 3);
         else if (state.getBlock() instanceof CandleBlock)
-            world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.TRUE), 3);
+            world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.FALSE), 3);
         else if (state.getBlock() instanceof CandleCakeBlock)
-            world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.TRUE), 3);
-        else if (state.getBlock() instanceof TntBlock) {
-            PrimedTnt primedtnt = new PrimedTnt(world, hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5, null);
-            world.removeBlock(hitPos, Boolean.FALSE);
-            world.addFreshEntity(primedtnt);
-        } else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG))
-            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.TRUE), 3);
+            world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.FALSE), 3);
+        else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG))
+            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
         super.onHitBlock(hit);
     }
 
@@ -216,7 +205,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     return;
 
                 if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
@@ -226,7 +215,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F); // TODO
                     livingEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -237,7 +226,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 ItemStack shield = partEntity.getParent().getUseItem();
 
                 if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
@@ -272,7 +261,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             ItemStack shield = livingEntity.getUseItem();
             if (!this.level().isClientSide) {
                 if (shield.getItem() instanceof ShieldItem
-                        || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                        || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                     deflection.deflect(this, entity, this.random);
                     this.setOwner(owner);
                     this.onDeflection(entity, shouldDeflect);
@@ -303,7 +292,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     double y = this.getY() + offsetY;
                     double z = this.getZ() + offsetZ;
 
-                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
                 }
             }
         } else if (id == 61) {
@@ -323,7 +312,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     double y = this.getY() - this.getBbHeight();
                     double z = this.getZ() + offsetZ;
 
-                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
+                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0); // TODO
                 }
             }
         } else super.handleEntityEvent(id);

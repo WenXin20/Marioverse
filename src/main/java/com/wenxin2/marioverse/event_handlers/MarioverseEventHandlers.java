@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.BaseCostumeItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
+import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -341,6 +342,7 @@ public class MarioverseEventHandlers {
         if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
                 || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
+            PacketHandler.sendToServer(new IceBallShootPayload(player.blockPosition()));
         } // TODO add ice ball keybind
     }
 

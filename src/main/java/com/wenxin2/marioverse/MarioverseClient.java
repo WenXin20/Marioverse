@@ -26,6 +26,7 @@ import com.wenxin2.marioverse.client.renderers.entities.power_ups.MushroomRender
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.OneUpMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
@@ -103,7 +104,8 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBALL.get(), BouncingFireballRenderer::new);
-        
+        event.registerEntityRenderer(EntityRegistry.BOUNCING_ICE_BALL.get(), BouncingIceBallRenderer::new);
+
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_FLOWER.get(), IceFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MUSHROOM.get(), MushroomRenderer::new);

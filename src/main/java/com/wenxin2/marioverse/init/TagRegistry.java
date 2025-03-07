@@ -27,8 +27,9 @@ public class TagRegistry {
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
+    public static final TagKey<Block> FREEZES_INTO_ICE = blockTags("freezes_into_ice");
+    public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
-    public static final TagKey<Block> ICE_BALL_FREEZES = blockTags("ice_ball_freezes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> MELTS = blockTags("melts");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");

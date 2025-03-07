@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
+import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -30,6 +31,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL = register("bouncing_fireball", BouncingFireballProjectile::new,
+            MobCategory.AMBIENT, 0.3f, 0.3f);
+    public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL = register("bouncing_ice_ball", BouncingIceBallProjectile::new,
             MobCategory.AMBIENT, 0.3f, 0.3f);
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
