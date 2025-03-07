@@ -1,4 +1,4 @@
-// 1.21.1	2025-02-28T13:30:46.8580357	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-03-06T22:29:13.9820051	Tags for minecraft:block mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/block/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/block/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/block/dyed/brown.json
@@ -23,6 +23,8 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_chec
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
 36acea09e34b7355ffdae3631aacdc775724c27a data/marioverse/tags/block/fireball_sets_on_fire.json
+cf3608bd187922aeb48c566c19e8482b0dca34c7 data/marioverse/tags/block/freezes_into_ice.json
+619667c1b7332d180fa0737d335fc257a9549000 data/marioverse/tags/block/freezes_into_packed_ice.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
 e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/block/invisible_question_blocks.json
 e6a968de6c4bf32c65f2aaf5943a8af49adefda7 data/marioverse/tags/block/melts.json

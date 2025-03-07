@@ -58,7 +58,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 0, state -> PlayState.CONTINUE));
+        controllers.add(new AnimationController<>(this, "Walk", 0, state -> state.setAndContinue(IDLE)));
     }
 
     @Override

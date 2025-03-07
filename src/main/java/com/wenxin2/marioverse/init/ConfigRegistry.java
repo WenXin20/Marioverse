@@ -527,8 +527,8 @@ public class ConfigRegistry
                             .defineInRange("ice_ball_cooldown", 50, 1, 72000);
                     MAX_ICE_BALL_BOUNCES = BUILDER.translation("configuration.marioverse.max_ice_ball_bounces")
                             .comment("Max amount that ice_balls can bounce before disintegrating.")
-                            .comment("§9[Default: 2]§b")
-                            .defineInRange("max_ice_ball_bounces", 2, 0, 100);
+                            .comment("§9[Default: 1]§b")
+                            .defineInRange("max_ice_ball_bounces", 1, 0, 100);
                     MAX_PLAYER_ICE_BALLS = BUILDER.translation("configuration.marioverse.max_player_ice_balls")
                             .comment("Max amount of ice_balls that can be shot before a cooldown for the player.")
                             .comment("§9[Default: 2]§b")

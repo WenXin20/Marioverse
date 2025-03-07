@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
@@ -54,7 +55,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 0, state -> PlayState.CONTINUE));
+        controllers.add(new AnimationController<>(this, "Walk", 0, state -> state.setAndContinue(IDLE)));
     }
 
     @Override
@@ -127,12 +128,12 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
             if (!world.isClientSide)
                 world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+            world.playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn on side hit
-        } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < 2) {
+        } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
             Vec3 motion = this.getDeltaMovement();
-            this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
+            this.setDeltaMovement(motion.x, 0.5, motion.z); // Bounce
             world.broadcastEntityEvent(this, (byte) 60); // Snow particle
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -142,13 +143,13 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         } else {
             if (!world.isClientSide)
                 world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+            world.playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard();
         }
 
         if (state.is(TagRegistry.FREEZES_INTO_ICE)) {
-            if (state.getBlock() == Blocks.WATER && stateAbove.canBeReplaced())
+            if (state.getBlock() == Blocks.WATER && stateAbove.getBlock() != Blocks.WATER && stateAbove.canBeReplaced())
                 world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
             else if (state.getBlock() != Blocks.WATER)
                 world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
@@ -172,7 +173,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Entity entity = hit.getEntity();
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
-                    && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = player.getUseItem();
                 if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
                         && player.getTeam() == this.getOwner().getTeam())
@@ -187,16 +188,15 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
-                    if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                    if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth());
-                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
-                    player.igniteForSeconds(2.0F);
+                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 2.0F); //TODO
                 }
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
-                    && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = livingEntity.getUseItem();
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
                         && tamableAnimal.getOwner() == this.getOwner())
@@ -213,16 +213,15 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
-                    if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                    if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F); // TODO
-                    livingEntity.igniteForSeconds(2.0F);
+                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 2.0F); // TODO
                 }
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
-                    && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                    && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
                 if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
@@ -234,12 +233,12 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
-                    if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                    if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth());
-                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 2.0F);
                     partEntity.igniteForSeconds(2.0F);
                 }
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof MinecartTNT tnt)
@@ -247,10 +246,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         }
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
-                && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
-                && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+                && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
         }
     }
@@ -277,7 +276,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         if (id == 60) {
             if (this.level().isClientSide) {
                 int numParticles = 10; // Number of particles to spawn in the circle
-                double radius = 0.2;  // Radius of the circle around the fireball
+                double radius = 0.2;  // Radius of the circle around the ice ball
 
                 for (int i = 0; i < numParticles; i++) {
                     // Calculate angle for each particle
@@ -298,7 +297,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         } else if (id == 61) {
             if (this.level().isClientSide) {
                 int numParticles = 10; // Number of particles to spawn in the circle
-                double radius = 0.15;  // Radius of the circle around the fireball
+                double radius = 0.15;  // Radius of the circle around the ice ball
 
                 for (int i = 0; i < numParticles; i++) {
                     // Calculate angle for each particle
@@ -312,7 +311,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     double y = this.getY() - this.getBbHeight();
                     double z = this.getZ() + offsetZ;
 
-                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0); // TODO
+                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
                 }
             }
         } else super.handleEntityEvent(id);
