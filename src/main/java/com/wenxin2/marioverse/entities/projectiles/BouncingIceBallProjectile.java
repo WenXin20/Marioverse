@@ -192,6 +192,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
                     else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F); //TODO
+
+                    player.setIsInPowderSnow(true);
+                    if (player.canFreeze())
+                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), player.getTicksFrozen() + 1));
                 }
                 this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -217,6 +221,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
                     else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F); // TODO
+
+                    livingEntity.setIsInPowderSnow(true);
+                    if (livingEntity.canFreeze())
+                        livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksRequiredToFreeze(), livingEntity.getTicksFrozen() + 1));
                 }
                 this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                         SoundSource.AMBIENT, 1.0F, 1.0F);
