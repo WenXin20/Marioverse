@@ -346,15 +346,13 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (player != null && player.getPersistentData().getBoolean("marioverse:has_fire_flower")
-                && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
-                    || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
+        if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
+                || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
         }
 
-        if (player != null && player.getPersistentData().getBoolean("marioverse:has_ice_flower")
-                && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
-                    || KeybindRegistry.ICE_BALL_SHOOT_KEY.isDown())) {
+        if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
+                || KeybindRegistry.ICE_BALL_SHOOT_KEY.isDown())) {
             PacketHandler.sendToServer(new IceBallShootPayload(player.blockPosition()));
         }
     }
