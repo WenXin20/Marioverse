@@ -116,10 +116,10 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
-    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_MOBS;
-    public static ModConfigSpec.DoubleValue HEALTH_SHRINK_PLAYERS;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
+    public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
@@ -368,14 +368,14 @@ public class ConfigRegistry
                         .comment("Allow damage to shrink all mobs.")
                         .comment("§9[Default: false]")
                         .define("damage_shrinks_all_mobs", false);
-                HEALTH_SHRINK_PLAYERS = BUILDER.translation("configuration.marioverse.health_shrink_players")
+                SHRINK_PLAYERS_AT_HEALTH = BUILDER.translation("configuration.marioverse.shrink_players_at_health")
                         .comment("Health to shrink player at.")
                         .comment("§9[Default: 10.0F]§b")
-                        .defineInRange("health_shrink_players", 10.0F, 0.0F, 100.0F);
-                HEALTH_SHRINK_MOBS = BUILDER.translation("configuration.marioverse.health_shrink_mobs")
+                        .defineInRange("shrink_players_at_health", 10.0F, 0.0F, 100.0F);
+                SHRINK_MOBS_AT_HEALTH = BUILDER.translation("configuration.marioverse.shrink_mobs_at_health")
                         .comment("Health in percent to shrink mobs at.")
                         .comment("§9[Default: 2%]§b")
-                        .defineInRange("health_shrink_mobs", 0.2F, 0.0F, 1.0F);
+                        .defineInRange("shrink_mobs_at_health", 0.2F, 0.0F, 1.0F);
                 ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
                         .comment("Enable mobs to stomp other mobs.")
                         .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")

@@ -473,11 +473,11 @@ public abstract class LivingEntityMixin extends Entity {
                 && !hasMushroom
                 && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && ((isPlayer && health <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (!isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
+                && ((isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
 
-        boolean shouldReset = (isPlayer && health > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (!isPlayer && health > entity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
+        boolean shouldReset = (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
         if (shouldShrink) {
             marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);

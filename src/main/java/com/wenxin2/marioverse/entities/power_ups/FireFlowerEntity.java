@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
-import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -112,7 +111,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                 else this.level().broadcastEntityEvent(livingEntity, (byte) 123); // Fire Powered Up particle
 
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.FALSE);

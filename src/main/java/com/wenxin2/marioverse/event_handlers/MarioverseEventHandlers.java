@@ -160,7 +160,7 @@ public class MarioverseEventHandlers {
                     event.setCanceled(true);
             }
 
-            if (healthAfterDamage <= ConfigRegistry.HEALTH_SHRINK_PLAYERS.get())
+            if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
                 tag.putBoolean("marioverse:has_mushroom", false);
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
@@ -195,7 +195,7 @@ public class MarioverseEventHandlers {
         } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
-            float threshold = maxHealth * ConfigRegistry.HEALTH_SHRINK_MOBS.get().floatValue();
+            float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
 
             if (tag.getBoolean("marioverse:has_fire_flower")
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
@@ -265,10 +265,10 @@ public class MarioverseEventHandlers {
         CompoundTag tag = entity.getPersistentData();
 
         if (entity instanceof Player player) {
-            if (player.getHealth() > ConfigRegistry.HEALTH_SHRINK_PLAYERS.get())
+            if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
                 tag.putBoolean("marioverse:has_mushroom", true);
         } else if (entity instanceof LivingEntity livingEntity) {
-            if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get())
+            if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
                 tag.putBoolean("marioverse:has_mushroom", true);
         }
     }

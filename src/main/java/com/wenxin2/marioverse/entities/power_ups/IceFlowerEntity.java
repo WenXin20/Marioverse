@@ -114,7 +114,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                 else ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, livingEntity, 10);
 
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.FALSE);

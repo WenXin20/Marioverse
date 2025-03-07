@@ -100,7 +100,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                    if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
+                    if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                         this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
                     } else {
