@@ -126,7 +126,7 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 if (livingEntity instanceof GoombaEntity goomba
                         && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                             || goomba.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUME_ITEMS))) {
-                    goomba.equipItemIfPossible(new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                    goomba.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.FIRE_HAT.get()));
                 }
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
