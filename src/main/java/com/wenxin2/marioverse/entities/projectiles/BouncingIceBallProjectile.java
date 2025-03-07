@@ -48,7 +48,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class BouncingIceBallProjectile extends ThrowableProjectile implements GeoEntity {
     protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.bouncing_ice_ball.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    private String BOUNCE_COUNT = "marioverse:ice_ball_bounce_count";
+    private final String BOUNCE_COUNT = "marioverse:ice_ball_bounce_count";
 
     public BouncingIceBallProjectile(EntityType<? extends BouncingIceBallProjectile> entityType, Level world) {
         super(entityType, world);
