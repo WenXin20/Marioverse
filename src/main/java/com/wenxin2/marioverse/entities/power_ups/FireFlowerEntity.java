@@ -116,29 +116,6 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.FALSE);
-                } else {
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.FALSE);
-                    this.level().broadcastEntityEvent(livingEntity, (byte) 123); // Fire Powered Up particle
-                    float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
-                    int numParticles = (int) (scaleFactor * 20);
-                    double radius = livingEntity.getBbWidth() / 2;
-
-                    for (int i = 0; i < numParticles; i++) {
-                        // Calculate angle for each particle
-                        double angle = 2 * Math.PI * i / numParticles;
-                        // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                        double offsetX = Math.cos(angle) * radius;
-                        double offsetY = livingEntity.getBbHeight() / 2;
-                        double offsetZ = Math.sin(angle) * radius;
-
-                        double x = livingEntity.getX() + offsetX;
-                        double y = livingEntity.getY() + offsetY;
-                        double z = livingEntity.getZ() + offsetZ;
-
-                        livingEntity.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 100.0, 0);
-                    }
                 }
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())

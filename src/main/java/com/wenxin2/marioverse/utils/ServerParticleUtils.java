@@ -45,6 +45,50 @@ public class ServerParticleUtils {
         serverWorld.sendParticles(particleOptions, x, y, z, 1, motionX, motionY, motionZ, 0.0);
     }
 
+    public static void spawnPoweredUpParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, int avgAmount) {
+        float scaleFactor = entity.getBbWidth();
+        int numParticles = (int) (scaleFactor * avgAmount);
+        double radius = entity.getBbWidth() / 2;
+
+        for (int i = 0; i < numParticles; i++) {
+            // Calculate angle for each particle
+            double angle = 2 * Math.PI * i / numParticles;
+            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+            double offsetX = Math.cos(angle) * radius;
+            double offsetY = entity.getBbHeight();
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = entity.getX() + offsetX;
+            double y = entity.getY();
+            double z = entity.getZ() + offsetZ;
+
+            serverWorld.sendParticles(particleOptions, x, y + offsetY - 0.2, z, 1, 0, 1.0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + offsetY / 2, z, 1, 0, 1.0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + 0.2, z, 1, 0, 1.0, 0, 0.0);
+        }
+    }
+
+    public static void spawnEntityRingParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
+        float scaleFactor = entity.getBbHeight() * entity.getBbWidth();
+        int numParticles = (int) (scaleFactor * 20);
+        double radius = entity.getBbWidth() / 2;
+
+        for (int i = 0; i < numParticles; i++) {
+            // Calculate angle for each particle
+            double angle = 2 * Math.PI * i / numParticles;
+            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+            double offsetX = Math.cos(angle) * radius;
+            double offsetY = entity.getBbHeight() / 2;
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = entity.getX() + offsetX;
+            double y = entity.getY() + offsetY;
+            double z = entity.getZ() + offsetZ;
+
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 100, 0, 0.0);
+        }
+    }
+
     public static Vec3 getRandomSpeedRanges(RandomSource random) {
         return new Vec3(
                 Mth.nextDouble(random, -0.5, 0.5),

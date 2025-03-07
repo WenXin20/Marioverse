@@ -6,9 +6,11 @@ import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -64,7 +66,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     public void handleCollision(Entity entity) {
-        if (!this.level().isClientSide) {
+        if (this.level() instanceof ServerLevel serverWorld) {
 
             if (entity instanceof Player player && !player.isSpectator()
                     && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -74,13 +76,14 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (player.getPersistentData().getBoolean("marioverse:has_ice_flower"))
                         this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                    else this.level().broadcastEntityEvent(player, (byte) 123); // Ice Powered Up particle // TODO
+                    else ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, player, 10);
                 }
 
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-                player.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
                 player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                player.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
+                player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.FALSE);
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
@@ -109,33 +112,12 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
 
                 if (livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower"))
                     this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-                else this.level().broadcastEntityEvent(livingEntity, (byte) 123); // Fire Powered Up particle // TODO
+                else ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, livingEntity, 10);
 
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.HEALTH_SHRINK_MOBS.get()) {
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
                     livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                } else {
                     livingEntity.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
-                    livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(livingEntity, (byte) 123); // Fire Powered Up particle // TODO
-                    float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
-                    int numParticles = (int) (scaleFactor * 20);
-                    double radius = livingEntity.getBbWidth() / 2;
-
-                    for (int i = 0; i < numParticles; i++) {
-                        // Calculate angle for each particle
-                        double angle = 2 * Math.PI * i / numParticles;
-                        // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                        double offsetX = Math.cos(angle) * radius;
-                        double offsetY = livingEntity.getBbHeight() / 2;
-                        double offsetZ = Math.sin(angle) * radius;
-
-                        double x = livingEntity.getX() + offsetX;
-                        double y = livingEntity.getY() + offsetY;
-                        double z = livingEntity.getZ() + offsetZ;
-
-                        livingEntity.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 100.0, 0);
-                    }
+                    livingEntity.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.FALSE);
                 }
 
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
@@ -143,7 +125,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
-                
+
                 if (livingEntity instanceof GoombaEntity goomba && goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
                     goomba.equipItemIfPossible(new ItemStack(ItemRegistry.ICE_HAT.get()));
                 }
