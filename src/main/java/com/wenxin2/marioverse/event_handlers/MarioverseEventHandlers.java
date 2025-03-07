@@ -155,6 +155,12 @@ public class MarioverseEventHandlers {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
+            if (tag.getBoolean("marioverse:has_ice_flower")) {
+                tag.putBoolean("marioverse:has_ice_flower", false);
+                world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        SoundSource.PLAYERS, 1.0F, 1.0F);
+            }
+
             if (player.getPersistentData().getBoolean("marioverse:has_super_star")) {
                 if (!source.is(DamageTypeTags.BYPASSES_RESISTANCE) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
@@ -200,6 +206,13 @@ public class MarioverseEventHandlers {
             if (tag.getBoolean("marioverse:has_fire_flower")
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 tag.putBoolean("marioverse:has_fire_flower", false);
+                world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        SoundSource.HOSTILE, 1.0F, 1.0F);
+            }
+
+            if (tag.getBoolean("marioverse:has_ice_flower")
+                    && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                tag.putBoolean("marioverse:has_ice_flower", false);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
@@ -328,7 +341,7 @@ public class MarioverseEventHandlers {
         if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
                 || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
             PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
-        }
+        } // TODO add ice ball keybind
     }
 
 
