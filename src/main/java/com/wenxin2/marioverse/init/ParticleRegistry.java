@@ -14,6 +14,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GOOD;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GREAT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ICE_POWERED_UP;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ICE_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INCREDIBLE;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_AMETHYST_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_BLACKSTONE_BRICK_QUESTION;
@@ -51,6 +52,7 @@ public class ParticleRegistry {
         GOOD = Marioverse.PARTICLES.register("good", () -> new SimpleParticleType(false));
         GREAT = Marioverse.PARTICLES.register("great", () -> new SimpleParticleType(false));
         ICE_POWERED_UP = Marioverse.PARTICLES.register("ice_powered_up", () -> new SimpleParticleType(false));
+        ICE_STAR = Marioverse.PARTICLES.register("ice_star", () -> new SimpleParticleType(false));
         INCREDIBLE = Marioverse.PARTICLES.register("incredible", () -> new SimpleParticleType(false));
         INVISIBLE_AMETHYST_QUESTION = Marioverse.PARTICLES.register("invisible_amethyst_question", () -> new SimpleParticleType(false));
         INVISIBLE_BLACKSTONE_BRICK_QUESTION = Marioverse.PARTICLES.register("invisible_blackstone_brick_question", () -> new SimpleParticleType(false));

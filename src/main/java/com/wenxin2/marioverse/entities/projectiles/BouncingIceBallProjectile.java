@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -104,7 +105,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             double y = this.getY() + this.getBbHeight() / 2;
             double z = this.getZ();
             this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
-            this.level().addParticle(ParticleTypes.WAX_OFF, x, y, z, 0, 0, 0);
+            this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, y, z, 0, 0, 0);
         }
     }
 

@@ -130,6 +130,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.ICE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
+        event.registerSpriteSet(ParticleRegistry.ICE_STAR.get(), GlowingSuspendedTownParticle.GlowingProvider::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_AMETHYST_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_BLACKSTONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
