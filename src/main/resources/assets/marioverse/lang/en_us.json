@@ -517,10 +517,13 @@
   "subtitles.marioverse.player.ice_ball_thrown": "Ice Ball thrown",
   "subtitles.marioverse.player.one_up_collected": "1-Up collected",
   "subtitles.marioverse.player.player_powers_up": "Player powers up",
+
   "subtitles.marioverse.projectile.fireball_extinguished": "Fireball extinguished",
   "subtitles.marioverse.projectile.fireball_sizzles": "Fireball sizzles",
-  "subtitles.marioverse.projectile.ice_ball_cracks": "Ice Ball cracks",
+  "subtitles.marioverse.projectile.ice_ball_froze_enemy": "Ice Ball froze enemy",
+  "subtitles.marioverse.projectile.ice_ball_hits_fireball": "Ice Ball extinguished fireball",
   "subtitles.marioverse.projectile.ice_ball_shattered": "Ice Ball shattered",
+  "subtitles.marioverse.projectile.ice_ball_shattered_on_enemy": "Ice Ball shattered",
 
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",

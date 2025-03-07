@@ -158,6 +158,8 @@
 
   "player.fireball_thrown": { "category": "player", "sounds": [{ "name": "marioverse:player/fireball_thrown", "stream": false }],
     "subtitle": "subtitles.marioverse.player.fireball_thrown" },
+  "player.ice_ball_thrown": { "category": "player", "sounds": [{ "name": "marioverse:player/ice_ball_thrown", "stream": false }],
+    "subtitle": "subtitles.marioverse.player.ice_ball_thrown" },
   "player.one_up_collected": { "category": "player", "sounds": [{ "name": "marioverse:player/one_up_collected", "stream": false }],
     "subtitle": "subtitles.marioverse.player.one_up_collected" },
   "player.player_powers_up": { "category": "player", "sounds": [{ "name": "marioverse:player/player_powers_up", "stream": false }],
@@ -167,5 +169,13 @@
   "projectile.fireball_sizzles": { "category": "ambient", "sounds": [{ "name": "random/fizz", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.projectile.fireball_sizzles" },
   "projectile.fireball_extinguished": { "category": "ambient", "sounds": [{ "name": "random/fizz", "stream": false }],
-    "subtitle": "subtitles.marioverse.projectile.fireball_extinguished" }
+    "subtitle": "subtitles.marioverse.projectile.fireball_extinguished" },
+  "projectile.ice_ball_extinguished_fireball": { "category": "ambient", "sounds": [{ "name": "marioverse:projectile/ice_ball_extinguished_fireball", "stream": false }],
+    "subtitle": "subtitles.marioverse.projectile.ice_ball_extinguished_fireball" },
+  "projectile.ice_ball_froze_enemy": { "category": "ambient", "sounds": [{ "name": "marioverse:projectile/ice_ball_froze_enemy", "stream": false }],
+    "subtitle": "subtitles.marioverse.projectile.ice_ball_froze_enemy" },
+  "projectile.ice_ball_shattered": { "category": "ambient", "sounds": [{ "name": "marioverse:projectile/ice_ball_shattered", "stream": false }],
+    "subtitle": "subtitles.marioverse.projectile.ice_ball_shattered" },
+  "projectile.ice_ball_shattered_on_enemy": { "category": "ambient", "sounds": [{ "name": "marioverse:projectile/ice_ball_shattered_on_enemy", "stream": false }],
+    "subtitle": "subtitles.marioverse.projectile.ice_ball_shattered_on_enemy" }
 }
