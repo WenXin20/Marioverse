@@ -13,6 +13,6 @@ public class BouncingIceBallModel extends DefaultedEntityGeoModel<BouncingIceBal
 
     @Override
     public RenderType getRenderType(BouncingIceBallProjectile animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityTranslucent(this.getTextureResource(animatable));
     }
 }

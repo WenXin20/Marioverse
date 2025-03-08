@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.HeftyGoombaEntity;
+import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
@@ -34,6 +35,8 @@ public class EntityRegistry {
             MobCategory.AMBIENT, 0.3f, 0.3f);
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL = register("bouncing_ice_ball", BouncingIceBallProjectile::new,
             MobCategory.AMBIENT, 0.5f, 0.5f);
+    public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE = register("ice_cube", IceCubeEntity::new,
+            MobCategory.AMBIENT, 1.0f, 1.0f); //TODo
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
             MobCategory.AMBIENT, 0.6f, 0.6f);

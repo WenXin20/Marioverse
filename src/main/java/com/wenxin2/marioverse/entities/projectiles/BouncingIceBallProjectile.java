@@ -1,8 +1,10 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
+import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
+import com.wenxin2.marioverse.init.EntityRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -206,6 +208,11 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     player.setIsInPowderSnow(true);
                     if (player.canFreeze())
                         player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), 130)); // TODO
+
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
+                    iceCube.setFrozenEntity(player);
+                    iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                    player.level().addFreshEntity(iceCube);
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -236,6 +243,11 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     livingEntity.setIsInPowderSnow(true);
                     if (livingEntity.canFreeze())
                         livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksRequiredToFreeze(), livingEntity.getTicksFrozen() + 1));
+
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
+                    iceCube.setFrozenEntity(livingEntity);
+                    iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
+                    livingEntity.level().addFreshEntity(iceCube);
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -256,7 +268,16 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth());
                     else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F);
+
                     partEntity.extinguishFire();
+                    partEntity.setIsInPowderSnow(true);
+                    if (partEntity.canFreeze())
+                        partEntity.setTicksFrozen(Math.min(partEntity.getTicksRequiredToFreeze(), partEntity.getTicksFrozen() + 1));
+
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
+                    iceCube.setFrozenEntity(partEntity);
+                    iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
+                    partEntity.level().addFreshEntity(iceCube);
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
