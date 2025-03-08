@@ -9,10 +9,13 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -108,9 +111,15 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
 
             this.setSize(entity.getBbWidth(), entity.getBbHeight());
+            frozenEntityData.putFloat("FrozenYaw", entity.getYRot());
+            frozenEntityData.putFloat("FrozenPitch", entity.getXRot());
+            entity.setDeltaMovement(Vec3.ZERO);
             spawnData.getEntityToSpawn().merge(frozenEntityData);
-            this.entityData.set(FROZEN_DATA, frozenEntityData);
-            System.out.println("Setting FrozenEntity with tag: " + spawnData.getEntityToSpawn());
+
+            if (entity instanceof Mob mob) {
+                mob.setNoAi(true);
+                mob.setNoGravity(true);
+            }
 
             if (!(entity instanceof Player))
                 entity.discard();
@@ -119,6 +128,7 @@ public class IceCubeEntity extends Entity implements GeoEntity {
                 this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 100);
 
             this.frozenData = spawnData;
+            this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
     }
 
@@ -133,6 +143,19 @@ public class IceCubeEntity extends Entity implements GeoEntity {
                 return null;
             }
             this.displayEntity = EntityType.loadEntityRecursive(tag, world, Function.identity());
+            if (this.displayEntity != null) {
+                if (tag.contains("FrozenYaw"))
+                    this.displayEntity.setYRot(tag.getFloat("FrozenYaw"));
+                if (tag.contains("FrozenPitch"))
+                    this.displayEntity.setXRot(tag.getFloat("FrozenPitch"));
+
+                if (this.displayEntity instanceof LivingEntity livingEntity) {
+                    livingEntity.hurtTime = 0;
+                    livingEntity.hurtDuration = 0;
+                    livingEntity.attackAnim = 0;
+                    livingEntity.tickCount = 0;
+                }
+            }
         }
         return this.displayEntity;
     }

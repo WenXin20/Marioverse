@@ -20,7 +20,6 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
 
     @Override
     public void render(IceCubeEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 
         Entity frozenEntity = entity.getOrCreateDisplayEntity(entity.level());
         if (frozenEntity != null) {
@@ -28,12 +27,13 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
             float height = frozenEntity.getBbHeight();
 
             poseStack.pushPose();
-            this.withScale(width, height);
-            poseStack.scale(width, height, width);
+            this.withScale(width * 2.0F, height * 1.5F);
             poseStack.translate(0, 0.05, 0);
             Minecraft.getInstance().getEntityRenderDispatcher().render(frozenEntity,
                     0, 0, 0, 0, partialTicks, poseStack, buffer, packedLight);
             poseStack.popPose();
         }
+
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 }

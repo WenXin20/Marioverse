@@ -176,7 +176,7 @@ public abstract class EntityMixin {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
                 float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
-                entity.refreshDimensions();
+//                entity.refreshDimensions();
                 if (widthScale != 1)
                     cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
             }
