@@ -1,6 +1,12 @@
 {
   "itemGroup.marioverse": "Marioverse",
 
+  "gui.marioverse.controls": "Marioverse",
+  "key.marioverse.activate_power_up": "Activate Power Up",
+
+  "resource_pack.marioverse.truly_invisible": "Truly Invisible",
+  "resource_pack.marioverse.truly_invisible.description": "Invisible Question Blocks are completely invisible",
+
   "attribute.marioverse.generic.eye_height_scale": "Eye Height Scale",
   "attribute.marioverse.generic.height_scale": "Height Scale",
   "attribute.marioverse.generic.width_scale": "Width Scale",
@@ -451,13 +457,6 @@
   "death.attack.marioverse.super_star.item": "%1$s was star struck by %2$s using %3$s!",
   "death.attack.marioverse.super_star.player": "%1$s was star struck whilst fighting %2$s!",
   "death.attack.marioverse.super_star.player.item": "%1$s was star struck by %2$s using %3$s",
-
-  "gui.marioverse.controls": "Marioverse",
-  "key.marioverse.bouncing_fireball": "Shoot Fireball",
-  "key.marioverse.bouncing_ice_ball": "Shoot Ice Ball",
-
-  "resource_pack.marioverse.truly_invisible": "Truly Invisible",
-  "resource_pack.marioverse.truly_invisible.description": "Invisible Question Blocks are completely invisible",
 
   "subtitles.marioverse.block.amethyst_button.click_off": "Button clicks",
   "subtitles.marioverse.block.amethyst_button.click_on": "Button clicks",

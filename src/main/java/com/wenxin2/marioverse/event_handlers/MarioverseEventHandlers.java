@@ -346,14 +346,12 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
-                || KeybindRegistry.FIREBALL_SHOOT_KEY.isDown())) {
-            PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
-        }
-
-        if (player != null && ((player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())
-                || KeybindRegistry.ICE_BALL_SHOOT_KEY.isDown())) {
-            PacketHandler.sendToServer(new IceBallShootPayload(player.blockPosition()));
+        if (player != null ) {
+            if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
+                    || (player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())) {
+                PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
+                PacketHandler.sendToServer(new IceBallShootPayload(player.blockPosition()));
+            }
         }
     }
 

@@ -12,21 +12,15 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class KeybindRegistry {
-    public static KeyMapping FIREBALL_SHOOT_KEY;
-    public static KeyMapping ICE_BALL_SHOOT_KEY;
+    public static KeyMapping ACTIVATE_POWER_UP;
 
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        FIREBALL_SHOOT_KEY = new KeyMapping("key.marioverse.bouncing_fireball",
-                KeyConflictContext.IN_GAME,
-                InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R,
-                "gui.marioverse.controls");
-        ICE_BALL_SHOOT_KEY = new KeyMapping("key.marioverse.bouncing_ice_ball",
+        ACTIVATE_POWER_UP = new KeyMapping("key.marioverse.activate_power_up",
                 KeyConflictContext.IN_GAME,
                 InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R,
                 "gui.marioverse.controls");
 
-        event.register(FIREBALL_SHOOT_KEY);
-        event.register(ICE_BALL_SHOOT_KEY);
+        event.register(ACTIVATE_POWER_UP);
     }
 }
