@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.material.Fluid;
 
 public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
@@ -27,7 +28,6 @@ public class TagRegistry {
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
-    public static final TagKey<Block> FREEZES_INTO_ICE = blockTags("freezes_into_ice");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
@@ -51,6 +51,9 @@ public class TagRegistry {
     public static final TagKey<DamageType> IS_SHRAPNEL = damageTypeTags("is_shrapnel");
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
+
+    public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");
+    public static final TagKey<Fluid> FREEZES_INTO_OBSIDIAN = fluidTags("freezes_into_obsidian");
 
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
@@ -133,6 +136,10 @@ public class TagRegistry {
 
     public static TagKey<EntityType<?>> entityTypeTags(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
+
+    public static TagKey<Fluid> fluidTags(String name) {
+        return TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
     public static TagKey<Item> itemTags(String name) {

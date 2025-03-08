@@ -91,9 +91,6 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
                 .add(Blocks.ICE);
 
-        tag(TagRegistry.FREEZES_INTO_ICE)
-                .add(Blocks.WATER);
-
         tag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());

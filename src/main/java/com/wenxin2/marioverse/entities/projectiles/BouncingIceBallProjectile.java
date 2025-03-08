@@ -23,7 +23,6 @@ import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
@@ -31,9 +30,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -43,7 +43,6 @@ import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -128,6 +127,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         BlockPos hitPos = hit.getBlockPos();
         BlockState state = world.getBlockState(hitPos);
         BlockState stateAbove = world.getBlockState(hitPos.above());
+        FluidState fluidState = world.getFluidState(hitPos.above());
+        FluidState fluidStateAbove = world.getFluidState(hitPos.above(2));
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
             if (world instanceof ServerLevel serverWorld)
@@ -153,22 +154,24 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             this.discard();
         }
 
-        if (state.is(TagRegistry.FREEZES_INTO_ICE)) {
-            if (state.getBlock() == Blocks.WATER && stateAbove.getBlock() != Blocks.WATER && stateAbove.canBeReplaced())
-                world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
-            else if (state.getBlock() != Blocks.WATER)
-                world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
+        if (fluidState.getType().is(TagRegistry.FREEZES_INTO_FROSTED_ICE)) {
+            if (fluidState.getType() == Fluids.WATER && fluidStateAbove.getType() != Fluids.WATER && stateAbove.canBeReplaced())
+                world.setBlock(hitPos.above(), Blocks.FROSTED_ICE.defaultBlockState(), 3);
+            else if (fluidState.getType() != Fluids.WATER)
+                world.setBlock(hitPos.above(), Blocks.ICE.defaultBlockState(), 3);
+        } else if (fluidState.getType().is(TagRegistry.FREEZES_INTO_OBSIDIAN)) {
+            world.setBlock(hitPos.above(), Blocks.OBSIDIAN.defaultBlockState(), 3);
         } else if (state.is(TagRegistry.FREEZES_INTO_PACKED_ICE))
-            world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
+            world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
-        else if (state.getBlock() instanceof CampfireBlock)
+        else if (state.getBlock() instanceof CampfireBlock && state.hasProperty(BlockStateProperties.LIT))
             world.setBlock(hitPos, state.setValue(CampfireBlock.LIT, Boolean.FALSE), 3);
-        else if (state.getBlock() instanceof CandleBlock)
+        else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT))
             world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.FALSE), 3);
-        else if (state.getBlock() instanceof CandleCakeBlock)
+        else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT))
             world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.FALSE), 3);
-        else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG))
+        else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT))
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
         super.onHitBlock(hit);
     }
