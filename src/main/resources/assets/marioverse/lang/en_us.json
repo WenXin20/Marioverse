@@ -519,8 +519,9 @@
 
   "subtitles.marioverse.projectile.fireball_extinguished": "Fireball extinguished",
   "subtitles.marioverse.projectile.fireball_sizzles": "Fireball sizzles",
+  "subtitles.marioverse.projectile.ice_ball_bounced": "Ice Ball bounced",
+  "subtitles.marioverse.projectile.ice_ball_extinguished_fireball": "Ice Ball extinguished fireball",
   "subtitles.marioverse.projectile.ice_ball_froze_enemy": "Ice Ball froze enemy",
-  "subtitles.marioverse.projectile.ice_ball_hits_fireball": "Ice Ball extinguished fireball",
   "subtitles.marioverse.projectile.ice_ball_shattered": "Ice Ball shattered",
   "subtitles.marioverse.projectile.ice_ball_shattered_on_enemy": "Ice Ball shattered",
 

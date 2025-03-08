@@ -32,6 +32,12 @@ SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> HEFTY_GOOMBA_RUN;
     public static final DeferredHolder<SoundEvent, SoundEvent> HEFTY_GOOMBA_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> HEFTY_GOOMBA_STOMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_BOUNCED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_EXTINGUISHED_FIREBALL;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_FROZE_ENEMY;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_SHATTERED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_SHATTERED_ON_ENEMY;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_THROWN;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_BUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_HURT;
@@ -186,6 +192,8 @@ SoundRegistry {
 
         FIREBALL_THROWN = Marioverse.SOUNDS.register("player.fireball_thrown",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.fireball_thrown")));
+        ICE_BALL_THROWN = Marioverse.SOUNDS.register("player.ice_ball_thrown",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.ice_ball_thrown")));
         PLAYER_POWERS_UP = Marioverse.SOUNDS.register("player.player_powers_up",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.player_powers_up")));
         ONE_UP_COLLECTED = Marioverse.SOUNDS.register("player.one_up_collected",
@@ -195,6 +203,16 @@ SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_sizzles")));
         FIREBALL_EXTINGUISHED = Marioverse.SOUNDS.register("projectile.fireball_extinguished",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_extinguished")));
+        ICE_BALL_BOUNCED = Marioverse.SOUNDS.register("projectile.ice_ball_bounced",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.ice_ball_bounced")));
+        ICE_BALL_EXTINGUISHED_FIREBALL = Marioverse.SOUNDS.register("projectile.ice_ball_extinguished_fireball",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.ice_ball_extinguished_fireball")));
+        ICE_BALL_FROZE_ENEMY = Marioverse.SOUNDS.register("projectile.ice_ball_froze_enemy",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.ice_ball_froze_enemy")));
+        ICE_BALL_SHATTERED = Marioverse.SOUNDS.register("projectile.ice_ball_shattered",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.ice_ball_shattered")));
+        ICE_BALL_SHATTERED_ON_ENEMY = Marioverse.SOUNDS.register("projectile.ice_ball_shattered_on_enemy",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.ice_ball_shattered_on_enemy")));
     }
 
     public static void init() {}

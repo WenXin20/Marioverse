@@ -36,13 +36,12 @@ public class IceBallShootPacket {
         int iceBallCount = entity.getPersistentData().getInt("marioverse:ice_ball_count");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
 
-        // Check if the player can shoot a iceball
         if (iceBallCooldown == 0 && iceBallCount < ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
             shootIceBall(entity);
-            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ICE_BALL_COOLDOWN); // Reset cooldown
-            entity.getPersistentData().putInt("marioverse:ice_ball_count", iceBallCount + 1); // Increase active iceball count
+            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ICE_BALL_COOLDOWN);
+            entity.getPersistentData().putInt("marioverse:ice_ball_count", iceBallCount + 1);
         } else if (iceBallCount >= ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
-            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ConfigRegistry.ICE_BALL_COOLDOWN.get()); // Reset with higher cooldown
+            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ConfigRegistry.ICE_BALL_COOLDOWN.get());
             entity.getPersistentData().putInt("marioverse:ice_ball_count", 0);
         }
     }
@@ -54,14 +53,14 @@ public class IceBallShootPacket {
         iceBall.setOwner(entity);
         iceBall.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
         iceBall.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
-                SoundSource.PLAYERS, 1.0F, 1.0F); // TODO
+        world.playSound(null, entity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(),
+                SoundSource.PLAYERS, 1.0F, 1.0F);
 
         Vec3 look = entity.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));
 
         // Set the ice ball's rotation based on the look direction
-        iceBall.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90); // Adjust for correct facing
+        iceBall.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         iceBall.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(iceBall);

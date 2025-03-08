@@ -7,11 +7,13 @@ import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -75,6 +77,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     @Override
     public void tick() {
         super.tick();
+        Level world = this.level();
         Vec3 motion = this.getDeltaMovement();
 
         if (!this.getPersistentData().contains(BOUNCE_COUNT))
@@ -92,10 +95,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         }
 
         if (this.onGround() || this.tickCount > 400) {
-            if (!this.level().isClientSide) {
-                this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            if (!world.isClientSide) {
+                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn
         }
@@ -104,8 +107,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             double x = this.getX();
             double y = this.getY() + this.getBbHeight() / 2;
             double z = this.getZ();
-            this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
-            this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, y, z, 0.2, 0, 0.2);
+            world.addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
+            world.addParticle(ParticleRegistry.ICE_STAR.get(), x, y, z, 0.2, 0, 0.2);
         }
     }
 
@@ -123,28 +126,29 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     public void onHitBlock(BlockHitResult hit) {
         Level world = this.level();
         BlockPos hitPos = hit.getBlockPos();
-        BlockState state = this.level().getBlockState(hitPos);
-        BlockState stateAbove = this.level().getBlockState(hitPos.above());
+        BlockState state = world.getBlockState(hitPos);
+        BlockState stateAbove = world.getBlockState(hitPos.above());
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            if (!world.isClientSide)
-                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            world.playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard(); // Despawn on side hit
         } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.5, motion.z); // Bounce
-            world.broadcastEntityEvent(this, (byte) 60); // Snow particle
-            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_BOUNCED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
 
             if (this.getPersistentData().contains(BOUNCE_COUNT))
                 this.getPersistentData().putInt(BOUNCE_COUNT, this.getPersistentData().getInt(BOUNCE_COUNT) + 1);
         } else {
-            if (!world.isClientSide)
-                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            world.playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.discard();
         }
@@ -171,8 +175,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
     @Override
     protected void onHitEntity(EntityHitResult hit) {
+        Level world = this.level();
         Entity entity = hit.getEntity();
-        if (!this.level().isClientSide) {
+        
+        if (!world.isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = player.getUseItem();
@@ -181,26 +187,27 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     return;
 
                 if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
                     if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
-                    else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F); //TODO
+                    else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); //TODO
 
+                    player.extinguishFire();
                     player.setIsInPowderSnow(true);
                     if (player.canFreeze())
-                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), player.getTicksFrozen() + 1));
+                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), 130)); // TODO
                 }
-                this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
+                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
-            } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
+            } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = livingEntity.getUseItem();
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
@@ -214,22 +221,23 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F); // TODO
+                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); // TODO
 
+                    livingEntity.extinguishFire();
                     livingEntity.setIsInPowderSnow(true);
                     if (livingEntity.canFreeze())
                         livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksRequiredToFreeze(), livingEntity.getTicksFrozen() + 1));
                 }
-                this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
+                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
-            } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
+            } else if (entity instanceof PiranhaPlantPart partEntity && partEntity.canFreeze() && partEntity != this.getOwner()
                     && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
@@ -238,36 +246,48 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth());
                     else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F);
-                    partEntity.igniteForSeconds(2.0F);
+                    partEntity.extinguishFire();
                 }
-                this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
+                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
-            } else if (entity instanceof MinecartTNT tnt)
-                tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
+            } else if (entity instanceof BouncingFireballProjectile fireball) {
+                fireball.kill();
+                this.remove(RemovalReason.KILLED);
+                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
+            } else {
+                this.remove(RemovalReason.KILLED);
+                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
+            }
         }
 
-        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
-                && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
-            this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
-        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
-                && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
-            this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
+        if (world instanceof ServerLevel serverWorld) {
+            if (entity instanceof Player player && !player.isSpectator() && player.canFreeze() && player != this.getOwner()
+                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
+                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            }
         }
     }
 
     @Override
     public boolean deflect(@NotNull ProjectileDeflection deflection, @Nullable Entity entity, @Nullable Entity owner, boolean shouldDeflect) {
+        Level world = this.level();
+
         if (entity instanceof LivingEntity livingEntity) {
             ItemStack shield = livingEntity.getUseItem();
-            if (!this.level().isClientSide) {
+            if (!world.isClientSide) {
                 if (shield.getItem() instanceof ShieldItem
                         || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
                     deflection.deflect(this, entity, this.random);
@@ -278,51 +298,5 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             }
         }
         return false;
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 60) {
-            if (this.level().isClientSide) {
-                int numParticles = 10; // Number of particles to spawn in the circle
-                double radius = 0.2;  // Radius of the circle around the ice ball
-
-                for (int i = 0; i < numParticles; i++) {
-                    // Calculate angle for each particle
-                    double angle = 2 * Math.PI * i / numParticles;
-
-                    // Calculate the X and Z offset using sine and cosine to spread in a circle
-                    double offsetX = Math.cos(angle) * radius;
-                    double offsetY = Math.sin(angle) * radius;
-                    double offsetZ = Math.sin(angle) * radius;
-
-                    double x = this.getX() + offsetX;
-                    double y = this.getY() + offsetY;
-                    double z = this.getZ() + offsetZ;
-
-                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
-                }
-            }
-        } else if (id == 61) {
-            if (this.level().isClientSide) {
-                int numParticles = 10; // Number of particles to spawn in the circle
-                double radius = 0.15;  // Radius of the circle around the ice ball
-
-                for (int i = 0; i < numParticles; i++) {
-                    // Calculate angle for each particle
-                    double angle = 2 * Math.PI * i / numParticles;
-
-                    // Calculate the X and Z offset using sine and cosine to spread in a circle
-                    double offsetX = Math.cos(angle) * radius;
-                    double offsetZ = Math.sin(angle) * radius;
-
-                    double x = this.getX() + offsetX;
-                    double y = this.getY() - this.getBbHeight();
-                    double z = this.getZ() + offsetZ;
-
-                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, y, z, 0, 0, 0);
-                }
-            }
-        } else super.handleEntityEvent(id);
     }
 }

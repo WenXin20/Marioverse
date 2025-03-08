@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -68,24 +69,34 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnEntityRingParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
-        float scaleFactor = entity.getBbHeight() * entity.getBbWidth();
-        int numParticles = (int) (scaleFactor * 20);
-        double radius = entity.getBbWidth() / 2;
+    public static void spawnEntityRingParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+        for (int i = 0; i < particleAmt; i++) {
+            double angle = 2 * Math.PI * i / particleAmt;
 
-        for (int i = 0; i < numParticles; i++) {
-            // Calculate angle for each particle
-            double angle = 2 * Math.PI * i / numParticles;
-            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
             double offsetX = Math.cos(angle) * radius;
-            double offsetY = entity.getBbHeight() / 2;
+            double offsetY = Math.sin(angle) * radius;
             double offsetZ = Math.sin(angle) * radius;
 
             double x = entity.getX() + offsetX;
             double y = entity.getY() + offsetY;
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 100, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+        }
+    }
+
+    public static void spawnEntityRingBelowParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+        for (int i = 0; i < particleAmt; i++) {
+            double angle = 2 * Math.PI * i / particleAmt;
+
+            double offsetX = Math.cos(angle) * radius;
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = entity.getX() + offsetX;
+            double y = entity.getY() - entity.getBbHeight();
+            double z = entity.getZ() + offsetZ;
+
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
         }
     }
 

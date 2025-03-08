@@ -36,13 +36,12 @@ public class FireballShootPacket {
         int fireballCount = entity.getPersistentData().getInt("marioverse:fireball_count");
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
-        // Check if the player can shoot a fireball
         if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
             shootFireball(entity);
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN); // Reset cooldown
-            entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1); // Increase active fireball count
+            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
+            entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
         } else if (fireballCount >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get()); // Reset with higher cooldown
+            entity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
             entity.getPersistentData().putInt("marioverse:fireball_count", 0);
         }
     }
@@ -61,7 +60,7 @@ public class FireballShootPacket {
         fireball.setDeltaMovement(look.scale(0.5));
 
         // Set the fireball's rotation based on the look direction
-        fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90); // Adjust for correct facing
+        fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(fireball);
