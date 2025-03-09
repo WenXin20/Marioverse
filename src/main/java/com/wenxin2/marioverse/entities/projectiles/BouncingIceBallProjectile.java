@@ -199,10 +199,12 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
-                } else if (this.getOwner() != null) {
-                    if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
-                    else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); //TODO
+                } else {
+                    if (this.getOwner() != null) {
+                        if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
+                            player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
+                        else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); //TODO
+                    }
 
                     player.extinguishFire();
                     player.setIsInPowderSnow(true);

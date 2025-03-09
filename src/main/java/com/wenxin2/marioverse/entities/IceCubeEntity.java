@@ -13,10 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -57,6 +54,12 @@ public class IceCubeEntity extends Entity implements GeoEntity {
                 this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", entityFrozenCooldown - 1);
             if (entityFrozenCooldown == 0)
                 this.unfreeze();
+        }
+
+        if (this.frozenEntityData != null) {
+            float height = this.frozenEntityData.getFloat("Height") * 1.35F;
+            float width = this.frozenEntityData.getFloat("Width") * 1.45F;
+            this.setSize(width, height);
         }
     }
 
@@ -111,8 +114,8 @@ public class IceCubeEntity extends Entity implements GeoEntity {
     @Override
     protected AABB makeBoundingBox() {
         if (this.frozenEntityData != null) {
-            float height = this.frozenEntityData.getFloat("Height");
-            float width = this.frozenEntityData.getFloat("Width");
+            float height = this.frozenEntityData.getFloat("Height") * 1.35F;
+            float width = this.frozenEntityData.getFloat("Width") * 1.45F;
             return new AABB(this.position().subtract(width / 2, 0, width / 2), this.position().add(width / 2, height, width / 2));
         } else {
             return super.makeBoundingBox();
@@ -121,7 +124,6 @@ public class IceCubeEntity extends Entity implements GeoEntity {
 
     public void setFrozenEntity(Entity entity) {
         if (entity != null) {
-//            SpawnData spawnData = new SpawnData();
             frozenEntityData = new CompoundTag();
             entity.save(frozenEntityData);
             frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
@@ -132,8 +134,6 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             frozenEntityData.putFloat("Pitch", entity.getXRot());
             frozenEntityData.putFloat("Height", entity.getBbHeight());
             frozenEntityData.putFloat("Width", entity.getBbWidth());
-//            entity.setDeltaMovement(Vec3.ZERO);
-//            spawnData.getEntityToSpawn().merge(frozenEntityData);
 
             if (entity instanceof Mob mob) {
                 mob.setNoAi(true);
