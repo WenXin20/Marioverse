@@ -57,13 +57,19 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             if (entityFrozenCooldown > 0)
                 this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", entityFrozenCooldown - 1);
             if (entityFrozenCooldown == 0)
-                this.unfreeze();
+                this.unfreeze(false);
         }
 
         if (this.frozenEntityData != null) {
-            float height = this.frozenEntityData.getFloat("Height") * 1.35F;
-            float width = this.frozenEntityData.getFloat("Width") * 1.45F;
+            float height = this.frozenEntityData.getFloat("Height") * 1.55F;
+            float width = this.frozenEntityData.getFloat("Width") * 1.55F;
             this.setSize(width, height);
+        }
+
+
+        if (this.onGround() && this.fallDistance > 1) {
+            this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 0);
+            this.unfreeze(true);
         }
     }
 
@@ -136,12 +142,17 @@ public class IceCubeEntity extends Entity implements GeoEntity {
         return 0.04;
     }
 
+    @Override
+    public boolean isNoGravity() {
+        return false;
+    }
+
     @NotNull
     @Override
     protected AABB makeBoundingBox() {
         if (this.frozenEntityData != null) {
-            float height = this.frozenEntityData.getFloat("Height") * 1.35F;
-            float width = this.frozenEntityData.getFloat("Width") * 1.45F;
+            float height = this.frozenEntityData.getFloat("Height") * 1.55F;
+            float width = this.frozenEntityData.getFloat("Width") * 1.55F;
             return new AABB(this.position().subtract(width / 2, 0, width / 2), this.position().add(width / 2, height, width / 2));
         } else {
             return super.makeBoundingBox();
@@ -154,10 +165,10 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             entity.save(frozenEntityData);
             frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
 
-            this.setSize(entity.getBbWidth() * 1.45F, entity.getBbHeight() * 1.35F);
-            frozenEntityData.putFloat("BodyRotation", entity.getYRot());
-            frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
-            frozenEntityData.putFloat("Pitch", entity.getXRot());
+            this.setSize(entity.getBbWidth() * 1.55F, entity.getBbHeight() * 1.55F);
+//            frozenEntityData.putFloat("BodyRotation", entity.getYRot());
+//            frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
+//            frozenEntityData.putFloat("Pitch", entity.getXRot());
             frozenEntityData.putFloat("Height", entity.getBbHeight());
             frozenEntityData.putFloat("Width", entity.getBbWidth());
 
@@ -189,12 +200,12 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             }
             this.displayEntity = EntityType.loadEntityRecursive(tag, world, Function.identity());
             if (this.displayEntity != null) {
-                if (tag.contains("BodyRotation"))
-                    this.displayEntity.setYBodyRot(tag.getFloat("BodyRotation"));
-                if (tag.contains("HeadRotation"))
-                    this.displayEntity.setYHeadRot(tag.getFloat("HeadRotation"));
-                if (tag.contains("Pitch"))
-                    this.displayEntity.setXRot(tag.getFloat("Pitch"));
+//                if (tag.contains("BodyRotation"))
+//                    this.displayEntity.setYBodyRot(tag.getFloat("BodyRotation"));
+//                if (tag.contains("HeadRotation"))
+//                    this.displayEntity.setYHeadRot(tag.getFloat("HeadRotation"));
+//                if (tag.contains("Pitch"))
+//                    this.displayEntity.setXRot(tag.getFloat("Pitch"));
 
                 if (this.displayEntity instanceof LivingEntity livingEntity) {
                     livingEntity.hurtTime = 0;
@@ -214,15 +225,22 @@ public class IceCubeEntity extends Entity implements GeoEntity {
         return frozenEntityData;
     }
 
-    public void unfreeze() {
-        if (frozenEntityData != null && level() instanceof ServerLevel serverWorld) {
+    public void unfreeze(boolean applyDamage) {
+        if (frozenEntityData != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(frozenEntityData, serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
                 return e;
             });
 
-            if (entity != null)
+            if (entity != null) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    if (applyDamage) {
+                        float damageAmount = Math.max(0, this.fallDistance - 3);
+                        livingEntity.hurt(this.level().damageSources().fall(), damageAmount);
+                    }
+                }
                 serverWorld.addFreshEntity(entity);
+            }
         }
         this.discard();
     }

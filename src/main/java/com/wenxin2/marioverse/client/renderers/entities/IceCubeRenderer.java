@@ -23,13 +23,13 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
 
         Entity frozenEntity = entity.getOrCreateDisplayEntity(entity.level());
         if (frozenEntity != null) {
-            float width = frozenEntity.getBbWidth();
-            float height = frozenEntity.getBbHeight();
+            float width = frozenEntity.getBbWidth() * 1.55F;
+            float height = frozenEntity.getBbHeight() * 1.55F;
 
             poseStack.pushPose();
-                this.withScale(width * 1.45F, height * 1.35F);
-                entity.setSize(width * 1.45F, height * 1.35F);
-                poseStack.translate(0, ((height * 1.35F) - height) / 2, 0);
+                this.withScale(width, height);
+                entity.setSize(width, height);
+                poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
                 renderEntityInSpawner(entityYaw, poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
             poseStack.popPose();
         }
@@ -40,7 +40,7 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
     public static void renderEntityInSpawner(float entityYaw, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity,
                                              EntityRenderDispatcher renderDispatcher) {
         poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
+            poseStack.mulPose(Axis.YP.rotationDegrees(entity.getYRot()));
             poseStack.mulPose(Axis.XP.rotationDegrees(0.0F));
             renderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, entityYaw, poseStack, buffer, packedLight);
         poseStack.popPose();
