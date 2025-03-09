@@ -12,8 +12,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -88,6 +92,28 @@ public class IceCubeEntity extends Entity implements GeoEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(FROZEN_DATA, new CompoundTag());
+    }
+
+    @Override
+    public boolean isPickable() {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getPickedResult(@NotNull HitResult target) {
+        if (displayEntity != null) {
+            Entity entityInstance = this.displayEntity.getType().create(level());
+            Item spawnEggItem = SpawnEggItem.byId(this.displayEntity.getType());
+            if (spawnEggItem != null) {
+                return new ItemStack(spawnEggItem);
+            } else if (entityInstance != null) {
+                ItemStack pickedResult = entityInstance.getPickedResult(target);
+                if (pickedResult != null && !pickedResult.isEmpty())
+                    return pickedResult;
+            }
+        }
+        return super.getPickedResult(target);
     }
 
     @Override
