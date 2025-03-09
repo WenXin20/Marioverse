@@ -79,11 +79,44 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
         if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
             frozenEntityData = tag.getCompound("FrozenEntityData");
+        this.reapplyPosition();
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(FROZEN_DATA, new CompoundTag());
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return true;
+    }
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
+        return true;
+    }
+
+    @Override
+    public boolean isPushable() {
+        return true;
+    }
+
+    @Override
+    protected double getDefaultGravity() {
+        return 0.04;
+    }
+
+    @NotNull
+    @Override
+    protected AABB makeBoundingBox() {
+        if (this.frozenEntityData != null) {
+            float height = this.frozenEntityData.getFloat("Height");
+            float width = this.frozenEntityData.getFloat("Width");
+            return new AABB(this.position().subtract(width / 2, 0, width / 2), this.position().add(width / 2, height, width / 2));
+        } else {
+            return super.makeBoundingBox();
+        }
     }
 
     public void setFrozenEntity(Entity entity) {
@@ -114,6 +147,7 @@ public class IceCubeEntity extends Entity implements GeoEntity {
             if (!this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
                 this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500);
             this.entityData.set(FROZEN_DATA, frozenEntityData);
+            this.reapplyPosition();
         }
     }
 
