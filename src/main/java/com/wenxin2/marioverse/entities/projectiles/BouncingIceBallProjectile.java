@@ -237,12 +237,12 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); // TODO
+//                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); // TODO
 
                     livingEntity.extinguishFire();
-                    livingEntity.setIsInPowderSnow(true);
-                    if (livingEntity.canFreeze())
-                        livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksRequiredToFreeze(), livingEntity.getTicksFrozen() + 1));
+//                    livingEntity.setIsInPowderSnow(true);
+//                    if (livingEntity.canFreeze())
+//                        livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksRequiredToFreeze(), livingEntity.getTicksFrozen() + 1));
 
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
                     iceCube.setFrozenEntity(livingEntity);

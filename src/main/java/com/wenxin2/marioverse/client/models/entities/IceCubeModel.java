@@ -14,7 +14,7 @@ public class IceCubeModel extends GeoModel<IceCubeEntity> {
 
     @Override
     public ResourceLocation getTextureResource(IceCubeEntity object) {
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/ice.png");
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/ice_cube.png");
     }
 
     @Override

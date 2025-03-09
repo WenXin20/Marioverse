@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.IceCubeModel;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import net.minecraft.client.Minecraft;
@@ -27,10 +28,11 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
             float height = frozenEntity.getBbHeight();
 
             poseStack.pushPose();
-            this.withScale(width * 2.0F, height * 1.5F);
-            poseStack.translate(0, 0.05, 0);
-            Minecraft.getInstance().getEntityRenderDispatcher().render(frozenEntity,
-                    0, 0, 0, 0, partialTicks, poseStack, buffer, packedLight);
+                this.withScale(width * 1.45F, height * 1.35F);
+                entity.setSize(width * 1.45F, height * 1.35F);
+                poseStack.translate(0, ((height * 1.35F) - height) / 2, 0);
+                Minecraft.getInstance().getEntityRenderDispatcher().render(frozenEntity,
+                        0, 0, 0, frozenEntity.getYRot(), partialTicks, poseStack, buffer, packedLight);
             poseStack.popPose();
         }
 
