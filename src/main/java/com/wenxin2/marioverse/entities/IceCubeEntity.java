@@ -116,8 +116,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             this.setSize(width, height);
         }
 
-        if (this.onGround() && this.getDeltaMovement().y > 0) {
-            this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 0);
+        if (state.is(BlockTags.FIRE)
+                || state.getFluidState().is(FluidTags.LAVA)
+                || (state.is(BlockTags.CAMPFIRES) && state.hasProperty(BlockStateProperties.LIT)
+                    && state.getValue(BlockStateProperties.LIT))) {
+            this.unfreeze(false, false);
+        }
+
         if (!this.onGround() && this.fallDistance > previousFallDistance)
             previousFallDistance = this.fallDistance;
 
