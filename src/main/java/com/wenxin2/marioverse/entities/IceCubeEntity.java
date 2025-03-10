@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.init.TagRegistry;
+import java.util.List;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -111,21 +112,21 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             this.unfreeze(true, false);
         }
 
+        Vec3 currentVelocity = this.getDeltaMovement();
         if (!this.onGround())
-            this.setDeltaMovement(0, -this.getDefaultGravity(), 0);
+            this.setDeltaMovement(currentVelocity.x, -this.getDefaultGravity(), currentVelocity.z);
 
         this.move(MoverType.SELF, this.getDeltaMovement());
 
         if (!this.level().isClientSide) {
             BlockPos pos = this.blockPosition();
-            BlockState state = world.getBlockState(pos);
 
             for (Direction direction : Direction.values()) {
                 if (direction.getAxis().isHorizontal() && this.getDeltaMovement().horizontalDistance() > 0) {
                     BlockPos hitPos = pos.relative(direction);
                     BlockState hitState = world.getBlockState(hitPos);
 
-                    if (!hitState.canBeReplaced()) {
+                    if (hitState.isSolid()) {
                         this.setDeltaMovement(Vec3.ZERO);
                         this.unfreeze(false, true);
                         return;
@@ -133,6 +134,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 }
             }
         }
+
+        this.collideWithEntity();
     }
 
     @NotNull
@@ -186,7 +189,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             double slideSpeed;
 
             if (friction > 0.6)
-                slideSpeed = 0.0 + friction;
+                slideSpeed = 0.1 + friction / 1.5;
             else slideSpeed = 0.5;
 
             Vec3 slideDirection = Vec3.ZERO;
@@ -286,10 +289,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 if (tag.contains("Pitch"))
                     this.displayEntity.setXRot(tag.getFloat("Pitch"));
 
-                if (this.displayEntity instanceof LivingEntity livingEntity) {
-                    livingEntity.hurtTime = 0;
-                    livingEntity.hurtDuration = 0;
-                }
+//                if (this.displayEntity instanceof LivingEntity livingEntity) {
+//                    livingEntity.hurtTime = 0;
+//                    livingEntity.hurtDuration = 0;
+//                }
             }
         }
         return this.displayEntity;
@@ -327,5 +330,21 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                 SoundSource.AMBIENT, 1.0F, 1.0F);
         this.discard();
+    }
+
+    private void collideWithEntity() {
+        AABB collisionBox = this.getBoundingBox().inflate(0.01);
+        List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+
+        for (Entity entity : collidingEntities) {
+            if (this.getDeltaMovement().horizontalDistance() > 0) {
+                if (entity instanceof IceCubeEntity otherIceCube) {
+                    unfreeze(false, true);
+                    otherIceCube.unfreeze(false, true);
+                } else if (entity instanceof LivingEntity livingEntity) {
+                    livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
+                }
+            }
+        }
     }
 }
