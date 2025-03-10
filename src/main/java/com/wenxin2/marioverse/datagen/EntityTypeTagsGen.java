@@ -31,6 +31,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
+        tag(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                .add(EntityRegistry.ICE_CUBE.get())
+                .add(EntityRegistry.ICE_FLOWER.get());
+
         tag(EntityTypeTags.FROG_FOOD)
                 .add(EntityRegistry.MINI_GOOMBA.get());
 
@@ -212,8 +216,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.ICE_BALL_CAN_INSTAKILL);
 
         tag(TagRegistry.ICE_BALL_IMMUNE)
-                .add(EntityRegistry.ICE_FLOWER.get())
-                .add(EntityRegistry.ICE_CUBE.get());
+                .add(EntityRegistry.ICE_CUBE.get())
+                .add(EntityRegistry.ICE_FLOWER.get());
 
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get());
