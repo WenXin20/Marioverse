@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
@@ -47,6 +48,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -366,6 +368,13 @@ public class MarioverseEventHandlers {
     public static void onPlayerTeleport(EntityTeleportEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
             removeMiniGoombaSpeedModifier(entity);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDismount(EntityMountEvent event) {
+        if (event.isDismounting() && event.getEntityBeingMounted() instanceof IceCubeEntity) {
+            event.setCanceled(true);
         }
     }
 

@@ -18,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -84,11 +85,9 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         if (!this.getPersistentData().contains(BOUNCE_COUNT))
             this.getPersistentData().putInt(BOUNCE_COUNT, 0);
 
-        if (!this.isInWater()) {
+        if (!this.isInWater())
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
-        } else {
-            this.setDeltaMovement(this.getDeltaMovement().add(motion.x, -0.04D, motion.y)); // Gravity
-        }
+        else this.setDeltaMovement(this.getDeltaMovement().add(motion.x, -0.04D, motion.y)); // Gravity
 
         if (motion.length() > 0) {
             this.setYRot((float) Math.toDegrees(Math.atan2(motion.z, motion.x)) + 270);
@@ -185,7 +184,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         
         if (!world.isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
-                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = player.getUseItem();
                 if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
                         && player.getTeam() == this.getOwner().getTeam())
@@ -209,18 +208,19 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     player.extinguishFire();
                     player.setIsInPowderSnow(true);
                     if (player.canFreeze())
-                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), 130)); // TODO
+                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), 500)); // TODO
 
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
                     iceCube.setFrozenEntity(player);
                     iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                     player.level().addFreshEntity(iceCube);
+                    player.startRiding(iceCube, true);
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
-                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = livingEntity.getUseItem();
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
                         && tamableAnimal.getOwner() == this.getOwner())
@@ -240,11 +240,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
 //                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); // TODO
-
                     livingEntity.extinguishFire();
-//                    livingEntity.setIsInPowderSnow(true);
-//                    if (livingEntity.canFreeze())
-//                        livingEntity.setTicksFrozen(Math.min(livingEntity.getTicksRequiredToFreeze(), livingEntity.getTicksFrozen() + 1));
 
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
                     iceCube.setFrozenEntity(livingEntity);
@@ -255,7 +251,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             } else if (entity instanceof PiranhaPlantPart partEntity && partEntity.canFreeze() && partEntity != this.getOwner()
-                    && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                    && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
                 if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
@@ -270,11 +266,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth());
                     else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F);
-
                     partEntity.extinguishFire();
-                    partEntity.setIsInPowderSnow(true);
-                    if (partEntity.canFreeze())
-                        partEntity.setTicksFrozen(Math.min(partEntity.getTicksRequiredToFreeze(), partEntity.getTicksFrozen() + 1));
 
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
                     iceCube.setFrozenEntity(partEntity);

@@ -35,6 +35,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -118,11 +119,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         if (state.is(BlockTags.FIRE)
                 || state.getFluidState().is(FluidTags.LAVA)
                 || (state.is(BlockTags.CAMPFIRES) && state.hasProperty(BlockStateProperties.LIT)
-                    && state.getValue(BlockStateProperties.LIT))) {
+                    && state.getValue(BlockStateProperties.LIT))
+                || this.isOnFire()) {
+            if (state.is(BlockTags.FIRE)) {
+                // TODO
+            }
             this.shatterIceCube(false, false);
         }
-
-
 
         this.takeFallDamage();
         this.collideWithWall(world, pos);
@@ -225,6 +228,28 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         return false;
     }
 
+    @Override
+    public boolean canBeRiddenUnderFluidType(FluidType type, Entity riderEntity) {
+        return true;
+    }
+
+    @Override
+    protected boolean canRide(Entity riderEntity) {
+        return true;
+    }
+
+    @Override
+    protected void positionRider(Entity riderEntity, MoveFunction moveFunction) {
+        super.positionRider(riderEntity, moveFunction);
+
+        if (riderEntity instanceof Player player) {
+            player.setYRot(this.getYRot()); // Lock player's rotation to Ice Cube's rotation
+            player.setXRot(0); // Optionally, prevent vertical rotation
+            player.yRotO = this.getYRot(); // Sync previous rotation to avoid snapping
+            player.xRotO = 0;
+        }
+    }
+
     @NotNull
     @Override
     protected AABB makeBoundingBox() {
@@ -247,7 +272,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             frozenEntityData.putFloat("BodyRotation", entity.getYRot());
             frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
             frozenEntityData.putFloat("Pitch", entity.getXRot());
-            frozenEntityData.putFloat("Height", entity.getBbHeight());
+            frozenEntityData.putFloat("Height", entity.getBbHeight()); // TODO Fix scale attributes not considered
             frozenEntityData.putFloat("Width", entity.getBbWidth());
 
             if (!(entity instanceof Player))
@@ -312,6 +337,9 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 serverWorld.addFreshEntity(entity);
             }
         }
+        for (Entity passenger : this.getPassengers())
+            passenger.stopRiding();
+
         this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                 SoundSource.AMBIENT, 1.0F, 1.0F);
         this.discard();
