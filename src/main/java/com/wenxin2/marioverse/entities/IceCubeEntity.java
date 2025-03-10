@@ -24,7 +24,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -107,7 +106,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             if (entityFrozenCooldown > 0)
                 this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", entityFrozenCooldown - 1);
             if (entityFrozenCooldown == 0)
-                this.unfreeze(false, false);
+                this.shatterIceCube(false, false);
         }
 
         if (this.frozenEntityData != null) {
@@ -120,38 +119,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 || state.getFluidState().is(FluidTags.LAVA)
                 || (state.is(BlockTags.CAMPFIRES) && state.hasProperty(BlockStateProperties.LIT)
                     && state.getValue(BlockStateProperties.LIT))) {
-            this.unfreeze(false, false);
+            this.shatterIceCube(false, false);
         }
 
-        if (!this.onGround() && this.fallDistance > previousFallDistance)
-            previousFallDistance = this.fallDistance;
 
-        if (this.onGround() && previousFallDistance > 3) {
-            this.unfreeze(true, false);
-            previousFallDistance = 0;
-        }
 
-        Vec3 currentVelocity = this.getDeltaMovement();
-        if (!this.onGround())
-            this.setDeltaMovement(currentVelocity.x, -this.getDefaultGravity(), currentVelocity.z);
-
-        this.move(MoverType.SELF, this.getDeltaMovement());
-
-        if (!world.isClientSide) {
-            for (Direction direction : Direction.values()) {
-                if (direction.getAxis().isHorizontal() && this.getDeltaMovement().horizontalDistance() > 0) {
-                    BlockPos hitPos = pos.relative(direction);
-                    BlockState hitState = world.getBlockState(hitPos);
-
-                    if (hitState.isSolid()) {
-                        this.setDeltaMovement(Vec3.ZERO);
-                        this.unfreeze(false, true);
-                        return;
-                    }
-                }
-            }
-        }
-
+        this.takeFallDamage();
+        this.collideWithWall(world, pos);
         this.collideWithEntity();
     }
 
@@ -319,7 +293,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         return frozenEntityData;
     }
 
-    public void unfreeze(boolean applyFallDamage, boolean applyCollisionDamage) {
+    public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage) {
         if (frozenEntityData != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(frozenEntityData, serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -343,6 +317,22 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         this.discard();
     }
 
+    private void collideWithWall(Level world, BlockPos pos) {
+        if (!world.isClientSide) {
+            for (Direction direction : Direction.values()) {
+                if (direction.getAxis().isHorizontal() && this.getDeltaMovement().horizontalDistance() > 0) {
+                    BlockPos hitPos = pos.relative(direction);
+                    BlockState hitState = world.getBlockState(hitPos);
+
+                    if (hitState.isSolid()) {
+                        this.setDeltaMovement(Vec3.ZERO);
+                        this.shatterIceCube(false, true);
+                    }
+                }
+            }
+        }
+    }
+
     private void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
@@ -350,16 +340,30 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
                 if (entity instanceof IceCubeEntity otherIceCube && this.getDeltaMovement().horizontalDistance() >= 0.2) {
-                    this.unfreeze(false, true);
-                    otherIceCube.unfreeze(false, true);
+                    this.shatterIceCube(false, true);
+                    otherIceCube.shatterIceCube(false, true);
                 } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
                     livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
                 } else if (entity instanceof BouncingFireballProjectile) {
-                    this.unfreeze(false, false);
+                    this.shatterIceCube(false, false);
                 } else if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
-                    this.unfreeze(false, false);
+                    this.shatterIceCube(false, false);
                 }
             }
         }
+    }
+
+    private void takeFallDamage() {
+        if (!this.onGround() && this.fallDistance > previousFallDistance)
+            previousFallDistance = this.fallDistance;
+        if (this.onGround() && previousFallDistance > 3) {
+            this.shatterIceCube(true, false);
+            previousFallDistance = 0;
+        }
+        Vec3 currentVelocity = this.getDeltaMovement();
+        if (!this.onGround())
+            this.setDeltaMovement(currentVelocity.x, -this.getDefaultGravity(), currentVelocity.z);
+
+        this.move(MoverType.SELF, this.getDeltaMovement());
     }
 }
