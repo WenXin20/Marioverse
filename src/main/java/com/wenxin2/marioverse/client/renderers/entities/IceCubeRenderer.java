@@ -30,18 +30,20 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                 this.withScale(width, height);
                 entity.setSize(width, height);
                 poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
-                renderEntityInSpawner(entityYaw, poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
+                renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
             poseStack.popPose();
         }
 
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
-    public static void renderEntityInSpawner(float entityYaw, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity,
+    public static void renderEntityInIceCube(float entityYaw, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity,
                                              EntityRenderDispatcher renderDispatcher) {
         poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees(entity.getYRot()));
-            poseStack.mulPose(Axis.XP.rotationDegrees(0.0F));
+            poseStack.pushPose();
+                poseStack.mulPose(Axis.YP.rotationDegrees(entityYaw));
+                poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
+            poseStack.popPose();
             renderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, entityYaw, poseStack, buffer, packedLight);
         poseStack.popPose();
     }
