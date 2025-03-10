@@ -212,7 +212,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.ICE_BALL_CAN_INSTAKILL);
 
         tag(TagRegistry.ICE_BALL_IMMUNE)
-                .add(EntityRegistry.ICE_FLOWER.get());
+                .add(EntityRegistry.ICE_FLOWER.get())
+                .add(EntityRegistry.ICE_CUBE.get());
 
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get());
