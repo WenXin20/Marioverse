@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
@@ -14,18 +15,23 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -45,6 +51,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     private Entity displayEntity;
     private float entityWidth = 1.0F;
     private float entityHeight = 1.0F;
+    private float previousFallDistance = 0;
 
     public IceCubeEntity(EntityType<? extends IceCubeEntity> type, Level world) {
         super(type, world);
@@ -92,6 +99,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     public void tick() {
         super.tick();
         Level world = this.level();
+        BlockPos pos = this.blockPosition();
+        BlockState state = world.getBlockState(pos);
 
         if (this.getPersistentData().contains("marioverse:entity_frozen_cooldown")) {
             int entityFrozenCooldown = this.getPersistentData().getInt("marioverse:entity_frozen_cooldown");
@@ -109,7 +118,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         if (this.onGround() && this.getDeltaMovement().y > 0) {
             this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 0);
+        if (!this.onGround() && this.fallDistance > previousFallDistance)
+            previousFallDistance = this.fallDistance;
+
+        if (this.onGround() && previousFallDistance > 3) {
             this.unfreeze(true, false);
+            previousFallDistance = 0;
         }
 
         Vec3 currentVelocity = this.getDeltaMovement();
@@ -118,9 +132,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         this.move(MoverType.SELF, this.getDeltaMovement());
 
-        if (!this.level().isClientSide) {
-            BlockPos pos = this.blockPosition();
-
+        if (!world.isClientSide) {
             for (Direction direction : Direction.values()) {
                 if (direction.getAxis().isHorizontal() && this.getDeltaMovement().horizontalDistance() > 0) {
                     BlockPos hitPos = pos.relative(direction);
@@ -288,11 +300,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                     this.displayEntity.setYHeadRot(tag.getFloat("HeadRotation"));
                 if (tag.contains("Pitch"))
                     this.displayEntity.setXRot(tag.getFloat("Pitch"));
-
-//                if (this.displayEntity instanceof LivingEntity livingEntity) {
-//                    livingEntity.hurtTime = 0;
-//                    livingEntity.hurtDuration = 0;
-//                }
             }
         }
         return this.displayEntity;
@@ -320,9 +327,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                         float damageAmount = Math.max(0, this.fallDistance - 3);
                         livingEntity.hurt(this.level().damageSources().fall(), damageAmount);
                     }
-                    if (applyCollisionDamage) {
-                        livingEntity.hurt(this.level().damageSources().flyIntoWall(), 4.0F); // TODO
-                    }
+                    if (applyCollisionDamage)
+                        livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
                 }
                 serverWorld.addFreshEntity(entity);
             }
@@ -338,11 +344,15 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
-                if (entity instanceof IceCubeEntity otherIceCube) {
-                    unfreeze(false, true);
+                if (entity instanceof IceCubeEntity otherIceCube && this.getDeltaMovement().horizontalDistance() >= 0.2) {
+                    this.unfreeze(false, true);
                     otherIceCube.unfreeze(false, true);
-                } else if (entity instanceof LivingEntity livingEntity) {
+                } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
                     livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
+                } else if (entity instanceof BouncingFireballProjectile) {
+                    this.unfreeze(false, false);
+                } else if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
+                    this.unfreeze(false, false);
                 }
             }
         }
