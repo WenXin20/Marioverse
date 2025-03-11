@@ -381,15 +381,20 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         }
     }
 
+    private boolean isOnSolidGround() {
+        BlockPos posBelow = this.blockPosition().below();
+        return this.level().getBlockState(posBelow).isSolidRender(this.level(), posBelow);
+    }
+
     private void takeFallDamage() {
-        if (!this.onGround() && this.fallDistance > previousFallDistance)
+        if (!this.isOnSolidGround() && this.fallDistance > previousFallDistance)
             previousFallDistance = this.fallDistance;
-        if (this.onGround() && previousFallDistance > 3) {
+        if (this.isOnSolidGround() && previousFallDistance > 3) {
             this.shatterIceCube(true, false);
             previousFallDistance = 0;
         }
         Vec3 currentVelocity = this.getDeltaMovement();
-        if (!this.onGround())
+        if (!this.isOnSolidGround())
             this.setDeltaMovement(currentVelocity.x, -this.getDefaultGravity(), currentVelocity.z);
 
         this.move(MoverType.SELF, this.getDeltaMovement());
