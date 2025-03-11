@@ -21,11 +21,16 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
 
     @Override
     public void render(IceCubeEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-
         Entity frozenEntity = entity.getOrCreateDisplayEntity(entity.level());
+        Entity frozenPlayer = entity.getPlayer(entity.level());
+
         if (frozenEntity != null) {
             float width = frozenEntity.getBbWidth() * 1.55F;
             float height = frozenEntity.getBbHeight() * 1.55F;
+
+            if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3) {
+                width *= 2.0F; // Increase width if the entity is significantly taller
+            }
 
             poseStack.pushPose();
                 this.withScale(width, height);
