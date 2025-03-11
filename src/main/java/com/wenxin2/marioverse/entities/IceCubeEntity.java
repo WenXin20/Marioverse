@@ -368,7 +368,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             });
 
             if (entity != null) {
-                entity.setIsInPowderSnow(false);
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - 3);
@@ -377,6 +376,9 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                     if (applyCollisionDamage)
                         livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
                 }
+                entity.setIsInPowderSnow(true);
+                if (entity.canFreeze())
+                    entity.setTicksFrozen(180);
                 serverWorld.addFreshEntity(entity);
             }
         }
@@ -430,7 +432,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isCreative()) {
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(5);
+                    entity.setTicksFrozen(180);
             }
         }
     }
