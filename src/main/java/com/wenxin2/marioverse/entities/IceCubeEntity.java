@@ -434,12 +434,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                     otherIceCube.shatterIceCube(false, true);
                 } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
                     livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
-                } else if (entity instanceof BouncingFireballProjectile) {
-                    this.shatterIceCube(false, false); // TODO FIX
-                } else if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
-                    this.shatterIceCube(false, false);
                 }
             }
+
+            if (entity instanceof BouncingFireballProjectile)
+                this.shatterIceCube(false, false);
+            if (entity instanceof AbstractArrow arrow && arrow.isOnFire())
+                this.shatterIceCube(false, false);
         }
 
         for (Entity entity : collidingEntitiesNoInflation) {
