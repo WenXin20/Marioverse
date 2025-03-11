@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
@@ -200,7 +201,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 } else if (this.getOwner() != null) {
                     if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
                         player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth());
-                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     player.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -226,7 +227,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
-                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     livingEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -247,7 +248,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
                         partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth());
-                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), 4.0F);
+                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     partEntity.igniteForSeconds(2.0F);
                 }
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),

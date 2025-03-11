@@ -205,18 +205,20 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (this.getOwner() != null) {
                         if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                             player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
-//                        else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); //TODO
+                        else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     }
 
                     player.extinguishFire();
 
-                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
-                    iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
-                    if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                        iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500);
-                    iceCube.setSize(width, height);
-                    player.level().addFreshEntity(iceCube);
-                    player.startRiding(iceCube, false);
+                    if (player.isAlive()) {
+                        IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
+                        iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                        if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
+                            iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500);
+                        iceCube.setSize(width, height);
+                        player.level().addFreshEntity(iceCube);
+                        player.startRiding(iceCube, false);
+                    }
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -241,13 +243,15 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
-//                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); // TODO
+                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     livingEntity.extinguishFire();
 
-                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-                    iceCube.setFrozenEntity(livingEntity);
-                    iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
-                    livingEntity.level().addFreshEntity(iceCube);
+                    if (livingEntity.isAlive()) {
+                        IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
+                        iceCube.setFrozenEntity(livingEntity);
+                        iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
+                        livingEntity.level().addFreshEntity(iceCube);
+                    }
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -267,13 +271,15 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                         partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth());
-                    else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 2.0F);
+                    else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     partEntity.extinguishFire();
 
-                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
-                    iceCube.setFrozenEntity(partEntity);
-                    iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
-                    partEntity.level().addFreshEntity(iceCube);
+                    if (partEntity.isAlive()) {
+                        IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
+                        iceCube.setFrozenEntity(partEntity);
+                        iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
+                        partEntity.level().addFreshEntity(iceCube);
+                    }
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);

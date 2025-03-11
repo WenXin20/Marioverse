@@ -116,6 +116,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
+    public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
+    public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -513,6 +515,11 @@ public class ConfigRegistry
                             .comment("Base amount of fireballs that can be shot before a cooldown for mobs.")
                             .comment("§9[Default: 2]§b")
                             .defineInRange("max_mob_fireballs", 2, 0, 100);
+                    FIREBALL_DAMAGE = BUILDER.translation("configuration.marioverse.fireball_damage")
+                            .comment("Amount of damage fireballs cause.")
+                            .comment("§6[1 point = 1/2 Heart]")
+                            .comment("§9[Default: 4.0]§b")
+                            .defineInRange("fireball_damage", 4.0, 0.0, 16.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_ICE_FLOWER);
@@ -537,6 +544,11 @@ public class ConfigRegistry
                             .comment("Base amount of ice_balls that can be shot before a cooldown for mobs.")
                             .comment("§9[Default: 2]§b")
                             .defineInRange("max_mob_ice_balls", 2, 0, 100);
+                    ICE_BALL_DAMAGE = BUILDER.translation("configuration.marioverse.ice_ball_damage")
+                            .comment("Amount of damage ice balls cause.")
+                            .comment("§6[1 point = 1/2 Heart]")
+                            .comment("§9[Default: 2.0]§b")
+                            .defineInRange("ice_ball_damage", 2.0, 0.0, 16.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);
