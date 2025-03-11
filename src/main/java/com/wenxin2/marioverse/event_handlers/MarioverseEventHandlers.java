@@ -375,8 +375,12 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onDismount(EntityMountEvent event) {
         if (event.getEntityBeingMounted() instanceof IceCubeEntity iceCube && iceCube.isAlive()) {
-            if (event.isDismounting())
-                event.setCanceled(true);
+            if (event.isDismounting()) {
+                if (event.getEntityMounting() instanceof Player player && !player.isCreative() && player.isAlive())
+                    event.setCanceled(true);
+                else if (!(event.getEntityMounting() instanceof Player))
+                    event.setCanceled(true);
+            }
         }
     }
 
