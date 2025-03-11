@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Pose;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
@@ -31,6 +32,16 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                 entity.setSize(width, height);
                 poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
                 renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
+            poseStack.popPose();
+        }
+
+        if (frozenPlayer != null) {
+            float width = frozenPlayer.getDimensions(Pose.STANDING).width() * 2.55F;
+            float height = frozenPlayer.getDimensions(Pose.STANDING).height() * 1.55F;
+
+            poseStack.pushPose();
+                this.withScale(width, height);
+                entity.setSize(width, height);
             poseStack.popPose();
         }
 

@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin {
-
     @Inject(method = "findRespawnAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
     private static void findRespawnAndUseSpawnBlock(ServerLevel world, BlockPos pos, float angle, boolean forced, boolean anchor, CallbackInfoReturnable<Optional<ServerPlayer.RespawnPosAngle>> cir) {
         BlockState state = world.getBlockState(pos);

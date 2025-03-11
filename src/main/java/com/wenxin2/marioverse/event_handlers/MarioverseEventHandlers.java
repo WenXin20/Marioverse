@@ -35,6 +35,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -373,8 +374,9 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onDismount(EntityMountEvent event) {
-        if (event.isDismounting() && event.getEntityBeingMounted() instanceof IceCubeEntity) {
-            event.setCanceled(true);
+        if (event.getEntityBeingMounted() instanceof IceCubeEntity iceCube && iceCube.isAlive()) {
+            if (event.isDismounting())
+                event.setCanceled(true);
         }
     }
 

@@ -22,6 +22,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
@@ -186,6 +187,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = player.getUseItem();
+                float width = player.getBbWidth() * 2.55F;
+                float height = player.getBbHeight() * 1.55F;
                 if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
                         && player.getTeam() == this.getOwner().getTeam())
                     return;
@@ -202,19 +205,18 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (this.getOwner() != null) {
                         if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
                             player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
-                        else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); //TODO
+//                        else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), 4.0F); //TODO
                     }
 
                     player.extinguishFire();
-                    player.setIsInPowderSnow(true);
-                    if (player.canFreeze())
-                        player.setTicksFrozen(Math.min(player.getTicksRequiredToFreeze(), 500)); // TODO
 
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
-                    iceCube.setFrozenEntity(player);
                     iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                    if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
+                        iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500);
+                    iceCube.setSize(width, height);
                     player.level().addFreshEntity(iceCube);
-                    player.startRiding(iceCube, true);
+                    player.startRiding(iceCube, false);
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);

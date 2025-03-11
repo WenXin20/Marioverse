@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -65,7 +66,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
     }
 
     @Override
@@ -209,13 +209,40 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     }
 
     @Override
-    public boolean canCollideWith(Entity entity) {
+    public boolean isPushable() {
         return true;
     }
 
     @Override
-    public boolean isPushable() {
-        return true;
+    public void push(Entity entity) {
+        if (!(entity instanceof IceCubeEntity)) {
+            if (!entity.noPhysics && !this.noPhysics) {
+                double d0 = entity.getX() - this.getX();
+                double d1 = entity.getZ() - this.getZ();
+                double d2 = Mth.absMax(d0, d1);
+                if (d2 >= 0.01F) {
+                    d2 = Math.sqrt(d2);
+                    d0 /= d2;
+                    d1 /= d2;
+                    double d3 = 1.0 / d2;
+                    if (d3 > 1.0) {
+                        d3 = 1.0;
+                    }
+
+                    d0 *= d3;
+                    d1 *= d3;
+                    d0 *= 0.05F;
+                    d1 *= 0.05F;
+                    if (!this.isVehicle() && this.isPushable()) {
+                        this.push(-d0, 0.0, -d1);
+                    }
+
+                    if (!entity.isVehicle() && entity.isPushable()) {
+                        entity.push(d0, 0.0, d1);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -240,14 +267,19 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
     @Override
     protected void positionRider(Entity riderEntity, MoveFunction moveFunction) {
-        super.positionRider(riderEntity, moveFunction);
+        if (this.isAlive())
+            moveFunction.accept(riderEntity, this.getX(), this.getY(), this.getZ());
+        else super.positionRider(riderEntity, moveFunction);
 
         if (riderEntity instanceof Player player) {
-            player.setYRot(this.getYRot()); // Lock player's rotation to Ice Cube's rotation
-            player.setXRot(0); // Optionally, prevent vertical rotation
-            player.yRotO = this.getYRot(); // Sync previous rotation to avoid snapping
-            player.xRotO = 0;
+            player.setYRot(this.getYRot());
+            player.yRotO = this.getYRot();
         }
+    }
+
+    @Override
+    public boolean canControlVehicle() {
+        return false;
     }
 
     @NotNull
@@ -283,6 +315,16 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
             this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
+    }
+
+    @Nullable
+    public Entity getPlayer(Level world) {
+        CompoundTag tag = this.entityData.get(FROZEN_DATA);
+        if (tag.isEmpty()) {
+            for (Player player : world.players())
+                return player;
+        }
+        return null;
     }
 
     @Nullable
@@ -326,6 +368,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             });
 
             if (entity != null) {
+                entity.setIsInPowderSnow(false);
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - 3);
@@ -337,12 +380,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 serverWorld.addFreshEntity(entity);
             }
         }
-        for (Entity passenger : this.getPassengers())
-            passenger.stopRiding();
+        this.ejectPassengers();
 
         this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                 SoundSource.AMBIENT, 1.0F, 1.0F);
         this.discard();
+        this.setRemoved(RemovalReason.DISCARDED);
     }
 
     private void collideWithWall(Level world, BlockPos pos) {
@@ -363,7 +406,9 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
     private void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01);
+        AABB collisionBoxNoInflation = this.getBoundingBox();
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+        List<Entity> collidingEntitiesNoInflation = this.level().getEntities(this, collisionBoxNoInflation);
 
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
@@ -377,6 +422,15 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 } else if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
                     this.shatterIceCube(false, false);
                 }
+            }
+        }
+
+        for (Entity entity : collidingEntitiesNoInflation) {
+            entity.extinguishFire();
+            if (entity instanceof Player) {
+                entity.setIsInPowderSnow(true);
+                if (entity.canFreeze())
+                    entity.setTicksFrozen(5); // TODO
             }
         }
     }
