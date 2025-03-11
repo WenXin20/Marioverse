@@ -351,6 +351,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                     this.displayEntity.setYHeadRot(tag.getFloat("HeadRotation"));
                 if (tag.contains("Pitch"))
                     this.displayEntity.setXRot(tag.getFloat("Pitch"));
+
+                if (displayEntity instanceof LivingEntity entity) {
+                    entity.hurtDuration = 0;
+                    entity.hurtTime = 0;
+                }
             }
         }
         return this.displayEntity;
@@ -377,9 +382,14 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - 3);
                         livingEntity.hurt(this.level().damageSources().fall(), damageAmount);
+                        livingEntity.hurtDuration = 10;
+                        livingEntity.hurtTime = 10;
                     }
-                    if (applyCollisionDamage)
+                    if (applyCollisionDamage) {
                         livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
+                        livingEntity.hurtDuration = 10;
+                        livingEntity.hurtTime = 10;
+                    }
                 }
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
@@ -425,7 +435,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
                     livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
                 } else if (entity instanceof BouncingFireballProjectile) {
-                    this.shatterIceCube(false, false);
+                    this.shatterIceCube(false, false); // TODO FIX
                 } else if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
                     this.shatterIceCube(false, false);
                 }
