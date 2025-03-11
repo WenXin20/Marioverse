@@ -92,7 +92,6 @@ public abstract class PlayerMixin extends Entity {
 
         if (preventWarpCooldown == 0 && this.getPersistentData().getBoolean("marioverse:prevent_warp"))
             player.getPersistentData().putBoolean("marioverse:prevent_warp", false);
-
         super.baseTick();
     }
 

@@ -278,6 +278,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     }
 
     @Override
+    public boolean shouldRiderSit() {
+        return false;
+    }
+
+    @Override
     public boolean canControlVehicle() {
         return false;
     }
