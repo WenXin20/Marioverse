@@ -427,10 +427,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         for (Entity entity : collidingEntitiesNoInflation) {
             entity.extinguishFire();
-            if (entity instanceof Player) {
+            if (entity instanceof Player player && !player.isCreative()) {
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(5); // TODO
+                    entity.setTicksFrozen(5);
             }
         }
     }

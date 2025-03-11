@@ -28,9 +28,8 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
             float width = frozenEntity.getBbWidth() * 1.55F;
             float height = frozenEntity.getBbHeight() * 1.55F;
 
-            if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3) {
-                width *= 2.0F; // Increase width if the entity is significantly taller
-            }
+            if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3)
+                width *= 2.0F;
 
             poseStack.pushPose();
                 this.withScale(width, height);
