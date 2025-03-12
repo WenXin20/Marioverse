@@ -30,6 +30,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -401,6 +402,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                 SoundSource.AMBIENT, 1.0F, 1.0F);
+        // TODO Particles
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
     }
@@ -437,10 +439,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 }
             }
 
-            if (entity instanceof BouncingFireballProjectile)
+            if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
                 this.shatterIceCube(false, false);
-            if (entity instanceof AbstractArrow arrow && arrow.isOnFire())
-                this.shatterIceCube(false, false);
+                arrow.extinguishFire();
+            }
         }
 
         for (Entity entity : collidingEntitiesNoInflation) {

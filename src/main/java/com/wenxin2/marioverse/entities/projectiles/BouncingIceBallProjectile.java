@@ -222,7 +222,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = livingEntity.getUseItem();
@@ -255,7 +255,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof PiranhaPlantPart partEntity && partEntity.canFreeze() && partEntity != this.getOwner()
                     && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
@@ -283,14 +283,14 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof BouncingFireballProjectile fireball) {
                 fireball.kill();
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
             } else {
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
             }

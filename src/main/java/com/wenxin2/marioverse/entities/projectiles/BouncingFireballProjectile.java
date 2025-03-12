@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.projectiles;
 
+import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
@@ -182,7 +183,10 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     @Override
     protected void onHitEntity(EntityHitResult hit) {
         Entity entity = hit.getEntity();
-        if (!this.level().isClientSide) {
+        Level world = this.level();
+        BlockPos pos = this.blockPosition();
+
+        if (!world.isClientSide) {
             if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 ItemStack shield = player.getUseItem();
@@ -195,7 +199,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
                                 SoundSource.PLAYERS, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
@@ -204,9 +208,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     player.igniteForSeconds(2.0F);
                 }
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 ItemStack shield = livingEntity.getUseItem();
@@ -221,7 +225,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
@@ -230,9 +234,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     livingEntity.igniteForSeconds(2.0F);
                 }
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
                     && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
@@ -242,7 +246,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                         this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
                                 SoundSource.NEUTRAL, 1.0F, 1.0F);
                     }
                 } else if (this.getOwner() != null) {
@@ -251,19 +255,26 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     partEntity.igniteForSeconds(2.0F);
                 }
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.KILLED);
+                this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof MinecartTNT tnt)
                 tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
+            else if (entity instanceof IceCubeEntity iceCube) {
+                iceCube.shatterIceCube(false, false);
+                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.broadcastEntityEvent(this, (byte) 60);
+                this.remove(RemovalReason.DISCARDED);
+            }
         }
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
         }
     }
 
