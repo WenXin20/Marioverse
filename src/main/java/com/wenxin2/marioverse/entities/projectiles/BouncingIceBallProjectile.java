@@ -137,7 +137,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
-            this.discard(); // Despawn on side hit
+            this.remove(RemovalReason.DISCARDED); // Despawn on side hit
         } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.5, motion.z); // Bounce
@@ -153,7 +153,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
-            this.discard();
+            this.remove(RemovalReason.DISCARDED);
         }
 
         if (fluidState.getType().is(TagRegistry.FREEZES_INTO_FROSTED_ICE)) {
@@ -171,21 +171,33 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            this.remove(RemovalReason.DISCARDED);
         }
         else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT)) {
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            this.remove(RemovalReason.DISCARDED);
         }
         else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT)) {
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            this.remove(RemovalReason.DISCARDED);
         }
         else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT)) {
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            this.remove(RemovalReason.DISCARDED);
         }
         super.onHitBlock(hit);
     }
@@ -219,7 +231,6 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                             player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
                         else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     }
-
                     player.extinguishFire();
 
                     if (player.isAlive()) {
