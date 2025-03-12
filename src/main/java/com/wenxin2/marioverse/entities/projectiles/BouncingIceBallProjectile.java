@@ -167,14 +167,26 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
-        else if (state.getBlock() instanceof CampfireBlock && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(CampfireBlock.LIT, Boolean.FALSE), 3);
-        else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.FALSE), 3);
-        else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.FALSE), 3);
-        else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT))
+        else if (state.getBlock() instanceof CampfireBlock && state.hasProperty(BlockStateProperties.LIT)) {
+            world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
+            world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT)) {
+            world.levelEvent(null, 1009, hitPos, 0);
+            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
+            world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT)) {
+            world.levelEvent(null, 1009, hitPos, 0);
+            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
+            world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
+        else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT)) {
+            world.levelEvent(null, 1009, hitPos, 0);
+            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
+            world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
         super.onHitBlock(hit);
     }
 
