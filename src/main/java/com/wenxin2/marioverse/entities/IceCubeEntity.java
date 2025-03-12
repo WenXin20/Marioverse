@@ -292,7 +292,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         if (entity != null) {
             frozenEntityData = new CompoundTag();
             entity.save(frozenEntityData);
-            
+
             frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
             frozenEntityData.putFloat("BodyRotation", entity.getYRot());
             frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
@@ -427,18 +427,20 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
                     if (hitState.is(BlockTags.FIRE)
                             || hitState.getFluidState().is(FluidTags.LAVA)
-                            || (hitState.is(BlockTags.CAMPFIRES) && hitState.hasProperty(BlockStateProperties.LIT)
+                            || (hitState.is(BlockTags.CAMPFIRES) && hitStateAbove.hasProperty(BlockStateProperties.LIT)
                             && hitState.getValue(BlockStateProperties.LIT))
                             || this.isOnFire()) {
                         if (hitState.is(BlockTags.FIRE)) {
                             world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
                             if (!world.isClientSide())
                                 world.levelEvent(null, 1009, checkPos, 0);
-                        } else if (hitState.hasProperty(BlockStateProperties.LIT)
-                                && hitState.getValue(BlockStateProperties.LIT))
-                            hitState.setValue(BlockStateProperties.LIT, false);
+                        }
                         this.shatterIceCube(false, false);
                     }
+
+                    if (hitState.hasProperty(BlockStateProperties.LIT)
+                            && hitState.getValue(BlockStateProperties.LIT))
+                        hitState.setValue(BlockStateProperties.LIT, false);
                 }
             }
         }
