@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
@@ -25,8 +26,20 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
         Entity frozenPlayer = entity.getPlayer(entity.level());
 
         if (frozenEntity != null) {
-            float width = frozenEntity.getBbWidth() * 1.55F;
-            float height = frozenEntity.getBbHeight() * 1.55F;
+            float scale = 1.0F;
+            float heightScale = 1.0F;
+            float widthScale = 1.0F;
+
+            if (frozenEntity instanceof LivingEntity livingEntity) {
+                if (livingEntity.getPersistentData().contains("Scale"))
+                    scale = livingEntity.getPersistentData().getFloat("Scale");
+                if (livingEntity.getPersistentData().contains("HeightScale"))
+                    heightScale = livingEntity.getPersistentData().getFloat("HeightScale");
+                if (livingEntity.getPersistentData().contains("WidthScale"))
+                    widthScale = livingEntity.getPersistentData().getFloat("WidthScale");
+            }
+            float width = frozenEntity.getBbWidth() * scale * widthScale * 1.55F;
+            float height = frozenEntity.getBbHeight() * scale * heightScale * 1.55F;
 
             if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3)
                 width *= 2.0F;
@@ -34,7 +47,10 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
             poseStack.pushPose();
                 this.withScale(width, height);
                 entity.setSize(width, height);
+
                 poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
+                poseStack.scale(scale * widthScale, scale * heightScale, scale * widthScale);
+
                 renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
             poseStack.popPose();
         }

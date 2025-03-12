@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
+import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import java.util.function.Function;
@@ -22,6 +23,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
@@ -290,8 +293,23 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
     public void setFrozenEntity(Entity entity) {
         if (entity != null) {
+            float scale = 1.0F;
+            float heightScale = 1.0F;
+            float widthScale = 1.0F;
             frozenEntityData = new CompoundTag();
             entity.save(frozenEntityData);
+
+            if (entity instanceof LivingEntity living) {
+                AttributeInstance scaleAttribute = living.getAttribute(Attributes.SCALE);
+                AttributeInstance heightScaleAttribute = living.getAttribute(AttributesRegistry.HEIGHT_SCALE);
+                AttributeInstance widthScaleAttribute = living.getAttribute(AttributesRegistry.WIDTH_SCALE);
+                if (scaleAttribute != null)
+                    scale = (float) scaleAttribute.getValue();
+                if (heightScaleAttribute != null)
+                    heightScale = (float) heightScaleAttribute.getValue();
+                if (widthScaleAttribute != null)
+                    widthScale = (float) widthScaleAttribute.getValue();
+            }
 
             frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
             frozenEntityData.putFloat("BodyRotation", entity.getYRot());
@@ -299,8 +317,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             frozenEntityData.putFloat("Pitch", entity.getXRot());
             frozenEntityData.putFloat("Height", entity.getBbHeight()); // TODO Fix scale attributes not considered
             frozenEntityData.putFloat("Width", entity.getBbWidth());
+            frozenEntityData.putFloat("Scale", scale);
+            frozenEntityData.putFloat("HeightScale", heightScale);
+            frozenEntityData.putFloat("WidthScale", widthScale);
 
-            this.setSize(entity.getBbWidth() * 1.55F, entity.getBbHeight() * 1.55F);
+            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();
 
@@ -344,6 +365,24 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 if (displayEntity instanceof LivingEntity entity) {
                     entity.hurtDuration = 0;
                     entity.hurtTime = 0;
+
+                    if (tag.contains("Scale")) {
+                        float scale = tag.getFloat("Scale");
+                        entity.setBoundingBox(entity.getBoundingBox().inflate(scale - 1.0));
+                        entity.getPersistentData().putFloat("Scale", scale);
+                    }
+
+                    if (tag.contains("HeightScale")) {
+                        float scale = tag.getFloat("HeightScale");
+                        entity.setBoundingBox(entity.getBoundingBox().inflate(scale - 1.0));
+                        entity.getPersistentData().putFloat("HeightScale", scale);
+                    }
+
+                    if (tag.contains("WidthScale")) {
+                        float scale = tag.getFloat("WidthScale");
+                        entity.setBoundingBox(entity.getBoundingBox().inflate(scale - 1.0));
+                        entity.getPersistentData().putFloat("WidthScale", scale);
+                    }
                 }
             }
         }
