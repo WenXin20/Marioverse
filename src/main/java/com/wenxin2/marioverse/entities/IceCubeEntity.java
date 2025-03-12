@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
@@ -115,17 +114,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             float height = this.frozenEntityData.getFloat("Height") * 1.55F;
             float width = this.frozenEntityData.getFloat("Width") * 1.55F;
             this.setSize(width, height);
-        }
-
-        if (state.is(BlockTags.FIRE)
-                || state.getFluidState().is(FluidTags.LAVA)
-                || (state.is(BlockTags.CAMPFIRES) && state.hasProperty(BlockStateProperties.LIT)
-                    && state.getValue(BlockStateProperties.LIT))
-                || this.isOnFire()) {
-            if (state.is(BlockTags.FIRE)) {
-                // TODO
-            }
-            this.shatterIceCube(false, false);
         }
 
         this.takeFallDamage();
@@ -304,15 +292,15 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         if (entity != null) {
             frozenEntityData = new CompoundTag();
             entity.save(frozenEntityData);
+            
             frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
-
-            this.setSize(entity.getBbWidth() * 1.55F, entity.getBbHeight() * 1.55F);
             frozenEntityData.putFloat("BodyRotation", entity.getYRot());
             frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
             frozenEntityData.putFloat("Pitch", entity.getXRot());
             frozenEntityData.putFloat("Height", entity.getBbHeight()); // TODO Fix scale attributes not considered
             frozenEntityData.putFloat("Width", entity.getBbWidth());
 
+            this.setSize(entity.getBbWidth() * 1.55F, entity.getBbHeight() * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();
 
@@ -381,7 +369,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             if (entity != null) {
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
-                        float damageAmount = Math.max(0, this.fallDistance - 3);
+                        float damageAmount = Math.max(0, this.fallDistance - livingEntity.getMaxFallDistance());
                         livingEntity.hurt(this.level().damageSources().fall(), damageAmount);
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
@@ -409,14 +397,47 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
     private void collideWithWall(Level world, BlockPos pos) {
         if (!world.isClientSide) {
-            for (Direction direction : Direction.values()) {
-                if (direction.getAxis().isHorizontal() && this.getDeltaMovement().horizontalDistance() > 0) {
-                    BlockPos hitPos = pos.relative(direction);
-                    BlockState hitState = world.getBlockState(hitPos);
+            AABB boundingBox = this.getBoundingBox();
 
-                    if (hitState.isSolid()) {
-                        this.setDeltaMovement(Vec3.ZERO);
-                        this.shatterIceCube(false, true);
+            for (Direction direction : Direction.values()) {
+                if (direction.getAxis().isHorizontal() && this.getDeltaMovement().y == 0
+                        && this.getDeltaMovement().horizontalDistance() > 0) {
+                    for (BlockPos hitPos : BlockPos.betweenClosed(
+                            Mth.floor(boundingBox.minX), Mth.floor(boundingBox.minY), Mth.floor(boundingBox.minZ),
+                            Mth.floor(boundingBox.maxX), Mth.floor(boundingBox.maxY), Mth.floor(boundingBox.maxZ))) {
+
+                        BlockPos checkPos = hitPos.relative(direction);
+                        BlockState hitState = world.getBlockState(checkPos);
+
+                        if (hitState.isSolid()) {
+                            this.shatterIceCube(false, true);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            for (Direction direction : Direction.values()) {
+                for (BlockPos hitPos : BlockPos.betweenClosed(
+                        Mth.floor(boundingBox.minX), Mth.floor(boundingBox.minY), Mth.floor(boundingBox.minZ),
+                        Mth.floor(boundingBox.maxX), Mth.floor(boundingBox.maxY), Mth.floor(boundingBox.maxZ))) {
+
+                    BlockPos checkPos = hitPos.relative(direction);
+                    BlockState hitState = world.getBlockState(checkPos);
+
+                    if (hitState.is(BlockTags.FIRE)
+                            || hitState.getFluidState().is(FluidTags.LAVA)
+                            || (hitState.is(BlockTags.CAMPFIRES) && hitState.hasProperty(BlockStateProperties.LIT)
+                            && hitState.getValue(BlockStateProperties.LIT))
+                            || this.isOnFire()) {
+                        if (hitState.is(BlockTags.FIRE)) {
+                            world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
+                            if (!world.isClientSide())
+                                world.levelEvent(null, 1009, checkPos, 0);
+                        } else if (hitState.hasProperty(BlockStateProperties.LIT)
+                                && hitState.getValue(BlockStateProperties.LIT))
+                            hitState.setValue(BlockStateProperties.LIT, false);
+                        this.shatterIceCube(false, false);
                     }
                 }
             }
