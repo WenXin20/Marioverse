@@ -427,7 +427,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
                     if (hitState.is(BlockTags.FIRE)
                             || hitState.getFluidState().is(FluidTags.LAVA)
-                            || (hitState.is(BlockTags.CAMPFIRES) && hitStateAbove.hasProperty(BlockStateProperties.LIT)
+                            || (hitState.is(BlockTags.CAMPFIRES) && hitState.hasProperty(BlockStateProperties.LIT)
                             && hitState.getValue(BlockStateProperties.LIT))
                             || this.isOnFire()) {
                         if (hitState.is(BlockTags.FIRE)) {
