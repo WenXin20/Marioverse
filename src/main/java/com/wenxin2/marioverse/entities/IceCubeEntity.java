@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -165,6 +166,9 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             return false;
         } else if (source.getDirectEntity() instanceof BouncingIceBallProjectile && this.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             return false;
+        } else if (source.getEntity() instanceof LivingEntity entity && entity.getMainHandItem().is(ItemTags.PICKAXES)) {
+            this.shatterIceCube(false, false);
+            return true;
         } else {
             this.setHurtDir(-this.getHurtDir());
             this.setHurtTime(10);
