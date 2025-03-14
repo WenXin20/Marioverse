@@ -237,7 +237,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
                         iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                         if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                            iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500);
+                            iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500); //TODO
                         iceCube.setSize(width, height);
                         player.level().addFreshEntity(iceCube);
                         player.startRiding(iceCube, false);

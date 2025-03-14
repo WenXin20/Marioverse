@@ -22,6 +22,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -103,7 +104,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         super.tick();
         Level world = this.level();
         BlockPos pos = this.blockPosition();
-        BlockState state = world.getBlockState(pos);
 
         if (this.getPersistentData().contains("marioverse:entity_frozen_cooldown")) {
             int entityFrozenCooldown = this.getPersistentData().getInt("marioverse:entity_frozen_cooldown");
@@ -119,6 +119,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             this.setSize(width, height);
         }
 
+        // TODO: Float in water
         this.takeFallDamage();
         this.collideWithWall(world, pos);
         this.collideWithEntity();
@@ -189,7 +190,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
             }
 
-            this.setDeltaMovement(slideDirection.scale(slideSpeed));
+            if (this.displayEntity instanceof Mob mob && !mob.isNoAi()) {
+                this.setDeltaMovement(slideDirection.scale(slideSpeed));
+            } else if (!(this.displayEntity instanceof Mob))
+                this.setDeltaMovement(slideDirection.scale(slideSpeed));
 
             return true;
         }
@@ -239,7 +243,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
     @Override
     protected double getDefaultGravity() {
-        return 0.5;
+        return 0.4;
     }
 
     @Override
@@ -326,7 +330,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 entity.discard();
 
             if (!this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500);
+                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500); //TODO
 
             this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
@@ -412,11 +416,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                         livingEntity.hurt(this.level().damageSources().fall(), damageAmount);
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
+                        livingEntity.hurtMarked = true;
                     }
                     if (applyCollisionDamage) {
                         livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
+                        livingEntity.hurtMarked = true;
                     }
                 }
                 entity.setIsInPowderSnow(true);
@@ -523,16 +529,41 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     }
 
     private void takeFallDamage() {
+        Vec3 velocity = this.getDeltaMovement();
+        Vec3 vecPos = this.position();
+        BlockState stateBelow = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y, vecPos.z).below());
+        BlockState stateAbove = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y + this.getBbHeight(), vecPos.z));
+        boolean isWaterBelow = stateBelow.getFluidState().is(FluidTags.WATER);
+        boolean isAirAbove = stateAbove.getFluidState().isEmpty();
+
         if (!this.isOnSolidGround() && this.fallDistance > previousFallDistance)
             previousFallDistance = this.fallDistance;
         if (this.isOnSolidGround() && previousFallDistance > 3) {
             this.shatterIceCube(true, false);
             previousFallDistance = 0;
         }
-        Vec3 currentVelocity = this.getDeltaMovement();
-        if (!this.isOnSolidGround())
-            this.setDeltaMovement(currentVelocity.x, -this.getDefaultGravity(), currentVelocity.z);
 
+        if (this.isInWaterOrBubble() || isWaterBelow) {
+
+            double upwardAcceleration = 0.04;
+            double waterDrag = 0.9;
+            double maxFloatSpeed = 0.1;
+            double bobbingSpeed = 0.1 * this.getBbHeight();
+            double bobbingAmplitude = 0.4 * this.getBbHeight();
+            double bobbingEffect = (Math.sin(20 * bobbingSpeed) * bobbingAmplitude) - (bobbingAmplitude * 0.9);
+
+            if (!isAirAbove) {
+                this.setDeltaMovement(velocity.x * waterDrag, Math.min(velocity.y + upwardAcceleration, maxFloatSpeed), velocity.z * waterDrag);
+            } else {
+                this.setDeltaMovement(velocity.x * waterDrag, bobbingEffect, velocity.z * waterDrag);
+            }
+        } else if (!this.isOnSolidGround() && !this.isInWaterOrBubble()) {
+            if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
+                this.setDeltaMovement(velocity.x, -this.getDefaultGravity(), velocity.z);
+            else if (!(this.displayEntity instanceof Mob))
+                this.setDeltaMovement(velocity.x, -this.getDefaultGravity(), velocity.z);
+            else this.setDeltaMovement(0, 0, 0);
+        }
         this.move(MoverType.SELF, this.getDeltaMovement());
     }
 }
