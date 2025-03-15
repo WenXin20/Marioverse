@@ -220,7 +220,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ICE_FLOWER.get())
                 .add(EntityType.ENDER_DRAGON);
 
-        tag(TagRegistry.ICE_CUBE_BREAKS_INSTANTLY)
+        tag(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .add(EntityType.ELDER_GUARDIAN)
                 .add(EntityType.WARDEN)

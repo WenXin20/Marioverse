@@ -105,7 +105,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags("hefty_goomba_can_attack");
     public static final TagKey<EntityType<?>> ICE_BALL_CAN_INSTAKILL = entityTypeTags("ice_ball_can_instakill");
     public static final TagKey<EntityType<?>> ICE_BALL_IMMUNE = entityTypeTags("ice_ball_immune");
-    public static final TagKey<EntityType<?>> ICE_CUBE_BREAKS_INSTANTLY = entityTypeTags("ice_cube_breaks_instantly");
+    public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
