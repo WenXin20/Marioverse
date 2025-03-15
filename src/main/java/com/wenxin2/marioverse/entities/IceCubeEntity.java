@@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.SpectralArrow;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -397,6 +399,14 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         return this.displayEntity;
     }
 
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if (this.displayEntity == null) {
+            this.displayEntity = this.getOrCreateDisplayEntity(this.level());
+        }
+    }
+
     public void setSize(float width, float height) {
         this.setBoundingBox(new AABB(this.getX() - width / 2, this.getY(), this.getZ() - width / 2,
                 this.getX() + width / 2, this.getY() + height, this.getZ() + width / 2));
@@ -511,9 +521,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 }
             }
 
-            if (entity instanceof AbstractArrow arrow && arrow.isOnFire()) {
+            if (entity instanceof AbstractArrow arrow) {
                 this.shatterIceCube(false, false);
-                arrow.extinguishFire();
+                if (arrow.isOnFire())
+                    arrow.extinguishFire();
+                if (arrow instanceof SpectralArrow)
+                    this.setGlowingTag(true);
             }
         }
 
@@ -535,10 +548,45 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     private void takeFallDamage() {
         Vec3 velocity = this.getDeltaMovement();
         Vec3 vecPos = this.position();
-        BlockState stateBelow = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y, vecPos.z).below());
-        BlockState stateAbove = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y + this.getBbHeight(), vecPos.z));
+        float entityHeight = this.getBbHeight();
+        if (this.displayEntity != null)
+            entityHeight = this.displayEntity.getBbHeight();
+        AABB aabb = this.getBoundingBox();
+        if (this.displayEntity != null)
+            aabb = this.displayEntity.getBoundingBox();
+        double entityTop = aabb.maxY + 0.001;
+        boolean isUnderwater = false;
+        double waterLevel = 0.0;
+
+        BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
+        for (int x = Mth.floor(aabb.minX); x < Mth.ceil(aabb.maxX); x++) {
+            for (int y = Mth.floor(aabb.minY); y < Mth.ceil(entityTop); y++) {
+                for (int z = Mth.floor(aabb.minZ); z < Mth.ceil(aabb.maxZ); z++) {
+                    blockPos.set(x, y, z);
+                    FluidState fluidState = this.level().getFluidState(blockPos);
+
+                    if (!fluidState.isEmpty()) {
+                        double fluidHeight = fluidState.getHeight(this.level(), blockPos);
+                        waterLevel = Math.max(waterLevel, blockPos.getY() + fluidHeight);
+                        if (entityTop < waterLevel) {
+                            isUnderwater = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        FluidState fluidState = this.level().getFluidState(BlockPos.containing(vecPos.x, vecPos.y, vecPos.z));
+        BlockState stateBelow = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y, vecPos.z));
+        BlockState stateAbove = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y + entityHeight, vecPos.z));
+        BlockState state = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y, vecPos.z));
         boolean isWaterBelow = stateBelow.getFluidState().is(FluidTags.WATER);
-        boolean isAirAbove = stateAbove.getFluidState().isEmpty();
+        boolean isAirAbove = stateAbove.isAir();
+        boolean isAir = state.isAir();
+        double waterDrag = 0.95;
+//        double waterLevel = fluidState.getHeight(this.level(), BlockPos.containing(vecPos.x, vecPos.y, vecPos.z));
+        boolean isSinking = vecPos.y + entityHeight / 3.0 >= waterLevel;
+        boolean isRising = vecPos.y + entityHeight / 2.0 >= waterLevel;
 
         if (!this.isOnSolidGround() && this.fallDistance > previousFallDistance)
             previousFallDistance = this.fallDistance;
@@ -547,20 +595,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             previousFallDistance = 0;
         }
 
-        if (this.isInWaterOrBubble() || isWaterBelow) {
-
-            double upwardAcceleration = 0.04;
-            double waterDrag = 0.9;
-            double maxFloatSpeed = 0.1;
-            double bobbingSpeed = 0.1 * this.getBbHeight();
-            double bobbingAmplitude = 0.4 * this.getBbHeight();
-            double bobbingEffect = (Math.sin(20 * bobbingSpeed) * bobbingAmplitude) - (bobbingAmplitude * 0.9);
-
-            if (!isAirAbove) {
-                this.setDeltaMovement(velocity.x * waterDrag, Math.min(velocity.y + upwardAcceleration, maxFloatSpeed), velocity.z * waterDrag);
-            } else {
-                this.setDeltaMovement(velocity.x * waterDrag, bobbingEffect, velocity.z * waterDrag);
-            }
+        if (this.isInWaterOrBubble() && isAirAbove && !isRising) {
+            this.setDeltaMovement(this.getDeltaMovement().multiply(waterDrag, 0.1, waterDrag).add(0.0, 0.01, 0.0));
+        } else if (this.isInWaterOrBubble() && isAirAbove && isRising && isSinking) {
+            this.setDeltaMovement(velocity.x * waterDrag, -0.01, velocity.z * waterDrag);
+        } else if (this.isInWaterOrBubble() && !isAirAbove && !isRising) {
+            this.setDeltaMovement(this.getDeltaMovement().multiply(waterDrag, 0.3, waterDrag).add(0.0, 0.05, 0.0));
         } else if (!this.isOnSolidGround() && !this.isInWaterOrBubble()) {
             if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
                 this.setDeltaMovement(velocity.x, -this.getDefaultGravity(), velocity.z);
