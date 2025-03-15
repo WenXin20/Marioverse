@@ -301,7 +301,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         }
     }
 
-    public void setFrozenEntity(Entity entity) {
+    public void setFrozenEntity(Entity entity, int ticksFrozen) {
         if (entity != null) {
             float scale = 1.0F;
             float heightScale = 1.0F;
@@ -336,7 +336,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 entity.discard();
 
             if (!this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500); //TODO
+                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", ticksFrozen); //TODO
 
             this.entityData.set(FROZEN_DATA, frozenEntityData);
         }

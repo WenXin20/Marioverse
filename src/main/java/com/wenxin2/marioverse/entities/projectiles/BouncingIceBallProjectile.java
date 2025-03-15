@@ -208,7 +208,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Entity entity = hit.getEntity();
         
         if (!world.isClientSide) {
-            if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
+            if (entity instanceof Player player && !player.isSpectator() && player != this.getOwner()
                     && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = player.getUseItem();
                 float width = player.getBbWidth() * 2.55F;
@@ -246,7 +246,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
+            } else if (entity instanceof LivingEntity livingEntity && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = livingEntity.getUseItem();
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
@@ -271,7 +271,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                     if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-                        iceCube.setFrozenEntity(livingEntity);
+                        iceCube.setFrozenEntity(livingEntity, 500); //TODO
                         iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
                         livingEntity.level().addFreshEntity(iceCube);
                     }
@@ -279,7 +279,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof PiranhaPlantPart partEntity && partEntity.canFreeze() && partEntity != this.getOwner()
+            } else if (entity instanceof PiranhaPlantPart partEntity && partEntity != this.getOwner()
                     && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
@@ -299,7 +299,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                     if (partEntity.isAlive()) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
-                        iceCube.setFrozenEntity(partEntity);
+                        iceCube.setFrozenEntity(partEntity, 500);
                         iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
                         partEntity.level().addFreshEntity(iceCube);
                     }
