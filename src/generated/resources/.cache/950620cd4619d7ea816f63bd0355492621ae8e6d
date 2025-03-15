@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-09T23:51:48.7303315	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-15T12:48:52.6019069	Tags for minecraft:entity_type mod id marioverse
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
@@ -30,7 +30,8 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/goomba
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/has_no_delta_movement.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/hefty_goomba_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/ice_ball_can_instakill.json
-6ba095f2c3691183ec16fbc4bb50b80c630fd2d5 data/marioverse/tags/entity_type/ice_ball_immune.json
+ac7656f554458676d0a71df59094e1142734fb80 data/marioverse/tags/entity_type/ice_ball_immune.json
+625690e7f0906f65b2ab2ac5c87b6c7cfccf82b5 data/marioverse/tags/entity_type/ice_cube_breaks_instantly.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/mega_goomba_can_attack.json
 ce974df8e9238a4952699c8f799c3fb3ea9580f8 data/marioverse/tags/entity_type/mini_goomba_can_attach.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/piranha_plant_can_attack.json

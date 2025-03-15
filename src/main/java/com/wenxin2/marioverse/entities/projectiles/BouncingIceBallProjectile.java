@@ -208,8 +208,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Entity entity = hit.getEntity();
         
         if (!world.isClientSide) {
-            if (entity instanceof Player player && !player.isSpectator() && player != this.getOwner()
-                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
+            if (entity instanceof Player player && !player.isSpectator()
+                    && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = player.getUseItem();
                 float width = player.getBbWidth() * 2.55F;
                 float height = player.getBbHeight() * 1.55F;
@@ -236,8 +236,15 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     if (player.isAlive()) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
                         iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
-                        if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                            iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500); //TODO
+                        if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                                || player.getType().is(TagRegistry.ICE_CUBE_BREAKS_INSTANTLY)) {
+                            if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
+                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 2); //TODO
+                        }
+                        else {
+                            if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
+                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500); //TODO
+                        }
                         iceCube.setSize(width, height);
                         player.level().addFreshEntity(iceCube);
                         player.startRiding(iceCube, false);
@@ -246,8 +253,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof LivingEntity livingEntity && livingEntity != this.getOwner()
-                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
+            } else if (entity instanceof LivingEntity livingEntity
+                    && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = livingEntity.getUseItem();
                 if ((livingEntity instanceof TamableAnimal tamableAnimal
                         && tamableAnimal.getOwner() == this.getOwner())
@@ -271,7 +278,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                     if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-                        iceCube.setFrozenEntity(livingEntity, 500); //TODO
+                        if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                                || livingEntity.getType().is(TagRegistry.ICE_CUBE_BREAKS_INSTANTLY))
+                            iceCube.setFrozenEntity(livingEntity, 2); //TODO
+                        else iceCube.setFrozenEntity(livingEntity, 500);
                         iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
                         livingEntity.level().addFreshEntity(iceCube);
                     }
@@ -279,8 +289,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof PiranhaPlantPart partEntity && partEntity != this.getOwner()
-                    && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && !partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)) {
+            } else if (entity instanceof PiranhaPlantPart partEntity
+                    && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
                 ItemStack shield = partEntity.getParent().getUseItem();
 
                 if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
@@ -299,7 +309,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                     if (partEntity.isAlive()) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
-                        iceCube.setFrozenEntity(partEntity, 500);
+                        if (partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                                || partEntity.getType().is(TagRegistry.ICE_CUBE_BREAKS_INSTANTLY))
+                            iceCube.setFrozenEntity(partEntity, 2); //TODO
+                        else iceCube.setFrozenEntity(partEntity, 500);
                         iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
                         partEntity.level().addFreshEntity(iceCube);
                     }

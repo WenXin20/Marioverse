@@ -217,7 +217,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.ICE_BALL_IMMUNE)
                 .add(EntityRegistry.ICE_CUBE.get())
-                .add(EntityRegistry.ICE_FLOWER.get());
+                .add(EntityRegistry.ICE_FLOWER.get())
+                .add(EntityType.ENDER_DRAGON);
+
+        tag(TagRegistry.ICE_CUBE_BREAKS_INSTANTLY)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.WARDEN)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get());
