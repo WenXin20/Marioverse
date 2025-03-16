@@ -201,7 +201,8 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (hasSuperStar) {
             this.marioverse$superStarKillEntity(entity);
-            this.level().broadcastEntityEvent(entity, (byte) 114);
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityParticlesRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
             this.marioverse$playSuperStarTheme();
         } else if (!hasSuperStar && this.marioverse$playedStarTheme)
             this.marioverse$playedStarTheme = false;
@@ -402,8 +403,6 @@ public abstract class LivingEntityMixin extends Entity {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
         } else if (id == 113) {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-        } else if (id == 114) {
-            this.marioverse$starParticles(entity, ParticleRegistry.COIN_GLINT.get());
         } else if (id == 115) {
             if (this.level().isClientSide) {
                 if (entity == Minecraft.getInstance().player)
@@ -442,18 +441,6 @@ public abstract class LivingEntityMixin extends Entity {
             serverWorld.sendParticles(particleType, entity.getX(),
                     entity.getY() + entity.getBbHeight() + 1.0,
                     entity.getZ(), 1, 0, 1.0, 0, 0.5);
-    }
-
-    @Unique
-    public void marioverse$starParticles(LivingEntity entity, ParticleOptions particleType) {
-        RandomSource rand = RandomSource.create();
-        double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
-        double offsetY = rand.nextDouble() * entity.getBbHeight();
-        double offsetZ = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
-
-        this.level().addParticle(particleType,
-                entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ,
-                0, 0, 0);
     }
 
     @Unique

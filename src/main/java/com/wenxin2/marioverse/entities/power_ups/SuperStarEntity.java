@@ -3,8 +3,11 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -64,8 +67,10 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
         super.tick();
         this.checkForCollisions();
 
-        if (this.level().getRandom().nextBoolean())
-            this.level().broadcastEntityEvent(this, (byte) 114);
+        if (this.level().getRandom().nextBoolean()) {
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnEntityParticlesRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
+        }
     }
 
     @Override
