@@ -103,6 +103,7 @@ public abstract class LivingEntityMixin extends Entity {
         int checkpointCooldown = entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
+        int iceCubeCooldown = entity.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown");
         int superStarCooldown = entity.getPersistentData().getInt("marioverse:super_star_cooldown");
         int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
         boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
@@ -184,6 +185,9 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (iceBallCooldown > 0)
             entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", iceBallCooldown - 1);
+
+        if (iceCubeCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", iceCubeCooldown - 1);
 
         if (superStarCooldown > 0)
             entity.getPersistentData().putInt("marioverse:super_star_cooldown", superStarCooldown - 1);

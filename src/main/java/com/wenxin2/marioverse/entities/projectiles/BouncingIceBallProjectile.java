@@ -241,17 +241,18 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     }
                     player.extinguishFire();
 
-                    if (player.isAlive()) {
+                    if (player.isAlive() && player.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown") == 0) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
                         iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                         if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                                 || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                            if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 2);
-                        }
-                        else {
-                            if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                            if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
+                                iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
+                            player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
+                        } else {
+                            if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
+                                iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                            player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         }
                         iceCube.setSize(width, height);
                         player.level().addFreshEntity(iceCube);

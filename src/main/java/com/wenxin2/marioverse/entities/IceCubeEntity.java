@@ -442,7 +442,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 }
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(180);
+                    entity.setTicksFrozen(180); //TODO
                 serverWorld.addFreshEntity(entity);
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
