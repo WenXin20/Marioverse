@@ -122,8 +122,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             this.setSize(width, height);
         }
 
-        // TODO: Float in water
-        this.takeFallDamage();
+        this.gravityWaterPhysics();
         this.collideWithWall(world, pos);
         this.collideWithEntity();
     }
@@ -545,7 +544,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         return this.level().getBlockState(posBelow).isSolidRender(this.level(), posBelow);
     }
 
-    private void takeFallDamage() {
+    private void gravityWaterPhysics() {
         Vec3 velocity = this.getDeltaMovement();
         Vec3 vecPos = this.position();
 
