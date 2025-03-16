@@ -89,6 +89,7 @@ import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.Spawner;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -99,6 +100,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.ContainerSingleItem;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -138,8 +140,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private final PipeSpawner spawner = new PipeSpawner() {
         @Override
         public void broadcastEvent(Level world, BlockPos pos, int eventId) {
-            if (world.getBlockState(pos).getBlock() instanceof WarpPipeBlock block)
-                world.blockEvent(pos, BlockRegistry.WARP_PIPES.get(block.getColor()).get(), eventId, 0);
+            if (world.getBlockState(pos).getBlock() instanceof WarpPipeBlock block) {
+                DeferredBlock<Block> deferredBlock = BlockRegistry.WARP_PIPES.get(block.getColor());
+                if (deferredBlock != null)
+                    world.blockEvent(pos, deferredBlock.get(), eventId, 0);
+            }
         }
 
         @Override
