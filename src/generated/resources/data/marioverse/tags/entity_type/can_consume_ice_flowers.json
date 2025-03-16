@@ -1,9 +1,12 @@
 {
   "values": [
     "#c:bosses",
-    "#marioverse:goombas",
     "#minecraft:illager",
     "#minecraft:illager_friends",
+    "marioverse:goomba",
+    "marioverse:hefty_goomba",
+    "marioverse:mega_goomba",
+    "marioverse:mini_goomba",
     "minecraft:armor_stand",
     "minecraft:bogged",
     "minecraft:creeper",

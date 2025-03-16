@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-15T12:58:41.0004361	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-15T23:26:42.3474898	Tags for minecraft:entity_type mod id marioverse
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
@@ -9,7 +9,7 @@ a2739f4a7f1a06aca25b0a014ba3e809b43e73b1 data/marioverse/tags/entity_type/can_be
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_bonk_blocks.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_claim_checkpoint_flags.json
 343ecb464f346837f96fadf1e358d4ad0a1e0e93 data/marioverse/tags/entity_type/can_consume_fire_flowers.json
-0a4b3101cc36b427409fdd50f9031d45b8b6dbf0 data/marioverse/tags/entity_type/can_consume_ice_flowers.json
+72122bdbe49a7ac222e711cc6e4f8c6d43eba701 data/marioverse/tags/entity_type/can_consume_ice_flowers.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/can_consume_one_ups.json
 c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_consume_super_stars.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_hit_question_blocks.json

@@ -94,9 +94,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
-                .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(EntityTypeTags.ILLAGER)
                 .addTag(EntityTypeTags.ILLAGER_FRIENDS)
+                .add(EntityRegistry.GOOMBA.get())
+                .add(EntityRegistry.HEFTY_GOOMBA.get())
+                .add(EntityRegistry.MEGA_GOOMBA.get())
+                .add(EntityRegistry.MINI_GOOMBA.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.CREEPER)
