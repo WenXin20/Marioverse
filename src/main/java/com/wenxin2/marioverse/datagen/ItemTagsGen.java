@@ -92,6 +92,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.FIRE_SHOES.get())
                 .add(ItemRegistry.ICE_SHOES.get());
 
+        tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
+                .add(ItemRegistry.ICE_HAT.get())
+                .add(ItemRegistry.ICE_PANTS.get())
+                .add(ItemRegistry.ICE_SHIRT.get())
+                .add(ItemRegistry.ICE_SHOES.get());;
+
         tag(ItemTags.HEAD_ARMOR)
                 .add(ItemRegistry.FIRE_HAT.get())
                 .add(ItemRegistry.ICE_HAT.get());

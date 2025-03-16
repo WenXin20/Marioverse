@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-06T17:05:42.2013975	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-03-16T14:27:45.8115553	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -37,6 +37,7 @@ ce7292bb6841e0158b6bfbb74342719a09db1ef1 data/minecraft/tags/item/chest_armor.js
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/durability.json
 071457ffa58f2ade374415aff9e546a470fdd881 data/minecraft/tags/item/foot_armor.json
+83011fd647ed05249f8a99389a323161e8f9c981 data/minecraft/tags/item/freeze_immune_wearables.json
 eb5003aafdd8dedddde45f9b4e3fcd117bf1d9cc data/minecraft/tags/item/head_armor.json
 c3a40a19d0bdb70b3d816a76a1c2068c08af0dc6 data/minecraft/tags/item/leg_armor.json
 7f9574628a87aaae387dc53522a9cc6c93b84593 data/minecraft/tags/item/piglin_loved.json
