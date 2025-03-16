@@ -38,6 +38,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
@@ -356,6 +357,27 @@ public abstract class LivingEntityMixin extends Entity {
         AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
             speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
+        }
+    }
+    @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
+    private void canFreeze(CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        AccessoriesCapability capability = AccessoriesCapability.get(entity);
+        if (capability != null) {
+            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
+            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
+            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
+            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+
+            boolean hasFreezeImmunity =
+                    (containerHat != null && containerHat.getAccessories().getItem(0).is(ItemTags.FREEZE_IMMUNE_WEARABLES)) ||
+                            (containerShirt != null && containerShirt.getAccessories().getItem(0).is(ItemTags.FREEZE_IMMUNE_WEARABLES)) ||
+                            (containerPants != null && containerPants.getAccessories().getItem(0).is(ItemTags.FREEZE_IMMUNE_WEARABLES)) ||
+                            (containerShoes != null && containerShoes.getAccessories().getItem(0).is(ItemTags.FREEZE_IMMUNE_WEARABLES));
+
+            if (hasFreezeImmunity)
+                cir.setReturnValue(false);
         }
     }
 
