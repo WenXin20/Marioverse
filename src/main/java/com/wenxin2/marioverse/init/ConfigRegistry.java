@@ -135,6 +135,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_RANDOM_COUNT;
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
+    public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
@@ -561,6 +562,11 @@ public class ConfigRegistry
                             .comment("§6[1 point = 1/2 Heart]")
                             .comment("§9[Default: 2.0]§b")
                             .defineInRange("ice_cube_damage", 5.0, 0.0, 32.0);
+                    ICE_CUBE_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.ice_cube_freeze_duration")
+                            .comment("How long mobs experience the freeze effect in ticks.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 180]§b")
+                            .defineInRange("ice_cube_freeze_duration", 180, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);

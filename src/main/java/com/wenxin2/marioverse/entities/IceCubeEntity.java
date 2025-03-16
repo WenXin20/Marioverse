@@ -442,7 +442,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 }
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(180); //TODO
+                    entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
                 serverWorld.addFreshEntity(entity);
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -536,7 +536,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isCreative()) {
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(180); // TODO
+                    entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
             }
         }
     }
