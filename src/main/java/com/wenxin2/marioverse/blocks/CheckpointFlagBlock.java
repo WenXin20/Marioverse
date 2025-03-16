@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.GameEventRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -539,6 +540,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         checkpointFlagBE.triggerAnim("switch_controller", "switch");
 
                     world.scheduleTick(statePos, this, 40);
+                    world.gameEvent(null, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
                 }
 
@@ -586,9 +588,10 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     default -> respawnPos;
                 };
 
-                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
+                if (world.getBlockEntity(newRespawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
                         && !(newRespawnPos.equals(playerRespawnPos))) {
                     world.scheduleTick(newRespawnPos, this, 40);
+                    world.gameEvent(null, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
                     checkpointFlagBE.triggerAnim("claim_controller", "claim");
 
                     world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);

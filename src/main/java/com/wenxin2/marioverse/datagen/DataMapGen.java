@@ -1,21 +1,26 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.init.GameEventRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
+import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
 import net.neoforged.neoforge.registries.datamaps.builtin.Waxable;
 
-public class CopperMapDataGen extends DataMapProvider {
-    public CopperMapDataGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+public class DataMapGen extends DataMapProvider {
+    public DataMapGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider);
     }
 
     @Override
     protected void gather() {
+        builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
+                .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);
+
         builder(NeoForgeDataMaps.OXIDIZABLES)
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get()), false)
                 .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get()), false)

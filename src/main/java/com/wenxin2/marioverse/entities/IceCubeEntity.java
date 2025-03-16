@@ -449,6 +449,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
                 SoundSource.AMBIENT, 1.0F, 1.0F);
+        this.level().gameEvent(null, GameEvent.BLOCK_DESTROY, this.blockPosition());
         // TODO Particles
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
