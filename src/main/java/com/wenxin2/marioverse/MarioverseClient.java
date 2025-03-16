@@ -2,6 +2,7 @@ package com.wenxin2.marioverse;
 
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
+import com.wenxin2.marioverse.client.particles.GravityParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
 import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementParticle;
@@ -131,6 +132,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.GLOWING_STAR.get(), GlowingSuspendedTownParticle.GlowingProvider::new);
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.ICE_CUBE_SHATTER.get(), GravityParticle.IceCubeProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_STAR.get(), GlowingSuspendedTownParticle.GlowingProvider::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);

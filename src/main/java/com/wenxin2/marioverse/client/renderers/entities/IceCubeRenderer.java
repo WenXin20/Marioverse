@@ -38,8 +38,8 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                 if (livingEntity.getPersistentData().contains("WidthScale"))
                     widthScale = livingEntity.getPersistentData().getFloat("WidthScale");
             }
-            float width = frozenEntity.getBbWidth() * scale * widthScale * 1.55F;
             float height = frozenEntity.getBbHeight() * scale * heightScale * 1.55F;
+            float width = frozenEntity.getBbWidth() * scale * widthScale * 1.55F;
 
             if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3)
                 width *= 2.0F;

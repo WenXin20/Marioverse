@@ -10,7 +10,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Unique;
 
 public class ServerParticleUtils {
     public static void spawnParticlesOnBlockFaces(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, IntProvider count) {
@@ -44,6 +46,24 @@ public class ServerParticleUtils {
         double motionZ = zStep == 0 ? motion.z() : 0.0;
 
         serverWorld.sendParticles(particleOptions, x, y, z, 1, motionX, motionY, motionZ, 0.0);
+    }
+
+    public static void spawnEntityParticlesRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
+        RandomSource rand = RandomSource.create();
+        double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
+        double offsetY = rand.nextDouble() * entity.getBbHeight();
+        double offsetZ = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
+
+        serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ, 1, 0, 0, 0, 0.0);
+    }
+
+    public static void spawnIceCubeParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, float height, float width) {
+        RandomSource rand = RandomSource.create();
+        double offsetX = rand.nextDouble() * width - (width / 2.0);
+        double offsetY = rand.nextDouble() * height;
+        double offsetZ = rand.nextDouble() * width - (width / 2.0);
+
+        serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ, 1, 0, 0, 0, 0.0);
     }
 
     public static void spawnPoweredUpParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, int avgAmount) {

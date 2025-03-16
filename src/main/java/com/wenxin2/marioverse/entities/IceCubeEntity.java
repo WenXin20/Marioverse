@@ -4,7 +4,9 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
+import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
@@ -418,6 +420,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     }
 
     public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, Entity attackingEntity) {
+        float scale = 1.0F;
+        float heightScale = 1.0F;
+        float widthScale = 1.0F;
+
         if (frozenEntityData != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(frozenEntityData, serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -447,10 +453,25 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());
+
+                if (entity.getPersistentData().contains("Scale"))
+                    scale = entity.getPersistentData().getFloat("Scale");
+                if (entity.getPersistentData().contains("HeightScale"))
+                    heightScale = entity.getPersistentData().getFloat("HeightScale");
+                if (entity.getPersistentData().contains("WidthScale"))
+                    widthScale = entity.getPersistentData().getFloat("WidthScale");
+
+                float height = entity.getBbHeight() * scale * heightScale * 1.55F;
+                float width = entity.getBbWidth() * scale * widthScale * 1.55F;
+
+                float scaleFactor = height * width;
+                int numParticles = (int) (scaleFactor * 10);
+                for(int i = 0; i < numParticles; ++i) {
+                    ServerParticleUtils.spawnIceCubeParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height, width);
+                }
             }
         }
         this.ejectPassengers();
-        // TODO Particles
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
     }
