@@ -251,7 +251,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         }
                         else {
                             if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 500); //TODO
+                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         }
                         iceCube.setSize(width, height);
                         player.level().addFreshEntity(iceCube);
@@ -289,8 +289,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
                         if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                                 || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                            iceCube.setFrozenEntity(livingEntity, 2); //TODO
-                        else iceCube.setFrozenEntity(livingEntity, 500);
+                            iceCube.setFrozenEntity(livingEntity, 2);
+                        else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
                         livingEntity.level().addFreshEntity(iceCube);
                     }
@@ -321,8 +321,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
                         if (partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                                 || partEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                            iceCube.setFrozenEntity(partEntity, 2); //TODO
-                        else iceCube.setFrozenEntity(partEntity, 500);
+                            iceCube.setFrozenEntity(partEntity, 2);
+                        else iceCube.setFrozenEntity(partEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
                         partEntity.level().addFreshEntity(iceCube);
                     }

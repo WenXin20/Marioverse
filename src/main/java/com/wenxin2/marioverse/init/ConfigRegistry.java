@@ -134,6 +134,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_RANDOM_COUNT;
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
+    public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_MOB_ICE_BALLS;
@@ -549,6 +550,11 @@ public class ConfigRegistry
                             .comment("§6[1 point = 1/2 Heart]")
                             .comment("§9[Default: 2.0]§b")
                             .defineInRange("ice_ball_damage", 2.0, 0.0, 16.0);
+                    ICE_CUBE_LIFESPAN = BUILDER.translation("configuration.marioverse.ice_cube_lifespan")
+                            .comment("Lifespan of ice cubes before it shatters in ticks.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 500]§b")
+                            .defineInRange("ice_cube_lifespan", 500, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);
