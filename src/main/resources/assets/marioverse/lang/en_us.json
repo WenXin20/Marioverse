@@ -448,6 +448,8 @@
   "death.attack.marioverse.ice_ball.item": "%1$s was frozen to death by %2$s using %3$s",
   "death.attack.marioverse.ice_ball.player": "%1$s was frozen to death whilst fighting %2$s",
   "death.attack.marioverse.ice_ball.player.item": "%1$s was frozen to death by %2$s using %3$s",
+  "death.attack.marioverse.ice_cube_crushed": "%1$s was crushed by ice cube",
+  "death.attack.marioverse.ice_cube_crushed.player": "%2$s crushed %1$s with ice cube",
   "death.attack.marioverse.piranha_chomp": "%1$s was chomped on",
   "death.attack.marioverse.piranha_chomp.player": "%1$s was chomped on by %2$s",
   "death.attack.marioverse.shrapnel": "%1$s was shredded by shrapnel",

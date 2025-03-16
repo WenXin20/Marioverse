@@ -1,0 +1,6 @@
+{
+  "effects": "freezing",
+  "exhaustion": 0.1,
+  "message_id": "marioverse.ice_cube_crushed",
+  "scaling": "when_caused_by_living_non_player"
+}

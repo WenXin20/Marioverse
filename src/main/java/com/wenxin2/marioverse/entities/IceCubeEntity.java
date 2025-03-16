@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.init.AttributesRegistry;
+import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
 import java.util.function.Function;
@@ -113,7 +114,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             if (entityFrozenCooldown > 0)
                 this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", entityFrozenCooldown - 1);
             if (entityFrozenCooldown == 0)
-                this.shatterIceCube(false, false);
+                this.shatterIceCube(false, false, this);
         }
 
         if (this.frozenEntityData != null) {
@@ -168,7 +169,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         } else if (source.getDirectEntity() instanceof BouncingIceBallProjectile && this.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             return false;
         } else if (source.getEntity() instanceof LivingEntity entity && entity.getMainHandItem().is(ItemTags.PICKAXES)) {
-            this.shatterIceCube(false, false);
+            this.shatterIceCube(false, false, this);
             return true;
         } else {
             this.setHurtDir(-this.getHurtDir());
@@ -324,7 +325,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             frozenEntityData.putFloat("BodyRotation", entity.getYRot());
             frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
             frozenEntityData.putFloat("Pitch", entity.getXRot());
-            frozenEntityData.putFloat("Height", entity.getBbHeight()); // TODO Fix scale attributes not considered
+            frozenEntityData.putFloat("Height", entity.getBbHeight());
             frozenEntityData.putFloat("Width", entity.getBbWidth());
             frozenEntityData.putFloat("Scale", scale);
             frozenEntityData.putFloat("HeightScale", heightScale);
@@ -335,7 +336,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 entity.discard();
 
             if (!this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", ticksFrozen); //TODO
+                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", ticksFrozen);
 
             this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
@@ -415,7 +416,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         return frozenEntityData;
     }
 
-    public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage) {
+    public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, Entity attackingEntity) {
         if (frozenEntityData != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(frozenEntityData, serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -432,7 +433,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                         livingEntity.hurtMarked = true;
                     }
                     if (applyCollisionDamage) {
-                        livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
+                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, attackingEntity), 5.0F);
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;
@@ -468,7 +469,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                         BlockState hitState = world.getBlockState(checkPos);
 
                         if (hitState.isSolid()) {
-                            this.shatterIceCube(false, true);
+                            this.shatterIceCube(false, true, this);
                             return;
                         }
                     }
@@ -493,7 +494,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                             if (!world.isClientSide())
                                 world.levelEvent(null, 1009, checkPos, 0);
                         }
-                        this.shatterIceCube(false, false);
+                        this.shatterIceCube(false, false, this);
                     }
 
                     if (hitState.hasProperty(BlockStateProperties.LIT)
@@ -513,15 +514,15 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
                 if (entity instanceof IceCubeEntity otherIceCube && this.getDeltaMovement().horizontalDistance() >= 0.2) {
-                    this.shatterIceCube(false, true);
-                    otherIceCube.shatterIceCube(false, true);
+                    this.shatterIceCube(false, true, this);
+                    otherIceCube.shatterIceCube(false, true, this);
                 } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
-                    livingEntity.hurt(this.level().damageSources().flyIntoWall(), 5.0F); // TODO
+                    livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), 5.0F);
                 }
             }
 
             if (entity instanceof AbstractArrow arrow) {
-                this.shatterIceCube(false, false);
+                this.shatterIceCube(false, false, this);
                 if (arrow.isOnFire())
                     arrow.extinguishFire();
                 if (arrow instanceof SpectralArrow)
@@ -534,7 +535,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isCreative()) {
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(180);
+                    entity.setTicksFrozen(180); // TODO
             }
         }
     }
@@ -585,7 +586,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         if (!this.isOnSolidGround() && this.fallDistance > previousFallDistance)
             previousFallDistance = this.fallDistance;
         if (this.isOnSolidGround() && previousFallDistance > 3) {
-            this.shatterIceCube(true, false);
+            this.shatterIceCube(true, false, this);
             previousFallDistance = 0;
         }
 

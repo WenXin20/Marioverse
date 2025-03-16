@@ -28,6 +28,11 @@ public class DamageTypeRegistry {
     public static final ResourceKey<DamageType> PLAYER_ICE_BALL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_ice_ball"));
 
+    public static final ResourceKey<DamageType> ICE_CUBE_CRUSHED =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "ice_cube_crushed"));
+    public static final ResourceKey<DamageType> PLAYER_ICE_CUBE_CRUSHED =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_ice_cube_crushed"));
+
     public static final ResourceKey<DamageType> PIRANHA_CHOMP =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "piranha_chomp"));
     public static final ResourceKey<DamageType> PLAYER_PIRANHA_CHOMP =
@@ -70,6 +75,14 @@ public class DamageTypeRegistry {
             return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_ICE_BALL), projectile, shooter);
         } else if (shooter != null) {
             return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ICE_BALL), null, shooter);
+        } else return null;
+    }
+
+    public static DamageSource iceCubeCrushed(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (attackingEntity != null && damagedEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_ICE_CUBE_CRUSHED), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ICE_CUBE_CRUSHED), null, attackingEntity);
         } else return null;
     }
 
@@ -119,6 +132,11 @@ public class DamageTypeRegistry {
         context.register(ICE_BALL, new DamageType(Marioverse.MOD_ID + ".ice_ball",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.FREEZING));
         context.register(PLAYER_ICE_BALL, new DamageType(Marioverse.MOD_ID + ".ice_ball.player",
+                DamageScaling.ALWAYS, 0.1f, DamageEffects.FREEZING));
+
+        context.register(ICE_CUBE_CRUSHED, new DamageType(Marioverse.MOD_ID + ".ice_cube_crushed",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.FREEZING));
+        context.register(PLAYER_ICE_CUBE_CRUSHED, new DamageType(Marioverse.MOD_ID + ".ice_cube_crushed.player",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.FREEZING));
 
         context.register(PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp",

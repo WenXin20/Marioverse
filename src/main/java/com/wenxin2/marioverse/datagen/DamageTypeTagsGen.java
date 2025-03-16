@@ -33,6 +33,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.ICE_BALL)
                 .add(DamageTypeRegistry.PLAYER_ICE_BALL);
 
+        tag(TagRegistry.IS_ICE_CUBE_CRUSHED)
+                .add(DamageTypeRegistry.ICE_CUBE_CRUSHED)
+                .add(DamageTypeRegistry.PLAYER_ICE_CUBE_CRUSHED);
+
         tag(TagRegistry.IS_PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PLAYER_PIRANHA_CHOMP);

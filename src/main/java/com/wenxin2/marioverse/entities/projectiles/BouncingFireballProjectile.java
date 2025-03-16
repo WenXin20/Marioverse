@@ -41,13 +41,10 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -268,7 +265,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             } else if (entity instanceof MinecartTNT tnt)
                 tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
             else if (entity instanceof IceCubeEntity iceCube) {
-                iceCube.shatterIceCube(false, false);
+                iceCube.shatterIceCube(false, false, this);
                 world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 world.broadcastEntityEvent(this, (byte) 60);
