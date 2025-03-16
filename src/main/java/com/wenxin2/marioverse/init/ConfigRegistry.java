@@ -118,6 +118,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
+    public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -555,6 +556,11 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 500]§b")
                             .defineInRange("ice_cube_lifespan", 500, 0, 72000);
+                    ICE_CUBE_DAMAGE = BUILDER.translation("configuration.marioverse.ice_cube_damage")
+                            .comment("Amount of damage ice cubes cause when crushing mobs.")
+                            .comment("§6[1 point = 1/2 Heart]")
+                            .comment("§9[Default: 2.0]§b")
+                            .defineInRange("ice_cube_damage", 5.0, 0.0, 32.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);

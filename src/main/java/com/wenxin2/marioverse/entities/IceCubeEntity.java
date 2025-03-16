@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.init.AttributesRegistry;
+import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import java.util.List;
@@ -433,7 +434,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                         livingEntity.hurtMarked = true;
                     }
                     if (applyCollisionDamage) {
-                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, attackingEntity), 5.0F);
+                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, attackingEntity), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;
@@ -517,7 +518,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                     this.shatterIceCube(false, true, this);
                     otherIceCube.shatterIceCube(false, true, this);
                 } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
-                    livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), 5.0F);
+                    livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                 }
             }
 

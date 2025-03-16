@@ -699,6 +699,7 @@
   "configuration.marioverse.hefty_goomba_split_random_count": "Hefty Goomba Split Random Count",
   "configuration.marioverse.ice_ball_cooldown": "Ice Ball Cooldown",
   "configuration.marioverse.ice_ball_damage": "Ice Ball Damage",
+  "configuration.marioverse.ice_cube_damage": "Ice Cube Damage",
   "configuration.marioverse.ice_cube_lifespan": "Ice Cube Lifespan",
   "configuration.marioverse.ice_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.max_ice_ball_bounces": "Max Ice Balls Bounces",
