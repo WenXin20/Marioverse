@@ -247,7 +247,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                                 || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
                             if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 2); //TODO
+                                iceCube.getPersistentData().putInt("marioverse:entity_frozen_cooldown", 2);
                         }
                         else {
                             if (!iceCube.getPersistentData().contains("marioverse:entity_frozen_cooldown"))

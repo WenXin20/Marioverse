@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.init.BlockEntityRegistry;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
+import com.wenxin2.marioverse.init.GameEventRegistry;
 import com.wenxin2.marioverse.init.MenuRegistry;
 import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
@@ -37,7 +38,6 @@ import org.slf4j.Logger;
 @Mod(Marioverse.MOD_ID)
 public class Marioverse {
     public static final String MOD_ID = "marioverse";
-    // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MOD_ID);
@@ -71,6 +71,7 @@ public class Marioverse {
         BlockEntityRegistry.init();
         ItemRegistry.init();
         EntityRegistry.init();
+        GameEventRegistry.init();
         MenuRegistry.init();
         ParticleRegistry.init();
         SoundRegistry.init();
@@ -78,11 +79,8 @@ public class Marioverse {
         AttributesRegistry.init();
         ConfigRegistry.register(container);
 
-        if (dist.isClient()) {
+        if (dist.isClient())
             ConfigRegistry.registerClient(container);
-        }
-
-        // PipeBubblesSoundHandler.init();
 
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);

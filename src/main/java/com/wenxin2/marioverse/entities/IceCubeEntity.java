@@ -443,13 +443,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 if (entity.canFreeze())
                     entity.setTicksFrozen(180);
                 serverWorld.addFreshEntity(entity);
+
+                this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
+                this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());
             }
         }
         this.ejectPassengers();
-
-        this.level().playSound(null, this.blockPosition(), SoundEvents.GLASS_BREAK,
-                SoundSource.AMBIENT, 1.0F, 1.0F);
-        this.level().gameEvent(null, GameEvent.BLOCK_DESTROY, this.blockPosition());
         // TODO Particles
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
