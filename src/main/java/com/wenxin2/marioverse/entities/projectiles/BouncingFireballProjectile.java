@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -98,6 +99,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             }
             this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+            this.level().gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
             this.discard(); // Despawn
         }
 
@@ -132,6 +134,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.discard(); // Despawn on side hit
         } else {
             Vec3 motion = this.getDeltaMovement();
@@ -139,6 +142,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             world.broadcastEntityEvent(this, (byte) 61); // Smoke particle
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
         }
 
         if (state.is(Blocks.SNOW)) {
@@ -210,6 +214,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
                 world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
                 this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                     && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
@@ -236,6 +241,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
                 world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
                 this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
                     && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
@@ -257,6 +263,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
                 world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
                 this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof MinecartTNT tnt)
                 tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
@@ -265,6 +272,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
                 world.broadcastEntityEvent(this, (byte) 60);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
                 this.remove(RemovalReason.DISCARDED);
             }
         }

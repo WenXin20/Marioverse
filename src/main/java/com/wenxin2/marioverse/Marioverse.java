@@ -55,6 +55,7 @@ public class Marioverse {
 
     public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
         COMPONENTS.register(bus);
+        GAME_EVENTS.register(bus);
         BLOCKS.register(bus);
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);

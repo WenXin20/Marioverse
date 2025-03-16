@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -99,8 +100,9 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             if (!world.isClientSide) {
                 world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
             }
-            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
             this.discard(); // Despawn
         }
 
@@ -137,6 +139,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED); // Despawn on side hit
         } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
             Vec3 motion = this.getDeltaMovement();
@@ -153,6 +156,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED);
         }
 
@@ -173,6 +177,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED);
         }
         else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT)) {
@@ -181,6 +186,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED);
         }
         else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT)) {
@@ -189,6 +195,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED);
         }
         else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT)) {
@@ -197,6 +204,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnEntityRingParticles(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 10);
+            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED);
         }
         super.onHitBlock(hit);
@@ -252,6 +260,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
                 this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof LivingEntity livingEntity
                     && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
@@ -288,6 +297,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
                 this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof PiranhaPlantPart partEntity
                     && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
@@ -319,16 +329,19 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
                 this.remove(RemovalReason.DISCARDED);
             } else if (entity instanceof BouncingFireballProjectile fireball) {
                 fireball.kill();
-                this.remove(RemovalReason.DISCARDED);
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
-            } else {
                 this.remove(RemovalReason.DISCARDED);
+            } else {
+                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
                 world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
                         SoundSource.AMBIENT, 1.0F, 1.0F);
+                this.remove(RemovalReason.DISCARDED);
             }
         }
 

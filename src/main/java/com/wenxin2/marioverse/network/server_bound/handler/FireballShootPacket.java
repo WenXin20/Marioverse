@@ -65,7 +65,7 @@ public class FireballShootPacket {
         fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(fireball);
-        world.gameEvent(null, GameEvent.PROJECTILE_SHOOT, entity.position());
+        world.gameEvent(entity, GameEvent.PROJECTILE_SHOOT, entity.position());
         PacketHandler.sendToAllClients(new SwingHandPayload(Boolean.TRUE));
     }
 }
