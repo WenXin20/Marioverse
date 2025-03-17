@@ -21,6 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
@@ -407,8 +408,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         }
     }
 
-    private final Map<UUID, Vec3> lastPositions = new HashMap<>();
-
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         RandomSource random = world.getRandom();
@@ -420,41 +419,42 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player);
-                moveEntityThroughPipe(player, moveDirection);
-            } else {
-                Direction moveDirection = getNextPipeDirection(world, pos);
-                if (moveDirection != null)
-                    moveEntity(entity, world, pos);
-                else exitPipe(entity); // If no path, eject the entity
-            }
+                movePlayerInPipe(player, moveDirection);
+            } else moveEntityInPipe(entity);
             super.entityInside(state, world, pos, entity);
         }
     }
 
-    private void moveEntity(Entity entity, Level world, BlockPos pos) {
-        Direction moveDirection = getNextPipeDirection(world, pos);
+    private void moveEntityInPipe(Entity entity) {
+        Vec3 lookVec = entity.getLookAngle();
+        Vec3 moveVec = entity.getDeltaMovement();
+        double d0 = Math.min(1.5D, moveVec.y + 0.1D);
+        double speed = 1.25D;
+        double verticalSpeed = 1.15D;
 
-        if (moveDirection == null || isEntityStuck(entity)) {
-            moveDirection = findAlternativeDirection(world, pos);
+        if (entity instanceof LivingEntity && !entity.isShiftKeyDown()) {
+            Vec3 movement = new Vec3(lookVec.x * speed, moveVec.y * verticalSpeed, lookVec.z * speed);
+            entity.setDeltaMovement(movement.x, movement.y, movement.z);
+
+            if (moveVec.y > 0 || moveVec.y < 0)
+                entity.setDeltaMovement(moveVec.x, d0, moveVec.z);
+        } else if (!entity.isShiftKeyDown()) {
+            Vec3 movement = new Vec3(moveVec.x * speed, moveVec.y * verticalSpeed, moveVec.z * speed);
+            entity.setDeltaMovement(movement.x, movement.y, movement.z);
+            if (moveVec.y > 0 || moveVec.y < 0)
+                entity.setDeltaMovement(moveVec.x, d0, moveVec.z);
         }
-
-        if (moveDirection != null) {
-            moveEntityThroughPipe(entity, moveDirection);
-        } else exitPipe(entity);
-
-        lastPositions.put(entity.getUUID(), entity.position());
+        entity.resetFallDistance();
     }
 
-    public void moveEntityThroughPipe(Entity entity, Direction direction) {
-        Vec3 moveVec = entity.getDeltaMovement();
+    public void movePlayerInPipe(Entity entity, Direction direction) {
         Vec3 motion = switch (direction) {
             case NORTH -> new Vec3(0, 0, -0.75);
             case SOUTH -> new Vec3(0, 0, 0.75);
             case WEST -> new Vec3(-0.75, 0, 0);
             case EAST -> new Vec3(0.75, 0, 0);
-            case UP -> new Vec3(0, 1.5, 0);
-            case DOWN -> new Vec3(0, -0.5, 0);
-            default -> Vec3.ZERO;
+            case UP -> new Vec3(0, 0.75, 0);
+            case DOWN -> new Vec3(0, -0.2, 0);
         };
 
         entity.setDeltaMovement(motion);
@@ -476,47 +476,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             }
         }
         return bestDirection;
-    }
-
-    private Direction getNextPipeDirection(Level world, BlockPos pos) {
-        Direction bestDirection = null;
-        BlockState state = world.getBlockState(pos);
-
-        for (Direction direction : Direction.values()) {
-            BlockPos relativePos = pos.relative(direction);
-            if (world.getBlockState(relativePos).getBlock() instanceof ClearWarpPipeBlock
-                    || state.getValue(ENTRANCE)) {
-                if (bestDirection == null) {
-                    bestDirection = direction; // Move straight first
-                }
-            }
-        }
-        return bestDirection;
-    }
-
-    private Direction findAlternativeDirection(Level world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-        for (Direction direction : Direction.values()) {
-            BlockPos nextPos = pos.relative(direction);
-            if (world.getBlockState(nextPos).getBlock() instanceof ClearWarpPipeBlock
-                    || state.getValue(ENTRANCE)) {
-                return direction;
-            }
-        }
-        return null;
-    }
-
-    private void exitPipe(Entity entity) {
-        Vec3 launch = entity.getDeltaMovement().normalize().scale(0.3); // Small push out
-        entity.setDeltaMovement(launch);
-    }
-
-    private boolean isEntityStuck(Entity entity) {
-        Vec3 lastPos = lastPositions.get(entity.getUUID());
-        if (lastPos != null) {
-            return lastPos.distanceTo(entity.position()) < 0.01; // Barely moved
-        }
-        return false;
     }
 
     public void spawnParticles(Entity entity) {
