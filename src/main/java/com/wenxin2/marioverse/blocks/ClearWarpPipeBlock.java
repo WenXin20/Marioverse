@@ -457,8 +457,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             case SOUTH -> new Vec3(0, 0, 0.75);
             case WEST -> new Vec3(-0.75, 0, 0);
             case EAST -> new Vec3(0.75, 0, 0);
-            case UP -> new Vec3(0, 0.75, 0);
-            case DOWN -> new Vec3(0, -0.2, 0);
+            case UP -> new Vec3(0, 0.6, 0);
+            case DOWN -> new Vec3(0, -0.25, 0);
         };
 
         entity.setDeltaMovement(motion);
