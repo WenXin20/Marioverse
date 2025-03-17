@@ -59,9 +59,9 @@ public class ServerParticleUtils {
 
     public static void spawnIceCubeParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, float height, float width) {
         RandomSource rand = RandomSource.create();
-        double offsetX = rand.nextDouble() * width - (width / 2.0);
+        double offsetX = rand.nextDouble() * width - (width / 2);
         double offsetY = rand.nextDouble() * height;
-        double offsetZ = rand.nextDouble() * width - (width / 2.0);
+        double offsetZ = rand.nextDouble() * width - (width / 2);
 
         serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ, 1, 0, 0, 0, 0.0);
     }

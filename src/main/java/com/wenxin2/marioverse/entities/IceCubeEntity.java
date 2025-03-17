@@ -461,13 +461,16 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 if (entity.getPersistentData().contains("WidthScale"))
                     widthScale = entity.getPersistentData().getFloat("WidthScale");
 
-                float height = entity.getBbHeight() * scale * heightScale * 1.55F;
-                float width = entity.getBbWidth() * scale * widthScale * 1.55F;
+                float height = entity.getBbHeight() * scale * heightScale;
+                float width = entity.getBbWidth() * scale * widthScale;
 
-                float scaleFactor = height * width;
+                if (entity.getBbHeight() >= entity.getBbWidth() * 3)
+                    width *= 2.0F;
+
+                float scaleFactor = height * width * 1.2F;
                 int numParticles = (int) (scaleFactor * 10);
                 for(int i = 0; i < numParticles; ++i) {
-                    ServerParticleUtils.spawnIceCubeParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height, width);
+                    ServerParticleUtils.spawnIceCubeParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height * 1.55F, width * 1.55F);
                 }
             }
         }
