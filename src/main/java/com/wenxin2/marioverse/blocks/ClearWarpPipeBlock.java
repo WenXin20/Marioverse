@@ -8,7 +8,9 @@ import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.LinkerItem;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,7 +21,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
@@ -406,63 +407,116 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         }
     }
 
+    private final Map<UUID, Vec3> lastPositions = new HashMap<>();
+
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         RandomSource random = world.getRandom();
-        Vec3 moveVec = entity.getDeltaMovement();
 
-        double entityX = entity.getX();
-        double entityY = entity.getY();
-        double entityZ = entity.getZ();
-        int blockX = pos.getX();
-        int blockY = pos.getY();
-        int blockZ = pos.getZ();
-
-        if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL))
+        if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
             entity.setSwimming(true);
+            if (random.nextInt(10) == 0)
+                this.spawnParticles(entity);
 
-        if ((entityY < blockY + 0.98 && entityY > blockY + 0.02)
-                && (entityX < blockX + 0.98 && entityX > blockX + 0.02)
-                && (entityZ < blockZ + 0.98 && entityZ > blockZ + 0.02)
-                && !entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get()
-                && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
-            this.moveEntityInPipe(entity);
+            if (entity instanceof Player player) {
+                Direction moveDirection = this.getDirectionFromLook(player);
+                moveEntityThroughPipe(player, moveDirection);
+            } else {
+                Direction moveDirection = getNextPipeDirection(world, pos);
+                if (moveDirection != null)
+                    moveEntity(entity, world, pos);
+                else exitPipe(entity); // If no path, eject the entity
+            }
+            super.entityInside(state, world, pos, entity);
+        }
+    }
 
-            if (!world.isClientSide) {
-                if (moveVec.x > 0 || moveVec.x < 0 || moveVec.y > 0 || moveVec.y < 0 || moveVec.z > 0 || moveVec.z < 0) {
-                    if (random.nextInt(10) == 0) {
-                        this.spawnParticles(entity);
-                    }
+    private void moveEntity(Entity entity, Level world, BlockPos pos) {
+        Direction moveDirection = getNextPipeDirection(world, pos);
+
+        if (moveDirection == null || isEntityStuck(entity)) {
+            moveDirection = findAlternativeDirection(world, pos);
+        }
+
+        if (moveDirection != null) {
+            moveEntityThroughPipe(entity, moveDirection);
+        } else exitPipe(entity);
+
+        lastPositions.put(entity.getUUID(), entity.position());
+    }
+
+    public void moveEntityThroughPipe(Entity entity, Direction direction) {
+        Vec3 moveVec = entity.getDeltaMovement();
+        Vec3 motion = switch (direction) {
+            case NORTH -> new Vec3(0, 0, -0.75);
+            case SOUTH -> new Vec3(0, 0, 0.75);
+            case WEST -> new Vec3(-0.75, 0, 0);
+            case EAST -> new Vec3(0.75, 0, 0);
+            case UP -> new Vec3(0, 1.5, 0);
+            case DOWN -> new Vec3(0, -0.5, 0);
+            default -> Vec3.ZERO;
+        };
+
+        entity.setDeltaMovement(motion);
+        entity.resetFallDistance();
+    }
+
+    private Direction getDirectionFromLook(Entity entity) {
+        Vec3 lookVec = entity.getLookAngle().normalize();
+        Direction bestDirection = null;
+        double bestDot = -1; // -1 picks the most aligned direction
+
+        for (Direction dir : Direction.values()) {
+            Vec3 pipeVec = Vec3.atLowerCornerOf(dir.getNormal()).normalize();
+            double dotProduct = lookVec.dot(pipeVec);
+
+            if (dotProduct > bestDot) {
+                bestDot = dotProduct;
+                bestDirection = dir;
+            }
+        }
+        return bestDirection;
+    }
+
+    private Direction getNextPipeDirection(Level world, BlockPos pos) {
+        Direction bestDirection = null;
+        BlockState state = world.getBlockState(pos);
+
+        for (Direction direction : Direction.values()) {
+            BlockPos relativePos = pos.relative(direction);
+            if (world.getBlockState(relativePos).getBlock() instanceof ClearWarpPipeBlock
+                    || state.getValue(ENTRANCE)) {
+                if (bestDirection == null) {
+                    bestDirection = direction; // Move straight first
                 }
             }
         }
-        super.entityInside(state, world, pos, entity);
+        return bestDirection;
     }
 
-    public void moveEntityInPipe(Entity entity) {
-        Vec3 lookVec = entity.getLookAngle();
-        Vec3 moveVec = entity.getDeltaMovement();
-        double d0 = Math.min(1.5D, moveVec.y + 0.1D);
-        double speed = 1.25D;
-        double verticalSpeed = 1.15D;
-
-        if (entity instanceof LivingEntity && !entity.isShiftKeyDown()) {
-            Vec3 movement = new Vec3(lookVec.x * speed, moveVec.y * verticalSpeed, lookVec.z * speed);
-            entity.setDeltaMovement(movement.x, movement.y, movement.z);
-
-            if (moveVec.y > 0 || moveVec.y < 0) {
-                entity.setDeltaMovement(moveVec.x, d0, moveVec.z);
-            }
-        } else if (!entity.isShiftKeyDown()) {
-
-            Vec3 movement = new Vec3(moveVec.x * speed, moveVec.y * verticalSpeed, moveVec.z * speed);
-            entity.setDeltaMovement(movement.x, movement.y, movement.z);
-
-            if (moveVec.y > 0 || moveVec.y < 0) {
-                entity.setDeltaMovement(moveVec.x, d0, moveVec.z);
+    private Direction findAlternativeDirection(Level world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        for (Direction direction : Direction.values()) {
+            BlockPos nextPos = pos.relative(direction);
+            if (world.getBlockState(nextPos).getBlock() instanceof ClearWarpPipeBlock
+                    || state.getValue(ENTRANCE)) {
+                return direction;
             }
         }
-        entity.resetFallDistance();
+        return null;
+    }
+
+    private void exitPipe(Entity entity) {
+        Vec3 launch = entity.getDeltaMovement().normalize().scale(0.3); // Small push out
+        entity.setDeltaMovement(launch);
+    }
+
+    private boolean isEntityStuck(Entity entity) {
+        Vec3 lastPos = lastPositions.get(entity.getUUID());
+        if (lastPos != null) {
+            return lastPos.distanceTo(entity.position()) < 0.01; // Barely moved
+        }
+        return false;
     }
 
     public void spawnParticles(Entity entity) {
