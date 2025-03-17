@@ -930,6 +930,16 @@
 					"scale": {
 						"vector": [0, 0, 0]
 					}
+				},
+				"eyes": {
+					"position": {
+						"vector": [0, 0, 0.25]
+					}
+				},
+				"x_eyes": {
+					"position": {
+						"vector": [0, 0, -1]
+					}
 				}
 			}
 		},
