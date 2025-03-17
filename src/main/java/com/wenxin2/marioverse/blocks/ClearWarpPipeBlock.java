@@ -405,9 +405,16 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         RandomSource random = world.getRandom();
+        Direction facing = state.getValue(FACING);
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
-            entity.setSwimming(true);
+            if ((facing == Direction.UP || facing == Direction.DOWN)) {
+                if (state.getValue(NORTH) || state.getValue(SOUTH)
+                        || state.getValue(EAST) || state.getValue(WEST)) {
+                    entity.setSwimming(true);
+                }
+            } else entity.setSwimming(true);
+
             if (random.nextInt(10) == 0) {
                 if (world instanceof ServerLevel serverWorld)
                     serverWorld.sendParticles(ParticleTypes.EFFECT, entity.getX(), entity.getY(), entity.getZ(),
