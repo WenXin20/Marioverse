@@ -7,17 +7,12 @@ import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.items.LinkerItem;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -46,7 +41,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -414,8 +408,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
             entity.setSwimming(true);
-            if (random.nextInt(10) == 0)
-                this.spawnParticles(entity);
+            if (random.nextInt(10) == 0) {
+                if (world instanceof ServerLevel serverWorld)
+                    serverWorld.sendParticles(ParticleTypes.EFFECT, entity.getX(), entity.getY(), entity.getZ(),
+                            1, 0, 0, 0, 0.0);
+            }
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player);
@@ -476,23 +473,5 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             }
         }
         return bestDirection;
-    }
-
-    public void spawnParticles(Entity entity) {
-        double entityX = entity.getX();
-        double entityY = entity.getY();
-        double entityZ = entity.getZ();
-
-        Collection<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
-        for (ServerPlayer player : players) { // TODO
-            for (int i = 0; i < 2; i++) {
-                player.connection.send(new ClientboundLevelParticlesPacket(
-                        ParticleTypes.EFFECT, false,
-                        entityX, entityY, entityZ,
-                        0.25F, 0.15F, 0.25F,
-                        0, 2
-                ));
-            }
-        }
     }
 }
