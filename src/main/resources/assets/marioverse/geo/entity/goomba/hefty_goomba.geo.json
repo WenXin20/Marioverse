@@ -6,7 +6,7 @@
 				"identifier": "geometry.goomba",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 3,
+				"visible_bounds_width": 4,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -39,13 +39,15 @@
 				{
 					"name": "bubble",
 					"parent": "head",
-					"pivot": [3.5, 12, 5.4],
+					"pivot": [8.5, 10, -3.5],
 					"cubes": [
-						{"origin": [-8.5, 14, -6.6], "size": [10, 10, 10], "uv": [0, 55]},
-						{"origin": [-8.5, 14, -6.6], "size": [10, 10, 10], "inflate": 0.2, "uv": [0, 76]},
-						{"origin": [-8.5, 14, -6.6], "size": [10, 10, 10], "inflate": 0.4, "uv": [0, 97]},
-						{"origin": [-0.5, 12, 1.4], "size": [4, 4, 4], "uv": [0, 118]},
-						{"origin": [-0.5, 12, 1.4], "size": [4, 4, 4], "inflate": 0.1, "uv": [17, 118]}
+						{
+							"origin": [-6.5, 10, -3.5],
+							"size": [15, 15, 0],
+							"uv": {
+								"north": {"uv": [24, 55], "uv_size": [15, 15]}
+							}
+						}
 					]
 				},
 				{
@@ -56,13 +58,13 @@
 				{
 					"name": "mouth_closed",
 					"parent": "mouth",
-					"pivot": [0, 13, -9.71],
+					"pivot": [0, 13, -9.5],
 					"cubes": [
 						{
-							"origin": [-11.5, 9, -9.55],
+							"origin": [-11.5, 9, -9.5],
 							"size": [23, 8, 19],
 							"uv": {
-								"north": {"uv": [42, 55], "uv_size": [23, 8]}
+								"north": {"uv": [0, 55], "uv_size": [23, 8]}
 							}
 						}
 					]
@@ -70,20 +72,20 @@
 				{
 					"name": "mouth_open",
 					"parent": "mouth",
-					"pivot": [0, 12, 0.985],
+					"pivot": [0, 12, -8.5],
 					"cubes": [
 						{
-							"origin": [-11.5, 11, -8.51],
+							"origin": [-11.5, 11, -8.5],
 							"size": [23, 6, 19],
 							"uv": {
-								"north": {"uv": [42, 63], "uv_size": [23, 6]}
+								"north": {"uv": [0, 64], "uv_size": [23, 6]}
 							}
 						},
 						{
 							"origin": [-11.5, 9, -8.52],
 							"size": [23, 3, 19],
 							"uv": {
-								"north": {"uv": [42, 72], "uv_size": [23, 3]}
+								"north": {"uv": [0, 73], "uv_size": [23, 3]}
 							}
 						}
 					]
@@ -102,7 +104,7 @@
 							"origin": [-7.5, 15, -9.55],
 							"size": [3, 3, 1],
 							"uv": {
-								"north": {"uv": [45, 77], "uv_size": [3, 3]}
+								"north": {"uv": [0, 77], "uv_size": [3, 3]}
 							}
 						}
 					]
@@ -116,7 +118,7 @@
 							"origin": [4.5, 15, -9.55],
 							"size": [3, 3, 1],
 							"uv": {
-								"north": {"uv": [50, 77], "uv_size": [3, 3]}
+								"north": {"uv": [5, 77], "uv_size": [3, 3]}
 							}
 						}
 					]

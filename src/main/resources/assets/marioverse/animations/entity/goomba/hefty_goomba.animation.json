@@ -702,8 +702,11 @@
 					}
 				},
 				"bubble": {
+					"rotation": {
+						"vector": [0, -45, -12.5]
+					},
 					"position": {
-						"vector": [-9.5, 1, -15.5],
+						"vector": [-15, 3, -6],
 						"easing": "linear"
 					},
 					"scale": {
