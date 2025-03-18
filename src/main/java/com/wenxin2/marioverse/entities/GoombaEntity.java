@@ -168,6 +168,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(DefaultAnimations.genericWalkController(this));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
@@ -189,7 +190,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         } else if (this.isRunning() && !this.isScared()) {
             event.setAndContinue(RUN_ANIM);
             return PlayState.CONTINUE;
-        } else if (this.isWalking() && !this.isScared()) {
+        } else if (event.isMoving() && !this.isScared()) {
             event.setAndContinue(WALK_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isScared()) {
@@ -263,10 +264,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return this.getScareFlag(9);
     }
 
-    private boolean isWalking() {
+    public boolean isWalking() {
         return (this.getDeltaMovement().horizontalDistance() >= 0.01
                 && this.getDeltaMovement().horizontalDistance() < 0.5)
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal);
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal
+                || this.walkDist > 0);
     }
 
     private boolean isRunning() {

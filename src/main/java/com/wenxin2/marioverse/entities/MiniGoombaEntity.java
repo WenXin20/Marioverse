@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
+import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -88,12 +90,22 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new GoombaSitGoal(this, 100, 1200, 3000, 300));
+        this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 25, 2400, 6000));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, true));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new GoombaRideGoal(this, 0.001F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.MINI_GOOMBA_CAN_ATTACH, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+    }
+
+    @Override
+    public boolean isWalking() {
+        return (this.getDeltaMovement().horizontalDistance() >= 0.001
+                && this.getDeltaMovement().horizontalDistance() < 0.5)
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal
+                || this.walkDist > 0);
     }
 
     @Override
