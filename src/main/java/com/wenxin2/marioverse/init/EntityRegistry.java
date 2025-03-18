@@ -51,19 +51,19 @@ public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
+                    .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<HeftyGoombaEntity>> HEFTY_GOOMBA =
             Marioverse.ENTITIES.register("hefty_goomba", () -> EntityType.Builder.of(HeftyGoombaEntity::new, MobCategory.MONSTER)
                     .sized(1.4375F, 1.625F).eyeHeight(1.3F).ridingOffset(0.075F).build("hefty_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 0.8F).eyeHeight(0.625F).ridingOffset(0.075F).build("goomba"));
+                    .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
             Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
                     .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.25F, 0.3125F).eyeHeight(0.175F).ridingOffset(0.1F)
+                    .sized(0.25F, 0.3125F).eyeHeight(0.3125F).ridingOffset(0.1F)
                     .nameTagOffset(-0.05F).build("mini_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
             Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
