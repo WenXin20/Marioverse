@@ -101,6 +101,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public static final RawAnimation SWIM_SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.swim_squash");
     public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public boolean justWokeUp;
 
     public GoombaEntity(EntityType<? extends GoombaEntity> type, Level world) {
         super(type, world);
@@ -552,8 +553,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 double knockbackStrength = 1.0D;
 
                 // Knock back the Goomba
-                this.setDeltaMovement(
-                        -knockbackDirection.x * knockbackStrength, 0.4D,
+                this.setDeltaMovement(-knockbackDirection.x * knockbackStrength, 0.4D,
                         -knockbackDirection.z * knockbackStrength);
                 this.hurtMarked = true; // Mark as hurt to apply knockback
                 // Knock back the other collidingEntity

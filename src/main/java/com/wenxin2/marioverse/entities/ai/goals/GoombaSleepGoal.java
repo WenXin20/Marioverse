@@ -38,7 +38,7 @@ public class GoombaSleepGoal extends Goal {
     public void tick() {
         if (!this.goomba.isSleeping())
             this.goomba.tryToSleep();
-//        else this.goomba.checkForCollisionsAndWakeUp();
+        else this.goomba.checkForCollisionsAndWakeUp();
     }
 
     @Override
