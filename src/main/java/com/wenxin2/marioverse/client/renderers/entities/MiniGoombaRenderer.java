@@ -26,7 +26,6 @@ public class MiniGoombaRenderer extends GeoEntityRenderer<MiniGoombaEntity> {
 
     public MiniGoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new MiniGoombaModel());
-        this.withScale(0.25F);
         this.shadowRadius = 0.125F;
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
