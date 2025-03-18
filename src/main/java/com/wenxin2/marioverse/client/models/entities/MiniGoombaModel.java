@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;

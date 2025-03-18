@@ -112,7 +112,7 @@
 					"cubes": [
 						{
 							"origin": [2.5, 8, -4.54],
-							"size": [2, 2, 0],
+							"size": [2, 2, 1],
 							"uv": {
 								"north": {"uv": [22, 41], "uv_size": [2, 2]}
 							}
@@ -260,8 +260,9 @@
 					"name": "right_foot",
 					"parent": "feet",
 					"pivot": [-2, 2, 0],
+					"rotation": [0, 22.5, 0],
 					"cubes": [
-						{"origin": [-5, 0, -4.5], "size": [4, 2, 5], "pivot": [-2, 2, 0], "rotation": [0, 22.5, 0], "uv": [41, 10]}
+						{"origin": [-5, 0, -4.5], "size": [4, 2, 5], "uv": [41, 10]}
 					]
 				}
 			]

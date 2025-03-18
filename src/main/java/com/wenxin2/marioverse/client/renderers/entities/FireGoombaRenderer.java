@@ -109,14 +109,16 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
     @Override
     public void renderFinal(PoseStack poseStack, FireGoombaEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
                             @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
-        if (animatable.tickCount % 8 == 0) {
-            this.model.getBone("wick").ifPresent(wick -> {
-                Vector3d wickPos = wick.getWorldPosition();
-                if (animatable.isInWaterOrBubble())
+        this.model.getBone("wick").ifPresent(wick -> {
+            Vector3d wickPos = wick.getWorldPosition();
+            if (animatable.isInWaterOrBubble()) {
+                if (animatable.tickCount % 4 == 0) {
                     animatable.getCommandSenderWorld().addParticle(ParticleTypes.SMOKE,
                             wickPos.x(), wickPos.y() + 0.2, wickPos.z(),
                             0, 0, 0);
-                else {
+                }
+            } else {
+                if (animatable.tickCount % 8 == 0) {
                     animatable.getCommandSenderWorld().addParticle(ParticleTypes.FLAME,
                             wickPos.x(), wickPos.y() + 0.2, wickPos.z(),
                             0, 0, 0);
@@ -124,8 +126,30 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
                             wickPos.x(), wickPos.y() + 0.2, wickPos.z(),
                             0, 0, 0);
                 }
-            });
-        }
+            }
+        });
+
+        this.model.getBone("left_eyebrow").ifPresent(brow -> {
+            Vector3d browPos = brow.getWorldPosition();
+            if (animatable.tickCount % 4 == 0) {
+                if (animatable.isInWaterOrBubble()) {
+                    animatable.getCommandSenderWorld().addParticle(ParticleTypes.SMOKE,
+                            browPos.x(), browPos.y() + 0.2, browPos.z(),
+                            0, 0, 0);
+                }
+            }
+        });
+
+        this.model.getBone("right_eyebrow").ifPresent(brow -> {
+            Vector3d browPos = brow.getWorldPosition();
+            if (animatable.tickCount % 4 == 0) {
+                if (animatable.isInWaterOrBubble()) {
+                    animatable.getCommandSenderWorld().addParticle(ParticleTypes.SMOKE,
+                            browPos.x(), browPos.y() + 0.2, browPos.z(),
+                            0, 0, 0);
+                }
+            }
+        });
         super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, color);
     }
 }

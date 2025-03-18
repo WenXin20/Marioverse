@@ -7,14 +7,12 @@
 			"bones": {
 				"left_eyebrow": {
 					"position": {
-						"vector": [0, 0.5, 0],
-						"easing": "linear"
+						"vector": ["linear", "linear", "linear"]
 					}
 				},
 				"right_eyebrow": {
 					"position": {
-						"vector": [0, 0.5, 0],
-						"easing": "linear"
+						"vector": ["linear", "linear", "linear"]
 					}
 				},
 				"bipedBody": {
@@ -35,8 +33,7 @@
 				},
 				"bubble": {
 					"scale": {
-						"vector": [0, 0, 0],
-						"easing": "linear"
+						"vector": [0, 0, 0]
 					}
 				}
 			}
@@ -553,7 +550,7 @@
 						}
 					},
 					"position": {
-						"vector": [0.5, 0, 0],
+						"vector": [0.5, 0.25, 0],
 						"easing": "linear"
 					}
 				},
@@ -1220,5 +1217,6 @@
 				}
 			}
 		}
-	}
+	},
+	"geckolib_format_version": 2
 }
