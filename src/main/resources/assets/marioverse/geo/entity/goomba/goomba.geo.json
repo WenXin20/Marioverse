@@ -39,10 +39,10 @@
 				{
 					"name": "bubble",
 					"parent": "head",
-					"pivot": [2.5, 5, -0.5],
+					"pivot": [3.5, 5, -0.5],
 					"cubes": [
 						{
-							"origin": [-5.5, 5, -0.5],
+							"origin": [-4.5, 5, -0.5],
 							"size": [8, 8, 0],
 							"uv": {
 								"north": {"uv": [12, 27], "uv_size": [8, 8]}
