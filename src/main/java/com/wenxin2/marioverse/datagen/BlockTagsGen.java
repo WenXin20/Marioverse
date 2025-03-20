@@ -49,6 +49,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
 
+        tag(TagRegistry.BOUNCY_BLOCKS)
+                .add(Blocks.BROWN_MUSHROOM_BLOCK)
+                .add(Blocks.RED_MUSHROOM_BLOCK);
+
         tag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())

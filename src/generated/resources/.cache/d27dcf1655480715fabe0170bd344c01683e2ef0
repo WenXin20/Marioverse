@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-07T20:54:28.3512643	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-03-19T23:12:10.6419856	Tags for minecraft:block mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/block/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/block/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/block/dyed/brown.json
@@ -17,6 +17,7 @@ ec8d48ce5f08c097e9c7b18921807bfdbd14278c data/c/tags/block/dyed/white.json
 c7d632677b95f13f3342dd5b062463a483edc432 data/c/tags/block/dyed/yellow.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/block/bonkable_blocks.json
+19e6de889d7c8dcda4e8b2225f99a91ed115168e data/marioverse/tags/block/bouncy_blocks.json
 f7457763b53a24c8d8ae61a993b4d23c995a01a5 data/marioverse/tags/block/brick_pedestals.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/block/checkpoint_flags.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
