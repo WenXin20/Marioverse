@@ -1,6 +1,14 @@
 {
   "values": [
     "minecraft:brown_mushroom_block",
-    "minecraft:red_mushroom_block"
+    "minecraft:red_mushroom_block",
+    {
+      "id": "dynamictreesplus:brown_mushroom_cap",
+      "required": false
+    },
+    {
+      "id": "dynamictreesplus:red_mushroom_cap",
+      "required": false
+    }
   ]
 }

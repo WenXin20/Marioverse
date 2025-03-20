@@ -3,9 +3,11 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.init.BlockRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
@@ -14,6 +16,9 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
+    private static ResourceLocation BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
+    private static ResourceLocation RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
+
     public BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
     }
@@ -51,7 +56,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)
-                .add(Blocks.RED_MUSHROOM_BLOCK);
+                .add(Blocks.RED_MUSHROOM_BLOCK)
+                .addOptional(BROWN_MUSHROOM_CAP)
+                .addOptional(RED_MUSHROOM_CAP);
 
         tag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())

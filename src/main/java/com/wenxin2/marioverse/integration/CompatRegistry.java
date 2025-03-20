@@ -15,6 +15,9 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatRegistry {
+    public static final Supplier<Block> BROWN_MUSHROOM_CAP = make("dynamictreesplus:brown_mushroom_cap", BuiltInRegistries.BLOCK);
+    public static final Supplier<Block> RED_MUSHROOM_CAP = make("dynamictreesplus:red_mushroom_cap", BuiltInRegistries.BLOCK);
+
     public static final Supplier<Item> ANTIQUE_INK = make("supplementaries:antique_ink", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BOMB_ITEM = make("supplementaries:bomb", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BOMB_BLUE_ITEM = make("supplementaries:bomb_blue", BuiltInRegistries.ITEM);
