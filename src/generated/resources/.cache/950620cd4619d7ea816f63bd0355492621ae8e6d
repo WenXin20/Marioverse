@@ -1,4 +1,5 @@
-// 1.21.1	2025-03-15T23:26:42.3474898	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-20T14:00:48.0797072	Tags for minecraft:entity_type mod id marioverse
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json

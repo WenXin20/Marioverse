@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -9,6 +10,8 @@ import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -54,12 +58,34 @@ public abstract class EntityMixin {
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
+        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.2, entity.position().z);
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
+        BlockState stateBelowEntity = world.getBlockState(posBelowEntity);
 
         int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
+
+        if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
+                && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
+                && !entity.isSuppressingBounce()) {
+            Vec3 vec3 = entity.getDeltaMovement();
+            if (vec3.y < 0.0) {
+                double baseBounce = 0.42;
+                double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
+                double newBounce = Math.max(-vec3.y * bounceFactor, baseBounce);
+                Minecraft mc = Minecraft.getInstance();
+                KeyMapping jumpKey = mc.options.keyJump;
+
+                if (InputConstants.isKeyDown(mc.getWindow().getWindow(), jumpKey.getKey().getValue())
+                    && entity instanceof Player) {
+                    newBounce *= 2;
+                }
+
+                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
+            }
+        }
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);

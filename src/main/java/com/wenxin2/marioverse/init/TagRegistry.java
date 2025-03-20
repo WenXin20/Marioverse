@@ -75,6 +75,7 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
 
+    public static final TagKey<EntityType<?>> CANNOT_BOUNCE_ON_BLOCKS = entityTypeTags("cannot_bounce_on_blocks");
     public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");
     public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags("cannot_drop_coins");
     public static final TagKey<EntityType<?>> CANNOT_LOSE_POWER_UP = entityTypeTags("cannot_lose_power_up");

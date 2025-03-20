@@ -44,6 +44,30 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
+        tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
+
+        tag(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
+        tag(TagRegistry.CANNOT_DROP_COINS)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
+        tag(TagRegistry.CANNOT_LOSE_POWER_UP)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.GIANT)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
+
+        tag(TagRegistry.CANNOT_QUICK_TRAVEL)
+                .add(EntityRegistry.PIRANHA_PLANT.get());
+
+        tag(TagRegistry.CANNOT_WARP)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.ENDER_DRAGON)
+                .add(EntityType.WITHER)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
+
         tag(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
@@ -171,28 +195,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptional(TEST_DUMMY);
-
-        tag(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                .addTag(TagRegistry.POWER_UP_ENTITIES);
-
-        tag(TagRegistry.CANNOT_DROP_COINS)
-                .addTag(TagRegistry.POWER_UP_ENTITIES);
-
-        tag(TagRegistry.CANNOT_LOSE_POWER_UP)
-                .addTag(Tags.EntityTypes.BOSSES)
-                .add(EntityType.ELDER_GUARDIAN)
-                .add(EntityType.GIANT)
-                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
-
-        tag(TagRegistry.CANNOT_QUICK_TRAVEL)
-                .add(EntityRegistry.PIRANHA_PLANT.get());
-
-        tag(TagRegistry.CANNOT_WARP)
-                .addTag(Tags.EntityTypes.BOSSES)
-                .add(EntityType.ELDER_GUARDIAN)
-                .add(EntityType.ENDER_DRAGON)
-                .add(EntityType.WITHER)
-                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
         tag(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
 

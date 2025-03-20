@@ -95,11 +95,13 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
+        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.2, entity.position().z);
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
+        BlockState stateBelowEntity = world.getBlockState(posBelowEntity);
 
         int checkpointCooldown = entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");

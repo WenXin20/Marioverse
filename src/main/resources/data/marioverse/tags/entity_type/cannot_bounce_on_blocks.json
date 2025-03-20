@@ -1,0 +1,5 @@
+{
+  "_comment": "Blacklist to prevent entities from bouncing on blocks",
+  "replace": false,
+  "values": []
+}
