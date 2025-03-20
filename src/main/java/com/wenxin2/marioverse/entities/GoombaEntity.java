@@ -101,7 +101,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public static final RawAnimation SWIM_SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.swim_squash");
     public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public boolean justWokeUp;
+    public boolean wasSleeping;
 
     public GoombaEntity(EntityType<? extends GoombaEntity> type, Level world) {
         super(type, world);
@@ -284,6 +284,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
+
         if (this.isScared()) {
             float scaleFactor = this.getBbHeight() * this.getBbWidth();
             int numParticles = (int) (scaleFactor * 5);
@@ -615,6 +616,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
         } else {
             this.entityData.set(DATA_ID_SLEEP_FLAGS, (byte)(b1 & ~i));
         }
+    }
+
+    public boolean wasSleeping() {
+        return wasSleeping;
+    }
+
+    public void setWasSleeping(boolean wasSleeping) {
+        this.wasSleeping = wasSleeping;
     }
 
     public void scare(boolean isScared) {
