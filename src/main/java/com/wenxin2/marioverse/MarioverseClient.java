@@ -68,6 +68,10 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ICE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ICE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ICE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
     }
 
     public static void addPackFinder(final AddPackFindersEvent event) {
@@ -84,8 +88,8 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null ? BiomeColors.getAverageWaterColor(world, pos) | 0xFF0000cc
-                    : 0xFFFFFFFF;
+            return world != null && pos != null
+                    ? BiomeColors.getAverageWaterColor(world, pos) | 0xFF0000cc : 0xFFFFFFFF;
         }, BlockRegistry.WATER_SPOUT.get());
     }
 

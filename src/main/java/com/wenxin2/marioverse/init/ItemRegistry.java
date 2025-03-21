@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.IceCostumeItem;
+import com.wenxin2.marioverse.items.MarioCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -34,6 +35,10 @@ public class ItemRegistry {
     public static final DeferredItem<Item> ICE_PANTS;
     public static final DeferredItem<Item> ICE_SHIRT;
     public static final DeferredItem<Item> ICE_SHOES;
+    public static final DeferredItem<Item> MARIO_HAT;
+    public static final DeferredItem<Item> MARIO_PANTS;
+    public static final DeferredItem<Item> MARIO_SHIRT;
+    public static final DeferredItem<Item> MARIO_SHOES;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
@@ -59,6 +64,15 @@ public class ItemRegistry {
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
+
+        MARIO_HAT = registerItem("mario_hat",
+                () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
+        MARIO_SHIRT = registerItem("mario_shirt",
+                () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
+        MARIO_PANTS = registerItem("mario_pants",
+                () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
+        MARIO_SHOES = registerItem("mario_shoes",
+                () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));

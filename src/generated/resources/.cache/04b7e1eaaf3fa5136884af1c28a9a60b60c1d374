@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-16T14:27:45.8115553	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-03-21T14:31:28.6653889	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -27,7 +27,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/item/invisible_question_blocks.json
 60a987629818c49120e1b13b13c525dd41f740a1 data/marioverse/tags/item/power_ups.json
-93fd2bdf8fce6f551db21962086f22d7d1eb6c39 data/marioverse/tags/item/power_up_costumes.json
+42bfd97e69793c8f70bcb464d9f556f05e9df39a data/marioverse/tags/item/power_up_costumes.json
 1268789ebd51852001cc17c80917126989d8380e data/marioverse/tags/item/question_blocks.json
 46b86808f46cfefdc573b0f247e88d72106e420b data/marioverse/tags/item/smashable_blocks.json
 0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/item/storage_bricks.json
