@@ -199,11 +199,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
             }
 
+            Vec3 movement = slideDirection.scale(slideSpeed);
             if (this.displayEntity instanceof Mob mob && !mob.isNoAi()) {
-                this.setDeltaMovement(slideDirection.scale(slideSpeed));
+                this.setDeltaMovement(movement);
             } else if (!(this.displayEntity instanceof Mob))
-                this.setDeltaMovement(slideDirection.scale(slideSpeed));
-
+                this.setDeltaMovement(movement);
             return true;
         }
     }
@@ -531,7 +531,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
     }
 
     private void collideWithEntity() {
-        AABB collisionBox = this.getBoundingBox().inflate(0.01);
+        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
         AABB collisionBoxNoInflation = this.getBoundingBox();
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
         List<Entity> collidingEntitiesNoInflation = this.level().getEntities(this, collisionBoxNoInflation);

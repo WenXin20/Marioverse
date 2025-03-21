@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -23,6 +24,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -55,14 +58,14 @@ public abstract class EntityMixin {
     @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
 
-    @Inject(at = @At("TAIL"), method = "baseTick")
-    public void baseTick(CallbackInfo ci) {
+    @Inject(at = @At("TAIL"), method = "tick")
+    public void tick(CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posBelow = entity.blockPosition().below();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.5, entity.position().z);
+        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.3, entity.position().z);
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
@@ -70,33 +73,71 @@ public abstract class EntityMixin {
         BlockState stateBelowEntity = world.getBlockState(posBelowEntity);
         BlockState stateBelow = world.getBlockState(posBelow);
 
+        int bounceCooldown = entity.getPersistentData().getInt("marioverse:bounce_cooldown");
         int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
+
+        if (bounceCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:bounce_cooldown", bounceCooldown - 1);
+        if (warpCooldown > 0)
+            entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
 
         if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                 && !entity.isSuppressingBounce() && !entity.isNoGravity()) {
             Vec3 vec3 = entity.getDeltaMovement();
 
+            entity.resetFallDistance();
             if (vec3.y < 0.0) {
-                int bounceCooldown = entity.getPersistentData().getInt("marioverse:bounce_cooldown");
+                double baseBounce = 0.42;
+                double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
+                double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
+                double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
+                Minecraft minecraft = Minecraft.getInstance();
+                KeyMapping jumpKey = minecraft.options.keyJump;
+
+                if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), jumpKey.getKey().getValue())
+                        && entity instanceof Player)
+                    newBounce *= 2;
+
                 if (bounceCooldown <= 0) {
-                    double baseBounce = 0.42;
-                    double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
-                    double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
-                    double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
-
-                    if (entity instanceof LocalPlayer player && player.input.jumping)
-                        newBounce *= 2;
-
                     if (world instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.SNOWFLAKE, serverWorld, entity, entity.getBbWidth() / 2, 2);
-                    entity.getPersistentData().putInt("marioverse:bounce_cooldown", 4);
+                        ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 3);
+                    entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
+                    entity.resetFallDistance();
                     entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
-                } else {
-                    if (bounceCooldown > 0)
-                        entity.getPersistentData().putInt("marioverse:bounce_cooldown", bounceCooldown - 1);
                 }
-                entity.resetFallDistance();
+            }
+        }
+
+        if (!world.isClientSide) {
+            Entity belowEntity = null;
+
+            for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
+                if (e instanceof IceCubeEntity) {
+                    belowEntity = e;
+                    break;
+                }
+            }
+
+            if (belowEntity instanceof IceCubeEntity iceCube) {
+                Vec3 iceMovement = iceCube.getDeltaMovement();
+
+                if (!iceMovement.equals(Vec3.ZERO)) {
+                    Vec3 adjustedMovement = entity.getDeltaMovement().add(iceMovement.x, 0, iceMovement.z);
+                    entity.setDeltaMovement(iceMovement.x, 0, iceMovement.z);
+                    entity.move(MoverType.SELF, iceMovement);
+
+                    if (entity instanceof Mob mob) {
+                        mob.getNavigation().stop();
+                    }
+
+                    if (entity instanceof Player player) {
+                        Vec3 playerMovement = player.getDeltaMovement();
+                        Vec3 newPos = player.position().add(iceMovement.x, 0, iceMovement.z);
+                        player.setDeltaMovement(playerMovement.add(iceMovement.x, 0, iceMovement.z));
+                        player.teleportTo(newPos.x, newPos.y, newPos.z);
+                    }
+                }
             }
         }
 
@@ -136,9 +177,6 @@ public abstract class EntityMixin {
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
-
-        if (warpCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
     }
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
