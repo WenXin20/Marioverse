@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-21T14:31:28.6653889	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-03-21T16:26:20.8226443	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -33,13 +33,13 @@ e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/item/invisible_que
 0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/item/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 4590d56682f653beefab91ad3c8888ed42d609ef data/marioverse/tags/item/warp_pipe_cannot_spawn.json
-ce7292bb6841e0158b6bfbb74342719a09db1ef1 data/minecraft/tags/item/chest_armor.json
+bc6a464228c8c821785ef45ff6ea793bae0b9155 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/durability.json
-071457ffa58f2ade374415aff9e546a470fdd881 data/minecraft/tags/item/foot_armor.json
+57c4742b03161a7ae9e15c073eee8a2a8b07e91e data/minecraft/tags/item/foot_armor.json
 83011fd647ed05249f8a99389a323161e8f9c981 data/minecraft/tags/item/freeze_immune_wearables.json
-eb5003aafdd8dedddde45f9b4e3fcd117bf1d9cc data/minecraft/tags/item/head_armor.json
-c3a40a19d0bdb70b3d816a76a1c2068c08af0dc6 data/minecraft/tags/item/leg_armor.json
+904e3c16ff106295f244476aa4b85e256ca61325 data/minecraft/tags/item/head_armor.json
+92eb6e4757ef21b8e4872c0bec044d9144037226 data/minecraft/tags/item/leg_armor.json
 7f9574628a87aaae387dc53522a9cc6c93b84593 data/minecraft/tags/item/piglin_loved.json
 2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/item/slabs.json
 f0d8e8b53362e2a6d1046a11fa6956ba7e421406 data/minecraft/tags/item/stairs.json
