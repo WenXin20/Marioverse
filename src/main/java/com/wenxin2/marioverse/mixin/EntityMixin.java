@@ -89,7 +89,7 @@ public abstract class EntityMixin {
                         newBounce *= 2;
 
                     if (world instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 2);
+                        ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.SNOWFLAKE, serverWorld, entity, entity.getBbWidth() / 2, 2);
                     entity.getPersistentData().putInt("marioverse:bounce_cooldown", 4);
                     entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
                 } else {
