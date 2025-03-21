@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.init.ItemRegistry;
 import com.wenxin2.marioverse.init.KeybindRegistry;
 import com.wenxin2.marioverse.init.ParticleRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
@@ -35,7 +36,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -190,23 +190,23 @@ public class MarioverseEventHandlers {
 
                 if (containerHat != null) {
                     ItemStack stack = containerHat.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
-                        containerHat.getAccessories().setItem(0, ItemStack.EMPTY);
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
+                        containerHat.getAccessories().setItem(0, ItemRegistry.MARIO_HAT.toStack());
                 }
                 if (containerShirt != null) {
                     ItemStack stack = containerShirt.getAccessories().getItem(0);
                     if (stack.getItem() instanceof BaseCostumeItem)
-                        containerShirt.getAccessories().setItem(0, ItemStack.EMPTY);
+                        containerShirt.getAccessories().setItem(0, ItemRegistry.MARIO_SHIRT.toStack());
                 }
                 if (containerPants != null) {
                     ItemStack stack = containerPants.getAccessories().getItem(0);
                     if (stack.getItem() instanceof BaseCostumeItem)
-                        containerPants.getAccessories().setItem(0, ItemStack.EMPTY);
+                        containerPants.getAccessories().setItem(0, ItemRegistry.MARIO_PANTS.toStack());
                 }
                 if (containerShoes != null) {
                     ItemStack stack = containerShoes.getAccessories().getItem(0);
                     if (stack.getItem() instanceof BaseCostumeItem)
-                        containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
+                        containerShoes.getAccessories().setItem(0, ItemRegistry.MARIO_SHOES.toStack());
                 }
             }
         } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())) {
@@ -246,29 +246,29 @@ public class MarioverseEventHandlers {
 
                 if (containerHat != null) {
                     ItemStack stack = containerHat.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
-                        containerHat.getAccessories().setItem(0, ItemStack.EMPTY);
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
+                        containerHat.getAccessories().setItem(0, ItemRegistry.MARIO_HAT.toStack());
                 }
                 if (containerShirt != null) {
                     ItemStack stack = containerShirt.getAccessories().getItem(0);
                     if (stack.getItem() instanceof BaseCostumeItem)
-                        containerShirt.getAccessories().setItem(0, ItemStack.EMPTY);
+                        containerShirt.getAccessories().setItem(0, ItemRegistry.MARIO_SHIRT.toStack());
                 }
                 if (containerPants != null) {
                     ItemStack stack = containerPants.getAccessories().getItem(0);
                     if (stack.getItem() instanceof BaseCostumeItem)
-                        containerPants.getAccessories().setItem(0, ItemStack.EMPTY);
+                        containerPants.getAccessories().setItem(0, ItemRegistry.MARIO_PANTS.toStack());
                 }
                 if (containerShoes != null) {
                     ItemStack stack = containerShoes.getAccessories().getItem(0);
                     if (stack.getItem() instanceof BaseCostumeItem)
-                        containerShoes.getAccessories().setItem(0, ItemStack.EMPTY);
+                        containerShoes.getAccessories().setItem(0, ItemRegistry.MARIO_SHOES.toStack());
                 }
             }
         }
 
         if (event.getEntity() instanceof GoombaEntity goomba
-                && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUME_ITEMS)) {
+                && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_POWER_UP_COSTUMES)) {
             goomba.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
         }
 

@@ -55,7 +55,31 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
-        tag(TagRegistry.POWER_UP_COSTUME_ITEMS)
+        tag(TagRegistry.MARIO_COSTUMES)
+                .add(ItemRegistry.FIRE_HAT.get())
+                .add(ItemRegistry.FIRE_PANTS.get())
+                .add(ItemRegistry.FIRE_SHIRT.get())
+                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.ICE_HAT.get())
+                .add(ItemRegistry.ICE_PANTS.get())
+                .add(ItemRegistry.ICE_SHIRT.get())
+                .add(ItemRegistry.ICE_SHOES.get())
+                .add(ItemRegistry.MARIO_HAT.get())
+                .add(ItemRegistry.MARIO_PANTS.get())
+                .add(ItemRegistry.MARIO_SHIRT.get())
+                .add(ItemRegistry.MARIO_SHOES.get());
+
+        tag(TagRegistry.MARIO_POWER_UP_COSTUMES)
+                .add(ItemRegistry.FIRE_HAT.get())
+                .add(ItemRegistry.FIRE_PANTS.get())
+                .add(ItemRegistry.FIRE_SHIRT.get())
+                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.ICE_HAT.get())
+                .add(ItemRegistry.ICE_PANTS.get())
+                .add(ItemRegistry.ICE_SHIRT.get())
+                .add(ItemRegistry.ICE_SHOES.get());
+
+        tag(TagRegistry.POWER_UP_COSTUMES)
                 .add(ItemRegistry.FIRE_HAT.get())
                 .add(ItemRegistry.FIRE_PANTS.get())
                 .add(ItemRegistry.FIRE_SHIRT.get())

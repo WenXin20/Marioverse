@@ -67,7 +67,9 @@ public class TagRegistry {
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
-    public static final TagKey<Item> POWER_UP_COSTUME_ITEMS = itemTags("power_up_costumes");
+    public static final TagKey<Item> MARIO_COSTUMES = itemTags("mario_costumes");
+    public static final TagKey<Item> MARIO_POWER_UP_COSTUMES = itemTags("mario_power_up_costumes");
+    public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
     public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");
