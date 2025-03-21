@@ -78,18 +78,25 @@ public abstract class EntityMixin {
             Vec3 vec3 = entity.getDeltaMovement();
 
             if (vec3.y < 0.0) {
-                double baseBounce = 0.42;
-                double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
-                double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
-                double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
+                int bounceCooldown = entity.getPersistentData().getInt("marioverse:bounce_cooldown");
+                if (bounceCooldown <= 0) {
+                    double baseBounce = 0.42;
+                    double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
+                    double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
+                    double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
 
-                if (entity instanceof LocalPlayer player && player.input.jumping)
-                    newBounce *= 2;
+                    if (entity instanceof LocalPlayer player && player.input.jumping)
+                        newBounce *= 2;
 
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.WHITE_SMOKE, serverWorld, entity, entity.getBbWidth() / 2, 8);
+                    if (world instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 2);
+                    entity.getPersistentData().putInt("marioverse:bounce_cooldown", 4);
+                    entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
+                } else {
+                    if (bounceCooldown > 0)
+                        entity.getPersistentData().putInt("marioverse:bounce_cooldown", bounceCooldown - 1);
+                }
                 entity.resetFallDistance();
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
             }
         }
 

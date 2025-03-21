@@ -113,7 +113,7 @@ public class ServerParticleUtils {
             double offsetZ = Math.sin(angle) * radius;
 
             double x = entity.getX() + offsetX;
-            double y = entity.getY() - entity.getBbHeight();
+            double y = entity.getY();
             double z = entity.getZ() + offsetZ;
 
             serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
