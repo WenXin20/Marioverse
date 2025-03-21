@@ -14,7 +14,6 @@ import com.wenxin2.marioverse.init.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -84,10 +83,10 @@ public abstract class EntityMixin {
         if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                 && !entity.isSuppressingBounce() && !entity.isNoGravity()) {
-            bounceEntity(entity, bounceCooldown, world);
+            marioverse$bounceEntity(entity, bounceCooldown, world);
         }
 
-        rideIceCube(entity);
+        marioverse$rideIceCube(entity);
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -127,7 +126,8 @@ public abstract class EntityMixin {
             this.marioverse$enterWarp(posInBlock);
     }
 
-    private static void rideIceCube(Entity entity) {
+    @Unique
+    private static void marioverse$rideIceCube(Entity entity) {
         Entity belowEntity = null;
         for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
             if (e instanceof IceCubeEntity) {
@@ -150,7 +150,8 @@ public abstract class EntityMixin {
         }
     }
 
-    private static void bounceEntity(Entity entity, int bounceCooldown, Level world) {
+    @Unique
+    private static void marioverse$bounceEntity(Entity entity, int bounceCooldown, Level world) {
         Vec3 vec3 = entity.getDeltaMovement();
 
         entity.resetFallDistance();
