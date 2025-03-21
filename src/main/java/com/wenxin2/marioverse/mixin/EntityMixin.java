@@ -10,12 +10,14 @@ import com.wenxin2.marioverse.init.AttributesRegistry;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.SoundRegistry;
 import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -60,7 +62,7 @@ public abstract class EntityMixin {
         BlockPos pos = entity.blockPosition();
         BlockPos posBelow = entity.blockPosition().below();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.15, entity.position().z);
+        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.5, entity.position().z);
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
@@ -84,8 +86,10 @@ public abstract class EntityMixin {
                 if (entity instanceof LocalPlayer player && player.input.jumping)
                     newBounce *= 2;
 
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnEntityRingBelowParticles(ParticleTypes.WHITE_SMOKE, serverWorld, entity, entity.getBbWidth() / 2, 8);
                 entity.resetFallDistance();
+                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
             }
         }
 
