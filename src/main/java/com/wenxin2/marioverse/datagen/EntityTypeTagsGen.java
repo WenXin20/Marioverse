@@ -179,6 +179,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.CAN_WEAR_COSTUMES)
+                .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
@@ -194,6 +195,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIE)
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);

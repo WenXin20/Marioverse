@@ -1,5 +1,6 @@
 {
   "values": [
+    "#c:bosses",
     "#marioverse:goombas",
     "minecraft:armor_stand",
     "minecraft:bogged",
@@ -16,6 +17,10 @@
     "minecraft:zombified_piglin",
     {
       "id": "#accessories:defaulted_targets",
+      "required": false
+    },
+    {
+      "id": "#twilightforest:bosses",
       "required": false
     },
     {
