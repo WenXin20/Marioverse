@@ -240,12 +240,25 @@ public abstract class LivingEntityMixin extends Entity {
                 isRunning = true;
 
             if (this.marioverse$hasMarioCostume(entity)) {
-                double jumpBoost = isRunning ? runningJumpBoost : normalJumpBoost;
                 boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_JUMP_BOOST) != null;
-                if (!hasJumpModifier)
-                    jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_JUMP_BOOST, jumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST) != null;
+                if (isRunning) {
+                    if (!hasRunningJumpModifier)
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                    else jumpAttribute.removeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST);
+
+                    if (hasJumpModifier)
+                        jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
+                } else {
+                    if (!hasJumpModifier)
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                    else jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
+
+                    if (hasRunningJumpModifier)
+                        jumpAttribute.removeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST);
+                }
             }
-            else jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
+
         }
 
         if (safeFallAttribute != null) {

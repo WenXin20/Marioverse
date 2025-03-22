@@ -12,6 +12,7 @@ public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> WIDTH_SCALE;
 
     public static final ResourceLocation MARIO_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_jump_boost");
+    public static final ResourceLocation MARIO_RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_running_jump_boost");
     public static final ResourceLocation MARIO_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_safe_fall_distance");
 
     static {
