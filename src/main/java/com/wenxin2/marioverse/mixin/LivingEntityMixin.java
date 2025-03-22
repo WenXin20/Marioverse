@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
@@ -24,6 +25,7 @@ import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,6 +54,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
@@ -85,13 +88,16 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique private int marioverse$consecutiveBounces;
     @Unique private int marioverse$oneUpsRewarded;
     @Unique private boolean marioverse$playedDamagedSound;
+    // TODO move
+    @Unique private static final ResourceLocation MARIO_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_jump_boost");
+    @Unique private static final ResourceLocation MARIO_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_safe_fall_distance");
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
     }
 
-    @Inject(at = @At("TAIL"), method = "baseTick")
-    public void baseTick(CallbackInfo ci) {
+    @Inject(at = @At("TAIL"), method = "tick")
+    public void tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
@@ -109,6 +115,8 @@ public abstract class LivingEntityMixin extends Entity {
         int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
         boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
+        this.marioverse$marioAbilities(entity);
+        
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
@@ -217,6 +225,67 @@ public abstract class LivingEntityMixin extends Entity {
 //            ScaleTypes.REACH.getScaleData(this).setTargetScale(5.0F);
 //            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
 //        }
+    }
+
+    @Unique
+    private void marioverse$marioAbilities(LivingEntity entity) {
+        AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
+        AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
+        if (jumpAttribute != null) {
+            Minecraft minecraft = Minecraft.getInstance();
+            KeyMapping sprintKey = minecraft.options.keySprint;
+            double normalJumpBoost = 0.4;
+            double runningJumpBoost = 0.85;
+            boolean isRunning = entity.isSprinting();
+
+            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), sprintKey.getKey().getValue())
+                    && entity instanceof Player)
+                isRunning = true;
+
+            if (this.marioverse$hasMarioCostume(entity)) {
+                double jumpBoost = isRunning ? runningJumpBoost : normalJumpBoost;
+                boolean hasJumpModifier = jumpAttribute.getModifier(MARIO_JUMP_BOOST) != null;
+                if (!hasJumpModifier)
+                    jumpAttribute.addPermanentModifier(new AttributeModifier(MARIO_JUMP_BOOST, jumpBoost, AttributeModifier.Operation.ADD_VALUE));
+            }
+            else jumpAttribute.removeModifier(MARIO_JUMP_BOOST);
+        }
+
+        if (safeFallAttribute != null) {
+            if (this.marioverse$hasMarioCostume(entity)) {
+                boolean hasSafeFallModifier = safeFallAttribute.getModifier(MARIO_SAFE_FALL_DISTANCE) != null;
+                if (!hasSafeFallModifier)
+                    safeFallAttribute.addPermanentModifier(new AttributeModifier(MARIO_SAFE_FALL_DISTANCE, 5, AttributeModifier.Operation.ADD_VALUE));
+            }
+            else safeFallAttribute.removeModifier(MARIO_SAFE_FALL_DISTANCE);
+        }
+    }
+
+    @Unique
+    private boolean marioverse$hasMarioCostume(LivingEntity entity) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_COSTUMES)
+                && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.MARIO_COSTUMES)
+                && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.MARIO_COSTUMES)
+                && entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.MARIO_COSTUMES))
+            return true;
+
+        AccessoriesCapability capability = AccessoriesCapability.get(entity);
+        if (capability != null) {
+            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
+            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
+            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
+            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+
+            if (containerHat != null && containerShirt != null && containerPants != null && containerShoes != null) {
+                ItemStack stackHat = containerHat.getAccessories().getItem(0);
+                ItemStack stackShirt = containerShirt.getAccessories().getItem(0);
+                ItemStack stackPants = containerPants.getAccessories().getItem(0);
+                ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
+                return stackHat.is(TagRegistry.MARIO_COSTUMES) && stackShirt.is(TagRegistry.MARIO_COSTUMES)
+                        && stackPants.is(TagRegistry.MARIO_COSTUMES) && stackShoes.is(TagRegistry.MARIO_COSTUMES);
+            }
+        }
+        return false;
     }
 
     @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)

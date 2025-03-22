@@ -251,17 +251,17 @@ public class MarioverseEventHandlers {
                 }
                 if (containerShirt != null) {
                     ItemStack stack = containerShirt.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
                         containerShirt.getAccessories().setItem(0, ItemRegistry.MARIO_SHIRT.toStack());
                 }
                 if (containerPants != null) {
                     ItemStack stack = containerPants.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
                         containerPants.getAccessories().setItem(0, ItemRegistry.MARIO_PANTS.toStack());
                 }
                 if (containerShoes != null) {
                     ItemStack stack = containerShoes.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
                         containerShoes.getAccessories().setItem(0, ItemRegistry.MARIO_SHOES.toStack());
                 }
             }
