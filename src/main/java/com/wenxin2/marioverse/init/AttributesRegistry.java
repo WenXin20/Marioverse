@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.init;
 
 import com.wenxin2.marioverse.Marioverse;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -9,6 +10,9 @@ public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> EYE_HEIGHT_SCALE;
     public static final DeferredHolder<Attribute, Attribute> HEIGHT_SCALE;
     public static final DeferredHolder<Attribute, Attribute> WIDTH_SCALE;
+
+    public static final ResourceLocation MARIO_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_jump_boost");
+    public static final ResourceLocation MARIO_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_safe_fall_distance");
 
     static {
         EYE_HEIGHT_SCALE = Marioverse.ATTRIBUTES.register("eye_height_scale",

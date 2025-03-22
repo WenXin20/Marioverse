@@ -88,9 +88,6 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique private int marioverse$consecutiveBounces;
     @Unique private int marioverse$oneUpsRewarded;
     @Unique private boolean marioverse$playedDamagedSound;
-    // TODO move
-    @Unique private static final ResourceLocation MARIO_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_jump_boost");
-    @Unique private static final ResourceLocation MARIO_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_safe_fall_distance");
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -116,7 +113,7 @@ public abstract class LivingEntityMixin extends Entity {
         boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
         this.marioverse$marioAbilities(entity);
-        
+
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
@@ -244,20 +241,20 @@ public abstract class LivingEntityMixin extends Entity {
 
             if (this.marioverse$hasMarioCostume(entity)) {
                 double jumpBoost = isRunning ? runningJumpBoost : normalJumpBoost;
-                boolean hasJumpModifier = jumpAttribute.getModifier(MARIO_JUMP_BOOST) != null;
+                boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_JUMP_BOOST) != null;
                 if (!hasJumpModifier)
-                    jumpAttribute.addPermanentModifier(new AttributeModifier(MARIO_JUMP_BOOST, jumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                    jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_JUMP_BOOST, jumpBoost, AttributeModifier.Operation.ADD_VALUE));
             }
-            else jumpAttribute.removeModifier(MARIO_JUMP_BOOST);
+            else jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
         }
 
         if (safeFallAttribute != null) {
             if (this.marioverse$hasMarioCostume(entity)) {
-                boolean hasSafeFallModifier = safeFallAttribute.getModifier(MARIO_SAFE_FALL_DISTANCE) != null;
+                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE) != null;
                 if (!hasSafeFallModifier)
-                    safeFallAttribute.addPermanentModifier(new AttributeModifier(MARIO_SAFE_FALL_DISTANCE, 5, AttributeModifier.Operation.ADD_VALUE));
+                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE, 5, AttributeModifier.Operation.ADD_VALUE));
             }
-            else safeFallAttribute.removeModifier(MARIO_SAFE_FALL_DISTANCE);
+            else safeFallAttribute.removeModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE);
         }
     }
 
