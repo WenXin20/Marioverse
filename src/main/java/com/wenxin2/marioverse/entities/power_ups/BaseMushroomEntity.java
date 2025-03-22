@@ -60,6 +60,11 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
     public void jumpInFluid(FluidType type) {
         this.jumpInLiquidInternal(() -> super.jumpInFluid(type));
     }

@@ -44,6 +44,11 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
     }
 
     @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
     public void jumpInFluid(FluidType type) {
         this.jumpInLiquidInternal(() -> super.jumpInFluid(type));
     }
