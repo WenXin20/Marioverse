@@ -20,11 +20,13 @@ import com.wenxin2.marioverse.items.BaseCostumeItem;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -160,6 +162,9 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
+
             if (tag.getBoolean("marioverse:has_fire_flower")) {
                 tag.putBoolean("marioverse:has_fire_flower", false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
@@ -213,6 +218,9 @@ public class MarioverseEventHandlers {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
+
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, entity, 10);
 
             if (tag.getBoolean("marioverse:has_fire_flower")
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {

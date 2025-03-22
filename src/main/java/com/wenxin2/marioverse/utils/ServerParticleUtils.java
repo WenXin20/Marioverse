@@ -4,15 +4,12 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.Unique;
 
 public class ServerParticleUtils {
     public static void spawnParticlesOnBlockFaces(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, IntProvider count) {
@@ -99,6 +96,21 @@ public class ServerParticleUtils {
 
             double x = entity.getX() + offsetX;
             double y = entity.getY() + offsetY;
+            double z = entity.getZ() + offsetZ;
+
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+        }
+    }
+
+    public static void spawnParticleRingAboveEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+        for (int i = 0; i < particleAmt; i++) {
+            double angle = 2 * Math.PI * i / particleAmt;
+
+            double offsetX = Math.cos(angle) * radius;
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = entity.getX() + offsetX;
+            double y = entity.getY() + entity.getBbHeight();
             double z = entity.getZ() + offsetZ;
 
             serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
