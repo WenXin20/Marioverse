@@ -142,17 +142,13 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get()
-                            && containerHat.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get())
                         containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get()
-                            && containerShirt.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get())
                         containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get()
-                            && containerPants.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get())
                         containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get()
-                            && containerShoes.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get())
                         containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
                 }
             }
