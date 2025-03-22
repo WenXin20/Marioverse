@@ -15,9 +15,11 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -317,6 +319,21 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void smithingTemplateRecipe(int outputAmt, ItemLike outputItem, ItemLike templateItem, ItemLike inputItem, TagKey<Item> inputItemTag, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('T', templateItem)
+                .define('W', inputItem)
+                .define('L', inputItemTag)
+                .pattern("LTL")
+                .pattern("LWL")
+                .pattern("LLL")
+                .unlockedBy(getHasName(templateItem), has(templateItem))
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .unlockedBy("has_leather", has(inputItemTag))
+                .group(Marioverse.MOD_ID + ":mario_costume_templates")
+                .save(output);
+    }
+
     public void stairRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)
@@ -550,5 +567,11 @@ public class RecipeUtils extends RecipeProvider {
                 }
             }
         });
+    }
+
+    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item smithingItem, Item inputItem, RecipeOutput output) {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(smithingItem), Ingredient.of(inputItem), category, outputItem)
+                .unlocks("has_smithing_item", has(smithingItem))
+                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
     }
 }

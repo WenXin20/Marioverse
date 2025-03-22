@@ -373,6 +373,7 @@
   "item.marioverse.mario_pants": "Mario's Pants",
   "item.marioverse.mario_shirt": "Mario's Shirt",
   "item.marioverse.mario_shoes": "Mario's Shoes",
+  "item.marioverse.mario_costume_smithing_template": "Mario's Costume Smithing Template",
 
   "item.marioverse.fire_goomba_spawn_egg": "Fire Goomba Spawn Egg",
   "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
@@ -381,6 +382,11 @@
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
   "item.marioverse.piranha_plant_spawn_egg": "Piranha Plant Spawn Egg",
 
+  "upgrade.marioverse.mario_costume": "Mario's Costume",
+  "item.marioverse.smithing_template.mario_costume.additions_slot_description": "Add dyed wool",
+  "item.marioverse.smithing_template.mario_costume.ingredients": "Dyed Wool",
+  "item.marioverse.smithing_template.character_costume.applies_to": "Leather Armor",
+  "item.marioverse.smithing_template.character_costume.base_slot_description": "Add leather armor",
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
   "item.marioverse.pipe_wrench.bubbles.false": "Pipe bubbles off",

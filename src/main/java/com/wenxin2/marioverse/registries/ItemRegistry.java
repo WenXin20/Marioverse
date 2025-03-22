@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
+import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.IceCostumeItem;
 import com.wenxin2.marioverse.items.MarioCostumeItem;
@@ -39,6 +40,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MARIO_PANTS;
     public static final DeferredItem<Item> MARIO_SHIRT;
     public static final DeferredItem<Item> MARIO_SHOES;
+    public static final DeferredItem<Item> MARIO_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
@@ -64,6 +66,9 @@ public class ItemRegistry {
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
+
+        MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
+                CharacterSmithingTemplateItem::createMarioUpgradeTemplate);
 
         MARIO_HAT = registerItem("mario_hat",
                 () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));

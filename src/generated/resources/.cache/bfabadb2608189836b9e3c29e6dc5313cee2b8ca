@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-21T14:31:28.655481	Item Models: marioverse
+// 1.21.1	2025-03-22T14:48:20.6249985	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -63,6 +63,7 @@ e72fe30a725ba423d1d9fb608ba88c00020e2db9 assets/marioverse/models/item/light_gra
 2aaf9eeb5df41e7e4bcc6cf17981630505ea7166 assets/marioverse/models/item/lime_goal_pole.json
 6fbbbcad8137513663d46fe3721f0489110a47e1 assets/marioverse/models/item/magenta_checkpoint_flag.json
 cdc3f8bca5827b576bba9be838ab31b43ddecee7 assets/marioverse/models/item/magenta_goal_pole.json
+a4b197b57c6851df26b0eaa23a00d2f0cff7cf57 assets/marioverse/models/item/mario_costume_smithing_template.json
 46358a5f3ad69be8f422611be84ce0b5451878b6 assets/marioverse/models/item/mario_hat.json
 8ff9413089eed7bef15636827b2dce3c947c1547 assets/marioverse/models/item/mario_pants.json
 a2c6f322b7031583e7831d719282745d40b495ab assets/marioverse/models/item/mario_shirt.json

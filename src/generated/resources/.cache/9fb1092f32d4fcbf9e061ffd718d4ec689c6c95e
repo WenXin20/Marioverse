@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-06T16:32:07.1719469	Recipes
+// 1.21.1	2025-03-22T14:14:17.6679872	Recipes
 f3621246c81622abafae1a7048b239763ef0b8bf data/marioverse/advancement/recipes/building_blocks/amethyst_bricks.json
 e0366bd9acfb9f3f9d38d6883a40acb9ee7188c5 data/marioverse/advancement/recipes/building_blocks/amethyst_bricks_from_amethyst_block_stonecutting.json
 58633c9d1ddfe351de5b78bcbf07fbb975ddc922 data/marioverse/advancement/recipes/building_blocks/amethyst_bricks_stonecutting.json
@@ -855,3 +855,11 @@ ada7c45e6551c06a445ce70b9d2e5f2aba0c2181 data/marioverse/recipe/yellow_checkpoin
 02eb207da7b6f8fb32b7a23901d6b3277e571f71 data/marioverse/recipe/yellow_goal_pole_from_dye.json
 079a74ec350d496d80dd9e4d31600cc79b09bc28 data/marioverse/recipe/yellow_warp_pipe.json
 f66cde9637c64baf4c1a3d7093f7a759769cb3dd data/marioverse/recipe/yellow_warp_pipe_from_dye.json
+a4eb0f379c0f0109ca4ad0ceb35e499ce19f90a8 data/minecraft/advancement/recipes/combat/mario_hat_smithing.json
+24329e1fa7f82ebe9e8c121a50065a52921706d2 data/minecraft/advancement/recipes/combat/mario_pants_smithing.json
+9292f244fc69a5e8bb47263bfa28662759e6855c data/minecraft/advancement/recipes/combat/mario_shirt_smithing.json
+c5e8ec4de2116671ee81f3653424b76a85f4fa80 data/minecraft/advancement/recipes/combat/mario_shoes_smithing.json
+58c4986cf9a5cca48fa54fb789ce3f696d2d2216 data/minecraft/recipe/mario_hat_smithing.json
+9d48cb8de013aa6b8174f6e00d698247aa994a09 data/minecraft/recipe/mario_pants_smithing.json
+5e332cdf8a6bb9c6df960229d5620cd1a4c5ab58 data/minecraft/recipe/mario_shirt_smithing.json
+6e6191d50ae88a675d441ddf52a9d5491aa4fac9 data/minecraft/recipe/mario_shoes_smithing.json

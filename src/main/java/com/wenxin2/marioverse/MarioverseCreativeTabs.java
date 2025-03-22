@@ -52,6 +52,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.WARP_DISRUPTOR.get());
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
+            add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
+
             add(event, ItemRegistry.MARIO_HAT.get());
             add(event, ItemRegistry.MARIO_SHIRT.get());
             add(event, ItemRegistry.MARIO_PANTS.get());

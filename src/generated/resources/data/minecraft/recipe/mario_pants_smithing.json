@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:red_wool"
+  },
+  "base": {
+    "item": "minecraft:leather_leggings"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:mario_pants"
+  },
+  "template": {
+    "item": "marioverse:mario_costume_smithing_template"
+  }
+}
