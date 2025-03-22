@@ -69,6 +69,13 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD.get());
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD.get());
+
+            add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
+            add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         }
 
         if (event.getTabKey() == MARIOVERSE_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
@@ -264,13 +271,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_BRICK_SLAB.get());
             add(event, BlockRegistry.AMETHYST_BRICK_WALL.get());
             add(event, BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
-
-            add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
-            add(event, ItemRegistry.GOOMBA_SPAWN_EGG.get());
-            add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
-            add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
-            add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
-            add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
