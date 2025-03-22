@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
 import com.wenxin2.marioverse.init.ConfigRegistry;
 import com.wenxin2.marioverse.init.DamageTypeRegistry;
 import com.wenxin2.marioverse.init.EntityRegistry;
@@ -286,7 +288,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     livingEntity.extinguishFire();
 
-                    if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity) {
+                    if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity
+                            || livingEntity instanceof BasePowerUpEntity || livingEntity instanceof BaseMushroomEntity) {
                         IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
                         if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                                 || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
