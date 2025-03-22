@@ -69,7 +69,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
         if (this.level().getRandom().nextBoolean()) {
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnEntityParticlesRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
         }
     }
 

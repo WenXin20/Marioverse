@@ -45,7 +45,7 @@ public class ServerParticleUtils {
         serverWorld.sendParticles(particleOptions, x, y, z, 1, motionX, motionY, motionZ, 0.0);
     }
 
-    public static void spawnEntityParticlesRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
+    public static void spawnParticlesOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
         RandomSource rand = RandomSource.create();
         double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
         double offsetY = rand.nextDouble() * entity.getBbHeight();
@@ -86,7 +86,7 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnEntityRingParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+    public static void spawnParticleRingOnEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
         for (int i = 0; i < particleAmt; i++) {
             double angle = 2 * Math.PI * i / particleAmt;
 
@@ -117,7 +117,7 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnEntityRingBelowParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+    public static void spawnParticleRingBelowEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
         for (int i = 0; i < particleAmt; i++) {
             double angle = 2 * Math.PI * i / particleAmt;
 
