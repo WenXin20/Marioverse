@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.world;
 
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;

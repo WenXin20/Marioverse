@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
-import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;

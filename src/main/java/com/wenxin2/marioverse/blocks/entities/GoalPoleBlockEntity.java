@@ -2,8 +2,8 @@ package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
-import com.wenxin2.marioverse.init.BlockEntityRegistry;
-import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;

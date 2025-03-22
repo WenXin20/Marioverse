@@ -1,9 +1,9 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.EntityRegistry;
-import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import java.util.EnumSet;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;

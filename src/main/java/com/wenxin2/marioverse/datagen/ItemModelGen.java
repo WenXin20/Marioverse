@@ -2,9 +2,9 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
-import com.wenxin2.marioverse.init.BlockFamilyRegistry;
-import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.Map;
 import java.util.Objects;
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
-import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;

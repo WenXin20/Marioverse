@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.client;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;

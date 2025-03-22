@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
-import com.wenxin2.marioverse.init.AttributesRegistry;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

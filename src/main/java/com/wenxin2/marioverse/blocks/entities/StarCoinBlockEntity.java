@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
-import com.wenxin2.marioverse.init.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;

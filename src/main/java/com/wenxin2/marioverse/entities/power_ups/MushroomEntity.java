@@ -1,9 +1,9 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousStrollGoal;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.SoundRegistry;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;

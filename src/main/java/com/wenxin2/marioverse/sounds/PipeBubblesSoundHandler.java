@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.sounds;
 
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
-import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AmbientSoundHandler;
 import net.minecraft.sounds.SoundEvents;

@@ -1,8 +1,8 @@
 package com.wenxin2.marioverse.entities.part_entities;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
-import com.wenxin2.marioverse.init.DamageTypeRegistry;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;

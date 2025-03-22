@@ -1,9 +1,9 @@
 package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.EntityRegistry;
-import com.wenxin2.marioverse.init.SoundRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;

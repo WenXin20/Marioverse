@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;

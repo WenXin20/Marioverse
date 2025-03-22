@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.GoombaEntity;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

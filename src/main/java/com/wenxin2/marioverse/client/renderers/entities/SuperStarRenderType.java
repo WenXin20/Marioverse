@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.wenxin2.marioverse.init.TextureRegistry;
+import com.wenxin2.marioverse.registries.TextureRegistry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.renderer.RenderType;
 

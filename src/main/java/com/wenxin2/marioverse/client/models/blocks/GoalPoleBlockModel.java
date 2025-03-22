@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
-import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;

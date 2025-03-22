@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.datagen;
 
-import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.GameEventRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.GameEventRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

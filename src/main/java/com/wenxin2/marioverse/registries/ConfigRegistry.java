@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;

@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.inventory;
 
-import com.wenxin2.marioverse.init.MenuRegistry;
+import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

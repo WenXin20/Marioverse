@@ -1,11 +1,11 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
-import com.wenxin2.marioverse.init.AttributesRegistry;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.DamageTypeRegistry;
-import com.wenxin2.marioverse.init.ParticleRegistry;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.function.Function;

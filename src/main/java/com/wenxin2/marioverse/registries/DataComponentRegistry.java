@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;

@@ -1,10 +1,10 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.GoombaEntity;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.ItemRegistry;
-import com.wenxin2.marioverse.init.SoundRegistry;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;

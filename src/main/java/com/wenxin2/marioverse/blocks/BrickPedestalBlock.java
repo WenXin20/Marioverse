@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.init.BlockRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;

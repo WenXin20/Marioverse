@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;

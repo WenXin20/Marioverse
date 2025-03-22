@@ -1,8 +1,8 @@
 package com.wenxin2.marioverse;
 
-import com.wenxin2.marioverse.init.BlockRegistry;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

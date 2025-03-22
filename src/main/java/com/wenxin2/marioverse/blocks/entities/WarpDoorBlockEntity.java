@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.blocks.entities;
 
-import com.wenxin2.marioverse.init.BlockEntityRegistry;
-import com.wenxin2.marioverse.init.ConfigRegistry;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

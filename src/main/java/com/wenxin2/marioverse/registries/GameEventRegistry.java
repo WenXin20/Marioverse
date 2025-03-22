@@ -1,11 +1,7 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import java.util.function.Supplier;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 

@@ -2,11 +2,11 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
-import com.wenxin2.marioverse.init.AttributesRegistry;
-import com.wenxin2.marioverse.init.ConfigRegistry;
-import com.wenxin2.marioverse.init.DamageTypeRegistry;
-import com.wenxin2.marioverse.init.SoundRegistry;
-import com.wenxin2.marioverse.init.TagRegistry;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;

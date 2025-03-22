@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;

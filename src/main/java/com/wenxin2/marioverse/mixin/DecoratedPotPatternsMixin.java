@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.wenxin2.marioverse.Marioverse;

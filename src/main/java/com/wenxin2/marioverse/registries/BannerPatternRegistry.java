@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.init;
+package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.core.registries.Registries;
@@ -6,7 +6,6 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BannerPattern;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BannerPatternRegistry {
     public static final ResourceKey<BannerPattern> BOWSER;

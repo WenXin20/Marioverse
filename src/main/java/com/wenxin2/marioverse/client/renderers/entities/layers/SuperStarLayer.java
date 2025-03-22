@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.wenxin2.marioverse.init.TextureRegistry;
+import com.wenxin2.marioverse.registries.TextureRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;

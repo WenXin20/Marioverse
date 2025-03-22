@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.SuperStarModel;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
-import com.wenxin2.marioverse.init.ItemRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
