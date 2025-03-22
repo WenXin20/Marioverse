@@ -232,7 +232,9 @@ public abstract class LivingEntityMixin extends Entity {
             Minecraft minecraft = Minecraft.getInstance();
             KeyMapping sprintKey = minecraft.options.keySprint;
             double normalJumpBoost = 0.4;
-            double runningJumpBoost = 0.85;
+            double runningJumpBoost = 0.6;
+            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_JUMP_BOOST) != null;
+            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
 
             if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), sprintKey.getKey().getValue())
@@ -240,23 +242,24 @@ public abstract class LivingEntityMixin extends Entity {
                 isRunning = true;
 
             if (this.marioverse$hasMarioCostume(entity)) {
-                boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_JUMP_BOOST) != null;
-                boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST) != null;
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-                    else jumpAttribute.removeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST);
 
                     if (hasJumpModifier)
                         jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
                 } else {
                     if (!hasJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-                    else jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
-
                     if (hasRunningJumpModifier)
                         jumpAttribute.removeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST);
                 }
+            }
+            else {
+                if (hasRunningJumpModifier)
+                    jumpAttribute.removeModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST);
+                if (hasJumpModifier)
+                    jumpAttribute.removeModifier(AttributesRegistry.MARIO_JUMP_BOOST);
             }
 
         }
@@ -265,7 +268,7 @@ public abstract class LivingEntityMixin extends Entity {
             if (this.marioverse$hasMarioCostume(entity)) {
                 boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE) != null;
                 if (!hasSafeFallModifier)
-                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE, 5, AttributeModifier.Operation.ADD_VALUE));
+                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
             }
             else safeFallAttribute.removeModifier(AttributesRegistry.MARIO_SAFE_FALL_DISTANCE);
         }
