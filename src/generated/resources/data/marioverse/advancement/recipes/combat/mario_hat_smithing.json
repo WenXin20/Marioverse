@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:leather_chestplate"
+            "items": "minecraft:leather_helmet"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:mario_shirt_smithing"
+        "recipe": "marioverse:mario_hat_smithing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:mario_shirt_smithing"
+      "marioverse:mario_hat_smithing"
     ]
   }
 }
