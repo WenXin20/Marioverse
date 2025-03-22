@@ -31,18 +31,26 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class MarioverseCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Marioverse.MOD_ID);
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_TAB = TABS.register("marioverse_tab",
-            () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.marioverse"))
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_BLOCKS_TAB = TABS.register("marioverse_blocks_tab",
+            () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_blocks"))
+            .icon(() -> new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.GREEN))).build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_ITEMS_TAB = TABS.register("marioverse_items_tab",
+            () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_items"))
             .icon(() -> new ItemStack(ItemRegistry.MUSHROOM.get())).build());
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == MARIOVERSE_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TAB.get()) {
+        if (event.getTabKey() == MARIOVERSE_ITEMS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
             add(event, ItemRegistry.MUSHROOM.get());
             add(event, ItemRegistry.ONE_UP_MUSHROOM.get());
             add(event, ItemRegistry.FIRE_FLOWER.get());
             add(event, ItemRegistry.ICE_FLOWER.get());
             add(event, ItemRegistry.SUPER_STAR.get());
+
+            add(event, ItemRegistry.WARP_DISRUPTOR.get());
+            add(event, ItemRegistry.PIPE_WRENCH.get());
 
             add(event, ItemRegistry.MARIO_HAT.get());
             add(event, ItemRegistry.MARIO_SHIRT.get());
@@ -57,19 +65,19 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.ICE_PANTS.get());
             add(event, ItemRegistry.ICE_SHOES.get());
 
-            add(event, BlockRegistry.STAR_COIN.get());
-            add(event, BlockRegistry.COIN.get());
-            add(event, ItemRegistry.WARP_DISRUPTOR.get());
-            add(event, ItemRegistry.PIPE_WRENCH.get());
-            add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
-            addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), BlockRegistry.CHECKPOINT_FLAGS, true, true);
-            add(event, BlockRegistry.CLASSIC_GOAL_POLE);
-            addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
-
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD.get());
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD.get());
+        }
+
+        if (event.getTabKey() == MARIOVERSE_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+            add(event, BlockRegistry.STAR_COIN.get());
+            add(event, BlockRegistry.COIN.get());
+            add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
+            addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), BlockRegistry.CHECKPOINT_FLAGS, true, true);
+            add(event, BlockRegistry.CLASSIC_GOAL_POLE);
+            addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK.get());
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get());

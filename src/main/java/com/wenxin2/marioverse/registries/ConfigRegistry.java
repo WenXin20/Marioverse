@@ -75,7 +75,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
-    public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TAB;
+    public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
@@ -638,11 +638,11 @@ public class ConfigRegistry
                         .define("wax_disables_warp_linking", true);
             BUILDER.pop();
 
-            DISABLE_MARIOVERSE_TAB = BUILDER.translation("configuration.marioverse.disable_marioverse_tab")
+            DISABLE_MARIOVERSE_TABS = BUILDER.translation("configuration.marioverse.disable_marioverse_tabs")
                     .comment("Disable the Marioverse creative tab.")
                     .comment("§cRequires world reload")
                     .comment("§9[Default: false]")
-                    .define("disable_marioverse_tab", false);
+                    .define("disable_marioverse_tabs", false);
             DISABLE_VANILLA_TABS = BUILDER.translation("configuration.marioverse.disable_vanilla_tabs")
                     .comment("Disable items in vanilla creative tabs.")
                     .comment("§cRequires world reload")
