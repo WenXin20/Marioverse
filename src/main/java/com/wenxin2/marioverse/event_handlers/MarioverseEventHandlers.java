@@ -162,8 +162,11 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
+            if (world instanceof ServerLevel serverWorld) {
+                if (tag.getBoolean("marioverse:has_fire_flower")
+                        || tag.getBoolean("marioverse:has_ice_flower"))
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
+            }
 
             if (tag.getBoolean("marioverse:has_fire_flower")) {
                 tag.putBoolean("marioverse:has_fire_flower", false);
@@ -195,23 +198,35 @@ public class MarioverseEventHandlers {
 
                 if (containerHat != null) {
                     ItemStack stack = containerHat.getAccessories().getItem(0);
+                    ItemStack newStack = ItemRegistry.MARIO_HAT.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
                     if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                        containerHat.getAccessories().setItem(0, ItemRegistry.MARIO_HAT.toStack());
+                        containerHat.getAccessories().setItem(0, newStack);
                 }
                 if (containerShirt != null) {
                     ItemStack stack = containerShirt.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
-                        containerShirt.getAccessories().setItem(0, ItemRegistry.MARIO_SHIRT.toStack());
+                    ItemStack newStack = ItemRegistry.MARIO_SHIRT.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
+                        containerShirt.getAccessories().setItem(0, newStack);
                 }
                 if (containerPants != null) {
                     ItemStack stack = containerPants.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
-                        containerPants.getAccessories().setItem(0, ItemRegistry.MARIO_PANTS.toStack());
+                    ItemStack newStack = ItemRegistry.MARIO_PANTS.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
+                        containerPants.getAccessories().setItem(0, newStack);
                 }
                 if (containerShoes != null) {
                     ItemStack stack = containerShoes.getAccessories().getItem(0);
-                    if (stack.getItem() instanceof BaseCostumeItem)
-                        containerShoes.getAccessories().setItem(0, ItemRegistry.MARIO_SHOES.toStack());
+                    ItemStack newStack = ItemRegistry.MARIO_SHOES.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
+                    if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
+                        containerShoes.getAccessories().setItem(0, newStack);
                 }
             }
         } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())) {
@@ -254,23 +269,35 @@ public class MarioverseEventHandlers {
 
                 if (containerHat != null) {
                     ItemStack stack = containerHat.getAccessories().getItem(0);
+                    ItemStack newStack = ItemRegistry.MARIO_HAT.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
                     if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                        containerHat.getAccessories().setItem(0, ItemRegistry.MARIO_HAT.toStack());
+                        containerHat.getAccessories().setItem(0, newStack);
                 }
                 if (containerShirt != null) {
                     ItemStack stack = containerShirt.getAccessories().getItem(0);
+                    ItemStack newStack = ItemRegistry.MARIO_SHIRT.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
                     if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                        containerShirt.getAccessories().setItem(0, ItemRegistry.MARIO_SHIRT.toStack());
+                        containerShirt.getAccessories().setItem(0, newStack);
                 }
                 if (containerPants != null) {
                     ItemStack stack = containerPants.getAccessories().getItem(0);
+                    ItemStack newStack = ItemRegistry.MARIO_PANTS.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
                     if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                        containerPants.getAccessories().setItem(0, ItemRegistry.MARIO_PANTS.toStack());
+                        containerPants.getAccessories().setItem(0, newStack);
                 }
                 if (containerShoes != null) {
                     ItemStack stack = containerShoes.getAccessories().getItem(0);
+                    ItemStack newStack = ItemRegistry.MARIO_SHOES.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
                     if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                        containerShoes.getAccessories().setItem(0, ItemRegistry.MARIO_SHOES.toStack());
+                        containerShoes.getAccessories().setItem(0, newStack);
                 }
             }
         }
