@@ -53,12 +53,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -299,6 +302,63 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
         return false;
+    }
+
+    @Inject(method = "getArmorValue", at = @At("RETURN"), cancellable = true)
+    private void getArmorValue(CallbackInfoReturnable<Integer> info) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
+        AccessoriesCapability capability = AccessoriesCapability.get(entity);
+        if (capability != null) {
+            AccessoriesContainer[] accessorySlots = {
+                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat")),
+                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt")),
+                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants")),
+                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"))
+            };
+
+            int totalExtraArmor = 0;
+            float totalToughness = 0.0F;
+            float totalKnockbackResistance = 0.0F;
+
+            for (AccessoriesContainer container : accessorySlots) {
+                if (container == null) return;
+                ItemStack stack = container.getAccessories().getItem(0);
+                if (!stack.isEmpty() && stack.getItem() instanceof ArmorItem accessoryArmor) {
+                    ArmorMaterial material = accessoryArmor.getMaterial().value();
+                    totalExtraArmor += material.getDefense(accessoryArmor.getType()) / 2;
+                    totalToughness += material.toughness() / 2;
+                    totalKnockbackResistance += material.knockbackResistance() / 2;
+                }
+            }
+
+            AttributeInstance toughnessAttribute = entity.getAttribute(Attributes.ARMOR_TOUGHNESS);
+            if (toughnessAttribute != null) {
+                boolean hasModifier = toughnessAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS) != null;
+                if (totalToughness > 0) {
+                    AttributeModifier toughnessModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS,
+                            totalToughness, AttributeModifier.Operation.ADD_VALUE);
+
+                    if (!hasModifier)
+                        toughnessAttribute.addPermanentModifier(toughnessModifier);
+                } else if (hasModifier) toughnessAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
+            }
+
+            AttributeInstance knockbackAttribute = entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
+            if (knockbackAttribute != null) {
+                boolean hasModifier = knockbackAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE) != null;
+                if (totalKnockbackResistance > 0) {
+                    AttributeModifier knockbackModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE,
+                            totalKnockbackResistance, AttributeModifier.Operation.ADD_VALUE);
+
+                    if (!hasModifier)
+                        knockbackAttribute.addPermanentModifier(knockbackModifier);
+                } else if (hasModifier)  knockbackAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE);
+            }
+
+            int newArmorValue = info.getReturnValue() + totalExtraArmor;
+            info.setReturnValue(newArmorValue);
+        }
     }
 
     @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
