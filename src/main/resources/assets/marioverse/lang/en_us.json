@@ -389,10 +389,11 @@
 
   "upgrade.marioverse.mario_costume": "Mario's Costume",
   "upgrade.marioverse.ice_costume": "Ice Costume",
-  "item.marioverse.smithing_template.character_costume.additions_slot_description": "Add dyed wool",
-  "item.marioverse.smithing_template.character_costume.ingredients": "Dyed Wool",
+
   "item.marioverse.smithing_template.character_costume.applies_to": "Character Costumes",
   "item.marioverse.smithing_template.character_costume.base_slot_description": "Add character costumes",
+  "item.marioverse.smithing_template.ice_costume.additions_slot_description": "Add Ice Flower",
+  "item.marioverse.smithing_template.ice_costume.ingredients": "Ice Flower",
 
   "item.marioverse.pipe_wrench.bubbles.true": "Pipe bubbles on",
   "item.marioverse.pipe_wrench.bubbles.false": "Pipe bubbles off",

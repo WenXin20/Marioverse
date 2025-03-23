@@ -48,10 +48,10 @@ public class RecipeGen extends RecipeUtils {
         costumeSmithing(ItemRegistry.MARIO_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_LEGGINGS, Blocks.BLUE_WOOL.asItem(), output);
         costumeSmithing(ItemRegistry.MARIO_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_BOOTS, Blocks.BROWN_WOOL.asItem(), output);
 
-        costumeSmithing(ItemRegistry.MARIO_ICE_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_HAT.get(), Blocks.LIGHT_BLUE_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.MARIO_ICE_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_SHIRT.get(), Blocks.LIGHT_BLUE_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.MARIO_ICE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_PANTS.get(), Blocks.RED_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.MARIO_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_SHOES.get(), Blocks.BROWN_WOOL.asItem(), output);
+        costumeSmithing(ItemRegistry.MARIO_ICE_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_HAT.get(), ItemRegistry.ICE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.MARIO_ICE_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_SHIRT.get(), ItemRegistry.ICE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.MARIO_ICE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_PANTS.get(), ItemRegistry.ICE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.MARIO_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_SHOES.get(), ItemRegistry.ICE_FLOWER.get(), output);
 
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);

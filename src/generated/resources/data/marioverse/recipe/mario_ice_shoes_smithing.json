@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "minecraft:brown_wool"
+    "item": "marioverse:ice_flower"
   },
   "base": {
     "item": "marioverse:mario_shoes"

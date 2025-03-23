@@ -27,7 +27,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:iron_sword",
-          "weight": 1,
+          "weight": 2,
           "functions": [
             {
               "function": "minecraft:set_damage",
@@ -67,19 +67,18 @@
         },
         {
           "type": "minecraft:item",
+          "name": "marioverse:fire_flower",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:ice_flower",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "marioverse:one_up_mushroom",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 1
-              },
-              "add": false
-            }
-          ]
+          "weight": 1
         }
       ]
     }
