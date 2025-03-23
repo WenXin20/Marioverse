@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_armor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:hats/mario"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mario_fire_hat_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_armor"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mario_fire_hat_smithing"
+    ]
+  }
+}

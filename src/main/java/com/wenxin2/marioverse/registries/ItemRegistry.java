@@ -23,13 +23,14 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class ItemRegistry {
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> MARIO_COSTUME_SMITHING_TEMPLATE;
-    public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_FIRE_HAT;
     public static final DeferredItem<Item> MARIO_FIRE_PANTS;
     public static final DeferredItem<Item> MARIO_FIRE_SHIRT;
@@ -70,7 +71,8 @@ public class ItemRegistry {
 
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
-
+        FIRE_COSTUME_SMITHING_TEMPLATE = registerItem("fire_costume_smithing_template",
+                CharacterSmithingTemplateItem::createFireUpgradeTemplate);
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "marioverse:fire_flower"
+  },
+  "base": {
+    "tag": "marioverse:shoes/mario"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:mario_fire_shoes"
+  },
+  "template": {
+    "item": "marioverse:fire_costume_smithing_template"
+  }
+}

@@ -27,6 +27,9 @@ public class CharacterSmithingTemplateItem extends SmithingTemplateItem {
     private static final Component ICE_COSTUME = Component.translatable(
             Util.makeDescriptionId("upgrade", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "ice_costume")))
             .withStyle(TITLE_FORMAT);
+    private static final Component FIRE_COSTUME = Component.translatable(
+            Util.makeDescriptionId("upgrade", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "fire_costume")))
+            .withStyle(TITLE_FORMAT);
     
     private static final Component LEATHER_COSTUME_APPLIES_TO = Component.translatable(
             Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.leather_armor.applies_to")))
@@ -41,7 +44,21 @@ public class CharacterSmithingTemplateItem extends SmithingTemplateItem {
 
     private static final Component CHARACTER_COSTUME_BASE_SLOT_DESCRIPTION = Component.translatable(
             Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.character_costume.base_slot_description")));
+
+    private static final Component CHARACTER_COSTUME_INGREDIENTS = Component.translatable(
+                    Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.character_costume.ingredients")))
+            .withStyle(DESCRIPTION_FORMAT);
+
+    private static final Component CHARACTER_COSTUME_ADDITIONS_SLOT_DESCRIPTION = Component.translatable(
+            Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.character_costume.additions_slot_description")));
     
+    private static final Component FIRE_COSTUME_INGREDIENTS = Component.translatable(
+            Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.fire_costume.ingredients")))
+            .withStyle(DESCRIPTION_FORMAT);
+
+    private static final Component FIRE_COSTUME_ADDITIONS_SLOT_DESCRIPTION = Component.translatable(
+            Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.fire_costume.additions_slot_description")));
+
     private static final Component ICE_COSTUME_INGREDIENTS = Component.translatable(
             Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "smithing_template.ice_costume.ingredients")))
             .withStyle(DESCRIPTION_FORMAT);
@@ -57,12 +74,24 @@ public class CharacterSmithingTemplateItem extends SmithingTemplateItem {
     public static SmithingTemplateItem createCharacterUpgradeTemplate() {
         return new SmithingTemplateItem(
                 LEATHER_COSTUME_APPLIES_TO,
-                ICE_COSTUME_INGREDIENTS,
+                CHARACTER_COSTUME_INGREDIENTS,
                 CHARACTER_COSTUME,
                 LEATHER_COSTUME_BASE_SLOT_DESCRIPTION,
-                ICE_COSTUME_ADDITIONS_SLOT_DESCRIPTION,
+                CHARACTER_COSTUME_ADDITIONS_SLOT_DESCRIPTION,
                 createCharacterUpgradeIconList(),
                 createCharacterUpgradeMaterialList()
+        );
+    }
+
+    public static SmithingTemplateItem createFireUpgradeTemplate() {
+        return new SmithingTemplateItem(
+                CHARACTER_COSTUME_APPLIES_TO,
+                FIRE_COSTUME_INGREDIENTS,
+                FIRE_COSTUME,
+                CHARACTER_COSTUME_BASE_SLOT_DESCRIPTION,
+                FIRE_COSTUME_ADDITIONS_SLOT_DESCRIPTION,
+                createCharacterUpgradeIconList(),
+                createFlowerUpgradeMaterialList()
         );
     }
 
