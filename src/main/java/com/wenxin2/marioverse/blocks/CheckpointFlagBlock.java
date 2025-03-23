@@ -1068,14 +1068,14 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
                 AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
 
-                if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get())
-                    containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
-                if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get())
-                    containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
-                if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get())
-                    containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
-                if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get())
-                    containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
+                if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_HAT.get())
+                    containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHIRT.get())
+                    containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHIRT.get()));
+                if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_PANTS.get())
+                    containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_PANTS.get()));
+                if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHOES.get())
+                    containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHOES.get()));
             }
         }
     }

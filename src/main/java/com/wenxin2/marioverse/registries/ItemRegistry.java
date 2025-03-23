@@ -32,10 +32,10 @@ public class ItemRegistry {
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
-    public static final DeferredItem<Item> ICE_HAT;
-    public static final DeferredItem<Item> ICE_PANTS;
-    public static final DeferredItem<Item> ICE_SHIRT;
-    public static final DeferredItem<Item> ICE_SHOES;
+    public static final DeferredItem<Item> MARIO_ICE_HAT;
+    public static final DeferredItem<Item> MARIO_ICE_PANTS;
+    public static final DeferredItem<Item> MARIO_ICE_SHIRT;
+    public static final DeferredItem<Item> MARIO_ICE_SHOES;
     public static final DeferredItem<Item> MARIO_HAT;
     public static final DeferredItem<Item> MARIO_PANTS;
     public static final DeferredItem<Item> MARIO_SHIRT;
@@ -92,13 +92,13 @@ public class ItemRegistry {
 
         ICE_FLOWER = registerItem("ice_flower",
                 () -> new BasePowerUpItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        ICE_HAT = registerItem("ice_hat",
+        MARIO_ICE_HAT = registerItem("mario_ice_hat",
                 () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
-        ICE_SHIRT = registerItem("ice_shirt",
+        MARIO_ICE_SHIRT = registerItem("mario_ice_shirt",
                 () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
-        ICE_PANTS = registerItem("ice_pants",
+        MARIO_ICE_PANTS = registerItem("mario_ice_pants",
                 () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
-        ICE_SHOES = registerItem("ice_shoes",
+        MARIO_ICE_SHOES = registerItem("mario_ice_shoes",
                 () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",

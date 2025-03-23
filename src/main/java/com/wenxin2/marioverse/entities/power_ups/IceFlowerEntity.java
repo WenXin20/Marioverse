@@ -94,18 +94,18 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get()
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_HAT.get()
                             && containerHat.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
-                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get()
+                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHIRT.get()
                             && containerShirt.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
-                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get()
+                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHIRT.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_PANTS.get()
                             && containerPants.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
-                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get()
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_PANTS.get()));
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHOES.get()
                             && containerShoes.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
-                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
+                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHOES.get()));
                 }
             } else if (entity instanceof LivingEntity livingEntity
                     && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -133,7 +133,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 if (livingEntity instanceof GoombaEntity goomba
                         && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                             || goomba.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_COSTUMES)))  {
-                    goomba.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.ICE_HAT.get()));
+                    goomba.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
                 }
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
@@ -142,14 +142,14 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_HAT.get())
-                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_HAT.get()));
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHIRT.get())
-                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHIRT.get()));
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_PANTS.get())
-                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_PANTS.get()));
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.ICE_SHOES.get())
-                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.ICE_SHOES.get()));
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_HAT.get())
+                        containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHIRT.get())
+                        containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHIRT.get()));
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_PANTS.get())
+                        containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_PANTS.get()));
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHOES.get())
+                        containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHOES.get()));
                 }
             }
         }

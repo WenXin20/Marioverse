@@ -62,10 +62,10 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.MARIO_FIRE_SHIRT.get());
             add(event, ItemRegistry.MARIO_FIRE_PANTS.get());
             add(event, ItemRegistry.MARIO_FIRE_SHOES.get());
-            add(event, ItemRegistry.ICE_HAT.get());
-            add(event, ItemRegistry.ICE_SHIRT.get());
-            add(event, ItemRegistry.ICE_PANTS.get());
-            add(event, ItemRegistry.ICE_SHOES.get());
+            add(event, ItemRegistry.MARIO_ICE_HAT.get());
+            add(event, ItemRegistry.MARIO_ICE_SHIRT.get());
+            add(event, ItemRegistry.MARIO_ICE_PANTS.get());
+            add(event, ItemRegistry.MARIO_ICE_SHOES.get());
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());

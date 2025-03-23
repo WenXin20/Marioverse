@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "marioverse:item/ice_shirt"
+    "layer0": "marioverse:item/mario_ice_pants"
   }
 }

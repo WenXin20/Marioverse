@@ -60,10 +60,10 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_FIRE_PANTS.get())
                 .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
                 .add(ItemRegistry.MARIO_FIRE_SHOES.get())
-                .add(ItemRegistry.ICE_HAT.get())
-                .add(ItemRegistry.ICE_PANTS.get())
-                .add(ItemRegistry.ICE_SHIRT.get())
-                .add(ItemRegistry.ICE_SHOES.get())
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get())
                 .add(ItemRegistry.MARIO_HAT.get())
                 .add(ItemRegistry.MARIO_PANTS.get())
                 .add(ItemRegistry.MARIO_SHIRT.get())
@@ -74,20 +74,20 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_FIRE_PANTS.get())
                 .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
                 .add(ItemRegistry.MARIO_FIRE_SHOES.get())
-                .add(ItemRegistry.ICE_HAT.get())
-                .add(ItemRegistry.ICE_PANTS.get())
-                .add(ItemRegistry.ICE_SHIRT.get())
-                .add(ItemRegistry.ICE_SHOES.get());
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get());
 
         tag(TagRegistry.POWER_UP_COSTUMES)
                 .add(ItemRegistry.MARIO_FIRE_HAT.get())
                 .add(ItemRegistry.MARIO_FIRE_PANTS.get())
                 .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
                 .add(ItemRegistry.MARIO_FIRE_SHOES.get())
-                .add(ItemRegistry.ICE_HAT.get())
-                .add(ItemRegistry.ICE_PANTS.get())
-                .add(ItemRegistry.ICE_SHIRT.get())
-                .add(ItemRegistry.ICE_SHOES.get())
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get())
                 .add(ItemRegistry.MARIO_HAT.get())
                 .add(ItemRegistry.MARIO_PANTS.get())
                 .add(ItemRegistry.MARIO_SHIRT.get())
@@ -107,7 +107,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.CHEST_ARMOR)
                 .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
-                .add(ItemRegistry.ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
                 .add(ItemRegistry.MARIO_SHIRT.get());
 
         tag(ItemTags.DECORATED_POT_SHERDS)
@@ -119,23 +119,23 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.FOOT_ARMOR)
                 .add(ItemRegistry.MARIO_FIRE_SHOES.get())
-                .add(ItemRegistry.ICE_SHOES.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get())
                 .add(ItemRegistry.MARIO_SHOES.get());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                .add(ItemRegistry.ICE_HAT.get())
-                .add(ItemRegistry.ICE_PANTS.get())
-                .add(ItemRegistry.ICE_SHIRT.get())
-                .add(ItemRegistry.ICE_SHOES.get());
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get());
 
         tag(ItemTags.HEAD_ARMOR)
                 .add(ItemRegistry.MARIO_FIRE_HAT.get())
-                .add(ItemRegistry.ICE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
                 .add(ItemRegistry.MARIO_HAT.get());
 
         tag(ItemTags.LEG_ARMOR)
                 .add(ItemRegistry.MARIO_FIRE_PANTS.get())
-                .add(ItemRegistry.ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
                 .add(ItemRegistry.MARIO_PANTS.get());
 
         tag(ItemTags.PIGLIN_LOVED)

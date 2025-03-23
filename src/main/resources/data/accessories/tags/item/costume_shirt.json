@@ -3,7 +3,7 @@
   "replace": false,
   "values": [
     { "id": "marioverse:mario_fire_shirt", "required": false },
-    { "id": "marioverse:ice_shirt", "required": false },
+    { "id": "marioverse:mario_ice_shirt", "required": false },
     { "id": "marioverse:mario_shirt", "required": false }
   ]
 }
