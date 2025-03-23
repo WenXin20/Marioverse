@@ -3,20 +3,17 @@
   "category": "misc",
   "group": "marioverse:fire_costume",
   "key": {
-    "R": {
+    "#": {
       "item": "minecraft:red_wool"
-    },
-    "W": {
-      "item": "minecraft:white_wool"
     }
   },
   "pattern": [
-    "W W",
-    "RRR",
-    "RRR"
+    "###",
+    "# #",
+    "# #"
   ],
   "result": {
     "count": 1,
-    "id": "marioverse:fire_shirt"
+    "id": "marioverse:mario_fire_pants"
   }
 }

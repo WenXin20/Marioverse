@@ -25,10 +25,10 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
-    public static final DeferredItem<Item> FIRE_HAT;
-    public static final DeferredItem<Item> FIRE_PANTS;
-    public static final DeferredItem<Item> FIRE_SHIRT;
-    public static final DeferredItem<Item> FIRE_SHOES;
+    public static final DeferredItem<Item> MARIO_FIRE_HAT;
+    public static final DeferredItem<Item> MARIO_FIRE_PANTS;
+    public static final DeferredItem<Item> MARIO_FIRE_SHIRT;
+    public static final DeferredItem<Item> MARIO_FIRE_SHOES;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
@@ -81,13 +81,13 @@ public class ItemRegistry {
 
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        FIRE_HAT = registerItem("fire_hat",
+        MARIO_FIRE_HAT = registerItem("mario_fire_hat",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
-        FIRE_SHIRT = registerItem("fire_shirt",
+        MARIO_FIRE_SHIRT = registerItem("mario_fire_shirt",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
-        FIRE_PANTS = registerItem("fire_pants",
+        MARIO_FIRE_PANTS = registerItem("mario_fire_pants",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
-        FIRE_SHOES = registerItem("fire_shoes",
+        MARIO_FIRE_SHOES = registerItem("mario_fire_shoes",
                 () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
         ICE_FLOWER = registerItem("ice_flower",

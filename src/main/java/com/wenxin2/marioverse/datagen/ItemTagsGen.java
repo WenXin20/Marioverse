@@ -56,10 +56,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
         tag(TagRegistry.MARIO_COSTUMES)
-                .add(ItemRegistry.FIRE_HAT.get())
-                .add(ItemRegistry.FIRE_PANTS.get())
-                .add(ItemRegistry.FIRE_SHIRT.get())
-                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.MARIO_FIRE_HAT.get())
+                .add(ItemRegistry.MARIO_FIRE_PANTS.get())
+                .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
+                .add(ItemRegistry.MARIO_FIRE_SHOES.get())
                 .add(ItemRegistry.ICE_HAT.get())
                 .add(ItemRegistry.ICE_PANTS.get())
                 .add(ItemRegistry.ICE_SHIRT.get())
@@ -70,20 +70,20 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_SHOES.get());
 
         tag(TagRegistry.MARIO_POWER_UP_COSTUMES)
-                .add(ItemRegistry.FIRE_HAT.get())
-                .add(ItemRegistry.FIRE_PANTS.get())
-                .add(ItemRegistry.FIRE_SHIRT.get())
-                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.MARIO_FIRE_HAT.get())
+                .add(ItemRegistry.MARIO_FIRE_PANTS.get())
+                .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
+                .add(ItemRegistry.MARIO_FIRE_SHOES.get())
                 .add(ItemRegistry.ICE_HAT.get())
                 .add(ItemRegistry.ICE_PANTS.get())
                 .add(ItemRegistry.ICE_SHIRT.get())
                 .add(ItemRegistry.ICE_SHOES.get());
 
         tag(TagRegistry.POWER_UP_COSTUMES)
-                .add(ItemRegistry.FIRE_HAT.get())
-                .add(ItemRegistry.FIRE_PANTS.get())
-                .add(ItemRegistry.FIRE_SHIRT.get())
-                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.MARIO_FIRE_HAT.get())
+                .add(ItemRegistry.MARIO_FIRE_PANTS.get())
+                .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
+                .add(ItemRegistry.MARIO_FIRE_SHOES.get())
                 .add(ItemRegistry.ICE_HAT.get())
                 .add(ItemRegistry.ICE_PANTS.get())
                 .add(ItemRegistry.ICE_SHIRT.get())
@@ -106,7 +106,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
         tag(ItemTags.CHEST_ARMOR)
-                .add(ItemRegistry.FIRE_SHIRT.get())
+                .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
                 .add(ItemRegistry.ICE_SHIRT.get())
                 .add(ItemRegistry.MARIO_SHIRT.get());
 
@@ -118,7 +118,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PIPE_WRENCH.get());
 
         tag(ItemTags.FOOT_ARMOR)
-                .add(ItemRegistry.FIRE_SHOES.get())
+                .add(ItemRegistry.MARIO_FIRE_SHOES.get())
                 .add(ItemRegistry.ICE_SHOES.get())
                 .add(ItemRegistry.MARIO_SHOES.get());
 
@@ -129,12 +129,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.ICE_SHOES.get());
 
         tag(ItemTags.HEAD_ARMOR)
-                .add(ItemRegistry.FIRE_HAT.get())
+                .add(ItemRegistry.MARIO_FIRE_HAT.get())
                 .add(ItemRegistry.ICE_HAT.get())
                 .add(ItemRegistry.MARIO_HAT.get());
 
         tag(ItemTags.LEG_ARMOR)
-                .add(ItemRegistry.FIRE_PANTS.get())
+                .add(ItemRegistry.MARIO_FIRE_PANTS.get())
                 .add(ItemRegistry.ICE_PANTS.get())
                 .add(ItemRegistry.MARIO_PANTS.get());
 

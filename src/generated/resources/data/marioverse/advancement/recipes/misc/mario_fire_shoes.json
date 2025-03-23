@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:fire_shoes"
+        "recipe": "marioverse:mario_fire_shoes"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "marioverse:fire_shoes"
+      "marioverse:mario_fire_shoes"
     ]
   }
 }

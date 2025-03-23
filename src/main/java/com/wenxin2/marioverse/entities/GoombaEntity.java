@@ -360,7 +360,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
             int i = random.nextInt(6);
             if (i == 0) {
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.FIRE_HAT.get()));
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
                 this.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
             } else {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));

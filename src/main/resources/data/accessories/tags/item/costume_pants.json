@@ -2,7 +2,7 @@
   "_comment": "Tag for accessories that can be equipped in the pants slot",
   "replace": false,
   "values": [
-    { "id": "marioverse:fire_pants", "required": false },
+    { "id": "marioverse:mario_fire_pants", "required": false },
     { "id": "marioverse:ice_pants", "required": false },
     { "id": "marioverse:mario_pants", "required": false }
   ]

@@ -3,19 +3,16 @@
   "category": "misc",
   "group": "marioverse:fire_costume",
   "key": {
-    "L": {
-      "tag": "c:leathers"
-    },
-    "W": {
-      "item": "minecraft:brown_wool"
+    "#": {
+      "item": "minecraft:white_wool"
     }
   },
   "pattern": [
-    "W W",
-    "L L"
+    "###",
+    "# #"
   ],
   "result": {
     "count": 1,
-    "id": "marioverse:fire_shoes"
+    "id": "marioverse:mario_fire_hat"
   }
 }

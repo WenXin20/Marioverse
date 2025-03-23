@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:fire_shirt"
+        "recipe": "marioverse:mario_fire_shirt"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "marioverse:fire_shirt"
+      "marioverse:mario_fire_shirt"
     ]
   }
 }
