@@ -227,6 +227,13 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ICE_FLOWER.get())
                 .add(EntityType.ENDER_DRAGON);
 
+        tag(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE);
+
+        tag(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.POWER_UP_ENTITIES)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
+
         tag(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .add(EntityType.ELDER_GUARDIAN)

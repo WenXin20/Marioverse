@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#c:bosses",
+    "#marioverse:power_ups",
+    {
+      "id": "#twilightforest:bosses",
+      "required": false
+    }
+  ]
+}

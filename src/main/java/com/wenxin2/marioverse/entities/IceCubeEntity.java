@@ -439,7 +439,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;
                     }
-                    if (applyCollisionDamage) {
+                    if (applyCollisionDamage && !livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)) {
                         livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, attackingEntity), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
@@ -541,7 +541,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
                 if (entity instanceof IceCubeEntity otherIceCube && this.getDeltaMovement().horizontalDistance() >= 0.2) {
                     this.shatterIceCube(false, true, this);
                     otherIceCube.shatterIceCube(false, true, this);
-                } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5) {
+                } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5
+                    && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
                     livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                 }
             }
