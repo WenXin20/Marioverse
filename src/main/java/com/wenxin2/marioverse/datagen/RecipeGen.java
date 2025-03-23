@@ -62,10 +62,6 @@ public class RecipeGen extends RecipeUtils {
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
-        fireShirtRecipe(1, ItemRegistry.MARIO_FIRE_SHIRT, Blocks.WHITE_WOOL, Blocks.RED_WOOL, output);
-        fireShoesRecipe(1, ItemRegistry.MARIO_FIRE_SHOES, Blocks.BROWN_WOOL, Tags.Items.LEATHERS, output);
-        helmetRecipe(1, "fire_costume", ItemRegistry.MARIO_FIRE_HAT, Blocks.WHITE_WOOL, output);
-        leggingsRecipe(1, "fire_costume", ItemRegistry.MARIO_FIRE_PANTS, Blocks.RED_WOOL, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, output);
