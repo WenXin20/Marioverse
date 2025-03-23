@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_smithing_item": {
+    "has_armor": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mario_shoes"
+            "items": "#marioverse:shoes/mario"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_smithing_item"
+      "has_armor"
     ]
   ],
   "rewards": {

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_smithing_item": {
+    "has_leather_chestplate": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_smithing_item"
+      "has_leather_chestplate"
     ]
   ],
   "rewards": {

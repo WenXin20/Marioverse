@@ -4,7 +4,7 @@
     "item": "marioverse:ice_flower"
   },
   "base": {
-    "item": "marioverse:mario_shoes"
+    "tag": "marioverse:shoes/mario"
   },
   "result": {
     "count": 1,

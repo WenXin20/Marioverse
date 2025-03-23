@@ -584,9 +584,15 @@ public class RecipeUtils extends RecipeProvider {
         });
     }
 
-    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item smithingItem, Item inputItem, RecipeOutput output) {
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(smithingItem), Ingredient.of(inputItem), category, outputItem)
-                .unlocks("has_smithing_item", has(smithingItem))
+    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item armorItem, Item inputItem, RecipeOutput output) {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItem), Ingredient.of(inputItem), category, outputItem)
+                .unlocks(getHasName(armorItem), has(armorItem))
+                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
+    }
+
+    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, TagKey<Item> armorItemTag, Item inputItem, RecipeOutput output) {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItemTag), Ingredient.of(inputItem), category, outputItem)
+                .unlocks("has_armor", has(armorItemTag))
                 .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
     }
 }

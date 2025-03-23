@@ -58,6 +58,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.COSTUMES)
                 .addTag(TagRegistry.MARIO_COSTUMES);
 
+        tag(TagRegistry.HATS)
+                .addTag(TagRegistry.MARIO_HATS);
+
         tag(TagRegistry.MARIO_COSTUMES)
                 .add(ItemRegistry.MARIO_FIRE_HAT.get())
                 .add(ItemRegistry.MARIO_FIRE_PANTS.get())
@@ -72,6 +75,16 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_SHIRT.get())
                 .add(ItemRegistry.MARIO_SHOES.get());
 
+        tag(TagRegistry.MARIO_HATS)
+                .add(ItemRegistry.MARIO_FIRE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
+                .add(ItemRegistry.MARIO_HAT.get());
+
+        tag(TagRegistry.MARIO_PANTS)
+                .add(ItemRegistry.MARIO_FIRE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_PANTS.get());
+
         tag(TagRegistry.MARIO_POWER_UP_COSTUMES)
                 .add(ItemRegistry.MARIO_FIRE_HAT.get())
                 .add(ItemRegistry.MARIO_FIRE_PANTS.get())
@@ -82,6 +95,19 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_ICE_SHIRT.get())
                 .add(ItemRegistry.MARIO_ICE_SHOES.get());
 
+        tag(TagRegistry.MARIO_SHIRTS)
+                .add(ItemRegistry.MARIO_FIRE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_SHIRT.get());
+
+        tag(TagRegistry.MARIO_SHOES)
+                .add(ItemRegistry.MARIO_FIRE_SHOES.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get())
+                .add(ItemRegistry.MARIO_SHOES.get());
+
+        tag(TagRegistry.PANTS)
+                .addTag(TagRegistry.MARIO_PANTS);
+
         tag(TagRegistry.POWER_UP_COSTUMES)
                 .addTag(TagRegistry.MARIO_POWER_UP_COSTUMES);
 
@@ -91,6 +117,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MUSHROOM.get())
                 .add(ItemRegistry.ONE_UP_MUSHROOM.get())
                 .add(ItemRegistry.SUPER_STAR.get());
+
+        tag(TagRegistry.SHIRTS)
+                .addTag(TagRegistry.MARIO_SHIRTS);
+
+        tag(TagRegistry.SHOES)
+                .addTag(TagRegistry.MARIO_SHOES);
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(TagRegistry.WARP_PIPE_ITEMS)
