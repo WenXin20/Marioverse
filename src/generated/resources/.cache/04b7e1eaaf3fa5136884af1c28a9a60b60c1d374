@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-21T16:46:17.1756605	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-03-22T21:33:52.0610875	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -21,27 +21,28 @@ f7457763b53a24c8d8ae61a993b4d23c995a01a5 data/marioverse/tags/item/brick_pedesta
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_checkpoint_flags.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_question_blocks.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_flags.json
+c85bab4407aa7091ca281ef66cb2829ef6c673af data/marioverse/tags/item/costumes.json
+2fc6a7a09905da06f18f19c96f41c82f9b30e3ed data/marioverse/tags/item/costumes/mario.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/item/invisible_question_blocks.json
-42bfd97e69793c8f70bcb464d9f556f05e9df39a data/marioverse/tags/item/mario_costumes.json
-93fd2bdf8fce6f551db21962086f22d7d1eb6c39 data/marioverse/tags/item/mario_power_up_costumes.json
 60a987629818c49120e1b13b13c525dd41f740a1 data/marioverse/tags/item/power_ups.json
-42bfd97e69793c8f70bcb464d9f556f05e9df39a data/marioverse/tags/item/power_up_costumes.json
+afb9b7c52346bcb4a3950a3738e1b923d39cfb66 data/marioverse/tags/item/power_up_costumes.json
+3e76eec74f5b080ee624f712474677b0eb333b85 data/marioverse/tags/item/power_up_costumes/mario.json
 1268789ebd51852001cc17c80917126989d8380e data/marioverse/tags/item/question_blocks.json
 46b86808f46cfefdc573b0f247e88d72106e420b data/marioverse/tags/item/smashable_blocks.json
 0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/item/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 4590d56682f653beefab91ad3c8888ed42d609ef data/marioverse/tags/item/warp_pipe_cannot_spawn.json
-bc6a464228c8c821785ef45ff6ea793bae0b9155 data/minecraft/tags/item/chest_armor.json
+352f108de1578b00b641b4360a062926b293516e data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/durability.json
-57c4742b03161a7ae9e15c073eee8a2a8b07e91e data/minecraft/tags/item/foot_armor.json
-83011fd647ed05249f8a99389a323161e8f9c981 data/minecraft/tags/item/freeze_immune_wearables.json
-904e3c16ff106295f244476aa4b85e256ca61325 data/minecraft/tags/item/head_armor.json
-92eb6e4757ef21b8e4872c0bec044d9144037226 data/minecraft/tags/item/leg_armor.json
+698bfbe8e60344466fe2ed94b09b5997c325e4c1 data/minecraft/tags/item/foot_armor.json
+4af72cd420d48cf0c8bb4151c0c4a19b3d6ddeda data/minecraft/tags/item/freeze_immune_wearables.json
+696b597d91f6761a77afd6fdbf6d71a401d9598e data/minecraft/tags/item/head_armor.json
+7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/minecraft/tags/item/leg_armor.json
 7f9574628a87aaae387dc53522a9cc6c93b84593 data/minecraft/tags/item/piglin_loved.json
 2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/item/slabs.json
 f0d8e8b53362e2a6d1046a11fa6956ba7e421406 data/minecraft/tags/item/stairs.json
