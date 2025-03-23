@@ -227,7 +227,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ICE_FLOWER.get())
                 .add(EntityType.ENDER_DRAGON);
 
-        tag(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE);
+        tag(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)
                 .addTag(Tags.EntityTypes.BOSSES)
