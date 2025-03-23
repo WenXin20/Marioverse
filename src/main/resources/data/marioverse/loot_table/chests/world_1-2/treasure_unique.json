@@ -33,6 +33,16 @@
         },
         {
           "type": "minecraft:item",
+          "name": "marioverse:fire_costume_smithing_template",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:ice_costume_smithing_template",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "marioverse:bowser_banner_pattern",
           "weight": 2
         },
