@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:light_blue_wool"
+  },
+  "base": {
+    "item": "marioverse:mario_hat"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:mario_ice_hat"
+  },
+  "template": {
+    "item": "marioverse:ice_costume_smithing_template"
+  }
+}

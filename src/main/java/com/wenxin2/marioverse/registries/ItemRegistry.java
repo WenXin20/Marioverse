@@ -29,6 +29,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> MARIO_COSTUME_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_FIRE_HAT;
     public static final DeferredItem<Item> MARIO_FIRE_PANTS;
     public static final DeferredItem<Item> MARIO_FIRE_SHIRT;
@@ -68,7 +69,10 @@ public class ItemRegistry {
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
 
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
-                CharacterSmithingTemplateItem::createMarioUpgradeTemplate);
+                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
+
+        ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
+                CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
         MARIO_HAT = registerItem("mario_hat",
                 () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));

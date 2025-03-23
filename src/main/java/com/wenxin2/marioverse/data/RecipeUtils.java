@@ -334,6 +334,21 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void smithingTemplateRecipe(int outputAmt, ItemLike outputItem, ItemLike templateItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
+                .define('T', templateItem)
+                .define('I', inputItemTag)
+                .define('L', inputItemTag2)
+                .pattern("LTL")
+                .pattern("LIL")
+                .pattern("LLL")
+                .unlockedBy(getHasName(templateItem), has(templateItem))
+                .unlockedBy("has_ice", has(inputItemTag))
+                .unlockedBy("has_leather", has(inputItemTag))
+                .group(Marioverse.MOD_ID + ":mario_costume_templates")
+                .save(output);
+    }
+
     public void stairRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)

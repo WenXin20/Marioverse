@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_smithing_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:mario_shoes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mario_ice_shoes_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_smithing_item"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mario_ice_shoes_smithing"
+    ]
+  }
+}

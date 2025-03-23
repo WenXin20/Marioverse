@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-22T21:33:52.0545318	Item Models: marioverse
+// 1.21.1	2025-03-22T22:10:11.1794187	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -20,6 +20,7 @@ b71173a0f56bbff264c8880cd7b3db569f78d81d assets/marioverse/models/item/gray_chec
 120e156695ca48d40df0c05487ad1f4ef4590680 assets/marioverse/models/item/green_checkpoint_flag.json
 56eb9dca3262171f63d312cf086787932ba02ffc assets/marioverse/models/item/green_goal_pole.json
 2f7dede7ee4a7fb7d18854426898237c9adf418d assets/marioverse/models/item/hefty_goomba_spawn_egg.json
+4058ce9f8d426f15c29e952c14fc0e1bce9b2831 assets/marioverse/models/item/ice_costume_smithing_template.json
 cd8c2425ae41b1aa1d98d750f39a791bc9926a46 assets/marioverse/models/item/ice_flower.json
 f6ef448f7c2bf06a31bfee001af6d5b9bbaba594 assets/marioverse/models/item/invisible_amethyst_question_block.json
 4888b0bbf9167927053ffcd3f3b9ca8e11b920ef assets/marioverse/models/item/invisible_blackstone_question_bricks.json
