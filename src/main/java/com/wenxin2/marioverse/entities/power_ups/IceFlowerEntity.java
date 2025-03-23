@@ -156,7 +156,11 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                 if (livingEntity instanceof GoombaEntity goomba
                         && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                             || goomba.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_COSTUMES)))  {
-                    goomba.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                    ItemStack stack = goomba.getItemBySlot(EquipmentSlot.HEAD).getItem().getDefaultInstance();
+                    ItemStack newStack = ItemRegistry.MARIO_ICE_HAT.toStack();
+
+                    newStack.applyComponents(stack.getComponents());
+                    goomba.setItemSlot(EquipmentSlot.HEAD, newStack);
                 }
 
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()) {
@@ -165,8 +169,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_HAT.get()
-                            && containerHat.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_HAT.get()) {
                         ItemStack stack = containerHat.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_ICE_HAT.toStack();
 
@@ -174,8 +177,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerHat.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHIRT.get()
-                            && containerShirt.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHIRT.get()) {
                         ItemStack stack = containerShirt.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_ICE_SHIRT.toStack();
 
@@ -183,8 +185,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerShirt.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_PANTS.get()
-                            && containerPants.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_PANTS.get()) {
                         ItemStack stack = containerPants.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_ICE_PANTS.toStack();
 
@@ -192,8 +193,7 @@ public class IceFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                         containerPants.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHOES.get()
-                            && containerShoes.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHOES.get()) {
                         ItemStack stack = containerShoes.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_ICE_SHOES.toStack();
 
