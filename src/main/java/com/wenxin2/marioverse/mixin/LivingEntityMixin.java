@@ -53,8 +53,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -91,6 +91,9 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique private int marioverse$consecutiveBounces;
     @Unique private int marioverse$oneUpsRewarded;
     @Unique private boolean marioverse$playedDamagedSound;
+    protected float appliedEyeHeightScale = 1.0F;
+    protected float appliedHeightScale = 1.0F;
+    protected float appliedWidthScale = 1.0F;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -216,6 +219,24 @@ public abstract class LivingEntityMixin extends Entity {
             this.marioverse$playedStarTheme = false;
 
         this.marioverse$entityScale(entity);
+
+        float f5 = this.getEyeHeightScale();
+        if (f5 != this.appliedEyeHeightScale) {
+            this.appliedEyeHeightScale = f5;
+            this.refreshDimensions();
+        }
+
+        float f6 = this.getHeightScale();
+        if (f6 != this.appliedHeightScale) {
+            this.appliedHeightScale = f6;
+            this.refreshDimensions();
+        }
+
+        float f7 = this.getWidthScale();
+        if (f7 != this.appliedWidthScale) {
+            this.appliedWidthScale = f6;
+            this.refreshDimensions();
+        }
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
 //            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
@@ -465,29 +486,63 @@ public abstract class LivingEntityMixin extends Entity {
         cir.setReturnValue(builder);
     }
 
+    public float getEyeHeightScale() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        AttributeMap attributemap = entity.getAttributes();
+        return attributemap == null ? 1.0F : this.sanitizeScales((float)attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
+    }
+
+    public float getHeightScale() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        AttributeMap attributemap = entity.getAttributes();
+        return attributemap == null ? 1.0F : this.sanitizeScales((float)attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
+    }
+
+    public float getWidthScale() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        AttributeMap attributemap = entity.getAttributes();
+        return attributemap == null ? 1.0F : this.sanitizeScales((float)attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
+    }
+
+    public float sanitizeScales(float scale) {
+        return scale;
+    }
+
     @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
     private void getDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-
         if (pose != Pose.SLEEPING) {
-            float eyeHeightScale = (float) entity.getAttributeValue(AttributesRegistry.EYE_HEIGHT_SCALE);
-            float heightScale = (float) entity.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
-
-            float scaledHeight;
-            if (heightScale <= 1)
-                scaledHeight = cir.getReturnValue().height();
-            else scaledHeight = cir.getReturnValue().height() * heightScale;
-
-            float adjustedEyeHeight = cir.getReturnValue().eyeHeight() * eyeHeightScale * (scaledHeight / cir.getReturnValue().height());
-
-            EntityDimensions customDimensions = EntityDimensions.scalable(
-                    cir.getReturnValue().width(),
-                    cir.getReturnValue().height()
-            ).withEyeHeight(adjustedEyeHeight);
-
-            cir.setReturnValue(customDimensions);
+            if (this.getWidthScale() > 1) {
+                if (this.getHeightScale() > 1)
+                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() / 2, this.getHeightScale() / 2));
+                else if (this.getHeightScale() == 1)
+                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() / 2, this.getHeightScale()));
+                else cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() / 2, this.getHeightScale() * 2));
+            }
+            else if (this.getWidthScale() == 1) {
+                if (this.getHeightScale() > 1)
+                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale(), this.getHeightScale() / 2));
+                else if (this.getHeightScale() == 1)
+                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale(), this.getHeightScale()));
+                else cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale(), this.getHeightScale() * 2));
+            } else {
+                if (this.getHeightScale() > 1)
+                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() * 2, this.getHeightScale() / 2)
+                            .withEyeHeight(cir.getReturnValue().scale(this.getEyeHeightScale() / 2 * this.getHeightScale() / 2).eyeHeight()));
+                else if (this.getHeightScale() == 1)
+                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() * 2, this.getHeightScale())
+                            .withEyeHeight(cir.getReturnValue().scale(this.getEyeHeightScale() * this.getHeightScale()).eyeHeight()));
+                else cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() * 2, this.getHeightScale() * 2)
+                            .withEyeHeight(cir.getReturnValue().scale(this.getEyeHeightScale() * 2 * this.getHeightScale() * 2).eyeHeight()));
+            }
         }
     }
+
+//    @Inject(method = "getPassengerRidingPosition", at = @At("TAIL"), cancellable = true)
+//    private void getPassengerRidingPosition(Entity entity, CallbackInfoReturnable<Vec3> cir) {
+//        if (entity instanceof LivingEntity livingEntity)
+//            cir.setReturnValue(cir.getReturnValue().add(this.getPassengerAttachmentPoint(entity, entity
+//                    .getDimensions(entity.getPose()), this.getHeightScale() * livingEntity.getAgeScale())));
+//    }
 
     @Unique
     private static final ResourceLocation SLOWDOWN_MODIFIER =
@@ -615,10 +670,10 @@ public abstract class LivingEntityMixin extends Entity {
     public void marioverse$entityScale(LivingEntity entity) {
         Level world = entity.level();
         CompoundTag tag = entity.getPersistentData();
-        boolean hasMushroom = tag.getBoolean("marioverse:has_mushroom");
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
+        boolean hasMushroom = tag.getBoolean("marioverse:has_mushroom");
         float health = entity.getHealth();
         float scalingSpeed = 0.05F;
 
@@ -627,9 +682,7 @@ public abstract class LivingEntityMixin extends Entity {
         double targetWidthScale = hasMushroom ? 1.0D : 0.75D;
 
         boolean isPlayer = entity instanceof Player;
-        boolean shouldShrink = entity.getLastDamageSource() != null
-                && !entity.isDamageSourceBlocked(entity.getLastDamageSource())
-                && !hasMushroom
+        boolean shouldShrink =  !hasMushroom
                 && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && ((isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
@@ -639,6 +692,9 @@ public abstract class LivingEntityMixin extends Entity {
                 || (!isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
         if (shouldShrink) {
+            if (entity.getLastDamageSource() != null
+                    && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
+                return;
             marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
             marioverse$updateScale(heightScale, targetHeightScale, scalingSpeed);
             marioverse$updateScale(widthScale, targetWidthScale, scalingSpeed);
@@ -652,9 +708,12 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (shouldReset) {
             marioverse$playedDamagedSound = false;
-            marioverse$resetScale(eyeHeightScale, scalingSpeed);
-            marioverse$resetScale(heightScale, scalingSpeed);
-            marioverse$resetScale(widthScale, scalingSpeed);
+//            marioverse$resetScale(eyeHeightScale, scalingSpeed);
+//            marioverse$resetScale(heightScale, scalingSpeed);
+//            marioverse$resetScale(widthScale, scalingSpeed);
+            marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
+            marioverse$updateScale(heightScale, targetHeightScale, scalingSpeed);
+            marioverse$updateScale(widthScale, targetWidthScale, scalingSpeed);
         }
     }
 
@@ -666,10 +725,12 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     private void marioverse$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed) {
         if (scaleAttribute != null) {
-            double currentScale = Mth.lerp(scalingSpeed, scaleAttribute.getBaseValue(), targetScale);
-            if (scaleAttribute.getBaseValue() != currentScale) {
-                scaleAttribute.setBaseValue(currentScale);
-            }
+            ResourceLocation modifierId = AttributesRegistry.DAMAGED_SCALE;
+            double currentScale = scaleAttribute.getValue();
+            double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale) - 1.0D;
+
+            scaleAttribute.removeModifier(modifierId);
+            scaleAttribute.addPermanentModifier(new AttributeModifier(modifierId, lerpedScale, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 

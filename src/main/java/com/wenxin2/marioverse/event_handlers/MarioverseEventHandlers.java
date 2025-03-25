@@ -356,6 +356,8 @@ public class MarioverseEventHandlers {
                     if (ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
                         player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
                         player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
+                        if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+                            player.getPersistentData().putBoolean("marioverse:has_mushroom", false);
                     }
 
                     if (world instanceof ServerLevel serverWorld)
