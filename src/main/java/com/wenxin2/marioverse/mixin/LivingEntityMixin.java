@@ -489,19 +489,19 @@ public abstract class LivingEntityMixin extends Entity {
     public float getEyeHeightScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.sanitizeScales((float)attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
+        return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
     }
 
     public float getHeightScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.sanitizeScales((float)attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
+        return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
     }
 
     public float getWidthScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.sanitizeScales((float)attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
+        return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
     }
 
     public float sanitizeScales(float scale) {
@@ -510,30 +510,14 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
     private void getDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
         if (pose != Pose.SLEEPING) {
-            if (this.getWidthScale() > 1) {
-                if (this.getHeightScale() > 1)
-                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() / 2, this.getHeightScale() / 2));
-                else if (this.getHeightScale() == 1)
-                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() / 2, this.getHeightScale()));
-                else cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() / 2, this.getHeightScale() * 2));
-            }
-            else if (this.getWidthScale() == 1) {
-                if (this.getHeightScale() > 1)
-                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale(), this.getHeightScale() / 2));
-                else if (this.getHeightScale() == 1)
-                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale(), this.getHeightScale()));
-                else cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale(), this.getHeightScale() * 2));
-            } else {
-                if (this.getHeightScale() > 1)
-                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() * 2, this.getHeightScale() / 2)
-                            .withEyeHeight(cir.getReturnValue().scale(this.getEyeHeightScale() / 2 * this.getHeightScale() / 2).eyeHeight()));
-                else if (this.getHeightScale() == 1)
-                    cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() * 2, this.getHeightScale())
-                            .withEyeHeight(cir.getReturnValue().scale(this.getEyeHeightScale() * this.getHeightScale()).eyeHeight()));
-                else cir.setReturnValue(cir.getReturnValue().scale(this.getWidthScale() * 2, this.getHeightScale() * 2)
-                            .withEyeHeight(cir.getReturnValue().scale(this.getEyeHeightScale() * 2 * this.getHeightScale() * 2).eyeHeight()));
-            }
+            EntityDimensions customDimensions = cir.getReturnValue()
+                    .scale(this.getWidthScale(), this.getHeightScale())
+                    .withEyeHeight(this.getEyeHeightScale());
+
+            cir.setReturnValue(customDimensions);
         }
     }
 
@@ -708,18 +692,10 @@ public abstract class LivingEntityMixin extends Entity {
 
         if (shouldReset) {
             marioverse$playedDamagedSound = false;
-//            marioverse$resetScale(eyeHeightScale, scalingSpeed);
-//            marioverse$resetScale(heightScale, scalingSpeed);
-//            marioverse$resetScale(widthScale, scalingSpeed);
             marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
             marioverse$updateScale(heightScale, targetHeightScale, scalingSpeed);
             marioverse$updateScale(widthScale, targetWidthScale, scalingSpeed);
         }
-    }
-
-    @Unique
-    private void marioverse$resetScale(AttributeInstance scaleAttribute, float scalingSpeed) {
-        marioverse$updateScale(scaleAttribute, 1.0D, scalingSpeed);
     }
 
     @Unique
