@@ -257,36 +257,31 @@ public abstract class EntityMixin {
         }
     }
 
-//    @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)
-//    private void getBbHeight(CallbackInfoReturnable<Float> cir) {
-//        Entity entity = (Entity) (Object) this;
-//        if (entity instanceof LivingEntity livingEntity) {
-//            AttributeMap attributeMap = livingEntity.getAttributes();
-//            if (attributeMap != null) {
-//                float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
-//                entity.refreshDimensions();
-//                if (heightScale != 1) {
-//                    /*if (heightScale < 1)
-//                        cir.setReturnValue((entity.getDimensions(entity.getPose()).height()));
-//                    else*/ cir.setReturnValue((entity.getDimensions(entity.getPose()).height()) * heightScale);
-//                }
-//            }
-//        }
-//    }
-//
-//    @Inject(method = "getBbWidth", at = @At("HEAD"), cancellable = true)
-//    private void getBbWidth(CallbackInfoReturnable<Float> cir) {
-//        Entity entity = (Entity) (Object) this;
-//        if (entity instanceof LivingEntity livingEntity) {
-//            AttributeMap attributeMap = livingEntity.getAttributes();
-//            if (attributeMap != null) {
-//                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
-////                entity.refreshDimensions();
-//                if (widthScale != 1)
-//                    cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
-//            }
-//        }
-//    }
+    @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)
+    private void getBbHeight(CallbackInfoReturnable<Float> cir) {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            if (attributeMap != null) {
+                float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
+                if (heightScale != 1)
+                    cir.setReturnValue((entity.getDimensions(entity.getPose()).height()) * heightScale);
+            }
+        }
+    }
+
+    @Inject(method = "getBbWidth", at = @At("HEAD"), cancellable = true)
+    private void getBbWidth(CallbackInfoReturnable<Float> cir) {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            if (attributeMap != null) {
+                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
+                if (widthScale != 1)
+                    cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
+            }
+        }
+    }
 
     @Inject(method = "isInWall", at = @At("HEAD"), cancellable = true)
     public void modifyIsInWall(CallbackInfoReturnable<Boolean> cir) {
