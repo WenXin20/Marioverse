@@ -510,12 +510,32 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
     private void getDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
-        LivingEntity entity = (LivingEntity) (Object) this;
+        float eyeHeightScale;
+        float heightScale;
+        float widthScale;
+
+        if (this.getHeightScale() > 1)
+            heightScale = this.getHeightScale() / 2;
+        else if (this.getHeightScale() == 1)
+            heightScale = this.getHeightScale();
+        else heightScale = this.getHeightScale();
+
+        if (this.getEyeHeightScale() > 1)
+            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.getEyeHeightScale() / 2;
+        else if (this.getEyeHeightScale() == 1)
+            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.getEyeHeightScale();
+        else eyeHeightScale = cir.getReturnValue().eyeHeight() * this.getEyeHeightScale();
+
+        if (this.getWidthScale() > 1)
+            widthScale = this.getWidthScale() / 2;
+        else if (this.getWidthScale() == 1)
+            widthScale = this.getWidthScale();
+        else widthScale = this.getWidthScale();
 
         if (pose != Pose.SLEEPING) {
             EntityDimensions customDimensions = cir.getReturnValue()
-                    .scale(this.getWidthScale(), this.getHeightScale())
-                    .withEyeHeight(this.getEyeHeightScale());
+                    .scale(widthScale, heightScale)
+                    .withEyeHeight(eyeHeightScale);
 
             cir.setReturnValue(customDimensions);
         }

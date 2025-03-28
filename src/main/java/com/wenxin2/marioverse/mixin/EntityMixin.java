@@ -196,8 +196,8 @@ public abstract class EntityMixin {
     public float getEyeHeightScale() {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributemap = livingEntity.getAttributes();
-            return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            return attributeMap == null ? 1.0F : this.sanitizeScales((float) attributeMap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
         }
         return 1.0F;
     }
@@ -205,8 +205,8 @@ public abstract class EntityMixin {
     public float getHeightScale() {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributemap = livingEntity.getAttributes();
-            return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            return attributeMap == null ? 1.0F : this.sanitizeScales((float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE));
         }
         return 1.0F;
     }
@@ -214,8 +214,8 @@ public abstract class EntityMixin {
     public float getWidthScale() {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributemap = livingEntity.getAttributes();
-            return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            return attributeMap == null ? 1.0F : this.sanitizeScales((float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE));
         }
         return 1.0F;
     }
@@ -228,8 +228,6 @@ public abstract class EntityMixin {
     public void getBoundingBox(CallbackInfoReturnable<AABB> cir) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributeMap = livingEntity.getAttributes();
-
             if (livingEntity.getPose() != Pose.SLEEPING) {
                 double width = entity.getDimensions(entity.getPose()).width() / 2;
                 double height = entity.getDimensions(entity.getPose()).height();
