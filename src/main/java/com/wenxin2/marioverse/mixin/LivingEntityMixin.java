@@ -172,20 +172,27 @@ public abstract class LivingEntityMixin extends Entity {
                 && entity.getPersistentData().getBoolean("marioverse:has_smashed_block"))
             entity.getPersistentData().putBoolean("marioverse:has_smashed_block", false);
 
+        double deltaY = entity.getDeltaMovement().y;
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS) && entity.getDeltaMovement().y > 0
-                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")) {
+                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
+                && !entity.onGround()
+                && deltaY > -0.079) {
             marioverse$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS) && this.getDeltaMovement().y > 0)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                && !entity.onGround()
+                && deltaY > -0.079)
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS) && this.getDeltaMovement().y > 0)
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && !entity.onGround()
+                && deltaY > -0.079)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
         if (checkpointCooldown > 0)
@@ -228,13 +235,13 @@ public abstract class LivingEntityMixin extends Entity {
         float f6 = this.marioverse$getHeightScale();
         if (f6 != this.marioverse$appliedHeightScale) {
             this.marioverse$appliedHeightScale = f6;
-            this.refreshDimensions();
+            entity.refreshDimensions();
         }
 
         float f7 = this.marioverse$getWidthScale();
         if (f7 != this.marioverse$appliedWidthScale) {
             this.marioverse$appliedWidthScale = f6;
-            this.refreshDimensions();
+            entity.refreshDimensions();
         }
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {

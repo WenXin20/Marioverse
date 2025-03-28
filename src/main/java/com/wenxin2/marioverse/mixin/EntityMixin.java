@@ -57,6 +57,9 @@ public abstract class EntityMixin {
     @Shadow public abstract BlockPos blockPosition();
     @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
+    @Unique protected float marioverse$appliedEyeHeightScale = 1.0F;
+    @Unique protected float marioverse$appliedHeightScale = 1.0F;
+    @Unique protected float marioverse$appliedWidthScale = 1.0F;
 
     @Inject(at = @At("TAIL"), method = "tick")
     public void tick(CallbackInfo ci) {
@@ -125,6 +128,18 @@ public abstract class EntityMixin {
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
+
+        float f6 = this.marioverse$getHeightScale();
+        if (f6 != this.marioverse$appliedHeightScale) {
+            this.marioverse$appliedHeightScale = f6;
+            entity.refreshDimensions();
+        }
+
+        float f7 = this.marioverse$getWidthScale();
+        if (f7 != this.marioverse$appliedWidthScale) {
+            this.marioverse$appliedWidthScale = f6;
+            entity.refreshDimensions();
+        }
     }
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
@@ -179,9 +194,16 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
-                if (heightScale != 1)
-                    cir.setReturnValue((entity.getDimensions(entity.getPose()).height()) * heightScale);
+                float height = entity.getDimensions(entity.getPose()).height();
+                float heightScale;
+
+                if (this.marioverse$getHeightScale() > 1)
+                    heightScale = height;
+                else if (this.marioverse$getHeightScale() == 1)
+                    heightScale = height;
+                else heightScale = height;
+
+                cir.setReturnValue(heightScale);
             }
         }
     }
@@ -192,9 +214,16 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
-                if (widthScale != 1)
-                    cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
+                float width = entity.getDimensions(entity.getPose()).width();
+                float widthScale;
+
+                if (this.marioverse$getWidthScale() > 1)
+                    widthScale = width;
+                else if (this.marioverse$getWidthScale() == 1)
+                    widthScale = width;
+                else widthScale = width;
+
+                cir.setReturnValue(widthScale);
             }
         }
     }
