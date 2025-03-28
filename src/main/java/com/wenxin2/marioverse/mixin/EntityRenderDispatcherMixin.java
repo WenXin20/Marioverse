@@ -27,7 +27,7 @@ public class EntityRenderDispatcherMixin {
             double width = attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
             double heightScale = height < 1 ? 2 : 1;
             double widthScale = width < 1 ? 1.35 : 1;
-            
+
             if (height < 0.95 || width < 0.95) {
                 LevelRenderer.renderLineBox(poseStack, vertexConsumer,
                         aabb.minX * widthScale, aabb.minY, aabb.minZ * widthScale,
