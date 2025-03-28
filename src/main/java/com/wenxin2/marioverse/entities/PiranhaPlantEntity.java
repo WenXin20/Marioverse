@@ -182,7 +182,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         super.tick();
         this.checkForCollisions();
-        this.hideInBlock();
+        // this.hideInBlock(); TODO: Fix hiding
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
