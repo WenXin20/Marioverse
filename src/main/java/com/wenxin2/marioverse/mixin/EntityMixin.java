@@ -127,57 +127,6 @@ public abstract class EntityMixin {
             this.marioverse$enterWarp(posInBlock);
     }
 
-    @Unique
-    private static void marioverse$rideIceCube(Entity entity) {
-        Entity belowEntity = null;
-        for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
-            if (e instanceof IceCubeEntity) {
-                belowEntity = e;
-                break;
-            }
-        }
-
-        if (belowEntity instanceof IceCubeEntity iceCube) {
-            Vec3 iceMovement = iceCube.getDeltaMovement();
-
-            if (!iceMovement.equals(Vec3.ZERO)) {
-                entity.setDeltaMovement(iceMovement.x, 0, iceMovement.z);
-                entity.move(MoverType.SELF, iceMovement);
-
-                if (entity instanceof Mob mob) {
-                    mob.getNavigation().stop();
-                }
-            }
-        }
-    }
-
-    @Unique
-    private static void marioverse$bounceEntity(Entity entity, int bounceCooldown, Level world) {
-        Vec3 vec3 = entity.getDeltaMovement();
-
-        entity.resetFallDistance();
-        if (vec3.y < 0.0) {
-            double baseBounce = 0.42;
-            double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
-            double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
-            double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
-            Minecraft minecraft = Minecraft.getInstance();
-            KeyMapping jumpKey = minecraft.options.keyJump;
-
-            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), jumpKey.getKey().getValue())
-                    && entity instanceof Player)
-                newBounce *= 2;
-
-            if (bounceCooldown <= 0) {
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 3);
-                entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
-                entity.resetFallDistance();
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
-            }
-        }
-    }
-
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
     private void handleEntityEvent(byte id, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
@@ -193,37 +142,6 @@ public abstract class EntityMixin {
         }
     }
 
-    public float getEyeHeightScale() {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributeMap = livingEntity.getAttributes();
-            return attributeMap == null ? 1.0F : this.sanitizeScales((float) attributeMap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
-        }
-        return 1.0F;
-    }
-
-    public float getHeightScale() {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributeMap = livingEntity.getAttributes();
-            return attributeMap == null ? 1.0F : this.sanitizeScales((float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE));
-        }
-        return 1.0F;
-    }
-
-    public float getWidthScale() {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributeMap = livingEntity.getAttributes();
-            return attributeMap == null ? 1.0F : this.sanitizeScales((float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE));
-        }
-        return 1.0F;
-    }
-
-    public float sanitizeScales(float scale) {
-        return scale;
-    }
-
     @Inject(method = "getBoundingBox", at = @At("RETURN"), cancellable = true)
     public void getBoundingBox(CallbackInfoReturnable<AABB> cir) {
         Entity entity = (Entity) (Object) this;
@@ -234,15 +152,15 @@ public abstract class EntityMixin {
                 double heightScale;
                 double widthScale;
 
-                if (this.getHeightScale() > 1)
+                if (this.marioverse$getHeightScale() > 1)
                     heightScale = height;
-                else if (this.getHeightScale() == 1)
+                else if (this.marioverse$getHeightScale() == 1)
                     heightScale = height;
                 else heightScale = height;
 
-                if (this.getWidthScale() > 1)
+                if (this.marioverse$getWidthScale() > 1)
                     widthScale = width;
-                else if (this.getWidthScale() == 1)
+                else if (this.marioverse$getWidthScale() == 1)
                     widthScale = width;
                 else widthScale = width;
 
@@ -315,6 +233,82 @@ public abstract class EntityMixin {
                 } else cir.setReturnValue(cir.getReturnValue());
             }
         }
+    }
+
+    @Unique
+    private static void marioverse$rideIceCube(Entity entity) {
+        Entity belowEntity = null;
+        for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
+            if (e instanceof IceCubeEntity) {
+                belowEntity = e;
+                break;
+            }
+        }
+
+        if (belowEntity instanceof IceCubeEntity iceCube) {
+            Vec3 iceMovement = iceCube.getDeltaMovement();
+
+            if (!iceMovement.equals(Vec3.ZERO)) {
+                entity.setDeltaMovement(iceMovement.x, 0, iceMovement.z);
+                entity.move(MoverType.SELF, iceMovement);
+
+                if (entity instanceof Mob mob) {
+                    mob.getNavigation().stop();
+                }
+            }
+        }
+    }
+
+    @Unique
+    private static void marioverse$bounceEntity(Entity entity, int bounceCooldown, Level world) {
+        Vec3 vec3 = entity.getDeltaMovement();
+
+        entity.resetFallDistance();
+        if (vec3.y < 0.0) {
+            double baseBounce = 0.42;
+            double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
+            double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
+            double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
+            Minecraft minecraft = Minecraft.getInstance();
+            KeyMapping jumpKey = minecraft.options.keyJump;
+
+            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), jumpKey.getKey().getValue())
+                    && entity instanceof Player)
+                newBounce *= 2;
+
+            if (bounceCooldown <= 0) {
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 3);
+                entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
+                entity.resetFallDistance();
+                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
+            }
+        }
+    }
+
+    @Unique
+    public float marioverse$getHeightScale() {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            return attributeMap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE));
+        }
+        return 1.0F;
+    }
+
+    @Unique
+    public float marioverse$getWidthScale() {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof LivingEntity livingEntity) {
+            AttributeMap attributeMap = livingEntity.getAttributes();
+            return attributeMap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE));
+        }
+        return 1.0F;
+    }
+
+    @Unique
+    public float marioverse$sanitizeScales(float scale) {
+        return scale;
     }
 
     @Unique

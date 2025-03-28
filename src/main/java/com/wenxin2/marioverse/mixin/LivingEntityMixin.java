@@ -86,14 +86,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
-
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique private int marioverse$consecutiveBounces;
     @Unique private int marioverse$oneUpsRewarded;
     @Unique private boolean marioverse$playedDamagedSound;
-    protected float appliedEyeHeightScale = 1.0F;
-    protected float appliedHeightScale = 1.0F;
-    protected float appliedWidthScale = 1.0F;
+    @Unique protected float marioverse$appliedEyeHeightScale = 1.0F;
+    @Unique protected float marioverse$appliedHeightScale = 1.0F;
+    @Unique protected float marioverse$appliedWidthScale = 1.0F;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -220,21 +219,21 @@ public abstract class LivingEntityMixin extends Entity {
 
         this.marioverse$entityScale(entity);
 
-        float f5 = this.getEyeHeightScale();
-        if (f5 != this.appliedEyeHeightScale) {
-            this.appliedEyeHeightScale = f5;
+        float f5 = this.marioverse$getEyeHeightScale();
+        if (f5 != this.marioverse$appliedEyeHeightScale) {
+            this.marioverse$appliedEyeHeightScale = f5;
             this.refreshDimensions();
         }
 
-        float f6 = this.getHeightScale();
-        if (f6 != this.appliedHeightScale) {
-            this.appliedHeightScale = f6;
+        float f6 = this.marioverse$getHeightScale();
+        if (f6 != this.marioverse$appliedHeightScale) {
+            this.marioverse$appliedHeightScale = f6;
             this.refreshDimensions();
         }
 
-        float f7 = this.getWidthScale();
-        if (f7 != this.appliedWidthScale) {
-            this.appliedWidthScale = f6;
+        float f7 = this.marioverse$getWidthScale();
+        if (f7 != this.marioverse$appliedWidthScale) {
+            this.marioverse$appliedWidthScale = f6;
             this.refreshDimensions();
         }
 
@@ -486,51 +485,29 @@ public abstract class LivingEntityMixin extends Entity {
         cir.setReturnValue(builder);
     }
 
-    public float getEyeHeightScale() {
-        LivingEntity entity = (LivingEntity) (Object) this;
-        AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
-    }
-
-    public float getHeightScale() {
-        LivingEntity entity = (LivingEntity) (Object) this;
-        AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
-    }
-
-    public float getWidthScale() {
-        LivingEntity entity = (LivingEntity) (Object) this;
-        AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.sanitizeScales((float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
-    }
-
-    public float sanitizeScales(float scale) {
-        return scale;
-    }
-
     @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
     private void getDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         float eyeHeightScale;
         float heightScale;
         float widthScale;
 
-        if (this.getHeightScale() > 1)
-            heightScale = this.getHeightScale() / 2;
-        else if (this.getHeightScale() == 1)
-            heightScale = this.getHeightScale();
-        else heightScale = this.getHeightScale();
+        if (this.marioverse$getHeightScale() > 1)
+            heightScale = this.marioverse$getHeightScale() / 2;
+        else if (this.marioverse$getHeightScale() == 1)
+            heightScale = this.marioverse$getHeightScale();
+        else heightScale = this.marioverse$getHeightScale();
 
-        if (this.getEyeHeightScale() > 1)
-            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.getEyeHeightScale() / 2;
-        else if (this.getEyeHeightScale() == 1)
-            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.getEyeHeightScale();
-        else eyeHeightScale = cir.getReturnValue().eyeHeight() * this.getEyeHeightScale();
+        if (this.marioverse$getEyeHeightScale() > 1)
+            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.marioverse$getEyeHeightScale() / 2;
+        else if (this.marioverse$getEyeHeightScale() == 1)
+            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.marioverse$getEyeHeightScale();
+        else eyeHeightScale = cir.getReturnValue().eyeHeight() * this.marioverse$getEyeHeightScale();
 
-        if (this.getWidthScale() > 1)
-            widthScale = this.getWidthScale() / 2;
-        else if (this.getWidthScale() == 1)
-            widthScale = this.getWidthScale();
-        else widthScale = this.getWidthScale();
+        if (this.marioverse$getWidthScale() > 1)
+            widthScale = this.marioverse$getWidthScale() / 2;
+        else if (this.marioverse$getWidthScale() == 1)
+            widthScale = this.marioverse$getWidthScale();
+        else widthScale = this.marioverse$getWidthScale();
 
         if (pose != Pose.SLEEPING) {
             EntityDimensions customDimensions = cir.getReturnValue()
@@ -561,6 +538,7 @@ public abstract class LivingEntityMixin extends Entity {
             speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
         }
     }
+
     @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
     private void canFreeze(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
@@ -642,6 +620,32 @@ public abstract class LivingEntityMixin extends Entity {
             serverWorld.sendParticles(particleType, entity.getX(),
                     entity.getY() + entity.getBbHeight() + 1.0,
                     entity.getZ(), 1, 0, 1.0, 0, 0.5);
+    }
+
+    @Unique
+    public float marioverse$getEyeHeightScale() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        AttributeMap attributemap = entity.getAttributes();
+        return attributemap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
+    }
+
+    @Unique
+    public float marioverse$getHeightScale() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        AttributeMap attributemap = entity.getAttributes();
+        return attributemap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
+    }
+
+    @Unique
+    public float marioverse$getWidthScale() {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        AttributeMap attributemap = entity.getAttributes();
+        return attributemap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
+    }
+
+    @Unique
+    public float marioverse$sanitizeScales(float scale) {
+        return scale;
     }
 
     @Unique
