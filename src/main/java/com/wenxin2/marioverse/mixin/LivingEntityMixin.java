@@ -255,7 +255,7 @@ public abstract class LivingEntityMixin extends Entity {
             Minecraft minecraft = Minecraft.getInstance();
             KeyMapping sprintKey = minecraft.options.keySprint;
             double normalJumpBoost = 0.4;
-            double runningJumpBoost = 0.6;
+            double runningJumpBoost = 0.5;
             boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_JUMP_BOOST) != null;
             boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.MARIO_RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
