@@ -75,6 +75,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
@@ -289,6 +291,9 @@ public class BlockRegistry {
         CHISELED_FUNGAL_BRICKS = registerBlock("chiseled_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
+        CRACKED_FUNGAL_BRICKS = registerBlock("cracked_fungal_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
@@ -342,6 +347,9 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
         CHISELED_DEEP_FUNGAL_BRICKS = registerBlock("chiseled_deep_fungal_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
+        CRACKED_DEEP_FUNGAL_BRICKS = registerBlock("cracked_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
 

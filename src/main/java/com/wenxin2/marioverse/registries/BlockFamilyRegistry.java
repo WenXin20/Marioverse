@@ -52,6 +52,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended DEEP_FUNGAL_BRICKS = familyBuilder(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get())
             .pedestal(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
@@ -79,6 +80,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended FUNGAL_BRICKS = familyBuilder(BlockRegistry.FUNGAL_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_FUNGAL_BRICKS.get())
             .pedestal(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_BRICK_STAIRS.get())

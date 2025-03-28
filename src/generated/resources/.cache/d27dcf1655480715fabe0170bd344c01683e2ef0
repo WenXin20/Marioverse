@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-28T10:50:27.8362911	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-03-28T12:53:22.8320172	Tags for minecraft:block mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/block/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/block/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/block/dyed/brown.json
@@ -35,7 +35,7 @@ f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/marioverse/tags/block/melts_into_p
 f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plants_can_hide.json
 69c396cb051bbe9a130e6979b67065e5041b179d data/marioverse/tags/block/piranha_plants_spawnable_on.json
 1268789ebd51852001cc17c80917126989d8380e data/marioverse/tags/block/question_blocks.json
-f7bee8c794fc63560f43e9a006b169cdb912da75 data/marioverse/tags/block/smashable_blocks.json
+177808e01c5cdc327ce9c1535baff31c88e155c6 data/marioverse/tags/block/smashable_blocks.json
 0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/block/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
@@ -45,7 +45,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_ov
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
-2e7ea7b8d89881d1720d5912220d4c510565a31f data/minecraft/tags/block/mineable/pickaxe.json
+afe3586f601c432a9969f895484d105279764eeb data/minecraft/tags/block/mineable/pickaxe.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/block/slabs.json

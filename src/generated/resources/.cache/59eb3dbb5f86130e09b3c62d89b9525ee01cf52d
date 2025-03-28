@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-28T10:50:27.8275172	Loot Tables
+// 1.21.1	2025-03-28T12:53:22.8244383	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 0968a986ea9b50ba23d46fb87fc714d14b9e6dec data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -31,6 +31,8 @@ c7c3581353c788e174a1b66009aff1be828302a0 data/marioverse/loot_table/blocks/class
 14db128484db76b9fea603a9ea3fa03b00c16037 data/marioverse/loot_table/blocks/coin.json
 e063faae51054831d4169d540a8f9d34f94419ee data/marioverse/loot_table/blocks/copper_question_block.json
 f34e08b8d406d762f9aa90d22563f6c25c1a44a8 data/marioverse/loot_table/blocks/cracked_amethyst_bricks.json
+43aeb472f20d62f72127689ed78bd96d89a6ab86 data/marioverse/loot_table/blocks/cracked_deep_fungal_bricks.json
+ed09e3f011e4fc41b916f6ebe8a3e03743684578 data/marioverse/loot_table/blocks/cracked_fungal_bricks.json
 db965cd06f6faf96cf63e2d6110e09f5b49388f6 data/marioverse/loot_table/blocks/cut_copper_pedestal.json
 bb211b677e77342e35799033d57630a66ae4cf83 data/marioverse/loot_table/blocks/cyan_checkpoint_flag.json
 2b467ec5f88690624b563af0494718704e426c83 data/marioverse/loot_table/blocks/cyan_goal_pole.json

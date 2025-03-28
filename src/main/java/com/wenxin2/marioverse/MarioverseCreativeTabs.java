@@ -238,6 +238,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
 
             add(event, BlockRegistry.FUNGAL_BRICKS.get());
+            add(event, BlockRegistry.CRACKED_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get());
             add(event, BlockRegistry.FUNGAL_BRICK_SLAB.get());
             add(event, BlockRegistry.FUNGAL_BRICK_WALL.get());
@@ -256,6 +257,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get());
 
             add(event, BlockRegistry.DEEP_FUNGAL_BRICKS.get());
+            add(event, BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get());
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get());
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get());
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get());
@@ -407,14 +409,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL.get(), BlockRegistry.CHISELED_AMETHYST_BRICKS.get());
 
                 addAfter(event, BlockRegistry.CHISELED_AMETHYST_BRICKS.get(), BlockRegistry.FUNGAL_BRICKS.get());
-                addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_STAIRS.get());
+                addAfter(event, BlockRegistry.FUNGAL_BRICKS.get(), BlockRegistry.CRACKED_FUNGAL_BRICKS.get());
+                addAfter(event, BlockRegistry.CRACKED_FUNGAL_BRICKS.get(), BlockRegistry.FUNGAL_BRICK_STAIRS.get());
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_STAIRS.get(), BlockRegistry.FUNGAL_BRICK_SLAB.get());
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_SLAB.get(), BlockRegistry.FUNGAL_BRICK_WALL.get());
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_WALL.get(), BlockRegistry.FUNGAL_BRICK_PEDESTAL.get());
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL.get(), BlockRegistry.CHISELED_FUNGAL_BRICKS.get());
 
                 addAfter(event, BlockRegistry.CHISELED_FUNGAL_BRICKS.get(), BlockRegistry.DEEP_FUNGAL_BRICKS.get());
-                addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICKS.get(), BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get());
+                addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICKS.get(), BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get());
+                addAfter(event, BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get(), BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get());
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get(), BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get());
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get(), BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get());
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get(), BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get());
@@ -609,16 +613,13 @@ public class MarioverseCreativeTabs {
         }
     }
 
-    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item)
-    {
+    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item) {
         ItemStack stack = new ItemStack(item);
         add(event, stack);
     }
 
-    public static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack)
-    {
-        if (stack.isEmpty())
-        {
+    public static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
+        if (stack.isEmpty()) {
             System.out.println("Warning, attempting to register an empty stack to tab!");
             return;
         }
