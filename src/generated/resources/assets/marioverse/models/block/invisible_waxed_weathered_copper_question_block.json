@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
-  "render_type": "minecraft:tripwire",
+  "render_type": "minecraft:translucent",
   "textures": {
     "all": "marioverse:block/invisible_question_block"
   }
