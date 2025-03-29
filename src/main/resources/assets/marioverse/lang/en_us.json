@@ -577,6 +577,8 @@
   "subtitles.marioverse.projectile.ice_ball_shattered": "Ice Ball shattered",
   "subtitles.marioverse.projectile.ice_ball_shattered_on_enemy": "Ice Ball shattered",
 
+  "tooltip.marioverse.smashable_blocks": "§6§oSmashable",
+
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",
   "menu.marioverse.warp_pipe.open_button.tooltip": "Open Pipe",
