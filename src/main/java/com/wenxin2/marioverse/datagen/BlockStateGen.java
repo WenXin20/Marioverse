@@ -541,7 +541,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", emptyTexture);
         ModelFile modelInvisible = models()
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
-                .texture("all", invisibleTexture).renderType("tripwire");
+                .texture("all", invisibleTexture).renderType("translucent");
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
@@ -564,7 +564,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", emptyTexture);
         ModelFile modelInvisible = models()
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
-                .texture("all", invisibleTexture).renderType("tripwire");
+                .texture("all", invisibleTexture).renderType("translucent");
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
@@ -587,7 +587,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("bottom", topTexture).texture("side", emptyTexture).texture("top", topTexture);
         ModelFile modelInvisible = models()
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
-                .texture("all", invisibleTexture).renderType("tripwire");
+                .texture("all", invisibleTexture).renderType("translucent");
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
