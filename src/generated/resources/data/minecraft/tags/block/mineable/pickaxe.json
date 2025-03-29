@@ -19,10 +19,12 @@
     "marioverse:chiseled_amethyst_bricks",
     "marioverse:chiseled_deep_fungal_bricks",
     "marioverse:chiseled_fungal_bricks",
+    "marioverse:chiseled_sandstone_bricks",
     "marioverse:coin",
     "marioverse:cracked_amethyst_bricks",
     "marioverse:cracked_deep_fungal_bricks",
     "marioverse:cracked_fungal_bricks",
+    "marioverse:cracked_sandstone_bricks",
     "marioverse:deep_fungal_brick_slab",
     "marioverse:deep_fungal_brick_stairs",
     "marioverse:deep_fungal_brick_wall",
@@ -55,6 +57,10 @@
     "marioverse:polished_fungal_stone_slab",
     "marioverse:polished_fungal_stone_stairs",
     "marioverse:polished_fungal_stone_wall",
+    "marioverse:sandstone_brick_slab",
+    "marioverse:sandstone_brick_stairs",
+    "marioverse:sandstone_brick_wall",
+    "marioverse:sandstone_bricks",
     "marioverse:star_coin"
   ]
 }

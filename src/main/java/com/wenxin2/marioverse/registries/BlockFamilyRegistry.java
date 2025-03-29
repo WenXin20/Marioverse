@@ -97,6 +97,25 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
             .getFamily();
 
+    public static final BlockFamilyExtended SANDSTONE = familyBuilder(Blocks.CUT_SANDSTONE)
+            .bricks(BlockRegistry.SANDSTONE_BRICKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SANDSTONE_BRICKS = familyBuilder(BlockRegistry.SANDSTONE_BRICKS.get())
+            .chiseled(BlockRegistry.CHISELED_SANDSTONE_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_SANDSTONE_BRICKS.get())
+            .pedestal(BlockRegistry.SANDSTONE_BRICK_PEDESTAL.get())
+            .slab(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
+            .stairs(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_SANDSTONE_BRICKS.get())
+            .wall(BlockRegistry.SANDSTONE_BRICK_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CHISELED_SANDSTONE = familyBuilder(Blocks.CHISELED_SANDSTONE)
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_SANDSTONE_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.SANDSTONE_QUESTION_BLOCK.get())
+            .getFamily();
+
     public static final BlockFamilyExtended BLACKSTONE_BRICKS = familyBuilder(Blocks.POLISHED_BLACKSTONE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
             .pedestal(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())

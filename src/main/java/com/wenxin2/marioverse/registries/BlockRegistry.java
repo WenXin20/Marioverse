@@ -69,6 +69,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
@@ -77,6 +78,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
@@ -131,6 +133,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_WAXED_COPPER_QUESTION_BLOCK;
@@ -168,6 +171,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> SANDSTONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> SANDSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> SANDSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> SANDSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_CUT_COPPER;
@@ -213,6 +222,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
     public static final DeferredBlock<Block> STORAGE_QUARTZ_BRICKS;
     public static final DeferredBlock<Block> STORAGE_RED_NETHER_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_TUFF_BRICKS;
     public static final DeferredBlock<Block> STORAGE_WAXED_CUT_COPPER;
@@ -413,6 +423,36 @@ public class BlockRegistry {
 
         STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
+
+
+        SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE)));
+
+        SANDSTONE_BRICK_SLAB = registerBlock("sandstone_brick_slab", () -> slab(SANDSTONE_BRICKS.get()));
+
+        SANDSTONE_BRICK_STAIRS = registerBlock("sandstone_brick_stairs", () -> stair(SANDSTONE_BRICKS.get()));
+
+        SANDSTONE_BRICK_WALL = registerBlock("sandstone_brick_wall", () -> wall(SANDSTONE_BRICKS.get()));
+
+        SANDSTONE_BRICK_PEDESTAL = registerBlock("sandstone_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
+        CHISELED_SANDSTONE_BRICKS = registerBlock("chiseled_sandstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
+        CRACKED_SANDSTONE_BRICKS = registerBlock("cracked_sandstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
+
+        SANDSTONE_QUESTION_BLOCK = registerBlock("sandstone_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHISELED_SANDSTONE)));
+
+        INVISIBLE_SANDSTONE_QUESTION_BLOCK = registerBlock("invisible_sandstone_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHISELED_SANDSTONE)
+                        .mapColor(state -> state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.SAND)));
+
+        STORAGE_SANDSTONE_BRICKS = registerBlock("storage_sandstone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
 
         STONE_QUESTION_BRICKS = registerBlock("stone_question_bricks",

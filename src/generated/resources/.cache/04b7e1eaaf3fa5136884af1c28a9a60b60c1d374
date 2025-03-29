@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-28T12:53:22.8365487	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-03-29T00:20:14.6685857	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -17,7 +17,7 @@ ec8d48ce5f08c097e9c7b18921807bfdbd14278c data/c/tags/item/dyed/white.json
 c7d632677b95f13f3342dd5b062463a483edc432 data/c/tags/item/dyed/yellow.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/item/stones.json
 40b42b7ae52d16096636c756fd08768fbbc6709b data/marioverse/tags/item/bonkable_blocks.json
-f7457763b53a24c8d8ae61a993b4d23c995a01a5 data/marioverse/tags/item/brick_pedestals.json
+4cb8dbfcd01656ad45a6f729f357ccfb5be8322f data/marioverse/tags/item/brick_pedestals.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_checkpoint_flags.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_question_blocks.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_flags.json
@@ -29,7 +29,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 1c286d056df914c76539ba75895f64f7cbc996b5 data/marioverse/tags/item/hats.json
 696b597d91f6761a77afd6fdbf6d71a401d9598e data/marioverse/tags/item/hats/mario.json
-e886d932556c838d3c49221dd20e2a02170bc705 data/marioverse/tags/item/invisible_question_blocks.json
+1c60f151a64bf613d95384be391c944bcc92c18f data/marioverse/tags/item/invisible_question_blocks.json
 3bdb133f8cee45c822d864b55606c68328f0ff3f data/marioverse/tags/item/pants.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json
 60a987629818c49120e1b13b13c525dd41f740a1 data/marioverse/tags/item/power_ups.json
@@ -40,8 +40,8 @@ afb9b7c52346bcb4a3950a3738e1b923d39cfb66 data/marioverse/tags/item/power_up_cost
 352f108de1578b00b641b4360a062926b293516e data/marioverse/tags/item/shirts/mario.json
 98e53aae7af1c06cb941fcbf246aa0df5e272afd data/marioverse/tags/item/shoes.json
 698bfbe8e60344466fe2ed94b09b5997c325e4c1 data/marioverse/tags/item/shoes/mario.json
-177808e01c5cdc327ce9c1535baff31c88e155c6 data/marioverse/tags/item/smashable_blocks.json
-0fd18c1831573a3fcfc16b0315b978a9183523e2 data/marioverse/tags/item/storage_bricks.json
+22a911d9e1055dc72bac17c2fe7a30b4d28a960f data/marioverse/tags/item/smashable_blocks.json
+9de9a200a067ccc0e6e2e6813f5f4aa4634dcb4c data/marioverse/tags/item/storage_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 4590d56682f653beefab91ad3c8888ed42d609ef data/marioverse/tags/item/warp_pipe_cannot_spawn.json
 352f108de1578b00b641b4360a062926b293516e data/minecraft/tags/item/chest_armor.json
@@ -52,10 +52,10 @@ c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/du
 696b597d91f6761a77afd6fdbf6d71a401d9598e data/minecraft/tags/item/head_armor.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/minecraft/tags/item/leg_armor.json
 7f9574628a87aaae387dc53522a9cc6c93b84593 data/minecraft/tags/item/piglin_loved.json
-2fe9aba04791e9233ef4d4f8ee1b87b6abcd8f42 data/minecraft/tags/item/slabs.json
-f0d8e8b53362e2a6d1046a11fa6956ba7e421406 data/minecraft/tags/item/stairs.json
+e867ef464898041d4bbe90ad3b11547bbbbdd3ad data/minecraft/tags/item/slabs.json
+e4752038f0baf2d5c0aad7b7ab1d35ae53d8d359 data/minecraft/tags/item/stairs.json
 b26fbb315a12bd2dc06582d452419a7e01b30aba data/minecraft/tags/item/stone_buttons.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_crafting_materials.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_tool_materials.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/item/trimmable_armor.json
-cbda176ca0b4e9fd1d8bb147c58002e709b3511a data/minecraft/tags/item/walls.json
+e7b7bfab88f45d9f41474619a0e1d5587a2e1f26 data/minecraft/tags/item/walls.json

@@ -159,6 +159,15 @@ public class BlockStateGen extends BlockStateProvider {
                         invisibleTexture = modLoc("block/invisible_question_block");
 
                         this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
+                    } else if (block == BlockFamilyRegistry.CHISELED_SANDSTONE.get(questionBlock)) {
+                        String removeInvisibleName = blockName.replace("invisible_", "");
+                        String removeQuestionBlockName = removeInvisibleName.replace("_question_block", "");
+                        sideTexture = modLoc("block/" + removeInvisibleName + "_side");
+                        topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
+                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                        invisibleTexture = modLoc("block/invisible_question_block");
+
+                        this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
                     } else if (blockName.startsWith("invisible_waxed_")) {
                         String removeInvisibleName = blockName.replace("invisible_", "");
                         String removeWaxedName = removeInvisibleName.replace("waxed_", "");
@@ -192,7 +201,8 @@ public class BlockStateGen extends BlockStateProvider {
 
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(pedestal)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)) {
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)
+                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(pedestal)) {
                         texture = modLoc("block/" + removePedestalName);
 
                         this.pedestalModel(block, blockName, texture);
@@ -266,6 +276,14 @@ public class BlockStateGen extends BlockStateProvider {
                             || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
                         sideTexture = modLoc("block/" + blockName + "_side");
                         topTexture = modLoc("block/" + blockName + "_top");
+                        emptyTexture = modLoc("block/empty_" + blockName);
+
+                        this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
+                    } else if (block == BlockFamilyRegistry.CHISELED_SANDSTONE.get(questionBlock)) {
+                        String removeQuestionBlockName = blockName.replace("_question_block", "");
+
+                        sideTexture = modLoc("block/" + blockName + "_side");
+                        topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
 
                         this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
@@ -408,6 +426,7 @@ public class BlockStateGen extends BlockStateProvider {
                     String removeStorageName = blockName.replace("storage_", "");
                     String questionBlockName = removeStorageName
                             .replace("block", "question_block")
+                            .replace("sandstone_bricks", "sandstone_question_block")
                             .replace("bricks", "question_bricks")
                             .replace("cut_copper", "copper_question_block")
                             .replace("dark_prismarine", "dark_prismarine_question_block")
@@ -417,7 +436,8 @@ public class BlockStateGen extends BlockStateProvider {
 
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)) {
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
                         questionBlockName = removeStorageName
                                 .replace("bricks", "question_block");
                         mainTexture = modLoc("block/" + removeStorageName);
