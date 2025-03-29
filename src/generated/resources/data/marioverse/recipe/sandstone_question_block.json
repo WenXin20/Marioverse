@@ -4,7 +4,7 @@
   "group": "marioverse:question_blocks",
   "ingredients": [
     {
-      "item": "minecraft:chiseled_sandstone"
+      "item": "minecraft:cut_sandstone"
     },
     {
       "tag": "c:chests/wooden"

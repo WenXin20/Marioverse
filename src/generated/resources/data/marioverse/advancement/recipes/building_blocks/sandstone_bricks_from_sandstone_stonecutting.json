@@ -1,16 +1,6 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_chest": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#c:chests/wooden"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_cut_sandstone": {
       "conditions": {
         "items": [
@@ -23,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:sandstone_question_block"
+        "recipe": "marioverse:sandstone_bricks_from_sandstone_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -31,13 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_chest",
       "has_cut_sandstone"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:sandstone_question_block"
+      "marioverse:sandstone_bricks_from_sandstone_stonecutting"
     ]
   }
 }
