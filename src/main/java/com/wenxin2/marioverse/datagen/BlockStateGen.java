@@ -167,7 +167,7 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + removeInvisibleName);
                         invisibleTexture = modLoc("block/invisible_question_block");
 
-                        this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
+                        this.invisibleQuestionBlockSandstoneModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
                     } else if (blockName.startsWith("invisible_waxed_")) {
                         String removeInvisibleName = blockName.replace("invisible_", "");
                         String removeWaxedName = removeInvisibleName.replace("waxed_", "");
@@ -286,7 +286,7 @@ public class BlockStateGen extends BlockStateProvider {
                         topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
+                        this.questionBlockSandstoneModel(block, blockName, sideTexture, topTexture, emptyTexture);
                     } else if (blockName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         mainTexture = modLoc("block/" + unWaxedName);
@@ -433,17 +433,27 @@ public class BlockStateGen extends BlockStateProvider {
                             .replace("tiles", "question_tiles");
                     ResourceLocation mainTexture;
                     ResourceLocation emptyTexture;
+                    ResourceLocation topTexture;
 
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)) {
                         questionBlockName = removeStorageName
                                 .replace("bricks", "question_block");
                         mainTexture = modLoc("block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                         this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
+                    } else if (block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
+                        String removeBricksName = removeStorageName.replace("_bricks", "");
+                        questionBlockName = removeStorageName
+                                .replace("bricks", "question_block");
+
+                        mainTexture = modLoc("block/" + removeStorageName);
+                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                        topTexture = mcLoc("block/" + removeBricksName + "_top");
+
+                        this.storageBrickSandstoneModel(block, blockName, mainTexture, topTexture, emptyTexture);
                     } else if (removeStorageName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeStorageName = unWaxedName.replace("storage_", "");
@@ -563,6 +573,29 @@ public class BlockStateGen extends BlockStateProvider {
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
+    private void invisibleQuestionBlockSandstoneModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                                      ResourceLocation emptyTexture, ResourceLocation invisibleTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
+                .texture("bottom", topTexture).texture("side", sideTexture).texture("top", topTexture);
+        ModelFile modelEmpty = models()
+                .withExistingParent("empty_invisible_" + modelName, mcLoc("block/cube_bottom_top"))
+                .texture("bottom", topTexture).texture("side", emptyTexture).texture("top", topTexture);
+        ModelFile modelInvisible = models()
+                .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
+                .texture("all", invisibleTexture).renderType("tripwire");
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
+                .addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
+                .addModels(new ConfiguredModel(modelEmpty));
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, true)
+                .addModels(new ConfiguredModel(modelInvisible));
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, true)
+                .addModels(new ConfiguredModel(modelEmpty));
+    }
+
     private void goalPoleModel(Block block, String modelName, ResourceLocation mainTexture) {
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/template_goal_pole"))
@@ -635,6 +668,22 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
+    private void questionBlockSandstoneModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                             ResourceLocation emptyTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
+                .texture("bottom", topTexture).texture("side", sideTexture).texture("top", topTexture);
+        ModelFile modelEmpty = models()
+                .withExistingParent("empty_" + modelName, mcLoc("block/cube_bottom_top"))
+                .texture("bottom", topTexture).texture("side", emptyTexture).texture("top", topTexture);
+
+        simpleBlockItem(block, model);
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
+    }
+
     public void slabDoubleBlock(SlabBlock block, String modelName, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
         slabBlock(block, models().slab(modelName, side, bottom, top),
                 models().slabTop(modelName + "_top", side, bottom, top),
@@ -651,6 +700,19 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile modelEmpty = models()
                 .withExistingParent("empty_" + modelName, mcLoc("block/cube_all"))
                 .texture("all", emptyTexture);
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
+    }
+
+    private void storageBrickSandstoneModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation topTexture, ResourceLocation emptyTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_all"))
+                .texture("all", mainTexture);
+        ModelFile modelEmpty = models()
+                .withExistingParent("empty_" + modelName, mcLoc("block/cube_bottom_top"))
+                .texture("bottom", topTexture).texture("side", emptyTexture).texture("top", topTexture);
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));

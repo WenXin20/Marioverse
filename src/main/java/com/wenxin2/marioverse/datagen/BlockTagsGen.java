@@ -180,6 +180,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.QUARTZ_QUESTION_BRICKS.get())
                 .add(BlockRegistry.QUESTION_BRICKS.get())
                 .add(BlockRegistry.RED_NETHER_QUESTION_BRICKS.get())
+                .add(BlockRegistry.SANDSTONE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.TUFF_QUESTION_BRICKS.get())
                 .add(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get())
