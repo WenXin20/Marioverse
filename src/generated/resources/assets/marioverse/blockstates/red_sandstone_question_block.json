@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "empty=false": {
+      "model": "marioverse:block/red_sandstone_question_block"
+    },
+    "empty=true": {
+      "model": "marioverse:block/empty_red_sandstone_question_block"
+    }
+  }
+}

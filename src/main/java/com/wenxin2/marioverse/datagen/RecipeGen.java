@@ -166,6 +166,11 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingRecipes(output, BlockFamilyRegistry.SANDSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.SANDSTONE_BRICKS, Blocks.SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CUT_RED_SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CUT_RED_SANDSTONE, Blocks.RED_SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.RED_SANDSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.RED_SANDSTONE_BRICKS, Blocks.RED_SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.BLACKSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BLACKSTONE_BRICKS, Blocks.BLACKSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BLACKSTONE_BRICKS, Blocks.POLISHED_BLACKSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));

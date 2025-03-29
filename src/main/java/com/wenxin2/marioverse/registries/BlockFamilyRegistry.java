@@ -97,8 +97,10 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
             .getFamily();
 
-    public static final BlockFamilyExtended SANDSTONE = familyBuilder(Blocks.CUT_SANDSTONE)
+    public static final BlockFamilyExtended CUT_SANDSTONE = familyBuilder(Blocks.CUT_SANDSTONE)
             .bricks(BlockRegistry.SANDSTONE_BRICKS.get())
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_SANDSTONE_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.SANDSTONE_QUESTION_BLOCK.get())
             .getFamily();
 
     public static final BlockFamilyExtended SANDSTONE_BRICKS = familyBuilder(BlockRegistry.SANDSTONE_BRICKS.get())
@@ -111,9 +113,20 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.SANDSTONE_BRICK_WALL.get())
             .getFamily();
 
-    public static final BlockFamilyExtended CHISELED_SANDSTONE = familyBuilder(Blocks.CHISELED_SANDSTONE)
-            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_SANDSTONE_QUESTION_BLOCK.get())
-            .questionBlock(BlockRegistry.SANDSTONE_QUESTION_BLOCK.get())
+    public static final BlockFamilyExtended CUT_RED_SANDSTONE = familyBuilder(Blocks.CUT_RED_SANDSTONE)
+            .bricks(BlockRegistry.RED_SANDSTONE_BRICKS.get())
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_RED_SANDSTONE_QUESTION_BLOCK.get())
+            .questionBlock(BlockRegistry.RED_SANDSTONE_QUESTION_BLOCK.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended RED_SANDSTONE_BRICKS = familyBuilder(BlockRegistry.RED_SANDSTONE_BRICKS.get())
+            .chiseled(BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_RED_SANDSTONE_BRICKS.get())
+            .pedestal(BlockRegistry.RED_SANDSTONE_BRICK_PEDESTAL.get())
+            .slab(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
+            .stairs(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_RED_SANDSTONE_BRICKS.get())
+            .wall(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended BLACKSTONE_BRICKS = familyBuilder(Blocks.POLISHED_BLACKSTONE_BRICKS)

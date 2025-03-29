@@ -159,7 +159,8 @@ public class BlockStateGen extends BlockStateProvider {
                         invisibleTexture = modLoc("block/invisible_question_block");
 
                         this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
-                    } else if (block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
+                    } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
+                            || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
                         String removeInvisibleName = blockName.replace("invisible_", "");
                         String removeQuestionBlockName = removeInvisibleName.replace("_question_block", "");
                         sideTexture = modLoc("block/" + removeInvisibleName + "_side");
@@ -202,6 +203,7 @@ public class BlockStateGen extends BlockStateProvider {
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(pedestal)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
                             || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)
+                            || block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(pedestal)
                             || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(pedestal)) {
                         texture = modLoc("block/" + removePedestalName);
 
@@ -279,7 +281,8 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + blockName);
 
                         this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
-                    } else if (block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
+                    } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
+                            || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
                         String removeQuestionBlockName = blockName.replace("_question_block", "");
 
                         sideTexture = modLoc("block/" + blockName + "_side");
@@ -444,7 +447,8 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                         this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
-                    } else if (block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
+                    } else if (block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
                         String removeBricksName = removeStorageName.replace("_bricks", "");
                         questionBlockName = removeStorageName
                                 .replace("bricks", "question_block");
