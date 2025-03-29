@@ -297,6 +297,7 @@ public abstract class PlayerMixin extends Entity {
         Level world = player.level();
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(player.getBbHeight())));
 
+        double deltaY = player.getDeltaMovement().y;
         double entityX = this.getX();
         double entityZ = this.getZ();
         int blockX = pos.getX();
@@ -310,7 +311,7 @@ public abstract class PlayerMixin extends Entity {
                 this.marioverse$displayNoTeleportMessage();
             }
         } else {
-            if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN && player.getDeltaMovement().y > 0
+            if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN && deltaY > -0.079
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (this.marioverse$getWarpCooldown() == 0) {
                     this.marioverse$warp(pos, stateAboveEntity, warpPos, warpBE);

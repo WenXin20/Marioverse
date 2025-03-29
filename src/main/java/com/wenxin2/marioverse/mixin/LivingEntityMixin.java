@@ -176,23 +176,20 @@ public abstract class LivingEntityMixin extends Entity {
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
-                && !entity.onGround()
-                && deltaY > -0.079) {
+                && !entity.onGround() && deltaY > -0.079) {
             marioverse$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && !entity.onGround()
-                && deltaY > -0.079)
+                && !entity.onGround() && deltaY > -0.079)
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && !entity.onGround()
-                && deltaY > -0.079)
+                && !entity.onGround() && deltaY > -0.079)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
         if (checkpointCooldown > 0)
@@ -690,7 +687,7 @@ public abstract class LivingEntityMixin extends Entity {
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
         boolean hasMushroom = tag.getBoolean("marioverse:has_mushroom");
         float health = entity.getHealth();
-        float scalingSpeed = 0.05F;
+        float scalingSpeed = 0.1F;
 
         double targetEyeHeightScale = hasMushroom ? 1.0D : 0.5D;
         double targetHeightScale = hasMushroom ? 1.0D : 0.5D;
@@ -732,12 +729,17 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     private void marioverse$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed) {
         if (scaleAttribute != null) {
-            ResourceLocation modifierId = AttributesRegistry.DAMAGED_SCALE;
+            ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
             double currentScale = scaleAttribute.getValue();
-            double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale) - 1.0D;
+            double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale);
 
-            scaleAttribute.removeModifier(modifierId);
-            scaleAttribute.addPermanentModifier(new AttributeModifier(modifierId, lerpedScale, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            if (Math.abs(currentScale - targetScale) < 0.001)
+                lerpedScale = targetScale;
+
+            if (scaleAttribute.hasModifier(modifier) && lerpedScale != targetScale || targetScale == 1.0)
+                scaleAttribute.removeModifier(modifier);
+            if (lerpedScale != targetScale)
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 
@@ -1067,9 +1069,9 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
         BlockState state = world.getBlockState(pos);
-        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(this.getBbHeight())));
+        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(this.getBbHeight())));
+        BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(entity.getBbHeight())));
         BlockPos warpPos;
 
         if (blockEntity instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null

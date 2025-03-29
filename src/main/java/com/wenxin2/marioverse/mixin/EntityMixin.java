@@ -194,16 +194,9 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float height = entity.getDimensions(entity.getPose()).height();
-                float heightScale;
-
-                if (this.marioverse$getHeightScale() > 1)
-                    heightScale = height;
-                else if (this.marioverse$getHeightScale() == 1)
-                    heightScale = height;
-                else heightScale = height;
-
-                cir.setReturnValue(heightScale);
+                float heightScale = (float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE);
+                if (heightScale != 1)
+                    cir.setReturnValue((entity.getDimensions(entity.getPose()).height()) * heightScale);
             }
         }
     }
@@ -214,16 +207,9 @@ public abstract class EntityMixin {
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float width = entity.getDimensions(entity.getPose()).width();
-                float widthScale;
-
-                if (this.marioverse$getWidthScale() > 1)
-                    widthScale = width;
-                else if (this.marioverse$getWidthScale() == 1)
-                    widthScale = width;
-                else widthScale = width;
-
-                cir.setReturnValue(widthScale);
+                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
+                if (widthScale != 1)
+                    cir.setReturnValue((entity.getDimensions(entity.getPose()).width()) * widthScale);
             }
         }
     }
