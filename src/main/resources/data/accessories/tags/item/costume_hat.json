@@ -3,8 +3,10 @@
   "replace": false,
   "values": [
     { "id": "marioverse:luigi_hat", "required": false },
+    { "id": "marioverse:luigi_fire_hat", "required": false },
+    { "id": "marioverse:luigi_ice_hat", "required": false },
+    { "id": "marioverse:mario_hat", "required": false },
     { "id": "marioverse:mario_fire_hat", "required": false },
     { "id": "marioverse:mario_ice_hat", "required": false },
-    { "id": "marioverse:mario_hat", "required": false }
   ]
 }

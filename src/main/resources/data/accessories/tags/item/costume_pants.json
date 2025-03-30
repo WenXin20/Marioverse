@@ -3,8 +3,10 @@
   "replace": false,
   "values": [
     { "id": "marioverse:luigi_pants", "required": false },
+    { "id": "marioverse:luigi_fire_pants", "required": false },
+    { "id": "marioverse:luigi_ice_pants", "required": false },
+    { "id": "marioverse:mario_pants", "required": false },
     { "id": "marioverse:mario_fire_pants", "required": false },
-    { "id": "marioverse:mario_ice_pants", "required": false },
-    { "id": "marioverse:mario_pants", "required": false }
+    { "id": "marioverse:mario_ice_pants", "required": false }
   ]
 }
