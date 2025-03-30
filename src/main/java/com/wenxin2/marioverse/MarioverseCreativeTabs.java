@@ -53,6 +53,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PIPE_WRENCH.get());
 
             add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
+            add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get());
             add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
             add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
 
@@ -68,6 +69,11 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.MARIO_ICE_SHIRT.get());
             add(event, ItemRegistry.MARIO_ICE_PANTS.get());
             add(event, ItemRegistry.MARIO_ICE_SHOES.get());
+
+            add(event, ItemRegistry.LUIGI_HAT.get());
+            add(event, ItemRegistry.LUIGI_SHIRT.get());
+            add(event, ItemRegistry.LUIGI_PANTS.get());
+            add(event, ItemRegistry.LUIGI_SHOES.get());
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());

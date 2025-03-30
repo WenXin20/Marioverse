@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.FireCostumeItem;
 import com.wenxin2.marioverse.items.IceCostumeItem;
+import com.wenxin2.marioverse.items.LuigiCostumeItem;
 import com.wenxin2.marioverse.items.MarioCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
@@ -30,6 +31,11 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> LUIGI_HAT;
+    public static final DeferredItem<Item> LUIGI_PANTS;
+    public static final DeferredItem<Item> LUIGI_SHIRT;
+    public static final DeferredItem<Item> LUIGI_SHOES;
     public static final DeferredItem<Item> MARIO_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_FIRE_HAT;
     public static final DeferredItem<Item> MARIO_FIRE_PANTS;
@@ -71,6 +77,8 @@ public class ItemRegistry {
 
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
+        LUIGI_COSTUME_SMITHING_TEMPLATE = registerItem("luigi_costume_smithing_template",
+                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
         FIRE_COSTUME_SMITHING_TEMPLATE = registerItem("fire_costume_smithing_template",
                 CharacterSmithingTemplateItem::createFireUpgradeTemplate);
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
@@ -87,6 +95,19 @@ public class ItemRegistry {
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
         MARIO_SHOES = registerItem("mario_shoes",
                 () -> new MarioCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+
+        LUIGI_HAT = registerItem("luigi_hat",
+                () -> new LuigiCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        LUIGI_SHIRT = registerItem("luigi_shirt",
+                () -> new LuigiCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        LUIGI_PANTS = registerItem("luigi_pants",
+                () -> new LuigiCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        LUIGI_SHOES = registerItem("luigi_shoes",
+                () -> new LuigiCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         FIRE_FLOWER = registerItem("fire_flower",

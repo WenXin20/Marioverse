@@ -69,6 +69,12 @@ public class TagRegistry {
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
+    public static final TagKey<Item> LUIGI_COSTUMES = itemTags("costumes/luigi");
+    public static final TagKey<Item> LUIGI_HATS = itemTags("hats/luigi");
+    public static final TagKey<Item> LUIGI_PANTS = itemTags("pants/luigi");
+    public static final TagKey<Item> LUIGI_POWER_UP_COSTUMES = itemTags("power_up_costumes/luigi");
+    public static final TagKey<Item> LUIGI_SHIRTS = itemTags("shirts/luigi");
+    public static final TagKey<Item> LUIGI_SHOES = itemTags("shoes/luigi");
     public static final TagKey<Item> MARIO_COSTUMES = itemTags("costumes/mario");
     public static final TagKey<Item> MARIO_HATS = itemTags("hats/mario");
     public static final TagKey<Item> MARIO_PANTS = itemTags("pants/mario");

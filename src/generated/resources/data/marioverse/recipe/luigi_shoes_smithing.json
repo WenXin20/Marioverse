@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:brown_wool"
+  },
+  "base": {
+    "item": "minecraft:leather_boots"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:luigi_shoes"
+  },
+  "template": {
+    "item": "marioverse:luigi_costume_smithing_template"
+  }
+}

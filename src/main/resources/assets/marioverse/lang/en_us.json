@@ -387,6 +387,7 @@
   "item.marioverse.warp_disruptor": "Warp Disruptor",
 
   "item.marioverse.mario_costume_smithing_template": "Mario's Costume Smithing Template",
+  "item.marioverse.luigi_costume_smithing_template": "Luigi's Costume Smithing Template",
   "item.marioverse.ice_costume_smithing_template": "Ice Costume Smithing Template",
   "item.marioverse.fire_costume_smithing_template": "Fire Costume Smithing Template",
 
@@ -402,6 +403,19 @@
   "item.marioverse.mario_ice_pants": "Mario's Ice Pants",
   "item.marioverse.mario_ice_shirt": "Mario's Ice Shirt",
   "item.marioverse.mario_ice_shoes": "Mario's Ice Shoes",
+
+  "item.marioverse.luigi_hat": "Luigi's Hat",
+  "item.marioverse.luigi_pants": "Luigi's Pants",
+  "item.marioverse.luigi_shirt": "Luigi's Shirt",
+  "item.marioverse.luigi_shoes": "Luigi's Shoes",
+  "item.marioverse.luigi_fire_hat": "Luigi's Fire Hat",
+  "item.marioverse.luigi_fire_pants": "Luigi's Fire Pants",
+  "item.marioverse.luigi_fire_shirt": "Luigi's Fire Shirt",
+  "item.marioverse.luigi_fire_shoes": "Luigi's Fire Shoes",
+  "item.marioverse.luigi_ice_hat": "Luigi's Ice Hat",
+  "item.marioverse.luigi_ice_pants": "Luigi's Ice Pants",
+  "item.marioverse.luigi_ice_shirt": "Luigi's Ice Shirt",
+  "item.marioverse.luigi_ice_shoes": "Luigi's Ice Shoes",
 
   "item.marioverse.fire_goomba_spawn_egg": "Fire Goomba Spawn Egg",
   "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
