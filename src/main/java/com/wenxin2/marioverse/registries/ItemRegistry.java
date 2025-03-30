@@ -8,17 +8,22 @@ import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
+    private static final Map<String, Map<String, DeferredItem<Item>>> COSTUME_MAP = new HashMap<>();
+
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
     public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
@@ -197,6 +202,24 @@ public class ItemRegistry {
         return Marioverse.ITEMS.register(name, item);
     }
 
-    public static void init()
-    {}
+    public static void init() {}
+
+    static {
+        COSTUME_MAP.put("mario", Map.of(
+                "hat", MARIO_HAT,
+                "shirt", MARIO_SHIRT,
+                "pants", MARIO_PANTS,
+                "shoes", MARIO_SHOES));
+
+        COSTUME_MAP.put("luigi", Map.of(
+                "hat", LUIGI_HAT,
+                "shirt", LUIGI_SHIRT,
+                "pants", LUIGI_PANTS,
+                "shoes", LUIGI_SHOES));
+    }
+
+    public static ItemStack getCostumeItem(String character, String part) {
+        return COSTUME_MAP.getOrDefault(character.toLowerCase(), COSTUME_MAP.get("mario"))
+                .getOrDefault(part, MARIO_HAT).toStack();
+    }
 }
