@@ -71,11 +71,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
     private void applyPowerUp(LivingEntity entity) {
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
-        if (this.level() instanceof ServerLevel serverWorld) {
-            if (entity.getPersistentData().getBoolean(getPowerUpTag()))
-                this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-            else spawnPowerUpParticles(entity, serverWorld);
-        }
+        if (entity.getPersistentData().getBoolean(getPowerUpTag()))
+            this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+        if (this.level() instanceof ServerLevel serverWorld
+                && !entity.getPersistentData().getBoolean(getPowerUpTag()))
+            spawnPowerUpParticles(entity, serverWorld);
 
         if (entity.getHealth() < entity.getMaxHealth())
             entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
