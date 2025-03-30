@@ -12,9 +12,9 @@ import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
     private static final DefaultedItemGeoModel<CostumeItem> MARIO_MODEL =
-            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/item/mario_costume.geo.json"));
+            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/mario_costume"));
     private static final DefaultedItemGeoModel<CostumeItem> LUIGI_MODEL =
-            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/item/luigi_costume.geo.json"));
+            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/luigi_costume"));
 
     public CostumeRenderer() {
         super(new DefaultedItemGeoModel<>(ResourceLocation
