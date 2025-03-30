@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.List;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -91,37 +92,53 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_HAT.get()
-                            && containerHat.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerHat != null && !containerHat.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
                         ItemStack stack = containerHat.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_FIRE_HAT.toStack();
+
+                        if (containerHat.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.MARIO_FIRE_HAT.toStack();
+                        else if (containerHat.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_HAT.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerHat.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_SHIRT.get()
-                            && containerShirt.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerShirt != null && !containerShirt.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
                         ItemStack stack = containerShirt.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_FIRE_SHIRT.toStack();
+
+                        if (containerShirt.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.MARIO_FIRE_SHIRT.toStack();
+                        else if (containerShirt.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_SHIRT.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerShirt.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_PANTS.get()
-                            && containerPants.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerPants != null && !containerPants.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
                         ItemStack stack = containerPants.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_FIRE_PANTS.toStack();
+
+                        if (containerPants.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.MARIO_FIRE_PANTS.toStack();
+                        else if (containerPants.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_PANTS.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerPants.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_SHOES.get()
-                            && containerShoes.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES)) {
+                    if (containerShoes != null && !containerShoes.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
                         ItemStack stack = containerShoes.getAccessories().getItem(0);
                         ItemStack newStack = ItemRegistry.MARIO_FIRE_SHOES.toStack();
+
+                        if (containerShoes.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.MARIO_FIRE_SHOES.toStack();
+                        else if (containerShoes.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_SHOES.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerShoes.getAccessories().setItem(0, newStack);
@@ -166,33 +183,69 @@ public class FireFlowerEntity extends BasePowerUpEntity implements GeoEntity {
                     AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_pants"));
                     AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "costume_shoes"));
 
-                    if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_HAT.get()) {
+                    if (containerHat != null && !containerHat.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
+                        List<ItemStack> fireCostumes = List.of(
+                                ItemRegistry.MARIO_FIRE_HAT.toStack(),
+                                ItemRegistry.LUIGI_FIRE_HAT.toStack());
+
                         ItemStack stack = containerHat.getAccessories().getItem(0);
-                        ItemStack newStack = ItemRegistry.MARIO_FIRE_HAT.toStack();
+                        ItemStack newStack = fireCostumes.get((int) (Math.random() * fireCostumes.size()));
+
+                        if (containerHat.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.MARIO_FIRE_HAT.toStack();
+                        else if (containerHat.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_HAT.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerHat.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_SHIRT.get()) {
+                    if (containerShirt != null && !containerShirt.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
+                        List<ItemStack> fireCostumes = List.of(
+                                ItemRegistry.MARIO_FIRE_SHIRT.toStack(),
+                                ItemRegistry.MARIO_FIRE_SHIRT.toStack());
+
                         ItemStack stack = containerShirt.getAccessories().getItem(0);
-                        ItemStack newStack = ItemRegistry.MARIO_FIRE_SHIRT.toStack();
+                        ItemStack newStack = fireCostumes.get((int) (Math.random() * fireCostumes.size()));
+
+                        if (containerShirt.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_SHIRT.toStack();
+                        else if (containerShirt.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_SHIRT.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerShirt.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_PANTS.get()) {
+                    if (containerPants != null && !containerPants.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
+                        List<ItemStack> fireCostumes = List.of(
+                                ItemRegistry.LUIGI_FIRE_PANTS.toStack(),
+                                ItemRegistry.LUIGI_FIRE_PANTS.toStack());
+
                         ItemStack stack = containerPants.getAccessories().getItem(0);
-                        ItemStack newStack = ItemRegistry.MARIO_FIRE_PANTS.toStack();
+                        ItemStack newStack = fireCostumes.get((int) (Math.random() * fireCostumes.size()));
+
+                        if (containerPants.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_PANTS.toStack();
+                        else if (containerPants.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_PANTS.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerPants.getAccessories().setItem(0, newStack);
                     }
 
-                    if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_SHOES.get()) {
+                    if (containerShoes != null && !containerShoes.getAccessories().getItem(0).is(TagRegistry.FIRE_COSTUMES)) {
+                        List<ItemStack> fireCostumes = List.of(
+                                ItemRegistry.MARIO_FIRE_SHOES.toStack(),
+                                ItemRegistry.LUIGI_FIRE_SHOES.toStack());
+
                         ItemStack stack = containerShoes.getAccessories().getItem(0);
-                        ItemStack newStack = ItemRegistry.MARIO_FIRE_SHOES.toStack();
+                        ItemStack newStack = fireCostumes.get((int) (Math.random() * fireCostumes.size()));
+
+                        if (containerShoes.getAccessories().getItem(0).is(TagRegistry.MARIO_COSTUMES))
+                            newStack = ItemRegistry.MARIO_FIRE_SHOES.toStack();
+                        else if (containerShoes.getAccessories().getItem(0).is(TagRegistry.LUIGI_COSTUMES))
+                            newStack = ItemRegistry.LUIGI_FIRE_SHOES.toStack();
 
                         newStack.applyComponents(stack.getComponents());
                         containerShoes.getAccessories().setItem(0, newStack);
