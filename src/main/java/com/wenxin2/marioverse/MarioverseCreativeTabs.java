@@ -74,6 +74,14 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LUIGI_SHIRT.get());
             add(event, ItemRegistry.LUIGI_PANTS.get());
             add(event, ItemRegistry.LUIGI_SHOES.get());
+            add(event, ItemRegistry.LUIGI_FIRE_HAT.get());
+            add(event, ItemRegistry.LUIGI_FIRE_SHIRT.get());
+            add(event, ItemRegistry.LUIGI_FIRE_PANTS.get());
+            add(event, ItemRegistry.LUIGI_FIRE_SHOES.get());
+            add(event, ItemRegistry.LUIGI_ICE_HAT.get());
+            add(event, ItemRegistry.LUIGI_ICE_SHIRT.get());
+            add(event, ItemRegistry.LUIGI_ICE_PANTS.get());
+            add(event, ItemRegistry.LUIGI_ICE_SHOES.get());
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "marioverse:ice_flower"
+  },
+  "base": {
+    "tag": "marioverse:hats/luigi"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:luigi_ice_hat"
+  },
+  "template": {
+    "item": "marioverse:ice_costume_smithing_template"
+  }
+}

@@ -29,7 +29,15 @@ public class ItemRegistry {
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> LUIGI_FIRE_HAT;
+    public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
+    public static final DeferredItem<Item> LUIGI_FIRE_SHIRT;
+    public static final DeferredItem<Item> LUIGI_FIRE_SHOES;
     public static final DeferredItem<Item> LUIGI_HAT;
+    public static final DeferredItem<Item> LUIGI_ICE_HAT;
+    public static final DeferredItem<Item> LUIGI_ICE_PANTS;
+    public static final DeferredItem<Item> LUIGI_ICE_SHIRT;
+    public static final DeferredItem<Item> LUIGI_ICE_SHOES;
     public static final DeferredItem<Item> LUIGI_PANTS;
     public static final DeferredItem<Item> LUIGI_SHIRT;
     public static final DeferredItem<Item> LUIGI_SHOES;
@@ -121,6 +129,17 @@ public class ItemRegistry {
         MARIO_FIRE_SHOES = registerItem("mario_fire_shoes",
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        LUIGI_FIRE_HAT = registerItem("luigi_fire_hat",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        LUIGI_FIRE_SHIRT = registerItem("luigi_fire_shirt",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        LUIGI_FIRE_PANTS = registerItem("luigi_fire_pants",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        LUIGI_FIRE_SHOES = registerItem("luigi_fire_shoes",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         ICE_FLOWER = registerItem("ice_flower",
@@ -137,6 +156,17 @@ public class ItemRegistry {
         MARIO_ICE_SHOES = registerItem("mario_ice_shoes",
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        LUIGI_ICE_HAT = registerItem("luigi_ice_hat",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        LUIGI_ICE_SHIRT = registerItem("luigi_ice_shirt",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        LUIGI_ICE_PANTS = registerItem("luigi_ice_pants",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        LUIGI_ICE_SHOES = registerItem("luigi_ice_shoes",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",

@@ -1,13 +1,7 @@
 {
   "values": [
-    "marioverse:mario_fire_hat",
-    "marioverse:mario_fire_pants",
-    "marioverse:mario_fire_shirt",
-    "marioverse:mario_fire_shoes",
-    "marioverse:mario_ice_hat",
-    "marioverse:mario_ice_pants",
-    "marioverse:mario_ice_shirt",
-    "marioverse:mario_ice_shoes",
+    "#marioverse:costumes/fire/mario",
+    "#marioverse:costumes/ice/mario",
     "marioverse:mario_hat",
     "marioverse:mario_pants",
     "marioverse:mario_shirt",
