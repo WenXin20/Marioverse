@@ -15,7 +15,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class EntityTypeTagsGen extends EntityTypeTagsProvider {
-    private static ResourceLocation TEST_DUMMY = ResourceLocation.fromNamespaceAndPath("dummmmmmy", "test_dummy");
+    private static ResourceLocation TEST_DUMMY = ResourceLocation.fromNamespaceAndPath("dummmmmmy", "target_dummy");
 
     public EntityTypeTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);

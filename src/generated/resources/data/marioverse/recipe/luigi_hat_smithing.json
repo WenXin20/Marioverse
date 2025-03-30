@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "minecraft:green_wool"
+    "item": "minecraft:lime_wool"
   },
   "base": {
     "item": "minecraft:leather_helmet"

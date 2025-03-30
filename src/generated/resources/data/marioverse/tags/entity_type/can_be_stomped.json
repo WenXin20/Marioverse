@@ -3,7 +3,7 @@
     "#marioverse:goombas",
     "minecraft:slime",
     {
-      "id": "dummmmmmy:test_dummy",
+      "id": "dummmmmmy:target_dummy",
       "required": false
     }
   ]

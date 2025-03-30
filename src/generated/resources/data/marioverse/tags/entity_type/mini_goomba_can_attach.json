@@ -8,7 +8,7 @@
     "minecraft:villager",
     "minecraft:wandering_trader",
     {
-      "id": "dummmmmmy:test_dummy",
+      "id": "dummmmmmy:target_dummy",
       "required": false
     }
   ]
