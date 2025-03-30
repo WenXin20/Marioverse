@@ -281,7 +281,7 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
 
     @Override
     protected List<String> disablePowerUpTags() {
-        return List.of("marioverse:has_fire_flower");
+        return List.of("marioverse:has_ice_flower");
     }
 
     @Override
