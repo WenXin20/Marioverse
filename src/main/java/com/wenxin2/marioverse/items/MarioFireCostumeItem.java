@@ -1,11 +1,12 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.client.renderers.costumes.IceCostumeRenderer;
+import com.wenxin2.marioverse.client.renderers.costumes.MarioFireCostumeRenderer;
 import java.util.function.Consumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -20,10 +21,10 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class IceCostumeItem extends BaseCostumeItem implements GeoItem {
+public class MarioFireCostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public IceCostumeItem(Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
+    public MarioFireCostumeItem(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType, Properties properties) {
         super(armorMaterial, armorType, properties);
     }
 
@@ -36,7 +37,7 @@ public class IceCostumeItem extends BaseCostumeItem implements GeoItem {
             public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity,
                 ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
                 if(this.renderer == null)
-                    this.renderer = new IceCostumeRenderer();
+                    this.renderer = new MarioFireCostumeRenderer();
                 return this.renderer;
             }
         });

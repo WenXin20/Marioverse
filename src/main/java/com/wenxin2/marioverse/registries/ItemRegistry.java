@@ -4,8 +4,8 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
-import com.wenxin2.marioverse.items.FireCostumeItem;
-import com.wenxin2.marioverse.items.IceCostumeItem;
+import com.wenxin2.marioverse.items.MarioFireCostumeItem;
+import com.wenxin2.marioverse.items.MarioIceCostumeItem;
 import com.wenxin2.marioverse.items.LuigiCostumeItem;
 import com.wenxin2.marioverse.items.MarioCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
@@ -113,31 +113,31 @@ public class ItemRegistry {
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_FIRE_HAT = registerItem("mario_fire_hat",
-                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                () -> new MarioFireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         MARIO_FIRE_SHIRT = registerItem("mario_fire_shirt",
-                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                () -> new MarioFireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
         MARIO_FIRE_PANTS = registerItem("mario_fire_pants",
-                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                () -> new MarioFireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
         MARIO_FIRE_SHOES = registerItem("mario_fire_shoes",
-                () -> new FireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new MarioFireCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         ICE_FLOWER = registerItem("ice_flower",
                 () -> new BasePowerUpItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_ICE_HAT = registerItem("mario_ice_hat",
-                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                () -> new MarioIceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         MARIO_ICE_SHIRT = registerItem("mario_ice_shirt",
-                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                () -> new MarioIceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
         MARIO_ICE_PANTS = registerItem("mario_ice_pants",
-                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                () -> new MarioIceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
         MARIO_ICE_SHOES = registerItem("mario_ice_shoes",
-                () -> new IceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new MarioIceCostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
