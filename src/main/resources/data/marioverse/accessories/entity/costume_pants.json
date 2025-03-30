@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "entities": [
+    "#marioverse:can_wear_pants"
+  ],
+  "slots": [
+    "costume_pants"
+  ]
+}

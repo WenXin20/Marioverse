@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-29T20:20:33.888113	Item Models: marioverse
+// 1.21.1	2025-03-30T15:08:36.1613367	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -58,7 +58,15 @@ e72fe30a725ba423d1d9fb608ba88c00020e2db9 assets/marioverse/models/item/light_gra
 66392ce0855e3b5bc802d2117b25d60c03146cdc assets/marioverse/models/item/lime_checkpoint_flag.json
 2aaf9eeb5df41e7e4bcc6cf17981630505ea7166 assets/marioverse/models/item/lime_goal_pole.json
 5c59e863df751202d8507e4717d4152c0ec5cb66 assets/marioverse/models/item/luigi_costume_smithing_template.json
+dd3f09696864841badac9b6f66cfaab4500d69a1 assets/marioverse/models/item/luigi_fire_hat.json
+f0e988017eac20d3aa593f8bd74d5d5981507bbe assets/marioverse/models/item/luigi_fire_pants.json
+fabba527cfe8f7dc18be2ee6ce678ccc18fb6e94 assets/marioverse/models/item/luigi_fire_shirt.json
+d285d0f6736272ace9221284b24bdca609896fbf assets/marioverse/models/item/luigi_fire_shoes.json
 2168b93fa517c2ce3a1fb6a6ba73beb395089630 assets/marioverse/models/item/luigi_hat.json
+e0e9ae9725b7e6d82f03120e807428cf49caff49 assets/marioverse/models/item/luigi_ice_hat.json
+f40db733a525dc9b267f5777f1bbaded524cdee3 assets/marioverse/models/item/luigi_ice_pants.json
+7b50d70e2fbd14be1a907dd188b924f21a80c8e4 assets/marioverse/models/item/luigi_ice_shirt.json
+82b450b81f1fae0cd96b3308173dbce38a583157 assets/marioverse/models/item/luigi_ice_shoes.json
 99d4706e5e162424fd5b9320aa71dd894dcc6257 assets/marioverse/models/item/luigi_pants.json
 797e72421ac8a57312dc14bb3a6b83bd95d35c68 assets/marioverse/models/item/luigi_shirt.json
 351475ce3949eb478a3063a66f61108c34c88145 assets/marioverse/models/item/luigi_shoes.json

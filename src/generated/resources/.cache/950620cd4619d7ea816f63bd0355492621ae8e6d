@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-29T21:03:37.2556409	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-03-30T15:08:36.1547729	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -18,7 +18,11 @@ c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_co
 d23a92e536b60de5c7c73b6061973a2d76ab3bf0 data/marioverse/tags/entity_type/can_pick_up_coins.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_smash_blocks.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_stomp_enemies.json
-c3505246eed2da27bced404acdd7e0992b104485 data/marioverse/tags/entity_type/can_wear_costumes.json
+6a5f994170a837bef72d003e65db3ca9aead1bd4 data/marioverse/tags/entity_type/can_wear_costumes.json
+c3505246eed2da27bced404acdd7e0992b104485 data/marioverse/tags/entity_type/can_wear_hats.json
+6a5f994170a837bef72d003e65db3ca9aead1bd4 data/marioverse/tags/entity_type/can_wear_pants.json
+6a5f994170a837bef72d003e65db3ca9aead1bd4 data/marioverse/tags/entity_type/can_wear_shirts.json
+6a5f994170a837bef72d003e65db3ca9aead1bd4 data/marioverse/tags/entity_type/can_wear_shoes.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/checkpoint_flag_cannot_spawn.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/damage_cannot_shrink.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/decorated_pot_cannot_spawn.json

@@ -45,6 +45,14 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.LUIGI_PANTS.get());
         this.basicItem(ItemRegistry.LUIGI_SHIRT.get());
         this.basicItem(ItemRegistry.LUIGI_SHOES.get());
+        this.basicItem(ItemRegistry.LUIGI_FIRE_HAT.get());
+        this.basicItem(ItemRegistry.LUIGI_FIRE_PANTS.get());
+        this.basicItem(ItemRegistry.LUIGI_FIRE_SHIRT.get());
+        this.basicItem(ItemRegistry.LUIGI_FIRE_SHOES.get());
+        this.basicItem(ItemRegistry.LUIGI_ICE_HAT.get());
+        this.basicItem(ItemRegistry.LUIGI_ICE_PANTS.get());
+        this.basicItem(ItemRegistry.LUIGI_ICE_SHIRT.get());
+        this.basicItem(ItemRegistry.LUIGI_ICE_SHOES.get());
         this.basicItem(ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.MARIO_FIRE_HAT.get());
         this.basicItem(ItemRegistry.MARIO_FIRE_PANTS.get());

@@ -1,7 +1,6 @@
 {
-  "_comment": "Tag for entities that can wear power up costumes",
-  "replace": false,
   "values": [
+    "#c:bosses",
     "minecraft:armor_stand",
     "minecraft:bogged",
     "minecraft:drowned",
@@ -15,8 +14,17 @@
     "minecraft:wither_skeleton",
     "minecraft:zombie",
     "minecraft:zombified_piglin",
-    { "id": "#accessories:defaulted_targets", "required": false },
-    { "id": "marioverse:goomba", "required": false },
-    { "id": "dummmmmmy:test_dummy", "required": false }
+    {
+      "id": "#accessories:defaulted_targets",
+      "required": false
+    },
+    {
+      "id": "#twilightforest:bosses",
+      "required": false
+    },
+    {
+      "id": "dummmmmmy:target_dummy",
+      "required": false
+    }
   ]
 }
