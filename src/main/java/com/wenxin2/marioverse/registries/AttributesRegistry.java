@@ -16,6 +16,9 @@ public class AttributesRegistry {
     public static final ResourceLocation MARIO_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_jump_boost");
     public static final ResourceLocation MARIO_RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_running_jump_boost");
     public static final ResourceLocation MARIO_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_safe_fall_distance");
+    public static final ResourceLocation LUIGI_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_jump_boost");
+    public static final ResourceLocation LUIGI_RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_running_jump_boost");
+    public static final ResourceLocation LUIGI_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_safe_fall_distance");
     public static final ResourceLocation COSTUME_ARMOR_TOUGHNESS = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_toughness");
     public static final ResourceLocation COSTUME_ARMOR_KNOCKBACK_RESISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_knockback_resistance");
 

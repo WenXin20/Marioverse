@@ -118,6 +118,7 @@ public abstract class LivingEntityMixin extends Entity {
         boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
         this.marioverse$marioAbilities(entity);
+        this.marioverse$luigiAbilities(entity);
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -323,6 +324,83 @@ public abstract class LivingEntityMixin extends Entity {
                 ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
                 return stackHat.is(TagRegistry.MARIO_COSTUMES) && stackShirt.is(TagRegistry.MARIO_COSTUMES)
                         && stackPants.is(TagRegistry.MARIO_COSTUMES) && stackShoes.is(TagRegistry.MARIO_COSTUMES);
+            }
+        }
+        return false;
+    }
+
+    @Unique
+    private void marioverse$luigiAbilities(LivingEntity entity) {
+        AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
+        AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
+        if (jumpAttribute != null) {
+            Minecraft minecraft = Minecraft.getInstance();
+            KeyMapping sprintKey = minecraft.options.keySprint;
+            double normalJumpBoost = 0.5;
+            double runningJumpBoost = 0.6;
+            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.LUIGI_JUMP_BOOST) != null;
+            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.LUIGI_RUNNING_JUMP_BOOST) != null;
+            boolean isRunning = entity.isSprinting();
+
+            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), sprintKey.getKey().getValue())
+                    && entity instanceof Player)
+                isRunning = true;
+
+            if (this.marioverse$hasMarioCostume(entity)) {
+                if (isRunning) {
+                    if (!hasRunningJumpModifier)
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.LUIGI_RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+
+                    if (hasJumpModifier)
+                        jumpAttribute.removeModifier(AttributesRegistry.LUIGI_JUMP_BOOST);
+                } else {
+                    if (!hasJumpModifier)
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.LUIGI_JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                    if (hasRunningJumpModifier)
+                        jumpAttribute.removeModifier(AttributesRegistry.LUIGI_RUNNING_JUMP_BOOST);
+                }
+            }
+            else {
+                if (hasRunningJumpModifier)
+                    jumpAttribute.removeModifier(AttributesRegistry.LUIGI_RUNNING_JUMP_BOOST);
+                if (hasJumpModifier)
+                    jumpAttribute.removeModifier(AttributesRegistry.LUIGI_JUMP_BOOST);
+            }
+
+        }
+
+        if (safeFallAttribute != null) {
+            if (this.marioverse$hasMarioCostume(entity)) {
+                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.LUIGI_SAFE_FALL_DISTANCE) != null;
+                if (!hasSafeFallModifier)
+                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.LUIGI_SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
+            }
+            else safeFallAttribute.removeModifier(AttributesRegistry.LUIGI_SAFE_FALL_DISTANCE);
+        }
+    }
+
+    @Unique
+    private boolean marioverse$hasLuigiCostume(LivingEntity entity) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.LUIGI_COSTUMES)
+                && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.LUIGI_COSTUMES)
+                && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.LUIGI_COSTUMES)
+                && entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.LUIGI_COSTUMES))
+            return true;
+
+        AccessoriesCapability capability = AccessoriesCapability.get(entity);
+        if (capability != null) {
+            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
+            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
+            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
+            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+
+            if (containerHat != null && containerShirt != null && containerPants != null && containerShoes != null) {
+                ItemStack stackHat = containerHat.getAccessories().getItem(0);
+                ItemStack stackShirt = containerShirt.getAccessories().getItem(0);
+                ItemStack stackPants = containerPants.getAccessories().getItem(0);
+                ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
+                return stackHat.is(TagRegistry.LUIGI_COSTUMES) && stackShirt.is(TagRegistry.LUIGI_COSTUMES)
+                        && stackPants.is(TagRegistry.LUIGI_COSTUMES) && stackShoes.is(TagRegistry.LUIGI_COSTUMES);
             }
         }
         return false;
