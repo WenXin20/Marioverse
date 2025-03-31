@@ -35,7 +35,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         } else if (stack.is(TagRegistry.MARIO_COSTUMES)) {
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/mario_costume.png");
         } else if (stack.is(TagRegistry.LUIGI_COSTUMES)) {
-            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/luigi_costume.png");
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/peach_costume.png");
         } else return super.getTextureLocation(animatable);
     }
 

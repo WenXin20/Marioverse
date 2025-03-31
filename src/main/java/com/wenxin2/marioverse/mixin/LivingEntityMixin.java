@@ -346,7 +346,7 @@ public abstract class LivingEntityMixin extends Entity {
                     && entity instanceof Player)
                 isRunning = true;
 
-            if (this.marioverse$hasMarioCostume(entity)) {
+            if (this.marioverse$hasLuigiCostume(entity)) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.LUIGI_RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
