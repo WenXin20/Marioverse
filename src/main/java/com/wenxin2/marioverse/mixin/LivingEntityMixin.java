@@ -370,7 +370,7 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         if (safeFallAttribute != null) {
-            if (this.marioverse$hasMarioCostume(entity)) {
+            if (this.marioverse$hasLuigiCostume(entity)) {
                 boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.LUIGI_SAFE_FALL_DISTANCE) != null;
                 if (!hasSafeFallModifier)
                     safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.LUIGI_SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
