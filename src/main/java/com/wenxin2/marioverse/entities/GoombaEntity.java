@@ -359,9 +359,17 @@ public class GoombaEntity extends Monster implements GeoEntity {
         super.populateDefaultEquipmentSlots(random, difficulty);
         if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
             int i = random.nextInt(6);
+            int randomInt = random.nextInt(1);
             if (i == 0) {
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
+                if (randomInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
                 this.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+            } else if (i == 1) {
+                if (randomInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
+                this.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
             } else {
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
             }
