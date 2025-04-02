@@ -65,19 +65,23 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.COSTUMES)
                 .addTag(TagRegistry.LUIGI_COSTUMES)
-                .addTag(TagRegistry.MARIO_COSTUMES);
+                .addTag(TagRegistry.MARIO_COSTUMES)
+                .addTag(TagRegistry.PEACH_COSTUMES);
 
         tag(TagRegistry.FIRE_COSTUMES)
                 .addTag(TagRegistry.LUIGI_FIRE_COSTUMES)
-                .addTag(TagRegistry.MARIO_FIRE_COSTUMES);
+                .addTag(TagRegistry.MARIO_FIRE_COSTUMES)
+                .addTag(TagRegistry.PEACH_FIRE_COSTUMES);
 
         tag(TagRegistry.ICE_COSTUMES)
                 .addTag(TagRegistry.LUIGI_ICE_COSTUMES)
-                .addTag(TagRegistry.MARIO_ICE_COSTUMES);
+                .addTag(TagRegistry.MARIO_ICE_COSTUMES)
+                .addTag(TagRegistry.PEACH_ICE_COSTUMES);
 
         tag(TagRegistry.POWER_UP_COSTUMES)
                 .addTag(TagRegistry.LUIGI_POWER_UP_COSTUMES)
-                .addTag(TagRegistry.MARIO_POWER_UP_COSTUMES);
+                .addTag(TagRegistry.MARIO_POWER_UP_COSTUMES)
+                .addTag(TagRegistry.PEACH_POWER_UP_COSTUMES);
 
         tag(TagRegistry.POWER_UP_ITEMS)
                 .add(ItemRegistry.FIRE_FLOWER.get())
@@ -88,19 +92,23 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.HATS)
                 .addTag(TagRegistry.LUIGI_HATS)
-                .addTag(TagRegistry.MARIO_HATS);
+                .addTag(TagRegistry.MARIO_HATS)
+                .addTag(TagRegistry.PEACH_HATS);
 
         tag(TagRegistry.PANTS)
                 .addTag(TagRegistry.LUIGI_PANTS)
-                .addTag(TagRegistry.MARIO_PANTS);
+                .addTag(TagRegistry.MARIO_PANTS)
+                .addTag(TagRegistry.PEACH_PANTS);
 
         tag(TagRegistry.SHIRTS)
                 .addTag(TagRegistry.LUIGI_SHIRTS)
-                .addTag(TagRegistry.MARIO_SHIRTS);
+                .addTag(TagRegistry.MARIO_SHIRTS)
+                .addTag(TagRegistry.PEACH_SHIRTS);
 
         tag(TagRegistry.SHOES)
                 .addTag(TagRegistry.LUIGI_SHOES)
-                .addTag(TagRegistry.MARIO_SHOES);
+                .addTag(TagRegistry.MARIO_SHOES)
+                .addTag(TagRegistry.PEACH_SHOES);
 
         tag(TagRegistry.MARIO_COSTUMES)
                 .addTag(TagRegistry.MARIO_FIRE_COSTUMES)

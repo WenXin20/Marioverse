@@ -267,7 +267,7 @@ public class MarioverseEventHandlers {
         }
 
         if (event.getEntity() instanceof GoombaEntity goomba
-                && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_POWER_UP_COSTUMES)) {
+                && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES)) {
             goomba.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
         }
 

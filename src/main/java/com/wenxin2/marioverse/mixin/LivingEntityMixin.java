@@ -314,7 +314,7 @@ public abstract class LivingEntityMixin extends Entity {
             if (this.marioverse$hasPeachCostume(entity)) {
                 boolean hasGravityModifier = gravityAttribute.getModifier(AttributesRegistry.SLOW_GRAVITY) != null;
                 if (!hasGravityModifier)
-                    gravityAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SLOW_GRAVITY, 1.2, AttributeModifier.Operation.ADD_VALUE));
+                    gravityAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SLOW_GRAVITY, 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
             else gravityAttribute.removeModifier(AttributesRegistry.SLOW_GRAVITY);
         }

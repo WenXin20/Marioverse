@@ -109,27 +109,30 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         int randomIndex = (int) (Math.random() * this.getHatItems().size());
 
-//        if (entity instanceof GoombaEntity goomba
-//                && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-//                    || goomba.getItemBySlot(EquipmentSlot.HEAD).is(this.getPowerUpCostumeTag()))) {
-//            ItemStack stack = goomba.getItemBySlot(EquipmentSlot.HEAD).getItem().getDefaultInstance();
-//            ItemStack newStack = goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-//                    ? this.getHatItems().get((int) (Math.random() * this.getHatItems().size()))
-//                    : this.getHatItems().getFirst();
-//
-//            for (ItemStack item : this.getHatItems()) {
-//                if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-//                    if (item.is(this.getPowerUpCostumeTag()))
-//                        newStack = item.copy();
-//                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-//                    if (item.is(this.getPowerUpCostumeTag()))
-//                        newStack = item.copy();
-//                }
-//            }
-//
-//            newStack.applyComponents(stack.getComponents());
-//            goomba.setItemSlot(EquipmentSlot.HEAD, newStack);
-//        }
+        if (entity instanceof GoombaEntity goomba
+                && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                    || goomba.getItemBySlot(EquipmentSlot.HEAD).is(this.getPowerUpCostumeTag()))) {
+            ItemStack stack = goomba.getItemBySlot(EquipmentSlot.HEAD).getItem().getDefaultInstance();
+            ItemStack newStack = goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                    ? this.getHatItems().get((int) (Math.random() * this.getHatItems().size()))
+                    : this.getHatItems().getFirst();
+
+            for (ItemStack item : this.getHatItems()) {
+                if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_POWER_UP_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_POWER_UP_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_POWER_UP_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                }
+            }
+
+            newStack.applyComponents(stack.getComponents());
+            goomba.setItemSlot(EquipmentSlot.HEAD, newStack);
+        }
 
         if (containerHat != null && !containerHat.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
@@ -145,10 +148,16 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
+                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
                 } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 }
@@ -172,10 +181,16 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
+                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
                 } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 }
@@ -199,10 +214,16 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
+                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
                 } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 }
@@ -226,10 +247,16 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
+                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
                 } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
+                    if (item.is(this.getPowerUpCostumeTag()))
+                        newStack = item.copy();
+                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
                 }
