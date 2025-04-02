@@ -7,6 +7,9 @@
     { "id": "marioverse:luigi_ice_shirt", "required": false },
     { "id": "marioverse:mario_shirt", "required": false },
     { "id": "marioverse:mario_fire_shirt", "required": false },
-    { "id": "marioverse:mario_ice_shirt", "required": false }
+    { "id": "marioverse:mario_ice_shirt", "required": false },
+    { "id": "marioverse:peach_bodice", "required": false },
+    { "id": "marioverse:peach_fire_bodice", "required": false },
+    { "id": "marioverse:peach_ice_bodice", "required": false }
   ]
 }

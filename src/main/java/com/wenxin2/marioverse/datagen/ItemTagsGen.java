@@ -219,16 +219,19 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PEACH_SHOES.get());
 
         tag(TagRegistry.PEACH_FIRE_COSTUMES)
+                .add(ItemRegistry.PEACH_CROWN.get())
                 .add(ItemRegistry.PEACH_FIRE_BODICE.get())
                 .add(ItemRegistry.PEACH_FIRE_DRESS.get())
                 .add(ItemRegistry.PEACH_FIRE_SHOES.get());
 
         tag(TagRegistry.PEACH_ICE_COSTUMES)
+                .add(ItemRegistry.PEACH_CROWN.get())
                 .add(ItemRegistry.PEACH_ICE_BODICE.get())
                 .add(ItemRegistry.PEACH_ICE_DRESS.get())
                 .add(ItemRegistry.PEACH_ICE_SHOES.get());
 
         tag(TagRegistry.PEACH_POWER_UP_COSTUMES)
+                .add(ItemRegistry.PEACH_CROWN.get())
                 .add(ItemRegistry.PEACH_FIRE_BODICE.get())
                 .add(ItemRegistry.PEACH_FIRE_DRESS.get())
                 .add(ItemRegistry.PEACH_FIRE_SHOES.get())

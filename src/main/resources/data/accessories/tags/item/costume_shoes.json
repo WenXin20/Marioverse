@@ -7,6 +7,9 @@
     { "id": "marioverse:luigi_ice_shoes", "required": false },
     { "id": "marioverse:mario_shoes", "required": false },
     { "id": "marioverse:mario_fire_shoes", "required": false },
-    { "id": "marioverse:mario_ice_shoes", "required": false }
+    { "id": "marioverse:mario_ice_shoes", "required": false },
+    { "id": "marioverse:peach_shoes", "required": false },
+    { "id": "marioverse:peach_fire_shoes", "required": false },
+    { "id": "marioverse:peach_ice_shoes", "required": false }
   ]
 }
