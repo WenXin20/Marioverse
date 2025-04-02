@@ -11,14 +11,12 @@ public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> HEIGHT_SCALE;
     public static final DeferredHolder<Attribute, Attribute> WIDTH_SCALE;
 
-    public static final ResourceLocation DAMAGED_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "damaged_height_scaledamaged_height_scale");
+    public static final ResourceLocation DAMAGED_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "damaged_height_scale");
     public static final ResourceLocation RESET_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "reset_scale");
-    public static final ResourceLocation MARIO_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_jump_boost");
-    public static final ResourceLocation MARIO_RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_running_jump_boost");
-    public static final ResourceLocation MARIO_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mario_safe_fall_distance");
-    public static final ResourceLocation LUIGI_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_jump_boost");
-    public static final ResourceLocation LUIGI_RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_running_jump_boost");
-    public static final ResourceLocation LUIGI_SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_safe_fall_distance");
+    public static final ResourceLocation JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_jump_boost");
+    public static final ResourceLocation RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_running_jump_boost");
+    public static final ResourceLocation SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_safe_fall_distance");
+    public static final ResourceLocation SLOW_GRAVITY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_gravity");
     public static final ResourceLocation COSTUME_ARMOR_TOUGHNESS = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_toughness");
     public static final ResourceLocation COSTUME_ARMOR_KNOCKBACK_RESISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_knockback_resistance");
 

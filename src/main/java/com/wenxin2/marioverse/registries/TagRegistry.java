@@ -88,6 +88,14 @@ public class TagRegistry {
     public static final TagKey<Item> MARIO_SHIRTS = itemTags("shirts/mario");
     public static final TagKey<Item> MARIO_SHOES = itemTags("shoes/mario");
     public static final TagKey<Item> PANTS = itemTags("pants");
+    public static final TagKey<Item> PEACH_COSTUMES = itemTags("costumes/peach");;
+    public static final TagKey<Item> PEACH_FIRE_COSTUMES = itemTags("costumes/fire/peach");
+    public static final TagKey<Item> PEACH_HATS = itemTags("hats/peach");
+    public static final TagKey<Item> PEACH_ICE_COSTUMES = itemTags("costumes/ice/peach");
+    public static final TagKey<Item> PEACH_PANTS = itemTags("pants/peach");
+    public static final TagKey<Item> PEACH_POWER_UP_COSTUMES = itemTags("power_up_costumes/peach");
+    public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
+    public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");

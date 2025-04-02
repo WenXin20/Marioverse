@@ -63,6 +63,17 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
+    public static final DeferredItem<Item> PEACH_BODICE;
+    public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> PEACH_CROWN;
+    public static final DeferredItem<Item> PEACH_DRESS;
+    public static final DeferredItem<Item> PEACH_FIRE_BODICE;
+    public static final DeferredItem<Item> PEACH_FIRE_DRESS;
+    public static final DeferredItem<Item> PEACH_FIRE_SHOES;
+    public static final DeferredItem<Item> PEACH_ICE_BODICE;
+    public static final DeferredItem<Item> PEACH_ICE_DRESS;
+    public static final DeferredItem<Item> PEACH_ICE_SHOES;
+    public static final DeferredItem<Item> PEACH_SHOES;
     public static final DeferredItem<Item> PIPE_WRENCH;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
@@ -88,6 +99,8 @@ public class ItemRegistry {
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
         LUIGI_COSTUME_SMITHING_TEMPLATE = registerItem("luigi_costume_smithing_template",
+                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
+        PEACH_COSTUME_SMITHING_TEMPLATE = registerItem("peach_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
         FIRE_COSTUME_SMITHING_TEMPLATE = registerItem("fire_costume_smithing_template",
                 CharacterSmithingTemplateItem::createFireUpgradeTemplate);
@@ -120,6 +133,19 @@ public class ItemRegistry {
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
+        PEACH_CROWN = registerItem("peach_crown",
+                () -> new CostumeItem(ArmorMaterials.GOLD, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(12))));
+        PEACH_BODICE = registerItem("peach_bodice",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        PEACH_DRESS = registerItem("peach_dress",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        PEACH_SHOES = registerItem("peach_shoes",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_FIRE_HAT = registerItem("mario_fire_hat",
@@ -144,6 +170,15 @@ public class ItemRegistry {
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
         LUIGI_FIRE_SHOES = registerItem("luigi_fire_shoes",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        PEACH_FIRE_BODICE = registerItem("peach_fire_bodice",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        PEACH_FIRE_DRESS = registerItem("peach_fire_dress",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        PEACH_FIRE_SHOES = registerItem("peach_fire_shoes",
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
@@ -171,6 +206,15 @@ public class ItemRegistry {
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
         LUIGI_ICE_SHOES = registerItem("luigi_ice_shoes",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        PEACH_ICE_BODICE = registerItem("peach_ice_bodice",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        PEACH_ICE_DRESS = registerItem("peach_ice_dress",
+                () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        PEACH_ICE_SHOES = registerItem("peach_ice_shoes",
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
@@ -216,6 +260,12 @@ public class ItemRegistry {
                 "shirt", LUIGI_SHIRT,
                 "pants", LUIGI_PANTS,
                 "shoes", LUIGI_SHOES));
+
+        COSTUME_MAP.put("peach", Map.of(
+                "hat", PEACH_CROWN,
+                "shirt", PEACH_BODICE,
+                "pants", PEACH_DRESS,
+                "shoes", PEACH_SHOES));
     }
 
     public static ItemStack getCostumeItem(String character, String part) {

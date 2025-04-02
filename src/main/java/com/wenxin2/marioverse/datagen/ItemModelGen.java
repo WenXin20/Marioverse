@@ -70,6 +70,17 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
+        this.basicItem(ItemRegistry.PEACH_BODICE.get());
+        this.basicItem(ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get());
+        this.basicItem(ItemRegistry.PEACH_CROWN.get());
+        this.basicItem(ItemRegistry.PEACH_DRESS.get());
+        this.basicItem(ItemRegistry.PEACH_FIRE_BODICE.get());
+        this.basicItem(ItemRegistry.PEACH_FIRE_DRESS.get());
+        this.basicItem(ItemRegistry.PEACH_FIRE_SHOES.get());
+        this.basicItem(ItemRegistry.PEACH_ICE_BODICE.get());
+        this.basicItem(ItemRegistry.PEACH_ICE_DRESS.get());
+        this.basicItem(ItemRegistry.PEACH_ICE_SHOES.get());
+        this.basicItem(ItemRegistry.PEACH_SHOES.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());

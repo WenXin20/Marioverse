@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-30T15:08:36.1613367	Item Models: marioverse
+// 1.21.1	2025-04-01T22:52:15.9125242	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -91,6 +91,17 @@ f16534875539ddc16f40c06e79c8e7938899b5aa assets/marioverse/models/item/mega_goom
 de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mushroom.json
 9a5a459234528e69ff5d72e93ee6dff6da481be9 assets/marioverse/models/item/orange_checkpoint_flag.json
 f929eff4cf176057a97869f6b45a876c9676d68c assets/marioverse/models/item/orange_goal_pole.json
+147c69ae61f0cc39958a2c267e31abcbcc1c1491 assets/marioverse/models/item/peach_bodice.json
+04a15e10e18b34f532e191218ed29b8bae0356ac assets/marioverse/models/item/peach_costume_smithing_template.json
+3d31c0e09e89af2be7e726a74a7f754b1a1d2b4f assets/marioverse/models/item/peach_crown.json
+d895cc0d70796f5f161e4278573074f489955374 assets/marioverse/models/item/peach_dress.json
+d1e0b900dea56c9f0155492a44d2eb4194f91615 assets/marioverse/models/item/peach_fire_bodice.json
+aa77a959059769b00934a6ba5d25f5a0489c4139 assets/marioverse/models/item/peach_fire_dress.json
+1e74874dbed49e3f923030caaab0d2410afa55bd assets/marioverse/models/item/peach_fire_shoes.json
+2d617cc4821de7d12214a8b3afddb3bc263f4091 assets/marioverse/models/item/peach_ice_bodice.json
+b8042a4e1458946ec4caef8b9f98f62ee8b6c136 assets/marioverse/models/item/peach_ice_dress.json
+91825802cd131d58999e71ef7599d542d922d5b3 assets/marioverse/models/item/peach_ice_shoes.json
+a91af4078eb56eded6b61d7f2edb9cb4fabdb38b assets/marioverse/models/item/peach_shoes.json
 d70405bdb8d83945129d347e173906c4da5f75dd assets/marioverse/models/item/pink_checkpoint_flag.json
 26c208a91f3f8be05f2b3a4c99ff8df35b60f4a8 assets/marioverse/models/item/pink_goal_pole.json
 af5dff270f5ab99a0c8bdafce33804c2a4e3e939 assets/marioverse/models/item/pipe_wrench.json

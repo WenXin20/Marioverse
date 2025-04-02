@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:gold_ingot"
+  },
+  "base": {
+    "item": "minecraft:golden_helmet"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:peach_crown"
+  },
+  "template": {
+    "item": "marioverse:peach_costume_smithing_template"
+  }
+}

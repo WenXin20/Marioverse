@@ -209,6 +209,8 @@ public class MarioverseEventHandlers {
                             removeCostume(player, "mario", capability);
                         if (stack.is(TagRegistry.LUIGI_POWER_UP_COSTUMES))
                             removeCostume(player, "luigi", capability);
+                        if (stack.is(TagRegistry.PEACH_POWER_UP_COSTUMES))
+                            removeCostume(player, "peach", capability);
                     }
                 }
             }
@@ -257,6 +259,8 @@ public class MarioverseEventHandlers {
                             removeCostume(entity, "mario", capability);
                         if (stack.is(TagRegistry.LUIGI_POWER_UP_COSTUMES))
                             removeCostume(entity, "luigi", capability);
+                        if (stack.is(TagRegistry.PEACH_POWER_UP_COSTUMES))
+                            removeCostume(entity, "peach", capability);
                     }
                 }
             }

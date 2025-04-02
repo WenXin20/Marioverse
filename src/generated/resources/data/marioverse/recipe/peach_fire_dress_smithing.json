@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "marioverse:fire_flower"
+  },
+  "base": {
+    "tag": "marioverse:pants/luigi"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:peach_fire_dress"
+  },
+  "template": {
+    "item": "marioverse:fire_costume_smithing_template"
+  }
+}

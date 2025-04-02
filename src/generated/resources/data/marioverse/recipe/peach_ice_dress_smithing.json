@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "marioverse:ice_flower"
+  },
+  "base": {
+    "tag": "marioverse:pants/luigi"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:peach_ice_dress"
+  },
+  "template": {
+    "item": "marioverse:ice_costume_smithing_template"
+  }
+}
