@@ -28,23 +28,30 @@
 					"pivot": [0, 24, 0]
 				},
 				{
+					"name": "armorBody",
+					"parent": "bipedBody",
+					"pivot": [0, 24, 0],
+					"cubes": [
+						{"origin": [-4, 12, -2], "size": [8, 12, 4], "inflate": 0.45, "uv": [0, 15]}
+					]
+				},
+				{
 					"name": "armorWaist",
 					"parent": "bipedBody",
 					"pivot": [0, 24, 0],
 					"cubes": [
-						{"origin": [-7, 1, -6], "size": [14, 11, 13], "uv": [74, 0]},
-						{"origin": [-7, 1, -6], "size": [14, 11, 13], "inflate": 0.25, "uv": [74, 25]},
+						{"origin": [-4, 12, -2], "size": [8, 12, 4], "inflate": 0.65, "uv": [25, 15]},
 						{"origin": [-5, 12, -4], "size": [10, 4, 9], "uv": [0, 32]},
 						{"origin": [-5, 12, -4], "size": [10, 4, 9], "inflate": 0.25, "uv": [0, 46]}
 					]
 				},
 				{
-					"name": "armorBody",
+					"name": "armorDress",
 					"parent": "bipedBody",
 					"pivot": [0, 24, 0],
 					"cubes": [
-						{"origin": [-4, 12, -2], "size": [8, 12, 4], "inflate": 0.45, "uv": [0, 15]},
-						{"origin": [-4, 12, -2], "size": [8, 12, 4], "inflate": 0.65, "uv": [25, 15]}
+						{"origin": [-7, 1, -6], "size": [14, 11, 13], "uv": [74, 0]},
+						{"origin": [-7, 1, -6], "size": [14, 11, 13], "inflate": 0.25, "uv": [74, 25]}
 					]
 				},
 				{

@@ -20,8 +20,8 @@
 					"parent": "bipedHead",
 					"pivot": [0, 24, 0],
 					"cubes": [
-						{"origin": [-4.5, 23.65, -4], "size": [9, 9, 8], "inflate": 0.3, "uv": [0, 0]},
-						{"origin": [-4.75, 27.65, -7.35], "size": [9.5, 1, 3], "inflate": 0.05, "uv": [35, 0]}
+						{"origin": [-4.5, 23.65, -4], "size": [9, 9, 8], "inflate": 0.4, "uv": [0, 0]},
+						{"origin": [-4.75, 27.65, -7.45], "size": [9.5, 1, 3], "inflate": 0.15, "uv": [35, 0]}
 					]
 				},
 				{
@@ -31,9 +31,9 @@
 				{
 					"name": "armorWaist",
 					"parent": "bipedBody",
-					"pivot": [2, 12, 0],
+					"pivot": [0, 24, 0],
 					"cubes": [
-						{"origin": [-4, 12, -2], "size": [8, 4, 4], "inflate": 0.4, "uv": [0, 32]}
+						{"origin": [-4, 12.5, -2], "size": [8, 4, 4], "inflate": 0.4, "uv": [0, 32]}
 					]
 				},
 				{

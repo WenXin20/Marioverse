@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.client.renderers.costumes;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
@@ -85,6 +86,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
 
     @Override
     protected void applyBoneVisibilityBySlot(EquipmentSlot slot) {
+        this.getGeoModel().getBone("armorDress").ifPresent(bone -> bone.setHidden(true));
         this.getGeoModel().getBone("armorWaist").ifPresent(bone -> bone.setHidden(true));
 
         switch (currentSlot) {
@@ -97,6 +99,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 this.setBoneVisible(this.leftArm, true);
                 break;
             case LEGS:
+                this.getGeoModel().getBone("armorDress").ifPresent(bone -> bone.setHidden(false));
                 this.getGeoModel().getBone("armorWaist").ifPresent(bone -> bone.setHidden(false));
                 this.setBoneVisible(this.waist, true);
                 this.setBoneVisible(this.rightLeg, true);
@@ -115,9 +118,12 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         GeoBone bone = null;
 
         if (currentPart != model.hat && currentPart != model.head) {
-            if (currentPart == model.leftLeg || currentPart == model.rightLeg)
+            if (currentPart == model.leftLeg || currentPart == model.rightLeg) {
+                if (this.getGeoModel().getBone("armorDress").isPresent())
+                    bone = this.getGeoModel().getBone("armorDress").get();
                 if (this.getGeoModel().getBone("armorWaist").isPresent())
                     bone = this.getGeoModel().getBone("armorWaist").get();
+            }
         }
 
         if (bone != null)
@@ -127,17 +133,26 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
     @Override
     protected void applyBaseTransformations(HumanoidModel<?> baseModel) {
         super.applyBaseTransformations(baseModel);
-        ModelPart leftLegPart;
+        Optional<GeoBone> dressBone = this.getGeoModel().getBone("armorDress");
+        Optional<GeoBone> waistBone = this.getGeoModel().getBone("armorWaist");
 
-        if (this.getGeoModel().getBone("armorWaist").isPresent()) {
+        if (waistBone.isPresent()) {
             ModelPart bodyPart = baseModel.body;
-            RenderUtil.matchModelPartRot(bodyPart, this.getGeoModel().getBone("armorWaist").get());
-            this.getGeoModel().getBone("armorWaist").get().updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
+            RenderUtil.matchModelPartRot(bodyPart, waistBone.get());
+            waistBone.get().updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
 
             if (baseModel.crouching) {
-                this.getGeoModel().getBone("armorWaist").get().updatePosition(bodyPart.x, -bodyPart.y - 1.0F, bodyPart.z);
-                this.getGeoModel().getBone("armorWaist").get().setRotX(bodyPart.xRot * -1.2F);
+                waistBone.get().updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
+                waistBone.get().setRotX(-bodyPart.xRot);
             }
+        }
+
+        if (dressBone.isPresent()) {
+            ModelPart bodyPart = baseModel.body;
+            dressBone.get().updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
+
+            if (baseModel.crouching)
+                dressBone.get().updatePosition(bodyPart.x, -bodyPart.y + 4.0F, bodyPart.z + 5.5F);
         }
     }
 }
