@@ -54,6 +54,7 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
             add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get());
+            add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get());
             add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
             add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
 
@@ -82,6 +83,17 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LUIGI_ICE_SHIRT.get());
             add(event, ItemRegistry.LUIGI_ICE_PANTS.get());
             add(event, ItemRegistry.LUIGI_ICE_SHOES.get());
+
+            add(event, ItemRegistry.PEACH_CROWN.get());
+            add(event, ItemRegistry.PEACH_BODICE.get());
+            add(event, ItemRegistry.PEACH_DRESS.get());
+            add(event, ItemRegistry.PEACH_SHOES.get());
+            add(event, ItemRegistry.PEACH_FIRE_BODICE.get());
+            add(event, ItemRegistry.PEACH_FIRE_DRESS.get());
+            add(event, ItemRegistry.PEACH_FIRE_SHOES.get());
+            add(event, ItemRegistry.PEACH_ICE_BODICE.get());
+            add(event, ItemRegistry.PEACH_ICE_DRESS.get());
+            add(event, ItemRegistry.PEACH_ICE_SHOES.get());
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN.get());
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN.get());
@@ -341,6 +353,49 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
                 addBefore(event, Items.SHIELD, ItemRegistry.PIPE_WRENCH.get());
+
+                addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.MUSHROOM.get());
+                addAfter(event, ItemRegistry.MUSHROOM.get(), ItemRegistry.ONE_UP_MUSHROOM.get());
+                addAfter(event, ItemRegistry.ONE_UP_MUSHROOM.get(), ItemRegistry.FIRE_FLOWER.get());
+                addAfter(event, ItemRegistry.FIRE_FLOWER.get(), ItemRegistry.ICE_FLOWER.get());
+                addAfter(event, ItemRegistry.ICE_FLOWER.get(), ItemRegistry.SUPER_STAR.get());
+
+                addAfter(event, Items.TURTLE_HELMET, ItemRegistry.MARIO_HAT.get());
+                addAfter(event, ItemRegistry.MARIO_HAT.get(), ItemRegistry.MARIO_SHIRT.get());
+                addAfter(event, ItemRegistry.MARIO_SHIRT.get(), ItemRegistry.MARIO_PANTS.get());
+                addAfter(event, ItemRegistry.MARIO_PANTS.get(), ItemRegistry.MARIO_SHOES.get());
+                addAfter(event, ItemRegistry.MARIO_SHOES.get(), ItemRegistry.MARIO_FIRE_HAT.get());
+                addAfter(event, ItemRegistry.MARIO_FIRE_HAT.get(), ItemRegistry.MARIO_FIRE_SHIRT.get());
+                addAfter(event, ItemRegistry.MARIO_FIRE_SHIRT.get(), ItemRegistry.MARIO_FIRE_PANTS.get());
+                addAfter(event, ItemRegistry.MARIO_FIRE_PANTS.get(), ItemRegistry.MARIO_FIRE_SHOES.get());
+                addAfter(event, ItemRegistry.MARIO_FIRE_SHOES.get(), ItemRegistry.MARIO_ICE_HAT.get());
+                addAfter(event, ItemRegistry.MARIO_ICE_HAT.get(), ItemRegistry.MARIO_ICE_SHIRT.get());
+                addAfter(event, ItemRegistry.MARIO_ICE_SHIRT.get(), ItemRegistry.MARIO_ICE_PANTS.get());
+                addAfter(event, ItemRegistry.MARIO_ICE_PANTS.get(), ItemRegistry.MARIO_ICE_SHOES.get());
+
+                addAfter(event, ItemRegistry.MARIO_ICE_SHOES.get(), ItemRegistry.LUIGI_HAT.get());
+                addAfter(event, ItemRegistry.LUIGI_HAT.get(), ItemRegistry.LUIGI_SHIRT.get());
+                addAfter(event, ItemRegistry.LUIGI_SHIRT.get(), ItemRegistry.LUIGI_PANTS.get());
+                addAfter(event, ItemRegistry.LUIGI_PANTS.get(), ItemRegistry.LUIGI_SHOES.get());
+                addAfter(event, ItemRegistry.LUIGI_SHOES.get(), ItemRegistry.LUIGI_FIRE_HAT.get());
+                addAfter(event, ItemRegistry.LUIGI_FIRE_HAT.get(), ItemRegistry.LUIGI_FIRE_SHIRT.get());
+                addAfter(event, ItemRegistry.LUIGI_FIRE_SHIRT.get(), ItemRegistry.LUIGI_FIRE_PANTS.get());
+                addAfter(event, ItemRegistry.LUIGI_FIRE_PANTS.get(), ItemRegistry.LUIGI_FIRE_SHOES.get());
+                addAfter(event, ItemRegistry.LUIGI_FIRE_SHOES.get(), ItemRegistry.LUIGI_ICE_HAT.get());
+                addAfter(event, ItemRegistry.LUIGI_ICE_HAT.get(), ItemRegistry.LUIGI_ICE_SHIRT.get());
+                addAfter(event, ItemRegistry.LUIGI_ICE_SHIRT.get(), ItemRegistry.LUIGI_ICE_PANTS.get());
+                addAfter(event, ItemRegistry.LUIGI_ICE_PANTS.get(), ItemRegistry.LUIGI_ICE_SHOES.get());
+
+                addAfter(event, ItemRegistry.LUIGI_ICE_SHOES.get(), ItemRegistry.PEACH_CROWN.get());
+                addAfter(event, ItemRegistry.PEACH_CROWN.get(), ItemRegistry.PEACH_BODICE.get());
+                addAfter(event, ItemRegistry.PEACH_BODICE.get(), ItemRegistry.PEACH_DRESS.get());
+                addAfter(event, ItemRegistry.PEACH_DRESS.get(), ItemRegistry.PEACH_SHOES.get());
+                addAfter(event, ItemRegistry.PEACH_SHOES.get(), ItemRegistry.PEACH_FIRE_BODICE.get());
+                addAfter(event, ItemRegistry.PEACH_FIRE_BODICE.get(), ItemRegistry.PEACH_FIRE_DRESS.get());
+                addAfter(event, ItemRegistry.PEACH_FIRE_DRESS.get(), ItemRegistry.PEACH_FIRE_SHOES.get());
+                addAfter(event, ItemRegistry.PEACH_FIRE_SHOES.get(), ItemRegistry.PEACH_ICE_BODICE.get());
+                addAfter(event, ItemRegistry.PEACH_ICE_BODICE.get(), ItemRegistry.PEACH_ICE_DRESS.get());
+                addAfter(event, ItemRegistry.PEACH_ICE_DRESS.get(), ItemRegistry.PEACH_ICE_SHOES.get());
             }
 
             if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
