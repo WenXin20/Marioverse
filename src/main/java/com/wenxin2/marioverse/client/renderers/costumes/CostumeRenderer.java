@@ -60,6 +60,17 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
     }
 
     @Override
+    protected void grabRelevantBones(BakedGeoModel bakedModel) {
+        super.grabRelevantBones(bakedModel);
+
+        if (this.lastModel != bakedModel) {
+            GeoModel<CostumeItem> model = this.getGeoModel();
+            this.lastModel = bakedModel;
+            this.waist = this.getWaistBone(model);
+        }
+    }
+
+    @Override
     public GeoModel<CostumeItem> getGeoModel() {
         ItemStack stack = this.currentStack;
 
@@ -87,6 +98,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 break;
             case LEGS:
                 this.getGeoModel().getBone("armorWaist").ifPresent(bone -> bone.setHidden(false));
+                this.setBoneVisible(this.waist, true);
                 this.setBoneVisible(this.rightLeg, true);
                 this.setBoneVisible(this.leftLeg, true);
                 break;
@@ -95,5 +107,37 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 this.setBoneVisible(this.leftBoot, true);
         }
         super.applyBoneVisibilityBySlot(slot);
+    }
+
+    @Override
+    public void applyBoneVisibilityByPart(EquipmentSlot currentSlot, ModelPart currentPart, HumanoidModel<?> model) {
+        super.applyBoneVisibilityByPart(currentSlot, currentPart, model);
+        GeoBone bone = null;
+
+        if (currentPart != model.hat && currentPart != model.head) {
+            if (currentPart == model.leftLeg || currentPart == model.rightLeg)
+                if (this.getGeoModel().getBone("armorWaist").isPresent())
+                    bone = this.getGeoModel().getBone("armorWaist").get();
+        }
+
+        if (bone != null)
+            bone.setHidden(false);
+    }
+
+    @Override
+    protected void applyBaseTransformations(HumanoidModel<?> baseModel) {
+        super.applyBaseTransformations(baseModel);
+        ModelPart leftLegPart;
+
+        if (this.getGeoModel().getBone("armorWaist").isPresent()) {
+            ModelPart bodyPart = baseModel.body;
+            RenderUtil.matchModelPartRot(bodyPart, this.getGeoModel().getBone("armorWaist").get());
+            this.getGeoModel().getBone("armorWaist").get().updatePosition(bodyPart.x, -bodyPart.y, bodyPart.z);
+
+            if (baseModel.crouching) {
+                this.getGeoModel().getBone("armorWaist").get().updatePosition(bodyPart.x, -bodyPart.y - 1.0F, bodyPart.z);
+                this.getGeoModel().getBone("armorWaist").get().setRotX(bodyPart.xRot * -1.2F);
+            }
+        }
     }
 }
