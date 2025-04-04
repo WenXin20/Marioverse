@@ -89,21 +89,25 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
             }
 
             @Override
-            protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
+            protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
+                                              MultiBufferSource bufferSource, int packedLight) {
                 poseStack.scale(1.0F, 1.0F, 0.94F);
                 poseStack.translate(0.0F, 0.0F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
 
-            private void renderGoombellaSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock, MultiBufferSource bufferSource, int packedLight) {
+            private void renderGoombellaSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
+                                                     MultiBufferSource bufferSource, int packedLight) {
                 poseStack.scale(1.28F, 1.28F, 1.22F);
                 poseStack.translate(0.0F, -0.125F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
 
             @Override
-            public void renderForBone(PoseStack poseStack, GoombaEntity animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
+            public void renderForBone(PoseStack poseStack, GoombaEntity animatable, GeoBone bone, RenderType renderType,
+                                      MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
                 ItemStack armorStack = this.getArmorItemForBone(bone, animatable);
+
                 if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
                         || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
                     if (armorStack != null) {
@@ -146,7 +150,8 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
             }
 
             @Override
-            protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, GoombaEntity animatable, MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
+            protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, GoombaEntity animatable,
+                                              MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
                         || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
                     poseStack.scale(0.77F, 0.77F, 0.72F);
