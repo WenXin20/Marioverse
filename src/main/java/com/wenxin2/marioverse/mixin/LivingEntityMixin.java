@@ -47,6 +47,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -310,13 +313,10 @@ public abstract class LivingEntityMixin extends Entity {
             else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE);
         }
 
-        if (gravityAttribute != null) {
-            if (this.marioverse$hasPeachCostume(entity)) {
-                boolean hasGravityModifier = gravityAttribute.getModifier(AttributesRegistry.SLOW_GRAVITY) != null;
-                if (!hasGravityModifier)
-                    gravityAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SLOW_GRAVITY, 0.8, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-            }
-            else gravityAttribute.removeModifier(AttributesRegistry.SLOW_GRAVITY);
+        if (this.marioverse$hasPeachCostume(entity)) {
+            Vec3 motion = entity.getDeltaMovement();
+            if (motion.y < 0)
+                entity.setDeltaMovement(motion.x, motion.y * 0.8, motion.z);
         }
     }
 
