@@ -426,6 +426,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN.get(), ItemRegistry.PLUMBER_BANNER_PATTERN.get());
                 addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD.get());
                 addAfter(event, ItemRegistry.BOWSER_POTTERY_SHERD.get(), ItemRegistry.PLUMBER_POTTERY_SHERD.get());
+
+                addAfter(event, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
+                addAfter(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get());
+                addAfter(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get());
+                addAfter(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
+                addAfter(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
             }
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
