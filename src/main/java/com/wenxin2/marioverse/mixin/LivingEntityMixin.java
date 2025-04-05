@@ -313,7 +313,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (this.marioverse$hasPeachCostume(entity)) {
             Vec3 motion = entity.getDeltaMovement();
             if (motion.y < 0)
-                entity.setDeltaMovement(motion.x, motion.y * 0.8, motion.z);
+                entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
         }
     }
 

@@ -12,6 +12,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -51,6 +52,47 @@ public class ItemTagsGen extends ItemTagsProvider {
                     .add(BlockRegistry.WARP_PIPES.get(color).asItem());
         }
 
+        tag(ItemTags.DECORATED_POT_SHERDS)
+                .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
+                .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
+
+        tag(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(ItemRegistry.PIPE_WRENCH.get())
+                .add(ItemRegistry.WARP_DISRUPTOR.get());
+
+        tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
+                .add(ItemRegistry.PIPE_WRENCH.get());
+
+        tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
+                .add(ItemRegistry.LUIGI_ICE_HAT.get())
+                .add(ItemRegistry.LUIGI_ICE_PANTS.get())
+                .add(ItemRegistry.LUIGI_ICE_SHIRT.get())
+                .add(ItemRegistry.LUIGI_ICE_SHOES.get())
+                .add(ItemRegistry.MARIO_ICE_HAT.get())
+                .add(ItemRegistry.MARIO_ICE_PANTS.get())
+                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
+                .add(ItemRegistry.MARIO_ICE_SHOES.get());
+
+        tag(ItemTags.PIGLIN_LOVED)
+                .add(BlockRegistry.COIN.asItem())
+                .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
+                .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.asItem())
+                .add(BlockRegistry.STAR_COIN.asItem())
+                .add(ItemRegistry.SUPER_STAR.get());
+
+        tag(ItemTags.STONE_CRAFTING_MATERIALS)
+                .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
+                .add(BlockRegistry.FUNGAL_STONE.asItem());
+
+        tag(ItemTags.STONE_TOOL_MATERIALS)
+                .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
+                .add(BlockRegistry.FUNGAL_STONE.asItem());
+
+        tag(ItemTags.TRIMMABLE_ARMOR);
+
+        tag(ItemTags.WEAPON_ENCHANTABLE)
+                .add(ItemRegistry.PIPE_WRENCH.get());
+
         tag(ItemTags.CHEST_ARMOR).addTag(TagRegistry.SHIRTS);
 
         tag(ItemTags.FOOT_ARMOR).addTag(TagRegistry.SHOES);
@@ -58,6 +100,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.HEAD_ARMOR).addTag(TagRegistry.HATS);
 
         tag(ItemTags.LEG_ARMOR).addTag(TagRegistry.PANTS);
+
+        tag(Tags.Items.MELEE_WEAPON_TOOLS)
+                .add(ItemRegistry.PIPE_WRENCH.get());
 
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 
@@ -261,45 +306,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PIPE_WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
-        tag(ItemTags.DECORATED_POT_SHERDS)
-                .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
-                .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
-
-        tag(ItemTags.DURABILITY_ENCHANTABLE)
-                .add(ItemRegistry.PIPE_WRENCH.get())
-                .add(ItemRegistry.WARP_DISRUPTOR.get());
-
-        tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
-                .add(ItemRegistry.PIPE_WRENCH.get());
-
-        tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                .add(ItemRegistry.LUIGI_ICE_HAT.get())
-                .add(ItemRegistry.LUIGI_ICE_PANTS.get())
-                .add(ItemRegistry.LUIGI_ICE_SHIRT.get())
-                .add(ItemRegistry.LUIGI_ICE_SHOES.get())
-                .add(ItemRegistry.MARIO_ICE_HAT.get())
-                .add(ItemRegistry.MARIO_ICE_PANTS.get())
-                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
-                .add(ItemRegistry.MARIO_ICE_SHOES.get());
-
-        tag(ItemTags.PIGLIN_LOVED)
-                .add(BlockRegistry.COIN.asItem())
-                .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
-                .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.asItem())
-                .add(BlockRegistry.STAR_COIN.asItem())
-                .add(ItemRegistry.SUPER_STAR.get());
-
-        tag(ItemTags.STONE_CRAFTING_MATERIALS)
-                .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
-                .add(BlockRegistry.FUNGAL_STONE.asItem());
-
-        tag(ItemTags.STONE_TOOL_MATERIALS)
-                .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
-                .add(BlockRegistry.FUNGAL_STONE.asItem());
-
-        tag(ItemTags.TRIMMABLE_ARMOR);
-
-        tag(ItemTags.WEAPON_ENCHANTABLE)
+        tag(TagRegistry.WRENCH_TOOLS)
                 .add(ItemRegistry.PIPE_WRENCH.get());
     }
 }
