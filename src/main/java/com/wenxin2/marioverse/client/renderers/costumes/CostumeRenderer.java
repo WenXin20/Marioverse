@@ -18,6 +18,7 @@ import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.RenderUtil;
 
 public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
+    protected GeoBone dress = null;
     protected GeoBone waist = null;
 
     private static final DefaultedItemGeoModel<CostumeItem> MARIO_MODEL =
@@ -34,6 +35,10 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
 
     public @Nullable GeoBone getWaistBone(GeoModel<CostumeItem> model) {
         return model.getBone("armorWaist").orElse(null);
+    }
+
+    public @Nullable GeoBone getDessBone(GeoModel<CostumeItem> model) {
+        return model.getBone("armorDress").orElse(null);
     }
 
     @Override
@@ -68,6 +73,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
             GeoModel<CostumeItem> model = this.getGeoModel();
             this.lastModel = bakedModel;
             this.waist = this.getWaistBone(model);
+            this.dress = this.getDessBone(model);
         }
     }
 
