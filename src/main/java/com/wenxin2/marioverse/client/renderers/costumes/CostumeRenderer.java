@@ -37,7 +37,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         return model.getBone("armorWaist").orElse(null);
     }
 
-    public @Nullable GeoBone getDessBone(GeoModel<CostumeItem> model) {
+    public @Nullable GeoBone getDressBone(GeoModel<CostumeItem> model) {
         return model.getBone("armorDress").orElse(null);
     }
 
@@ -73,7 +73,7 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
             GeoModel<CostumeItem> model = this.getGeoModel();
             this.lastModel = bakedModel;
             this.waist = this.getWaistBone(model);
-            this.dress = this.getDessBone(model);
+            this.dress = this.getDressBone(model);
         }
     }
 
