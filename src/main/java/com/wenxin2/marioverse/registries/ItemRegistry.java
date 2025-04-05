@@ -74,7 +74,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PEACH_ICE_DRESS;
     public static final DeferredItem<Item> PEACH_ICE_SHOES;
     public static final DeferredItem<Item> PEACH_SHOES;
-    public static final DeferredItem<Item> PIPE_WRENCH;
+    public static final DeferredItem<Item> WRENCH;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
@@ -82,7 +82,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> WARP_DISRUPTOR;
 
     static {
-        PIPE_WRENCH = registerItem("pipe_wrench",
+        WRENCH = registerItem("wrench",
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));

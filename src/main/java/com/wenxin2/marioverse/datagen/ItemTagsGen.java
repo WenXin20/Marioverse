@@ -12,7 +12,6 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -57,11 +56,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
         tag(ItemTags.DURABILITY_ENCHANTABLE)
-                .add(ItemRegistry.PIPE_WRENCH.get())
+                .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
-                .add(ItemRegistry.PIPE_WRENCH.get());
+                .add(ItemRegistry.WRENCH.get());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .add(ItemRegistry.LUIGI_ICE_HAT.get())
@@ -91,7 +90,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.TRIMMABLE_ARMOR);
 
         tag(ItemTags.WEAPON_ENCHANTABLE)
-                .add(ItemRegistry.PIPE_WRENCH.get());
+                .add(ItemRegistry.WRENCH.get());
 
         tag(ItemTags.CHEST_ARMOR).addTag(TagRegistry.SHIRTS);
 
@@ -102,7 +101,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.LEG_ARMOR).addTag(TagRegistry.PANTS);
 
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
-                .add(ItemRegistry.PIPE_WRENCH.get());
+                .add(ItemRegistry.WRENCH.get());
 
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 
@@ -303,10 +302,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(TagRegistry.WARP_PIPE_ITEMS)
-                .add(ItemRegistry.PIPE_WRENCH.get())
+                .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
         tag(TagRegistry.WRENCH_TOOLS)
-                .add(ItemRegistry.PIPE_WRENCH.get());
+                .add(ItemRegistry.WRENCH.get());
     }
 }

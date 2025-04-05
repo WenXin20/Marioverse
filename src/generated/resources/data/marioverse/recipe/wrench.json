@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "marioverse:pipe_wrench",
+  "group": "marioverse:wrench",
   "key": {
     "I": {
       "tag": "c:ingots/iron"
@@ -14,6 +14,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "marioverse:pipe_wrench"
+    "id": "marioverse:wrench"
   }
 }

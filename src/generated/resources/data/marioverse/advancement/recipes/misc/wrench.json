@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:pipe_wrench"
+        "recipe": "marioverse:wrench"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "marioverse:pipe_wrench"
+      "marioverse:wrench"
     ]
   }
 }

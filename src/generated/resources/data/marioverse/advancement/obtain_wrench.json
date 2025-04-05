@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:adventure/root",
   "criteria": {
-    "pipe_wrench": {
+    "wrench": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:pipe_wrench"
+            "items": "marioverse:wrench"
           }
         ]
       },
@@ -14,19 +14,19 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.pipe_wrench.description"
+      "translate": "advancements.adventure.marioverse.wrench.description"
     },
     "icon": {
       "count": 1,
-      "id": "marioverse:pipe_wrench"
+      "id": "marioverse:wrench"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.pipe_wrench.title"
+      "translate": "advancements.adventure.marioverse.wrench.title"
     }
   },
   "requirements": [
     [
-      "pipe_wrench"
+      "wrench"
     ]
   ],
   "rewards": {

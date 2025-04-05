@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:obtain_pipe_wrench",
+  "parent": "marioverse:obtain_wrench",
   "criteria": {
     "configure_pipes": {
       "conditions": {
@@ -15,7 +15,7 @@
           {
             "condition": "minecraft:match_tool",
             "predicate": {
-              "items": "marioverse:pipe_wrench"
+              "items": "marioverse:wrench"
             }
           }
         ]

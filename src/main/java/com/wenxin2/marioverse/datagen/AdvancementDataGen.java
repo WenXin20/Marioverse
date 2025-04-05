@@ -37,16 +37,16 @@ public class AdvancementDataGen extends AdvancementProvider {
     private static final class MyAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
         @Override
         public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
-            AdvancementHolder PIPE_WRENCH = Advancement.Builder.advancement().parent(AdvancementSubProvider.createPlaceholder("minecraft:adventure/root"))
-                    .display(new ItemStack(ItemRegistry.PIPE_WRENCH.get()),
-                            Component.translatable("advancements.adventure.marioverse.pipe_wrench.title"),
-                            Component.translatable("advancements.adventure.marioverse.pipe_wrench.description"),
+            AdvancementHolder WRENCH = Advancement.Builder.advancement().parent(AdvancementSubProvider.createPlaceholder("minecraft:adventure/root"))
+                    .display(new ItemStack(ItemRegistry.WRENCH.get()),
+                            Component.translatable("advancements.adventure.marioverse.wrench.title"),
+                            Component.translatable("advancements.adventure.marioverse.wrench.description"),
                             null, AdvancementType.TASK, true, true, false)
-                    .addCriterion("pipe_wrench", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.PIPE_WRENCH.get()))
+                    .addCriterion("wrench", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.WRENCH.get()))
                     .rewards(AdvancementRewards.Builder.experience(50))
-                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_pipe_wrench"), existingFileHelper);
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_wrench"), existingFileHelper);
 
-            AdvancementHolder CONFIGURE_PIPES = Advancement.Builder.advancement().parent(PIPE_WRENCH)
+            AdvancementHolder CONFIGURE_PIPES = Advancement.Builder.advancement().parent(WRENCH)
                     .display(new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.GREEN)),
                             Component.translatable("advancements.adventure.marioverse.configure_pipes.title"),
                             Component.translatable("advancements.adventure.marioverse.configure_pipes.description"),
@@ -54,7 +54,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .addCriterion("configure_pipes", ItemUsedOnLocationTrigger.TriggerInstance
                             .itemUsedOnBlock(LocationPredicate.Builder.location()
                                     .setBlock(BlockPredicate.Builder.block().of(TagRegistry.WARP_PIPE_BLOCKS)),
-                                        ItemPredicate.Builder.item().of(ItemRegistry.PIPE_WRENCH)))
+                                        ItemPredicate.Builder.item().of(ItemRegistry.WRENCH)))
                     .rewards(AdvancementRewards.Builder.experience(100))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "configure_pipes"), existingFileHelper);
 

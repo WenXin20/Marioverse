@@ -88,7 +88,7 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem());
         this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem());
-        this.handheldItem(ItemRegistry.PIPE_WRENCH.get());
+        this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())

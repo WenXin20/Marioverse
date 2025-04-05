@@ -50,7 +50,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.SUPER_STAR);
 
             add(event, ItemRegistry.WARP_DISRUPTOR);
-            add(event, ItemRegistry.PIPE_WRENCH);
+            add(event, ItemRegistry.WRENCH);
 
             add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
@@ -352,7 +352,7 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-                addBefore(event, Items.SHIELD, ItemRegistry.PIPE_WRENCH);
+                addBefore(event, Items.SHIELD, ItemRegistry.WRENCH);
 
                 addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.MUSHROOM);
                 addAfter(event, ItemRegistry.MUSHROOM, ItemRegistry.ONE_UP_MUSHROOM);
@@ -417,8 +417,8 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-                addAfter(event, Items.FISHING_ROD, ItemRegistry.PIPE_WRENCH);
-                addBefore(event, ItemRegistry.PIPE_WRENCH, ItemRegistry.WARP_DISRUPTOR);
+                addAfter(event, Items.FISHING_ROD, ItemRegistry.WRENCH);
+                addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {

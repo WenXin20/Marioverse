@@ -161,7 +161,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         Item item = stack.getItem();
 
-        if (state.getValue(ENTRANCE) && player.getItemInHand(hand).getItem() == ItemRegistry.PIPE_WRENCH.get()) {
+        if (state.getValue(ENTRANCE) && player.getItemInHand(hand).getItem() == ItemRegistry.WRENCH.get()) {
             if (blockEntity instanceof WarpPipeBlockEntity) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new WarpPipeMenu(id,
                         playerInventory, ContainerLevelAccess.create(world, pos), pos), ((WarpPipeBlockEntity) blockEntity).getDisplayName()));
