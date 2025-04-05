@@ -38,7 +38,7 @@ public class MarioverseCreativeTabs {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_ITEMS_TAB = TABS.register("marioverse_items_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_items"))
-            .icon(() -> new ItemStack(ItemRegistry.MUSHROOM)).build());
+            .icon(() -> new ItemStack(ItemRegistry.MUSHROOM.get())).build());
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -785,7 +785,7 @@ public class MarioverseCreativeTabs {
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : dyedBlock.entrySet()) {
             DyeColor color = entry.getKey();
             if (!processedColors.contains(color)) {
-                additionalBlocks.add(entry.getValue());
+                additionalBlocks.add(entry.getValue().get());
             }
         }
 
@@ -794,14 +794,14 @@ public class MarioverseCreativeTabs {
         // Adds all dyed blocks
         Block lastRainbowBlock = null;
         for (DeferredHolder<Block, Block> block : dyedBlocks) {
-            Block coloredBlock = block;
+            Block coloredBlock = block.get();
             if (!listedBlocks.contains(coloredBlock)) {
                 if (addAfter)
                     addAfter(event, existingItem, coloredBlock);
                 else addBefore(event, existingItem, coloredBlock);
 
                 listedBlocks.add(coloredBlock);
-                lastRainbowBlock = dyedBlock.get(DyeColor.PINK);
+                lastRainbowBlock = dyedBlock.get(DyeColor.PINK).get();
             }
         }
 
