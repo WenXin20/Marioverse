@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-02T13:59:55.1881279	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-04-04T19:47:13.8862156	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -66,7 +66,9 @@ ab72515a2aa2a31f6b784d7246c95e811baa3f54 data/marioverse/tags/item/storage_brick
 4590d56682f653beefab91ad3c8888ed42d609ef data/marioverse/tags/item/warp_pipe_cannot_spawn.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
-c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/durability.json
+65cc515c0ddd14f9f11edfd71248809bc2290096 data/minecraft/tags/item/enchantable/durability.json
+c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/fire_aspect.json
+c430ace2e759c6eac8da261bcd45b63f1cca3740 data/minecraft/tags/item/enchantable/weapon.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json
 5f58a6058f6b5c0fa49549b59017732c7d3130e4 data/minecraft/tags/item/freeze_immune_wearables.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/minecraft/tags/item/head_armor.json

@@ -3,16 +3,13 @@
   "category": "misc",
   "group": "marioverse:pipe_wrench",
   "key": {
-    "C": {
-      "tag": "c:ingots/copper"
-    },
     "I": {
       "tag": "c:ingots/iron"
     }
   },
   "pattern": [
-    "C C",
-    " C ",
+    "I I",
+    " I ",
     " I "
   ],
   "result": {

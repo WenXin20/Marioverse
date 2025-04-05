@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "minecraft:gold_ingot"
+    "tag": "c:gems"
   },
   "base": {
     "item": "minecraft:golden_helmet"

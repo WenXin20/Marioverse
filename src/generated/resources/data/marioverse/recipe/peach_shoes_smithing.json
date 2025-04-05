@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "minecraft:red_wool"
+    "item": "minecraft:pink_wool"
   },
   "base": {
     "item": "minecraft:leather_boots"

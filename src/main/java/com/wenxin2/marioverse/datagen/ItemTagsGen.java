@@ -265,7 +265,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
                 .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
-        tag(ItemTags.DURABILITY_ENCHANTABLE).add(ItemRegistry.PIPE_WRENCH.get());
+        tag(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(ItemRegistry.PIPE_WRENCH.get())
+                .add(ItemRegistry.WARP_DISRUPTOR.get());
+
+        tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
+                .add(ItemRegistry.PIPE_WRENCH.get());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .add(ItemRegistry.LUIGI_ICE_HAT.get())
@@ -293,5 +298,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE.asItem());
 
         tag(ItemTags.TRIMMABLE_ARMOR);
+
+        tag(ItemTags.WEAPON_ENCHANTABLE)
+                .add(ItemRegistry.PIPE_WRENCH.get());
     }
 }

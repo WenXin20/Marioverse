@@ -19,7 +19,6 @@ import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -406,15 +405,13 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void wrenchRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
+    public void wrenchRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
-                .define('C', inputItemTag)
-                .define('I', inputItemTag2)
-                .pattern("C C")
-                .pattern(" C ")
+                .define('I', inputItemTag)
+                .pattern("I I")
                 .pattern(" I ")
-                .unlockedBy("has_copper_ingot", has(inputItemTag))
-                .unlockedBy("has_iron_ingot", has(inputItemTag2))
+                .pattern(" I ")
+                .unlockedBy("has_iron_ingot", has(inputItemTag))
                 .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
                 .save(output);
     }
@@ -586,6 +583,12 @@ public class RecipeUtils extends RecipeProvider {
 
     protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item armorItem, Item inputItem, RecipeOutput output) {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItem), Ingredient.of(inputItem), category, outputItem)
+                .unlocks(getHasName(armorItem), has(armorItem))
+                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
+    }
+
+    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item armorItem,  TagKey<Item> inputItemTag, RecipeOutput output) {
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItem), Ingredient.of(inputItemTag), category, outputItem)
                 .unlocks(getHasName(armorItem), has(armorItem))
                 .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
     }

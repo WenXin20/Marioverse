@@ -76,18 +76,18 @@ public class RecipeGen extends RecipeUtils {
         costumeSmithing(ItemRegistry.LUIGI_ICE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
         costumeSmithing(ItemRegistry.LUIGI_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
 
-        costumeSmithing(ItemRegistry.PEACH_CROWN.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.GOLDEN_HELMET, Items.GOLD_INGOT.asItem(), output);
+        costumeSmithing(ItemRegistry.PEACH_CROWN.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.GOLDEN_HELMET, Tags.Items.GEMS, output);
         costumeSmithing(ItemRegistry.PEACH_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_CHESTPLATE, Blocks.PINK_WOOL.asItem(), output);
         costumeSmithing(ItemRegistry.PEACH_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_LEGGINGS, Blocks.PINK_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.PEACH_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_BOOTS, Blocks.RED_WOOL .asItem(), output);
+        costumeSmithing(ItemRegistry.PEACH_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_BOOTS, Blocks.PINK_WOOL .asItem(), output);
 
-        costumeSmithing(ItemRegistry.PEACH_FIRE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHIRTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_FIRE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_PANTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_FIRE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHOES, ItemRegistry.FIRE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.PEACH_FIRE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHIRTS, ItemRegistry.FIRE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.PEACH_FIRE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.FIRE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.PEACH_FIRE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.FIRE_FLOWER.get(), output);
 
-        costumeSmithing(ItemRegistry.PEACH_ICE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_ICE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.PEACH_ICE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.PEACH_ICE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
+        costumeSmithing(ItemRegistry.PEACH_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
 
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
@@ -111,7 +111,7 @@ public class RecipeGen extends RecipeUtils {
         twoItemTagRecipe(1, "warp_pipes", "_from_glass", BlockRegistry.CLEAR_WARP_PIPE, RecipeCategory.BUILDING_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, Tags.Items.GLASS_BLOCKS_COLORLESS, output);
         warpDisruptorRecipe(1, ItemRegistry.WARP_DISRUPTOR, Items.ENDER_EYE, Tags.Items.INGOTS_GOLD, Tags.Items.RODS_WOODEN, output);
         warpPipeRecipe(4, BlockRegistry.CLEAR_WARP_PIPE, Tags.Items.INGOTS_COPPER, Tags.Items.GLASS_BLOCKS_COLORLESS, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
-        wrenchRecipe(1, ItemRegistry.PIPE_WRENCH, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_IRON, output);
+        wrenchRecipe(1, ItemRegistry.PIPE_WRENCH, Tags.Items.INGOTS_IRON, output);
 
         waxedBlockRecipe(1, BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK, BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK, BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
