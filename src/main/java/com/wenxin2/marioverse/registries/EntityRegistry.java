@@ -61,7 +61,7 @@ public class EntityRegistry {
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<KoopaTroopaEntity>> GREEN_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("green_koopa_troopa", () -> EntityType.Builder.of(KoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(1.5F, 1.0F).eyeHeight(1.4F).build("green_koopa_troopa"));
+                    .sized(1.0F, 1.65F).eyeHeight(1.4F).build("green_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
             Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
                     .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));

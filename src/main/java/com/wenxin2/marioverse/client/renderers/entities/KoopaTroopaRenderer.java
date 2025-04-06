@@ -1,12 +1,14 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.KoopaTroopaModel;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -17,12 +19,16 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.loading.json.raw.Bone;
+import software.bernie.geckolib.model.data.EntityModelData;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
+import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer;
 
-public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
+public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEntity> {
     private static final String HELMET = "armorHead";
     private static final String CHEST = "armorBody";
     private static final String LEFT_ARM = "armorLeftArm";
@@ -41,10 +47,10 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
             @Override
             protected ItemStack getArmorItemForBone(GeoBone bone, KoopaTroopaEntity animatable) {
                 return switch (bone.getName()) {
-                    case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
-                    case CHEST, LEFT_ARM, RIGHT_ARM -> animatable.getItemBySlot(EquipmentSlot.BODY);
-                    case LEFT_LEG, RIGHT_LEG -> animatable.getItemBySlot(EquipmentSlot.LEGS);
-                    case LEFT_BOOT, RIGHT_BOOT -> animatable.getItemBySlot(EquipmentSlot.FEET);
+                    case HELMET -> this.helmetStack;
+                    case CHEST, LEFT_ARM, RIGHT_ARM -> this.chestplateStack;
+                    case LEFT_LEG, RIGHT_LEG -> this.leggingsStack;
+                    case LEFT_BOOT, RIGHT_BOOT -> this.bootsStack;
                     default -> null;
                 };
             }
@@ -54,7 +60,9 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
             protected EquipmentSlot getEquipmentSlotForBone(GeoBone bone, ItemStack stack, KoopaTroopaEntity animatable) {
                 return switch (bone.getName()) {
                     case HELMET -> EquipmentSlot.HEAD;
-                    case CHEST, LEFT_ARM, RIGHT_ARM -> EquipmentSlot.BODY;
+                    case CHEST -> EquipmentSlot.CHEST;
+                    case RIGHT_ARM -> !animatable.isLeftHanded() ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+                    case LEFT_ARM -> animatable.isLeftHanded() ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
                     case LEFT_LEG, RIGHT_LEG -> EquipmentSlot.LEGS;
                     case LEFT_BOOT, RIGHT_BOOT -> EquipmentSlot.FEET;
                     default -> super.getEquipmentSlotForBone(bone, stack, animatable);

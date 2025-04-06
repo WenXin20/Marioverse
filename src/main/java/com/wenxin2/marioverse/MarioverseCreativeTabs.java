@@ -102,10 +102,10 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG);
-            add(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
+            add(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
         }
 
