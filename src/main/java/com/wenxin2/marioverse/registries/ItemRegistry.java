@@ -30,6 +30,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> GREEN_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
@@ -232,6 +233,8 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        GREEN_KOOPA_TROOPA_SPAWN_EGG = registerItem("green_koopa_troopa_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.GREEN_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         HEFTY_GOOMBA_SPAWN_EGG = registerItem("hefty_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.HEFTY_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MEGA_GOOMBA_SPAWN_EGG = registerItem("mega_goomba_spawn_egg",
