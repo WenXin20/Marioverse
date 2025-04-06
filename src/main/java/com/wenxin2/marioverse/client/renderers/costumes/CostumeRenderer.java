@@ -1,11 +1,15 @@
 package com.wenxin2.marioverse.client.renderers.costumes;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -91,7 +95,17 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
     }
 
     @Override
+    public void renderChildBones(PoseStack poseStack, CostumeItem animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
+        if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress")) && currentSlot != EquipmentSlot.LEGS) {
+            return;
+        }
+        super.renderChildBones(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
+    }
+
+    @Override
     protected void applyBoneVisibilityBySlot(EquipmentSlot slot) {
+        super.applyBoneVisibilityBySlot(slot);
+
         this.getGeoModel().getBone("armorDress").ifPresent(bone -> bone.setHidden(true));
         this.getGeoModel().getBone("armorWaist").ifPresent(bone -> bone.setHidden(true));
 
@@ -115,25 +129,11 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 this.setBoneVisible(this.rightBoot, true);
                 this.setBoneVisible(this.leftBoot, true);
         }
-        super.applyBoneVisibilityBySlot(slot);
     }
 
     @Override
     public void applyBoneVisibilityByPart(EquipmentSlot currentSlot, ModelPart currentPart, HumanoidModel<?> model) {
         super.applyBoneVisibilityByPart(currentSlot, currentPart, model);
-        GeoBone bone = null;
-
-        if (currentPart != model.hat && currentPart != model.head) {
-            if (currentPart == model.leftLeg || currentPart == model.rightLeg) {
-                if (this.getGeoModel().getBone("armorDress").isPresent())
-                    bone = this.getGeoModel().getBone("armorDress").get();
-                if (this.getGeoModel().getBone("armorWaist").isPresent())
-                    bone = this.getGeoModel().getBone("armorWaist").get();
-            }
-        }
-
-        if (bone != null)
-            bone.setHidden(false);
     }
 
     @Override
