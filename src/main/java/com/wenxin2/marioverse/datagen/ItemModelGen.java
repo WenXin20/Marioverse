@@ -37,6 +37,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.FIRE_FLOWER.get());
         this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.ICE_FLOWER.get());

@@ -367,6 +367,7 @@
 
   "entity.marioverse.fire_goomba": "Fire Goomba",
   "entity.marioverse.goomba": "Goomba",
+  "entity.marioverse.green_koopa_troopa": "Green Koopa Troopa",
   "entity.marioverse.hefty_goomba": "Hefty Goomba",
   "entity.marioverse.mega_goomba": "Mega Goomba",
   "entity.marioverse.mini_goomba": "Mini Goomba",
@@ -431,6 +432,7 @@
 
   "item.marioverse.fire_goomba_spawn_egg": "Fire Goomba Spawn Egg",
   "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
+  "item.marioverse.green_koopa_troopa_spawn_egg": "Green Troopa Koopa Spawn Egg",
   "item.marioverse.hefty_goomba_spawn_egg": "Hefty Goomba Spawn Egg",
   "item.marioverse.mega_goomba_spawn_egg": "Mega Goomba Spawn Egg",
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",

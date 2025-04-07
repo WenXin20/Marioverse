@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-01T22:52:15.9125242	Item Models: marioverse
+// 1.21.1	2025-04-06T20:56:04.4633843	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -20,6 +20,7 @@ b71173a0f56bbff264c8880cd7b3db569f78d81d assets/marioverse/models/item/gray_chec
 385135398692fc584063f9972d515a4cfc5cc6b9 assets/marioverse/models/item/gray_goal_pole.json
 120e156695ca48d40df0c05487ad1f4ef4590680 assets/marioverse/models/item/green_checkpoint_flag.json
 56eb9dca3262171f63d312cf086787932ba02ffc assets/marioverse/models/item/green_goal_pole.json
+9fc422aaca5261358880e7468a3e7404b0947d0c assets/marioverse/models/item/green_koopa_troopa_spawn_egg.json
 2f7dede7ee4a7fb7d18854426898237c9adf418d assets/marioverse/models/item/hefty_goomba_spawn_egg.json
 4058ce9f8d426f15c29e952c14fc0e1bce9b2831 assets/marioverse/models/item/ice_costume_smithing_template.json
 cd8c2425ae41b1aa1d98d750f39a791bc9926a46 assets/marioverse/models/item/ice_flower.json
@@ -104,7 +105,6 @@ b8042a4e1458946ec4caef8b9f98f62ee8b6c136 assets/marioverse/models/item/peach_ice
 a91af4078eb56eded6b61d7f2edb9cb4fabdb38b assets/marioverse/models/item/peach_shoes.json
 d70405bdb8d83945129d347e173906c4da5f75dd assets/marioverse/models/item/pink_checkpoint_flag.json
 26c208a91f3f8be05f2b3a4c99ff8df35b60f4a8 assets/marioverse/models/item/pink_goal_pole.json
-af5dff270f5ab99a0c8bdafce33804c2a4e3e939 assets/marioverse/models/item/wrench.json
 ffa903956aac57db582728ab8d44267e15a6e8dd assets/marioverse/models/item/piranha_plant_spawn_egg.json
 d8a3acf65b44e338b04ea80adce5e17f5ce6d262 assets/marioverse/models/item/plumber_banner_pattern.json
 0d1fea66147a98e071d9361736d86ba391ed70c7 assets/marioverse/models/item/plumber_pottery_sherd.json
@@ -145,5 +145,6 @@ d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_sta
 0f9434f680b6d9cd424b12b2028e1a82490a8e40 assets/marioverse/models/item/warp_disruptor.json
 0d69738b703b90f6967f801dda1ca0422130a52e assets/marioverse/models/item/white_checkpoint_flag.json
 85d9b20ba38a2ba21b1c7a5ce1b4546dc39646cb assets/marioverse/models/item/white_goal_pole.json
+7e17d6ee5c3c540570fea83c3c7a2ebe2291ac7e assets/marioverse/models/item/wrench.json
 770527b9e9c9fedd333fc643e02eea312ccaca30 assets/marioverse/models/item/yellow_checkpoint_flag.json
 e748ff64dde654cbeb9222f390a843add3312859 assets/marioverse/models/item/yellow_goal_pole.json

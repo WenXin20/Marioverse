@@ -441,7 +441,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GOOMBA_SPAWN_EGG, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
-                addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+                addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
+                addAfter(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
