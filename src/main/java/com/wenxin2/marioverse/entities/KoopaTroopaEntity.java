@@ -30,6 +30,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
@@ -64,9 +65,14 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -76,7 +82,10 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.death");
-//    public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("goomba.idle");
+    public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
+    public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
+    public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
+    public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
 //    public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.idle_swim");
 //    public static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("goomba.run");
 //    public static final RawAnimation SCARE_ANIM = RawAnimation.begin().thenLoop("goomba.scared");
@@ -153,41 +162,49 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //        controllers.add(new AnimationController<>(this, "Scare", 5, this::scareAnimController));
 //        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
 //        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
+//        controllers.add(new AnimationController<>(this, "Attack", 5, this::genericAttackAnimation));
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimation));
+        controllers.add(DefaultAnimations.genericIdleController(this));
         controllers.add(DefaultAnimations.genericWalkController(this));
-        controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_SWING));
+        controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT));
+//        controllers.add(DefaultAnimations.genericAttackAnimation(this, ATTACK_SWING_RIGHT));
     }
 
-//    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-//        if (this.isSitting() && !this.isScared()) {
-//            event.setAndContinue(SIT_ANIM);
-//            return PlayState.CONTINUE;
-//        }
-//
-//        if (this.isSleeping() && !this.isScared()) {
-//            event.setAndContinue(SLEEP_ANIM);
-//            return PlayState.CONTINUE;
-//        }
-//
-//        if (this.isInWaterOrBubble()) {
-//            if (!this.isRunning() && !this.isWalking())
-//                event.setAndContinue(IDLE_SWIM_ANIM);
-//            else event.setAndContinue(SWIM_ANIM);
-//            return PlayState.CONTINUE;
-//        } else if (this.isRunning() && !this.isScared()) {
-//            event.setAndContinue(RUN_ANIM);
-//            return PlayState.CONTINUE;
-//        } else if (event.isMoving() && !this.isScared()) {
-//            event.setAndContinue(WALK_ANIM);
-//            return PlayState.CONTINUE;
-//        } else if (this.isScared()) {
-//            event.setAndContinue(SCARE_ANIM);
-//            return PlayState.CONTINUE;
-//        } else {
-//            event.setAndContinue(IDLE_ANIM);
-//            return PlayState.CONTINUE;
-//        }
-//    }
-//
+    protected InteractionHand getLeftHand() {
+        return this.isLeftHanded() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+    }
+
+    protected InteractionHand getRightHand() {
+        return !this.isLeftHanded() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+    }
+
+    public <E extends GeoAnimatable> PlayState genericAttackAnimation(final AnimationState<E> state) {
+        if (this.swinging) {
+            if (this.isLeftHanded())
+                return state.setAndContinue(ATTACK_SWING_LEFT);
+            else return state.setAndContinue(ATTACK_SWING_RIGHT);
+        }
+        else return PlayState.STOP;
+    }
+
+    protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
+        /*if (this.isInWaterOrBubble()) {
+            if (!this.isRunning() && !this.isWalking())
+                event.setAndContinue(IDLE_SWIM_ANIM);
+            else event.setAndContinue(SWIM_ANIM);
+            return PlayState.CONTINUE;
+        } else if (this.isRunning()) {
+            event.setAndContinue(RUN_ANIM);
+            return PlayState.CONTINUE;
+        } else*/ if (event.isMoving()) {
+            event.setAndContinue(WALK);
+            return PlayState.CONTINUE;
+        } else {
+            event.setAndContinue(IDLE);
+            return PlayState.CONTINUE;
+        }
+    }
+
 //    protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
 //        if (this.dead) {
 //            if (this.getLastDamageSource() != null
