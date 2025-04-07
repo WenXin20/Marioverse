@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-06T20:56:04.4727596	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-04-07T14:48:38.8802864	Tags for minecraft:item mod id marioverse
 ea701a60da6f4428c7e81d770b9d741cb208a4c5 data/c/tags/item/dyed/black.json
 10ca144df308ef232475ca7315b4bf5aea05579d data/c/tags/item/dyed/blue.json
 3eadeeff41899d87488dbdde5236bc525a6e17ea data/c/tags/item/dyed/brown.json
@@ -44,6 +44,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 696b597d91f6761a77afd6fdbf6d71a401d9598e data/marioverse/tags/item/hats/mario.json
 5f317cfa93abea37163b270cfb665d9d85ab4b4e data/marioverse/tags/item/hats/peach.json
 65750363cfa50864bb55d2f480ac59ca544c477b data/marioverse/tags/item/invisible_question_blocks.json
+01acd30c295851c35415a2150a007420f79aa426 data/marioverse/tags/item/koopa_shells.json
 2abab234b9fe82a01874f77c9b38ca91e743e391 data/marioverse/tags/item/pants.json
 f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json

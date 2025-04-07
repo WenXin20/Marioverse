@@ -79,7 +79,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.25": {
-							"vector": [0, -9.5, -7.5]
+							"vector": [0, -9, -7]
 						}
 					}
 				},
@@ -270,6 +270,9 @@
 							"vector": [0, 0, 0],
 							"easing": "linear"
 						}
+					},
+					"scale": {
+						"vector": [0, 0, 0]
 					}
 				},
 				"bipedRightArm": {
@@ -293,6 +296,29 @@
 							"vector": [0, 0, 0],
 							"easing": "linear"
 						}
+					},
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"tail": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedHeadBaseRotater": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedLeftLeg": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedRightLeg": {
+					"scale": {
+						"vector": [0, 0, 0]
 					}
 				}
 			}

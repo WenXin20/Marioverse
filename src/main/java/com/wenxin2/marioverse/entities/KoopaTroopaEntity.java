@@ -1,13 +1,18 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
+import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import io.wispforest.accessories.api.AccessoriesCapability;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +106,9 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private long hideTicks = 0L;
+    private int hideAnimationTicks = 0;
+    private boolean triggeredHide = false;
+    private boolean hasSpawned = false;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
@@ -166,20 +174,37 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //        controllers.add(new AnimationController<>(this, "Scare", 5, this::scareAnimController));
 //        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
 //        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimation));
-        controllers.add(new AnimationController<>(this, "Hide", 5, this::hideAnimation));
+        controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
+//        controllers.add(new AnimationController<>(this, "Hide", 5, this::hideAnimation));
+        controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("hide", HIDE));
         controllers.add(DefaultAnimations.genericIdleController(this));
         controllers.add(DefaultAnimations.genericWalkController(this));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT).transitionLength(1));
     }
 
-    protected <E extends GeoAnimatable> PlayState hideAnimation(final AnimationState<E> event) {
-        if (!this.isHiding() && this.getLastDamageSource() != null
-                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-            event.setAndContinue(HIDE);
-            return PlayState.CONTINUE;
-        } else return PlayState.CONTINUE;
+    protected <E extends GeoAnimatable> PlayState hideAnimation(final AnimationState<E> state) {
+//        if (!this.isHiding() && this.getLastDamageSource() != null
+//                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+//                || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+//            state.setAndContinue(HIDE);
+//            return PlayState.CONTINUE;
+//        } else return PlayState.CONTINUE;
+
+        if (state.getController().hasAnimationFinished()) {
+            if (!this.level().isClientSide && triggeredHide && !hasSpawned) {
+                // Spawn entity at same rotation
+                KoopaTroopaEntity entity = new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
+                entity.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+                this.level().addFreshEntity(entity);
+                hasSpawned = true;
+            }
+
+            triggeredHide = false;
+            return PlayState.STOP;
+        }
+
+        return triggeredHide ? PlayState.CONTINUE : PlayState.STOP;
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
@@ -272,7 +297,44 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         int i = this.getAirSupply();
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
-            hideTicks = hideTicks - 1;
+            hideTicks--;
+
+        if (!this.level().isClientSide && hideAnimationTicks > 0) {
+            hideAnimationTicks--;
+
+            if (hideAnimationTicks == 0) {
+                KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
+
+                entity.setHideTicks(80);
+                entity.setPos(this.getX(), this.getY(), this.getZ());
+                entity.setYRot(this.getYRot());
+                entity.setXRot(this.getXRot());
+                entity.yBodyRot = this.yBodyRot;
+                entity.setYHeadRot(this.getYHeadRot());
+                entity.setHealth(this.getHealth());
+                for (EquipmentSlot slot : EquipmentSlot.values())
+                    entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+
+                AccessoriesCapability capability = AccessoriesCapability.get(this);
+                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                        && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                    String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+                    for (String slotType : slotTypes) {
+                        AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
+                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                        if (container != null) {
+                            ItemStack stack = container.getAccessories().getItem(0);
+                            if (containerEntity != null)
+                                containerEntity.getAccessories().setItem(0, stack);
+                        }
+                    }
+                }
+
+                this.level().addFreshEntity(entity);
+                this.remove(RemovalReason.DISCARDED);
+                hideAnimationTicks = -1;
+            }
+        }
 
         this.handleAirSupply(i);
     }
@@ -287,8 +349,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
             this.hide(Boolean.TRUE);
-            this.hideTicks = 50;
             this.stopInPlace();
+            this.hideTicks = 50;
+            this.triggeredHide = true;
+            this.hideAnimationTicks = 20;
+            this.triggerAnim("hide_controller", "hide");
         }
         return super.hurt(source, amount);
     }

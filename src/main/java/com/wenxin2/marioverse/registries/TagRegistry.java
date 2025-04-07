@@ -73,6 +73,7 @@ public class TagRegistry {
     public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
+    public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
     public static final TagKey<Item> LUIGI_COSTUMES = itemTags("costumes/luigi");;
     public static final TagKey<Item> LUIGI_FIRE_COSTUMES = itemTags("costumes/fire/luigi");
     public static final TagKey<Item> LUIGI_HATS = itemTags("hats/luigi");
@@ -150,6 +151,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
     public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
+    public static final TagKey<EntityType<?>> KOOPA_SHELL_ENTITIES = entityTypeTags("koopa_shells");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");

@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-06T21:27:33.4002544	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-04-07T14:48:38.8676644	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -6,7 +6,7 @@ e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/cannot_quick_travel.json
 1b59d2089d2a804e3dce11a8628b32e62e6a9938 data/marioverse/tags/entity_type/cannot_warp.json
 642942166a44d2f46c54804cadc4e8140f77eaf6 data/marioverse/tags/entity_type/can_be_instakill_stomped.json
-d878b7375a6edcc4d79378c043bf8791cfba4f85 data/marioverse/tags/entity_type/can_be_stomped.json
+52038507515cf35b5695617ee80a9d3ca7b452fa data/marioverse/tags/entity_type/can_be_stomped.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_bonk_blocks.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_claim_checkpoint_flags.json
 902708ef935129b0a24df2bfdd4693620ef5ae81 data/marioverse/tags/entity_type/can_consume_fire_flowers.json
@@ -40,6 +40,7 @@ ac7656f554458676d0a71df59094e1142734fb80 data/marioverse/tags/entity_type/ice_ba
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/ice_cube_collision_cannot_damage.json
 625690e7f0906f65b2ab2ac5c87b6c7cfccf82b5 data/marioverse/tags/entity_type/ice_cube_shatters_instantly.json
 9112bcb2e2168d8be5a3937e76f5085a48bded65 data/marioverse/tags/entity_type/ice_cube_shatter_cannot_damage.json
+01acd30c295851c35415a2150a007420f79aa426 data/marioverse/tags/entity_type/koopa_shells.json
 a2c3124191a93306a4169733bd2d801bb510ab1a data/marioverse/tags/entity_type/koopa_troopas.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/mega_goomba_can_attack.json
 356b72e2f51a90488e678a398239976817b59b46 data/marioverse/tags/entity_type/mini_goomba_can_attach.json

@@ -107,6 +107,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
+        tag(TagRegistry.KOOPA_SHELL_ITEMS)
+                .add(ItemRegistry.GREEN_KOOPA_SHELL.get());
+
         tag(TagRegistry.COSTUMES)
                 .addTag(TagRegistry.LUIGI_COSTUMES)
                 .addTag(TagRegistry.MARIO_COSTUMES)

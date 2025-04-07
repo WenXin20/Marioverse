@@ -334,6 +334,9 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             frozenEntityData.putFloat("HeightScale", heightScale);
             frozenEntityData.putFloat("WidthScale", widthScale);
 
+            if (entity instanceof KoopaTroopaEntity koopa)
+                koopa.getPersistentData().putBoolean("KoopaHiding", koopa.isHiding());
+
             this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();

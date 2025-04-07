@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.HeftyGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
@@ -59,6 +60,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).build("goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL =
+            Marioverse.ENTITIES.register("green_koopa_shell", () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.MONSTER)
+                    .sized(0.7F, 0.7F).eyeHeight(0.6F).build("green_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<KoopaTroopaEntity>> GREEN_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("green_koopa_troopa", () -> EntityType.Builder.of(KoopaTroopaEntity::new, MobCategory.MONSTER)
                     .sized(1.0F, 1.65F).eyeHeight(1.4F).build("green_koopa_troopa"));
@@ -147,14 +151,23 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
-        event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), PathfinderMob.createMobAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 1.0F)
+        event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
-                .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.4F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
+                .add(Attributes.MAX_HEALTH, 8)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
+
+        event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.2F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.FOLLOW_RANGE, 8.0F)
+                .add(Attributes.MAX_HEALTH, 8)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
 
         event.put(EntityRegistry.MEGA_GOOMBA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 5.0F)

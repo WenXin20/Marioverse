@@ -49,6 +49,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.ICE_FLOWER);
             add(event, ItemRegistry.SUPER_STAR);
 
+            add(event, ItemRegistry.GREEN_KOOPA_SHELL);
+
             add(event, ItemRegistry.WARP_DISRUPTOR);
             add(event, ItemRegistry.WRENCH);
 
@@ -360,6 +362,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.ONE_UP_MUSHROOM, ItemRegistry.FIRE_FLOWER);
                 addAfter(event, ItemRegistry.FIRE_FLOWER, ItemRegistry.ICE_FLOWER);
                 addAfter(event, ItemRegistry.ICE_FLOWER, ItemRegistry.SUPER_STAR);
+                addAfter(event, ItemRegistry.SUPER_STAR, ItemRegistry.GREEN_KOOPA_SHELL);
 
                 addAfter(event, Items.TURTLE_HELMET, ItemRegistry.MARIO_HAT);
                 addAfter(event, ItemRegistry.MARIO_HAT, ItemRegistry.MARIO_SHIRT);

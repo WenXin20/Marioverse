@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-06T20:56:04.4633843	Item Models: marioverse
+// 1.21.1	2025-04-07T14:48:38.8732229	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -20,6 +20,7 @@ b71173a0f56bbff264c8880cd7b3db569f78d81d assets/marioverse/models/item/gray_chec
 385135398692fc584063f9972d515a4cfc5cc6b9 assets/marioverse/models/item/gray_goal_pole.json
 120e156695ca48d40df0c05487ad1f4ef4590680 assets/marioverse/models/item/green_checkpoint_flag.json
 56eb9dca3262171f63d312cf086787932ba02ffc assets/marioverse/models/item/green_goal_pole.json
+8e210f006329a88615c7806d5bfd7b26fac8a975 assets/marioverse/models/item/green_koopa_shell.json
 9fc422aaca5261358880e7468a3e7404b0947d0c assets/marioverse/models/item/green_koopa_troopa_spawn_egg.json
 2f7dede7ee4a7fb7d18854426898237c9adf418d assets/marioverse/models/item/hefty_goomba_spawn_egg.json
 4058ce9f8d426f15c29e952c14fc0e1bce9b2831 assets/marioverse/models/item/ice_costume_smithing_template.json
