@@ -162,29 +162,10 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //        controllers.add(new AnimationController<>(this, "Scare", 5, this::scareAnimController));
 //        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
 //        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
-//        controllers.add(new AnimationController<>(this, "Attack", 5, this::genericAttackAnimation));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimation));
         controllers.add(DefaultAnimations.genericIdleController(this));
         controllers.add(DefaultAnimations.genericWalkController(this));
-        controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT));
-//        controllers.add(DefaultAnimations.genericAttackAnimation(this, ATTACK_SWING_RIGHT));
-    }
-
-    protected InteractionHand getLeftHand() {
-        return this.isLeftHanded() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-    }
-
-    protected InteractionHand getRightHand() {
-        return !this.isLeftHanded() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-    }
-
-    public <E extends GeoAnimatable> PlayState genericAttackAnimation(final AnimationState<E> state) {
-        if (this.swinging) {
-            if (this.isLeftHanded())
-                return state.setAndContinue(ATTACK_SWING_LEFT);
-            else return state.setAndContinue(ATTACK_SWING_RIGHT);
-        }
-        else return PlayState.STOP;
+        controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT).transitionLength(1));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
