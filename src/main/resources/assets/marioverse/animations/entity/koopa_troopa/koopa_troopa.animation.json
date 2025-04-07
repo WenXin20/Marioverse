@@ -1,6 +1,159 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
+		"attack.swing.left": {
+			"animation_length": 0.36,
+			"bones": {
+				"bipedLeftArm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.12": {
+							"vector": [-60, 0, 0]
+						},
+						"0.24": {
+							"vector": [-25.31123, 16.66577, 31.23252]
+						},
+						"0.36": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"attack.swing.right": {
+			"animation_length": 0.4,
+			"bones": {
+				"bipedRightArm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.12": {
+							"vector": [-60, 0, 0]
+						},
+						"0.24": {
+							"vector": [-26.69087, -22.3718, -37.12826]
+						},
+						"0.36": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"move.hide": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.875,
+			"bones": {
+				"bipedHeadBaseRotater": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.1667": {
+							"vector": [0, 0, -1]
+						}
+					},
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.1667": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"bipedBody": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [45, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, -9, -7]
+						}
+					}
+				},
+				"shell": {
+					"rotation": {
+						"0.25": {
+							"vector": [0, 0, -5]
+						},
+						"0.375": {
+							"vector": [0, 0, 5]
+						},
+						"0.5": {
+							"vector": [0, 0, -5]
+						},
+						"0.625": {
+							"vector": [0, 0, 5]
+						},
+						"0.75": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"tail": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.25": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"bipedLeftArm": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.1667": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"bipedRightArm": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.1667": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"bipedLeftLeg": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.1667": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"bipedRightLeg": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.1667": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
 		"move.walk": {
 			"loop": true,
 			"animation_length": 2,
@@ -166,48 +319,6 @@
 			}
 		},
 		"misc.interact.right": {
-			"animation_length": 0.4,
-			"bones": {
-				"bipedRightArm": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.12": {
-							"vector": [-60, 0, 0]
-						},
-						"0.24": {
-							"vector": [-26.69087, -22.3718, -37.12826]
-						},
-						"0.36": {
-							"vector": [0, 0, 0]
-						}
-					}
-				}
-			}
-		},
-		"attack.swing.left": {
-			"animation_length": 0.36,
-			"bones": {
-				"bipedLeftArm": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.12": {
-							"vector": [-60, 0, 0]
-						},
-						"0.24": {
-							"vector": [-25.31123, 16.66577, 31.23252]
-						},
-						"0.36": {
-							"vector": [0, 0, 0]
-						}
-					}
-				}
-			}
-		},
-		"attack.swing.right": {
 			"animation_length": 0.4,
 			"bones": {
 				"bipedRightArm": {

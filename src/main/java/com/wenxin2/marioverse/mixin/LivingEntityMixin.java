@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -118,6 +119,7 @@ public abstract class LivingEntityMixin extends Entity {
         boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
         this.marioverse$characterAbilities(entity);
+        this.marioverse$entityScale(entity);
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -220,8 +222,6 @@ public abstract class LivingEntityMixin extends Entity {
             this.marioverse$playSuperStarTheme();
         } else if (!hasSuperStar && this.marioverse$playedStarTheme)
             this.marioverse$playedStarTheme = false;
-
-        this.marioverse$entityScale(entity);
 
         float f5 = this.marioverse$getEyeHeightScale();
         if (f5 != this.marioverse$appliedEyeHeightScale) {
@@ -1024,8 +1024,11 @@ public abstract class LivingEntityMixin extends Entity {
                         if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
                                 damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
-                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get())
-                                damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()) {
+                                if (damagedEntity instanceof KoopaTroopaEntity)
+                                    damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), 0);
+                                else damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                            }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                                 this.marioverse$consecutiveReward(stompingEntity, damagedEntity);
                         }

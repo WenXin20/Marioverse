@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -17,7 +18,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -35,6 +39,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -43,6 +48,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -77,26 +83,24 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class KoopaTroopaEntity extends Monster implements GeoEntity {
-//    private static final EntityDataAccessor<Byte> DATA_ID_RIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.death");
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
-    public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
+    public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
+    public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
 //    public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.idle_swim");
 //    public static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("goomba.run");
-//    public static final RawAnimation SCARE_ANIM = RawAnimation.begin().thenLoop("goomba.scared");
-//    public static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("goomba.sit");
-//    public static final RawAnimation SLEEP_ANIM = RawAnimation.begin().thenLoop("goomba.sleep");
 //    public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.squash");
 //    public static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.swim");
 //    public static final RawAnimation SWIM_SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.swim_squash");
 //    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public boolean wasSleeping;
+    private long hideTicks = 0L;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
@@ -134,7 +138,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-//        builder.define(DATA_ID_RIDE_FLAGS, (byte)0);
+        builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
 //        builder.define(DATA_ID_SCARE_FLAGS, (byte)0);
 //        builder.define(DATA_ID_SIT_FLAGS, (byte)0);
 //        builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
@@ -163,9 +167,19 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
 //        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimation));
+        controllers.add(new AnimationController<>(this, "Hide", 5, this::hideAnimation));
         controllers.add(DefaultAnimations.genericIdleController(this));
         controllers.add(DefaultAnimations.genericWalkController(this));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT).transitionLength(1));
+    }
+
+    protected <E extends GeoAnimatable> PlayState hideAnimation(final AnimationState<E> event) {
+        if (!this.isHiding() && this.getLastDamageSource() != null
+                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+                || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+            event.setAndContinue(HIDE);
+            return PlayState.CONTINUE;
+        } else return PlayState.CONTINUE;
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
@@ -177,13 +191,16 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         } else if (this.isRunning()) {
             event.setAndContinue(RUN_ANIM);
             return PlayState.CONTINUE;
-        } else*/ if (event.isMoving()) {
-            event.setAndContinue(WALK);
-            return PlayState.CONTINUE;
-        } else {
-            event.setAndContinue(IDLE);
-            return PlayState.CONTINUE;
-        }
+        } else*/
+        if (!this.isHiding()) {
+            if (event.isMoving()) {
+                event.setAndContinue(WALK);
+                return PlayState.CONTINUE;
+            } else {
+                event.setAndContinue(IDLE);
+                return PlayState.CONTINUE;
+            }
+        } else return PlayState.STOP;
     }
 
 //    protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
@@ -221,7 +238,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-//        this.entityData.set(DATA_ID_RIDE_FLAGS, tag.getByte("RideFlags"));
+        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
 //        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
 //        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
 //        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
@@ -230,7 +247,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-//        tag.putByte("RideFlags", this.entityData.get(DATA_ID_RIDE_FLAGS));
+        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
 //        tag.putByte("ScareFlags", this.entityData.get(DATA_ID_SCARE_FLAGS));
 //        tag.putByte("SitFlags", this.entityData.get(DATA_ID_SIT_FLAGS));
 //        tag.putByte("SleepFlags", this.entityData.get(DATA_ID_SLEEP_FLAGS));
@@ -249,20 +266,31 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
-    private int scareDuration = 0;
-    private int scareTime = 0;
-
     @Override
     public void tick() {
         super.tick();
+        int i = this.getAirSupply();
+
+        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
+            hideTicks = hideTicks - 1;
+
+        this.handleAirSupply(i);
     }
 
     @Override
-    public void baseTick() {
-        int i = this.getAirSupply();
+    public void aiStep() {
+        if (!this.isHiding())
+            super.aiStep();
+    }
 
-        super.baseTick();
-        this.handleAirSupply(i);
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
+            this.hide(Boolean.TRUE);
+            this.hideTicks = 50;
+            this.stopInPlace();
+        }
+        return super.hurt(source, amount);
     }
 
     @Override
@@ -312,15 +340,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-//        if (/*this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-//                && */(player.getItemInHand(hand).getItem() instanceof ArmorItem
-//                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
-//                    && (blockItem.getBlock() instanceof SkullBlock
-//                        || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
-//                        || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
+        this.equipItemIfPossible(player.getItemInHand(hand));
+
+        if (this.level() instanceof ServerLevel)
             player.swing(hand);
-//        }
+
         return super.mobInteract(player, hand);
     }
 
@@ -460,11 +484,44 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         return true;
     }
 
+    @Override
+    protected BodyRotationControl createBodyControl() {
+        return new BodyRotationControl(this) {
+            @Override
+            public void clientTick() {
+                if (!KoopaTroopaEntity.this.isHiding()) {
+                    super.clientTick();
+                }
+            }
+        };
+    }
+
     public static class GoombaGroupData implements SpawnGroupData {
         public final boolean canSpawnJockey;
 
         public GoombaGroupData(boolean canSpawnJockey) {
             this.canSpawnJockey = canSpawnJockey;
+        }
+    }
+
+    public boolean isHiding() {
+        return hideTicks > 0;
+    }
+
+    public void hide(boolean isSitting) {
+        this.setHideFlag(8, isSitting);
+    }
+
+    private boolean getHideFlag(int i) {
+        return (this.entityData.get(DATA_ID_HIDE_FLAGS) & i) != 0;
+    }
+
+    private void setHideFlag(int i, boolean b) {
+        byte b0 = this.entityData.get(DATA_ID_HIDE_FLAGS);
+        if (b) {
+            this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 | i));
+        } else {
+            this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 & ~i));
         }
     }
 }
