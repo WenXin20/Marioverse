@@ -93,7 +93,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(DefaultAnimations.genericIdleController(this).transitionLength(0));
-        controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
     }
 
