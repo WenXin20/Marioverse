@@ -150,7 +150,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 //        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true));
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
 
@@ -312,15 +312,15 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (/*this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                && */(player.getItemInHand(hand).getItem() instanceof ArmorItem
-                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
-                    && (blockItem.getBlock() instanceof SkullBlock
-                        || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
-                        || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
+//        if (/*this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+//                && */(player.getItemInHand(hand).getItem() instanceof ArmorItem
+//                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
+//                    && (blockItem.getBlock() instanceof SkullBlock
+//                        || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
+//                        || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
             this.equipItemIfPossible(player.getItemInHand(hand));
             player.swing(hand);
-        }
+//        }
         return super.mobInteract(player, hand);
     }
 

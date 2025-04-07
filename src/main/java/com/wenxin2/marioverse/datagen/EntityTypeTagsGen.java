@@ -76,7 +76,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_BE_STOMPED)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityType.SLIME)
+                .add(EntityType.TURTLE)
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
@@ -346,6 +348,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.SNOW_GOLEM)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
+
+        tag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.GREEN_KOOPA_TROOPA.get());
+
+        tag(TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK);
 
         tag(TagRegistry.MEGA_GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)

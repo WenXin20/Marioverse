@@ -1,7 +1,9 @@
 {
   "values": [
     "#marioverse:goombas",
+    "#marioverse:koopa_troopas",
     "minecraft:slime",
+    "minecraft:turtle",
     {
       "id": "dummmmmmy:target_dummy",
       "required": false

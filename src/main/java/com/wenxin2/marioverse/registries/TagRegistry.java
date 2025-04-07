@@ -141,13 +141,15 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags("goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_RIDE = entityTypeTags("goomba_can_ride");
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags("goombas");
+    public static final TagKey<EntityType<?>> GREEN_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("green_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> HAS_NO_DELTA_MOVEMENT = entityTypeTags("has_no_delta_movement");
     public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags("hefty_goomba_can_attack");
     public static final TagKey<EntityType<?>> ICE_BALL_CAN_INSTAKILL = entityTypeTags("ice_ball_can_instakill");
     public static final TagKey<EntityType<?>> ICE_BALL_IMMUNE = entityTypeTags("ice_ball_immune");
     public static final TagKey<EntityType<?>> ICE_CUBE_COLLISION_CANNOT_DAMAGE = entityTypeTags("ice_cube_collision_cannot_damage");
-    public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
+    public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
+    public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");

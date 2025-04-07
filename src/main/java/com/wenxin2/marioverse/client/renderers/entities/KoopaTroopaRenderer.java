@@ -138,11 +138,13 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (stack == KoopaTroopaRenderer.this.mainHandItem) {
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
+                    poseStack.translate(0, 3.0, 0);
 
                     if (stack.getItem() instanceof ShieldItem)
                         poseStack.translate(0, 0.125, -0.25);
                 } else if (stack == KoopaTroopaRenderer.this.offhandItem) {
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
+                    poseStack.translate(0, 3.0, 0);
 
                     if (stack.getItem() instanceof ShieldItem) {
                         poseStack.translate(0, 0.125, 0.25);
@@ -156,11 +158,6 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
             }
         });
     }
-
-//    @Override
-//    protected float getDeathMaxRotation(KoopaTroopaEntity animatable) {
-//        return 0.0F;
-//    }
 
     @Override
     public void preRender(PoseStack poseStack, KoopaTroopaEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
