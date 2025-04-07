@@ -1,79 +1,37 @@
 package com.wenxin2.marioverse.entities;
 
-import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
-import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
-import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.control.BodyRotationControl;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PlayerHeadItem;
-import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
-import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
@@ -89,8 +47,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
-    private boolean triggeredHide = false;
-    private boolean hasSpawned = false;
 
     public KoopaShellEntity(EntityType<? extends KoopaShellEntity> type, Level world) {
         super(type, world);
@@ -166,15 +122,15 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
             hideTicks--;
 
-        if (emergeAnimationTicks > 0)
-            emergeAnimationTicks--;
-
-        if (hideTicks == 0) {
+        if (hideTicks == 0 && emergeAnimationTicks <= 0) {
             this.triggerAnim("emerge_controller", "emerge");
             this.emergeAnimationTicks = 20;
         }
 
-        if (emergeAnimationTicks == 0) {
+        if (emergeAnimationTicks > 0)
+            emergeAnimationTicks--;
+
+        if (!this.level().isClientSide && emergeAnimationTicks == 0) {
             KoopaTroopaEntity entity = new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
 
             entity.setPos(this.getX(), this.getY(), this.getZ());
@@ -200,6 +156,9 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                     }
                 }
             }
+
+            this.level().addFreshEntity(entity);
+            this.remove(RemovalReason.DISCARDED);
         }
 
         this.handleAirSupply(i);
@@ -212,12 +171,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
-//            this.hide(Boolean.TRUE);
-//            this.hideTicks = 50;
             this.stopInPlace();
-//            this.triggeredHide = true;
-//            this.triggerAnim("hide_controller", "hide");
-//            this.hideAnimationTicks = 20;
         }
         return super.hurt(source, amount);
     }
@@ -271,7 +225,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
 //        };
 //    }
 
-    public int setHideTicks(int hideTicks) {
-        return this.hideTicks = hideTicks;
+    public void setHideTicks(int hideTicks) {
+        this.hideTicks = hideTicks;
     }
 }
