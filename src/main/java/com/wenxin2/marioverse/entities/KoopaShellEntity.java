@@ -122,11 +122,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
             hideTicks--;
 
-        if (hideTicks == 0 && emergeAnimationTicks <= 0) {
-            this.triggerAnim("emerge_controller", "emerge");
-            this.emergeAnimationTicks = 20;
-        }
-
         if (emergeAnimationTicks > 0)
             emergeAnimationTicks--;
 
@@ -159,6 +154,11 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
 
             this.level().addFreshEntity(entity);
             this.remove(RemovalReason.DISCARDED);
+        }
+
+        if (hideTicks == 0 && emergeAnimationTicks <= 0) {
+            this.triggerAnim("emerge_controller", "emerge");
+            this.emergeAnimationTicks = 20;
         }
 
         this.handleAirSupply(i);
