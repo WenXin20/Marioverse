@@ -116,7 +116,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         super.tick();
         int i = this.getAirSupply();
 
-        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
+        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
 
         if (emergeAnimationTicks > 0)
@@ -162,13 +162,11 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void aiStep() {
-    }
-
-    @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
-            this.stopInPlace();
+            this.getNavigation().stop();
+            this.setXxa(0.0F);
+            this.setSpeed(0.0F);
         }
         return super.hurt(source, amount);
     }

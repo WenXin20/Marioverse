@@ -349,10 +349,12 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
             this.hide(Boolean.TRUE);
-            this.stopInPlace();
+            this.getNavigation().stop();
+            this.setXxa(0.0F);
+            this.setSpeed(0.0F);
             this.hideTicks = 50;
             this.triggeredHide = true;
-            this.hideAnimationTicks = 20;
+            this.hideAnimationTicks = 60;
             this.triggerAnim("hide_controller", "hide");
         }
         return super.hurt(source, amount);
