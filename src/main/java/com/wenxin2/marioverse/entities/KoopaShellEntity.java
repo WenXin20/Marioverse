@@ -39,11 +39,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class KoopaShellEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
-    public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
-    public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
-    public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
@@ -158,7 +155,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
 
         if (hideTicks == 0 && emergeAnimationTicks <= 0) {
             this.triggerAnim("emerge_controller", "emerge");
-            this.emergeAnimationTicks = 20;
+            this.emergeAnimationTicks = 80;
         }
 
         this.handleAirSupply(i);
