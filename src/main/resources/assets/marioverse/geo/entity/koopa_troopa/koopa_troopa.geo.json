@@ -33,7 +33,7 @@
 				{
 					"name": "tail",
 					"parent": "bipedBody",
-					"pivot": [1, 18, 4],
+					"pivot": [0, 7, 4.5],
 					"cubes": [
 						{"origin": [-1, 6, 4], "size": [2, 2, 5], "pivot": [0, 7, 4.5], "rotation": [-15, 0, 0], "uv": [34, 22]}
 					]

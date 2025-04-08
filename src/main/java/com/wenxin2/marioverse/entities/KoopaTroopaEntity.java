@@ -225,7 +225,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 event.setAndContinue(IDLE);
                 return PlayState.CONTINUE;
             }
-        } else return PlayState.STOP;
+        } else return PlayState.CONTINUE;
     }
 
 //    protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
