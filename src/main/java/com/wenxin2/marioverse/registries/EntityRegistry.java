@@ -158,7 +158,8 @@ public class EntityRegistry {
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
+                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F)
+                .add(Attributes.STEP_HEIGHT, 0.5F).build());
 
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)

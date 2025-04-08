@@ -11,6 +11,7 @@ import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,7 +28,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -42,6 +45,8 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y * 2, this.getDeltaMovement().z);
+    private boolean isSliding = false;
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
 
@@ -116,6 +121,22 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         super.tick();
         int i = this.getAirSupply();
 
+        this.handleAirSupply(i);
+
+        if (isSliding) {
+            BlockPos posBelow = this.blockPosition().below();
+            BlockState stateBelow = level().getBlockState(posBelow);
+            float friction = stateBelow.getFriction(level(), posBelow, this);
+            double slideSpeed = (friction > 0.6) ? 0.1 + friction / 1.5 : 0.5;
+
+            Vec3 motion = this.slidingDirection.scale(slideSpeed);
+            this.setDeltaMovement(motion);
+            this.collideWithWall(this.level());
+        }
+
+        if (this.getDeltaMovement().horizontalDistanceSqr() < 0.0001)
+            isSliding = false;
+
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
 
@@ -157,17 +178,46 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
             this.triggerAnim("emerge_controller", "emerge");
             this.emergeAnimationTicks = 80;
         }
-
-        this.handleAirSupply(i);
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        Level world = this.level();
+        BlockPos posBelow = this.blockPosition().below();
+        BlockState stateBelow = world.getBlockState(posBelow);
+
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
             this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
         }
+
+        if (!source.is(DamageTypeRegistry.STOMP) && !source.is(DamageTypeRegistry.PLAYER_STOMP)) {
+            float friction = stateBelow.getFriction(world, posBelow, this);
+            double slideSpeed;
+
+            if (friction > 0.6)
+                slideSpeed = 0.4 + friction / 1.5;
+            else slideSpeed = 1.0;
+
+            Vec3 slideDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
+
+            if (source.getEntity() != null) {
+                Vec3 attackerPos = source.getEntity().position();
+                Vec3 hitPos = this.position();
+                Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
+                slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y * 2, slideDirRaw.z).normalize();
+            } else if (source.getDirectEntity() != null)
+                slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
+            Vec3 movement = slideDirection.scale(slideSpeed);
+
+            if (!isNoAi()) {
+                this.setDeltaMovement(movement);
+                this.isSliding = true;
+                this.slidingDirection = movement;
+            }
+        }
+
         return super.hurt(source, amount);
     }
 
@@ -208,19 +258,51 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         return true;
     }
 
-//    @Override
-//    protected BodyRotationControl createBodyControl() {
-//        return new BodyRotationControl(this) {
-//            @Override
-//            public void clientTick() {
-//                if (!KoopaShellEntity.this.isHiding()) {
-//                    super.clientTick();
-//                }
-//            }
-//        };
-//    }
-
     public void setHideTicks(int hideTicks) {
         this.hideTicks = hideTicks;
+    }
+
+    private void collideWithWall(Level world) {
+        if (!world.isClientSide && this.getDeltaMovement().horizontalDistance() > 0) {
+            AABB bb = this.getBoundingBox();
+
+            for (Direction dir : Direction.Plane.HORIZONTAL) {
+                double movement = dir.getAxis() == Direction.Axis.X ? this.getDeltaMovement().x : this.getDeltaMovement().z;
+                if (movement == 0 || Math.signum(movement) != dir.getStepX() && Math.signum(movement) != dir.getStepZ())
+                    continue;
+
+                AABB checkBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
+                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
+                for (double x = checkBox.minX; x <= checkBox.maxX; x++) {
+                    for (double y = checkBox.minY; y <= checkBox.maxY; y++) {
+                        for (double z = checkBox.minZ; z <= checkBox.maxZ; z++) {
+                            pos.set(x, y, z);
+                            BlockState state = world.getBlockState(pos);
+
+                            if (!state.isAir()) {
+                                VoxelShape shape = state.getCollisionShape(world, pos);
+                                if (!shape.isEmpty()) {
+                                    double maxHeight = shape.max(Direction.Axis.Y);
+                                    if (maxHeight > 0.5) {
+                                        // Bounce!
+                                        Vec3 motion = this.getDeltaMovement();
+                                        double newX = motion.x;
+                                        double newZ = motion.z;
+                                        if (dir.getAxis() == Direction.Axis.X)
+                                            newX = -motion.x;
+                                        if (dir.getAxis() == Direction.Axis.Z)
+                                            newZ = -motion.z;
+
+                                        this.setDeltaMovement(new Vec3(newX, motion.y * 2, newZ));
+                                        this.slidingDirection = new Vec3(newX, motion.y * 2, newZ);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
