@@ -34,6 +34,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -269,27 +270,45 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     private void collideWithWall(Level world) {
         if (!world.isClientSide && this.getDeltaMovement().horizontalDistance() > 0) {
             Vec3 delta = this.getDeltaMovement();
-            Vec3 start = this.position().add(0, 0.5, 0);
-            Vec3 end = start.add(this.getBbWidth(), 1, this.getBbWidth());
+            Vec3 center = this.position().add(0, 0.5, 0); // mid-height for better collision
 
-            ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
-            BlockHitResult hitResult = world.clip(context);
-            Direction hitDirection = hitResult.getDirection();
+            // Define small offsets in 4 directions to cast rays
+            Vec3[] directions = {
+                    new Vec3(0.5, 0, 0),   // east
+                    new Vec3(-0.5, 0, 0),  // west
+                    new Vec3(0, 0, 0.5),   // south
+                    new Vec3(0, 0, -0.5)   // north
+            };
 
-            if (hitResult.getType() == HitResult.Type.BLOCK) {
-                if (hitDirection.getAxis().isHorizontal()) {
-                    double newX = delta.x;
-                    double newZ = delta.z;
+            for (Vec3 offset : directions) {
+                Vec3 start = center;
+                Vec3 end = center.add(offset);
 
-                    if (hitDirection.getAxis() == Direction.Axis.X)
-                        newX = -delta.x;
-                    if (hitDirection.getAxis() == Direction.Axis.Z)
-                        newZ = -delta.z;
+                ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
+                BlockHitResult hitResult = world.clip(context);
 
-                    this.setDeltaMovement(new Vec3(newX, delta.y, newZ));
-                    this.slidingDirection = new Vec3(newX, delta.y, newZ);
+                if (hitResult.getType() == HitResult.Type.BLOCK) {
+                    Direction hitDirection = hitResult.getDirection();
+                    if (hitDirection.getAxis().isHorizontal()) {
+                        double newX = delta.x;
+                        double newZ = delta.z;
+
+                        if (hitDirection.getAxis() == Direction.Axis.X)
+                            newX = -delta.x;
+                        if (hitDirection.getAxis() == Direction.Axis.Z)
+                            newZ = -delta.z;
+
+                        this.setDeltaMovement(new Vec3(newX, delta.y, newZ));
+                        this.slidingDirection = new Vec3(newX, delta.y, newZ);
+                        return; // Only bounce once
+                    }
                 }
             }
         }
+    }
+
+    @Override
+    public @NotNull AABB makeBoundingBox() {
+        return super.makeBoundingBox();
     }
 }
