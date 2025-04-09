@@ -6,9 +6,13 @@ import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.KoopaShellModel;
 import com.wenxin2.marioverse.client.models.entities.KoopaTroopaModel;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -18,6 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -161,5 +167,50 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
 
         this.mainHandItem = animatable.getMainHandItem();
         this.offhandItem = animatable.getOffhandItem();
+    }
+
+    @Override
+    public void render(KoopaShellEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
+
+        if (Minecraft.getInstance().getEntityRenderDispatcher().shouldRenderHitBoxes())
+            renderHitboxes(poseStack, vertexConsumer, entity);
+    }
+
+    private static void renderHitboxes(PoseStack poseStack, VertexConsumer vertexConsumer, KoopaShellEntity entity) {
+        poseStack.pushPose();
+
+        // Render entity bounding box
+        AABB mainBoundingBox = entity.makeBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
+        LevelRenderer.renderLineBox(poseStack, vertexConsumer, mainBoundingBox, 0.3F, 0.4F, 0.5F, 1.0F);
+
+        // Raycast lines in cardinal directions from shell's center
+        Vec3 center = entity.position().add(0, 0.5, 0); // Mid-height
+        Vec3[] directions = {
+                new Vec3(0.5, 0, 0),   // east
+                new Vec3(-0.5, 0, 0),  // west
+                new Vec3(0, 0, 0.5),   // south
+                new Vec3(0, 0, -0.5)   // north
+        };
+
+        for (Vec3 offset : directions) {
+            Vec3 start = center;
+            Vec3 end = center.add(offset);
+
+            // Convert to relative space
+            Vec3 startRel = start.subtract(entity.position());
+            Vec3 endRel = end.subtract(entity.position());
+
+            // Draw line
+            LevelRenderer.renderLineBox(
+                    poseStack,
+                    vertexConsumer,
+                    new AABB(startRel, endRel),
+                    1.0F, 0.0F, 0.0F, 1.0F
+            );
+        }
+
+        poseStack.popPose();
     }
 }
