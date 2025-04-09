@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,12 +26,14 @@ import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -45,7 +48,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y * 2, this.getDeltaMovement().z);
+    private Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     private boolean isSliding = false;
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
@@ -122,16 +125,17 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         int i = this.getAirSupply();
 
         this.handleAirSupply(i);
+        this.collideWithWall(this.level());
 
         if (isSliding) {
             BlockPos posBelow = this.blockPosition().below();
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);
-            double slideSpeed = (friction > 0.6) ? 0.1 + friction / 1.5 : 0.5;
+            double slideSpeed = (friction > 0.8) ? 0.4 + friction / 1.5 : 1.0;
 
             Vec3 motion = this.slidingDirection.scale(slideSpeed);
             this.setDeltaMovement(motion);
-            this.collideWithWall(this.level());
+            this.slidingDirection = motion;
         }
 
         if (this.getDeltaMovement().horizontalDistanceSqr() < 0.0001)
@@ -206,7 +210,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                 Vec3 attackerPos = source.getEntity().position();
                 Vec3 hitPos = this.position();
                 Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
-                slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y * 2, slideDirRaw.z).normalize();
+                slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
             } else if (source.getDirectEntity() != null)
                 slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
             Vec3 movement = slideDirection.scale(slideSpeed);
@@ -264,43 +268,26 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
 
     private void collideWithWall(Level world) {
         if (!world.isClientSide && this.getDeltaMovement().horizontalDistance() > 0) {
-            AABB bb = this.getBoundingBox();
+            Vec3 delta = this.getDeltaMovement();
+            Vec3 start = this.position().add(0, 0.5, 0);
+            Vec3 end = start.add(this.getBbWidth(), 1, this.getBbWidth());
 
-            for (Direction dir : Direction.Plane.HORIZONTAL) {
-                double movement = dir.getAxis() == Direction.Axis.X ? this.getDeltaMovement().x : this.getDeltaMovement().z;
-                if (movement == 0 || Math.signum(movement) != dir.getStepX() && Math.signum(movement) != dir.getStepZ())
-                    continue;
+            ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
+            BlockHitResult hitResult = world.clip(context);
+            Direction hitDirection = hitResult.getDirection();
 
-                AABB checkBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
-                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+            if (hitResult.getType() == HitResult.Type.BLOCK) {
+                if (hitDirection.getAxis().isHorizontal()) {
+                    double newX = delta.x;
+                    double newZ = delta.z;
 
-                for (double x = checkBox.minX; x <= checkBox.maxX; x++) {
-                    for (double y = checkBox.minY; y <= checkBox.maxY; y++) {
-                        for (double z = checkBox.minZ; z <= checkBox.maxZ; z++) {
-                            pos.set(x, y, z);
-                            BlockState state = world.getBlockState(pos);
+                    if (hitDirection.getAxis() == Direction.Axis.X)
+                        newX = -delta.x;
+                    if (hitDirection.getAxis() == Direction.Axis.Z)
+                        newZ = -delta.z;
 
-                            if (!state.isAir()) {
-                                VoxelShape shape = state.getCollisionShape(world, pos);
-                                if (!shape.isEmpty()) {
-                                    double maxHeight = shape.max(Direction.Axis.Y);
-                                    if (maxHeight > 0.5) {
-                                        // Bounce!
-                                        Vec3 motion = this.getDeltaMovement();
-                                        double newX = motion.x;
-                                        double newZ = motion.z;
-                                        if (dir.getAxis() == Direction.Axis.X)
-                                            newX = -motion.x;
-                                        if (dir.getAxis() == Direction.Axis.Z)
-                                            newZ = -motion.z;
-
-                                        this.setDeltaMovement(new Vec3(newX, motion.y * 2, newZ));
-                                        this.slidingDirection = new Vec3(newX, motion.y * 2, newZ);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    this.setDeltaMovement(new Vec3(newX, delta.y, newZ));
+                    this.slidingDirection = new Vec3(newX, delta.y, newZ);
                 }
             }
         }

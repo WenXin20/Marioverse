@@ -28,10 +28,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(EntityTypeTags.FALL_DAMAGE_IMMUNE)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityRegistry.ICE_CUBE.get())
                 .add(EntityRegistry.ICE_FLOWER.get());
 
@@ -39,7 +41,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.MINI_GOOMBA.get());
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
-                .add(EntityRegistry.BOUNCING_FIREBALL.get());
+                .add(EntityRegistry.BOUNCING_FIREBALL.get())
+                .add(EntityRegistry.BOUNCING_ICE_BALL.get());
 
         tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
