@@ -298,6 +298,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
 
                                 if (shapeBox.intersects(movedBox)) {
                                     Vec3 motion = this.slidingDirection;
+                                    double maxHeight = shape.max(Direction.Axis.Y);
                                     double newX = motion.x;
                                     double newZ = motion.z;
 
@@ -305,6 +306,9 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                                         newX = -motion.x;
                                     if (dir.getAxis() == Direction.Axis.Z)
                                         newZ = -motion.z;
+
+                                    if (maxHeight <= 0.5)
+                                        continue;
 
                                     this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
                                     this.slidingDirection = new Vec3(newX, motion.y, newZ);

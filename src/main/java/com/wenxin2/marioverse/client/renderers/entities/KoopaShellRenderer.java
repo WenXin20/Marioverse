@@ -188,6 +188,5 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
                         0.0F, 1.0F, 0.0F, 1.0F);
             poseStack.popPose();
         }
-
     }
 }
