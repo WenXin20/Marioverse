@@ -130,7 +130,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         this.handleAirSupply(i);
         this.collideWithWall(this.level());
 
-        if (isSliding) {
+        if (isSliding && this.isAlive()) {
             BlockPos posBelow = this.blockPosition().below();
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);

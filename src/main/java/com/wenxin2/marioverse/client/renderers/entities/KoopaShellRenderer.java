@@ -22,6 +22,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -188,5 +189,17 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
                         0.0F, 1.0F, 0.0F, 1.0F);
             poseStack.popPose();
         }
+    }
+
+    @Override
+    protected void applyRotations(KoopaShellEntity entity, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick, float nativeScale) {
+        super.applyRotations(entity, poseStack, ageInTicks, rotationYaw, partialTick, nativeScale);
+
+        Vec3 velocity = entity.getDeltaMovement();
+        double speed = velocity.horizontalDistance();
+        float spinAmount = (float) (ageInTicks * speed * 50);
+
+        if (entity.isAlive())
+            poseStack.mulPose(Axis.YP.rotationDegrees(spinAmount));
     }
 }
