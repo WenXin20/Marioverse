@@ -125,6 +125,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     public void tick() {
         super.tick();
         int i = this.getAirSupply();
+        Vec3 motion = this.getDeltaMovement();
 
         this.handleAirSupply(i);
         this.collideWithWall(this.level());
@@ -135,13 +136,20 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
             float friction = stateBelow.getFriction(level(), posBelow, this);
             double slideSpeed = (friction > 0.8) ? 0.4 + friction / 1.5 : 1.0;
 
-            Vec3 motion = this.slidingDirection.scale(slideSpeed);
-            this.setDeltaMovement(motion);
-            this.slidingDirection = motion;
+            // Continue sliding in the saved direction
+            Vec3 slideMotion = this.slidingDirection.normalize().scale(slideSpeed);
+            this.setDeltaMovement(slideMotion);
+            this.slidingDirection = slideMotion;
         }
 
-        if (this.getDeltaMovement().horizontalDistanceSqr() < 0.0001)
+        // Detect whether we should still be sliding
+        if (motion.horizontalDistanceSqr() < 0.0001) {
             isSliding = false;
+        } else if (!isSliding && motion.horizontalDistanceSqr() > 0.0001) {
+            // Only update slidingDirection if we weren't already sliding
+            this.slidingDirection = motion;
+            isSliding = true;
+        }
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
@@ -269,46 +277,37 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     }
 
     private void collideWithWall(Level world) {
-        if (!world.isClientSide && this.getDeltaMovement().horizontalDistance() > 0) {
+        if (!world.isClientSide) {
             AABB bb = this.getBoundingBox();
 
             for (Direction dir : Direction.Plane.HORIZONTAL) {
-                double movement = dir.getAxis() == Direction.Axis.X ? this.getDeltaMovement().x : this.getDeltaMovement().z;
-                if (movement == 0 /*|| Math.signum(movement) != dir.getStepX() && Math.signum(movement) != dir.getStepZ()*/)
-                    continue;
-
-                AABB checkBox = bb.expandTowards(dir.getStepX() * 0.2, 0, dir.getStepZ() * 0.2);
+                AABB movedBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
+                BlockPos min = BlockPos.containing(movedBox.minX, movedBox.minY, movedBox.minZ);
+                BlockPos max = BlockPos.containing(movedBox.maxX, movedBox.maxY, movedBox.maxZ);
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-                int minX = Mth.floor(checkBox.minX);
-                int maxX = Mth.floor(checkBox.maxX);
-                int minY = Mth.floor(checkBox.minY);
-                int maxY = Mth.floor(checkBox.maxY);
-                int minZ = Mth.floor(checkBox.minZ);
-                int maxZ = Mth.floor(checkBox.maxZ);
 
-                for (int x = minX; x <= maxX; x++) {
-                    for (int y = minY; y <= maxY; y++) {
-                        for (int z = minZ; z <= maxZ; z++) {
+                for (int x = min.getX(); x <= max.getX(); x++) {
+                    for (int y = min.getY(); y <= max.getY(); y++) {
+                        for (int z = min.getZ(); z <= max.getZ(); z++) {
                             pos.set(x, y, z);
                             BlockState state = world.getBlockState(pos);
+                            VoxelShape shape = state.getCollisionShape(world, pos);
 
-                            if (state.isSolid()) {
-                                VoxelShape shape = state.getCollisionShape(world, pos);
-                                if (!shape.isEmpty()) {
-                                    double maxHeight = shape.max(Direction.Axis.Y);
-                                    if (maxHeight > 0.5) {
-                                        // Bounce!
-                                        Vec3 motion = this.getDeltaMovement();
-                                        double newX = motion.x;
-                                        double newZ = motion.z;
-                                        if (dir.getAxis() == Direction.Axis.X)
-                                            newX = -motion.x;
-                                        if (dir.getAxis() == Direction.Axis.Z)
-                                            newZ = -motion.z;
+                            if (!shape.isEmpty()) {
+                                AABB shapeBox = shape.bounds().move(pos);
 
-                                        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
-                                        this.slidingDirection = new Vec3(newX, motion.y, newZ);
-                                    }
+                                if (shapeBox.intersects(movedBox)) {
+                                    Vec3 motion = this.slidingDirection;
+                                    double newX = motion.x;
+                                    double newZ = motion.z;
+
+                                    if (dir.getAxis() == Direction.Axis.X)
+                                        newX = -motion.x;
+                                    if (dir.getAxis() == Direction.Axis.Z)
+                                        newZ = -motion.z;
+
+                                    this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
+                                    this.slidingDirection = new Vec3(newX, motion.y, newZ);
                                 }
                             }
                         }

@@ -4,9 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.KoopaShellModel;
-import com.wenxin2.marioverse.client.models.entities.KoopaTroopaModel;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
-import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -24,7 +22,6 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -176,37 +173,21 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
 
         if (Minecraft.getInstance().getEntityRenderDispatcher().shouldRenderHitBoxes())
-            renderHitboxes(poseStack, vertexConsumer, entity);
+            renderBounceCollisionBox(poseStack, vertexConsumer, entity);
     }
 
-    private static void renderHitboxes(PoseStack poseStack, VertexConsumer vertexConsumer, KoopaShellEntity entity) {
-        poseStack.pushPose();
-
-        // Get the entity's bounding box
+    private static void renderBounceCollisionBox(PoseStack poseStack, VertexConsumer vertexConsumer, KoopaShellEntity entity) {
         AABB bb = entity.getBoundingBox();
 
         for (Direction dir : Direction.Plane.HORIZONTAL) {
-            double movement = dir.getAxis() == Direction.Axis.X ? entity.getDeltaMovement().x : entity.getDeltaMovement().z;
+            AABB movedBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
+            AABB posBox = movedBox.move(-entity.getX(), -entity.getY(), -entity.getZ());
 
-            // Only draw if movement is in that direction
-            if (movement == 0 /*|| (Math.signum(movement) != dir.getStepX() && Math.signum(movement) != dir.getStepZ())*/)
-                continue;
-
-            // Offset the box in the movement direction
-            AABB offsetBox = bb.expandTowards(dir.getStepX() * 0.2, 0, dir.getStepZ() * 0.2);
-
-            // Convert to relative space
-            AABB relBox = offsetBox.move(-entity.getX(), -entity.getY(), -entity.getZ());
-
-            // Draw the box
-            LevelRenderer.renderLineBox(
-                    poseStack,
-                    vertexConsumer,
-                    relBox,
-                    0.0F, 1.0F, 0.0F, 1.0F // Green for bounce check boxes
-            );
+            poseStack.pushPose();
+                LevelRenderer.renderLineBox(poseStack, vertexConsumer, posBox,
+                        0.0F, 1.0F, 0.0F, 1.0F);
+            poseStack.popPose();
         }
 
-        poseStack.popPose();
     }
 }
