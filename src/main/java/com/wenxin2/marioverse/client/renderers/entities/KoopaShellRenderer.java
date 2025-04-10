@@ -195,8 +195,8 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
     protected void applyRotations(KoopaShellEntity entity, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick, float nativeScale) {
         super.applyRotations(entity, poseStack, ageInTicks, rotationYaw, partialTick, nativeScale);
 
-        Vec3 velocity = entity.getDeltaMovement();
-        double speed = velocity.horizontalDistance();
+        Vec3 delta = entity.getDeltaMovement();
+        double speed = delta.horizontalDistance();
         float spinAmount = (float) (ageInTicks * speed * 50);
 
         if (entity.isAlive())

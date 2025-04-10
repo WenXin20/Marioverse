@@ -128,25 +128,30 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         Vec3 motion = this.getDeltaMovement();
 
         this.handleAirSupply(i);
-        this.collideWithWall(this.level());
+        if (this.isAlive())
+            this.collideWithWall(this.level());
 
         if (isSliding && this.isAlive()) {
             BlockPos posBelow = this.blockPosition().below();
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);
             double slideSpeed = (friction > 0.8) ? 0.4 + friction / 1.5 : 1.0;
-
-            // Continue sliding in the saved direction
             Vec3 slideMotion = this.slidingDirection.normalize().scale(slideSpeed);
-            this.setDeltaMovement(slideMotion);
-            this.slidingDirection = slideMotion;
+
+            if (this.getLastDamageSource() != null
+                    && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+                this.setDeltaMovement(Vec3.ZERO);
+                this.slidingDirection = Vec3.ZERO;
+            } else {
+                this.setDeltaMovement(slideMotion);
+                this.slidingDirection = slideMotion;
+            }
         }
 
-        // Detect whether we should still be sliding
         if (motion.horizontalDistanceSqr() < 0.0001) {
             isSliding = false;
         } else if (!isSliding && motion.horizontalDistanceSqr() > 0.0001) {
-            // Only update slidingDirection if we weren't already sliding
             this.slidingDirection = motion;
             isSliding = true;
         }
@@ -204,6 +209,9 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
             this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
+            this.setDeltaMovement(Vec3.ZERO);
+            this.slidingDirection = Vec3.ZERO;
+            this.isSliding = false;
         }
 
         if (!source.is(DamageTypeRegistry.STOMP) && !source.is(DamageTypeRegistry.PLAYER_STOMP)) {
@@ -225,7 +233,19 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                 slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
             Vec3 movement = slideDirection.scale(slideSpeed);
 
-            if (!isNoAi()) {
+            if (this.getLastDamageSource() != null
+                    && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+                        || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+                this.setDeltaMovement(Vec3.ZERO);
+                this.isSliding = false;
+                this.slidingDirection = Vec3.ZERO;
+            } else if (!isNoAi() && this.getLastDamageSource() != null
+                    && !this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
+                    && !this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP)) {
+                this.setDeltaMovement(movement);
+                this.isSliding = true;
+                this.slidingDirection = movement;
+            } else if (!isNoAi() && this.getLastDamageSource() == null) {
                 this.setDeltaMovement(movement);
                 this.isSliding = true;
                 this.slidingDirection = movement;
@@ -297,21 +317,23 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                                 AABB shapeBox = shape.bounds().move(pos);
 
                                 if (shapeBox.intersects(movedBox)) {
-                                    Vec3 motion = this.slidingDirection;
-                                    double maxHeight = shape.max(Direction.Axis.Y);
-                                    double newX = motion.x;
-                                    double newZ = motion.z;
+                                    if (dir.getAxis() == Direction.Axis.X || dir.getAxis() == Direction.Axis.Z) {
+                                        Vec3 motion = this.slidingDirection;
+                                        double maxHeight = shape.max(Direction.Axis.Y);
+                                        double newX = motion.x;
+                                        double newZ = motion.z;
 
-                                    if (dir.getAxis() == Direction.Axis.X)
-                                        newX = -motion.x;
-                                    if (dir.getAxis() == Direction.Axis.Z)
-                                        newZ = -motion.z;
+                                        if (dir.getAxis() == Direction.Axis.X)
+                                            newX = -motion.x;
+                                        if (dir.getAxis() == Direction.Axis.Z)
+                                            newZ = -motion.z;
 
-                                    if (maxHeight <= 0.5)
-                                        continue;
+                                        if (maxHeight <= 0.5)
+                                            continue;
 
-                                    this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
-                                    this.slidingDirection = new Vec3(newX, motion.y, newZ);
+                                        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
+                                        this.slidingDirection = new Vec3(newX, motion.y, newZ);
+                                    }
                                 }
                             }
                         }
