@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -181,33 +182,28 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
     private static void renderHitboxes(PoseStack poseStack, VertexConsumer vertexConsumer, KoopaShellEntity entity) {
         poseStack.pushPose();
 
-        // Render entity bounding box
-        AABB mainBoundingBox = entity.makeBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
-        LevelRenderer.renderLineBox(poseStack, vertexConsumer, mainBoundingBox, 0.3F, 0.4F, 0.5F, 1.0F);
+        // Get the entity's bounding box
+        AABB bb = entity.getBoundingBox();
 
-        // Raycast lines in cardinal directions from shell's center
-        Vec3 center = entity.position().add(0, 0.5, 0); // Mid-height
-        Vec3[] directions = {
-                new Vec3(0.5, 0, 0),   // east
-                new Vec3(-0.5, 0, 0),  // west
-                new Vec3(0, 0, 0.5),   // south
-                new Vec3(0, 0, -0.5)   // north
-        };
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            double movement = dir.getAxis() == Direction.Axis.X ? entity.getDeltaMovement().x : entity.getDeltaMovement().z;
 
-        for (Vec3 offset : directions) {
-            Vec3 start = center;
-            Vec3 end = center.add(offset);
+            // Only draw if movement is in that direction
+            if (movement == 0 /*|| (Math.signum(movement) != dir.getStepX() && Math.signum(movement) != dir.getStepZ())*/)
+                continue;
+
+            // Offset the box in the movement direction
+            AABB offsetBox = bb.expandTowards(dir.getStepX() * 0.2, 0, dir.getStepZ() * 0.2);
 
             // Convert to relative space
-            Vec3 startRel = start.subtract(entity.position());
-            Vec3 endRel = end.subtract(entity.position());
+            AABB relBox = offsetBox.move(-entity.getX(), -entity.getY(), -entity.getZ());
 
-            // Draw line
+            // Draw the box
             LevelRenderer.renderLineBox(
                     poseStack,
                     vertexConsumer,
-                    new AABB(startRel, endRel),
-                    1.0F, 0.0F, 0.0F, 1.0F
+                    relBox,
+                    0.0F, 1.0F, 0.0F, 1.0F // Green for bounce check boxes
             );
         }
 

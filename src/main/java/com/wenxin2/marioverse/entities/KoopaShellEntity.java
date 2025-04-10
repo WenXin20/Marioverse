@@ -34,6 +34,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -269,38 +270,48 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
 
     private void collideWithWall(Level world) {
         if (!world.isClientSide && this.getDeltaMovement().horizontalDistance() > 0) {
-            Vec3 delta = this.getDeltaMovement();
-            Vec3 center = this.position().add(0, 0.5, 0); // mid-height for better collision
+            AABB bb = this.getBoundingBox();
 
-            // Define small offsets in 4 directions to cast rays
-            Vec3[] directions = {
-                    new Vec3(0.5, 0, 0),   // east
-                    new Vec3(-0.5, 0, 0),  // west
-                    new Vec3(0, 0, 0.5),   // south
-                    new Vec3(0, 0, -0.5)   // north
-            };
+            for (Direction dir : Direction.Plane.HORIZONTAL) {
+                double movement = dir.getAxis() == Direction.Axis.X ? this.getDeltaMovement().x : this.getDeltaMovement().z;
+                if (movement == 0 /*|| Math.signum(movement) != dir.getStepX() && Math.signum(movement) != dir.getStepZ()*/)
+                    continue;
 
-            for (Vec3 offset : directions) {
-                Vec3 start = center;
-                Vec3 end = center.add(offset);
+                AABB checkBox = bb.expandTowards(dir.getStepX() * 0.2, 0, dir.getStepZ() * 0.2);
+                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+                int minX = Mth.floor(checkBox.minX);
+                int maxX = Mth.floor(checkBox.maxX);
+                int minY = Mth.floor(checkBox.minY);
+                int maxY = Mth.floor(checkBox.maxY);
+                int minZ = Mth.floor(checkBox.minZ);
+                int maxZ = Mth.floor(checkBox.maxZ);
 
-                ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
-                BlockHitResult hitResult = world.clip(context);
+                for (int x = minX; x <= maxX; x++) {
+                    for (int y = minY; y <= maxY; y++) {
+                        for (int z = minZ; z <= maxZ; z++) {
+                            pos.set(x, y, z);
+                            BlockState state = world.getBlockState(pos);
 
-                if (hitResult.getType() == HitResult.Type.BLOCK) {
-                    Direction hitDirection = hitResult.getDirection();
-                    if (hitDirection.getAxis().isHorizontal()) {
-                        double newX = delta.x;
-                        double newZ = delta.z;
+                            if (state.isSolid()) {
+                                VoxelShape shape = state.getCollisionShape(world, pos);
+                                if (!shape.isEmpty()) {
+                                    double maxHeight = shape.max(Direction.Axis.Y);
+                                    if (maxHeight > 0.5) {
+                                        // Bounce!
+                                        Vec3 motion = this.getDeltaMovement();
+                                        double newX = motion.x;
+                                        double newZ = motion.z;
+                                        if (dir.getAxis() == Direction.Axis.X)
+                                            newX = -motion.x;
+                                        if (dir.getAxis() == Direction.Axis.Z)
+                                            newZ = -motion.z;
 
-                        if (hitDirection.getAxis() == Direction.Axis.X)
-                            newX = -delta.x;
-                        if (hitDirection.getAxis() == Direction.Axis.Z)
-                            newZ = -delta.z;
-
-                        this.setDeltaMovement(new Vec3(newX, delta.y, newZ));
-                        this.slidingDirection = new Vec3(newX, delta.y, newZ);
-                        return; // Only bounce once
+                                        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
+                                        this.slidingDirection = new Vec3(newX, motion.y, newZ);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
