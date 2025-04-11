@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
-import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -17,6 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -30,6 +30,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -39,10 +41,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -51,13 +53,11 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.armadillo.Armadillo;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
@@ -67,9 +67,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CarvedPumpkinBlock;
-import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -87,7 +84,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class KoopaTroopaEntity extends Monster implements GeoEntity {
+public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
 //    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
@@ -105,6 +102,9 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //    public static final RawAnimation SWIM_SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.swim_squash");
 //    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+    private int remainingPersistentAngerTime;
+    @Nullable private UUID persistentAngerTarget;
     private long hideTicks = 0L;
     private int hideAnimationTicks = 0;
     private boolean triggeredHide = false;
@@ -164,6 +164,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 //        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
     }
 
     @Override
@@ -261,21 +262,23 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
-//        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
-//        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
-//        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
-    }
-
-    @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        this.addPersistentAngerSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
 //        tag.putByte("ScareFlags", this.entityData.get(DATA_ID_SCARE_FLAGS));
 //        tag.putByte("SitFlags", this.entityData.get(DATA_ID_SIT_FLAGS));
 //        tag.putByte("SleepFlags", this.entityData.get(DATA_ID_SLEEP_FLAGS));
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.readPersistentAngerSaveData(this.level(), tag);
+        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+//        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
+//        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
+//        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
     }
 
     public boolean isWalking() {
@@ -354,7 +357,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.setSpeed(0.0F);
             this.hideTicks = 50;
             this.triggeredHide = true;
-            this.hideAnimationTicks = 60;
+            this.hideAnimationTicks = 30;
             this.triggerAnim("hide_controller", "hide");
         }
         return super.hurt(source, amount);
@@ -561,6 +564,32 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 }
             }
         };
+    }
+
+    @Override
+    public int getRemainingPersistentAngerTime() {
+        return this.remainingPersistentAngerTime;
+    }
+
+    @Override
+    public void setRemainingPersistentAngerTime(int angerTime) {
+        this.remainingPersistentAngerTime = angerTime;
+    }
+
+    @Nullable
+    @Override
+    public UUID getPersistentAngerTarget() {
+        return this.persistentAngerTarget;
+    }
+
+    @Override
+    public void setPersistentAngerTarget(@Nullable UUID angerTarget) {
+        this.persistentAngerTarget = angerTarget;
+    }
+
+    @Override
+    public void startPersistentAngerTimer() {
+        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
     }
 
     public static class GoombaGroupData implements SpawnGroupData {
