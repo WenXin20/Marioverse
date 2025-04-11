@@ -174,10 +174,10 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
 
         if (Minecraft.getInstance().getEntityRenderDispatcher().shouldRenderHitBoxes())
-            renderBounceCollisionBox(poseStack, vertexConsumer, entity);
+            renderBounceCollisionBox(entity, poseStack, vertexConsumer);
     }
 
-    private static void renderBounceCollisionBox(PoseStack poseStack, VertexConsumer vertexConsumer, KoopaShellEntity entity) {
+    private static void renderBounceCollisionBox(KoopaShellEntity entity, PoseStack poseStack, VertexConsumer vertexConsumer) {
         AABB bb = entity.getBoundingBox();
 
         for (Direction dir : Direction.Plane.HORIZONTAL) {
@@ -199,7 +199,7 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
         double speed = delta.horizontalDistance();
         float spinAmount = (float) (ageInTicks * speed * 50);
 
-        if (entity.isAlive())
+        if (entity.isAlive() && speed > 0.01)
             poseStack.mulPose(Axis.YP.rotationDegrees(spinAmount));
     }
 }

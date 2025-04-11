@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,22 +18,20 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +49,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
+    public Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     private boolean isSliding = false;
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
@@ -128,8 +127,10 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         Vec3 motion = this.getDeltaMovement();
 
         this.handleAirSupply(i);
-        if (this.isAlive())
+        if (this.isAlive()) {
             this.collideWithWall(this.level());
+            this.collideWithEntity();
+        }
 
         if (isSliding && this.isAlive()) {
             BlockPos posBelow = this.blockPosition().below();
@@ -206,7 +207,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         BlockState stateBelow = world.getBlockState(posBelow);
 
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
-            this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
             this.setDeltaMovement(Vec3.ZERO);
@@ -231,27 +231,15 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                 slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
             } else if (source.getDirectEntity() != null)
                 slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
+
             Vec3 movement = slideDirection.scale(slideSpeed);
 
-            if (this.getLastDamageSource() != null
-                    && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                        || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-                this.setDeltaMovement(Vec3.ZERO);
-                this.isSliding = false;
-                this.slidingDirection = Vec3.ZERO;
-            } else if (!isNoAi() && this.getLastDamageSource() != null
-                    && !this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                    && !this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP)) {
-                this.setDeltaMovement(movement);
-                this.isSliding = true;
-                this.slidingDirection = movement;
-            } else if (!isNoAi() && this.getLastDamageSource() == null) {
+            if (!isNoAi()) {
                 this.setDeltaMovement(movement);
                 this.isSliding = true;
                 this.slidingDirection = movement;
             }
         }
-
         return super.hurt(source, amount);
     }
 
@@ -290,6 +278,11 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     @Override
     public boolean canBeLeashed() {
         return true;
+    }
+
+    @Override
+    public @NotNull AABB makeBoundingBox() {
+        return super.makeBoundingBox();
     }
 
     public void setHideTicks(int hideTicks) {
@@ -343,8 +336,18 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         }
     }
 
-    @Override
-    public @NotNull AABB makeBoundingBox() {
-        return super.makeBoundingBox();
+    private void collideWithEntity() {
+        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
+        List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+
+        for (Entity entity : collidingEntities) {
+            if (this.getDeltaMovement().horizontalDistance() > 0) {
+                if (entity instanceof LivingEntity livingEntity
+                        && (this.getDeltaMovement().horizontalDistance() >= 0.3 || this.getDeltaMovement().horizontalDistance() <= -0.3)
+                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
+                    livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                }
+            }
+        }
     }
 }
