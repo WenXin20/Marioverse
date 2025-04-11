@@ -229,7 +229,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                 if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
+                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                         world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
@@ -276,7 +276,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                 if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
+                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
                         world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
@@ -309,7 +309,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
                 if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                     if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, this.getOwner(), this.getOwner(), true);
+                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                         this.setDeltaMovement(this.getDeltaMovement().reverse());
                         shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
                         world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
