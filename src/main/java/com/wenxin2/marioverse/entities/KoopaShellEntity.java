@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -10,13 +11,19 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -24,6 +31,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
@@ -44,12 +52,15 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class KoopaShellEntity extends Monster implements GeoEntity {
+public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
+    @Nullable private UUID ownerUUID;
+    @Nullable private Entity cachedOwner;
+    private boolean leftOwner;
     private boolean isSliding = false;
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
@@ -112,12 +123,37 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+        this.leftOwner = tag.getBoolean("LeftOwner");
+
+        if (tag.hasUUID("Owner")) {
+            this.ownerUUID = tag.getUUID("Owner");
+            this.cachedOwner = null;
+        }
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+
+        if (this.ownerUUID != null)
+            tag.putUUID("Owner", this.ownerUUID);
+        if (this.leftOwner)
+            tag.putBoolean("LeftOwner", true);
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
+        Entity entity = this.getOwner();
+        return new ClientboundAddEntityPacket(this, serverEntity, entity == null ? 0 : entity.getId());
+    }
+
+    @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        Entity entity = this.level().getEntity(packet.getData());
+        if (entity != null)
+            this.setOwner(entity);
     }
 
     @Override
@@ -127,6 +163,10 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         Vec3 motion = this.getDeltaMovement();
 
         this.handleAirSupply(i);
+
+        if (!this.leftOwner)
+            this.leftOwner = this.checkLeftOwner();
+
         if (this.isAlive()) {
             this.collideWithWall(this.level());
             this.collideWithEntity();
@@ -238,6 +278,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
                 this.setDeltaMovement(movement);
                 this.isSliding = true;
                 this.slidingDirection = movement;
+                this.setOwner(source.getEntity());
             }
         }
         return super.hurt(source, amount);
@@ -283,6 +324,68 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
     @Override
     public @NotNull AABB makeBoundingBox() {
         return super.makeBoundingBox();
+    }
+
+    public void setOwner(@Nullable Entity p_37263_) {
+        if (p_37263_ != null) {
+            this.ownerUUID = p_37263_.getUUID();
+            this.cachedOwner = p_37263_;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Entity getOwner() {
+        if (this.cachedOwner != null && !this.cachedOwner.isRemoved()) {
+            return this.cachedOwner;
+        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverlevel) {
+            this.cachedOwner = serverlevel.getEntity(this.ownerUUID);
+            return this.cachedOwner;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void restoreFrom(Entity entity) {
+        super.restoreFrom(entity);
+        if (entity instanceof KoopaShellEntity shell)
+            this.cachedOwner = shell.cachedOwner;
+    }
+
+    protected boolean ownedBy(Entity entity) {
+        return entity.getUUID().equals(this.ownerUUID);
+    }
+
+    public Entity getEffectSource() {
+        return MoreObjects.firstNonNull(this.getOwner(), this);
+    }
+
+    private boolean checkLeftOwner() {
+        Entity entity = this.getOwner();
+        if (entity != null) {
+            for (Entity entity1 : this.level().getEntities(this,
+                    this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0),
+                    mob -> !mob.isSpectator() && mob.isPickable())) {
+                if (entity1.getRootVehicle() == entity.getRootVehicle())
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean deflect(@Nullable Entity entity, @Nullable Entity ownerEntity, boolean deflect) {
+        if (!this.level().isClientSide) {
+            this.setOwner(ownerEntity);
+            this.onDeflection(entity, deflect);
+        }
+        return true;
+    }
+
+    protected void onDeflection(@Nullable Entity entity, boolean deflect) {
+        Vec3 motion = this.slidingDirection;
+        this.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
+        this.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
     }
 
     public void setHideTicks(int hideTicks) {
@@ -343,9 +446,14 @@ public class KoopaShellEntity extends Monster implements GeoEntity {
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
                 if (entity instanceof LivingEntity livingEntity
-                        && (this.getDeltaMovement().horizontalDistance() >= 0.3 || this.getDeltaMovement().horizontalDistance() <= -0.3)
+                        && (this.getDeltaMovement().horizontalDistance() >= 0.1 || this.getDeltaMovement().horizontalDistance() <= -0.3)
                         && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
-                    livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+
+                    if (livingEntity.isBlocking())
+                        this.deflect(entity, livingEntity, true);
+                    else if (this.getOwner() != null)
+                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                    else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                 }
             }
         }
