@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -8,14 +9,19 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,6 +35,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -55,12 +62,15 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class IceCubeEntity extends VehicleEntity implements GeoEntity {
+public class IceCubeEntity extends VehicleEntity implements GeoEntity, TraceableEntity {
     private static final EntityDataAccessor<CompoundTag> FROZEN_DATA =
             SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private CompoundTag frozenEntityData;
     private Entity displayEntity;
+    @Nullable private UUID ownerUUID;
+    @Nullable private Entity cachedOwner;
+    private boolean leftOwner;
     private float entityWidth = 1.0F;
     private float entityHeight = 1.0F;
     private float previousFallDistance = 0;
@@ -89,21 +99,49 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         tag.putFloat("FrozenEntityWidth", entityWidth);
         tag.putFloat("FrozenEntityHeight", entityHeight);
         tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
+
         if (frozenEntityData != null)
             tag.put("FrozenEntityData", frozenEntityData);
+        if (this.ownerUUID != null)
+            tag.putUUID("Owner", this.ownerUUID);
+        if (this.leftOwner)
+            tag.putBoolean("LeftOwner", true);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
+        this.leftOwner = tag.getBoolean("LeftOwner");
+
         if (tag.contains("FrozenEntityWidth") && tag.contains("FrozenEntityHeight")) {
             this.entityWidth = tag.getFloat("FrozenEntityWidth");
             this.entityHeight = tag.getFloat("FrozenEntityHeight");
         }
+
         if (tag.contains("FrozenData", Tag.TAG_COMPOUND))
             this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
         if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
             frozenEntityData = tag.getCompound("FrozenEntityData");
+
+        if (tag.hasUUID("Owner")) {
+            this.ownerUUID = tag.getUUID("Owner");
+            this.cachedOwner = null;
+        }
+
         this.reapplyPosition();
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
+        Entity entity = this.getOwner();
+        return new ClientboundAddEntityPacket(this, serverEntity, entity == null ? 0 : entity.getId());
+    }
+
+    @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        Entity entity = this.level().getEntity(packet.getData());
+        if (entity != null)
+            this.setOwner(entity);
     }
 
     @Override
@@ -111,6 +149,9 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         super.tick();
         Level world = this.level();
         BlockPos pos = this.blockPosition();
+
+        if (!this.leftOwner)
+            this.leftOwner = this.checkLeftOwner();
 
         if (this.getPersistentData().contains("marioverse:entity_frozen_cooldown")) {
             int entityFrozenCooldown = this.getPersistentData().getInt("marioverse:entity_frozen_cooldown");
@@ -180,6 +221,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
             this.markHurt();
             this.setDamage(this.getDamage() + damage * 10.0F);
             this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
+            this.setOwner(source.getEntity());
 
             float friction = stateBelow.getFriction(world, posBelow, this);
             double slideSpeed;
@@ -302,6 +344,67 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
         } else {
             return super.makeBoundingBox();
         }
+    }
+
+    public void setOwner(@javax.annotation.Nullable Entity p_37263_) {
+        if (p_37263_ != null) {
+            this.ownerUUID = p_37263_.getUUID();
+            this.cachedOwner = p_37263_;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Entity getOwner() {
+        if (this.cachedOwner != null && !this.cachedOwner.isRemoved()) {
+            return this.cachedOwner;
+        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverlevel) {
+            this.cachedOwner = serverlevel.getEntity(this.ownerUUID);
+            return this.cachedOwner;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void restoreFrom(Entity entity) {
+        super.restoreFrom(entity);
+        if (entity instanceof IceCubeEntity iceCube)
+            this.cachedOwner = iceCube.cachedOwner;
+    }
+
+    protected boolean ownedBy(Entity entity) {
+        return entity.getUUID().equals(this.ownerUUID);
+    }
+
+    public Entity getEffectSource() {
+        return MoreObjects.firstNonNull(this.getOwner(), this);
+    }
+
+    private boolean checkLeftOwner() {
+        Entity entity = this.getOwner();
+        if (entity != null) {
+            for (Entity entity1 : this.level().getEntities(this,
+                    this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0),
+                    mob -> !mob.isSpectator() && mob.isPickable())) {
+                if (entity1.getRootVehicle() == entity.getRootVehicle())
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean deflect(@Nullable Entity entity, @Nullable Entity ownerEntity, boolean deflect) {
+        if (!this.level().isClientSide) {
+            this.setOwner(ownerEntity);
+            this.onDeflection(entity, deflect);
+        }
+        return true;
+    }
+
+    protected void onDeflection(@Nullable Entity entity, boolean deflect) {
+        Vec3 motion = this.getDeltaMovement();
+        this.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
     }
 
     public void setFrozenEntity(Entity entity, int ticksFrozen) {
@@ -541,12 +644,31 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity {
 
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
-                if (entity instanceof IceCubeEntity otherIceCube && this.getDeltaMovement().horizontalDistance() >= 0.2) {
+                if (entity instanceof IceCubeEntity otherIceCube
+                        && (this.getDeltaMovement().horizontalDistance() >= 0.2
+                        || this.getDeltaMovement().horizontalDistance() <= -0.2)) {
                     this.shatterIceCube(false, true, this);
                     otherIceCube.shatterIceCube(false, true, this);
-                } else if (entity instanceof LivingEntity livingEntity && this.getDeltaMovement().horizontalDistance() >= 0.5
+                } else if (entity instanceof LivingEntity livingEntity
+                        && (this.getDeltaMovement().horizontalDistance() >= 0.5
+                        || this.getDeltaMovement().horizontalDistance() <= -0.5)
                     && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
-                    livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                    ItemStack shield = livingEntity.getUseItem();
+                    Vec3 toIceCube = this.position().subtract(livingEntity.position()).normalize();
+                    Vec3 look = livingEntity.getLookAngle().normalize();
+                    double dot = toIceCube.dot(look);
+
+                    if (livingEntity.isBlocking() && dot > 0.5) {
+                        this.deflect(entity, livingEntity, true);
+                        shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
+                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                                SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        continue;
+                    }
+
+                    if (this.getOwner() != null)
+                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                    else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                 }
             }
 

@@ -25,6 +25,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -99,12 +101,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
-    }
-
-    @Override
     protected void registerGoals() {}
 
     @Override
@@ -120,15 +116,9 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
-        this.leftOwner = tag.getBoolean("LeftOwner");
-
-        if (tag.hasUUID("Owner")) {
-            this.ownerUUID = tag.getUUID("Owner");
-            this.cachedOwner = null;
-        }
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
     }
 
     @Override
@@ -140,6 +130,18 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
             tag.putUUID("Owner", this.ownerUUID);
         if (this.leftOwner)
             tag.putBoolean("LeftOwner", true);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+        this.leftOwner = tag.getBoolean("LeftOwner");
+
+        if (tag.hasUUID("Owner")) {
+            this.ownerUUID = tag.getUUID("Owner");
+            this.cachedOwner = null;
+        }
     }
 
     @Override
@@ -446,12 +448,23 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
                 if (entity instanceof LivingEntity livingEntity
-                        && (this.getDeltaMovement().horizontalDistance() >= 0.1 || this.getDeltaMovement().horizontalDistance() <= -0.3)
+                        && (this.getDeltaMovement().horizontalDistance() >= 0.1
+                            || this.getDeltaMovement().horizontalDistance() <= -0.1)
                         && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
+                    ItemStack shield = livingEntity.getUseItem();
+                    Vec3 toShell = this.position().subtract(livingEntity.position()).normalize();
+                    Vec3 look = livingEntity.getLookAngle().normalize();
+                    double dot = toShell.dot(look);
 
-                    if (livingEntity.isBlocking())
+                    if (livingEntity.isBlocking() && dot > 0.5) {
                         this.deflect(entity, livingEntity, true);
-                    else if (this.getOwner() != null)
+                        shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
+                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                                SoundSource.NEUTRAL, 1.0F, 1.0F);
+                        continue;
+                    }
+
+                    if (this.getOwner() != null)
                         livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                     else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                 }
