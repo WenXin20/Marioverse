@@ -658,7 +658,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                     Vec3 look = livingEntity.getLookAngle().normalize();
                     double dot = toIceCube.dot(look);
 
-                    if (livingEntity.isBlocking() && dot > 0.5) {
+                    if (livingEntity.isBlocking() && dot > 0.25) {
                         this.deflect(entity, livingEntity, true);
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
                         this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,

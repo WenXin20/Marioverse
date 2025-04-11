@@ -456,7 +456,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
                     Vec3 look = livingEntity.getLookAngle().normalize();
                     double dot = toShell.dot(look);
 
-                    if (livingEntity.isBlocking() && dot > 0.5) {
+                    if (livingEntity.isBlocking() && dot > 0.25) {
                         this.deflect(entity, livingEntity, true);
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
                         this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
