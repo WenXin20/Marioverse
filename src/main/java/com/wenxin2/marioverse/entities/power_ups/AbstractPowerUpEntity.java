@@ -93,12 +93,8 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
     }
 
     private void applyCostumeChange(LivingEntity entity, AccessoriesCapability capability) {
-        if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
+        if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get())
             this.updateCostume(entity, capability);
-            this.updateCostume(entity, capability);
-            this.updateCostume(entity, capability);
-            this.updateCostume(entity, capability);
-        }
     }
 
     private void updateCostume(LivingEntity entity, AccessoriesCapability capability) {
@@ -139,7 +135,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD).getItem().getDefaultInstance();
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getHatItems().get(randomIndex)
-                    : this.getHatItems().getFirst();
+                    : stack;
 
             for (ItemStack item : this.getHatItems()) {
                 if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
@@ -172,7 +168,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.BODY).getItem().getDefaultInstance();
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getShirtItems().get(randomIndex)
-                    : this.getShirtItems().getFirst();
+                    : stack;
 
             for (ItemStack item : this.getShirtItems()) {
                 if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
@@ -205,7 +201,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS).getItem().getDefaultInstance();
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getPantsItems().get(randomIndex)
-                    : this.getPantsItems().getFirst();
+                    : stack;
 
             for (ItemStack item : this.getPantsItems()) {
                 if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
@@ -238,7 +234,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET).getItem().getDefaultInstance();
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getShoesItems().get(randomIndex)
-                    : this.getShoesItems().getFirst();
+                    : stack;
 
             for (ItemStack item : this.getShoesItems()) {
                 if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
