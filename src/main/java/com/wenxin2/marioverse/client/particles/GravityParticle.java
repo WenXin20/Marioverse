@@ -39,8 +39,8 @@ public class GravityParticle extends TextureSheetParticle {
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
             GravityParticle particle = new GravityParticle(level, x, y, z, dx, dy, dz, this.sprites);
-            particle.setParticleSpeed(level.random.nextGaussian() / 15.0,
-                    dy + level.random.nextGaussian() / 8.0, level.random.nextGaussian() / 15.0);
+            particle.setParticleSpeed(level.random.nextGaussian() / 6.0,
+                    dy + level.random.nextGaussian() / 5.0, level.random.nextGaussian() / 6.0);
             particle.setLifetime(level.random.nextInt(20) + 20);
             return particle;
         }

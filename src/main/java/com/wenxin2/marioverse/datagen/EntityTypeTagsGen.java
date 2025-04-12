@@ -33,7 +33,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityRegistry.ICE_CUBE.get())
                 .add(EntityRegistry.ICE_FLOWER.get());
 
