@@ -204,12 +204,15 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
             }
         }
 
-        if (motion.horizontalDistanceSqr() < 0.0001) {
+        if (motion.horizontalDistance() < 0.0001) {
             isSliding = false;
-        } else if (!isSliding && motion.horizontalDistanceSqr() > 0.0001) {
+        } else if (!isSliding && motion.horizontalDistance() > 0.0001) {
             this.slidingDirection = motion;
             isSliding = true;
         }
+
+        if (motion.horizontalDistance() > 0.0001)
+            this.spawnSprintParticle();
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
@@ -300,7 +303,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         if (this.isControlledByLocalInstance() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
         } else {
             super.travel(travelVector);
         }
