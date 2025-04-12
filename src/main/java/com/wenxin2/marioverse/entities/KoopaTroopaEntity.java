@@ -89,7 +89,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob {
+public class KoopaTroopaEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
@@ -97,11 +97,8 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-    private int remainingPersistentAngerTime;
-    @Nullable private UUID persistentAngerTarget;
-    private long hideTicks = 0L;
-    private int hideAnimationTicks = 0;
+    public long hideTicks = 0L;
+    public int hideAnimationTicks = 0;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
@@ -146,12 +143,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-        this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
     }
 
     @Override
@@ -184,14 +180,12 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        this.addPersistentAngerSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.readPersistentAngerSaveData(this.level(), tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
     }
 
@@ -435,32 +429,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         };
     }
 
-    @Override
-    public int getRemainingPersistentAngerTime() {
-        return this.remainingPersistentAngerTime;
-    }
-
-    @Override
-    public void setRemainingPersistentAngerTime(int angerTime) {
-        this.remainingPersistentAngerTime = angerTime;
-    }
-
-    @Nullable
-    @Override
-    public UUID getPersistentAngerTarget() {
-        return this.persistentAngerTarget;
-    }
-
-    @Override
-    public void setPersistentAngerTarget(@Nullable UUID angerTarget) {
-        this.persistentAngerTarget = angerTarget;
-    }
-
-    @Override
-    public void startPersistentAngerTimer() {
-        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
-    }
-
     public static class KoopaGroupData implements SpawnGroupData {
         public final boolean canSpawnJockey;
 
@@ -490,7 +458,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         }
     }
 
-    private void spawnKoopaShell() {
+    public void spawnKoopaShell() {
         if (hideAnimationTicks == 0) {
             KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
 
@@ -544,7 +512,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         }
     }
 
-    private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
+    public void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
         AttributeInstance fromAttr = this.getAttribute(attribute);
         AttributeInstance toAttr = entity.getAttribute(attribute);
 
