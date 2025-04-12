@@ -15,6 +15,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -434,6 +435,10 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
                                         this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
                                         this.slidingDirection = new Vec3(newX, motion.y, newZ);
+
+                                        Vec3 hitPos = Vec3.atCenterOf(pos).subtract(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.6));
+                                        if (world instanceof ServerLevel serverWorld)
+                                            serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y, hitPos.z, 5, 0.1, 0.1, 0.1, 0.0);
                                     }
                                 }
                             }
