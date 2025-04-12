@@ -86,29 +86,17 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
-//    private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
-//    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
-//    private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
-//    public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.death");
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
-//    public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.idle_swim");
-//    public static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("goomba.run");
-//    public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.squash");
-//    public static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.swim");
-//    public static final RawAnimation SWIM_SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.swim_squash");
-//    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("goomba.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @Nullable private UUID persistentAngerTarget;
     private long hideTicks = 0L;
     private int hideAnimationTicks = 0;
-    private boolean triggeredHide = false;
-    private boolean hasSpawned = false;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
@@ -147,21 +135,15 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
-//        builder.define(DATA_ID_SCARE_FLAGS, (byte)0);
-//        builder.define(DATA_ID_SIT_FLAGS, (byte)0);
-//        builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-//        this.goalSelector.addGoal(2, new GoombaSitGoal(this, 100, 1200, 3000, 300));
-//        this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 25, 2400, 6000));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-//        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
@@ -169,14 +151,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-//        controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
-//        controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
-//        controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
-//        controllers.add(new AnimationController<>(this, "Scare", 5, this::scareAnimController));
-//        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
-//        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
-//        controllers.add(new AnimationController<>(this, "Hide", 5, this::hideAnimation));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
         controllers.add(DefaultAnimations.genericIdleController(this));
@@ -184,40 +159,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT).transitionLength(1));
     }
 
-    protected <E extends GeoAnimatable> PlayState hideAnimation(final AnimationState<E> state) {
-//        if (!this.isHiding() && this.getLastDamageSource() != null
-//                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-//                || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-//            state.setAndContinue(HIDE);
-//            return PlayState.CONTINUE;
-//        } else return PlayState.CONTINUE;
-
-        if (state.getController().hasAnimationFinished()) {
-            if (!this.level().isClientSide && triggeredHide && !hasSpawned) {
-                // Spawn entity at same rotation
-                KoopaTroopaEntity entity = new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
-                entity.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
-                this.level().addFreshEntity(entity);
-                hasSpawned = true;
-            }
-
-            triggeredHide = false;
-            return PlayState.STOP;
-        }
-
-        return triggeredHide ? PlayState.CONTINUE : PlayState.STOP;
-    }
-
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
-        /*if (this.isInWaterOrBubble()) {
-            if (!this.isRunning() && !this.isWalking())
-                event.setAndContinue(IDLE_SWIM_ANIM);
-            else event.setAndContinue(SWIM_ANIM);
-            return PlayState.CONTINUE;
-        } else if (this.isRunning()) {
-            event.setAndContinue(RUN_ANIM);
-            return PlayState.CONTINUE;
-        } else*/
         if (!this.isHiding()) {
             if (event.isMoving()) {
                 event.setAndContinue(WALK);
@@ -229,33 +171,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         } else return PlayState.CONTINUE;
     }
 
-//    protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
-//        if (this.dead) {
-//            if (this.getLastDamageSource() != null
-//                && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-//                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-//                if (this.isInWaterOrBubble()) {
-//                    if (!this.isRunning() && !this.isWalking())
-//                        event.setAndContinue(SQUASH_ANIM);
-//                    else event.setAndContinue(SWIM_SQUASH_ANIM);
-//                } else event.setAndContinue(SQUASH_ANIM);
-//                return PlayState.CONTINUE;
-//            } else {
-//                event.setAndContinue(DEATH_ANIM);
-//                return PlayState.CONTINUE;
-//            }
-//        }
-//        return PlayState.STOP;
-//    }
-//
-//    protected <E extends GeoAnimatable> PlayState scareAnimController(final AnimationState<E> event) {
-//        if (this.isScared()) {
-//            event.setAndContinue(SCARE_ANIM);
-//            return PlayState.CONTINUE;
-//        }
-//        return PlayState.STOP;
-//    }
-
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
@@ -266,9 +181,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         super.addAdditionalSaveData(tag);
         this.addPersistentAngerSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
-//        tag.putByte("ScareFlags", this.entityData.get(DATA_ID_SCARE_FLAGS));
-//        tag.putByte("SitFlags", this.entityData.get(DATA_ID_SIT_FLAGS));
-//        tag.putByte("SleepFlags", this.entityData.get(DATA_ID_SLEEP_FLAGS));
     }
 
     @Override
@@ -276,22 +188,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         super.readAdditionalSaveData(tag);
         this.readPersistentAngerSaveData(this.level(), tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
-//        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
-//        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
-//        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
-    }
-
-    public boolean isWalking() {
-        return (this.getDeltaMovement().horizontalDistance() >= 0.01
-                && this.getDeltaMovement().horizontalDistance() < 0.5)
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal
-                || this.walkDist > 0);
-    }
-
-    private boolean isRunning() {
-        return this.isSprinting() || this.getSpeed() >= 0.5 || this.getDeltaMovement().horizontalDistance() >= 0.5
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof MeleeAttackGoal)
-                || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
     @Override
@@ -356,7 +252,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
             this.hideTicks = 50;
-            this.triggeredHide = true;
             this.hideAnimationTicks = 30;
             this.triggerAnim("hide_controller", "hide");
         }
