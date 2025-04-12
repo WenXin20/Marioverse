@@ -299,16 +299,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     }
 
     @Override
-    public void travel(Vec3 travelVector) {
-        if (this.isControlledByLocalInstance() && this.isInWater()) {
-            this.moveRelative(this.getSpeed(), travelVector);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-        } else {
-            super.travel(travelVector);
-        }
-    }
-
-    @Override
     protected PathNavigation createNavigation(Level world) {
         return new AmphibiousPathNavigation(this, world);
     }
