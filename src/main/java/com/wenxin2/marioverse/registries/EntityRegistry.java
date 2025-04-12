@@ -162,6 +162,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaAttributes
                 .add(Attributes.GRAVITY, 0.8F)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0F)
                 .add(Attributes.STEP_HEIGHT, 0.5F).build());
 
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), koopaAttributes.build());
