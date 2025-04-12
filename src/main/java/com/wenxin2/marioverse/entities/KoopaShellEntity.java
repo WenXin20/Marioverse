@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -436,9 +437,11 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
                                         this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
                                         this.slidingDirection = new Vec3(newX, motion.y, newZ);
 
-                                        Vec3 hitPos = Vec3.atCenterOf(pos).subtract(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.6));
-                                        if (world instanceof ServerLevel serverWorld)
-                                            serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y, hitPos.z, 5, 0.1, 0.1, 0.1, 0.0);
+                                        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
+                                        if (world instanceof ServerLevel serverWorld
+                                                && this.getDeltaMovement().horizontalDistance() > 0)
+                                            serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
+                                                    3, 0.1, 0.1, 0.1, 0.0);
                                     }
                                 }
                             }
@@ -475,6 +478,9 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
                     if (this.getOwner() != null)
                         livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                     else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                    if (this.level() instanceof ServerLevel serverWorld)
+                        serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
+                                3, 0.1, 0.1, 0.1, 0.0);
                 }
             }
         }
