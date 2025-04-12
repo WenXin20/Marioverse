@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -37,6 +38,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -294,17 +297,11 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
     @Override
     protected void triggerOnDeathMobEffects(RemovalReason reason) {
-        float scale = 1.0F;
-        float heightScale = 1.0F;
-        float widthScale = 1.0F;
+        float scale = (float) this.getAttributeValue(Attributes.SCALE);
+        float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
 
         if (this.level() instanceof ServerLevel serverWorld) {
-            if (this.getPersistentData().contains("Scale"))
-                scale = this.getPersistentData().getFloat("Scale");
-            if (this.getPersistentData().contains("HeightScale"))
-                heightScale = this.getPersistentData().getFloat("HeightScale");
-            if (this.getPersistentData().contains("WidthScale"))
-                widthScale = this.getPersistentData().getFloat("WidthScale");
 
             float height = this.getBbHeight() * scale * heightScale;
             float width = this.getBbWidth() * scale * widthScale;

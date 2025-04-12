@@ -1,5 +1,15 @@
 {
   "textures": [
-    "marioverse:green_koopa_shell_shatter_0"
+    "marioverse:green_koopa_shell_shatter_0",
+    "marioverse:green_koopa_shell_shatter_1",
+    "marioverse:green_koopa_shell_shatter_2",
+    "marioverse:green_koopa_shell_shatter_3",
+    "marioverse:green_koopa_shell_shatter_4",
+    "marioverse:green_koopa_shell_shatter_5",
+    "marioverse:green_koopa_shell_shatter_6",
+    "marioverse:green_koopa_shell_shatter_7",
+    "marioverse:green_koopa_shell_shatter_8",
+    "marioverse:green_koopa_shell_shatter_9",
+    "marioverse:green_koopa_shell_shatter_10"
   ]
 }
