@@ -34,6 +34,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
@@ -101,7 +102,9 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     }
 
     @Override
-    protected void registerGoals() {}
+    protected void registerGoals() {
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers(KoopaTroopaEntity.class));
+    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {

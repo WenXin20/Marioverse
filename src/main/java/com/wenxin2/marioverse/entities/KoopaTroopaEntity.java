@@ -424,11 +424,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
 
-        if (groupData instanceof GoombaGroupData goombaGroupData) {
+        if (groupData instanceof KoopaGroupData koopaGroupData) {
             this.populateDefaultEquipmentSlots(random, difficulty);
             this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
-            if (goombaGroupData.canSpawnJockey) {
+            if (koopaGroupData.canSpawnJockey) {
                 if (random.nextDouble() < 0.05) {
                     List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
                             Mob.class, this.getBoundingBox().inflate(5.0, 3.0, 5.0),
@@ -592,10 +592,10 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
     }
 
-    public static class GoombaGroupData implements SpawnGroupData {
+    public static class KoopaGroupData implements SpawnGroupData {
         public final boolean canSpawnJockey;
 
-        public GoombaGroupData(boolean canSpawnJockey) {
+        public KoopaGroupData(boolean canSpawnJockey) {
             this.canSpawnJockey = canSpawnJockey;
         }
     }
