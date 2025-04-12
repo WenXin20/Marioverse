@@ -46,7 +46,7 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 12, 2400, 6000));
         this.goalSelector.addGoal(0, new ShootBouncingFireballGoal(this, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
                 2, false));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));

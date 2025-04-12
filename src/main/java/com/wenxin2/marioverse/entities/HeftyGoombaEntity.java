@@ -73,7 +73,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(2, new GoombaSitGoal(this, 100, 1200, 3000, 300));
         this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 25, 2400, 6000));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, true));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
