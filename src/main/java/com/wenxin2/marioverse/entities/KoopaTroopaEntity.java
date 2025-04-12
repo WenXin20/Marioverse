@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -41,11 +42,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -200,38 +206,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
         if (!this.level().isClientSide && hideAnimationTicks > 0) {
             hideAnimationTicks--;
 
-            if (hideAnimationTicks == 0) {
-                KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
-
-                entity.setHideTicks(80);
-                entity.setPos(this.getX(), this.getY(), this.getZ());
-                entity.setYRot(this.getYRot());
-                entity.setXRot(this.getXRot());
-                entity.yBodyRot = this.yBodyRot;
-                entity.setYHeadRot(this.getYHeadRot());
-                entity.setHealth(this.getHealth());
-                for (EquipmentSlot slot : EquipmentSlot.values())
-                    entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
-
-                AccessoriesCapability capability = AccessoriesCapability.get(this);
-                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-                        && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                    String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
-                    for (String slotType : slotTypes) {
-                        AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                        if (container != null) {
-                            ItemStack stack = container.getAccessories().getItem(0);
-                            if (containerEntity != null)
-                                containerEntity.getAccessories().setItem(0, stack);
-                        }
-                    }
-                }
-
-                this.level().addFreshEntity(entity);
-                this.remove(RemovalReason.DISCARDED);
-                hideAnimationTicks = -1;
-            }
+            this.spawnKoopaShell();
         }
 
         this.handleAirSupply(i);
@@ -512,6 +487,71 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity, NeutralMob 
             this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 | i));
         } else {
             this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 & ~i));
+        }
+    }
+
+    private void spawnKoopaShell() {
+        if (hideAnimationTicks == 0) {
+            KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
+
+            entity.setHideTicks(80);
+            entity.setPos(this.getX(), this.getY(), this.getZ());
+            entity.setYRot(this.getYRot());
+            entity.setXRot(this.getXRot());
+            entity.yBodyRot = this.yBodyRot;
+            entity.setYHeadRot(this.getYHeadRot());
+            entity.setHealth(this.getHealth());
+
+            entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
+                    this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
+            entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
+                    this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
+            entity.getPersistentData().putBoolean("marioverse:has_mushroom",
+                    this.getPersistentData().getBoolean("marioverse:has_mushroom"));
+            entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",
+                    this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
+            entity.getPersistentData().putBoolean("marioverse:has_super_star",
+                    this.getPersistentData().getBoolean("marioverse:has_super_star"));
+            entity.getPersistentData().putInt("marioverse:super_star_cooldown",
+                    this.getPersistentData().getInt("marioverse:super_star_cooldown"));
+
+            this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
+            this.copyAttributeWithModifiers(entity, Attributes.SCALE);
+            this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
+            this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
+
+            for (EquipmentSlot slot : EquipmentSlot.values())
+                entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+
+            AccessoriesCapability capability = AccessoriesCapability.get(this);
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                    && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+                for (String slotType : slotTypes) {
+                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
+                    AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                    if (container != null) {
+                        ItemStack stack = container.getAccessories().getItem(0);
+                        if (containerEntity != null)
+                            containerEntity.getAccessories().setItem(0, stack);
+                    }
+                }
+            }
+
+            this.level().addFreshEntity(entity);
+            this.remove(RemovalReason.DISCARDED);
+            hideAnimationTicks = -1;
+        }
+    }
+
+    private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
+        AttributeInstance fromAttr = this.getAttribute(attribute);
+        AttributeInstance toAttr = entity.getAttribute(attribute);
+
+        if (fromAttr != null && toAttr != null) {
+            toAttr.setBaseValue(fromAttr.getBaseValue());
+            for (AttributeModifier modifier : fromAttr.getModifiers())
+                toAttr.addPermanentModifier(modifier);
         }
     }
 }

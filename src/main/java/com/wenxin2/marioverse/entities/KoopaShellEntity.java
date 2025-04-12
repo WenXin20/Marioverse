@@ -18,6 +18,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -38,7 +39,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
@@ -215,34 +218,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
             emergeAnimationTicks--;
 
         if (!this.level().isClientSide && emergeAnimationTicks == 0) {
-            KoopaTroopaEntity entity = new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
-
-            entity.setPos(this.getX(), this.getY(), this.getZ());
-            entity.setYRot(this.getYRot());
-            entity.setXRot(this.getXRot());
-            entity.yBodyRot = this.yBodyRot;
-            entity.setYHeadRot(this.getYHeadRot());
-            entity.setHealth(this.getHealth());
-            for (EquipmentSlot slot : EquipmentSlot.values())
-                entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
-
-            AccessoriesCapability capability = AccessoriesCapability.get(this);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-                    && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
-                for (String slotType : slotTypes) {
-                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                    AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                    if (container != null) {
-                        ItemStack stack = container.getAccessories().getItem(0);
-                        if (containerEntity != null)
-                            containerEntity.getAccessories().setItem(0, stack);
-                    }
-                }
-            }
-
-            this.level().addFreshEntity(entity);
-            this.remove(RemovalReason.DISCARDED);
+            this.spawnKoopaTroopa();
         }
 
         if (hideTicks == 0 && emergeAnimationTicks <= 0) {
@@ -511,6 +487,67 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
                                 3, 0.1, 0.1, 0.1, 0.0);
                 }
             }
+        }
+    }
+
+    private void spawnKoopaTroopa() {
+        KoopaTroopaEntity entity = new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
+
+        entity.setPos(this.getX(), this.getY(), this.getZ());
+        entity.setYRot(this.getYRot());
+        entity.setXRot(this.getXRot());
+        entity.yBodyRot = this.yBodyRot;
+        entity.setYHeadRot(this.getYHeadRot());
+        entity.setHealth(this.getHealth());
+
+        entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
+                this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
+        entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
+                this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
+        entity.getPersistentData().putBoolean("marioverse:has_mushroom",
+                this.getPersistentData().getBoolean("marioverse:has_mushroom"));
+        entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",
+                this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
+        entity.getPersistentData().putBoolean("marioverse:has_super_star",
+                this.getPersistentData().getBoolean("marioverse:has_super_star"));
+        entity.getPersistentData().putInt("marioverse:super_star_cooldown",
+                this.getPersistentData().getInt("marioverse:super_star_cooldown"));
+
+        this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
+        this.copyAttributeWithModifiers(entity, Attributes.SCALE);
+        this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
+        this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
+
+        for (EquipmentSlot slot : EquipmentSlot.values())
+            entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+
+        AccessoriesCapability capability = AccessoriesCapability.get(this);
+        if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+            String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+            for (String slotType : slotTypes) {
+                AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
+                AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                if (container != null) {
+                    ItemStack stack = container.getAccessories().getItem(0);
+                    if (containerEntity != null)
+                        containerEntity.getAccessories().setItem(0, stack);
+                }
+            }
+        }
+
+        this.level().addFreshEntity(entity);
+        this.remove(RemovalReason.DISCARDED);
+    }
+
+    private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
+        AttributeInstance fromAttr = this.getAttribute(attribute);
+        AttributeInstance toAttr = entity.getAttribute(attribute);
+
+        if (fromAttr != null && toAttr != null) {
+            toAttr.setBaseValue(fromAttr.getBaseValue());
+            for (AttributeModifier modifier : fromAttr.getModifiers())
+                toAttr.addPermanentModifier(modifier);
         }
     }
 }

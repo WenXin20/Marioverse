@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -147,7 +148,7 @@ public class MarioverseEventHandlers {
                     || ConfigRegistry.TELEPORT_NON_MOBS.get())
             tag.putInt("marioverse:warp_cooldown", 0);
 
-        if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity)) {
+        if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity) && !(mob instanceof KoopaShellEntity)) {
             if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
                 mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
