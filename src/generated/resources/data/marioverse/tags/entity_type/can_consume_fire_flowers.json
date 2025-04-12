@@ -2,6 +2,8 @@
   "values": [
     "#c:bosses",
     "#marioverse:goombas",
+    "#marioverse:koopa_shells",
+    "#marioverse:koopa_troopas",
     "#minecraft:illager",
     "#minecraft:illager_friends",
     "minecraft:armor_stand",

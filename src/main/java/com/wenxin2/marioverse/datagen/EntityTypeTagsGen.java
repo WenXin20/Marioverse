@@ -24,6 +24,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
@@ -97,6 +98,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(EntityTypeTags.ILLAGER)
                 .addTag(EntityTypeTags.ILLAGER_FRIENDS)
                 .add(EntityType.ARMOR_STAND)
@@ -123,6 +126,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(EntityTypeTags.ILLAGER)
                 .addTag(EntityTypeTags.ILLAGER_FRIENDS)
                 .add(EntityRegistry.GOOMBA.get())
@@ -185,6 +190,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WEAR_COSTUMES)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -205,6 +212,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_WEAR_HATS)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -224,6 +233,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WEAR_PANTS)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -243,6 +254,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WEAR_SHIRTS)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -262,6 +275,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WEAR_SHOES)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -357,6 +372,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.GREEN_KOOPA_TROOPA.get());
+
+        tag(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK);
 

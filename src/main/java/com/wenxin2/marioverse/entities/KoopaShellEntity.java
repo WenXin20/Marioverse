@@ -37,7 +37,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -471,9 +470,12 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
                         continue;
                     }
 
+                    float shellDamage = livingEntity.getType().is(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
+                            ? livingEntity.getHealth() : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
+
                     if (this.getOwner() != null)
-                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
-                    else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), shellDamage);
+                    else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), shellDamage);
                     if (this.level() instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
                                 3, 0.1, 0.1, 0.1, 0.0);

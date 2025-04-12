@@ -143,6 +143,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags("goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_RIDE = entityTypeTags("goomba_can_ride");
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags("goombas");
+    public static final TagKey<EntityType<?>> GREEN_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("green_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> GREEN_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("green_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> HAS_NO_DELTA_MOVEMENT = entityTypeTags("has_no_delta_movement");
     public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags("hefty_goomba_can_attack");

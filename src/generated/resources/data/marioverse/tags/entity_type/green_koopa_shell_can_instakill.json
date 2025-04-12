@@ -1,7 +1,8 @@
 {
   "values": [
+    "#marioverse:goombas",
     "#marioverse:koopa_shells",
-    "#marioverse:power_ups",
+    "#marioverse:koopa_troopas",
     "marioverse:piranha_plant"
   ]
 }

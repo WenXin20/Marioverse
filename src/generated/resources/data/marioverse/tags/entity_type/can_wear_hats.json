@@ -2,6 +2,8 @@
   "values": [
     "#c:bosses",
     "#marioverse:goombas",
+    "#marioverse:koopa_shells",
+    "#marioverse:koopa_troopas",
     "minecraft:armor_stand",
     "minecraft:bogged",
     "minecraft:drowned",
