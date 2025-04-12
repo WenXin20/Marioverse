@@ -28,10 +28,10 @@ public class GravityParticle extends TextureSheetParticle {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class IceCubeProvider implements ParticleProvider<SimpleParticleType> {
+    public static class BreakEntityProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 
-        public IceCubeProvider(SpriteSet sprites) {
+        public BreakEntityProvider(SpriteSet sprites) {
             this.sprites = sprites;
         }
 

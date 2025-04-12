@@ -161,6 +161,11 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
     }
 
     @Override
+    protected float getDeathMaxRotation(KoopaShellEntity animatable) {
+        return 0.0F;
+    }
+
+    @Override
     public void preRender(PoseStack poseStack, KoopaShellEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
 

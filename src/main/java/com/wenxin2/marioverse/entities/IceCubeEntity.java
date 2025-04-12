@@ -576,7 +576,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 float scaleFactor = height * width * 1.2F;
                 int numParticles = (int) (scaleFactor * 10);
                 for(int i = 0; i < numParticles; ++i) {
-                    ServerParticleUtils.spawnIceCubeParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height * 1.55F, width * 1.55F);
+                    ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height * 1.55F, width * 1.55F);
                 }
             }
         }

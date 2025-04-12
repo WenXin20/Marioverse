@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -256,7 +257,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
-            this.setDeltaMovement(Vec3.ZERO);
+            this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
             this.slidingDirection = Vec3.ZERO;
             this.isSliding = false;
         }
@@ -289,6 +290,36 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
             }
         }
         return super.hurt(source, amount);
+    }
+
+    @Override
+    protected void triggerOnDeathMobEffects(RemovalReason reason) {
+        float scale = 1.0F;
+        float heightScale = 1.0F;
+        float widthScale = 1.0F;
+
+        if (this.level() instanceof ServerLevel serverWorld) {
+            if (this.getPersistentData().contains("Scale"))
+                scale = this.getPersistentData().getFloat("Scale");
+            if (this.getPersistentData().contains("HeightScale"))
+                heightScale = this.getPersistentData().getFloat("HeightScale");
+            if (this.getPersistentData().contains("WidthScale"))
+                widthScale = this.getPersistentData().getFloat("WidthScale");
+
+            float height = this.getBbHeight() * scale * heightScale;
+            float width = this.getBbWidth() * scale * widthScale;
+
+            if (this.getBbHeight() >= this.getBbWidth() * 3)
+                width *= 2.0F;
+
+            float scaleFactor = height * width * 1.2F;
+            int numParticles = (int) (scaleFactor * 10);
+            for (int i = 0; i < numParticles; ++i)
+                ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get(), serverWorld,
+                        this, height * 1.55F + 0.1F, width * 1.55F);
+        }
+
+        super.triggerOnDeathMobEffects(reason);
     }
 
     @Override
