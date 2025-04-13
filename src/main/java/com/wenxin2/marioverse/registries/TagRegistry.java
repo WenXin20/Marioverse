@@ -142,6 +142,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CHECKPOINT_FLAG_CANNOT_SPAWN = entityTypeTags("checkpoint_flag_cannot_spawn");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
+    public static final TagKey<EntityType<?>> EQUIP_COSTUMES_IN_ARMOR_SLOTS = entityTypeTags("equip_costumes_in_armor_slots");
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");
     public static final TagKey<EntityType<?>> FIRE_GOOMBA_CAN_ATTACK = entityTypeTags("fire_goomba_can_attack");
