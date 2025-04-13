@@ -137,16 +137,16 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (stack == KoopaTroopaRenderer.this.mainHandItem) {
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
-                    poseStack.translate(0, 0.125, -0.5);
+                    poseStack.translate(0.0, 0.125, -0.5);
 
                     if (stack.getItem() instanceof ShieldItem)
-                        poseStack.translate(0, 0.125, -0.05);
+                        poseStack.translate(-0.05, 0.0, 0.4);
                 } else if (stack == KoopaTroopaRenderer.this.offhandItem) {
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
-                    poseStack.translate(0, 0.125, -0.5);
+                    poseStack.translate(0.0, 0.125, -0.5);
 
                     if (stack.getItem() instanceof ShieldItem) {
-                        poseStack.translate(0, 0.125, 0.45);
+                        poseStack.translate(-0.05, 0.0, 0.4);
                         poseStack.mulPose(Axis.YP.rotationDegrees(180));
                     }
                 } else {
