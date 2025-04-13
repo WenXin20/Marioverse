@@ -65,7 +65,12 @@ public class TagRegistry {
     public static final TagKey<Item> CANNOT_PLACE_IN_CHECKPOINT_FLAGS = itemTags("cannot_place_in_checkpoint_flags");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
+    public static final TagKey<Item> CHARMS = itemTags("accessories", "charm");
     public static final TagKey<Item> COSTUMES = itemTags("costumes");
+    public static final TagKey<Item> COSTUME_HAT = itemTags("accessories", "costume_hat");
+    public static final TagKey<Item> COSTUME_PANTS = itemTags("accessories", "costume_pants");
+    public static final TagKey<Item> COSTUME_SHIRT = itemTags("accessories", "costume_shirt");
+    public static final TagKey<Item> COSTUME_SHOES = itemTags("accessories", "costume_shoes");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
