@@ -257,6 +257,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                             player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         }
                         iceCube.setSize(width, height);
+                        iceCube.setOwner(this.getOwner());
                         player.level().addFreshEntity(iceCube);
                         player.startRiding(iceCube, false);
                     }
@@ -296,6 +297,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                             iceCube.setFrozenEntity(livingEntity, 2);
                         else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
+                        iceCube.setOwner(this.getOwner());
                         livingEntity.level().addFreshEntity(iceCube);
                     }
                 }
@@ -328,6 +330,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                             iceCube.setFrozenEntity(partEntity, 2);
                         else iceCube.setFrozenEntity(partEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
+                        iceCube.setOwner(this.getOwner());
                         partEntity.level().addFreshEntity(iceCube);
                     }
                 }
