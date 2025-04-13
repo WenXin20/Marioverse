@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.client.renderers.entities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.GoombaModel;
+import com.wenxin2.marioverse.client.renderers.entities.layers.AccessoryGeoArmorLayer;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -38,6 +39,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
     public GoombaRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GoombaModel());
         this.shadowRadius = 0.5F;
+
         addRenderLayer(new AutoGlowingGeoLayer<>(this) {
             @Override
             protected @Nullable RenderType getRenderType(GoombaEntity animatable, @Nullable MultiBufferSource bufferSource) {
@@ -59,7 +61,6 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                 } else return null;
             }
         });
-
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override

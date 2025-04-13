@@ -47,7 +47,6 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
         super(renderManager, new KoopaTroopaModel());
         this.shadowRadius = 0.5F;
 
-        this.addRenderLayer(new AccessoryGeoArmorLayer<>(this));
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
