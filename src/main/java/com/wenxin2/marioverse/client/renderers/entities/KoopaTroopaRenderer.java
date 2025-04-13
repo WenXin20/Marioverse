@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.KoopaTroopaModel;
+import com.wenxin2.marioverse.client.renderers.entities.layers.AccessoryGeoArmorLayer;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.client.model.HumanoidModel;
@@ -46,6 +47,7 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
         super(renderManager, new KoopaTroopaModel());
         this.shadowRadius = 0.5F;
 
+        this.addRenderLayer(new AccessoryGeoArmorLayer<>(this));
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
@@ -112,16 +114,13 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
                         && blockItem.getBlock() instanceof SkullBlock)) {
                     return switch (bone.getName()) {
                         case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
+                        case LEFT_ARM -> animatable.isLeftHanded() ?
+                                KoopaTroopaRenderer.this.mainHandItem : KoopaTroopaRenderer.this.offhandItem;
+                        case RIGHT_ARM -> animatable.isLeftHanded() ?
+                                KoopaTroopaRenderer.this.offhandItem : KoopaTroopaRenderer.this.mainHandItem;
                         default -> null;
                     };
-                }
-                else return switch (bone.getName()) {
-                    case LEFT_ARM -> animatable.isLeftHanded() ?
-                            KoopaTroopaRenderer.this.mainHandItem : KoopaTroopaRenderer.this.offhandItem;
-                    case RIGHT_ARM -> animatable.isLeftHanded() ?
-                            KoopaTroopaRenderer.this.offhandItem : KoopaTroopaRenderer.this.mainHandItem;
-                    default -> null;
-                };
+                } else return null;
             }
 
             @Override
