@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
-import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -46,14 +45,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -206,11 +202,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
 
-        if (this.bounceCount >= 100)
+        if (this.bounceCount >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue())
             this.remove(RemovalReason.KILLED);
-
-        if (this.bounceCount < 0)
-            this.bounceCount = 0;
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
@@ -221,7 +214,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.level().isClientSide && emergeAnimationTicks == 0)
             this.spawnKoopaTroopa();
 
-        if (hideTicks == 0 && emergeAnimationTicks <= 0) {
+        if (hideTicks == 0 && emergeAnimationTicks == 0
+                && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround()) {
             this.triggerAnim("emerge_controller", "emerge");
             this.emergeAnimationTicks = 80;
         }
@@ -263,10 +257,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         ItemStack stack = player.getItemInHand(hand);
         float soundPitch = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
 
-        if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.KOOPA_SHELL_HEAL_ITEMS)) {
+        if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.REPAIRS_KOOPA_SHELLS)
+                && ConfigRegistry.REPAIR_KOOPA_SHELLS.get()) {
             stack.consume(1, player);
-            this.bounceCount = this.bounceCount - 25;
-            this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, soundPitch);
+            this.bounceCount = Math.max(0, this.bounceCount - 25);;
+            this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, soundPitch); //TODO Change sound
             return InteractionResult.SUCCESS;
         } else return InteractionResult.PASS;
     }
@@ -426,7 +421,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public Crackiness.Level getCrackiness() {
-        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / 100F);
+        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
     }
 
     private void collideWithWall(Level world) {
@@ -470,10 +465,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
                                         Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
                                         if (world instanceof ServerLevel serverWorld
-                                                && this.getDeltaMovement().horizontalDistance() > 0) {
+                                                && this.getDeltaMovement().horizontalDistance() > 0.25) {
                                             serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
                                                     3, 0.1, 0.1, 0.1, 0.0);
-                                            this.bounceCount++;
+                                            if (this.bounceCount != -1)
+                                                this.bounceCount++;
 
                                             if (this.getCrackiness() != crackinessLevel)
                                                 this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);

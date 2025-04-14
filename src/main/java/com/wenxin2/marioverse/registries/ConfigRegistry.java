@@ -33,6 +33,8 @@ public class ConfigRegistry
 
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
 
+    public static final String CATEGORY_KOOPA_SHELL = "koopa_shell";
+    public static final String CATEGORY_KOOPA_troopa = "koopa_troopa";
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
@@ -99,6 +101,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
+    public static ModConfigSpec.BooleanValue REPAIR_KOOPA_SHELLS;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
@@ -138,6 +141,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
+    public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_MOB_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
@@ -450,25 +454,32 @@ public class ConfigRegistry
 
             BUILDER.push(CATEGORY_MOBS);
 
+                BUILDER.push(CATEGORY_KOOPA_SHELL);
+                    REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
+                            .comment("Allow koopa shells to be repaired using the item tag \"repairs_koopa_shells\".")
+                            .comment("§9[Default: true]")
+                            .define("repair_koopa_shells", true);
+                    MAX_KOOPA_SHELL_BOUNCES = BUILDER.translation("configuration.marioverse.max_koopa_shell_bounces")
+                            .comment("Max amount of bounces a shell can make before shattering.")
+                            .comment("Set to -1 to never break.")
+                            .defineInRange("max_koopa_shell_bounces", 200, -1, 999);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_HEFTY_GOOMBA);
                     GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
                             .comment("Base count of goombas to spawn when a hefty goomba splits.")
-                            .comment("§9[Default: 2]§b")
                             .defineInRange("goomba_split_count", 2, 0, 16);
                     GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_random_count")
                             .comment("Random count of goombas to spawn when a hefty goomba splits in addition to \"goomba_split_count\".")
-                            .comment("§9[Default: 1]§b")
                             .defineInRange("goomba_split_random_count", 1, 0, 16);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MEGA_GOOMBA);
                     HEFTY_GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_count")
                             .comment("Base count of hefty goombas to spawn when a mega goomba splits.")
-                            .comment("§9[Default: 2]§b")
                             .defineInRange("hefty_goomba_split_count", 2, 0, 8);
                     HEFTY_GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_random_count")
                             .comment("Random count of hefty goombas to spawn when a mega goomba splits in addition to \"hefty_goomba_split_count\".")
-                            .comment("§9[Default: 1]§b")
                             .defineInRange("hefty_goomba_split_random_count", 1, 0, 8);
                 BUILDER.pop();
 
@@ -488,7 +499,6 @@ public class ConfigRegistry
                             .comment("Duration piranha plants hide and emerge from pipes.")
                             .comment("Applies to any block in the '#marioverse:piranha_plant_can_hide' block tag.")
                             .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 300]§b")
                             .defineInRange("piranha_plant_hide_duration", 300, 80, 72000);
                 BUILDER.pop();
 

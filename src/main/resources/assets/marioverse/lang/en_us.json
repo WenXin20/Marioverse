@@ -717,6 +717,8 @@
 
   "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
+  "marioverse.configuration.koopa_shell": "Koopa Shell",
+  "marioverse.configuration.koopa_troopa": "Koopa Troopa",
   "marioverse.configuration.hefty_goomba": "Hefty Goomba",
   "marioverse.configuration.mega_goomba": "Mega Goomba",
   "marioverse.configuration.mini_goomba": "Mini Goomba",
@@ -785,9 +787,11 @@
   "configuration.marioverse.ice_cube_lifespan": "Ice Cube Lifespan",
   "configuration.marioverse.ice_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.max_ice_ball_bounces": "Max Ice Balls Bounces",
+  "configuration.marioverse.max_koopa_shell_bounces": "Max Shell Bounces",
   "configuration.marioverse.max_mob_fireballs": "Max Mob Fireballs",
   "configuration.marioverse.max_mob_ice_balls": "Max Mob Ice Balls",
   "configuration.marioverse.max_one_up_bounce_reward": "Max 1-Up Bounce Reward",
+  "configuration.marioverse.max_player_fireballs": "Max Player Fireballs",
   "configuration.marioverse.max_player_ice_balls": "Max Player Ice Balls",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Attach to All Mobs",
   "configuration.marioverse.mini_goombas_push": "Push Mobs",
@@ -802,6 +806,7 @@
   "configuration.marioverse.question_spawns_power_ups": "Spawn Power Ups",
   "configuration.marioverse.redstone_opens_question": "Activate with Redstone",
   "configuration.marioverse.render_one_up_charm": "Render 1-Up Charm",
+  "configuration.marioverse.repair_koopa_shells": "Repair Shells",
   "configuration.marioverse.require_creative_bubbles": "Pipe Bubbles Creative Only",
   "configuration.marioverse.require_creative_close_pipes": "Closing Pipes Creative Only",
   "configuration.marioverse.require_creative_water_spouts": "Water Spouts Creative Only",
