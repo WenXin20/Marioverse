@@ -267,9 +267,15 @@ public class MarioverseEventHandlers {
             }
         }
 
-        if (event.getEntity() instanceof GoombaEntity goomba
-                && event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES)) {
-            goomba.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
+        if (event.getEntity().getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
+            if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES))
+                event.getEntity().getItemBySlot(EquipmentSlot.HEAD).shrink(1);
+            if (event.getEntity().getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.POWER_UP_COSTUMES))
+                event.getEntity().getItemBySlot(EquipmentSlot.CHEST).shrink(1);
+            if (event.getEntity().getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.POWER_UP_COSTUMES))
+                event.getEntity().getItemBySlot(EquipmentSlot.LEGS).shrink(1);
+            if (event.getEntity().getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.POWER_UP_COSTUMES))
+                event.getEntity().getItemBySlot(EquipmentSlot.FEET).shrink(1);
         }
 
 //        if (tag.getBoolean("marioverse:has_mega_mushroom")) {

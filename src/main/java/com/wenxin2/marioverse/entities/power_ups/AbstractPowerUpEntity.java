@@ -93,8 +93,12 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
     }
 
     private void applyCostumeChange(LivingEntity entity, AccessoriesCapability capability) {
-        if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get())
-            this.updateCostume(entity, capability);
+        if (capability != null) {
+            if (entity instanceof Player && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get())
+                this.updateCostume(entity, capability);
+            else if (!(entity instanceof Player) && ConfigRegistry.EQUIP_COSTUMES_MOBS.get())
+                this.updateCostume(entity, capability);
+        }
     }
 
     private void updateCostume(LivingEntity entity, AccessoriesCapability capability) {
@@ -105,59 +109,41 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         int randomIndex = (int) (Math.random() * this.getHatItems().size());
 
-        if (entity instanceof GoombaEntity goomba
-                && (goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                    || goomba.getItemBySlot(EquipmentSlot.HEAD).is(this.getPowerUpCostumeTag()))) {
-            ItemStack stack = goomba.getItemBySlot(EquipmentSlot.HEAD).getItem().getDefaultInstance();
-            ItemStack newStack = goomba.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                    ? this.getHatItems().get((int) (Math.random() * this.getHatItems().size()))
-                    : this.getHatItems().getFirst();
+        if (entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                if (!slot.isArmor()) continue;
+                ItemStack currentStack = entity.getItemBySlot(slot);
 
-            for (ItemStack item : this.getHatItems()) {
-                if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_POWER_UP_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_POWER_UP_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_POWER_UP_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                }
+                ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
+                ItemStack newStack = this.getHatItems().get(randomIndex);
+                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getHatItems(), newStack, currentStack);
+
+                stackArmor = entity.getItemBySlot(EquipmentSlot.CHEST);
+                newStack = this.getShirtItems().get(randomIndex);
+                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getShirtItems(), newStack, currentStack);
+
+                stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
+                newStack = this.getPantsItems().get(randomIndex);
+                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getPantsItems(), newStack, currentStack);
+
+                stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
+                newStack = this.getShoesItems().get(randomIndex);
+                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getShoesItems(), newStack, currentStack);
             }
-
-            newStack.applyComponents(stack.getComponents());
-            goomba.setItemSlot(EquipmentSlot.HEAD, newStack);
         }
 
         if (containerHat != null && !containerHat.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD).getItem().getDefaultInstance();
+            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
             ItemStack newStack = !(entity instanceof Player)
-                    ? this.getHatItems().get(randomIndex)
-                    : stack;
+                    ? this.getHatItems().get(randomIndex) : stack;
 
-            for (ItemStack item : this.getHatItems()) {
-                if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                }
-            }
+            for (ItemStack item : this.getHatItems())
+                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerHat.getAccessories().setItem(0, newStack);
@@ -165,32 +151,13 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerShirt != null && !containerShirt.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerShirt.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.BODY).getItem().getDefaultInstance();
+            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.BODY);
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getShirtItems().get(randomIndex)
                     : stack;
 
-            for (ItemStack item : this.getShirtItems()) {
-                if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                }
-            }
+            for (ItemStack item : this.getShirtItems())
+                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerShirt.getAccessories().setItem(0, newStack);
@@ -198,32 +165,13 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerPants != null && !containerPants.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerPants.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS).getItem().getDefaultInstance();
+            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getPantsItems().get(randomIndex)
                     : stack;
 
-            for (ItemStack item : this.getPantsItems()) {
-                if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                }
-            }
+            for (ItemStack item : this.getPantsItems())
+                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerPants.getAccessories().setItem(0, newStack);
@@ -231,12 +179,45 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerShoes != null && !containerShoes.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerShoes.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET).getItem().getDefaultInstance();
+            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getShoesItems().get(randomIndex)
                     : stack;
 
-            for (ItemStack item : this.getShoesItems()) {
+            for (ItemStack item : this.getShoesItems())
+                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
+
+            newStack.applyComponents(stack.getComponents());
+            containerShoes.getAccessories().setItem(0, newStack);
+        }
+    }
+
+    private ItemStack equipCostumesInAccessorySlots(ItemStack item, ItemStack stackArmor, ItemStack newStack, ItemStack stack) {
+        if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
+            if (item.is(this.getPowerUpCostumeTag()))
+                newStack = item.copy();
+        } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
+            if (item.is(this.getPowerUpCostumeTag()))
+                newStack = item.copy();
+        } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
+            if (item.is(this.getPowerUpCostumeTag()))
+                newStack = item.copy();
+        } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
+            if (item.is(this.getPowerUpCostumeTag()))
+                newStack = item.copy();
+        } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
+            if (item.is(this.getPowerUpCostumeTag()))
+                newStack = item.copy();
+        } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
+            if (item.is(this.getPowerUpCostumeTag()))
+                newStack = item.copy();
+        }
+        return newStack;
+    }
+
+    private void equipCostumesInArmorSlots(LivingEntity entity, EquipmentSlot slot, ItemStack stackArmor, List<ItemStack> costumeList, ItemStack newStack, ItemStack currentStack) {
+        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES)) {
+            for (ItemStack item : costumeList) {
                 if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
@@ -246,20 +227,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
                     if (item.is(this.getPowerUpCostumeTag()))
                         newStack = item.copy();
-                } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(this.getPowerUpCostumeTag()))
-                        newStack = item.copy();
                 }
             }
 
-            newStack.applyComponents(stack.getComponents());
-            containerShoes.getAccessories().setItem(0, newStack);
+            newStack.applyComponents(currentStack.getComponents());
+            entity.setItemSlot(slot, newStack);
         }
     }
 }
