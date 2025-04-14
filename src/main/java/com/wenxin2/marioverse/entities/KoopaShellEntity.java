@@ -471,7 +471,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
                     }
 
                     float shellDamage = livingEntity.getType().is(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
-                            ? livingEntity.getHealth() : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
+                            ? livingEntity.getHealth() * 1.25F : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
 
                     if (this.getOwner() != null)
                         livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), shellDamage);
