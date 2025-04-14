@@ -195,7 +195,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         if (!this.level().isClientSide && hideAnimationTicks > 0) {
             hideAnimationTicks--;
 
-            this.spawnKoopaShell();
+            this.spawnKoopaShell(this.getHealth(), 80, true, true);
         }
     }
 
@@ -217,6 +217,14 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.triggerAnim("hide_controller", "hide");
         }
         return super.hurt(source, amount);
+    }
+
+    @Override
+    protected void triggerOnDeathMobEffects(RemovalReason reason) {
+        if (this.level() instanceof ServerLevel && this.getRandom().nextFloat() < 0.25f)
+            this.spawnKoopaShell(this.getMaxHealth(), -1, false, false);
+
+        super.triggerOnDeathMobEffects(reason);
     }
 
     @Override
@@ -445,50 +453,54 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         }
     }
 
-    public void spawnKoopaShell() {
+    public void spawnKoopaShell(float shellHealth, int hideTicks, boolean saveArmor, boolean savePowerUp) {
         if (hideAnimationTicks == 0) {
             KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
 
-            entity.setHideTicks(80);
+            entity.setHideTicks(hideTicks);
             entity.setPos(this.getX(), this.getY(), this.getZ());
             entity.setYRot(this.getYRot());
             entity.setXRot(this.getXRot());
             entity.yBodyRot = this.yBodyRot;
             entity.setYHeadRot(this.getYHeadRot());
-            entity.setHealth(this.getHealth());
-
-            entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
-                    this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
-            entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
-                    this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
-            entity.getPersistentData().putBoolean("marioverse:has_mushroom",
-                    this.getPersistentData().getBoolean("marioverse:has_mushroom"));
-            entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",
-                    this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
-            entity.getPersistentData().putBoolean("marioverse:has_super_star",
-                    this.getPersistentData().getBoolean("marioverse:has_super_star"));
-            entity.getPersistentData().putInt("marioverse:super_star_cooldown",
-                    this.getPersistentData().getInt("marioverse:super_star_cooldown"));
+            entity.setHealth(shellHealth);
 
             this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
             this.copyAttributeWithModifiers(entity, Attributes.SCALE);
             this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
             this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
 
-            for (EquipmentSlot slot : EquipmentSlot.values())
-                entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+            if (saveArmor) {
+                for (EquipmentSlot slot : EquipmentSlot.values())
+                    entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+            }
 
-            AccessoriesCapability capability = AccessoriesCapability.get(this);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-                    && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
-                for (String slotType : slotTypes) {
-                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                    AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                    if (container != null) {
-                        ItemStack stack = container.getAccessories().getItem(0);
-                        if (containerEntity != null)
-                            containerEntity.getAccessories().setItem(0, stack);
+            if (savePowerUp) {
+                entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
+                        this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
+                entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
+                        this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
+                entity.getPersistentData().putBoolean("marioverse:has_mushroom",
+                        this.getPersistentData().getBoolean("marioverse:has_mushroom"));
+                entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",
+                        this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
+                entity.getPersistentData().putBoolean("marioverse:has_super_star",
+                        this.getPersistentData().getBoolean("marioverse:has_super_star"));
+                entity.getPersistentData().putInt("marioverse:super_star_cooldown",
+                        this.getPersistentData().getInt("marioverse:super_star_cooldown"));
+
+                AccessoriesCapability capability = AccessoriesCapability.get(this);
+                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                        && this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                    String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+                    for (String slotType : slotTypes) {
+                        AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
+                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                        if (container != null) {
+                            ItemStack stack = container.getAccessories().getItem(0);
+                            if (containerEntity != null)
+                                containerEntity.getAccessories().setItem(0, stack);
+                        }
                     }
                 }
             }
