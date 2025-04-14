@@ -54,10 +54,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
@@ -67,6 +69,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
+    public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     @Nullable private UUID ownerUUID;
@@ -78,9 +81,6 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
     public KoopaShellEntity(EntityType<? extends KoopaShellEntity> type, Level world) {
         super(type, world);
-        this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-        this.setPathfindingMalus(PathType.WATER, 2.0F);
-        this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
     }
 
     @Override
@@ -116,9 +116,25 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(DefaultAnimations.genericIdleController(this).transitionLength(0));
+        controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
+    }
+
+    protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
+        if (!this.isHiding()) {
+            if (event.isMoving()) {
+                event.setAndContinue(WALK);
+                return PlayState.CONTINUE;
+            } else {
+                event.setAndContinue(IDLE);
+                return PlayState.CONTINUE;
+            }
+        } else return PlayState.CONTINUE;
+    }
+
+    public boolean isHiding() {
+        return hideTicks > 0;
     }
 
     @Override
@@ -136,6 +152,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+        tag.putInt("HideTicks", this.hideTicks);
 
         if (this.ownerUUID != null)
             tag.putUUID("Owner", this.ownerUUID);
@@ -148,6 +165,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
         this.leftOwner = tag.getBoolean("LeftOwner");
+        this.hideTicks = tag.getInt("HideTicks");
 
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
@@ -172,10 +190,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     @Override
     public void tick() {
         super.tick();
-        int i = this.getAirSupply();
         Vec3 motion = this.getDeltaMovement();
-
-        this.handleAirSupply(i);
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
@@ -298,19 +313,8 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     }
 
     @Override
-    protected PathNavigation createNavigation(Level world) {
-        return new AmphibiousPathNavigation(this, world);
-    }
-
-    @Override
     public int getAmbientSoundInterval() {
         return 120;
-    }
-
-    protected void handleAirSupply(int airSupplyAmount) {
-        if (this.isAlive() && this.isInWaterOrBubble()) {
-            this.setAirSupply(airSupplyAmount);
-        }
     }
 
     @Override
@@ -328,10 +332,10 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         return super.makeBoundingBox();
     }
 
-    public void setOwner(@Nullable Entity p_37263_) {
-        if (p_37263_ != null) {
-            this.ownerUUID = p_37263_.getUUID();
-            this.cachedOwner = p_37263_;
+    public void setOwner(@Nullable Entity ownerEntity) {
+        if (ownerEntity != null) {
+            this.ownerUUID = ownerEntity.getUUID();
+            this.cachedOwner = ownerEntity;
         }
     }
 
