@@ -36,11 +36,11 @@ import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer;
 
 public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntity> {
     private final ResourceLocation textureLowCracks =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/koopa_shell_crackiness_low.png");
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_shell_crackiness_low.png");
     private final ResourceLocation textureMediumCracks =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/koopa_shell_crackiness_low.png");
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_shell_crackiness_low.png");
     private final ResourceLocation textureHighCracks =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/koopa_shell_crackiness_low.png");
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_shell_crackiness_low.png");
 
     private static final String HELMET = "armorHead";
     private static final String CHEST = "armorBody";
