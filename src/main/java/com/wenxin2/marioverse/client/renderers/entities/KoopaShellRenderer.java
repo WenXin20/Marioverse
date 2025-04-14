@@ -3,7 +3,9 @@ package com.wenxin2.marioverse.client.renderers.entities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.models.entities.KoopaShellModel;
+import com.wenxin2.marioverse.client.renderers.entities.layers.CrackedGeoLayer;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -13,6 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -32,6 +35,13 @@ import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer;
 
 public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntity> {
+    private final ResourceLocation textureLowCracks =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/koopa_shell_crackiness_low.png");
+    private final ResourceLocation textureMediumCracks =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/koopa_shell_crackiness_low.png");
+    private final ResourceLocation textureHighCracks =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/koopa_shell_crackiness_low.png");
+
     private static final String HELMET = "armorHead";
     private static final String CHEST = "armorBody";
     private static final String LEFT_ARM = "armorLeftArm";
@@ -47,6 +57,7 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
         super(renderManager, new KoopaShellModel());
         this.shadowRadius = 0.5F;
 
+        addRenderLayer(new CrackedGeoLayer<>(this, textureLowCracks, textureMediumCracks, textureHighCracks));
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override

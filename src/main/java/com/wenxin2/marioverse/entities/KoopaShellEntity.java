@@ -32,7 +32,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Crackiness;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -46,6 +49,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -65,7 +69,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEntity {
+public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEntity, TraceableEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
@@ -76,6 +80,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
     private boolean isSliding = false;
+    private int bounceCount = 0;
     private int hideTicks = -1;
     private int emergeAnimationTicks = -1;
 
@@ -85,7 +90,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
     @Override
     protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(1);
+        return 1 + this.level().random.nextInt(2);
     }
 
     @Nullable
@@ -116,6 +121,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(DefaultAnimations.genericIdleController(this).transitionLength(0));
         controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
@@ -152,6 +158,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+        tag.putInt("BounceCount", this.bounceCount);
         tag.putInt("HideTicks", this.hideTicks);
 
         if (this.ownerUUID != null)
@@ -165,6 +172,7 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
         this.leftOwner = tag.getBoolean("LeftOwner");
+        this.bounceCount = tag.getInt("BounceCount");
         this.hideTicks = tag.getInt("HideTicks");
 
         if (tag.hasUUID("Owner")) {
@@ -192,8 +200,31 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         super.tick();
         Vec3 motion = this.getDeltaMovement();
 
+        if (motion.horizontalDistance() > 0.0001)
+            this.spawnSprintParticle();
+
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
+
+        if (this.bounceCount >= 100)
+            this.remove(RemovalReason.KILLED);
+
+        if (this.bounceCount < 0)
+            this.bounceCount = 0;
+
+        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
+            hideTicks--;
+
+        if (emergeAnimationTicks > 0)
+            emergeAnimationTicks--;
+
+        if (!this.level().isClientSide && emergeAnimationTicks == 0)
+            this.spawnKoopaTroopa();
+
+        if (hideTicks == 0 && emergeAnimationTicks <= 0) {
+            this.triggerAnim("emerge_controller", "emerge");
+            this.emergeAnimationTicks = 80;
+        }
 
         if (this.isAlive()) {
             this.collideWithWall(this.level());
@@ -224,24 +255,14 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
             this.slidingDirection = motion;
             isSliding = true;
         }
+    }
 
-        if (motion.horizontalDistance() > 0.0001)
-            this.spawnSprintParticle();
-
-        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
-            hideTicks--;
-
-        if (emergeAnimationTicks > 0)
-            emergeAnimationTicks--;
-
-        if (!this.level().isClientSide && emergeAnimationTicks == 0) {
-            this.spawnKoopaTroopa();
-        }
-
-        if (hideTicks == 0 && emergeAnimationTicks <= 0) {
-            this.triggerAnim("emerge_controller", "emerge");
-            this.emergeAnimationTicks = 80;
-        }
+    @NotNull
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.KOOPA_SHELL_HEAL_ITEMS))
+            this.bounceCount = this.bounceCount - 25;
+        return super.mobInteract(player, hand);
     }
 
     @Override
@@ -398,9 +419,15 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
         this.hideTicks = hideTicks;
     }
 
+    @Override
+    public Crackiness.Level getCrackiness() {
+        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / 100F);
+    }
+
     private void collideWithWall(Level world) {
         if (!world.isClientSide) {
             AABB bb = this.getBoundingBox();
+            Crackiness.Level crackinessLevel = this.getCrackiness();
 
             for (Direction dir : Direction.Plane.HORIZONTAL) {
                 AABB movedBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
@@ -438,9 +465,14 @@ public class KoopaShellEntity extends Monster implements GeoEntity, TraceableEnt
 
                                         Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
                                         if (world instanceof ServerLevel serverWorld
-                                                && this.getDeltaMovement().horizontalDistance() > 0)
+                                                && this.getDeltaMovement().horizontalDistance() > 0) {
                                             serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
                                                     3, 0.1, 0.1, 0.1, 0.0);
+                                            this.bounceCount++;
+
+                                            if (this.getCrackiness() != crackinessLevel)
+                                                this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
+                                        }
                                     }
                                 }
                             }

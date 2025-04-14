@@ -12,6 +12,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -106,6 +107,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
+
+        tag(TagRegistry.KOOPA_SHELL_HEAL_ITEMS)
+                .add(Items.TURTLE_SCUTE);
 
         tag(TagRegistry.KOOPA_SHELL_ITEMS)
                 .add(ItemRegistry.GREEN_KOOPA_SHELL.get());
