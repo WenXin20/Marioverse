@@ -150,9 +150,8 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
-        controllers.add(DefaultAnimations.genericIdleController(this));
-        controllers.add(DefaultAnimations.genericWalkController(this));
-        controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT).transitionLength(1));
+        controllers.add(DefaultAnimations.genericAttackAnimation(this, this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT)
+                .transitionLength(1));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
