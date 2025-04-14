@@ -260,9 +260,15 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.KOOPA_SHELL_HEAL_ITEMS))
+        ItemStack stack = player.getItemInHand(hand);
+        float soundPitch = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+
+        if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.KOOPA_SHELL_HEAL_ITEMS)) {
+            stack.consume(1, player);
             this.bounceCount = this.bounceCount - 25;
-        return super.mobInteract(player, hand);
+            this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, soundPitch);
+            return InteractionResult.SUCCESS;
+        } else return InteractionResult.PASS;
     }
 
     @Override
