@@ -92,7 +92,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public long hideTicks = 0L;
+    public int hideTicks = -1;
     public int hideAnimationTicks = 0;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
@@ -175,18 +175,19 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+        tag.putInt("HideTicks", this.hideTicks);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+        this.hideTicks = tag.getInt("HideTicks");
     }
 
     @Override
     public void tick() {
         super.tick();
-        int i = this.getAirSupply();
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
             hideTicks--;
@@ -196,8 +197,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
             this.spawnKoopaShell();
         }
-
-        this.handleAirSupply(i);
     }
 
     @Override
@@ -395,12 +394,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         return 120;
     }
 
-    protected void handleAirSupply(int airSupplyAmount) {
-        if (this.isAlive() && this.isInWaterOrBubble()) {
-            this.setAirSupply(airSupplyAmount);
-        }
-    }
-
     @Override
     public boolean isPushedByFluid() {
         return false;
@@ -502,7 +495,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
             this.level().addFreshEntity(entity);
             this.remove(RemovalReason.DISCARDED);
-            hideAnimationTicks = -1;
         }
     }
 
