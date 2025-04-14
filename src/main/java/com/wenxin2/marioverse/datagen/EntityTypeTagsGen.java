@@ -24,6 +24,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
@@ -46,6 +47,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
+
+        tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
+                .add(EntityRegistry.BOUNCING_FIREBALL.get());
 
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
@@ -337,8 +341,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WARDEN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
-        tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
-                .add(EntityRegistry.BOUNCING_FIREBALL.get());
+        tag(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES);
 
         tag(TagRegistry.GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)
