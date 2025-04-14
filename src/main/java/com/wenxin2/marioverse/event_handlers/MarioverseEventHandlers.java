@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
-import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
@@ -206,12 +205,8 @@ public class MarioverseEventHandlers {
                     AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(player, slotType));
                     if (container != null) {
                         ItemStack stack = container.getAccessories().getItem(0);
-                        if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                            removeCostume(player, "mario", capability);
-                        if (stack.is(TagRegistry.LUIGI_POWER_UP_COSTUMES))
-                            removeCostume(player, "luigi", capability);
-                        if (stack.is(TagRegistry.PEACH_POWER_UP_COSTUMES))
-                            removeCostume(player, "peach", capability);
+                        if (stack.is(TagRegistry.POWER_UP_COSTUMES))
+                            removeCostume(player, capability);
                     }
                 }
             }
@@ -256,12 +251,8 @@ public class MarioverseEventHandlers {
                     AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
                     if (container != null) {
                         ItemStack stack = container.getAccessories().getItem(0);
-                        if (stack.is(TagRegistry.MARIO_POWER_UP_COSTUMES))
-                            removeCostume(entity, "mario", capability);
-                        if (stack.is(TagRegistry.LUIGI_POWER_UP_COSTUMES))
-                            removeCostume(entity, "luigi", capability);
-                        if (stack.is(TagRegistry.PEACH_POWER_UP_COSTUMES))
-                            removeCostume(entity, "peach", capability);
+                        if (stack.is(TagRegistry.POWER_UP_COSTUMES))
+                            removeCostume(entity, capability);
                     }
                 }
             }
@@ -289,40 +280,79 @@ public class MarioverseEventHandlers {
 //        }
     }
 
-    private static void removeCostume(LivingEntity entity, String character, AccessoriesCapability capability) {
+    private static void removeCostume(LivingEntity entity, AccessoriesCapability capability) {
         AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
         AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
         AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
         AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
 
-        ItemStack hatItem = ItemRegistry.getCostumeItem(character, "hat");
-        ItemStack shirtItem = ItemRegistry.getCostumeItem(character, "shirt");
-        ItemStack pantsItem = ItemRegistry.getCostumeItem(character, "pants");
-        ItemStack shoesItem = ItemRegistry.getCostumeItem(character, "shoes");
-
         if (containerHat != null) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
-            hatItem.applyComponents(stack.getComponents());
-            if (stack.is(TagRegistry.POWER_UP_COSTUMES))
+            ItemStack hatItem = new ItemStack(ItemRegistry.MARIO_HAT.get());
+
+            if (stack.is(TagRegistry.MARIO_COSTUMES))
                 containerHat.getAccessories().setItem(0, hatItem);
+
+            hatItem = new ItemStack(ItemRegistry.LUIGI_HAT.get());
+            if (stack.is(TagRegistry.LUIGI_COSTUMES))
+                containerHat.getAccessories().setItem(0, hatItem);
+
+            hatItem = new ItemStack(ItemRegistry.PEACH_CROWN.get());
+            if (stack.is(TagRegistry.PEACH_COSTUMES))
+                containerHat.getAccessories().setItem(0, hatItem);
+
+            hatItem.applyComponents(stack.getComponents());
         }
         if (containerShirt != null) {
             ItemStack stack = containerShirt.getAccessories().getItem(0);
-            shirtItem.applyComponents(stack.getComponents());
-            if (stack.is(TagRegistry.POWER_UP_COSTUMES))
+            ItemStack shirtItem = new ItemStack(ItemRegistry.MARIO_SHIRT.get());
+
+            if (stack.is(TagRegistry.MARIO_COSTUMES))
                 containerShirt.getAccessories().setItem(0, shirtItem);
+
+            shirtItem = new ItemStack(ItemRegistry.LUIGI_SHIRT.get());
+            if (stack.is(TagRegistry.LUIGI_COSTUMES))
+                containerShirt.getAccessories().setItem(0, shirtItem);
+
+            shirtItem = new ItemStack(ItemRegistry.PEACH_BODICE.get());
+            if (stack.is(TagRegistry.PEACH_COSTUMES))
+                containerShirt.getAccessories().setItem(0, shirtItem);
+
+            shirtItem.applyComponents(stack.getComponents());
         }
         if (containerPants != null) {
             ItemStack stack = containerPants.getAccessories().getItem(0);
-            pantsItem.applyComponents(stack.getComponents());
-            if (stack.is(TagRegistry.POWER_UP_COSTUMES))
+            ItemStack pantsItem = new ItemStack(ItemRegistry.MARIO_PANTS.get());
+
+            if (stack.is(TagRegistry.MARIO_COSTUMES))
                 containerPants.getAccessories().setItem(0, pantsItem);
+
+            pantsItem = new ItemStack(ItemRegistry.LUIGI_PANTS.get());
+            if (stack.is(TagRegistry.LUIGI_COSTUMES))
+                containerPants.getAccessories().setItem(0, pantsItem);
+
+            pantsItem = new ItemStack(ItemRegistry.PEACH_DRESS.get());
+            if (stack.is(TagRegistry.PEACH_COSTUMES))
+                containerPants.getAccessories().setItem(0, pantsItem);
+
+            pantsItem.applyComponents(stack.getComponents());
         }
         if (containerShoes != null) {
             ItemStack stack = containerShoes.getAccessories().getItem(0);
-            shoesItem.applyComponents(stack.getComponents());
-            if (stack.is(TagRegistry.POWER_UP_COSTUMES))
+            ItemStack shoesItem = new ItemStack(ItemRegistry.MARIO_SHOES.get());
+
+            if (stack.is(TagRegistry.MARIO_COSTUMES))
                 containerShoes.getAccessories().setItem(0, shoesItem);
+
+            shoesItem = new ItemStack(ItemRegistry.LUIGI_SHOES.get());
+            if (stack.is(TagRegistry.LUIGI_COSTUMES))
+                containerShoes.getAccessories().setItem(0, shoesItem);
+
+            shoesItem = new ItemStack(ItemRegistry.PEACH_SHOES.get());
+            if (stack.is(TagRegistry.PEACH_COSTUMES))
+                containerShoes.getAccessories().setItem(0, shoesItem);
+
+            shoesItem.applyComponents(stack.getComponents());
         }
     }
 
