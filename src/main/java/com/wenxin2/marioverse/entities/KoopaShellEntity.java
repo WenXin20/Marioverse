@@ -31,6 +31,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -487,12 +488,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     private void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+        double speed = this.getDeltaMovement().horizontalDistance();
 
         for (Entity entity : collidingEntities) {
-            if (this.getDeltaMovement().horizontalDistance() > 0) {
+            if (speed >= 0.1) {
                 if (entity instanceof LivingEntity livingEntity
-                        && (this.getDeltaMovement().horizontalDistance() >= 0.1
-                            || this.getDeltaMovement().horizontalDistance() <= -0.1)
                         && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
                     ItemStack shield = livingEntity.getUseItem();
                     Vec3 toShell = this.position().subtract(livingEntity.position()).normalize();
@@ -508,7 +508,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     }
 
                     float shellDamage = livingEntity.getType().is(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
-                            ? livingEntity.getHealth() * 1.25F : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
+                            ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 20, 1.0F, 6.0F);
 
                     if (this.getOwner() != null)
                         livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), shellDamage);
