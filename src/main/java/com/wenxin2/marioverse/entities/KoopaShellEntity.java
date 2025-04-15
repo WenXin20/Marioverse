@@ -79,7 +79,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     private boolean isSliding = false;
     private int bounceCount = 0;
     private int hideTicks = -1;
-    private int emergeAnimationTicks = -1;
+    public int emergeAnimationTicks = -1;
 
     public KoopaShellEntity(EntityType<? extends KoopaShellEntity> type, Level world) {
         super(type, world);
@@ -215,7 +215,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.level().isClientSide && emergeAnimationTicks == 0)
             this.spawnKoopaTroopa();
 
-        if (hideTicks == 0 && emergeAnimationTicks <= 0
+        if (hideTicks == 0 && emergeAnimationTicks == 0
                 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround()) {
             this.triggerAnim("emerge_controller", "emerge");
             this.emergeAnimationTicks = 80;

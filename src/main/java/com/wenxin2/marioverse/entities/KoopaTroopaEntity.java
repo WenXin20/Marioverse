@@ -195,7 +195,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         if (!this.level().isClientSide && hideAnimationTicks > 0) {
             hideAnimationTicks--;
 
-            this.spawnKoopaShell(this.getHealth(), 80, true, true);
+            this.spawnKoopaShell(this.getHealth(), 80, 0, true, true);
         }
     }
 
@@ -225,7 +225,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 && this.getLastDamageSource() != null
                 && !this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
                 && !this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))
-            this.spawnKoopaShell(this.getMaxHealth(), -1, false, false);
+            this.spawnKoopaShell(this.getMaxHealth(), -1, -1, false, false);
 
         super.triggerOnDeathMobEffects(reason);
     }
@@ -456,7 +456,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         }
     }
 
-    public void spawnKoopaShell(float shellHealth, int hideTicks, boolean saveArmor, boolean savePowerUp) {
+    public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
         if (hideAnimationTicks == 0) {
             KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
 
@@ -467,6 +467,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             entity.yBodyRot = this.yBodyRot;
             entity.setYHeadRot(this.getYHeadRot());
             entity.setHealth(shellHealth);
+            entity.emergeAnimationTicks = emergeAnimationTicks;
 
             this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
             this.copyAttributeWithModifiers(entity, Attributes.SCALE);
