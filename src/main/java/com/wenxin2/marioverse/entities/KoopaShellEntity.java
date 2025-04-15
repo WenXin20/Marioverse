@@ -508,7 +508,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     }
 
                     float shellDamage = livingEntity.getType().is(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
-                            ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 20, 1.0F, 6.0F);
+                            ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 20, 1.0F, 4.0F);
 
                     if (this.getOwner() != null)
                         livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), shellDamage);
@@ -516,6 +516,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     if (this.level() instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
                                 3, 0.1, 0.1, 0.1, 0.0);
+                    if (entity instanceof KoopaShellEntity)
+                        this.kill();
                 }
             }
         }
