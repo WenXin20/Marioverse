@@ -50,6 +50,7 @@ public class TagRegistry {
     public static final TagKey<DamageType> IS_ICE_BALL = damageTypeTags("ice_ball");
     public static final TagKey<DamageType> IS_ICE_CUBE_CRUSHED = damageTypeTags("ice_cube_crushed");
     public static final TagKey<DamageType> IS_PIRANHA_CHOMP = damageTypeTags("is_piranha_chomp");
+    public static final TagKey<DamageType> IS_SPINNING_SHELL = damageTypeTags("is_spinning_shell");
     public static final TagKey<DamageType> IS_SHRAPNEL = damageTypeTags("is_shrapnel");
     public static final TagKey<DamageType> IS_STOMP = damageTypeTags("is_stomp");
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");

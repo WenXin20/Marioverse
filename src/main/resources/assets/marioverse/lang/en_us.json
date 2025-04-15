@@ -533,6 +533,8 @@
   "death.attack.marioverse.piranha_chomp.player": "%1$s was chomped on by %2$s",
   "death.attack.marioverse.shrapnel": "%1$s was shredded by shrapnel",
   "death.attack.marioverse.shrapnel.player": "%2$s caused %1$s to be shredded by shrapnel",
+  "death.attack.marioverse.spinning_shell": "%1$s couldn’t dodge the spinning shell",
+  "death.attack.marioverse.spinning_shell.player": "%1$s couldn’t dodge the spinning shell shot by %2$s",
   "death.attack.marioverse.stomp": "%1$s was stomped on",
   "death.attack.marioverse.stomp.player": "%1$s was stomped on by %2$s",
   "death.attack.marioverse.super_star": "%1$s was star struck!",

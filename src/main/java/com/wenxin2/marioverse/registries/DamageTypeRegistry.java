@@ -43,6 +43,11 @@ public class DamageTypeRegistry {
     public static final ResourceKey<DamageType> PLAYER_SHRAPNEL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_shrapnel"));
 
+    public static final ResourceKey<DamageType> SPINNING_SHELL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spinning_shell"));
+    public static final ResourceKey<DamageType> PLAYER_SPINNING_SHELL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_spinning_shell"));
+
     public static final ResourceKey<DamageType> STOMP =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "stomp"));
     public static final ResourceKey<DamageType> PLAYER_STOMP =
@@ -91,6 +96,14 @@ public class DamageTypeRegistry {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SHRAPNEL), damagedEntity, attackingEntity);
         } else if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SHRAPNEL), null, attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource spinningShell(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (damagedEntity != null && attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SPINNING_SHELL), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SPINNING_SHELL), null, attackingEntity);
         } else return null;
     }
 

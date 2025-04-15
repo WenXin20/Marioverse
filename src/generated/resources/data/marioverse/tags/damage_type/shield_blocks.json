@@ -1,5 +1,9 @@
 {
   "values": [
-    "#marioverse:is_fireball"
+    "#marioverse:is_fireball",
+    "#marioverse:ice_ball",
+    "#marioverse:ice_cube_crushed",
+    "#marioverse:is_piranha_chomp",
+    "#marioverse:is_spinning_shell"
   ]
 }

@@ -45,9 +45,9 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PLAYER_PIRANHA_CHOMP);
 
-        tag(TagRegistry.IS_SHRAPNEL)
-                .add(DamageTypeRegistry.SHRAPNEL)
-                .add(DamageTypeRegistry.PLAYER_SHRAPNEL);
+        tag(TagRegistry.IS_SPINNING_SHELL)
+                .add(DamageTypeRegistry.SPINNING_SHELL)
+                .add(DamageTypeRegistry.PLAYER_SPINNING_SHELL);
 
         tag(TagRegistry.IS_STOMP)
                 .add(DamageTypeRegistry.STOMP)
@@ -58,6 +58,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.PLAYER_SUPER_STAR);
 
         tag(TagRegistry.SHIELD_BLOCKS)
-                .addTag(TagRegistry.IS_FIREBALL);
+                .addTag(TagRegistry.IS_FIREBALL)
+                .addTag(TagRegistry.IS_ICE_BALL)
+                .addTag(TagRegistry.IS_ICE_CUBE_CRUSHED)
+                .addTag(TagRegistry.IS_PIRANHA_CHOMP)
+                .addTag(TagRegistry.IS_SPINNING_SHELL);
     }
 }
