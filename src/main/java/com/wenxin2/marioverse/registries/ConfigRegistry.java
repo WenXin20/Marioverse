@@ -456,7 +456,7 @@ public class ConfigRegistry
 
                 BUILDER.push(CATEGORY_KOOPA_SHELL);
                     REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
-                            .comment("Allow koopa shells to be repaired using the item tag \"repairs_koopa_shells\".")
+                            .comment("Allow koopa shells to be repaired with items tagged as \"repairs_koopa_shells\".")
                             .comment("§9[Default: true]")
                             .define("repair_koopa_shells", true);
                     MAX_KOOPA_SHELL_BOUNCES = BUILDER.translation("configuration.marioverse.max_koopa_shell_bounces")
