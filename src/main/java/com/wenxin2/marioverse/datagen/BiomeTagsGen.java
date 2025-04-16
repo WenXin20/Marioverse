@@ -29,6 +29,17 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS);
 
+        tag(TagRegistry.HAS_KOOPA_TROOPA)
+                .addTag(Tags.Biomes.IS_BEACH)
+                .add(Biomes.BEACH)
+                .add(Biomes.SNOWY_BEACH);
+
+        tag(TagRegistry.HAS_KOOPA_TROOPA_RARE)
+                .addTag(Tags.Biomes.IS_PLAINS)
+                .addTag(BiomeTags.IS_FOREST)
+                .add(Biomes.PLAINS)
+                .add(Biomes.SUNFLOWER_PLAINS);
+
         tag(TagRegistry.HAS_PIRANHA_PLANT)
                 .addTag(Tags.Biomes.IS_JUNGLE)
                 .addTag(BiomeTags.IS_JUNGLE);
