@@ -35,6 +35,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -238,6 +240,15 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
         } else {
             super.travel(travelVector);
+        }
+    }
+
+    @Override
+    public int getCurrentSwingDuration() {
+        if (MobEffectUtil.hasDigSpeed(this)) {
+            return 10 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
+        } else {
+            return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
         }
     }
 

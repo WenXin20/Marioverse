@@ -321,7 +321,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
         float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
 
-
         if (this.level() instanceof ServerLevel serverWorld) {
             float height = this.getBbHeight() * scale * heightScale;
             float width = this.getBbWidth() * scale * widthScale;
@@ -335,7 +334,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get(), serverWorld,
                         this, height * 1.55F + 0.1F, width * 1.55F);
         }
-
         super.die(source);
     }
 
