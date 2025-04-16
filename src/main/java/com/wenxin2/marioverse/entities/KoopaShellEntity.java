@@ -222,7 +222,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (hideTicks == 0 && emergeAnimationTicks == 0
                 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround()) {
             this.triggerAnim("emerge_controller", "emerge");
-            this.emergeAnimationTicks = 80;
+            this.emergeAnimationTicks = 60;
         }
 
         if (this.isAlive()) {
@@ -316,10 +316,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     @Override
-    protected void triggerOnDeathMobEffects(RemovalReason reason) {
+    public void die(DamageSource source) {
         float scale = (float) this.getAttributeValue(Attributes.SCALE);
         float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
         float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
 
         if (this.level() instanceof ServerLevel serverWorld) {
             float height = this.getBbHeight() * scale * heightScale;
@@ -335,7 +336,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                         this, height * 1.55F + 0.1F, width * 1.55F);
         }
 
-        super.triggerOnDeathMobEffects(reason);
+        super.die(source);
     }
 
     @Override
@@ -582,7 +583,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         this.level().addFreshEntity(entity);
-        this.remove(RemovalReason.DISCARDED);
+        this.discard();
     }
 
     private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
