@@ -3,7 +3,7 @@
   "biomes": "#marioverse:has_koopa_troopa_rare",
   "spawners": [
     {
-      "type": "marioverse:koopa_troopa",
+      "type": "marioverse:green_koopa_troopa",
       "weight": 5,
       "minCount": 1,
       "maxCount": 1
