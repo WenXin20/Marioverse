@@ -788,6 +788,7 @@
   "configuration.marioverse.ice_cube_freeze_duration": "Ice Cube Freeze Duration",
   "configuration.marioverse.ice_cube_lifespan": "Ice Cube Lifespan",
   "configuration.marioverse.ice_flower_powers_all_mobs": "Powers All Mobs",
+  "configuration.marioverse.koopa_troopa_hide_duration": "Hide Duration",
   "configuration.marioverse.max_ice_ball_bounces": "Max Ice Balls Bounces",
   "configuration.marioverse.max_koopa_shell_bounces": "Max Shell Bounces",
   "configuration.marioverse.max_mob_fireballs": "Max Mob Fireballs",

@@ -34,7 +34,7 @@ public class ConfigRegistry
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
 
     public static final String CATEGORY_KOOPA_SHELL = "koopa_shell";
-    public static final String CATEGORY_KOOPA_troopa = "koopa_troopa";
+    public static final String CATEGORY_KOOPA_TROOPA = "koopa_troopa";
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
@@ -140,6 +140,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
+    public static ModConfigSpec.IntValue KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
@@ -465,6 +466,13 @@ public class ConfigRegistry
                             .defineInRange("max_koopa_shell_bounces", 200, -1, 999);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_KOOPA_TROOPA);
+                    KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.koopa_troopa_hide_duration")
+                            .comment("Duration koopa troopas hide in their shells in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("koopa_troopa_hide_duration", 100, 0, 999);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_HEFTY_GOOMBA);
                     GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
                             .comment("Base count of goombas to spawn when a hefty goomba splits.§b")
@@ -496,7 +504,7 @@ public class ConfigRegistry
 
                 BUILDER.push(CATEGORY_PIRANHA_PLANT);
                     PIRANHA_PLANT_HIDE_DURATION = BUILDER.translation("configuration.marioverse.piranha_plant_hide_duration")
-                            .comment("Duration piranha plants hide and emerge from pipes.")
+                            .comment("Duration piranha plants hide and emerge from pipes in ticks.")
                             .comment("Applies to any block in the '#marioverse:piranha_plant_can_hide' block tag.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("piranha_plant_hide_duration", 300, 80, 72000);

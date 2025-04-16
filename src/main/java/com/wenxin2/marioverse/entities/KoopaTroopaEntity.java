@@ -196,8 +196,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
         if (!this.level().isClientSide && hideAnimationTicks > 0) {
             hideAnimationTicks--;
-
-            this.spawnKoopaShell(this.getHealth(), 80, 0, true, true);
+            this.spawnKoopaShell(this.getHealth(), ConfigRegistry.KOOPA_TROOPA_HIDE_DURATION.get(), 0, true, true);
         }
     }
 
@@ -214,7 +213,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
-            this.hideTicks = 50; // TODO
+            this.hideTicks = ConfigRegistry.KOOPA_TROOPA_HIDE_DURATION.get();
             this.hideAnimationTicks = 15;
             this.triggerAnim("hide_controller", "hide");
         }
