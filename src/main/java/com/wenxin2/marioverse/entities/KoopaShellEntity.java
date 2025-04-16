@@ -12,7 +12,9 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -72,6 +74,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    private final Set<UUID> entityCollided = new HashSet<>();
     public Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
@@ -212,7 +216,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (emergeAnimationTicks > 0)
             emergeAnimationTicks--;
 
-        if (!this.level().isClientSide && emergeAnimationTicks == 0)
+        if (!this.level().isClientSide && emergeAnimationTicks == 1)
             this.spawnKoopaTroopa();
 
         if (hideTicks == 0 && emergeAnimationTicks == 0
@@ -471,10 +475,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                                                     3, 0.1, 0.1, 0.1, 0.0);
                                             if (this.bounceCount != -1)
                                                 this.bounceCount++;
-
-                                            if (this.getCrackiness() != crackinessLevel)
-                                                this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
                                         }
+
+                                        if (this.getCrackiness() != crackinessLevel)
+                                            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
                                     }
                                 }
                             }
@@ -489,6 +493,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
         double speed = this.getDeltaMovement().horizontalDistance();
+        Set<UUID> newCollisions = new HashSet<>();
 
         for (Entity entity : collidingEntities) {
             if (speed >= 0.1) {
@@ -498,6 +503,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     Vec3 toShell = this.position().subtract(livingEntity.position()).normalize();
                     Vec3 look = livingEntity.getLookAngle().normalize();
                     double dot = toShell.dot(look);
+
+                    UUID id = livingEntity.getUUID();
+                    newCollisions.add(id);
+                    if (entityCollided.contains(id)) continue;
 
                     if (livingEntity.isBlocking() && dot > 0.25) {
                         this.deflect(entity, livingEntity, true);
@@ -521,6 +530,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 }
             }
         }
+
+        entityCollided.retainAll(newCollisions);
+        entityCollided.addAll(newCollisions);
     }
 
     private void spawnKoopaTroopa() {
