@@ -114,25 +114,32 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 if (!slot.isArmor()) continue;
                 ItemStack currentStack = entity.getItemBySlot(slot);
 
-                ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
-                ItemStack newStack = this.getHatItems().get(randomIndex);
-                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getHatItems(), newStack, currentStack);
-
-                stackArmor = entity.getItemBySlot(EquipmentSlot.CHEST);
-                newStack = this.getShirtItems().get(randomIndex);
-                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getShirtItems(), newStack, currentStack);
-
-                stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
-                newStack = this.getPantsItems().get(randomIndex);
-                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getPantsItems(), newStack, currentStack);
-
-                stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
-                newStack = this.getShoesItems().get(randomIndex);
-                if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                    this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getShoesItems(), newStack, currentStack);
+                switch (slot) {
+                    case HEAD -> {
+                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
+                        ItemStack newStack = this.getHatItems().get(randomIndex);
+                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                            this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getHatItems(), newStack, currentStack);
+                    }
+                    case CHEST -> {
+                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.CHEST);
+                        ItemStack newStack = this.getShirtItems().get(randomIndex);
+                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                            this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getShirtItems(), newStack, currentStack);
+                    }
+                    case LEGS -> {
+                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
+                        ItemStack newStack = this.getPantsItems().get(randomIndex);
+                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                            this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getPantsItems(), newStack, currentStack);
+                    }
+                    case FEET -> {
+                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
+                        ItemStack newStack = this.getShoesItems().get(randomIndex);
+                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
+                            this.equipCostumesInArmorSlots(entity, slot, stackArmor, this.getShoesItems(), newStack, currentStack);
+                    }
+                }
             }
         }
 
