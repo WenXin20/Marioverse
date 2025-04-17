@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.CrackableEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -29,27 +30,38 @@ public class CrackedGeoLayer<T extends GeoAnimatable> extends GeoRenderLayer<T> 
 
     @Override
     public void render(PoseStack poseStack, T animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
-        RenderType armorRenderType = RenderType.armorCutoutNoCull(textureLowCracks);
+        BakedGeoModel overlayModel = getRenderer().getGeoModel().getBakedModel(getRenderer().getGeoModel().getModelResource(animatable));
 
+        poseStack.pushPose();
+        poseStack.scale(1.01F, 1.01F, 1.01F);
         if (animatable instanceof Entity entity && !entity.isInvisible()) {
             if (entity instanceof CrackableEntity crackableEntity) {
                 Crackiness.Level crackinessLevel = crackableEntity.getCrackiness();
+                ResourceLocation crackTexture = switch (crackinessLevel) {
+                    case NONE -> this.getTextureResource(animatable);
+                    case LOW -> textureLowCracks;
+                    case MEDIUM -> textureMediumCracks;
+                    case HIGH -> textureHighCracks;
+                };
+
+                RenderType armorRenderType = RenderType.armorCutoutNoCull(crackTexture);
                 if (crackinessLevel == Crackiness.Level.LOW) {
-                    getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, armorRenderType,
+                    getRenderer().reRender(overlayModel, poseStack, bufferSource, animatable, armorRenderType,
                             bufferSource.getBuffer(armorRenderType), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
                             Color.WHITE.argbInt());
                 } else if (crackinessLevel == Crackiness.Level.MEDIUM) {
-                    armorRenderType = RenderType.armorCutoutNoCull(textureMediumCracks);
-                    getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, armorRenderType,
+                    armorRenderType = RenderType.armorCutoutNoCull(crackTexture);
+                    getRenderer().reRender(overlayModel, poseStack, bufferSource, animatable, armorRenderType,
                             bufferSource.getBuffer(armorRenderType), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
                             Color.WHITE.argbInt());
                 } else if (crackinessLevel == Crackiness.Level.HIGH) {
-                    armorRenderType = RenderType.armorCutoutNoCull(textureHighCracks);
-                    getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, armorRenderType,
+                    armorRenderType = RenderType.armorCutoutNoCull(crackTexture);
+                    getRenderer().reRender(overlayModel, poseStack, bufferSource, animatable, armorRenderType,
                             bufferSource.getBuffer(armorRenderType), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
                             Color.WHITE.argbInt());
                 }
             }
         }
+        poseStack.popPose();
     }
 }
