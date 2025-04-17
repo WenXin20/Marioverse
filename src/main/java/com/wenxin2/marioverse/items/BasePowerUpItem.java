@@ -37,7 +37,8 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
             BlockState state = world.getBlockState(pos);
 
             if (world.getBlockEntity(pos) instanceof Spawner spawner
-                    && (context.getPlayer() != null && context.getPlayer().isCreative())) {
+                    && (context.getPlayer() != null && context.getPlayer().isCreative()
+                        && !context.getPlayer().isShiftKeyDown())) {
                 EntityType<?> entityType = this.getType(stack);
                 spawner.setEntityId(entityType, world.getRandom());
                 world.sendBlockUpdated(pos, state, state, 3);

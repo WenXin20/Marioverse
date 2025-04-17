@@ -223,9 +223,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     protected void triggerOnDeathMobEffects(RemovalReason reason) {
         if (this.level() instanceof ServerLevel && this.getRandom().nextFloat() < 0.25f
-                && this.getLastDamageSource() != null
-                && !this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                && !this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))
+                && this.getRemovalReason() == RemovalReason.KILLED)
             this.spawnKoopaShell(this.getMaxHealth(), -1, -1, false, false);
 
         super.triggerOnDeathMobEffects(reason);

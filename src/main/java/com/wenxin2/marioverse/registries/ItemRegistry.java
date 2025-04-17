@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CostumeItem;
+import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -89,6 +90,9 @@ public class ItemRegistry {
                 () -> new OneUpMushroomItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+
+        GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
+                () -> new KoopaShellItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
@@ -239,9 +243,6 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
                 () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-
-        GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
-                () -> new BasePowerUpItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {

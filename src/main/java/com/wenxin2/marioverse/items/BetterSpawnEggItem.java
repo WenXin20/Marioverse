@@ -35,9 +35,18 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
             Direction direction = context.getClickedFace();
             BlockState state = world.getBlockState(pos);
 
-            if (world.getBlockEntity(pos) instanceof Spawner spawner) {
+            if (world.getBlockEntity(pos) instanceof Spawner spawner
+                    && (context.getPlayer() != null && !context.getPlayer().isShiftKeyDown())) {
                 EntityType<?> entityType1 = this.getType(stack);
                 spawner.setEntityId(entityType1, world.getRandom());
+                world.sendBlockUpdated(pos, state, state, 3);
+                world.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, pos);
+                stack.shrink(1);
+                return InteractionResult.CONSUME;
+            } else if (world.getBlockEntity(pos) instanceof Spawner spawner
+                    && context.getPlayer() == null) {
+                EntityType<?> entityType = this.getType(stack);
+                spawner.setEntityId(entityType, world.getRandom());
                 world.sendBlockUpdated(pos, state, state, 3);
                 world.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, pos);
                 stack.shrink(1);
