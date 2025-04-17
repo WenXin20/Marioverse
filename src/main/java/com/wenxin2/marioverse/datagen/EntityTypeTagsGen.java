@@ -26,6 +26,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
@@ -49,7 +50,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
-                .add(EntityRegistry.BOUNCING_FIREBALL.get());
+                .add(EntityRegistry.BOUNCING_FIREBALL.get())
+                .add(EntityRegistry.BOUNCING_ICE_BALL.get())
+                .add(EntityRegistry.GREEN_KOOPA_SHELL.get());
 
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
@@ -89,12 +92,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.TURTLE)
                 .addOptional(TEST_DUMMY);
 
-        tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+        tag(TagRegistry.CAN_BONK_BLOCKS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
-        tag(TagRegistry.CAN_BONK_BLOCKS)
+        tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
@@ -315,6 +318,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.FIREBALL_CAN_INSTAKILL)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(TagRegistry.FIREBALL_IMMUNE)
