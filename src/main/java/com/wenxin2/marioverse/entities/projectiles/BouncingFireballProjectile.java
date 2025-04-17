@@ -205,7 +205,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     }
                 } else if (this.getOwner() != null) {
                     if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth());
+                        player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth() * 1.25F);
                     else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     player.igniteForSeconds(2.0F);
                 }
@@ -232,7 +232,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     }
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth());
+                        livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
                     else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     livingEntity.igniteForSeconds(2.0F);
                 }
@@ -254,7 +254,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     }
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth());
+                        partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
                     else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                     partEntity.igniteForSeconds(2.0F);
                 }

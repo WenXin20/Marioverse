@@ -238,7 +238,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 } else {
                     if (this.getOwner() != null) {
                         if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                            player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth());
+                            player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth() * 1.25F);
                         else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     }
                     player.extinguishFire();
@@ -285,7 +285,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     }
                 } else if (this.getOwner() != null) {
                     if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth());
+                        livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
                     else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     livingEntity.extinguishFire();
 
@@ -319,7 +319,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     }
                 } else if (this.getOwner() != null) {
                     if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth());
+                        partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
                     else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                     partEntity.extinguishFire();
 
