@@ -92,7 +92,7 @@ public class ItemRegistry {
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
-                () -> new KoopaShellItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new KoopaShellItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
