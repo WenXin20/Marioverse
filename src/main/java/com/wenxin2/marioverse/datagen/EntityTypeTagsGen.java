@@ -93,6 +93,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CAN_BONK_BLOCKS)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
@@ -172,6 +173,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.SNOW_GOLEM);
 
         tag(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
@@ -186,6 +188,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);

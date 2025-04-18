@@ -106,9 +106,17 @@ public abstract class LivingEntityMixin extends Entity {
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
+        BlockPos posNorth = pos.north(Math.round(entity.getBbWidth()));
+        BlockPos posSouth = pos.south(Math.round(entity.getBbWidth()));
+        BlockPos posEast = pos.east(Math.round(entity.getBbWidth()));
+        BlockPos posWest = pos.west(Math.round(entity.getBbWidth()));
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
+        BlockState stateNorth = world.getBlockState(posNorth);
+        BlockState stateSouth = world.getBlockState(posSouth);
+        BlockState stateEast = world.getBlockState(posEast);
+        BlockState stateWest = world.getBlockState(posWest);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
         int checkpointCooldown = entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
@@ -180,20 +188,26 @@ public abstract class LivingEntityMixin extends Entity {
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && !entity.onGround() && deltaY > -0.079) {
-            marioverse$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
+            this.marioverse$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
+
+        this.marioverse$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079)
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        this.marioverse$shellBonkBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079)
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
+
+        this.marioiverse$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
         if (checkpointCooldown > 0)
             entity.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", checkpointCooldown - 1);
@@ -250,6 +264,119 @@ public abstract class LivingEntityMixin extends Entity {
 //            ScaleTypes.REACH.getScaleData(this).setTargetScale(5.0F);
 //            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
 //        }
+    }
+
+    @Unique
+    private void marioverse$shellSmashBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
+        if (stateNorth.is(TagRegistry.SMASHABLE_BLOCKS)
+                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && entity instanceof KoopaShellEntity shell
+                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
+                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+            Vec3 motion = shell.slidingDirection;
+
+            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
+            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+        }
+
+        if (stateSouth.is(TagRegistry.SMASHABLE_BLOCKS)
+                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && entity instanceof KoopaShellEntity shell
+                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
+                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+            Vec3 motion = shell.slidingDirection;
+
+            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
+            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+        }
+
+        if (stateEast.is(TagRegistry.SMASHABLE_BLOCKS)
+                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && entity instanceof KoopaShellEntity shell
+                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
+                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+            Vec3 motion = shell.slidingDirection;
+
+            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
+            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+        }
+
+        if (stateWest.is(TagRegistry.SMASHABLE_BLOCKS)
+                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && entity instanceof KoopaShellEntity shell
+                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
+                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+            Vec3 motion = shell.slidingDirection;
+
+            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
+            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+        }
+    }
+
+    @Unique
+    private void marioverse$shellBonkBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
+        if (stateNorth.is(TagRegistry.BONKABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                && entity instanceof KoopaShellEntity
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            if (stateNorth.hasProperty(QuestionBlock.EMPTY) && stateNorth.getValue(QuestionBlock.EMPTY))
+                world.playSound(null, posNorth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, posNorth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        if (stateSouth.is(TagRegistry.BONKABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                && entity instanceof KoopaShellEntity
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            if (stateSouth.hasProperty(QuestionBlock.EMPTY) && stateSouth.getValue(QuestionBlock.EMPTY))
+                world.playSound(null, posSouth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, posSouth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        if (stateEast.is(TagRegistry.BONKABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                && entity instanceof KoopaShellEntity
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            if (stateEast.hasProperty(QuestionBlock.EMPTY) && stateEast.getValue(QuestionBlock.EMPTY))
+                world.playSound(null, posEast, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, posEast, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        if (stateWest.is(TagRegistry.BONKABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                && entity instanceof KoopaShellEntity
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            if (stateWest.hasProperty(QuestionBlock.EMPTY) && stateWest.getValue(QuestionBlock.EMPTY))
+                world.playSound(null, posWest, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, posWest, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    @Unique
+    private void marioiverse$shellHitQuestionBlock(Level world, BlockPos posNorth, LivingEntity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
+        if (world.getBlockEntity(posNorth) instanceof QuestionBlockEntity questionBlockEntity
+                && entity instanceof KoopaShellEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            this.marioverse$hitQuestionBlock(world, posNorth, questionBlockEntity);
+
+        if (world.getBlockEntity(posSouth) instanceof QuestionBlockEntity questionBlockEntity
+                && entity instanceof KoopaShellEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            this.marioverse$hitQuestionBlock(world, posSouth, questionBlockEntity);
+
+        if (world.getBlockEntity(posEast) instanceof QuestionBlockEntity questionBlockEntity
+                && entity instanceof KoopaShellEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            this.marioverse$hitQuestionBlock(world, posEast, questionBlockEntity);
+
+        if (world.getBlockEntity(posWest) instanceof QuestionBlockEntity questionBlockEntity
+                && entity instanceof KoopaShellEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            this.marioverse$hitQuestionBlock(world, posWest, questionBlockEntity);
     }
 
     @Unique
