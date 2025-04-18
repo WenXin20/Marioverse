@@ -68,6 +68,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DecoratedPotBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -268,7 +269,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Unique
     private void marioverse$shellSmashBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
-        if (stateNorth.is(TagRegistry.SMASHABLE_BLOCKS)
+        if ((stateNorth.is(TagRegistry.SMASHABLE_BLOCKS) || stateNorth.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
@@ -280,38 +281,38 @@ public abstract class LivingEntityMixin extends Entity {
             shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
         }
 
-        if (stateSouth.is(TagRegistry.SMASHABLE_BLOCKS)
+        if ((stateSouth.is(TagRegistry.SMASHABLE_BLOCKS) || stateSouth.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
             Vec3 motion = shell.slidingDirection;
 
-            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            marioverse$smashBlock(world, posSouth, stateSouth, entity);
             shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
             shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
         }
 
-        if (stateEast.is(TagRegistry.SMASHABLE_BLOCKS)
+        if ((stateEast.is(TagRegistry.SMASHABLE_BLOCKS) || stateEast.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
             Vec3 motion = shell.slidingDirection;
 
-            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            marioverse$smashBlock(world, posEast, stateEast, entity);
             shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
             shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
         }
 
-        if (stateWest.is(TagRegistry.SMASHABLE_BLOCKS)
+        if ((stateWest.is(TagRegistry.SMASHABLE_BLOCKS) || stateWest.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
             Vec3 motion = shell.slidingDirection;
 
-            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            marioverse$smashBlock(world, posWest, stateWest, entity);
             shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
             shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
         }
@@ -1023,6 +1024,8 @@ public abstract class LivingEntityMixin extends Entity {
 
             if (state.is(BlockTags.CRYSTAL_SOUND_BLOCKS))
                 world.playSound(null, pos, SoundType.AMETHYST.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else if (state.getBlock() instanceof DecoratedPotBlock)
+                world.playSound(null, pos, SoundType.DECORATED_POT.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, pos, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             this.marioverse$dropCoin(world, pos, this);
         } else {
