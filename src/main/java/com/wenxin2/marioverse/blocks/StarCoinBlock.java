@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -112,48 +113,54 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         ItemStack coinItem = new ItemStack(this.asItem());
 
-        if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS)) {
-            QuadrantBlockStates quadrant = state.getValue(QUADRANT);
-            DoubleBlockHalf half = state.getValue(HALF);
-            BlockPos partPos = this.getPartPos(pos, quadrant, half);
-            boolean itemAdded = false;
+        if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null)
+            this.collectCoin(state, world, pos, koopaShell.getOwner(), coinItem);
+        else if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS))
+            this.collectCoin(state, world, pos, entity, coinItem);
+    }
 
-            world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
-            removeCoinPartsWithParticles(world, partPos, entity);
+    @Override
+    public void collectCoin(BlockState state, Level world, BlockPos pos, Entity entity, ItemStack coinItem) {
+        QuadrantBlockStates quadrant = state.getValue(QUADRANT);
+        DoubleBlockHalf half = state.getValue(HALF);
+        BlockPos partPos = this.getPartPos(pos, quadrant, half);
+        boolean itemAdded = false;
 
-            if (entity instanceof Player player) {
-                itemAdded = player.addItem(coinItem);
+        world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
+        removeCoinPartsWithParticles(world, partPos, entity);
 
-                if (!itemAdded)
-                    player.drop(coinItem, false);
-
-                if (state.is(BlockTags.GUARDED_BY_PIGLINS))
-                    PiglinAi.angerNearbyPiglins(player, false);
-            } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
-                livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
-                itemAdded = true;
-            } else if (entity instanceof InventoryCarrier carrier) {
-                SimpleContainer inventory = carrier.getInventory();
-                for (int i = 0; i < inventory.getContainerSize(); i++) {
-                    if (inventory.getItem(i).isEmpty()) {
-                        inventory.setItem(i, coinItem);
-                        itemAdded = true;
-                        break;
-                    }
-                }
-            } else if (entity instanceof Container container) {
-                for (int i = 0; i < container.getContainerSize(); i++) {
-                    if (container.getItem(i).isEmpty()) {
-                        container.setItem(i, coinItem);
-                        itemAdded = true;
-                        break;
-                    }
-                }
-            }
+        if (entity instanceof Player player) {
+            itemAdded = player.addItem(coinItem);
 
             if (!itemAdded)
-                entity.spawnAtLocation(coinItem);
+                player.drop(coinItem, false);
+
+            if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                PiglinAi.angerNearbyPiglins(player, false);
+        } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
+            livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
+            itemAdded = true;
+        } else if (entity instanceof InventoryCarrier carrier) {
+            SimpleContainer inventory = carrier.getInventory();
+            for (int i = 0; i < inventory.getContainerSize(); i++) {
+                if (inventory.getItem(i).isEmpty()) {
+                    inventory.setItem(i, coinItem);
+                    itemAdded = true;
+                    break;
+                }
+            }
+        } else if (entity instanceof Container container) {
+            for (int i = 0; i < container.getContainerSize(); i++) {
+                if (container.getItem(i).isEmpty()) {
+                    container.setItem(i, coinItem);
+                    itemAdded = true;
+                    break;
+                }
+            }
         }
+
+        if (!itemAdded)
+            entity.spawnAtLocation(coinItem);
     }
 
     @Override

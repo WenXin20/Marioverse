@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -93,48 +94,54 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         ItemStack coinItem = new ItemStack(this.asItem());
+
+        if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null)
+            this.collectCoin(state, world, pos, koopaShell.getOwner(), coinItem);
+        else if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS))
+            this.collectCoin(state, world, pos, entity, coinItem);
+    }
+
+    public void collectCoin(BlockState state, Level world, BlockPos pos, Entity entity, ItemStack coinItem) {
         boolean itemAdded = false;
 
-        if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS)) {
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
+        if (world instanceof ServerLevel serverWorld)
+            ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
 
-            world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
-            world.removeBlock(pos, false);
+        world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
+        world.removeBlock(pos, false);
 
-            if (entity instanceof Player player) {
-                itemAdded = player.addItem(coinItem);
-
-                if (!itemAdded)
-                    player.drop(coinItem, false);
-
-                if (state.is(BlockTags.GUARDED_BY_PIGLINS))
-                    PiglinAi.angerNearbyPiglins(player, false);
-            } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
-                livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
-                itemAdded = true;
-            } else if (entity instanceof InventoryCarrier carrier) {
-                SimpleContainer inventory = carrier.getInventory();
-                for (int i = 0; i < inventory.getContainerSize(); i++) {
-                    if (inventory.getItem(i).isEmpty()) {
-                        inventory.setItem(i, coinItem);
-                        itemAdded = true;
-                        break;
-                    }
-                }
-            } else if (entity instanceof Container container) {
-                for (int i = 0; i < container.getContainerSize(); i++) {
-                    if (container.getItem(i).isEmpty()) {
-                        container.setItem(i, coinItem);
-                        itemAdded = true;
-                        break;
-                    }
-                }
-            }
+        if (entity instanceof Player player) {
+            itemAdded = player.addItem(coinItem);
 
             if (!itemAdded)
-                entity.spawnAtLocation(coinItem);
+                player.drop(coinItem, false);
+
+            if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                PiglinAi.angerNearbyPiglins(player, false);
+        } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
+            livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
+            itemAdded = true;
+        } else if (entity instanceof InventoryCarrier carrier) {
+            SimpleContainer inventory = carrier.getInventory();
+            for (int i = 0; i < inventory.getContainerSize(); i++) {
+                if (inventory.getItem(i).isEmpty()) {
+                    inventory.setItem(i, coinItem);
+                    itemAdded = true;
+                    break;
+                }
+            }
+        } else if (entity instanceof Container container) {
+            for (int i = 0; i < container.getContainerSize(); i++) {
+                if (container.getItem(i).isEmpty()) {
+                    container.setItem(i, coinItem);
+                    itemAdded = true;
+                    break;
+                }
+            }
         }
+
+        if (!itemAdded)
+            entity.spawnAtLocation(coinItem);
     }
 
     @NotNull
