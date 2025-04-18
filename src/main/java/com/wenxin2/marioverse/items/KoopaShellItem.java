@@ -43,6 +43,7 @@ public class KoopaShellItem extends BasePowerUpItem {
 
             shell.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
             shell.setDeltaMovement(look.scale(speed));
+            shell.setOwner(player);
             world.addFreshEntity(shell);
         }
 

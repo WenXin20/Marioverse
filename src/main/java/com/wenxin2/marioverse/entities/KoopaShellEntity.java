@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -53,6 +54,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -262,14 +264,20 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
         float soundPitch = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+        ItemStack stack = player.getItemInHand(hand);
+        SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
 
         if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.REPAIRS_KOOPA_SHELLS)
                 && ConfigRegistry.REPAIR_KOOPA_SHELLS.get()) {
             stack.consume(1, player);
             this.bounceCount = Math.max(0, this.bounceCount - 25);;
             this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, soundPitch); //TODO Change sound
+            return InteractionResult.SUCCESS;
+        } else if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
+            player.setItemInHand(hand, new ItemStack(spawnEggItem));
+            player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
+            this.discard();
             return InteractionResult.SUCCESS;
         } else return InteractionResult.PASS;
     }
