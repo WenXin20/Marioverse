@@ -113,7 +113,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         ItemStack coinItem = new ItemStack(this.asItem());
 
-        if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null)
+        if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null
+                && koopaShell.getOwner().getType().is(TagRegistry.CAN_PICK_UP_COINS))
             this.collectCoin(state, world, pos, koopaShell.getOwner(), coinItem);
         else if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS))
             this.collectCoin(state, world, pos, entity, coinItem);
