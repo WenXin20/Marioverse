@@ -449,60 +449,52 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
     }
 
-    private void collideWithWall(Level world) {
+    public void collideWithWall(Level world) {
         if (!world.isClientSide) {
             AABB bb = this.getBoundingBox();
             Crackiness.Level crackinessLevel = this.getCrackiness();
 
             for (Direction dir : Direction.Plane.HORIZONTAL) {
-                AABB movedBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
-                BlockPos min = BlockPos.containing(movedBox.minX, movedBox.minY, movedBox.minZ);
-                BlockPos max = BlockPos.containing(movedBox.maxX, movedBox.maxY, movedBox.maxZ);
-                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+                Vec3 offset = new Vec3(dir.getStepX() * 0.5, 0.5, dir.getStepZ() * 0.5);
+                AABB movedBox = bb.move(offset);
+                BlockPos checkPos = BlockPos.containing(this.position().add(offset));
 
-                for (int x = min.getX(); x <= max.getX(); x++) {
-                    for (int y = min.getY(); y <= max.getY(); y++) {
-                        for (int z = min.getZ(); z <= max.getZ(); z++) {
-                            pos.set(x, y, z);
-                            BlockState state = world.getBlockState(pos);
-                            VoxelShape shape = state.getCollisionShape(world, pos);
+                BlockState state = world.getBlockState(checkPos);
+                VoxelShape shape = state.getCollisionShape(world, checkPos);
 
-                            if (!shape.isEmpty()) {
-                                AABB shapeBox = shape.bounds().move(pos);
+                if (!shape.isEmpty()) {
+                    AABB shapeBox = shape.bounds().move(checkPos);
+                    if (shapeBox.intersects(movedBox)) {
+                        Vec3 motion = this.slidingDirection;
+                        double maxHeight = shape.max(Direction.Axis.Y);
+                        double newX = motion.x;
+                        double newZ = motion.z;
 
-                                if (shapeBox.intersects(movedBox)) {
-                                    if (dir.getAxis() == Direction.Axis.X || dir.getAxis() == Direction.Axis.Z) {
-                                        Vec3 motion = this.slidingDirection;
-                                        double maxHeight = shape.max(Direction.Axis.Y);
-                                        double newX = motion.x;
-                                        double newZ = motion.z;
+                        if (dir.getAxis() == Direction.Axis.X)
+                            newX = -motion.x;
+                        if (dir.getAxis() == Direction.Axis.Z)
+                            newZ = -motion.z;
 
-                                        if (dir.getAxis() == Direction.Axis.X)
-                                            newX = -motion.x;
-                                        if (dir.getAxis() == Direction.Axis.Z)
-                                            newZ = -motion.z;
+                        if (maxHeight <= 0.5)
+                            continue;
 
-                                        if (maxHeight <= 0.5)
-                                            continue;
+                        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
+                        this.slidingDirection = new Vec3(newX, motion.y, newZ);
 
-                                        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
-                                        this.slidingDirection = new Vec3(newX, motion.y, newZ);
-
-                                        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
-                                        if (world instanceof ServerLevel serverWorld
-                                                && this.getDeltaMovement().horizontalDistance() > 0.25) {
-                                            serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
-                                                    3, 0.1, 0.1, 0.1, 0.0);
-                                            if (this.bounceCount != -1)
-                                                this.bounceCount++;
-                                        }
-
-                                        if (this.getCrackiness() != crackinessLevel)
-                                            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); //TODO
-                                    }
-                                }
-                            }
+                        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
+                        if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
+                            serverWorld.sendParticles(
+                                    ParticleTypes.CRIT,
+                                    hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
+                                    3, 0.1, 0.1, 0.1, 0.0
+                            );
+                            if (this.bounceCount != -1)
+                                this.bounceCount++;
                         }
+
+                        if (this.getCrackiness() != crackinessLevel)
+                            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
+                        break;
                     }
                 }
             }
