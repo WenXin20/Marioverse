@@ -107,10 +107,10 @@ public abstract class LivingEntityMixin extends Entity {
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posNorth = pos.north(Math.round(entity.getBbWidth()));
-        BlockPos posSouth = pos.south(Math.round(entity.getBbWidth()));
-        BlockPos posEast = pos.east(Math.round(entity.getBbWidth()));
-        BlockPos posWest = pos.west(Math.round(entity.getBbWidth()));
+        BlockPos posNorth = pos.north(Math.round(this.getBbWidth() + 0.1F));
+        BlockPos posSouth = pos.south(Math.round(this.getBbWidth() + 0.1F));
+        BlockPos posEast = pos.east(Math.round(this.getBbWidth() + 0.1F));
+        BlockPos posWest = pos.west(Math.round(this.getBbWidth() + 0.1F));
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
@@ -274,11 +274,8 @@ public abstract class LivingEntityMixin extends Entity {
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            Vec3 motion = shell.slidingDirection;
-
             marioverse$smashBlock(world, posNorth, stateNorth, entity);
-            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
-            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+            shell.bounceShell(world, Direction.NORTH);
         }
 
         if ((stateSouth.is(TagRegistry.SMASHABLE_BLOCKS) || stateSouth.getBlock() instanceof DecoratedPotBlock)
@@ -286,11 +283,8 @@ public abstract class LivingEntityMixin extends Entity {
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            Vec3 motion = shell.slidingDirection;
-
             marioverse$smashBlock(world, posSouth, stateSouth, entity);
-            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
-            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+            shell.bounceShell(world, Direction.SOUTH);
         }
 
         if ((stateEast.is(TagRegistry.SMASHABLE_BLOCKS) || stateEast.getBlock() instanceof DecoratedPotBlock)
@@ -298,11 +292,8 @@ public abstract class LivingEntityMixin extends Entity {
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            Vec3 motion = shell.slidingDirection;
-
             marioverse$smashBlock(world, posEast, stateEast, entity);
-            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
-            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+            shell.bounceShell(world, Direction.EAST);
         }
 
         if ((stateWest.is(TagRegistry.SMASHABLE_BLOCKS) || stateWest.getBlock() instanceof DecoratedPotBlock)
@@ -310,11 +301,8 @@ public abstract class LivingEntityMixin extends Entity {
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            Vec3 motion = shell.slidingDirection;
-
             marioverse$smashBlock(world, posWest, stateWest, entity);
-            shell.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
-            shell.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+            shell.bounceShell(world, Direction.WEST);
         }
     }
 
@@ -1019,7 +1007,7 @@ public abstract class LivingEntityMixin extends Entity {
                 world.levelEvent(2001, pos, Block.getId(state));
             } else if (state.getBlock() instanceof DecoratedPotBlock) {
                 world.setBlock(pos, state.setValue(DecoratedPotBlock.CRACKED, true), 4);
-                world.destroyBlock(pos, true);
+                world.destroyBlock(pos, true, entity);
             } else world.destroyBlock(pos, false);
 
             entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
