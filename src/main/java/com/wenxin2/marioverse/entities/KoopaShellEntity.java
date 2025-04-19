@@ -76,6 +76,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
+    public static final RawAnimation SPIN = RawAnimation.begin().thenLoop("move.spin");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -127,21 +128,20 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(DefaultAnimations.genericIdleController(this).transitionLength(0));
-        controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
+        controllers.add(new AnimationController<>(this, "spin", 1, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
-        if (!this.isHiding()) {
-            if (event.isMoving()) {
-                event.setAndContinue(WALK);
-                return PlayState.CONTINUE;
-            } else {
-                event.setAndContinue(IDLE);
-                return PlayState.CONTINUE;
-            }
-        } else return PlayState.CONTINUE;
+        if (this.getDeltaMovement().horizontalDistance() > 0) {
+            event.setAndContinue(SPIN);
+            return PlayState.CONTINUE;
+        } else {
+            event.setAndContinue(IDLE);
+            return PlayState.CONTINUE;
+        }
+//        return PlayState.CONTINUE;
     }
 
     public boolean isHiding() {
@@ -452,7 +452,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void collideWithWall(Level world) {
         if (!world.isClientSide) {
             AABB bb = this.getBoundingBox();
-            Crackiness.Level crackinessLevel = this.getCrackiness();
 
             for (Direction dir : Direction.Plane.HORIZONTAL) {
                 Vec3 offset = new Vec3(dir.getStepX() * 0.5, 0.5, dir.getStepZ() * 0.5);
@@ -465,40 +464,45 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 if (!shape.isEmpty()) {
                     AABB shapeBox = shape.bounds().move(checkPos);
                     if (shapeBox.intersects(movedBox)) {
-                        Vec3 motion = this.slidingDirection;
                         double maxHeight = shape.max(Direction.Axis.Y);
-                        double newX = motion.x;
-                        double newZ = motion.z;
-
-                        if (dir.getAxis() == Direction.Axis.X)
-                            newX = -motion.x;
-                        if (dir.getAxis() == Direction.Axis.Z)
-                            newZ = -motion.z;
 
                         if (maxHeight <= 0.5)
                             continue;
-
-                        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
-                        this.slidingDirection = new Vec3(newX, motion.y, newZ);
-
-                        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
-                        if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
-                            serverWorld.sendParticles(
-                                    ParticleTypes.CRIT,
-                                    hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
-                                    3, 0.1, 0.1, 0.1, 0.0
-                            );
-                            if (this.bounceCount != -1)
-                                this.bounceCount++;
-                        }
-
-                        if (this.getCrackiness() != crackinessLevel)
-                            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
+                        this.bounceShell(world, dir);
                         break;
                     }
                 }
             }
         }
+    }
+
+    public void bounceShell(Level world, Direction dir) {
+        Crackiness.Level crackinessLevel = this.getCrackiness();
+        Vec3 motion = this.slidingDirection;
+        double newX = motion.x;
+        double newZ = motion.z;
+
+        if (dir.getAxis() == Direction.Axis.X)
+            newX = -motion.x;
+        if (dir.getAxis() == Direction.Axis.Z)
+            newZ = -motion.z;
+
+        this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
+        this.slidingDirection = new Vec3(newX, motion.y, newZ);
+
+        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
+        if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
+            serverWorld.sendParticles(
+                    ParticleTypes.CRIT,
+                    hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
+                    3, 0.1, 0.1, 0.1, 0.0
+            );
+            if (this.bounceCount != -1)
+                this.bounceCount++;
+        }
+
+        if (this.getCrackiness() != crackinessLevel)
+            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
     }
 
     private void collideWithEntity() {
