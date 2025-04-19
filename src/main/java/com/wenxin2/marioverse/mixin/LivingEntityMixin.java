@@ -1017,6 +1017,9 @@ public abstract class LivingEntityMixin extends Entity {
                     entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
                 } else world.destroyBlock(pos, false);
                 world.levelEvent(2001, pos, Block.getId(state));
+            } else if (state.getBlock() instanceof DecoratedPotBlock) {
+                world.setBlock(pos, state.setValue(DecoratedPotBlock.CRACKED, true), 4);
+                world.destroyBlock(pos, true);
             } else world.destroyBlock(pos, false);
 
             entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
