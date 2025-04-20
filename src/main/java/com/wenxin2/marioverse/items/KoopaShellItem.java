@@ -37,18 +37,20 @@ public class KoopaShellItem extends BasePowerUpItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!world.isClientSide) {
-            KoopaShellEntity shell = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), world);
-            Vec3 look = player.getLookAngle();
-            double speed = 1.5;
+            EntityType<?> entityType = this.getType(stack);
+            Entity entity = entityType.create(world);
 
-            shell.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
-            shell.setDeltaMovement(look.scale(speed));
-            shell.setOwner(player);
-            world.addFreshEntity(shell);
+            if (entity instanceof KoopaShellEntity shell) {
+                Vec3 look = player.getLookAngle();
+                double speed = 1.5;
+
+                shell.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
+                shell.setDeltaMovement(look.scale(speed).x, shell.getDeltaMovement().y, look.scale(speed).y);
+                shell.setOwner(player);
+                world.addFreshEntity(shell);
+                stack.consume(1, player);
+            }
         }
-
-        stack.consume(1, player);
-
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
 }
