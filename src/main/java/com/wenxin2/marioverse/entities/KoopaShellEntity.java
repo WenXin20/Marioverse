@@ -211,7 +211,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.leftOwner = this.checkLeftOwner();
 
         if (this.bounceCount >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue())
-            this.remove(RemovalReason.KILLED);
+            this.kill();
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
@@ -491,11 +491,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
         if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
-            serverWorld.sendParticles(
-                    ParticleTypes.CRIT,
-                    hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
-                    3, 0.1, 0.1, 0.1, 0.0
-            );
+            serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
+                    3, 0.1, 0.1, 0.1, 0.0);
             if (this.bounceCount != -1)
                 this.bounceCount++;
         }
