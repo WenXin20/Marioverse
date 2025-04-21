@@ -14,6 +14,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -41,11 +43,19 @@ public class KoopaShellItem extends BasePowerUpItem {
             Entity entity = entityType.create(world);
 
             if (entity instanceof KoopaShellEntity shell) {
+                AttributeInstance gravityAttribute = shell.getAttribute(Attributes.GRAVITY);
                 Vec3 look = player.getLookAngle();
                 double speed = 1.5;
 
-                shell.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
-                shell.setDeltaMovement(look.scale(speed).x, shell.getDeltaMovement().y, look.scale(speed).y);
+                shell.setPos(player.getX(), player.getEyeY() - 0.6, player.getZ());
+
+                if (look.y >= 0.85) {
+                    shell.setDeltaMovement(0, 1.25, 0);
+                    if (gravityAttribute != null)
+                        gravityAttribute.setBaseValue(0.08D);
+                }
+                else shell.setDeltaMovement(look.scale(speed).x, shell.getDeltaMovement().y * 0.75, look.scale(speed).z);
+
                 shell.setOwner(player);
                 world.addFreshEntity(shell);
                 stack.consume(1, player);

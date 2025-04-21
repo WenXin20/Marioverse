@@ -17,7 +17,7 @@ public class KoopaShellModel extends GeoModel<KoopaShellEntity> {
 
     @Override
     public RenderType getRenderType(KoopaShellEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityTranslucent(getTextureResource(animatable));
     }
 
     @Override

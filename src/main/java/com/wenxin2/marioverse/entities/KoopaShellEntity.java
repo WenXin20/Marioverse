@@ -128,7 +128,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(DefaultAnimations.genericIdleController(this).transitionLength(0));
-        controllers.add(new AnimationController<>(this, "spin", 1, this::walkAnimation));
+        controllers.add(new AnimationController<>(this, "spin", 5, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
     }
@@ -141,7 +141,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             event.setAndContinue(IDLE);
             return PlayState.CONTINUE;
         }
-//        return PlayState.CONTINUE;
     }
 
     public boolean isHiding() {
