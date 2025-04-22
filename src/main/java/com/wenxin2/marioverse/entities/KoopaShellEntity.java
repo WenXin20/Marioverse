@@ -123,7 +123,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     protected void registerGoals() {
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers(KoopaTroopaEntity.class));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this).setAlertOthers(KoopaTroopaEntity.class));
     }
 
     @Override

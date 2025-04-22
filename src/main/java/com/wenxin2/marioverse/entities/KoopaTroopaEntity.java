@@ -51,10 +51,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -100,8 +102,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-        this.setPathfindingMalus(PathType.WATER, 2.0F);
-        this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
     }
 
     @Override
@@ -126,10 +126,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
     }
 
-    protected SoundEvent getBumpSound() {
-        return SoundRegistry.GOOMBA_BUMP.get();
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -138,11 +134,12 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
@@ -227,17 +224,6 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.spawnKoopaShell(this.getMaxHealth(), -1, -1, false, false);
 
         super.triggerOnDeathMobEffects(reason);
-    }
-
-    @Override
-    public void travel(Vec3 travelVector) {
-        if (this.isControlledByLocalInstance() && this.isInWater()) {
-            this.moveRelative(this.getSpeed(), travelVector);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
-        } else {
-            super.travel(travelVector);
-        }
     }
 
     @Override
