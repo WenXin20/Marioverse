@@ -92,6 +92,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.PIRANHA_PLANT.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, PiranhaPlantEntity::checkPiranhaPlantSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.GREEN_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
 
     @SubscribeEvent

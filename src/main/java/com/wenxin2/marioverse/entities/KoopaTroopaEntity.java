@@ -377,9 +377,8 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
-                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
-                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
+        return checkMonsterSpawnRules(entityType, serverWorld, spawnType, pos, random)
+                && (MobSpawnType.isSpawner(spawnType) || serverWorld.canSeeSky(pos));
     }
 
     @NotNull
