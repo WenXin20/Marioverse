@@ -32,7 +32,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
-    public static final DeferredItem<Item> KOOPA_SHOES;
+    public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_FIRE_HAT;
     public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
@@ -110,7 +110,7 @@ public class ItemRegistry {
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
-        KOOPA_SHOES = registerItem("koopa_shoes",
+        GREEN_KOOPA_SHOES = registerItem("green_koopa_shoes",
                 () -> new KoopaShoesItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 

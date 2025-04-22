@@ -8,7 +8,7 @@ import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> {
     private static final DefaultedItemGeoModel<KoopaShoesItem> KOOPA_SHOES =
-            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/koopa_shoes"));
+            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/green_koopa_shoes"));
 
     public KoopaShoesRenderer() {
         super(KOOPA_SHOES);
@@ -16,6 +16,6 @@ public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> {
 
     @Override
     public ResourceLocation getTextureLocation(KoopaShoesItem animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/koopa_shoes.png");
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/green_koopa_shoes.png");
     }
 }

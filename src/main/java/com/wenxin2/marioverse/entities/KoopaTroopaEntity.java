@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
-import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -44,7 +43,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -322,7 +320,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         if (random.nextFloat() < 0.25F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
         else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ItemRegistry.KOOPA_SHOES.get()));
+            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ItemRegistry.GREEN_KOOPA_SHOES.get()));
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
