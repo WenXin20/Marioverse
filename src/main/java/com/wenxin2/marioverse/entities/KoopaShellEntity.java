@@ -75,6 +75,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEntity, TraceableEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
+    public static final RawAnimation FLIP = RawAnimation.begin().thenPlayAndHold("misc.flip");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation SPIN = RawAnimation.begin().thenLoop("move.spin");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
@@ -131,6 +132,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         controllers.add(new AnimationController<>(this, "spin", 5, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
+        controllers.add(new AnimationController<>(this, "flip_controller", 5, state -> PlayState.CONTINUE)
+                .triggerableAnim("flip", FLIP));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
@@ -286,6 +289,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         BlockPos posBelow = this.blockPosition().below();
         BlockState stateBelow = world.getBlockState(posBelow);
 
+        if (source.is(DamageTypeRegistry.BONKED) || source.is(DamageTypeRegistry.PLAYER_BONKED)
+                || source.is(DamageTypeRegistry.SHRAPNEL) || source.is(DamageTypeRegistry.PLAYER_SHRAPNEL))
+            this.triggerAnim("flip_controller", "flip");
+
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
             if (this.slidingDirection != Vec3.ZERO) {
                 this.setXxa(0.0F);
@@ -297,6 +304,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         if (!source.is(DamageTypeRegistry.STOMP) && !source.is(DamageTypeRegistry.PLAYER_STOMP)
+                && !source.is(DamageTypeRegistry.BONKED) && !source.is(DamageTypeRegistry.PLAYER_BONKED)
+                && !source.is(DamageTypeRegistry.SHRAPNEL) && !source.is(DamageTypeRegistry.PLAYER_SHRAPNEL)
                 || this.slidingDirection == Vec3.ZERO) {
             float friction = stateBelow.getFriction(world, posBelow, this);
             double slideSpeed;

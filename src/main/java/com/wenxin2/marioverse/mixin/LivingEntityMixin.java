@@ -1034,9 +1034,15 @@ public abstract class LivingEntityMixin extends Entity {
             for (Entity entityAbove : entitiesAbove) {
                 if (entityAbove instanceof LivingEntity livingEntity && livingEntity.onGround()) {
                     entityAbove.setDeltaMovement(entityAbove.getDeltaMovement().add(0, 0.5, 0));
-                    if (world.getBlockState(pos).getBlock() instanceof QuestionBlock)
-                        livingEntity.hurt(DamageTypeRegistry.bonked(livingEntity, attackingEntity), 4.0F);
-                    else livingEntity.hurt(DamageTypeRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
+                    if (world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
+                        if (livingEntity instanceof KoopaShellEntity)
+                            livingEntity.hurt(DamageTypeRegistry.bonked(livingEntity, attackingEntity), 0.0F);
+                        else livingEntity.hurt(DamageTypeRegistry.bonked(livingEntity, attackingEntity), 4.0F);
+                    } else {
+                        if (livingEntity instanceof KoopaShellEntity)
+                            livingEntity.hurt(DamageTypeRegistry.shrapnel(livingEntity, attackingEntity), 0.0F);
+                        else livingEntity.hurt(DamageTypeRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
+                    }
                 }
             }
         }

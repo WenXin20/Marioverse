@@ -259,7 +259,6 @@
 		},
 		"misc.idle": {
 			"loop": true,
-			"animation_length": 4,
 			"bones": {
 				"bipedLeftArm": {
 					"scale": {
@@ -276,7 +275,7 @@
 						"vector": [45, 0, 0]
 					},
 					"position": {
-						"vector": [0, -8.5, -4.7]
+						"vector": [0, -8, -5]
 					}
 				},
 				"tail": {
@@ -315,7 +314,7 @@
 						"vector": [45, 0, 0]
 					},
 					"position": {
-						"vector": [0, -8.5, -4.7]
+						"vector": [0, -8, -5]
 					}
 				},
 				"shell": {
@@ -361,6 +360,85 @@
 				"trail": {
 					"scale": {
 						"vector": [1, 1, 1]
+					}
+				}
+			}
+		},
+		"misc.flip": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 0.6,
+			"bones": {
+				"bipedLeftArm": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedRightArm": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"root": {
+					"rotation": {
+						"vector": [45, 0, 0]
+					},
+					"position": {
+						"vector": [0, -8, -5]
+					}
+				},
+				"tail": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedHeadBaseRotater": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedLeftLeg": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedRightLeg": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"trail": {
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"shell_rotation": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.36": {
+							"vector": [-180, 0, 0]
+						},
+						"0.44": {
+							"vector": [-187.5, 0, 0]
+						},
+						"0.52": {
+							"vector": [-172.5, 0, 0]
+						},
+						"0.6": {
+							"vector": [-180, 0, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.2": {
+							"vector": [0, 3, 3]
+						},
+						"0.36": {
+							"vector": [0, 0, 0]
+						}
 					}
 				}
 			}
