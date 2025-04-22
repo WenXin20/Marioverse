@@ -129,11 +129,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(DefaultAnimations.genericIdleController(this).transitionLength(0));
+        controllers.add(new AnimationController<>(this, "flip_controller", 5, state -> PlayState.CONTINUE)
+                .triggerableAnim("flip", FLIP));
         controllers.add(new AnimationController<>(this, "spin", 5, this::walkAnimation));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
-        controllers.add(new AnimationController<>(this, "flip_controller", 5, state -> PlayState.CONTINUE)
-                .triggerableAnim("flip", FLIP));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
