@@ -97,6 +97,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PEACH_ICE_DRESS);
             add(event, ItemRegistry.PEACH_ICE_SHOES);
 
+            add(event, ItemRegistry.KOOPA_SHOES);
+
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN);
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN);
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD);
@@ -400,6 +402,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PEACH_FIRE_SHOES, ItemRegistry.PEACH_ICE_BODICE);
                 addAfter(event, ItemRegistry.PEACH_ICE_BODICE, ItemRegistry.PEACH_ICE_DRESS);
                 addAfter(event, ItemRegistry.PEACH_ICE_DRESS, ItemRegistry.PEACH_ICE_SHOES);
+
+                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.KOOPA_SHOES);
             }
 
             if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {

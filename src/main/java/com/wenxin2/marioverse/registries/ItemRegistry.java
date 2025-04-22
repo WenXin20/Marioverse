@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
+import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -31,6 +32,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> KOOPA_SHOES;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_FIRE_HAT;
     public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
@@ -107,6 +109,10 @@ public class ItemRegistry {
                 CharacterSmithingTemplateItem::createFireUpgradeTemplate);
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
+
+        KOOPA_SHOES = registerItem("koopa_shoes",
+                () -> new KoopaShoesItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         MARIO_HAT = registerItem("mario_hat",
                 () -> new CostumeItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
