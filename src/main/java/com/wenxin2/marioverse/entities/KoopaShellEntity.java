@@ -204,7 +204,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.tick();
         Vec3 motion = this.getDeltaMovement();
 
-        if (motion.horizontalDistance() > 0.0001)
+        if (motion.horizontalDistance() > 0.1)
             this.spawnSprintParticle();
 
         if (!this.leftOwner)
@@ -246,8 +246,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.setDeltaMovement(Vec3.ZERO);
                 this.slidingDirection = Vec3.ZERO;
             } else {
-                this.setDeltaMovement(slideMotion);
-                this.slidingDirection = slideMotion;
+                this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+                this.slidingDirection = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
             }
         }
 
@@ -287,14 +287,17 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         BlockState stateBelow = world.getBlockState(posBelow);
 
         if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
-            this.setXxa(0.0F);
-            this.setSpeed(0.0F);
-            this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
-            this.slidingDirection = Vec3.ZERO;
-            this.isSliding = false;
+            if (this.slidingDirection != Vec3.ZERO) {
+                this.setXxa(0.0F);
+                this.setSpeed(0.0F);
+                this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
+                this.slidingDirection = new Vec3(0, this.getDeltaMovement().y, 0);
+                this.isSliding = false;
+            }
         }
 
-        if (!source.is(DamageTypeRegistry.STOMP) && !source.is(DamageTypeRegistry.PLAYER_STOMP)) {
+        if (!source.is(DamageTypeRegistry.STOMP) && !source.is(DamageTypeRegistry.PLAYER_STOMP)
+                || this.slidingDirection == Vec3.ZERO) {
             float friction = stateBelow.getFriction(world, posBelow, this);
             double slideSpeed;
 
@@ -315,9 +318,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             Vec3 movement = slideDirection.scale(slideSpeed);
 
             if (!isNoAi()) {
-                this.setDeltaMovement(movement);
+                this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
                 this.isSliding = true;
-                this.slidingDirection = movement;
+                this.slidingDirection = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
                 this.setOwner(source.getEntity());
             }
         }

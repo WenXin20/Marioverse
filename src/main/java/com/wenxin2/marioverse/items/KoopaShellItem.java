@@ -44,17 +44,19 @@ public class KoopaShellItem extends BasePowerUpItem {
 
             if (entity instanceof KoopaShellEntity shell) {
                 AttributeInstance gravityAttribute = shell.getAttribute(Attributes.GRAVITY);
-                Vec3 look = player.getLookAngle();
                 double speed = 1.5;
+                double spawnDistance = 1.0;
+                Vec3 look = player.getLookAngle();
+                Vec3 spawnPos = player.position()
+                        .add(look.x * spawnDistance, player.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
 
-                shell.setPos(player.getX(), player.getEyeY() - 0.6, player.getZ());
+                shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
-                if (look.y >= 0.85) {
-                    shell.setDeltaMovement(0, 1.25, 0);
+                if (look.y >= 0.9) {
+                    shell.setDeltaMovement(look.x * speed, 1.25, look.z * speed);
                     if (gravityAttribute != null)
                         gravityAttribute.setBaseValue(0.08D);
-                }
-                else shell.setDeltaMovement(look.scale(speed).x, shell.getDeltaMovement().y * 0.75, look.scale(speed).z);
+                } else shell.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
 
                 shell.setOwner(player);
                 world.addFreshEntity(shell);
