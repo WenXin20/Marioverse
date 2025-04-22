@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -23,8 +24,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class CostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public CostumeItem(Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
-        super(armorMaterial, armorType, properties);
+    public CostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
+        super(repairIngredient, armorMaterial, armorType, properties);
     }
 
     @Override
