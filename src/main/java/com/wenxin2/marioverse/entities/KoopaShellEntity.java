@@ -528,7 +528,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         for (Entity entity : collidingEntities) {
             if (speed >= 0.1) {
                 if (entity instanceof LivingEntity livingEntity
-                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) {
+                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
                     ItemStack shield = livingEntity.getUseItem();
                     Vec3 toShell = this.position().subtract(livingEntity.position()).normalize();
                     Vec3 look = livingEntity.getLookAngle().normalize();
