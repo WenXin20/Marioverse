@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -38,8 +39,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -147,18 +150,23 @@ public class MarioverseEventHandlers {
                     || ConfigRegistry.TELEPORT_NON_MOBS.get())
             tag.putInt("marioverse:warp_cooldown", 0);
 
-        if (entity instanceof Mob mob && !(mob instanceof FireGoombaEntity) && !(mob instanceof KoopaShellEntity)) {
-            if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+        if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)) {
+            if (!(mob instanceof FireGoombaEntity)) {
+                if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                         || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
-                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
-                        0, true));
+                    mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
+                            0, true));
+                }
+
+                if ((entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                        || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
+                    mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
+                            0, true));
+                }
             }
 
-            if ((entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                        || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
-                mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
-                        0, true));
-            }
+            if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
+                mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
         }
     }
 
