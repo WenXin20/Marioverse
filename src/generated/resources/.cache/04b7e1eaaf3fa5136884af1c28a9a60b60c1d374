@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-22T21:13:59.8049178	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-04-22T21:41:10.9852557	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -49,7 +49,8 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 696b597d91f6761a77afd6fdbf6d71a401d9598e data/marioverse/tags/item/hats/mario.json
 5f317cfa93abea37163b270cfb665d9d85ab4b4e data/marioverse/tags/item/hats/peach.json
 65750363cfa50864bb55d2f480ac59ca544c477b data/marioverse/tags/item/invisible_question_blocks.json
-8123a418659ea8261a133345589a8d06625da0dc data/marioverse/tags/item/koopa_shells.json
+f2e80ef65ee703e4511f8cd19913e8fa45c2e8d7 data/marioverse/tags/item/koopa_shells.json
+e261a8f3aa445c8cd2d51d3954ca2defb4de5f7b data/marioverse/tags/item/koopa_shoes.json
 2abab234b9fe82a01874f77c9b38ca91e743e391 data/marioverse/tags/item/pants.json
 f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json
@@ -65,7 +66,7 @@ e5b31b8a26f745500e72dfe9d9b64bd0174ecb2d data/marioverse/tags/item/shirts.json
 c33b72b8f76cd856cb92c99c1457e78c952b1a1c data/marioverse/tags/item/shirts/luigi.json
 352f108de1578b00b641b4360a062926b293516e data/marioverse/tags/item/shirts/mario.json
 c28ef4e40bbb1dde0245e1c892ece536538c1e1c data/marioverse/tags/item/shirts/peach.json
-13d7f9814a23cd7dcbc776961af20a91e88eaff3 data/marioverse/tags/item/shoes.json
+a05cc29212ae2e2227f13eba12872340d48b1052 data/marioverse/tags/item/shoes.json
 7b599ee038c3fd3bbd1e971d1d1ea49366880e63 data/marioverse/tags/item/shoes/luigi.json
 698bfbe8e60344466fe2ed94b09b5997c325e4c1 data/marioverse/tags/item/shoes/mario.json
 6847a635b87905a9021d4641ea58248ed8367a69 data/marioverse/tags/item/shoes/peach.json
