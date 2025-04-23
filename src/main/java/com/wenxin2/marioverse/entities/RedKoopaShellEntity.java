@@ -99,7 +99,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         // TODO: Target vehicle entites, and hurt rider
         // TODO: Mobs run from shells
 
-        List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(10));
+        List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(10, 3, 10));
         for (Player player : players) {
             if (!player.isSpectator() && player.isAlive()
                     && !player.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)
