@@ -82,7 +82,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    private final Set<UUID> entityCollided = new HashSet<>();
+    public final Set<UUID> entityCollided = new HashSet<>();
     public Vec3 slidingDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
@@ -519,7 +519,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
     }
 
-    private void collideWithEntity() {
+    public void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
         double speed = this.getDeltaMovement().horizontalDistance();
