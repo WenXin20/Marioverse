@@ -132,6 +132,17 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F)
                 .add(Attributes.STEP_HEIGHT, 0.5F);
+        AttributeSupplier.Builder redKoopaShellAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.2F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.GRAVITY, 0.8F)
+                .add(Attributes.FOLLOW_RANGE, 8.0F)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0F)
+                .add(Attributes.MAX_HEALTH, 8)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F)
+                .add(Attributes.STEP_HEIGHT, 1.0F);
         AttributeSupplier.Builder piranhaPlantAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 5.0F)
                 .add(Attributes.JUMP_STRENGTH, 0.0F)
@@ -157,7 +168,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), koopaAttributes.build());
-        event.put(EntityRegistry.RED_KOOPA_SHELL.get(), koopaShellAttributes.build());
+        event.put(EntityRegistry.RED_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
 
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
