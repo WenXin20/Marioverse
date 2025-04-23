@@ -409,7 +409,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
-        tag(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK);
+        tag(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES);
 
         tag(TagRegistry.MEGA_GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)

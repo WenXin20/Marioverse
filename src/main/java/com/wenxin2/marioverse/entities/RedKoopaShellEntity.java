@@ -98,6 +98,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         // TODO: Fix shulkers not targeted
         // TODO: Target vehicle entites, and hurt rider
         // TODO: Mobs run from shells
+        // TODO: Fix jumping on red koopa & shoes
 
         List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(10, 3, 10));
         for (Player player : players) {
