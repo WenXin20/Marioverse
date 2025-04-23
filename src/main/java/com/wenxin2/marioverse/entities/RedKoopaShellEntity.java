@@ -95,7 +95,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         double closestDistance = Double.MAX_VALUE;
         double speed = this.getDeltaMovement().horizontalDistance();
 
-        // TODO: Add blacklist tag
+        // TODO: Fix shulkers not targeted
+        // TODO: Target vehicle entites, and hurt rider
+        // TODO: Mobs run from shells
 
         List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(10));
         for (Player player : players) {
