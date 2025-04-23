@@ -373,6 +373,8 @@
   "entity.marioverse.mega_goomba": "Mega Goomba",
   "entity.marioverse.mini_goomba": "Mini Goomba",
   "entity.marioverse.piranha_plant": "Piranha Plant",
+  "entity.marioverse.red_koopa_shell": "Red Koopa Shell",
+  "entity.marioverse.red_koopa_troopa": "Red Koopa Troopa",
 
   "item.marioverse.bowser_banner_pattern": "Banner Pattern",
   "item.marioverse.bowser_banner_pattern.desc": "§cKing Bowser",
@@ -396,6 +398,7 @@
   "item.marioverse.fire_costume_smithing_template": "Fire Costume Smithing Template",
 
   "item.marioverse.green_koopa_shoes": "Green Koopa Shoes",
+  "item.marioverse.red_koopa_shoes": "Red Koopa Shoes",
 
   "item.marioverse.mario_hat": "Mario's Hat",
   "item.marioverse.mario_pants": "Mario's Pants",

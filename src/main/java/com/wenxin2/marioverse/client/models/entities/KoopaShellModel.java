@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.registries.EntityRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.animation.AnimationState;
@@ -27,7 +28,9 @@ public class KoopaShellModel extends GeoModel<KoopaShellEntity> {
 
     @Override
     public ResourceLocation getTextureResource(KoopaShellEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa.png");
+        if (animatable.getType() == EntityRegistry.RED_KOOPA_SHELL.get())
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/red_koopa_troopa.png");
+        else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa.png");
     }
 
     @Override
@@ -38,7 +41,6 @@ public class KoopaShellModel extends GeoModel<KoopaShellEntity> {
     @Override
     public void setCustomAnimations(KoopaShellEntity animatable, long instanceId, AnimationState<KoopaShellEntity> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
-
         GeoBone head = this.getAnimationProcessor().getBone("bipedHeadBaseRotater");
 
         if (head != null) {

@@ -62,6 +62,7 @@ public class MarioverseClient {
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
@@ -155,6 +156,8 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.MEGA_GOOMBA.get(), MegaGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MINI_GOOMBA.get(), MiniGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.PIRANHA_PLANT.get(), PiranhaPlantRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.RED_KOOPA_SHELL.get(), KoopaShellRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.RED_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
     }
 
     @SubscribeEvent
@@ -197,6 +200,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }

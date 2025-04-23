@@ -44,6 +44,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> INVISIBLE_WEATHERED_COPPER_QUESTION;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> POWERED_UP;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ONE_UP;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RED_KOOPA_SHELL_SHATTER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUPER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WONDERFUL;
 
@@ -86,6 +87,7 @@ public class ParticleRegistry {
         INVISIBLE_WEATHERED_COPPER_QUESTION = Marioverse.PARTICLES.register("invisible_weathered_copper_question", () -> new SimpleParticleType(false));
         POWERED_UP = Marioverse.PARTICLES.register("powered_up", () -> new SimpleParticleType(false));
         ONE_UP = Marioverse.PARTICLES.register("one_up", () -> new SimpleParticleType(false));
+        RED_KOOPA_SHELL_SHATTER = Marioverse.PARTICLES.register("red_koopa_shell_shatter", () -> new SimpleParticleType(false));
         SUPER = Marioverse.PARTICLES.register("super", () -> new SimpleParticleType(false));
         WONDERFUL = Marioverse.PARTICLES.register("wonderful", () -> new SimpleParticleType(false));
     }

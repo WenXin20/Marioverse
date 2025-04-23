@@ -50,6 +50,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.SUPER_STAR);
 
             add(event, ItemRegistry.GREEN_KOOPA_SHELL);
+            add(event, ItemRegistry.RED_KOOPA_SHELL);
 
             add(event, ItemRegistry.WARP_DISRUPTOR);
             add(event, ItemRegistry.WRENCH);
@@ -98,6 +99,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PEACH_ICE_SHOES);
 
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
+            add(event, ItemRegistry.RED_KOOPA_SHOES);
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN);
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN);
@@ -110,6 +112,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
+            add(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
         }
 
@@ -365,6 +368,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.FIRE_FLOWER, ItemRegistry.ICE_FLOWER);
                 addAfter(event, ItemRegistry.ICE_FLOWER, ItemRegistry.SUPER_STAR);
                 addAfter(event, ItemRegistry.SUPER_STAR, ItemRegistry.GREEN_KOOPA_SHELL);
+                addAfter(event, ItemRegistry.GREEN_KOOPA_SHELL, ItemRegistry.RED_KOOPA_SHELL);
 
                 addAfter(event, Items.TURTLE_HELMET, ItemRegistry.MARIO_HAT);
                 addAfter(event, ItemRegistry.MARIO_HAT, ItemRegistry.MARIO_SHIRT);
@@ -404,6 +408,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PEACH_ICE_DRESS, ItemRegistry.PEACH_ICE_SHOES);
 
                 addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.GREEN_KOOPA_SHOES);
+                addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
             }
 
             if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
@@ -449,7 +454,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
-                addAfter(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+                addAfter(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
+                addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {

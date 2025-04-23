@@ -11,6 +11,8 @@ import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.RedKoopaShellEntity;
+import com.wenxin2.marioverse.entities.RedKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -77,6 +79,12 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
             Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
                     .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
+    public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
+            Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.MONSTER)
+                    .sized(0.7F, 0.7F).eyeHeight(0.6F).build("red_koopa_shell"));
+    public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA =
+            Marioverse.ENTITIES.register("red_koopa_troopa", () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
+                    .sized(1.0F, 1.65F).eyeHeight(1.4F).build("red_koopa_troopa"));
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
@@ -93,6 +101,8 @@ public class EntityRegistry {
         event.register(EntityRegistry.PIRANHA_PLANT.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, PiranhaPlantEntity::checkPiranhaPlantSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GREEN_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.RED_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
 
@@ -147,6 +157,9 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), koopaAttributes.build());
+        event.put(EntityRegistry.RED_KOOPA_SHELL.get(), koopaShellAttributes.build());
+        event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
+
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
 
         event.put(EntityRegistry.FIRE_GOOMBA.get(), PathfinderMob.createMobAttributes()

@@ -21,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -352,7 +353,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             float scaleFactor = height * width * 1.2F;
             int numParticles = (int) (scaleFactor * 10);
             for (int i = 0; i < numParticles; ++i)
-                ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get(), serverWorld,
+                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
                         this, height * 1.55F + 0.1F, width * 1.55F);
         }
         super.die(source);
@@ -414,6 +415,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.restoreFrom(entity);
         if (entity instanceof KoopaShellEntity shell)
             this.cachedOwner = shell.cachedOwner;
+    }
+
+    @NotNull
+    public SimpleParticleType getShatterParticle() {
+        return ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get();
     }
 
     protected boolean ownedBy(Entity entity) {

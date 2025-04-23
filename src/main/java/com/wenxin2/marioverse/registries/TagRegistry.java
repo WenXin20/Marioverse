@@ -83,6 +83,7 @@ public class TagRegistry {
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
+    public static final TagKey<Item> KOOPA_SHOES = itemTags("koopa_shells");
     public static final TagKey<Item> REPAIRS_KOOPA_SHELLS = itemTags("repairs_koopa_shells");
     public static final TagKey<Item> LUIGI_COSTUMES = itemTags("costumes/luigi");;
     public static final TagKey<Item> LUIGI_FIRE_COSTUMES = itemTags("costumes/fire/luigi");
@@ -169,6 +170,9 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
+    public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CANNOT_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
+    public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");
+    public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
     public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN = entityTypeTags("warp_pipe_cannot_spawn");
 

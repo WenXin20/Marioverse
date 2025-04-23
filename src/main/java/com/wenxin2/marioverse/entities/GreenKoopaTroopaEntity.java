@@ -1,24 +1,13 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
-import com.wenxin2.marioverse.registries.AttributesRegistry;
-import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.EntityRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
 
@@ -30,8 +19,6 @@ public class GreenKoopaTroopaEntity extends KoopaTroopaEntity implements Neutral
     public GreenKoopaTroopaEntity(EntityType<? extends GreenKoopaTroopaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-        this.setPathfindingMalus(PathType.WATER, 2.0F);
-        this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
     }
 
     @Override

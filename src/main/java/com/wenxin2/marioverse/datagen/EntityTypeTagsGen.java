@@ -52,7 +52,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
                 .add(EntityRegistry.BOUNCING_ICE_BALL.get())
-                .add(EntityRegistry.GREEN_KOOPA_SHELL.get());
+                .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
+                .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
@@ -382,10 +383,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.KOOPA_SHELL_ENTITIES)
-                .add(EntityRegistry.GREEN_KOOPA_SHELL.get());
+                .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
+                .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
         tag(TagRegistry.KOOPA_TROOPA_ENTITIES)
-                .add(EntityRegistry.GREEN_KOOPA_TROOPA.get());
+                .add(EntityRegistry.GREEN_KOOPA_TROOPA.get())
+                .add(EntityRegistry.RED_KOOPA_TROOPA.get());
 
         tag(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
@@ -394,6 +397,19 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK);
+
+        tag(TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.PIRANHA_PLANT.get());
+
+        tag(TagRegistry.RED_KOOPA_TROOPA_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
+
+        tag(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK);
 
         tag(TagRegistry.MEGA_GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)

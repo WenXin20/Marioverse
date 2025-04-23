@@ -38,11 +38,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHELL.get());
+        this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.ICE_FLOWER.get());
-        this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.LUIGI_HAT.get());
         this.basicItem(ItemRegistry.LUIGI_PANTS.get());
@@ -87,6 +87,9 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
+        this.basicItem(ItemRegistry.RED_KOOPA_SHELL.get());
+        this.basicItem(ItemRegistry.RED_KOOPA_SHOES.get());
+        this.basicItem(ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
 
         this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem());

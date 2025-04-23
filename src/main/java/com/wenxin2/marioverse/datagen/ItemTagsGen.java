@@ -93,13 +93,23 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.WEAPON_ENCHANTABLE)
                 .add(ItemRegistry.WRENCH.get());
 
-        tag(ItemTags.CHEST_ARMOR).addTag(TagRegistry.SHIRTS);
-
-        tag(ItemTags.FOOT_ARMOR).addTag(TagRegistry.SHOES);
+        tag(TagRegistry.CHARMS).add(ItemRegistry.ONE_UP_MUSHROOM.get());
 
         tag(ItemTags.HEAD_ARMOR).addTag(TagRegistry.HATS);
 
+        tag(ItemTags.CHEST_ARMOR).addTag(TagRegistry.SHIRTS);
+
         tag(ItemTags.LEG_ARMOR).addTag(TagRegistry.PANTS);
+
+        tag(ItemTags.FOOT_ARMOR).addTag(TagRegistry.SHOES);
+
+        tag(TagRegistry.COSTUME_HAT).addTag(TagRegistry.HATS);
+
+        tag(TagRegistry.COSTUME_SHIRT).addTag(TagRegistry.SHIRTS);
+
+        tag(TagRegistry.COSTUME_PANTS).addTag(TagRegistry.PANTS);
+
+        tag(TagRegistry.COSTUME_SHOES).addTag(TagRegistry.SHOES);
 
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
                 .add(ItemRegistry.WRENCH.get());
@@ -112,7 +122,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.TURTLE_SCUTE);
 
         tag(TagRegistry.KOOPA_SHELL_ITEMS)
-                .add(ItemRegistry.GREEN_KOOPA_SHELL.get());
+                .add(ItemRegistry.GREEN_KOOPA_SHELL.get())
+                .add(ItemRegistry.RED_KOOPA_SHELL.get());
+
+        tag(TagRegistry.KOOPA_SHOES)
+                .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
+                .add(ItemRegistry.RED_KOOPA_SHOES.get());
 
         tag(TagRegistry.COSTUMES)
                 .addTag(TagRegistry.LUIGI_COSTUMES)
@@ -157,6 +172,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(TagRegistry.PEACH_SHIRTS);
 
         tag(TagRegistry.SHOES)
+                .addTag(TagRegistry.KOOPA_SHOES)
                 .addTag(TagRegistry.LUIGI_SHOES)
                 .addTag(TagRegistry.MARIO_SHOES)
                 .addTag(TagRegistry.PEACH_SHOES);

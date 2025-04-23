@@ -32,11 +32,11 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GREEN_KOOPA_SHELL;
+    public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
     public static final DeferredItem<Item> GREEN_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
-    public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_FIRE_HAT;
     public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
@@ -78,12 +78,15 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PEACH_ICE_DRESS;
     public static final DeferredItem<Item> PEACH_ICE_SHOES;
     public static final DeferredItem<Item> PEACH_SHOES;
-    public static final DeferredItem<Item> WRENCH;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
+    public static final DeferredItem<Item> RED_KOOPA_SHELL;
+    public static final DeferredItem<Item> RED_KOOPA_SHOES;
+    public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
+    public static final DeferredItem<Item> WRENCH;
 
     static {
         WRENCH = registerItem("wrench",
@@ -99,6 +102,8 @@ public class ItemRegistry {
 
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
                 () -> new KoopaShellItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+        RED_KOOPA_SHELL = registerItem("red_koopa_shell",
+                () -> new KoopaShellItem(EntityRegistry.RED_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
@@ -115,6 +120,9 @@ public class ItemRegistry {
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
         GREEN_KOOPA_SHOES = registerItem("green_koopa_shoes",
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        RED_KOOPA_SHOES = registerItem("red_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
@@ -253,6 +261,8 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
                 () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {
