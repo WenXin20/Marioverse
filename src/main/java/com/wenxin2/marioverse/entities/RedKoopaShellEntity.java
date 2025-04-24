@@ -47,32 +47,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     public void tick() {
         super.tick();
         this.targetEntity();
-
-        if (!spinningVehicles.isEmpty() && this.level() instanceof ServerLevel serverWorld) {
-            Iterator<Map.Entry<UUID, Integer>> iterator = spinningVehicles.entrySet().iterator();
-
-            while (iterator.hasNext()) {
-                Map.Entry<UUID, Integer> entry = iterator.next();
-                UUID uuid = entry.getKey();
-                int ticks = entry.getValue();
-                float degreesPerTick = 25F; // 360° / 8 ticks = 45° per tick
-                int totalSpinTicks = 20;
-
-                Entity vehicle = serverWorld.getEntity(uuid);
-                if (vehicle != null) {
-                    // Spin 360 over 20 ticks (1 second) — 18 degrees per tick
-                    float newYaw = vehicle.getYRot() + degreesPerTick;
-                    vehicle.yRotO = newYaw;
-                    vehicle.setYRot(newYaw);
-                    vehicle.setYHeadRot(newYaw);
-                    vehicle.setYBodyRot(newYaw);
-
-                    entry.setValue(ticks + 1);
-                    if (ticks + 1 >= totalSpinTicks)
-                        iterator.remove();
-                } else iterator.remove();
-            }
-        }
+        this.rotateVehicle();
     }
 
     @NotNull
@@ -182,6 +157,34 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
             this.setDeltaMovement(newVelocity.x, this.getDeltaMovement().y, newVelocity.z);
             this.slidingDirection = new Vec3(newVelocity.x, this.getDeltaMovement().y, newVelocity.z);
             this.setYRot((float) (Mth.atan2(-newVelocity.x, newVelocity.z) * (180F / Math.PI)));
+        }
+    }
+
+    private void rotateVehicle() {
+        if (!spinningVehicles.isEmpty() && this.level() instanceof ServerLevel serverWorld) {
+            Iterator<Map.Entry<UUID, Integer>> iterator = spinningVehicles.entrySet().iterator();
+
+            while (iterator.hasNext()) {
+                Map.Entry<UUID, Integer> entry = iterator.next();
+                UUID uuid = entry.getKey();
+                int ticks = entry.getValue();
+                float degreesPerTick = 25F; // 360° / 8 ticks = 45° per tick
+                int totalSpinTicks = 40;
+
+                Entity vehicle = serverWorld.getEntity(uuid);
+                if (vehicle != null) {
+                    // Spin 360 over 20 ticks (1 second) — 18 degrees per tick
+                    float newYaw = vehicle.getYRot() + degreesPerTick;
+                    vehicle.yRotO = newYaw;
+                    vehicle.setYRot(newYaw);
+                    vehicle.setYHeadRot(newYaw);
+                    vehicle.setYBodyRot(newYaw);
+
+                    entry.setValue(ticks + 1);
+                    if (ticks + 1 >= totalSpinTicks)
+                        iterator.remove();
+                } else iterator.remove();
+            }
         }
     }
 }
