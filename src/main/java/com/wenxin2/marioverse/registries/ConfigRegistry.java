@@ -33,12 +33,14 @@ public class ConfigRegistry
 
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
 
+    public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_KOOPA_SHELL = "koopa_shell";
     public static final String CATEGORY_KOOPA_TROOPA = "koopa_troopa";
-    public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
-    public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
+    public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
+    public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
+    public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
 
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_ICE_FLOWER = "ice_flower";
@@ -149,6 +151,9 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
+    public static ModConfigSpec.IntValue RED_KOOPA_SHELL_MOB_DETECTION_RADIUS;
+    public static ModConfigSpec.IntValue RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS;
+    public static ModConfigSpec.IntValue RED_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
@@ -471,6 +476,22 @@ public class ConfigRegistry
                             .comment("Duration koopa troopas hide in their shells in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("koopa_troopa_hide_duration", 100, 0, 999);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
+                    RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
+                            .comment("Mob detection radius of red koopa shells.§b")
+                            .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
+                    RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_player_detection_radius")
+                            .comment("Player detection radius of red koopa shells.§b")
+                            .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_RED_KOOPA_TROOPA);
+                    RED_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.red_koopa_troopa_hide_duration")
+                            .comment("Duration red koopa troopas hide in their shells in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("red_koopa_troopa_hide_duration", 140, 0, 999);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_HEFTY_GOOMBA);

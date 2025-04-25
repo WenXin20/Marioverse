@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -61,6 +62,16 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     @Override
     public KoopaTroopaEntity getKoopaTroopaEntity() {
         return new RedKoopaTroopaEntity(EntityRegistry.RED_KOOPA_TROOPA.get(), this.level());
+    }
+
+    @NotNull
+    public Integer getMobDetectionRadius() {
+        return ConfigRegistry.RED_KOOPA_SHELL_MOB_DETECTION_RADIUS.get();
+    }
+
+    @NotNull
+    public Integer getPlayerDetectionRadius() {
+        return ConfigRegistry.RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS.get();
     }
 
     @Override
@@ -139,10 +150,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
 
         // TODO: Fix shulkers not targeted
         // TODO: Fix jumping on red koopa & shoes
-        // TODO: Config for detection range
 
-        List<Player> players = this.level().getEntitiesOfClass(Player.class,
-                this.getBoundingBox().inflate(10, 3, 10));
+        List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox()
+                .inflate(this.getPlayerDetectionRadius(), 3, this.getPlayerDetectionRadius()));
         for (Player player : players) {
             if (!player.isSpectator() && player.isAlive()
                     && !player.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)
@@ -157,8 +167,8 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         }
 
         if (target == null) {
-            List<Monster> monsters = this.level().getEntitiesOfClass(Monster.class,
-                    this.getBoundingBox().inflate(10, 3, 10));
+            List<Monster> monsters = this.level().getEntitiesOfClass(Monster.class, this.getBoundingBox()
+                    .inflate(this.getMobDetectionRadius(), 3, this.getMobDetectionRadius()));
             for (Monster monster : monsters) {
                 if (monster.isAlive() && !monster.is(this)
                         && !monster.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {

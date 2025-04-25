@@ -48,4 +48,10 @@ public class RedKoopaTroopaEntity extends KoopaTroopaEntity {
     public Item getKoopaShoes() {
         return ItemRegistry.RED_KOOPA_SHOES.get();
     }
+
+    @NotNull
+    @Override
+    public Integer getHideDuration() {
+        return ConfigRegistry.RED_KOOPA_TROOPA_HIDE_DURATION.get();
+    }
 }

@@ -726,12 +726,14 @@
 
   "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
-  "marioverse.configuration.koopa_shell": "Koopa Shell",
-  "marioverse.configuration.koopa_troopa": "Koopa Troopa",
+  "marioverse.configuration.koopa_shell": "All Koopa Shells",
+  "marioverse.configuration.koopa_troopa": "All Koopa Troopas",
   "marioverse.configuration.hefty_goomba": "Hefty Goomba",
   "marioverse.configuration.mega_goomba": "Mega Goomba",
   "marioverse.configuration.mini_goomba": "Mini Goomba",
   "marioverse.configuration.piranha_plant": "Piranha Plant",
+  "marioverse.configuration.red_koopa_shell": "Red Koopa Shell",
+  "marioverse.configuration.red_koopa_troopa": "Red Koopa Troopa",
 
   "marioverse.configuration.fire_flower": "Fire Flower",
   "marioverse.configuration.ice_flower": "Ice Flower",
@@ -814,6 +816,9 @@
   "configuration.marioverse.question_remove_items": "Activate by Right-Click",
   "configuration.marioverse.question_spawns_mobs": "Spawn Mobs",
   "configuration.marioverse.question_spawns_power_ups": "Spawn Power Ups",
+  "configuration.marioverse.red_koopa_shell_mob_detection_radius": "Mob Detection Radius",
+  "configuration.marioverse.red_koopa_shell_player_detection_radius": "Player Detection Radius",
+  "configuration.marioverse.red_koopa_troopa_hide_duration": "Hide Duration",
   "configuration.marioverse.redstone_opens_question": "Activate with Redstone",
   "configuration.marioverse.render_one_up_charm": "Render 1-Up Charm",
   "configuration.marioverse.repair_koopa_shells": "Repair Shells",

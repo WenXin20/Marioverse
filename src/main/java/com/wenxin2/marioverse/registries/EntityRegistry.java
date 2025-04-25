@@ -116,7 +116,7 @@ public class EntityRegistry {
         AttributeSupplier.Builder koopaAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
-                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 0.6F)
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
