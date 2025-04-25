@@ -226,23 +226,26 @@
 						}
 					},
 					"position": {
+						"0.0": {
+							"vector": [0, -8, -5]
+						},
 						"0.75": {
-							"vector": [0, -8.5, -4.7]
+							"vector": [0, -8, -5]
 						},
 						"0.8333": {
-							"vector": [0, 6.5, -4.7],
+							"vector": [0, 7, -5],
 							"easing": "linear"
 						},
 						"1.125": {
-							"vector": [0, -2, -4.7],
+							"vector": [0, -2, -5],
 							"easing": "linear"
 						},
 						"1.2917": {
-							"vector": [0, -2, -4.7],
+							"vector": [0, -2, -5],
 							"easing": "linear"
 						},
 						"1.5": {
-							"vector": [0, -2, -4.7],
+							"vector": [0, -2, -5],
 							"easing": "linear"
 						},
 						"1.625": {
