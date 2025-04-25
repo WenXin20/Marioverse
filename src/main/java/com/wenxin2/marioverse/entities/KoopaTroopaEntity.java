@@ -60,6 +60,7 @@ import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
@@ -191,7 +192,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
         if (!this.level().isClientSide && hideAnimationTicks > 0) {
             hideAnimationTicks--;
-            this.spawnKoopaShell(this.getHealth(), ConfigRegistry.KOOPA_TROOPA_HIDE_DURATION.get(), 0, true, true);
+            this.spawnKoopaShell(this.getHealth(), this.getHideDuration(), 0, true, true);
         }
     }
 
@@ -208,7 +209,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
-            this.hideTicks = ConfigRegistry.KOOPA_TROOPA_HIDE_DURATION.get();
+            this.hideTicks = this.getHideDuration();
             this.hideAnimationTicks = 15;
             this.triggerAnim("hide_controller", "hide");
         }
@@ -320,7 +321,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         if (random.nextFloat() < 0.25F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
         else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(ItemRegistry.GREEN_KOOPA_SHOES.get()));
+            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localdate = LocalDate.now();
@@ -449,9 +450,24 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         }
     }
 
+    @NotNull
+    public KoopaShellEntity getKoopaShellEntity() {
+        return new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
+    }
+
+    @NotNull
+    public Item getKoopaShoes() {
+        return ItemRegistry.GREEN_KOOPA_SHOES.get();
+    }
+
+    @NotNull
+    public Integer getHideDuration() {
+        return ConfigRegistry.KOOPA_TROOPA_HIDE_DURATION.get();
+    }
+
     public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
         if (hideAnimationTicks == 0) {
-            KoopaShellEntity entity = new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
+            KoopaShellEntity entity = this.getKoopaShellEntity();
 
             entity.setHideTicks(hideTicks);
             entity.setPos(this.getX(), this.getY(), this.getZ());

@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -11,8 +14,10 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
+import org.jetbrains.annotations.NotNull;
 
 public class RedKoopaTroopaEntity extends KoopaTroopaEntity {
     public RedKoopaTroopaEntity(EntityType<? extends RedKoopaTroopaEntity> type, Level world) {
@@ -30,5 +35,17 @@ public class RedKoopaTroopaEntity extends KoopaTroopaEntity {
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.RED_KOOPA_TROOPA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+    }
+
+    @NotNull
+    @Override
+    public KoopaShellEntity getKoopaShellEntity() {
+        return new KoopaShellEntity(EntityRegistry.RED_KOOPA_SHELL.get(), this.level());
+    }
+
+    @NotNull
+    @Override
+    public Item getKoopaShoes() {
+        return ItemRegistry.RED_KOOPA_SHOES.get();
     }
 }

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.HashSet;
@@ -54,6 +55,12 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     @Override
     public SimpleParticleType getShatterParticle() {
         return ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get();
+    }
+
+    @NotNull
+    @Override
+    public KoopaTroopaEntity getKoopaTroopaEntity() {
+        return new KoopaTroopaEntity(EntityRegistry.RED_KOOPA_TROOPA.get(), this.level());
     }
 
     @Override

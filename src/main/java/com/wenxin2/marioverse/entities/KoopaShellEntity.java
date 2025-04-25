@@ -422,6 +422,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get();
     }
 
+    @NotNull
+    public KoopaTroopaEntity getKoopaTroopaEntity() {
+        return new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
+    }
+
     protected boolean ownedBy(Entity entity) {
         return entity.getUUID().equals(this.ownerUUID);
     }
@@ -566,7 +571,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     private void spawnKoopaTroopa() {
-        KoopaTroopaEntity entity = new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
+        KoopaTroopaEntity entity = this.getKoopaTroopaEntity();
 
         entity.setPos(this.getX(), this.getY(), this.getZ());
         entity.setYRot(this.getYRot());
