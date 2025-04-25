@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
+import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -34,6 +35,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -51,8 +53,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
@@ -427,6 +431,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
     }
 
+    public TagKey<EntityType<?>> getInstakillEntityTag() {
+        return TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL;
+    }
+
     protected boolean ownedBy(Entity entity) {
         return entity.getUUID().equals(this.ownerUUID);
     }
@@ -532,36 +540,36 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         for (Entity entity : collidingEntities) {
             if (speed >= 0.1) {
-                if (entity instanceof LivingEntity livingEntity
-                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
-                    ItemStack shield = livingEntity.getUseItem();
-                    Vec3 toShell = this.position().subtract(livingEntity.position()).normalize();
-                    Vec3 look = livingEntity.getLookAngle().normalize();
-                    double dot = toShell.dot(look);
+                if (entity instanceof VehicleEntity vehicle) {
+                    vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
+                    this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
 
-                    UUID id = livingEntity.getUUID();
-                    newCollisions.add(id);
-                    if (entityCollided.contains(id)) continue;
+                    for (Entity rider : vehicle.getPassengers()) {
 
-                    if (livingEntity.isBlocking() && dot > 0.25) {
-                        this.deflect(entity, livingEntity, true);
-                        shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                        this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                                SoundSource.NEUTRAL, 1.0F, 1.0F);
-                        continue;
+                        if (rider instanceof LivingEntity livingEntity) {
+                            float shellDamage = livingEntity.getType().is(this.getInstakillEntityTag())
+                                    ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
+
+                            if (this.getOwner() != null)
+                                livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), shellDamage);
+                            else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), shellDamage);
+                        }
                     }
+                }
 
-                    float shellDamage = livingEntity.getType().is(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
-                            ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
+                if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
+                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
+                    this.damageEntity(livingEntity, newCollisions, speed);
+                }
 
-                    if (this.getOwner() != null)
-                        livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), shellDamage);
-                    else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), shellDamage);
-                    if (this.level() instanceof ServerLevel serverWorld)
-                        serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
-                                3, 0.1, 0.1, 0.1, 0.0);
-                    if (entity instanceof KoopaShellEntity)
-                        this.kill();
+                if (entity instanceof EnderDragonPart part && part.isAlive()
+                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
+                    this.damageEntity(part.parentMob, newCollisions, speed);
+                }
+
+                if (entity instanceof PiranhaPlantPart part && part.isAlive()
+                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
+                    this.damageEntity(part.parentMob, newCollisions, speed);
                 }
             }
         }
@@ -628,6 +636,41 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             toAttr.setBaseValue(fromAttr.getBaseValue());
             for (AttributeModifier modifier : fromAttr.getModifiers())
                 toAttr.addPermanentModifier(modifier);
+        }
+    }
+
+    public void damageEntity(LivingEntity entity, Set<UUID> newCollisions, double speed) {
+        ItemStack shield = entity.getUseItem();
+        Vec3 toShell = this.position().subtract(entity.position()).normalize();
+        Vec3 look = entity.getLookAngle().normalize();
+        double dot = toShell.dot(look);
+
+        UUID id = entity.getUUID();
+        newCollisions.add(id);
+        if (!entityCollided.contains(id)) {
+            if (entity.isBlocking() && dot > 0.25) {
+                this.deflect(entity, this.getOwner(), true);
+                shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
+                this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        SoundSource.NEUTRAL, 1.0F, 1.0F);
+            }
+
+            float shellDamage = entity.getType().is(this.getInstakillEntityTag())
+                    ? entity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
+
+            if (this.getOwner() != null)
+                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
+            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
+            if (this.level() instanceof ServerLevel serverWorld)
+                serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
+                        3, 0.1, 0.1, 0.1, 0.0);
+
+            if (entity.isPassenger() && entity.getVehicle() != null) {
+                Entity vehicle = entity.getVehicle();
+                vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
+            }
+
+            this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
         }
     }
 }
