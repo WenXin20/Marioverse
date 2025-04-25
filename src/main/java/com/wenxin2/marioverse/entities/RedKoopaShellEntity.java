@@ -84,60 +84,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         return ConfigRegistry.RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS.get();
     }
 
-//    @Override
-//    public void collideWithEntity() {
-//        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
-//        List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
-//        double speed = this.getDeltaMovement().horizontalDistance();
-//        Set<UUID> newCollisions = new HashSet<>();
-//
-//        for (Entity entity : collidingEntities) {
-//            if (speed >= 0.1) {
-//                if (entity instanceof VehicleEntity vehicle) {
-//                    vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
-//                    this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
-//
-//                    for (Entity rider : vehicle.getPassengers()) {
-//
-//                        if (rider instanceof LivingEntity livingEntity) {
-//                            float shellDamage = livingEntity.getType().is(this.getInstakillEntityTag())
-//                                    ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
-//
-//                            if (this.getOwner() != null)
-//                                livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), shellDamage);
-//                            else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), shellDamage);
-//                        }
-//                    }
-//                }
-//
-//                if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
-//                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
-//                    this.damageEntity(entity, livingEntity, newCollisions, speed);
-//                }
-//
-//                if (entity instanceof EnderDragonPart part && part.isAlive()
-//                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
-//                    this.damageEntity(entity, part.parentMob, newCollisions, speed);
-//                }
-//
-//                if (entity instanceof PiranhaPlantPart part && part.isAlive()
-//                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
-//                    this.damageEntity(entity, part.parentMob, newCollisions, speed);
-//                }
-//            }
-//        }
-//
-//        entityCollided.retainAll(newCollisions);
-//        entityCollided.addAll(newCollisions);
-//    }
-
     public void targetEntity() {
         Entity target = null;
         double closestDistance = Double.MAX_VALUE;
         double speed = this.getDeltaMovement().horizontalDistance();
-
-        // TODO: Fix shulkers not targeted
-
+        
         List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox()
                 .inflate(this.getPlayerDetectionRadius(), 3, this.getPlayerDetectionRadius()));
         for (Player player : players) {
