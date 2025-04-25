@@ -61,6 +61,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
@@ -167,6 +168,20 @@ public class MarioverseEventHandlers {
 
             if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
                 mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
+        }
+    }
+
+    @SubscribeEvent
+    public static void entityTick(EntityTickEvent.Post event) {
+        Entity entity = event.getEntity();
+        int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
+
+        if (entity.isVehicle() && spinningTicks > 0) {
+            entity.setYRot(entity.getYRot() + 30);
+            entity.getPersistentData().putInt("marioverse:spinning_ticks", spinningTicks - 1);
+
+            for (Entity rider : entity.getPassengers())
+                rider.setYHeadRot(rider.getYHeadRot() + 30);
         }
     }
 
@@ -440,7 +455,6 @@ public class MarioverseEventHandlers {
             }
         }
     }
-
 
     @SubscribeEvent
     public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {

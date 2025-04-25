@@ -3,11 +3,8 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.particles.ParticleTypes;
@@ -32,8 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEntity, GeoEntity, TraceableEntity {
-    private final Map<UUID, Integer> spinningVehicles = new HashMap<>();
-
     public RedKoopaShellEntity(EntityType<? extends RedKoopaShellEntity> type, Level world) {
         super(type, world);
     }
@@ -47,7 +42,12 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     public void tick() {
         super.tick();
         this.targetEntity();
-        this.rotateVehicle();
+
+        int ticksToDie = this.getPersistentData().getInt("marioverse:ticks_to_die");
+
+        if (ticksToDie > 1)
+            this.getPersistentData().putInt("marioverse:ticks_to_die", ticksToDie - 1);
+        else if (ticksToDie == 1) this.kill();
     }
 
     @NotNull
@@ -58,14 +58,31 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
 
     @Override
     public void collideWithEntity() {
-        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
+        AABB collisionBox = this.getBoundingBox().inflate(0.1, 0, 0.1);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
         double speed = this.getDeltaMovement().horizontalDistance();
         Set<UUID> newCollisions = new HashSet<>();
 
         for (Entity entity : collidingEntities) {
-            if (speed >= 0.1) {
-                if (entity instanceof LivingEntity livingEntity
+            if (speed >= 0.0) {
+                if (entity instanceof VehicleEntity vehicle) {
+                    vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
+                    this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
+
+                    for (Entity rider : vehicle.getPassengers()) {
+
+                        if (rider instanceof LivingEntity livingEntity) {
+                            float shellDamage = livingEntity.getType().is(TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL)
+                                    ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
+
+                            if (this.getOwner() != null)
+                                livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), shellDamage);
+                            else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), shellDamage);
+                        }
+                    }
+                }
+
+                if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
                         && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
                     ItemStack shield = livingEntity.getUseItem();
                     Vec3 toShell = this.position().subtract(livingEntity.position()).normalize();
@@ -75,11 +92,6 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                     UUID id = livingEntity.getUUID();
                     newCollisions.add(id);
                     if (entityCollided.contains(id)) continue;
-
-                    if (livingEntity.isPassenger() && livingEntity.getVehicle() != null) {
-                        Entity vehicle = livingEntity.getVehicle();
-                        spinningVehicles.put(vehicle.getUUID(), 0);
-                    }
 
                     if (livingEntity.isBlocking() && dot > 0.25) {
                         this.deflect(entity, livingEntity, true);
@@ -98,11 +110,14 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                     if (this.level() instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
                                 3, 0.1, 0.1, 0.1, 0.0);
-                    this.kill();
-                }
 
-                if (entity instanceof VehicleEntity)
-                    this.kill();
+                    if (livingEntity.isPassenger() && livingEntity.getVehicle() != null) {
+                        Entity vehicle = livingEntity.getVehicle();
+                        vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
+                    }
+
+                    this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
+                }
             }
         }
 
@@ -116,10 +131,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         double speed = this.getDeltaMovement().horizontalDistance();
 
         // TODO: Fix shulkers not targeted
-        // TODO: Target vehicle entites, and hurt rider
         // TODO: Fix jumping on red koopa & shoes
+        // TODO: Config for detection range
 
-        List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(10, 3, 10));
+        List<Player> players = this.level().getEntitiesOfClass(Player.class,
+                this.getBoundingBox().inflate(10, 3, 10));
         for (Player player : players) {
             if (!player.isSpectator() && player.isAlive()
                     && !player.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)
@@ -134,7 +150,8 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         }
 
         if (target == null) {
-            List<Monster> monsters = this.level().getEntitiesOfClass(Monster.class, this.getBoundingBox().inflate(10));
+            List<Monster> monsters = this.level().getEntitiesOfClass(Monster.class,
+                    this.getBoundingBox().inflate(10, 3, 10));
             for (Monster monster : monsters) {
                 if (monster.isAlive() && !monster.is(this)
                         && !monster.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
@@ -157,34 +174,6 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
             this.setDeltaMovement(newVelocity.x, this.getDeltaMovement().y, newVelocity.z);
             this.slidingDirection = new Vec3(newVelocity.x, this.getDeltaMovement().y, newVelocity.z);
             this.setYRot((float) (Mth.atan2(-newVelocity.x, newVelocity.z) * (180F / Math.PI)));
-        }
-    }
-
-    private void rotateVehicle() {
-        if (!spinningVehicles.isEmpty() && this.level() instanceof ServerLevel serverWorld) {
-            Iterator<Map.Entry<UUID, Integer>> iterator = spinningVehicles.entrySet().iterator();
-
-            while (iterator.hasNext()) {
-                Map.Entry<UUID, Integer> entry = iterator.next();
-                UUID uuid = entry.getKey();
-                int ticks = entry.getValue();
-                float degreesPerTick = 25F; // 360° / 8 ticks = 45° per tick
-                int totalSpinTicks = 40;
-
-                Entity vehicle = serverWorld.getEntity(uuid);
-                if (vehicle != null) {
-                    // Spin 360 over 20 ticks (1 second) — 18 degrees per tick
-                    float newYaw = vehicle.getYRot() + degreesPerTick;
-                    vehicle.yRotO = newYaw;
-                    vehicle.setYRot(newYaw);
-                    vehicle.setYHeadRot(newYaw);
-                    vehicle.setYBodyRot(newYaw);
-
-                    entry.setValue(ticks + 1);
-                    if (ticks + 1 >= totalSpinTicks)
-                        iterator.remove();
-                } else iterator.remove();
-            }
         }
     }
 }
