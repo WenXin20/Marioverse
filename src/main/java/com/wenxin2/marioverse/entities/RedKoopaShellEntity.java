@@ -21,6 +21,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
@@ -149,7 +150,6 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         double speed = this.getDeltaMovement().horizontalDistance();
 
         // TODO: Fix shulkers not targeted
-        // TODO: Fix jumping on red koopa & shoes
 
         List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox()
                 .inflate(this.getPlayerDetectionRadius(), 3, this.getPlayerDetectionRadius()));
@@ -176,6 +176,21 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                     if (dist < closestDistance) {
                         closestDistance = dist;
                         target = monster;
+                    }
+                }
+            }
+        }
+
+        if (target == null) {
+            List<Shulker> shulkers = this.level().getEntitiesOfClass(Shulker.class, this.getBoundingBox()
+                    .inflate(this.getMobDetectionRadius(), 3, this.getMobDetectionRadius()));
+            for (Shulker shulker : shulkers) {
+                if (shulker.isAlive() && !shulker.isClosed() && !shulker.is(this)
+                        && !shulker.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
+                    double dist = this.distanceToSqr(shulker);
+                    if (dist < closestDistance) {
+                        closestDistance = dist;
+                        target = shulker;
                     }
                 }
             }
