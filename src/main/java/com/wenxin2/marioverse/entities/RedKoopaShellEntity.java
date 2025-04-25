@@ -60,7 +60,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     @NotNull
     @Override
     public KoopaTroopaEntity getKoopaTroopaEntity() {
-        return new KoopaTroopaEntity(EntityRegistry.RED_KOOPA_TROOPA.get(), this.level());
+        return new RedKoopaTroopaEntity(EntityRegistry.RED_KOOPA_TROOPA.get(), this.level());
     }
 
     @Override

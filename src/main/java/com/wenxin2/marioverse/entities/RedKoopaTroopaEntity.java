@@ -40,7 +40,7 @@ public class RedKoopaTroopaEntity extends KoopaTroopaEntity {
     @NotNull
     @Override
     public KoopaShellEntity getKoopaShellEntity() {
-        return new KoopaShellEntity(EntityRegistry.RED_KOOPA_SHELL.get(), this.level());
+        return new RedKoopaShellEntity(EntityRegistry.RED_KOOPA_SHELL.get(), this.level());
     }
 
     @NotNull
