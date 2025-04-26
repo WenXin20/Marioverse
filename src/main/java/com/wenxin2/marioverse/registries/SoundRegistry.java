@@ -5,8 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class
-SoundRegistry {
+public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_BUTTON_CLICK_OFF;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_BUTTON_CLICK_ON;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_OFF;
