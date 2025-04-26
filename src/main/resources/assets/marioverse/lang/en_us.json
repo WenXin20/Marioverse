@@ -585,6 +585,11 @@
   "subtitles.marioverse.entity.hefty_goomba_run": "Hefty Goomba runs",
   "subtitles.marioverse.entity.hefty_goomba_step": "Footsteps",
   "subtitles.marioverse.entity.hefty_goomba_stomp": "Hefty Goomba dies",
+  "subtitles.marioverse.entity.koopa_shell_stomp": "Koopa Shell kicked",
+  "subtitles.marioverse.entity.koopa_troopa_ambient": "Koopa Troopa squeaks",
+  "subtitles.marioverse.entity.koopa_troopa_hurt": "Koopa Troopa hurts",
+  "subtitles.marioverse.entity.koopa_troopa_death": "Koopa Troopa dies",
+  "subtitles.marioverse.entity.koopa_troopa_stomp": "Koopa Troopa stomped",
   "subtitles.marioverse.entity.mega_goomba_bump": "Mega Goomba bumped",
   "subtitles.marioverse.entity.mega_goomba_hurt": "Mega Goomba hurts",
   "subtitles.marioverse.entity.mega_goomba_run": "Mega Goomba runs",
@@ -605,6 +610,8 @@
 
   "subtitles.marioverse.player.fireball_thrown": "Fireball thrown",
   "subtitles.marioverse.player.ice_ball_thrown": "Ice Ball thrown",
+  "subtitles.marioverse.player.koopa_shell_thrown": "Koopa Shell thrown",
+  "subtitles.marioverse.player.koopa_shell_thrown_up": "Koopa Shell thrown",
   "subtitles.marioverse.player.one_up_collected": "1-Up collected",
   "subtitles.marioverse.player.player_powers_up": "Player powers up",
 

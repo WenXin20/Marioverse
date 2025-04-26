@@ -130,6 +130,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
+        super.playStepSound(pos, state);
     }
 
     protected SoundEvent getBumpSound() {

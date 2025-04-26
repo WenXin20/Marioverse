@@ -30,6 +30,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
@@ -78,7 +79,10 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
+        SoundType soundtype = state.getSoundType(this.level(), pos, this);
+
         this.playSound(SoundRegistry.MINI_GOOMBA_STEP.get(), 1.0F, 1.0F);
+        this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
     }
 
     @Override

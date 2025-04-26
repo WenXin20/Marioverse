@@ -36,7 +36,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -108,23 +107,17 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.GOOMBA_HURT.get();
+        return SoundRegistry.KOOPA_SHELL_STOMP.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.GOOMBA_STOMP.get();
+        return SoundRegistry.KOOPA_SHELL_STOMP.get();
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
-    }
-
-    protected SoundEvent getBumpSound() {
-        return SoundRegistry.GOOMBA_BUMP.get();
-    }
+    protected void playStepSound(BlockPos pos, BlockState state) {}
 
     @Override
     protected void registerGoals() {

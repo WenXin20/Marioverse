@@ -28,6 +28,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -111,18 +112,19 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.GOOMBA_HURT.get();
+        return SoundRegistry.KOOPA_TROOPA_HURT.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.GOOMBA_STOMP.get();
+        return SoundRegistry.KOOPA_TROOPA_DEATH.get();
     }
 
+    @Nullable
     @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
+    protected SoundEvent getAmbientSound() {
+        return SoundRegistry.KOOPA_TROOPA_AMBIENT.get();
     }
 
     @Override
@@ -212,6 +214,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.hideTicks = this.getHideDuration();
             this.hideAnimationTicks = 15;
             this.triggerAnim("hide_controller", "hide");
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.KOOPA_TROOPA_STOMP.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
         }
         return super.hurt(source, amount);
     }
