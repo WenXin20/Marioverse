@@ -212,6 +212,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.tick();
         Vec3 motion = this.getDeltaMovement();
 
+        int ticksToDie = this.getPersistentData().getInt("marioverse:ticks_to_die");
+
+        if (ticksToDie > 1)
+            this.getPersistentData().putInt("marioverse:ticks_to_die", ticksToDie - 1);
+        else if (ticksToDie == 1) this.kill();
+
         if (motion.horizontalDistance() > 0.1)
             this.spawnSprintParticle();
 
