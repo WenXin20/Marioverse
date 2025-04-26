@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-23T00:07:16.2639714	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-04-26T16:19:08.9133315	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -43,6 +43,7 @@ bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/ice_cu
 625690e7f0906f65b2ab2ac5c87b6c7cfccf82b5 data/marioverse/tags/entity_type/ice_cube_shatters_instantly.json
 9112bcb2e2168d8be5a3937e76f5085a48bded65 data/marioverse/tags/entity_type/ice_cube_shatter_cannot_damage.json
 f2e80ef65ee703e4511f8cd19913e8fa45c2e8d7 data/marioverse/tags/entity_type/koopa_shells.json
+bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/koopa_shell_cannot_damage.json
 85c6db9c77941d9660cd1f24dd76db75486968b4 data/marioverse/tags/entity_type/koopa_troopas.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/mega_goomba_can_attack.json
 356b72e2f51a90488e678a398239976817b59b46 data/marioverse/tags/entity_type/mini_goomba_can_attach.json

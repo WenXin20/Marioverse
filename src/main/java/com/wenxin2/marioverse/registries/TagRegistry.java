@@ -163,8 +163,9 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> ICE_CUBE_COLLISION_CANNOT_DAMAGE = entityTypeTags("ice_cube_collision_cannot_damage");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
-    public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
+    public static final TagKey<EntityType<?>> KOOPA_SHELL_CANNOT_DAMAGE = entityTypeTags("koopa_shell_cannot_damage");
     public static final TagKey<EntityType<?>> KOOPA_SHELL_ENTITIES = entityTypeTags("koopa_shells");
+    public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");

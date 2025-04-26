@@ -382,6 +382,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
+        tag(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
         tag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
