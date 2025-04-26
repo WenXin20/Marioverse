@@ -1,35 +1,21 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.VehicleEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +34,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     @Override
     public void tick() {
         super.tick();
-        this.targetEntity();
+
+        if (this.isAlive())
+            this.targetEntity();
 
         int ticksToDie = this.getPersistentData().getInt("marioverse:ticks_to_die");
 
@@ -74,6 +62,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         return TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL;
     }
 
+    @Override
+    public float getShellDamage() {
+        return ConfigRegistry.RED_KOOPA_SHELL_DAMAGE.get().floatValue();
+    }
+
     @NotNull
     public Integer getMobDetectionRadius() {
         return ConfigRegistry.RED_KOOPA_SHELL_MOB_DETECTION_RADIUS.get();
@@ -88,7 +81,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         Entity target = null;
         double closestDistance = Double.MAX_VALUE;
         double speed = this.getDeltaMovement().horizontalDistance();
-        
+
         List<Player> players = this.level().getEntitiesOfClass(Player.class, this.getBoundingBox()
                 .inflate(this.getPlayerDetectionRadius(), 3, this.getPlayerDetectionRadius()));
         for (Player player : players) {

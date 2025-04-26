@@ -435,6 +435,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL;
     }
 
+    public float getShellDamage() {
+        return ConfigRegistry.KOOPA_SHELL_DAMAGE.get().floatValue();
+    }
+
     protected boolean ownedBy(Entity entity) {
         return entity.getUUID().equals(this.ownerUUID);
     }
@@ -545,32 +549,25 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
 
                     for (Entity rider : vehicle.getPassengers()) {
-
                         if (rider instanceof LivingEntity livingEntity) {
-                            float shellDamage = livingEntity.getType().is(this.getInstakillEntityTag())
-                                    ? livingEntity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
-
                             if (this.getOwner() != null)
-                                livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), shellDamage);
-                            else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), shellDamage);
+                                livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), this.getShellDamage());
+                            else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), this.getShellDamage());
                         }
                     }
                 }
 
                 if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
-                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
+                        && !livingEntity.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) // TODO
                     this.damageEntity(livingEntity, newCollisions, speed);
-                }
 
                 if (entity instanceof EnderDragonPart part && part.isAlive()
-                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
+                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) // TODO
                     this.damageEntity(part.parentMob, newCollisions, speed);
-                }
 
                 if (entity instanceof PiranhaPlantPart part && part.isAlive()
-                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) { // TODO
+                        && !part.getType().is(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)) // TODO
                     this.damageEntity(part.parentMob, newCollisions, speed);
-                }
             }
         }
 
@@ -659,7 +656,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     ? entity.getHealth() * 1.25F : (float) Mth.clamp(speed * 10, 1.0F, 4.0F);
 
             if (this.getOwner() != null)
-                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
+                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage); //TODO Config damage
             else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
             if (this.level() instanceof ServerLevel serverWorld)
                 serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),

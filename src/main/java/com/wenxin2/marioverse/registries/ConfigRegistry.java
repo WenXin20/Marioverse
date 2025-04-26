@@ -124,8 +124,10 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
+    public static ModConfigSpec.DoubleValue KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
@@ -461,6 +463,10 @@ public class ConfigRegistry
             BUILDER.push(CATEGORY_MOBS);
 
                 BUILDER.push(CATEGORY_KOOPA_SHELL);
+                    KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.koopa_shell_damage")
+                            .comment("Amount of damage koopa shells cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("koopa_shell_damage", 6.0, 0.0, 16.0);
                     REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
                             .comment("Allow koopa shells to be repaired with items tagged as §6\"repairs_koopa_shells\"§r.")
                             .comment("§9[Default: true]")
@@ -479,6 +485,10 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
+                    RED_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.red_koopa_shell_damage")
+                            .comment("Amount of damage red koopa shells cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("red_koopa_shell_damage", 4.0, 0.0, 16.0);
                     RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
                             .comment("Mob detection radius of red koopa shells.§b")
                             .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
