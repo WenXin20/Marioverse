@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.loading.json.raw.Bone;
@@ -91,15 +92,9 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.0F, 1.0F, 0.94F);
-                poseStack.translate(0.0F, 0.0F, 0.0F);
-                super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
-            }
-
-            private void renderGoombellaSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
-                                                     MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.28F, 1.28F, 1.22F);
-                poseStack.translate(0.0F, -0.125F, 0.0F);
+                poseStack.scale(1.0F, 1.0F, 1.0F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(-30));
+                poseStack.translate(0.0F, 0.1F, 0.75F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -108,18 +103,21 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
             @Nullable
             @Override
             protected ItemStack getStackForBone(GeoBone bone, KoopaTroopaEntity animatable) {
-                if (!(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorItem)
-                        && !(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BlockItem blockItem
-                        && blockItem.getBlock() instanceof SkullBlock)) {
-                    return switch (bone.getName()) {
-                        case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
-                        case LEFT_ARM -> animatable.isLeftHanded() ?
-                                KoopaTroopaRenderer.this.mainHandItem : KoopaTroopaRenderer.this.offhandItem;
-                        case RIGHT_ARM -> animatable.isLeftHanded() ?
-                                KoopaTroopaRenderer.this.offhandItem : KoopaTroopaRenderer.this.mainHandItem;
-                        default -> null;
-                    };
-                } else return null;
+                return switch (bone.getName()) {
+                    case HELMET -> {
+                        if (!(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorItem)
+                                && !(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BlockItem blockItem
+                                && blockItem.getBlock() instanceof SkullBlock)) {
+                            yield animatable.getItemBySlot(EquipmentSlot.HEAD);
+                        }
+                        yield ItemStack.EMPTY;
+                    }
+                    case LEFT_ARM -> animatable.isLeftHanded() ?
+                            KoopaTroopaRenderer.this.mainHandItem : KoopaTroopaRenderer.this.offhandItem;
+                    case RIGHT_ARM -> animatable.isLeftHanded() ?
+                            KoopaTroopaRenderer.this.offhandItem : KoopaTroopaRenderer.this.mainHandItem;
+                    default -> null;
+                };
             }
 
             @Override
@@ -148,8 +146,12 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
                         poseStack.translate(-0.05, 0.0, 0.4);
                         poseStack.mulPose(Axis.YP.rotationDegrees(180));
                     }
+                } else if (stack.getItem() instanceof BlockItem) {
+                    poseStack.scale(0.63F, 0.63F, 0.63F);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(-30));
+                    poseStack.translate(0.0F, 0.6F, 0.1F);
                 } else {
-                    poseStack.scale(0.6F, 0.6F, 0.55F);
+                    poseStack.scale(0.6F, 0.6F, 0.6F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 }
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);

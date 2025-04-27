@@ -56,7 +56,7 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
         super(renderManager, new KoopaShellModel());
         this.shadowRadius = 0.5F;
 
-        addRenderLayer(new CrackedGeoLayer<>(this, textureLowCracks, textureMediumCracks, textureHighCracks));
+//        addRenderLayer(new CrackedGeoLayer<>(this, textureLowCracks, textureMediumCracks, textureHighCracks));
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
@@ -101,15 +101,9 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.0F, 1.0F, 0.94F);
-                poseStack.translate(0.0F, 0.0F, 0.0F);
-                super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
-            }
-
-            private void renderGoombellaSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
-                                                     MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.28F, 1.28F, 1.22F);
-                poseStack.translate(0.0F, -0.125F, 0.0F);
+                poseStack.scale(1.0F, 1.0F, 1.0F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(-30));
+                poseStack.translate(0.0F, 0.1F, 0.75F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -118,15 +112,15 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
             @Nullable
             @Override
             protected ItemStack getStackForBone(GeoBone bone, KoopaShellEntity animatable) {
-                if (!(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorItem)
-                        && !(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BlockItem blockItem
-                        && blockItem.getBlock() instanceof SkullBlock)) {
-                    return switch (bone.getName()) {
-                        case HELMET -> animatable.getItemBySlot(EquipmentSlot.HEAD);
-                        default -> null;
-                    };
-                }
-                else return switch (bone.getName()) {
+                return switch (bone.getName()) {
+                    case HELMET -> {
+                        if (!(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorItem)
+                                && !(animatable.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BlockItem blockItem
+                                && blockItem.getBlock() instanceof SkullBlock)) {
+                            yield animatable.getItemBySlot(EquipmentSlot.HEAD);
+                        }
+                        yield ItemStack.EMPTY;
+                    }
                     case LEFT_ARM -> animatable.isLeftHanded() ?
                             KoopaShellRenderer.this.mainHandItem : KoopaShellRenderer.this.offhandItem;
                     case RIGHT_ARM -> animatable.isLeftHanded() ?
@@ -161,8 +155,12 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
                         poseStack.translate(0, 0.125, 0.45);
                         poseStack.mulPose(Axis.YP.rotationDegrees(180));
                     }
+                } else if (stack.getItem() instanceof BlockItem) {
+                    poseStack.scale(0.63F, 0.63F, 0.63F);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(-30));
+                    poseStack.translate(0.0F, 0.6F, 0.1F);
                 } else {
-                    poseStack.scale(0.6F, 0.6F, 0.55F);
+                    poseStack.scale(0.6F, 0.6F, 0.6F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 }
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
