@@ -98,10 +98,13 @@
   "entity.damage_taken": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/damage_taken", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.damage_taken" },
 
+  "entity.koopa_shell_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/koopa_shell/koopa_shell_stomp", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.koopa_shell_stomp" },
+
   "entity.koopa_troopa_ambient": { "category": "hostile",
     "sounds": [{ "name": "marioverse:entity/koopa_troopa/koopa_troopa_say1", "stream": false },
       { "name": "marioverse:entity/koopa_troopa/koopa_troopa_say2", "stream": false }],
-    "subtitle": "subtitles.marioverse.entity.koopa_troopa_say" },
+    "subtitle": "subtitles.marioverse.entity.koopa_troopa_ambient" },
   "entity.koopa_troopa_death": { "category": "hostile",
     "sounds": [{ "name": "marioverse:entity/koopa_troopa/koopa_troopa_death1", "stream": false },
       { "name": "marioverse:entity/koopa_troopa/koopa_troopa_death2", "stream": false },

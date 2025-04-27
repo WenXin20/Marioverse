@@ -27,36 +27,34 @@ public class KoopaShellItem extends BasePowerUpItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        EntityType<?> entityType = this.getType(stack);
+        Entity entity = entityType.create(world);
 
-        if (!world.isClientSide) {
-            EntityType<?> entityType = this.getType(stack);
-            Entity entity = entityType.create(world);
+        if (entity instanceof KoopaShellEntity shell) {
+            AttributeInstance gravityAttribute = shell.getAttribute(Attributes.GRAVITY);
+            double speed = 1.5;
+            double spawnDistance = 1.0;
+            Vec3 look = player.getLookAngle();
+            Vec3 spawnPos = player.position()
+                    .add(look.x * spawnDistance, player.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
 
-            if (entity instanceof KoopaShellEntity shell) {
-                AttributeInstance gravityAttribute = shell.getAttribute(Attributes.GRAVITY);
-                double speed = 1.5;
-                double spawnDistance = 1.0;
-                Vec3 look = player.getLookAngle();
-                Vec3 spawnPos = player.position()
-                        .add(look.x * spawnDistance, player.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
+            shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
-                shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
-
-                if (look.y >= 0.9) {
-                    shell.setDeltaMovement(look.x * speed / 2, 1.25, look.z * speed / 2);
-                    world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                    if (gravityAttribute != null)
-                        gravityAttribute.setBaseValue(0.08D);
-                } else {
-                    shell.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
-                    world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                }
-
-                shell.setOwner(player);
-                world.addFreshEntity(shell);
-                stack.consume(1, player);
+            if (look.y >= 0.9) {
+                shell.setDeltaMovement(look.x * speed / 2, 1.25, look.z * speed / 2);
+                world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                if (gravityAttribute != null)
+                    gravityAttribute.setBaseValue(0.08D);
+            } else {
+                shell.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
+                world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
+
+            shell.setOwner(player);
+            world.addFreshEntity(shell);
+            stack.consume(1, player);
         }
+        
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
 }
