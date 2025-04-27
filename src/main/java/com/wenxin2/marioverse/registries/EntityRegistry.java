@@ -27,6 +27,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -113,15 +114,15 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
-        AttributeSupplier.Builder koopaAttributes = PathfinderMob.createMobAttributes()
+        AttributeSupplier.Builder koopaAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 0.6F)
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 8)
-                .add(Attributes.MOVEMENT_SPEED, 0.5F)
+                .add(Attributes.MOVEMENT_SPEED, 0.25F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F);
-        AttributeSupplier.Builder koopaShellAttributes = PathfinderMob.createMobAttributes()
+        AttributeSupplier.Builder koopaShellAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
@@ -131,8 +132,8 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F)
-                .add(Attributes.STEP_HEIGHT, 0.5F);
-        AttributeSupplier.Builder redKoopaShellAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.STEP_HEIGHT, 0.6F);
+        AttributeSupplier.Builder redKoopaShellAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
@@ -142,7 +143,7 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F)
-                .add(Attributes.STEP_HEIGHT, 1.0F);
+                .add(Attributes.STEP_HEIGHT, 1.1F);
         AttributeSupplier.Builder piranhaPlantAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 5.0F)
                 .add(Attributes.JUMP_STRENGTH, 0.0F)
@@ -173,7 +174,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
 
-        event.put(EntityRegistry.FIRE_GOOMBA.get(), PathfinderMob.createMobAttributes()
+        event.put(EntityRegistry.FIRE_GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.ATTACK_SPEED, 0.8F)
@@ -182,7 +183,7 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
-        event.put(EntityRegistry.HEFTY_GOOMBA.get(), PathfinderMob.createMobAttributes()
+        event.put(EntityRegistry.HEFTY_GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 3.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
@@ -191,7 +192,7 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.6F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 9.0F).build());
 
-        event.put(EntityRegistry.GOOMBA.get(), PathfinderMob.createMobAttributes()
+        event.put(EntityRegistry.GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
@@ -200,7 +201,7 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
-        event.put(EntityRegistry.MEGA_GOOMBA.get(), PathfinderMob.createMobAttributes()
+        event.put(EntityRegistry.MEGA_GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 5.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.2F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
@@ -209,7 +210,7 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
 
-        event.put(EntityRegistry.MINI_GOOMBA.get(), PathfinderMob.createMobAttributes()
+        event.put(EntityRegistry.MINI_GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_KNOCKBACK, 0.0F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.FOLLOW_RANGE, 4.0F)
