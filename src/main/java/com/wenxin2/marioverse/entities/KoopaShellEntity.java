@@ -64,6 +64,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -277,7 +278,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 && ConfigRegistry.REPAIR_KOOPA_SHELLS.get()) {
             stack.consume(1, player);
             this.bounceCount = Math.max(0, this.bounceCount - 25);;
-            this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, soundPitch); //TODO Change sound
+            this.playSound(SoundRegistry.KOOPA_SHELL_STOMP.get(), 1.0F, soundPitch); //TODO Change sound
             return InteractionResult.SUCCESS;
         } else if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
             player.setItemInHand(hand, new ItemStack(spawnEggItem));
@@ -374,7 +375,17 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     @Override
+    public boolean isPushedByFluid(FluidType type) {
+        return false;
+    }
+
+    @Override
     public boolean isPushedByFluid() {
+        return false;
+    }
+
+    @Override
+    protected boolean updateInWaterStateAndDoFluidPushing() {
         return false;
     }
 
@@ -530,6 +541,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (this.bounceCount != -1)
                 this.bounceCount++;
         }
+
+        world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_STOMP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
 
         if (this.getCrackiness() != crackinessLevel)
             this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
