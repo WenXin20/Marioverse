@@ -153,7 +153,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
         if (!this.isHiding()) {
-            if (event.isMoving()) {
+            if (event.isMoving() || this.getDeltaMovement().horizontalDistance() >= 0.01) {
                 event.setAndContinue(WALK);
                 return PlayState.CONTINUE;
             } else {
