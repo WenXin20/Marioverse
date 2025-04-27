@@ -265,12 +265,10 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        this.equipItemIfPossible(player.getItemInHand(hand));
-
-        if (this.level() instanceof ServerLevel)
-            player.swing(hand);
-
-        return super.mobInteract(player, hand);
+        if (this.canTakeItem(player.getItemInHand(hand))) {
+            this.equipItemIfPossible(player.getItemInHand(hand));
+            return InteractionResult.SUCCESS;
+        } else return super.mobInteract(player, hand);
     }
 
     @Nullable

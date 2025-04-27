@@ -393,7 +393,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                         || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
                         || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
             this.equipItemIfPossible(player.getItemInHand(hand));
-            player.swing(hand);
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
