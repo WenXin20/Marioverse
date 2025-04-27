@@ -253,7 +253,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 this.setDeltaMovement(Vec3.ZERO);
                 this.slidingDirection = Vec3.ZERO;
-            } else {
+            } else if (this.onGround()) {
                 this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
                 this.slidingDirection = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
             }

@@ -41,7 +41,7 @@ public class KoopaShellItem extends BasePowerUpItem {
             shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
             if (look.y >= 0.9) {
-                shell.setDeltaMovement(look.x * speed / 2, 1.25, look.z * speed / 2);
+                shell.setDeltaMovement(look.x, 1.25, look.z);
                 world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (gravityAttribute != null)
                     gravityAttribute.setBaseValue(0.08D);
@@ -54,7 +54,7 @@ public class KoopaShellItem extends BasePowerUpItem {
             world.addFreshEntity(shell);
             stack.consume(1, player);
         }
-        
+
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
 }
