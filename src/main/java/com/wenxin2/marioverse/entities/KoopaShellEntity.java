@@ -54,6 +54,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
@@ -665,6 +666,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
                 this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
+                if (this instanceof RedKoopaShellEntity)
+                    this.kill();
+            }
+
+            if (entity instanceof Breeze) {
+                this.deflect(entity, this.getOwner(), true);
+                return;
             }
 
             if (this.getOwner() != null)
