@@ -596,6 +596,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         entity.yBodyRot = this.yBodyRot;
         entity.setYHeadRot(this.getYHeadRot());
         entity.setHealth(this.getHealth());
+        entity.setNoAi(this.isNoAi());
 
         entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
                 this.getPersistentData().getBoolean("marioverse:has_fire_flower"));

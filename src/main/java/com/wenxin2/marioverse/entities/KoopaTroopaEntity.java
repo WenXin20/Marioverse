@@ -466,6 +466,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             entity.setYHeadRot(this.getYHeadRot());
             entity.setHealth(shellHealth);
             entity.emergeAnimationTicks = emergeAnimationTicks;
+            entity.setNoAi(this.isNoAi());
 
             this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
             this.copyAttributeWithModifiers(entity, Attributes.SCALE);
