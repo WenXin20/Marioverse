@@ -556,7 +556,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         Set<UUID> newCollisions = new HashSet<>();
 
         for (Entity entity : collidingEntities) {
-            if (speed >= 0.1) {
+            if (speed >= 0.1 && !this.hasPassenger(entity)) {
                 if (entity instanceof VehicleEntity vehicle) {
                     vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
                     this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
