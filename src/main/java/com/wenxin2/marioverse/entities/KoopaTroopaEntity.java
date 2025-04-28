@@ -285,7 +285,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 if (random.nextDouble() < 0.05) {
                     List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
                             Mob.class, this.getBoundingBox().inflate(5.0, 3.0, 5.0),
-                            entity -> entity.getType().is(TagRegistry.GOOMBA_CAN_RIDE) && !entity.isVehicle()
+                            entity -> entity.getType().is(TagRegistry.KOOPA_CAN_RIDE) && !entity.isVehicle()
                     );
 
                     if (!nearbyEntities.isEmpty()) {
@@ -295,7 +295,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 } else if (random.nextDouble() < 0.05) {
                     Optional<? extends Holder<EntityType<?>>> randomEntityHolder = serverWorld.registryAccess()
                             .registryOrThrow(Registries.ENTITY_TYPE)
-                            .getTag(TagRegistry.GOOMBA_CAN_RIDE)
+                            .getTag(TagRegistry.KOOPA_CAN_RIDE)
                             .flatMap(tag -> tag.getRandomElement(random));
 
                     if (randomEntityHolder.isPresent()) {
