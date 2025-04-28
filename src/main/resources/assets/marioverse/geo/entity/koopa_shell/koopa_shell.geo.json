@@ -96,7 +96,7 @@
 				{
 					"name": "armorHead",
 					"parent": "bipedHead",
-					"pivot": [0, 19, -6],
+					"pivot": [0, 19, -7],
 					"rotation": [-15, 0, 0],
 					"cubes": [
 						{
