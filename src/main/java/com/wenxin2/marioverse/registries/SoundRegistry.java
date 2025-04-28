@@ -38,6 +38,8 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_SHATTERED_ON_ENEMY;
     public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_THROWN;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_BOUNCED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_SHATTER;
     public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_STOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_THROWN;
     public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_THROWN_UP;
@@ -137,6 +139,10 @@ public class SoundRegistry {
         DAMAGE_TAKEN = Marioverse.SOUNDS.register("entity.damage_taken",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.damage_taken")));
 
+        KOOPA_SHELL_BOUNCED = Marioverse.SOUNDS.register("entity.koopa_shell_bounced",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.koopa_shell_bounced")));
+        KOOPA_SHELL_SHATTER = Marioverse.SOUNDS.register("entity.koopa_shell_shatter",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.koopa_shell_shatter")));
         KOOPA_SHELL_STOMP = Marioverse.SOUNDS.register("entity.koopa_shell_stomp",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.koopa_shell_stomp")));
 

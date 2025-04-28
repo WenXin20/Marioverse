@@ -115,7 +115,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.KOOPA_SHELL_STOMP.get();
+        return SoundRegistry.KOOPA_SHELL_SHATTER.get();
     }
 
     @Override
@@ -279,7 +279,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 && ConfigRegistry.REPAIR_KOOPA_SHELLS.get()) {
             stack.consume(1, player);
             this.bounceCount = Math.max(0, this.bounceCount - 25);;
-            this.playSound(SoundRegistry.KOOPA_SHELL_STOMP.get(), 1.0F, soundPitch); //TODO Change sound
+            this.playSound(SoundRegistry.KOOPA_SHELL_STOMP.get(), 1.0F, soundPitch);
             return InteractionResult.SUCCESS;
         } else if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
             player.setItemInHand(hand, new ItemStack(spawnEggItem));
@@ -483,6 +483,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         Vec3 motion = this.slidingDirection;
         this.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
         this.slidingDirection = new Vec3(-motion.x, motion.y, -motion.z);
+        if (this.bounceCount != -1)
+            this.bounceCount++;
     }
 
     public void setHideTicks(int hideTicks) {
@@ -544,7 +546,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         if (this.getDeltaMovement().horizontalDistance() > 0.25)
-            world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_STOMP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
 
         if (this.getCrackiness() != crackinessLevel)
             this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
@@ -667,13 +669,16 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
                 world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
+                world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
+                        SoundSource.NEUTRAL, 1.0F, 1.0F);
                 if (this instanceof RedKoopaShellEntity)
                     this.kill();
             }
 
             if (entity instanceof Breeze) {
                 this.deflect(entity, this.getOwner(), true);
-                world.playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT, entity.getSoundSource(), 1.0F, 1.0F);
+                world.playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
+                        entity.getSoundSource(), 1.0F, 1.0F);
                 return;
             }
 
