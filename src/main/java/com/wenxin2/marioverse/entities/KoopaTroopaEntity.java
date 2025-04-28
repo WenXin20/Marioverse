@@ -208,6 +208,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
+            this.ejectPassengers();
             this.hideTicks = this.getHideDuration();
             this.hideAnimationTicks = 15;
             this.triggerAnim("hide_controller", "hide");

@@ -66,10 +66,10 @@ public class EntityRegistry {
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).build("goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL =
             Marioverse.ENTITIES.register("green_koopa_shell", () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.MONSTER)
-                    .sized(0.7F, 0.7F).eyeHeight(0.6F).build("green_koopa_shell"));
+                    .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("green_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<GreenKoopaTroopaEntity>> GREEN_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("green_koopa_troopa", () -> EntityType.Builder.of(GreenKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 1.65F).eyeHeight(1.4F).build("green_koopa_troopa"));
+                    .sized(1.0F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("green_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
             Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
                     .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));
@@ -82,10 +82,10 @@ public class EntityRegistry {
                     .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
             Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.MONSTER)
-                    .sized(0.7F, 0.7F).eyeHeight(0.6F).build("red_koopa_shell"));
+                    .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("red_koopa_troopa", () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 1.65F).eyeHeight(1.4F).build("red_koopa_troopa"));
+                    .sized(1.0F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("red_koopa_troopa"));
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
