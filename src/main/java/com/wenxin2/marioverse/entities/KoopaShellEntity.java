@@ -573,15 +573,15 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
                 if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
                         && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
-                    this.damageEntity(livingEntity, newCollisions, speed);
+                    this.damageEntity(livingEntity, newCollisions);
 
                 if (entity instanceof EnderDragonPart part && part.isAlive()
                         && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
-                    this.damageEntity(part.parentMob, newCollisions, speed);
+                    this.damageEntity(part.parentMob, newCollisions);
 
                 if (entity instanceof PiranhaPlantPart part && part.isAlive()
                         && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
-                    this.damageEntity(part.parentMob, newCollisions, speed);
+                    this.damageEntity(part.parentMob, newCollisions);
             }
         }
 
@@ -651,7 +651,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
     }
 
-    public void damageEntity(LivingEntity entity, Set<UUID> newCollisions, double speed) {
+    public void damageEntity(LivingEntity entity, Set<UUID> newCollisions) {
+        Level world = this.level();
         ItemStack shield = entity.getUseItem();
         Vec3 toShell = this.position().subtract(entity.position()).normalize();
         Vec3 look = entity.getLookAngle().normalize();
@@ -664,7 +665,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (entity.isBlocking() && dot > 0.25) {
                 this.deflect(entity, this.getOwner(), true);
                 shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
-                this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
                 if (this instanceof RedKoopaShellEntity)
                     this.kill();
@@ -672,6 +673,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
             if (entity instanceof Breeze) {
                 this.deflect(entity, this.getOwner(), true);
+                world.playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT, entity.getSoundSource(), 1.0F, 1.0F);
                 return;
             }
 
@@ -679,7 +681,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), this.getShellDamage());
             else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), this.getShellDamage());
 
-            if (this.level() instanceof ServerLevel serverWorld)
+            if (world instanceof ServerLevel serverWorld)
                 serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
                         3, 0.1, 0.1, 0.1, 0.0);
 
