@@ -116,7 +116,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
             List<Monster> monsters = this.level().getEntitiesOfClass(Monster.class, this.getBoundingBox()
                     .inflate(this.getMobDetectionRadius(), 3, this.getMobDetectionRadius()));
             for (Monster monster : monsters) {
-                if (monster.isAlive() && !monster.is(this)
+                if (monster.isAlive() && !monster.is(this) && !monster.isNoAi()
                         && !monster.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(monster);
                     if (dist < closestDistance) {
@@ -131,7 +131,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
             List<Shulker> shulkers = this.level().getEntitiesOfClass(Shulker.class, this.getBoundingBox()
                     .inflate(this.getMobDetectionRadius(), 3, this.getMobDetectionRadius()));
             for (Shulker shulker : shulkers) {
-                if (shulker.isAlive() && !shulker.isClosed() && !shulker.is(this)
+                if (shulker.isAlive() && !shulker.isClosed() && !shulker.is(this) && !shulker.isNoAi()
                         && !shulker.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(shulker);
                     if (dist < closestDistance) {
