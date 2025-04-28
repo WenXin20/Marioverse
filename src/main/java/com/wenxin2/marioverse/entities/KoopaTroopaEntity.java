@@ -324,8 +324,8 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             int month = localdate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_GOOMBA_MASKS.get())
-                    || ConfigRegistry.FORCE_GOOMBA_MASKS.get()) {
+            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_KOOPA_MASKS.get())
+                    || ConfigRegistry.FORCE_KOOPA_MASKS.get()) {
                 if (random.nextFloat() < 0.25F)
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F
                             ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
