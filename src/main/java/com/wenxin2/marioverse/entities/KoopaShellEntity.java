@@ -542,7 +542,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.bounceCount++;
         }
 
-        world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_STOMP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+        if (this.getDeltaMovement().horizontalDistance() > 0.25)
+            world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_STOMP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
 
         if (this.getCrackiness() != crackinessLevel)
             this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
