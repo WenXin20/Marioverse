@@ -105,6 +105,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
+        tag(TagRegistry.CAN_COLLECT_COINS)
+                .add(EntityType.PIGLIN)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
+
         tag(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
@@ -182,12 +188,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_LOWER_FLAGS)
                 .add(EntityType.PLAYER);
-
-        tag(TagRegistry.CAN_PICK_UP_COINS)
-                .add(EntityType.PIGLIN)
-                .add(EntityType.PLAYER)
-                .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)

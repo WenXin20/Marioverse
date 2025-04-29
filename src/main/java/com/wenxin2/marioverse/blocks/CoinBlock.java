@@ -97,9 +97,9 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
         ItemStack coinItem = new ItemStack(this.asItem());
 
         if (entity instanceof KoopaShellEntity koopaShell && !(entity instanceof GoldKoopaShellEntity)
-                && koopaShell.getOwner() != null && koopaShell.getOwner().getType().is(TagRegistry.CAN_PICK_UP_COINS))
+                && koopaShell.getOwner() != null && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_COINS))
             this.collectCoin(state, world, pos, koopaShell.getOwner(), coinItem);
-        else if (entity.getType().is(TagRegistry.CAN_PICK_UP_COINS))
+        else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS))
             this.collectCoin(state, world, pos, entity, coinItem);
     }
 
