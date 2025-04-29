@@ -566,9 +566,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
                     for (Entity rider : vehicle.getPassengers()) {
                         if (rider instanceof LivingEntity livingEntity && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE)) {
+                            float shellDamage = livingEntity.getType().is(this.getInstakillEntityTag())
+                                    ? livingEntity.getHealth() * 1.25F : this.getShellDamage();
+
                             if (this.getOwner() != null)
-                                livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this.getOwner()), this.getShellDamage());
-                            else livingEntity.hurt(DamageTypeRegistry.spinningShell(livingEntity, this), this.getShellDamage());
+                                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
+                            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
                         }
                     }
                 }
@@ -681,9 +684,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 return;
             }
 
+            float shellDamage = entity.getType().is(this.getInstakillEntityTag())
+                    ? entity.getHealth() * 1.25F : this.getShellDamage();
+
             if (this.getOwner() != null)
-                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), this.getShellDamage());
-            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), this.getShellDamage());
+                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
+            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
 
             if (world instanceof ServerLevel serverWorld)
                 serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
