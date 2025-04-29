@@ -7,6 +7,10 @@ import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,6 +25,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -36,6 +41,7 @@ import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -78,6 +84,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     public void tick() {
         super.tick();
         Vec3 motion = this.getDeltaMovement();
+
+        this.collideWithEntity();
 
         if (!this.isInWater()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
@@ -187,91 +195,89 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         Level world = this.level();
         BlockPos pos = this.blockPosition();
 
-        if (!world.isClientSide) {
-            if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
-                    && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                ItemStack shield = player.getUseItem();
-                if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
-                        && player.getTeam() == this.getOwner().getTeam())
-                    return;
+        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
+                && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+            ItemStack shield = player.getUseItem();
+            if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
+                    && player.getTeam() == this.getOwner().getTeam())
+                return;
 
-                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
-                        this.setDeltaMovement(this.getDeltaMovement().reverse());
-                        shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                        world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
-                                SoundSource.PLAYERS, 1.0F, 1.0F);
-                    }
-                } else if (this.getOwner() != null) {
-                    if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth() * 1.25F);
-                    else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
-                    player.igniteForSeconds(2.0F);
+            if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+                if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+                    world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
-                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
-                this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
-                    && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                ItemStack shield = livingEntity.getUseItem();
-                if ((livingEntity instanceof TamableAnimal tamableAnimal
-                        && tamableAnimal.getOwner() == this.getOwner())
-                        || (this.getOwner() != null && livingEntity.getTeam() != null && this.getOwner().getTeam() != null
-                        && livingEntity.getTeam() == this.getOwner().getTeam()))
-                    return;
-
-                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
-                        this.setDeltaMovement(this.getDeltaMovement().reverse());
-                        shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                        world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
-                                SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    }
-                } else if (this.getOwner() != null) {
-                    if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
-                    else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
-                    livingEntity.igniteForSeconds(2.0F);
-                }
-                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
-                this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
-                    && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-                ItemStack shield = partEntity.getParent().getUseItem();
-
-                if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
-                        this.setDeltaMovement(this.getDeltaMovement().reverse());
-                        shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
-                        world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
-                                SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    }
-                } else if (this.getOwner() != null) {
-                    if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                        partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
-                    else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
-                    partEntity.igniteForSeconds(2.0F);
-                }
-                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
-                this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof MinecartTNT tnt)
-                tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
-            else if (entity instanceof IceCubeEntity iceCube) {
-                iceCube.shatterIceCube(false, false, this);
-                world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.broadcastEntityEvent(this, (byte) 60);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
-                this.remove(RemovalReason.DISCARDED);
+            } else if (this.getOwner() != null) {
+                if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                    player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth() * 1.25F);
+                else player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
+                player.igniteForSeconds(2.0F);
             }
+            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            this.remove(RemovalReason.DISCARDED);
+        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
+                && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+            ItemStack shield = livingEntity.getUseItem();
+            if ((livingEntity instanceof TamableAnimal tamableAnimal
+                    && tamableAnimal.getOwner() == this.getOwner())
+                    || (this.getOwner() != null && livingEntity.getTeam() != null && this.getOwner().getTeam() != null
+                    && livingEntity.getTeam() == this.getOwner().getTeam()))
+                return;
+
+            if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+                if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
+                    world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
+                            SoundSource.NEUTRAL, 1.0F, 1.0F);
+                }
+            } else if (this.getOwner() != null) {
+                if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                    livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
+                else livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
+                livingEntity.igniteForSeconds(2.0F);
+            }
+            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            this.remove(RemovalReason.DISCARDED);
+        } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
+                && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
+            ItemStack shield = partEntity.getParent().getUseItem();
+
+            if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+                if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
+                    this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
+                    world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
+                            SoundSource.NEUTRAL, 1.0F, 1.0F);
+                }
+            } else if (this.getOwner() != null) {
+                if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
+                    partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
+                else partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
+                partEntity.igniteForSeconds(2.0F);
+            }
+            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            this.remove(RemovalReason.DISCARDED);
+        } else if (entity instanceof MinecartTNT tnt)
+            tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
+        else if (entity instanceof IceCubeEntity iceCube) {
+            iceCube.shatterIceCube(false, false, this);
+            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.broadcastEntityEvent(this, (byte) 60);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            this.remove(RemovalReason.DISCARDED);
         }
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
@@ -285,16 +291,12 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
     @Override
     public boolean deflect(@NotNull ProjectileDeflection deflection, @Nullable Entity entity, @Nullable Entity owner, boolean shouldDeflect) {
-        if (entity instanceof LivingEntity livingEntity) {
-            ItemStack shield = livingEntity.getUseItem();
+        if (entity instanceof LivingEntity) {
             if (!this.level().isClientSide) {
-                if (shield.getItem() instanceof ShieldItem
-                        || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
-                    deflection.deflect(this, entity, this.random);
-                    this.setOwner(owner);
-                    this.onDeflection(entity, shouldDeflect);
-                    return true;
-                }
+                deflection.deflect(this, entity, this.random);
+                this.setOwner(entity);
+                this.onDeflection(entity, shouldDeflect);
+                return true;
             }
         }
         return false;
@@ -344,5 +346,19 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
             }
         } else super.handleEntityEvent(id);
+    }
+
+    public void collideWithEntity() {
+        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
+        List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+
+        for (Entity entity : collidingEntities) {
+            if (entity instanceof Breeze) {
+                this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                this.level().playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
+                        entity.getSoundSource(), 1.0F, 1.0F);
+                return;
+            }
+        }
     }
 }

@@ -473,7 +473,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public boolean deflect(@Nullable Entity entity, @Nullable Entity ownerEntity, boolean deflect) {
         if (!this.level().isClientSide) {
-            this.setOwner(ownerEntity);
+            this.setOwner(entity);
             this.onDeflection(entity, deflect);
         }
         return true;

@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,6 +27,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -41,6 +43,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -85,6 +88,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         super.tick();
         Level world = this.level();
         Vec3 motion = this.getDeltaMovement();
+
+        this.collideWithEntity();
 
         if (!this.getPersistentData().contains(BOUNCE_COUNT))
             this.getPersistentData().putInt(BOUNCE_COUNT, 0);
@@ -216,140 +221,138 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     protected void onHitEntity(EntityHitResult hit) {
         Level world = this.level();
         Entity entity = hit.getEntity();
-        
-        if (!world.isClientSide) {
-            if (entity instanceof Player player && !player.isSpectator()
-                    && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
-                ItemStack shield = player.getUseItem();
-                float width = player.getBbWidth() * 2.55F;
-                float height = player.getBbHeight() * 1.55F;
-                if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
-                        && player.getTeam() == this.getOwner().getTeam())
-                    return;
 
-                if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
-                        this.setDeltaMovement(this.getDeltaMovement().reverse());
-                        shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                        world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                                SoundSource.PLAYERS, 1.0F, 1.0F);
-                    }
-                } else {
-                    if (this.getOwner() != null) {
-                        if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                            player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth() * 1.25F);
-                        else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
-                    }
-                    player.extinguishFire();
+        if (entity instanceof Player player && !player.isSpectator()
+                && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+            ItemStack shield = player.getUseItem();
+            float width = player.getBbWidth() * 2.55F;
+            float height = player.getBbHeight() * 1.55F;
+            if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
+                    && player.getTeam() == this.getOwner().getTeam())
+                return;
 
-                    if (player.isAlive() && player.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown") == 0) {
-                        IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
-                        iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
-                        if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                                || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                            if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
-                                iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
-                            player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
-                        } else {
-                            if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
-                                iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                            player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                        }
-                        iceCube.setSize(width, height);
-                        iceCube.setOwner(this.getOwner());
-                        player.level().addFreshEntity(iceCube);
-                        player.startRiding(iceCube, false);
-                    }
+            if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
+                if (shield.getItem() instanceof ShieldItem || player.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
+                    this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+                    world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
-                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-                this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof LivingEntity livingEntity
-                    && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
-                ItemStack shield = livingEntity.getUseItem();
-                if ((livingEntity instanceof TamableAnimal tamableAnimal
-                        && tamableAnimal.getOwner() == this.getOwner())
-                        || (this.getOwner() != null && livingEntity.getTeam() != null && this.getOwner().getTeam() != null
-                        && livingEntity.getTeam() == this.getOwner().getTeam()))
-                    return;
-
-                if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
-                        this.setDeltaMovement(this.getDeltaMovement().reverse());
-                        shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                        world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                                SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    }
-                } else if (this.getOwner() != null) {
-                    if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
-                    else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
-                    livingEntity.extinguishFire();
-
-                    if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity
-                            || livingEntity instanceof BasePowerUpEntity || livingEntity instanceof BaseMushroomEntity) {
-                        IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-                        if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                                || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                            iceCube.setFrozenEntity(livingEntity, 2);
-                        else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                        iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
-                        iceCube.setOwner(this.getOwner());
-                        livingEntity.level().addFreshEntity(iceCube);
-                    }
-                }
-                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-                this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof PiranhaPlantPart partEntity
-                    && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
-                ItemStack shield = partEntity.getParent().getUseItem();
-
-                if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
-                    if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                        this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
-                        this.setDeltaMovement(this.getDeltaMovement().reverse());
-                        shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
-                        world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                                SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    }
-                } else if (this.getOwner() != null) {
-                    if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
-                    else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
-                    partEntity.extinguishFire();
-
-                    if (partEntity.isAlive()) {
-                        IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
-                        if (partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                                || partEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                            iceCube.setFrozenEntity(partEntity, 2);
-                        else iceCube.setFrozenEntity(partEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                        iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
-                        iceCube.setOwner(this.getOwner());
-                        partEntity.level().addFreshEntity(iceCube);
-                    }
-                }
-                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-                this.remove(RemovalReason.DISCARDED);
-            } else if (entity instanceof BouncingFireballProjectile fireball) {
-                fireball.kill();
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.DISCARDED);
             } else {
-                world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-                world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
-                        SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.remove(RemovalReason.DISCARDED);
+                if (this.getOwner() != null) {
+                    if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
+                        player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth() * 1.25F);
+                    else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
+                }
+                player.extinguishFire();
+
+                if (player.isAlive() && player.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown") == 0) {
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
+                    iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                    if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                            || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
+                        if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
+                            iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
+                        player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
+                    } else {
+                        if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
+                            iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                    }
+                    iceCube.setSize(width, height);
+                    iceCube.setOwner(this.getOwner());
+                    player.level().addFreshEntity(iceCube);
+                    player.startRiding(iceCube, false);
+                }
             }
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            this.remove(RemovalReason.DISCARDED);
+        } else if (entity instanceof LivingEntity livingEntity
+                && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+            ItemStack shield = livingEntity.getUseItem();
+            if ((livingEntity instanceof TamableAnimal tamableAnimal
+                    && tamableAnimal.getOwner() == this.getOwner())
+                    || (this.getOwner() != null && livingEntity.getTeam() != null && this.getOwner().getTeam() != null
+                    && livingEntity.getTeam() == this.getOwner().getTeam()))
+                return;
+
+            if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
+                if (shield.getItem() instanceof ShieldItem || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
+                    this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
+                    world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                            SoundSource.NEUTRAL, 1.0F, 1.0F);
+                }
+            } else if (this.getOwner() != null) {
+                if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
+                    livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
+                else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
+                livingEntity.extinguishFire();
+
+                if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity
+                        || livingEntity instanceof BasePowerUpEntity || livingEntity instanceof BaseMushroomEntity) {
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
+                    if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                            || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
+                        iceCube.setFrozenEntity(livingEntity, 2);
+                    else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                    iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
+                    iceCube.setOwner(this.getOwner());
+                    livingEntity.level().addFreshEntity(iceCube);
+                }
+            }
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            this.remove(RemovalReason.DISCARDED);
+        } else if (entity instanceof PiranhaPlantPart partEntity
+                && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+            ItemStack shield = partEntity.getParent().getUseItem();
+
+            if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
+                if (shield.getItem() instanceof ShieldItem || partEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
+                    this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                    this.setDeltaMovement(this.getDeltaMovement().reverse());
+                    shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
+                    world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                            SoundSource.NEUTRAL, 1.0F, 1.0F);
+                }
+            } else if (this.getOwner() != null) {
+                if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
+                    partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
+                else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
+                partEntity.extinguishFire();
+
+                if (partEntity.isAlive()) {
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
+                    if (partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                            || partEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
+                        iceCube.setFrozenEntity(partEntity, 2);
+                    else iceCube.setFrozenEntity(partEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                    iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
+                    iceCube.setOwner(this.getOwner());
+                    partEntity.level().addFreshEntity(iceCube);
+                }
+            }
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            this.remove(RemovalReason.DISCARDED);
+        } else if (entity instanceof BouncingFireballProjectile fireball) {
+            fireball.kill();
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            this.remove(RemovalReason.DISCARDED);
+        } else {
+            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
+                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            this.remove(RemovalReason.DISCARDED);
         }
 
         if (world instanceof ServerLevel serverWorld) {
@@ -367,18 +370,28 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     public boolean deflect(@NotNull ProjectileDeflection deflection, @Nullable Entity entity, @Nullable Entity owner, boolean shouldDeflect) {
         Level world = this.level();
 
-        if (entity instanceof LivingEntity livingEntity) {
-            ItemStack shield = livingEntity.getUseItem();
+        if (entity instanceof LivingEntity) {
             if (!world.isClientSide) {
-                if (shield.getItem() instanceof ShieldItem
-                        || livingEntity.getPersistentData().getBoolean("marioverse:has_ice_flower")) {
-                    deflection.deflect(this, entity, this.random);
-                    this.setOwner(owner);
-                    this.onDeflection(entity, shouldDeflect);
-                    return true;
-                }
+                deflection.deflect(this, entity, this.random);
+                this.setOwner(entity);
+                this.onDeflection(entity, shouldDeflect);
+                return true;
             }
         }
         return false;
+    }
+
+    public void collideWithEntity() {
+        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
+        List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+
+        for (Entity entity : collidingEntities) {
+            if (entity instanceof Breeze) {
+                this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
+                this.level().playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
+                        entity.getSoundSource(), 1.0F, 1.0F);
+                return;
+            }
+        }
     }
 }
