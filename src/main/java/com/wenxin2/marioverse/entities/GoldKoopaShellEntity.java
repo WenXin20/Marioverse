@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -14,6 +15,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
@@ -32,11 +37,15 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     public void tick() {
         super.tick();
         Level world = this.level();
+        BlockPos pos = this.blockPosition();
+        FluidState fluidState = world.getFluidState(pos);
+        BlockState coinState = BlockRegistry.COIN.get().defaultBlockState();
 
-        if (!world.isClientSide && world.getBlockState(this.blockPosition()).canBeReplaced()
+        if (!world.isClientSide && world.getBlockState(pos).canBeReplaced()
                 && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_COINS.get()
                 && this.getDeltaMovement().horizontalDistance() > 0.25 && this.isAlive()) {
-            world.setBlock(this.blockPosition(), BlockRegistry.COIN.get().defaultBlockState(), 3);
+            world.setBlock(this.blockPosition(), coinState.setValue(BlockStateProperties.WATERLOGGED,
+                    fluidState.getType() == Fluids.WATER), 3);
             coinCount++;
         }
 
