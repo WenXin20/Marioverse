@@ -126,7 +126,7 @@ public class ItemRegistry {
 
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+                        .durability(ArmorItem.Type.BOOTS.getDurability(12))));
         GREEN_KOOPA_SHOES = registerItem("green_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
