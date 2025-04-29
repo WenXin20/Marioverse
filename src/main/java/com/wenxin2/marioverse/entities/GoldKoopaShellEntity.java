@@ -33,7 +33,8 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
         super.tick();
         Level world = this.level();
 
-        if (!world.isClientSide && world.getBlockState(this.blockPosition()).canBeReplaced() && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_COINS.get()
+        if (!world.isClientSide && world.getBlockState(this.blockPosition()).canBeReplaced()
+                && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_COINS.get()
                 && this.getDeltaMovement().horizontalDistance() > 0.25 && this.isAlive()) {
             world.setBlock(this.blockPosition(), BlockRegistry.COIN.get().defaultBlockState(), 3);
             coinCount++;
