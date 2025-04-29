@@ -6,7 +6,7 @@
 				"identifier": "geometry.koopa_troopa",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 3,
+				"visible_bounds_width": 4,
 				"visible_bounds_height": 4.5,
 				"visible_bounds_offset": [0, 1.75, 0]
 			},
@@ -28,6 +28,19 @@
 					"cubes": [
 						{"origin": [-5, 8, -1], "size": [10, 10, 10], "uv": [0, 44]},
 						{"origin": [-5, 8, -1], "size": [10, 10, 10], "inflate": 0.4, "uv": [41, 44]}
+					]
+				},
+				{
+					"name": "shell_particles",
+					"parent": "shell",
+					"pivot": [0, 13, 4],
+					"cubes": [
+						{
+							"origin": [-5, 19, -1],
+							"size": [10, 0, 10],
+							"inflate": 0.4,
+							"uv": {}
+						}
 					]
 				},
 				{

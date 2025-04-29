@@ -227,25 +227,25 @@
 					},
 					"position": {
 						"0.0": {
-							"vector": [0, -8, -5]
+							"vector": [0, -8, -4]
 						},
 						"0.75": {
-							"vector": [0, -8, -5]
+							"vector": [0, -8, -4]
 						},
 						"0.8333": {
-							"vector": [0, 7, -5],
+							"vector": [0, 7, -4],
 							"easing": "linear"
 						},
 						"1.125": {
-							"vector": [0, -2, -5],
+							"vector": [0, -2, -4],
 							"easing": "linear"
 						},
 						"1.2917": {
-							"vector": [0, -2, -5],
+							"vector": [0, -2, -4],
 							"easing": "linear"
 						},
 						"1.5": {
-							"vector": [0, -2, -5],
+							"vector": [0, -2, -4],
 							"easing": "linear"
 						},
 						"1.625": {
@@ -278,7 +278,7 @@
 						"vector": [45, 0, 0]
 					},
 					"position": {
-						"vector": [0, -8, -5]
+						"vector": [0, -8, -4]
 					}
 				},
 				"tail": {
@@ -317,7 +317,7 @@
 						"vector": [45, 0, 0]
 					},
 					"position": {
-						"vector": [0, -8, -5]
+						"vector": [0, -8, -4]
 					}
 				},
 				"shell": {
@@ -386,7 +386,7 @@
 						"vector": [45, 0, 0]
 					},
 					"position": {
-						"vector": [0, -8, -5]
+						"vector": [0, -8, -4]
 					}
 				},
 				"tail": {
