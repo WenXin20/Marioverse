@@ -4,14 +4,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.KoopaTroopaModel;
-import com.wenxin2.marioverse.client.renderers.entities.layers.AccessoryGeoArmorLayer;
+import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
+import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
-import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -22,12 +23,10 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.loading.json.raw.Bone;
-import software.bernie.geckolib.model.data.EntityModelData;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer;
@@ -165,5 +164,26 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
 
         this.mainHandItem = animatable.getMainHandItem();
         this.offhandItem = animatable.getOffhandItem();
+    }
+
+    @Override
+    public void renderFinal(PoseStack poseStack, KoopaTroopaEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
+                            @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
+        if (animatable instanceof GoldKoopaTroopaEntity) {
+            this.model.getBone("shell").ifPresent(bone -> {
+                Vector3d bonePos = bone.getWorldPosition();
+
+                if (animatable.tickCount % 20 == 0) {
+                    double offsetRange = 0.2;
+                    double randomX = (Math.random() - 0.5) * offsetRange;
+                    double randomY = (Math.random() - 0.5) * offsetRange;
+                    double randomZ = (Math.random() - 0.5) * offsetRange;
+
+                    animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
+                            bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
+                            0, 0, 0);
+                }
+            });
+        }
     }
 }

@@ -52,6 +52,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
                 .add(EntityRegistry.BOUNCING_ICE_BALL.get())
+                .add(EntityRegistry.GOLD_KOOPA_SHELL.get())
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
@@ -389,12 +390,25 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .add(EntityRegistry.GOLD_KOOPA_SHELL.get())
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
         tag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.GOLD_KOOPA_TROOPA.get())
                 .add(EntityRegistry.GREEN_KOOPA_TROOPA.get())
                 .add(EntityRegistry.RED_KOOPA_TROOPA.get());
+
+        tag(TagRegistry.GOLD_KOOPA_SHELL_CAN_INSTAKILL)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.PIRANHA_PLANT.get());
+
+        tag(TagRegistry.GOLD_KOOPA_TROOPA_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
 
         tag(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)

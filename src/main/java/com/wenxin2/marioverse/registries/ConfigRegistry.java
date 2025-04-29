@@ -33,6 +33,8 @@ public class ConfigRegistry
 
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
 
+    public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
+    public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_KOOPA_SHELL = "koopa_shell";
     public static final String CATEGORY_KOOPA_TROOPA = "koopa_troopa";
@@ -124,6 +126,7 @@ public class ConfigRegistry
 
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
+    public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue KOOPA_SHELL_DAMAGE;
@@ -139,6 +142,7 @@ public class ConfigRegistry
 
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
+    public static ModConfigSpec.IntValue GOLD_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_RANDOM_COUNT;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_COUNT;
@@ -147,6 +151,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
     public static ModConfigSpec.IntValue KOOPA_TROOPA_HIDE_DURATION;
+    public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_COINS;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
@@ -491,7 +496,24 @@ public class ConfigRegistry
                     KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.koopa_troopa_hide_duration")
                             .comment("Duration koopa troopas hide in their shells in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("koopa_troopa_hide_duration", 100, 0, 999);
+                            .defineInRange("koopa_troopa_hide_duration", 140, 0, 999);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_GOLD_KOOPA_SHELL);
+                    GOLD_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.gold_koopa_shell_damage")
+                            .comment("Amount of damage gold koopa shells cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("gold_koopa_shell_damage", 6.0, 0.0, 16.0);
+                    MAX_GOLD_KOOPA_SHELL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_coins")
+                            .comment("Max amount of coins gold koopa shells can place§b")
+                            .defineInRange("max_gold_koopa_shell_coins", 16, 0, 64);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_GOLD_KOOPA_TROOPA);
+                    GOLD_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.gold_koopa_troopa_hide_duration")
+                            .comment("Duration gold koopa troopas hide in their shells in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("gold_koopa_troopa_hide_duration", 80, 0, 999);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
@@ -511,7 +533,7 @@ public class ConfigRegistry
                     RED_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.red_koopa_troopa_hide_duration")
                             .comment("Duration red koopa troopas hide in their shells in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("red_koopa_troopa_hide_duration", 140, 0, 999);
+                            .defineInRange("red_koopa_troopa_hide_duration", 100, 0, 999);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_HEFTY_GOOMBA);

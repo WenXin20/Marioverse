@@ -1,4 +1,4 @@
-// 1.21.1	2025-04-22T21:02:26.649218	Item Models: marioverse
+// 1.21.1	2025-04-28T22:51:48.4132321	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -15,6 +15,9 @@ fb209281fa76443b140297c0ff36c8fa23f5d6ce assets/marioverse/models/item/coin.json
 9706025e48900bd63f97e5beeb8f5d089fa44a66 assets/marioverse/models/item/fire_costume_smithing_template.json
 0a071eda79e87a6dc996e8323c07ed7899626107 assets/marioverse/models/item/fire_flower.json
 88a5f9b9b81dbcb4811c848b3e9ddb1abf2b7d05 assets/marioverse/models/item/fire_goomba_spawn_egg.json
+949526ff98bf305b8eb729792fde7261f0c4d1ca assets/marioverse/models/item/golden_koopa_shoes.json
+cfad7e0a4bfd950232e52e304149fa7d435da82b assets/marioverse/models/item/gold_koopa_shell.json
+c2d00e0d4057b2d155d2c3f0608b86dc5c14472c assets/marioverse/models/item/gold_koopa_troopa_spawn_egg.json
 21e8797c692b6e8266ae1663e37fc43402fb42aa assets/marioverse/models/item/goomba_spawn_egg.json
 b71173a0f56bbff264c8880cd7b3db569f78d81d assets/marioverse/models/item/gray_checkpoint_flag.json
 385135398692fc584063f9972d515a4cfc5cc6b9 assets/marioverse/models/item/gray_goal_pole.json

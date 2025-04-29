@@ -36,6 +36,9 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.FIRE_FLOWER.get());
         this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.GOLDEN_KOOPA_SHOES.get());
+        this.basicItem(ItemRegistry.GOLD_KOOPA_SHELL.get());
+        this.basicItem(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());

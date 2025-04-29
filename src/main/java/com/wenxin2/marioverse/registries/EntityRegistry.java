@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
+import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
+import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.entities.GreenKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.HeftyGoombaEntity;
@@ -64,6 +66,12 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
             Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).build("goomba"));
+    public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaShellEntity>> GOLD_KOOPA_SHELL =
+            Marioverse.ENTITIES.register("gold_koopa_shell", () -> EntityType.Builder.of(GoldKoopaShellEntity::new, MobCategory.MONSTER)
+                    .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("gold_koopa_shell"));
+    public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaTroopaEntity>> GOLD_KOOPA_TROOPA =
+            Marioverse.ENTITIES.register("gold_koopa_troopa", () -> EntityType.Builder.of(GoldKoopaTroopaEntity::new, MobCategory.MONSTER)
+                    .sized(1.0F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("gold_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL =
             Marioverse.ENTITIES.register("green_koopa_shell", () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.MONSTER)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("green_koopa_shell"));
@@ -167,6 +175,8 @@ public class EntityRegistry {
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
 
+        event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
+        event.put(EntityRegistry.GOLD_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.RED_KOOPA_SHELL.get(), redKoopaShellAttributes.build());

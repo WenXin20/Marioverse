@@ -19,7 +19,9 @@ public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> {
     @Override
     public ResourceLocation getTextureLocation(KoopaShoesItem animatable) {
         ItemStack stack = this.currentStack;
-        if (stack.is(ItemRegistry.RED_KOOPA_SHOES))
+        if (stack.is(ItemRegistry.GOLDEN_KOOPA_SHOES))
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/golden_koopa_shoes.png");
+        else if (stack.is(ItemRegistry.RED_KOOPA_SHOES))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/red_koopa_shoes.png");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/green_koopa_shoes.png");
     }

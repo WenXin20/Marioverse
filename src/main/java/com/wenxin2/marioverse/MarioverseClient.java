@@ -61,6 +61,7 @@ public class MarioverseClient {
 
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
@@ -150,6 +151,8 @@ public class MarioverseClient {
 
         event.registerEntityRenderer(EntityRegistry.FIRE_GOOMBA.get(), FireGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOOMBA.get(), GoombaRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.GOLD_KOOPA_SHELL.get(), KoopaShellRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.GOLD_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GREEN_KOOPA_SHELL.get(), KoopaShellRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GREEN_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.HEFTY_GOOMBA.get(), HeftyGoombaRenderer::new);
@@ -169,6 +172,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.GLOWING_STAR.get(), GlowingSuspendedTownParticle.GlowingProvider::new);
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.GOLD_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_CUBE_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);

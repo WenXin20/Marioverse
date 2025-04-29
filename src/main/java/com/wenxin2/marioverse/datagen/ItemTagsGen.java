@@ -122,10 +122,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.TURTLE_SCUTE);
 
         tag(TagRegistry.KOOPA_SHELL_ITEMS)
+                .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHELL.get())
                 .add(ItemRegistry.RED_KOOPA_SHELL.get());
 
         tag(TagRegistry.KOOPA_SHOES)
+                .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.RED_KOOPA_SHOES.get());
 

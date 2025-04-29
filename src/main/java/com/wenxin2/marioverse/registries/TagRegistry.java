@@ -151,6 +151,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");
     public static final TagKey<EntityType<?>> FIRE_GOOMBA_CAN_ATTACK = entityTypeTags("fire_goomba_can_attack");
+    public static final TagKey<EntityType<?>> GOLD_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("gold_koopa_shell_can_instakill");
+    public static final TagKey<EntityType<?>> GOLD_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("gold_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_ATTACK = entityTypeTags("goomba_can_attack");
     public static final TagKey<EntityType<?>> GOOMBA_CAN_RIDE = entityTypeTags("goomba_can_ride");
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags("goombas");

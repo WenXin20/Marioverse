@@ -28,7 +28,9 @@ public class KoopaShellModel extends GeoModel<KoopaShellEntity> {
 
     @Override
     public ResourceLocation getTextureResource(KoopaShellEntity animatable) {
-        if (animatable.getType() == EntityRegistry.RED_KOOPA_SHELL.get())
+        if (animatable.getType() == EntityRegistry.GOLD_KOOPA_SHELL.get())
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/gold_koopa_troopa.png");
+        else if (animatable.getType() == EntityRegistry.RED_KOOPA_SHELL.get())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/red_koopa_troopa.png");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa.png");
     }

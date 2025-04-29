@@ -30,6 +30,9 @@ public class ItemRegistry {
     public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> GOLDEN_KOOPA_SHOES;
+    public static final DeferredItem<Item> GOLD_KOOPA_SHELL;
+    public static final DeferredItem<Item> GOLD_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GREEN_KOOPA_SHELL;
     public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
@@ -100,6 +103,8 @@ public class ItemRegistry {
         SUPER_STAR = registerItem("super_star",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
+        GOLD_KOOPA_SHELL = registerItem("gold_koopa_shell",
+                () -> new KoopaShellItem(EntityRegistry.GOLD_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
                 () -> new KoopaShellItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         RED_KOOPA_SHELL = registerItem("red_koopa_shell",
@@ -119,6 +124,9 @@ public class ItemRegistry {
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
+        GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
+                () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         GREEN_KOOPA_SHOES = registerItem("green_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
@@ -249,6 +257,8 @@ public class ItemRegistry {
 
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        GOLD_KOOPA_TROOPA_SPAWN_EGG = registerItem("gold_koopa_troopa_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.GOLD_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         GREEN_KOOPA_TROOPA_SPAWN_EGG = registerItem("green_koopa_troopa_spawn_egg",

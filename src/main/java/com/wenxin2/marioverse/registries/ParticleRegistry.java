@@ -13,6 +13,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GLOWING_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GOOD;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GREAT;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GOLD_KOOPA_SHELL_SHATTER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GREEN_KOOPA_SHELL_SHATTER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ICE_CUBE_SHATTER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ICE_POWERED_UP;
@@ -56,6 +57,7 @@ public class ParticleRegistry {
         GLOWING_STAR = Marioverse.PARTICLES.register("glowing_star", () -> new SimpleParticleType(true));
         GOOD = Marioverse.PARTICLES.register("good", () -> new SimpleParticleType(false));
         GREAT = Marioverse.PARTICLES.register("great", () -> new SimpleParticleType(false));
+        GOLD_KOOPA_SHELL_SHATTER = Marioverse.PARTICLES.register("gold_koopa_shell_shatter", () -> new SimpleParticleType(false));
         GREEN_KOOPA_SHELL_SHATTER = Marioverse.PARTICLES.register("green_koopa_shell_shatter", () -> new SimpleParticleType(false));
         ICE_CUBE_SHATTER = Marioverse.PARTICLES.register("ice_cube_shatter", () -> new SimpleParticleType(false));
         ICE_POWERED_UP = Marioverse.PARTICLES.register("ice_powered_up", () -> new SimpleParticleType(false));
