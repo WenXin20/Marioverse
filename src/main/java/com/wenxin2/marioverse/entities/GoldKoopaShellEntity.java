@@ -5,8 +5,10 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TraceableEntity;
@@ -39,6 +41,10 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
 
         if (coinCount >= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_COINS.get())
             this.kill();
+
+        if (world instanceof ServerLevel serverWorld
+                && this.tickCount % 4 == 0 && this.isAlive())
+            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
     }
 
     @Override
