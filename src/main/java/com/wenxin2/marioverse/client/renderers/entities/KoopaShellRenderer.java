@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -196,22 +195,25 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
     @Override
     public void renderFinal(PoseStack poseStack, KoopaShellEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
                             @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
-        if (animatable instanceof GoldKoopaShellEntity) {
-            this.model.getBone("shell").ifPresent(bone -> {
-                Vector3d bonePos = bone.getWorldPosition();
+        poseStack.pushPose();
+            if (animatable instanceof GoldKoopaShellEntity) {
+                this.model.getBone("shell").ifPresent(bone -> {
+                    Vector3d bonePos = bone.getWorldPosition();
 
-                if (animatable.tickCount % 20 == 0) {
-                    double offsetRange = 0.2;
-                    double randomX = (Math.random() - 0.5) * offsetRange;
-                    double randomY = (Math.random() - 0.5) * offsetRange;
-                    double randomZ = (Math.random() - 0.5) * offsetRange;
+                    if (animatable.tickCount % 20 == 0) {
+                        double offsetRange = 0.2;
+                        double randomX = (Math.random() - 0.5) * offsetRange;
+                        double randomY = (Math.random() - 0.5) * offsetRange;
+                        double randomZ = (Math.random() - 0.5) * offsetRange;
 
-                    animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
-                            bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
-                            0, 0, 0);
-                }
-            });
-        }
+                        animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
+                                bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
+                                0, 0, 0);
+                    }
+                });
+            }
+        poseStack.popPose();
+        super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, color);
     }
 
     private static void renderBounceCollisionBox(KoopaShellEntity entity, PoseStack poseStack, VertexConsumer vertexConsumer) {

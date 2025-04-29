@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.KoopaTroopaModel;
-import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -12,7 +11,6 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -24,7 +22,6 @@ import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
-import org.joml.Vector3f;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
@@ -169,21 +166,24 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
     @Override
     public void renderFinal(PoseStack poseStack, KoopaTroopaEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
                             @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
-        if (animatable instanceof GoldKoopaTroopaEntity) {
-            this.model.getBone("shell").ifPresent(bone -> {
-                Vector3d bonePos = bone.getWorldPosition();
+        poseStack.pushPose();
+            if (animatable instanceof GoldKoopaTroopaEntity) {
+                this.model.getBone("shell_particles").ifPresent(bone -> {
+                    Vector3d bonePos = bone.getWorldPosition();
 
-                if (animatable.tickCount % 20 == 0) {
-                    double offsetRange = 0.2;
-                    double randomX = (Math.random() - 0.5) * offsetRange;
-                    double randomY = (Math.random() - 0.5) * offsetRange;
-                    double randomZ = (Math.random() - 0.5) * offsetRange;
+                    if (animatable.tickCount % 20 == 0) {
+                        double offsetRange = 0.2;
+                        double randomX = (Math.random() - 0.5) * bone.getScaleX();
+                        double randomY = (Math.random() - 0.5) * bone.getScaleY();
+                        double randomZ = (Math.random() - 0.5) * bone.getScaleZ();
 
-                    animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
-                            bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
-                            0, 0, 0);
-                }
-            });
-        }
+                        animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
+                                bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
+                                0, 0, 0);
+                    }
+                });
+            }
+        poseStack.popPose();
+        super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, color);
     }
 }
