@@ -10,6 +10,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -90,6 +91,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                     && (this.getOwner() == null
                         || !this.getOwner().getUUID().equals(player.getUUID()))) {
                 double dist = this.distanceToSqr(player);
+
+                if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
+                        && player.getTeam() == this.getOwner().getTeam())
+                    continue;
+
                 if (dist < closestDistance) {
                     closestDistance = dist;
                     target = player;
@@ -104,6 +110,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                 if (entity.isAlive() && !entity.is(this)
                         && !entity.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(entity);
+
+                    if (this.getOwner() != null && entity.getTeam() != null && this.getOwner().getTeam() != null
+                            && entity.getTeam() == this.getOwner().getTeam())
+                        continue;
+
                     if (dist < closestDistance) {
                         closestDistance = dist;
                         target = entity;
@@ -119,6 +130,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                 if (monster.isAlive() && !monster.is(this) && !monster.isNoAi()
                         && !monster.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(monster);
+
+                    if (this.getOwner() != null && monster.getTeam() != null && this.getOwner().getTeam() != null
+                            && monster.getTeam() == this.getOwner().getTeam())
+                        continue;
+
                     if (dist < closestDistance) {
                         closestDistance = dist;
                         target = monster;
@@ -134,6 +150,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                 if (shulker.isAlive() && !shulker.isClosed() && !shulker.is(this) && !shulker.isNoAi()
                         && !shulker.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(shulker);
+
+                    if (this.getOwner() != null && shulker.getTeam() != null && this.getOwner().getTeam() != null
+                            && shulker.getTeam() == this.getOwner().getTeam())
+                        continue;
+
                     if (dist < closestDistance) {
                         closestDistance = dist;
                         target = shulker;
