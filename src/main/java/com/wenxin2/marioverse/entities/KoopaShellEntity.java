@@ -671,8 +671,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
                 world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
-                if (this instanceof RedKoopaShellEntity)
-                    this.kill();
+                return;
             }
 
             if (entity instanceof Breeze) {
