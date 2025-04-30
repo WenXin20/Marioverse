@@ -378,9 +378,9 @@ public abstract class EntityMixin {
             if (state.getBlock() instanceof WarpPipeBlock)
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
-        } else if (warpBE.getUuid() != null && warpBE.getWarpUuid() != null
-                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid()) != null) {
-            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUuid());
+        } else if (warpBE.getUUID() != null && warpBE.getWarpUuid() != null
+                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
+            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
             BlockState warpState = world.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)

@@ -95,11 +95,11 @@ public class BaseWarpBlockEntity extends BlockEntity {
         this.setChanged();
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return this.uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUUID(UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -159,7 +159,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
             tag.putString(WARP_DIMENSION, this.dimensionTag);
 
         if (this.uuid != null)
-            tag.putUUID(UUID, this.getUuid());
+            tag.putUUID(UUID, this.getUUID());
 
         if (this.warpUuid != null)
             tag.putUUID(WARP_UUID, this.getWarpUuid());

@@ -430,9 +430,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
         WarpPipeBlockEntity pipeBlockEntity = (WarpPipeBlockEntity) serverWorld.getBlockEntity(pos);
 
-        if (!serverWorld.isClientSide && pipeBlockEntity != null && pipeBlockEntity.getUuid() == null) {
+        if (!serverWorld.isClientSide && pipeBlockEntity != null && pipeBlockEntity.getUUID() == null) {
             UUID uuid = UUID.randomUUID();
-            pipeBlockEntity.setUuid(uuid);
+            pipeBlockEntity.setUUID(uuid);
             pipeBlockEntity.setChanged();
             BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
         }
@@ -486,7 +486,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         if (!world.isClientSide && blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
             UUID uuid = UUID.randomUUID();
             pipeBlockEntity.setPreventWarp(Boolean.FALSE);
-            pipeBlockEntity.setUuid(uuid);
+            pipeBlockEntity.setUUID(uuid);
             pipeBlockEntity.setChanged();
         }
 
