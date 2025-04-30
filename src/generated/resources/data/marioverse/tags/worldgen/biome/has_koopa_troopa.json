@@ -1,7 +1,10 @@
 {
   "values": [
     "#c:is_beach",
+    "#c:is_plains",
     "minecraft:beach",
-    "minecraft:snowy_beach"
+    "minecraft:plains",
+    "minecraft:snowy_beach",
+    "minecraft:sunflower_plains"
   ]
 }

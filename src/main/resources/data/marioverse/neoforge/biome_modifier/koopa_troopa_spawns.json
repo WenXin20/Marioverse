@@ -4,9 +4,21 @@
   "spawners": [
     {
       "type": "marioverse:green_koopa_troopa",
-      "weight": 20,
+      "weight": 50,
+      "minCount": 2,
+      "maxCount": 4
+    },
+    {
+      "type": "marioverse:red_koopa_troopa",
+      "weight": 30,
       "minCount": 1,
       "maxCount": 3
+    },
+    {
+      "type": "marioverse:gold_koopa_troopa",
+      "weight": 20,
+      "minCount": 1,
+      "maxCount": 2
     }
   ]
 }
