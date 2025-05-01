@@ -36,6 +36,8 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public UUID uuid;
     public UUID warpUuid;
     public static final Map<UUID, BlockPos> WARP_LOCATIONS = new HashMap<>();
+    // Store a map to track whether entities have teleported or not
+    public static final Map<Integer, Boolean> WARPED_ENTITIES = new HashMap<>();
 
     public BaseWarpBlockEntity(final BlockEntityType<?> tileEntity, BlockPos pos, BlockState state) {
         super(tileEntity, pos, state);
@@ -202,14 +204,10 @@ public class BaseWarpBlockEntity extends BlockEntity {
         );
     }
 
-    // Store a map to track whether entities have teleported or not
-    public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
-
     // Method to mark an entity as teleported
     public static void markEntityTeleported(Entity entity) {
-        if (entity != null) {
-            teleportedEntities.put(entity.getId(), true);
-        }
+        if (entity != null)
+            WARPED_ENTITIES.put(entity.getId(), true);
     }
 
     public static BlockPos findMatchingUUID(UUID uuid) {

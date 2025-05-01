@@ -13,6 +13,7 @@
     "EntityMixin",
     "HoneycombItemMixin",
     "LivingEntityMixin",
+    "PaintingMixin",
     "PlayerMixin",
     "PowderSnowBlockMixin",
     "ServerPlayerMixin",

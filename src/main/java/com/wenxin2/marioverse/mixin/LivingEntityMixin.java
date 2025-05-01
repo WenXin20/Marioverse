@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -60,6 +61,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -165,6 +167,16 @@ public abstract class LivingEntityMixin extends Entity {
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
+
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() // TODO
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox().inflate(0.1));
+
+            for (Painting painting : nearbyPaintings) {
+                this.marioverse$enterWarp(pos);
+                break;
+            }
+        }
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
@@ -1281,9 +1293,9 @@ public abstract class LivingEntityMixin extends Entity {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, false))
+            if (BaseWarpBlockEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
                 // Reset the teleport status for the entity
-                BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
+                BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
 
             if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
                 this.marioverse$enterWarpDoor(pos, warpPos, warpBE);
@@ -1297,11 +1309,25 @@ public abstract class LivingEntityMixin extends Entity {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
-                BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
+            if (BaseWarpBlockEntity.WARPED_ENTITIES.getOrDefault(entityId, true))
+                BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
 
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
+        }
+
+        List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox().inflate(0.1));
+        for (Painting painting : nearbyPaintings) {
+            if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.marioverse$getPreventWarp()) {
+                warpPos = linkableEntity.marioverse$getDestinationPos();
+                int entityId = this.getId();
+
+                if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
+                    WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
+
+                this.marioverse$enterWarpPainting(pos, warpPos, linkableEntity);
+            }
+            break;
         }
     }
 
@@ -1336,6 +1362,19 @@ public abstract class LivingEntityMixin extends Entity {
             if (state.getBlock() instanceof WarpPipeBlock)
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
+        }
+    }
+
+    @Unique
+    public void marioverse$warp(WarpLinkableEntity warpLinkableEntity) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        Level world = entity.level();
+
+        if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null
+                && serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID()) != null) {
+            BlockPos warpPos = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID()).blockPosition();
+
+            WarpLinkableEntity.warp(entity, warpPos, world);
         }
     }
 
@@ -1428,6 +1467,21 @@ public abstract class LivingEntityMixin extends Entity {
                     this.marioverse$warp(pos, stateAboveEntity, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$enterWarpPainting(BlockPos pos, BlockPos warpPos, WarpLinkableEntity warpLinkableEntity) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+        Level world = entity.level();
+        BlockState state = world.getBlockState(pos);
+
+        if (ConfigRegistry.TELEPORT_MOBS.get() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            if (this.marioverse$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
+                this.marioverse$warp(warpLinkableEntity);
+                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get()); // TODO
             }
         }
     }

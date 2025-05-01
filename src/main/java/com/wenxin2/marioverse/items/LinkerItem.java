@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
@@ -20,6 +21,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -57,7 +59,7 @@ public class LinkerItem extends TieredItem {
                         || state.getBlock() instanceof TrapDoorBlock
                         || state.getBlock() instanceof ClearWarpPipeBlock
                         || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
-                UUID uuid = warpBE.getUuid();
+                UUID uuid = warpBE.getUUID();
 
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
@@ -67,7 +69,7 @@ public class LinkerItem extends TieredItem {
 
                     if (!world.isClientSide && uuid == null) {
                         uuid = UUID.randomUUID();
-                        warpBE.setUuid(uuid);
+                        warpBE.setUUID(uuid);
                         warpBE.setChanged();
                     }
                     // First interaction: Bind the first block
@@ -85,7 +87,7 @@ public class LinkerItem extends TieredItem {
 
                     if (!world.isClientSide && uuid == null) {
                         uuid = UUID.randomUUID();
-                        warpBE.setUuid(uuid);
+                        warpBE.setUUID(uuid);
                         warpBE.setChanged();
                     }
 
@@ -94,7 +96,7 @@ public class LinkerItem extends TieredItem {
                     BlockState firstState = world.getBlockState(firstPos);
                     String firstDim = getWarpDimension(stack);
 
-//                    if (dimension.equals(getWarpDimension(stack))) {
+                  //  if (dimension.equals(getWarpDimension(stack))) {
                         BlockEntity firstBlockEntity = world.getBlockEntity(firstPos);
                         if (firstBlockEntity instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
 
@@ -107,7 +109,7 @@ public class LinkerItem extends TieredItem {
                             this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
                             this.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
                         }
-//                    }
+                  //  }
                     setIsBound(stack, false);  // Reset binding
                 }
                 return InteractionResult.sidedSuccess(Boolean.TRUE);
@@ -117,8 +119,8 @@ public class LinkerItem extends TieredItem {
     }
 
     public void link(ItemStack stack, BaseWarpBlockEntity firstPipeBlockEntity, BaseWarpBlockEntity secondPipeBlockEntity) {
-        UUID firstUuid = firstPipeBlockEntity.getUuid();
-        UUID secondUuid = secondPipeBlockEntity.getUuid();
+        UUID firstUuid = firstPipeBlockEntity.getUUID();
+        UUID secondUuid = secondPipeBlockEntity.getUUID();
 
         BlockPos firstPos = firstPipeBlockEntity.getBlockPos();
         BlockPos secondPos = secondPipeBlockEntity.getBlockPos();
@@ -142,6 +144,33 @@ public class LinkerItem extends TieredItem {
         firstPipeBlockEntity.markUpdated();
         secondPipeBlockEntity.markUpdated();
         clearItemComponents(stack);
+    }
+
+    public void link(ItemStack stack, Entity firstEntity, Entity secondEntity) {
+        if (firstEntity instanceof WarpLinkableEntity firstWarpEntity
+                && secondEntity instanceof WarpLinkableEntity secondWarpEntity) {
+            UUID firstUuid = firstEntity.getUUID();
+            UUID secondUuid = secondEntity.getUUID();
+
+//            BlockPos firstPos = firstEntity.blockPosition();
+//            BlockPos secondPos = secondEntity.blockPosition();
+            ResourceKey<Level> firstDim = firstWarpEntity.marioverse$getDestinationDim();
+            ResourceKey<Level> secondDim = secondWarpEntity.marioverse$getDestinationDim();
+
+            // Linking logic
+//            firstWarpEntity.setDestinationPos(secondPos);
+//            secondWarpEntity.setDestinationPos(firstPos);
+
+            if (secondDim != null)
+                firstWarpEntity.marioverse$setDestinationDim(secondDim);
+            if (firstDim != null)
+                secondWarpEntity.marioverse$setDestinationDim(firstDim);
+
+            secondWarpEntity.marioverse$setWarpUuid(firstUuid);
+            firstWarpEntity.marioverse$setWarpUuid(secondUuid);
+
+            clearItemComponents(stack);
+        }
     }
 
     public void clearItemComponents(ItemStack stack) {
@@ -197,7 +226,7 @@ public class LinkerItem extends TieredItem {
         world.playSound(null, pos, soundEvent, source, volume, pitch);
     }
 
-    private void spawnParticles(Level world, BlockPos pos, ParticleOptions particleOptions) {
+    public void spawnParticles(Level world, BlockPos pos, ParticleOptions particleOptions) {
         if (world.isClientSide()) {
             RandomSource random = world.getRandom();
 
@@ -211,8 +240,8 @@ public class LinkerItem extends TieredItem {
         }
     }
 
-    @Override
     @ParametersAreNonnullByDefault
+    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
         if (getIsBound(stack)) {
             list.add(Component.translatable("", true));

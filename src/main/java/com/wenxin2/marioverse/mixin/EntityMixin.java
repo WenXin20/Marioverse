@@ -337,9 +337,9 @@ public abstract class EntityMixin {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
+            if (BaseWarpBlockEntity.WARPED_ENTITIES.getOrDefault(entityId, true))
                 // Reset the teleport status for the entity
-                BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
+                BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
 
             if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
                 this.marioverse$enterWarpDoor(pos, warpPos, warpBE);
@@ -353,8 +353,8 @@ public abstract class EntityMixin {
             warpPos = warpBE.destinationPos;
             int entityId = this.getId();
 
-            if (BaseWarpBlockEntity.teleportedEntities.getOrDefault(entityId, true))
-                BaseWarpBlockEntity.teleportedEntities.put(entityId, false);
+            if (BaseWarpBlockEntity.WARPED_ENTITIES.getOrDefault(entityId, true))
+                BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
 
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
