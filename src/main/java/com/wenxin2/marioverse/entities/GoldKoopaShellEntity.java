@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TraceableEntity;
@@ -46,6 +47,8 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
                 && this.getDeltaMovement().horizontalDistance() > 0.25 && this.isAlive()) {
             world.setBlock(this.blockPosition(), coinState.setValue(BlockStateProperties.WATERLOGGED,
                     fluidState.getType() == Fluids.WATER), 3);
+            world.playSound(null, pos, BlockRegistry.COIN.get().getSoundType(coinState, world, pos, null).getPlaceSound(),
+                    SoundSource.BLOCKS, 1.0F, 1.0F);
             coinCount++;
         }
 
