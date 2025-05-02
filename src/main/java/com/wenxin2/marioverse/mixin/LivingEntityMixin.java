@@ -1475,7 +1475,6 @@ public abstract class LivingEntityMixin extends Entity {
     public void marioverse$enterWarpPainting(BlockPos pos, BlockPos warpPos, WarpLinkableEntity warpLinkableEntity) {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
-        BlockState state = world.getBlockState(pos);
 
         if (ConfigRegistry.TELEPORT_MOBS.get() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {

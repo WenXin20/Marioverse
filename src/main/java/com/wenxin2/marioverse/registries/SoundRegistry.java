@@ -59,6 +59,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_STOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PAINTING_WARPS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPES_LINKED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
@@ -198,6 +199,9 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_step")));
         MINI_GOOMBA_STOMP = Marioverse.SOUNDS.register("entity.mini_goomba_stomp",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_stomp")));
+
+        PAINTING_WARPS = Marioverse.SOUNDS.register("entity.painting_warps",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.painting_warps")));
 
         PIRANHA_PLANT_CHOMP = Marioverse.SOUNDS.register("entity.piranha_plant_chomp",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_chomp")));

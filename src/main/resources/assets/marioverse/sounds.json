@@ -165,6 +165,9 @@
   "entity.mini_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_stomp", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.mini_goomba_stomp" },
 
+  "entity.painting_warps": { "category": "neutral", "sounds": [{ "name": "marioverse:entity/painting_warps", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.painting_warps" },
+
   "entity.piranha_plant_chomp": { "category": "hostile",
     "sounds": [{ "name": "marioverse:entity/piranha_plant/piranha_plant_chomp1", "stream": false },
       { "name": "marioverse:entity/piranha_plant/piranha_plant_chomp2", "stream": false }],

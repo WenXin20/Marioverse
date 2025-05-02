@@ -1,12 +1,14 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -62,5 +64,6 @@ public interface WarpLinkableEntity {
 
         markEntityTeleported(entity);
         world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
+        world.playSound(null, warpPos, SoundRegistry.PAINTING_WARPS.get(), SoundSource.BLOCKS);
     }
 }
