@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -154,13 +155,12 @@ public abstract class PlayerMixin extends Entity {
         List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, player.getBoundingBox().inflate(0.1));
         for (Painting painting : nearbyPaintings) {
             if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.marioverse$getPreventWarp()) {
-                warpPos = linkableEntity.marioverse$getDestinationPos();
                 int entityId = this.getId();
 
                 if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
                     WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
 
-                this.marioverse$enterWarpPainting(pos, warpPos, linkableEntity);
+                this.marioverse$enterWarpPainting(linkableEntity);
             }
             break;
         }
@@ -207,11 +207,31 @@ public abstract class PlayerMixin extends Entity {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
 
-        if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null
-                && serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID()) != null) {
-            BlockPos warpPos = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID()).blockPosition();
+        if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null) {
+            Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID());
+            if (warpEntity != null) {
+                if (warpEntity instanceof Painting painting) {
+                    int width = painting.getVariant().value().width() / 2;
+                    BlockPos basePos = painting.getPos();
 
-            WarpLinkableEntity.warp(entity, warpPos, world);
+                    int centerX = basePos.getX();
+                    int centerY = basePos.getY();
+                    int centerZ = basePos.getZ();
+
+                    switch (painting.getDirection()) {
+                        case NORTH -> centerX -= width;
+                        case SOUTH -> centerX += width;
+                        case WEST  -> centerZ += width;
+                        case EAST  -> centerZ -= width;
+                    }
+
+                    BlockPos warpPos = new BlockPos(centerX, centerY, centerZ);
+                    WarpLinkableEntity.warp(entity, warpPos, world);
+                } else {
+                    BlockPos warpPos = warpEntity.blockPosition();
+                    WarpLinkableEntity.warp(entity, warpPos, world);
+                }
+            }
         }
     }
 
@@ -357,10 +377,8 @@ public abstract class PlayerMixin extends Entity {
     }
 
     @Unique
-    public void marioverse$enterWarpPainting(BlockPos pos, BlockPos warpPos, WarpLinkableEntity warpLinkableEntity) {
+    public void marioverse$enterWarpPainting(WarpLinkableEntity warpLinkableEntity) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        Level world = entity.level();
-        BlockState state = world.getBlockState(pos);
 
         if (ConfigRegistry.TELEPORT_MOBS.get() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {

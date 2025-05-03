@@ -50,6 +50,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -432,7 +433,9 @@ public class MarioverseEventHandlers {
 
                     if (!LinkerItem.getIsBound(stack)) {
                         // First interaction: Bind the first block
-                        LinkerItem.setWarpPos(stack, pos);
+                        if (target instanceof Painting painting)
+                            LinkerItem.setWarpPos(stack, new BlockPos(pos.getX() + painting.getVariant().value().width(), pos.getY() + painting.getVariant().value().height(), pos.getZ() + painting.getVariant().value().width()));
+                        else LinkerItem.setWarpPos(stack, new BlockPos((int) (pos.getX() + target.getBbWidth()), (int) (pos.getY() + target.getBbHeight()), (int) (pos.getZ() + target.getBbWidth())));
                         LinkerItem.setWarpDimension(stack, target.level().dimension().toString());
                         LinkerItem.setWarpUUID(stack, uuid);
                         LinkerItem.setIsBound(stack, true);  // Mark the item as bound
@@ -440,7 +443,7 @@ public class MarioverseEventHandlers {
                         player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                 target.getName()).withStyle(ChatFormatting.GREEN), true);
 
-                        linker.spawnParticles(world, pos, ParticleTypes.ENCHANT);
+                        linker.spawnParticles(world, target, pos, ParticleTypes.ENCHANT);
                         linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                     } else {
                         // Second interaction: Link the blocks
@@ -461,7 +464,7 @@ public class MarioverseEventHandlers {
                         }
 
 
-                        linker.spawnParticles(world, pos, ParticleTypes.ENCHANT);
+                        linker.spawnParticles(world, target, pos, ParticleTypes.ENCHANT);
                         linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
                     //  }
                         LinkerItem.setIsBound(stack, false);  // Reset binding
