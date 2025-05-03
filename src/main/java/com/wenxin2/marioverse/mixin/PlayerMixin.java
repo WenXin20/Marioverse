@@ -152,7 +152,7 @@ public abstract class PlayerMixin extends Entity {
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
         }
 
-        List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, player.getBoundingBox().inflate(0.1));
+        List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, player.getBoundingBox());
         for (Painting painting : nearbyPaintings) {
             if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.marioverse$getPreventWarp()) {
                 int entityId = this.getId();
@@ -211,25 +211,24 @@ public abstract class PlayerMixin extends Entity {
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID());
             if (warpEntity != null) {
                 if (warpEntity instanceof Painting painting) {
-                    int width = painting.getVariant().value().width() / 2;
+                    int width = painting.getVariant().value().width();
                     BlockPos basePos = painting.getPos();
 
-                    int centerX = basePos.getX();
-                    int centerY = basePos.getY();
-                    int centerZ = basePos.getZ();
+                    double centerX = basePos.getX();
+                    double centerY = basePos.getY();
+                    double centerZ = basePos.getZ();
 
                     switch (painting.getDirection()) {
-                        case NORTH -> centerX -= width;
-                        case SOUTH -> centerX += width;
-                        case WEST  -> centerZ += width;
-                        case EAST  -> centerZ -= width;
+                        case NORTH -> { centerX -= 0; centerZ += 0.5; }
+                        case SOUTH -> { centerX += (double) width / 2; centerZ += 0.5; }
+                        case WEST  -> { centerZ += (double) width / 2; centerX += 0.5; }
+                        case EAST  -> { centerZ -= 0; centerX += 0.5; }
                     }
 
-                    BlockPos warpPos = new BlockPos(centerX, centerY, centerZ);
-                    WarpLinkableEntity.warp(entity, warpPos, world);
+                    WarpLinkableEntity.warp(entity, centerX, centerY, centerZ, world);
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
-                    WarpLinkableEntity.warp(entity, warpPos, world);
+                    WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
                 }
             }
         }

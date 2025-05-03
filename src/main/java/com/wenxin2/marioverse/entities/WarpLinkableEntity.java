@@ -46,15 +46,15 @@ public interface WarpLinkableEntity {
             WARPED_ENTITIES.put(entity.getId(), true);
     }
 
-    static void warp(Entity entity, BlockPos warpPos, Level world) {
+    static void warp(Entity entity, double x, double y, double z, Level world) {
         Entity passengerEntity = entity.getControllingPassenger();
 
         if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+            entity.teleportTo(x, y, z);
             if (ConfigRegistry.BLINDNESS_EFFECT.get())
                 player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
         } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+            entity.teleportTo(x, y, z);
             if (passengerEntity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -63,7 +63,7 @@ public interface WarpLinkableEntity {
         }
 
         markEntityTeleported(entity);
-        world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
-        world.playSound(null, warpPos, SoundRegistry.PAINTING_WARPS.get(), SoundSource.BLOCKS);
+        world.gameEvent(GameEvent.TELEPORT, BlockPos.containing(x, y, z), GameEvent.Context.of(entity));
+        world.playSound(null, BlockPos.containing(x, y, z), SoundRegistry.PAINTING_WARPS.get(), SoundSource.BLOCKS);
     }
 }
