@@ -63,10 +63,6 @@ public interface WarpLinkableEntity {
             WARPED_ENTITIES.put(entity.getId(), true);
     }
 
-//    static BlockPos findMatchingUUID(UUID uuid) {
-//        return WARP_LOCATIONS.getOrDefault(uuid, null);
-//    }
-
     static void warp(Entity entity, double x, double y, double z, Level world) {
         Entity passengerEntity = entity.getControllingPassenger();
 

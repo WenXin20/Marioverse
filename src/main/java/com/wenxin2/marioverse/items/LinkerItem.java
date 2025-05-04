@@ -177,25 +177,20 @@ public class LinkerItem extends TieredItem {
                     int width = firstPainting.getVariant().value().width();
                     Direction dir = firstPainting.getDirection();
                     WarpLinkableEntity.setWarpPos(firstUuid, firstPos, dir, width);
-                } else {
-                    WarpLinkableEntity.setWarpPos(firstUuid, firstPos, Direction.NORTH, 1);
-                }
+                } else WarpLinkableEntity.setWarpPos(firstUuid, firstPos, Direction.NORTH, 1);
             } else {
                 UUID firstUuid = LinkerItem.getWarpUUID(stack);
                 secondWarpEntity.marioverse$setDestinationPos(firstPos);
-                secondWarpEntity.marioverse$setWarpUuid(firstUuid); // or preserve old UUID if needed
+                secondWarpEntity.marioverse$setWarpUuid(firstUuid);
                 WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(firstPos, firstEntity);
                 WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(secondPos, secondEntity);
-                // Optionally set dimension if known
             }
 
             if (secondEntity instanceof Painting secondPainting) {
                 int width = secondPainting.getVariant().value().width();
                 Direction dir = secondPainting.getDirection();
                 WarpLinkableEntity.setWarpPos(secondUuid, secondPos, dir, width);
-            } else {
-                WarpLinkableEntity.setWarpPos(secondUuid, secondPos, Direction.NORTH, 1);
-            }
+            } else WarpLinkableEntity.setWarpPos(secondUuid, secondPos, Direction.NORTH, 1);
 
             clearItemComponents(stack);
         }

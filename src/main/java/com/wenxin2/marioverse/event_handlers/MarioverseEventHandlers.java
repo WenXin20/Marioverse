@@ -2,10 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
-import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
-import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
-import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
@@ -29,24 +26,19 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -59,17 +51,9 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -444,7 +428,6 @@ public class MarioverseEventHandlers {
                     UUID uuid = target.getUUID();
 
                     if (!LinkerItem.getIsBound(stack)) {
-                        // First interaction: Bind the first block
                         if (target instanceof Painting painting) {
                             int width = painting.getVariant().value().width();
                             Direction dir = painting.getDirection();
@@ -457,7 +440,7 @@ public class MarioverseEventHandlers {
 
                         LinkerItem.setWarpDimension(stack, target.level().dimension().toString());
                         LinkerItem.setWarpUUID(stack, uuid);
-                        LinkerItem.setIsBound(stack, true);  // Mark the item as bound
+                        LinkerItem.setIsBound(stack, true);
 
                         WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
@@ -467,15 +450,10 @@ public class MarioverseEventHandlers {
                         linker.spawnParticles(world, target, pos, ParticleTypes.ENCHANT);
                         linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                     } else {
-                        // Second interaction: Link the blocks
                         BlockPos firstPos = LinkerItem.getWarpPos(stack);
                         UUID firstUUID = LinkerItem.getWarpUUID(stack);
-                        BlockState firstState = world.getBlockState(firstPos);
-                        String firstDim = LinkerItem.getWarpDimension(stack);
 
                     //  if (dimension.equals(getWarpDimension(stack))) {
-
-                        // Perform the linking logic
                         if (world instanceof ServerLevel serverWorld) {
                             Entity firstEntity = serverWorld.getEntity(firstUUID);
                             if (firstEntity == null) {
@@ -494,7 +472,7 @@ public class MarioverseEventHandlers {
                         linker.spawnParticles(world, target, pos, ParticleTypes.ENCHANT);
                         linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
                     //  }
-                        LinkerItem.setIsBound(stack, false);  // Reset binding
+                        LinkerItem.setIsBound(stack, false);
                     }
                     player.swing(player.getUsedItemHand());
                 }
