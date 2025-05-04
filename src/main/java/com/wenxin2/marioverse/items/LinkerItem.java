@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -22,6 +23,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -146,28 +148,54 @@ public class LinkerItem extends TieredItem {
         clearItemComponents(stack);
     }
 
-    public void link(ItemStack stack, Entity firstEntity, Entity secondEntity) {
-        if (firstEntity instanceof WarpLinkableEntity firstWarpEntity
-                && secondEntity instanceof WarpLinkableEntity secondWarpEntity) {
-            UUID firstUuid = firstEntity.getUUID();
+    public void link(ItemStack stack, Entity firstEntity, Entity secondEntity, BlockPos firstPos) {
+        if (secondEntity instanceof WarpLinkableEntity secondWarpEntity) {
             UUID secondUuid = secondEntity.getUUID();
+            BlockPos secondPos = secondEntity.blockPosition();
 
-//            BlockPos firstPos = firstEntity.blockPosition();
-//            BlockPos secondPos = secondEntity.blockPosition();
-            ResourceKey<Level> firstDim = firstWarpEntity.marioverse$getDestinationDim();
-            ResourceKey<Level> secondDim = secondWarpEntity.marioverse$getDestinationDim();
+            // Try to cast firstEntity to WarpLinkableEntity if available
+            if (firstEntity instanceof WarpLinkableEntity firstWarpEntity) {
+                UUID firstUuid = firstEntity.getUUID();
+                ResourceKey<Level> firstDim = firstWarpEntity.marioverse$getDestinationDim();
+                ResourceKey<Level> secondDim = secondWarpEntity.marioverse$getDestinationDim();
 
-            // Linking logic
-//            firstWarpEntity.setDestinationPos(secondPos);
-//            secondWarpEntity.setDestinationPos(firstPos);
+                // Linking both ways
+                firstWarpEntity.marioverse$setDestinationPos(secondPos);
+                secondWarpEntity.marioverse$setDestinationPos(firstEntity.blockPosition());
 
-            if (secondDim != null)
-                firstWarpEntity.marioverse$setDestinationDim(secondDim);
-            if (firstDim != null)
-                secondWarpEntity.marioverse$setDestinationDim(firstDim);
+                if (secondDim != null)
+                    firstWarpEntity.marioverse$setDestinationDim(secondDim);
+                if (firstDim != null)
+                    secondWarpEntity.marioverse$setDestinationDim(firstDim);
 
-            secondWarpEntity.marioverse$setWarpUuid(firstUuid);
-            firstWarpEntity.marioverse$setWarpUuid(secondUuid);
+                firstWarpEntity.marioverse$setWarpUuid(secondUuid);
+                secondWarpEntity.marioverse$setWarpUuid(firstUuid);
+                WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(firstPos, firstEntity);
+                WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(secondPos, secondEntity);
+
+                if (firstEntity instanceof Painting firstPainting) {
+                    int width = firstPainting.getVariant().value().width();
+                    Direction dir = firstPainting.getDirection();
+                    WarpLinkableEntity.setWarpPos(firstUuid, firstPos, dir, width);
+                } else {
+                    WarpLinkableEntity.setWarpPos(firstUuid, firstPos, Direction.NORTH, 1);
+                }
+            } else {
+                UUID firstUuid = LinkerItem.getWarpUUID(stack);
+                secondWarpEntity.marioverse$setDestinationPos(firstPos);
+                secondWarpEntity.marioverse$setWarpUuid(firstUuid); // or preserve old UUID if needed
+                WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(firstPos, firstEntity);
+                WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(secondPos, secondEntity);
+                // Optionally set dimension if known
+            }
+
+            if (secondEntity instanceof Painting secondPainting) {
+                int width = secondPainting.getVariant().value().width();
+                Direction dir = secondPainting.getDirection();
+                WarpLinkableEntity.setWarpPos(secondUuid, secondPos, dir, width);
+            } else {
+                WarpLinkableEntity.setWarpPos(secondUuid, secondPos, Direction.NORTH, 1);
+            }
 
             clearItemComponents(stack);
         }

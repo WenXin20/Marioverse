@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.items.LinkerItem;
@@ -28,14 +29,19 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -53,11 +59,17 @@ import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -433,12 +445,21 @@ public class MarioverseEventHandlers {
 
                     if (!LinkerItem.getIsBound(stack)) {
                         // First interaction: Bind the first block
-                        if (target instanceof Painting painting)
-                            LinkerItem.setWarpPos(stack, new BlockPos(pos.getX() + painting.getVariant().value().width(), pos.getY() + painting.getVariant().value().height(), pos.getZ() + painting.getVariant().value().width()));
-                        else LinkerItem.setWarpPos(stack, new BlockPos((int) (pos.getX() + target.getBbWidth()), (int) (pos.getY() + target.getBbHeight()), (int) (pos.getZ() + target.getBbWidth())));
+                        if (target instanceof Painting painting) {
+                            int width = painting.getVariant().value().width();
+                            Direction dir = painting.getDirection();
+                            WarpLinkableEntity.setWarpPos(uuid, pos, dir, width);
+                            LinkerItem.setWarpPos(stack, pos);
+                        } else {
+                            WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
+                            LinkerItem.setWarpPos(stack, pos);
+                        }
+
                         LinkerItem.setWarpDimension(stack, target.level().dimension().toString());
                         LinkerItem.setWarpUUID(stack, uuid);
                         LinkerItem.setIsBound(stack, true);  // Mark the item as bound
+
+                        WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
                         player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                 target.getName()).withStyle(ChatFormatting.GREEN), true);
@@ -457,7 +478,13 @@ public class MarioverseEventHandlers {
                         // Perform the linking logic
                         if (world instanceof ServerLevel serverWorld) {
                             Entity firstEntity = serverWorld.getEntity(firstUUID);
-                            linker.link(stack, firstEntity, target);
+                            if (firstEntity == null) {
+                                WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(firstUUID);
+                                if (warpTarget != null)
+                                    firstPos = warpTarget.pos();
+                            }
+
+                            linker.link(stack, firstEntity, target, firstPos);
                             if (firstEntity != null)
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
                                         target.getName(), firstEntity.getName()).withStyle(ChatFormatting.GOLD), true);

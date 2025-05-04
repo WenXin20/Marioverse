@@ -1,11 +1,15 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import java.util.Map;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -36,6 +40,7 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     @Unique public boolean marioverse$isWaxed;
     @Unique public UUID marioverse$UUID;
     @Unique public UUID marioverse$warpUUID;
+    @Unique public Entity marioverse$warpEntity;
 
     public PaintingMixin(EntityType<? extends HangingEntity> type, Level world) {
         super(type, world);
@@ -43,8 +48,12 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.marioverse$getWarpEntity());
         tag.putBoolean(PREVENT_WARP, this.marioverse$preventWarp);
         tag.putBoolean(IS_WAXED, this.marioverse$isWaxed);
+
+        if (this.marioverse$hasDestinationPos() && this.marioverse$destinationPos != null)
+            tag.put(WARP_POS, NbtUtils.writeBlockPos(this.marioverse$destinationPos));
 
         if (this.marioverse$dimensionTag != null)
             tag.putString(WARP_DIMENSION, this.marioverse$dimensionTag);
@@ -54,11 +63,28 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
 
         if (this.marioverse$warpUUID != null)
             tag.putUUID(WARP_UUID, this.marioverse$getWarpUUID());
+
+        ListTag listTag = new ListTag();
+        for (Map.Entry<UUID, WarpTarget> entry : WARP_LOCATIONS.entrySet()) {
+            CompoundTag entryTag = new CompoundTag();
+            entryTag.putUUID("UUID", entry.getKey());
+            entryTag.putLong("Pos", entry.getValue().pos().asLong());
+            entryTag.putString("Direction", entry.getValue().direction().getName());
+            entryTag.putInt("Width", entry.getValue().width());
+            listTag.add(entryTag);
+        }
+        tag.put("WarpLocations", listTag);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.marioverse$getWarpEntity());
         this.marioverse$isWaxed = tag.getBoolean(IS_WAXED);
+
+        if (tag.contains(WARP_POS)) {
+            this.marioverse$destinationPos = NbtUtils.readBlockPos(tag, WARP_POS).orElse(null);
+            this.marioverse$setDestinationPos(this.marioverse$destinationPos);
+        }
 
         if (tag.contains(WARP_DIMENSION))
             this.marioverse$dimensionTag = tag.getString(WARP_DIMENSION);
@@ -71,6 +97,20 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
 
         if (tag.contains(WARP_UUID))
             this.marioverse$warpUUID = tag.getUUID(WARP_UUID);
+
+        if (tag.contains("WarpLocations", Tag.TAG_LIST)) {
+            ListTag listTag = tag.getList("WarpLocations", Tag.TAG_COMPOUND);
+            for (Tag t : listTag) {
+                CompoundTag entryTag = (CompoundTag) t;
+                UUID uuid = entryTag.getUUID("UUID");
+                BlockPos pos = BlockPos.of(entryTag.getLong("Pos"));
+                Direction direction = Direction.byName(entryTag.getString("Direction"));
+                int width = entryTag.getInt("Width");
+
+                if (direction != null)
+                    WARP_LOCATIONS.put(uuid, new WarpTarget(pos, direction, width));
+            }
+        }
     }
 
     @Override
@@ -138,5 +178,15 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     @Override
     public void marioverse$setWarpUuid(UUID uuid) {
         this.marioverse$warpUUID = uuid;
+    }
+
+    @Override
+    public Entity marioverse$getWarpEntity() {
+        return this.marioverse$warpEntity;
+    }
+
+    @Override
+    public void marioverse$setWarpEntity(Entity entity) {
+        this.marioverse$warpEntity = entity;
     }
 }

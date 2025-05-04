@@ -27,6 +27,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -1370,30 +1371,47 @@ public abstract class LivingEntityMixin extends Entity {
         Level world = entity.level();
 
         if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null) {
+            UUID warpUUID = warpLinkableEntity.marioverse$getWarpUUID();
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID());
             if (warpEntity != null) {
                 if (warpEntity instanceof Painting painting) {
                     int width = painting.getVariant().value().width();
+                    Direction direction = painting.getDirection();
                     BlockPos basePos = painting.getPos();
 
-                    double centerX = basePos.getX();
-                    double centerY = basePos.getY();
-                    double centerZ = basePos.getZ();
-
-                    switch (painting.getDirection()) {
-                        case NORTH -> { centerX -= 0; centerZ += 0.5; }
-                        case SOUTH -> { centerX += (double) width / 2; centerZ += 0.5; }
-                        case WEST  -> { centerZ += (double) width / 2; centerX += 0.5; }
-                        case EAST  -> { centerZ -= 0; centerX += 0.5; }
-                    }
-
-                    WarpLinkableEntity.warp(entity, centerX, centerY, centerZ, world);
+                    marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
                     WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
                 }
+            } else {
+                WarpLinkableEntity.WarpTarget savedTarget = WarpLinkableEntity.getWarpPos(warpUUID);
+
+                if (savedTarget != null) {
+                    BlockPos basePos = savedTarget.pos();
+                    Direction direction = savedTarget.direction();
+                    int width = savedTarget.width();
+
+                    marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+                }
             }
         }
+    }
+
+    @Unique
+    private static void marioverse$warpPaintingDirection(BlockPos basePos, Direction direction, double width, LivingEntity entity, Level world) {
+        double centerX = basePos.getX();
+        double centerY = basePos.getY();
+        double centerZ = basePos.getZ();
+
+        switch (direction) {
+            case NORTH -> centerZ += 0.5;
+            case SOUTH -> { centerX += width / 2; centerZ += 0.5; }
+            case EAST  -> centerX += 0.5;
+            case WEST  -> { centerZ += width / 2; centerX += 0.5; }
+        }
+
+        WarpLinkableEntity.warp(entity, centerX, centerY, centerZ, world);
     }
 
     @Unique

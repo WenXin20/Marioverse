@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,7 +18,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public interface WarpLinkableEntity {
-    public static final Map<Integer, Boolean> WARPED_ENTITIES = new HashMap<>();
+    Map<UUID, WarpTarget> WARP_LOCATIONS = new HashMap<>();
+    Map<BlockPos, Entity> WARP_ENTITY_LOCATIONS = new HashMap<>();
+    Map<Integer, Boolean> WARPED_ENTITIES = new HashMap<>();
+
+    record WarpTarget(BlockPos pos, Direction direction, int width) {};
 
     boolean marioverse$isWaxed();
 
@@ -41,10 +46,26 @@ public interface WarpLinkableEntity {
 
     void marioverse$setWarpUuid(UUID uuid);
 
+    Entity marioverse$getWarpEntity();
+
+    void marioverse$setWarpEntity(Entity entity);
+
+    static @Nullable WarpTarget getWarpPos(UUID uuid) {
+        return WARP_LOCATIONS.get(uuid);
+    }
+
+    static void setWarpPos(UUID uuid, BlockPos pos, Direction direction, int width) {
+        WARP_LOCATIONS.put(uuid, new WarpTarget(pos, direction, width));
+    }
+
     static void markEntityTeleported(Entity entity) {
         if (entity != null)
             WARPED_ENTITIES.put(entity.getId(), true);
     }
+
+//    static BlockPos findMatchingUUID(UUID uuid) {
+//        return WARP_LOCATIONS.getOrDefault(uuid, null);
+//    }
 
     static void warp(Entity entity, double x, double y, double z, Level world) {
         Entity passengerEntity = entity.getControllingPassenger();
