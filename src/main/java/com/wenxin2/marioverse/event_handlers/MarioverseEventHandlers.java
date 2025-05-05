@@ -420,7 +420,7 @@ public class MarioverseEventHandlers {
         ItemStack stack = event.getItemStack();
 
         if (stack.getItem() instanceof LinkerItem linker) {
-            if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get() //TODO
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()
                     && !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.requires_creative"), true);
                 player.swing(player.getUsedItemHand());

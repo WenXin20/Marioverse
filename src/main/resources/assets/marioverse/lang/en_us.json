@@ -512,7 +512,7 @@
   "item.marioverse.wrench.message.dimension_fail_door": "Doors cannot cross dimensions!",
   "item.marioverse.wrench.message.dimension_fail_pipe": "Pipes cannot cross dimensions!",
   "item.marioverse.wrench.message.linked_warp_block": "%1$s §6bound to %2$s",
-  "item.marioverse.wrench.message.requires_creative": "Requires creative to link blocks",
+  "item.marioverse.wrench.message.requires_creative": "Requires creative to link",
   "item.marioverse.wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
 
   "item.marioverse.warp_disruptor.message.break_door": "§3Break %1$s §3after warping",
@@ -742,6 +742,7 @@
   "marioverse.configuration.warp_trapdoors": "Warp Trapdoors",
   "marioverse.configuration.water_spouts": "Water Spouts",
 
+  "marioverse.configuration.wrench": "Wrench",
   "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
   "marioverse.configuration.gold_koopa_shell": "Gold Koopa Shell",
@@ -777,7 +778,7 @@
   "configuration.marioverse.checkpoint_flag_respawn_health": "Respawned Health",
   "configuration.marioverse.checkpoint_flag_respawn_uses_item": "Respawning Uses Items",
   "configuration.marioverse.checkpoint_flag_spawns_mobs": "Spawn Mobs",
-  "configuration.marioverse.creative_wrench_pipe_linking": "Link Pipes Creative Only",
+  "configuration.marioverse.creative_wrench_linking": "Require Creative to Link",
   "configuration.marioverse.damage_shrinks_all_mobs": "Damage Shrinks All Mobs",
   "configuration.marioverse.damage_shrinks_players": "Damage Shrinks Player",
   "configuration.marioverse.debug_pipe_bubbles_selection_box": "Pipe Bubbles Debug Selection Box",

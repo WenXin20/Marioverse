@@ -33,6 +33,7 @@ public class ConfigRegistry
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
+    public static final String CATEGORY_WRENCH = "wrench";
 
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
@@ -69,7 +70,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
-    public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_PIPE_LINKING;
+    public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_LINKING;
     public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_PLAYERS;
     public static ModConfigSpec.BooleanValue DEBUG_PIPE_BUBBLES_SELECTION_BOX;
@@ -362,10 +363,6 @@ public class ConfigRegistry
                             .comment("Require creative to turn water spouts on/off.")
                             .comment("§9[Default: false]")
                             .define("require_creative_water_spouts", false);
-                    CREATIVE_WRENCH_PIPE_LINKING = BUILDER.translation("configuration.marioverse.creative_wrench_pipe_linking")
-                            .comment("Require creative to link pipes.")
-                            .comment("§9[Default: false]")
-                            .define("creative_wrench_pipe_linking", false);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_TRAPDOORS);
@@ -486,6 +483,13 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 4800]§b")
                             .defineInRange("warp_disrupting_cooldown", 4800, 1, 72000);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_WRENCH);
+                    CREATIVE_WRENCH_LINKING = BUILDER.translation("configuration.marioverse.creative_wrench_linking")
+                            .comment("Require creative to link pipes, doors, trapdoors, & paintings.")
+                            .comment("§9[Default: false]")
+                            .define("creative_wrench_linking", false);
                 BUILDER.pop();
 
             BUILDER.pop();

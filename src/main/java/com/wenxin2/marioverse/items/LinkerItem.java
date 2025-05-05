@@ -52,7 +52,7 @@ public class LinkerItem extends TieredItem {
         ItemStack stack = useOnContext.getItemInHand();
         String dimension = world.dimension().location().toString();
 
-        if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get()) {
+        if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()) {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
             return InteractionResult.sidedSuccess(Boolean.TRUE);
         } else if (player != null) {
