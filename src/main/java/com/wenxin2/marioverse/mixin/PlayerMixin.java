@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -217,6 +218,11 @@ public abstract class PlayerMixin extends Entity {
                     BlockPos basePos = painting.getPos();
 
                     marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+
+                    if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.marioverse$isBreakPainting()) {
+                        painting.kill();
+                        painting.dropItem(painting);
+                    }
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
                     WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
@@ -230,6 +236,17 @@ public abstract class PlayerMixin extends Entity {
                     int width = savedTarget.width();
 
                     marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+
+                    List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
+                    for (Entity targetEntity : entitiesAtPos) {
+                        if (targetEntity.getUUID().equals(warpUUID) && targetEntity instanceof WarpLinkableEntity linkableEntity
+                                && linkableEntity.marioverse$isBreakPainting()) {
+                            targetEntity.kill();
+                            if (targetEntity instanceof Painting painting)
+                                painting.dropItem(painting);
+                            break;
+                        }
+                    }
                 }
             }
         }

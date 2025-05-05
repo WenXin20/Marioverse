@@ -26,19 +26,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Painting.class)
 public abstract class PaintingMixin extends HangingEntity implements WarpLinkableEntity {
-    @Unique private static final String WARP_POS = "WarpPos";
-    @Unique private static final String WARP_DIMENSION = "Dimension";
-    @Unique private static final String WARP_UUID = "WarpUUID";
-    @Unique private static final String UUID = "UUID";
-    @Unique private static final String PREVENT_WARP = "PreventWarp";
+    @Unique private static final String BREAK_PAINTING = "BreakPainting";
     @Unique private static final String IS_WAXED = "IsWaxed";
+    @Unique private static final String PREVENT_WARP = "PreventWarp";
+    @Unique private static final String UUID = "UUID";
+    @Unique private static final String WARP_DIMENSION = "Dimension";
+    @Unique private static final String WARP_POS = "WarpPos";
+    @Unique private static final String WARP_UUID = "WarpUUID";
     @Unique public BlockPos marioverse$destinationPos;
+    @Unique public Entity marioverse$warpEntity;
     @Unique public String marioverse$dimensionTag;
-    @Unique public boolean marioverse$preventWarp = Boolean.FALSE;
-    @Unique public boolean marioverse$isWaxed;
     @Unique public UUID marioverse$UUID;
     @Unique public UUID marioverse$warpUUID;
-    @Unique public Entity marioverse$warpEntity;
+    @Unique public boolean marioverse$breakPainting = Boolean.FALSE;
+    @Unique public boolean marioverse$isWaxed;
+    @Unique public boolean marioverse$preventWarp = Boolean.FALSE;
 
     public PaintingMixin(EntityType<? extends HangingEntity> type, Level world) {
         super(type, world);
@@ -47,8 +49,9 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.marioverse$getWarpEntity());
-        tag.putBoolean(PREVENT_WARP, this.marioverse$preventWarp);
+        tag.putBoolean(BREAK_PAINTING, this.marioverse$breakPainting);
         tag.putBoolean(IS_WAXED, this.marioverse$isWaxed);
+        tag.putBoolean(PREVENT_WARP, this.marioverse$preventWarp);
 
         if (this.marioverse$hasDestinationPos() && this.marioverse$destinationPos != null)
             tag.put(WARP_POS, NbtUtils.writeBlockPos(this.marioverse$destinationPos));
@@ -84,14 +87,17 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
             this.marioverse$setDestinationPos(this.marioverse$destinationPos);
         }
 
-        if (tag.contains(WARP_DIMENSION))
-            this.marioverse$dimensionTag = tag.getString(WARP_DIMENSION);
+        if (tag.contains(BREAK_PAINTING))
+            this.marioverse$breakPainting = tag.getBoolean(BREAK_PAINTING);
 
         if (tag.contains(PREVENT_WARP))
             this.marioverse$preventWarp = tag.getBoolean(PREVENT_WARP);
 
         if (tag.contains(UUID))
             this.marioverse$UUID = tag.getUUID(UUID);
+
+        if (tag.contains(WARP_DIMENSION))
+            this.marioverse$dimensionTag = tag.getString(WARP_DIMENSION);
 
         if (tag.contains(WARP_UUID))
             this.marioverse$warpUUID = tag.getUUID(WARP_UUID);
@@ -156,6 +162,16 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     public void marioverse$setDestinationDim(@Nullable ResourceKey<Level> dimension) {
         if (dimension != null)
             this.marioverse$dimensionTag = dimension.location().toString();
+    }
+
+    @Override
+    public boolean marioverse$isBreakPainting() {
+        return this.marioverse$breakPainting;
+    }
+
+    @Override
+    public void marioverse$setBreakPainting(boolean breakPainting) {
+        this.marioverse$breakPainting = breakPainting;
     }
 
     @Override

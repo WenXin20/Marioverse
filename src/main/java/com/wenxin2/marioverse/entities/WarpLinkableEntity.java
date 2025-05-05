@@ -15,6 +15,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public interface WarpLinkableEntity {
@@ -37,6 +38,10 @@ public interface WarpLinkableEntity {
     ResourceKey<Level> marioverse$getDestinationDim();
 
     void marioverse$setDestinationDim(@Nullable ResourceKey<Level> dimension);
+
+    boolean marioverse$isBreakPainting();
+
+    void marioverse$setBreakPainting(boolean breakPainting);
 
     boolean marioverse$getPreventWarp();
 

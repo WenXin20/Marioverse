@@ -62,15 +62,19 @@ public class WarpDisruptorItem extends Item {
                 shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.door"));
             if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
                 shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.trapdoor"));
+            if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get())
+                shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.painting"));
             shiftRCText = shiftRCText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.warping"));
             list.add(shiftRCText);
 
-            if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() || !ConfigRegistry.DISABLE_WARP_DOORS.get()) {
+            if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() || !ConfigRegistry.DISABLE_WARP_DOORS.get() || !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2"));
                 if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
                     shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.door"));
                 if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
                     shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.trapdoor"));
+                if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get())
+                    shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.painting"));
                 shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.warping"));
                 list.add(shiftRCx2Text);
             }
@@ -97,13 +101,13 @@ public class WarpDisruptorItem extends Item {
                     && blockEntity instanceof WarpDoorBlockEntity doorBE
                     && (!doorBE.preventWarp || !doorBE.breakDoor)) {
                 if (doorBE.preventWarp) {
-                    this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
                                 state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     doorBE.setBreakDoor(Boolean.TRUE);
                 } else {
-                    this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                    spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp", 50), true);
                     doorBE.setPreventWarp(Boolean.TRUE);
@@ -120,13 +124,13 @@ public class WarpDisruptorItem extends Item {
                     && blockEntityBelow instanceof WarpDoorBlockEntity doorBE
                     && (!doorBE.preventWarp || !doorBE.breakDoor)) {
                 if (doorBE.preventWarp) {
-                    this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
                                 state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     doorBE.setBreakDoor(Boolean.TRUE);
                 } else {
-                    this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                    spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp"), true);
                     doorBE.setPreventWarp(Boolean.TRUE);
@@ -143,13 +147,13 @@ public class WarpDisruptorItem extends Item {
         } else if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE
                 && (!warpTrapdoorBE.preventWarp || !warpTrapdoorBE.breakTrapdoor)) {
             if (warpTrapdoorBE.preventWarp) {
-                this.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_trapdoor",
                             state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                 warpTrapdoorBE.setBreakTrapdoor(Boolean.TRUE);
             } else {
-                this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_trapdoor_warp"), true);
                 warpTrapdoorBE.setPreventWarp(Boolean.TRUE);
@@ -164,7 +168,7 @@ public class WarpDisruptorItem extends Item {
             return InteractionResult.SUCCESS;
         } else if (blockEntity instanceof BaseWarpBlockEntity warpBE && !warpBE.preventWarp) {
             warpBE.setPreventWarp(Boolean.TRUE);
-            this.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+            spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
 
             if (player != null) {
                 if (state.getBlock() instanceof WarpPipeBlock)
@@ -210,14 +214,14 @@ public class WarpDisruptorItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
-            double reachDistance = player.isCreative() ? 5.0D : 4.5D;
-            AttributeInstance reachAttribute = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-            if (reachAttribute != null)
-                reachDistance = reachAttribute.getValue();
-            HitResult hitResult = player.pick(reachDistance, 0.0F, false);
+        AttributeInstance reachAttribute = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
+        double reachDistance = player.isCreative() ? 5.0D : 4.5D;
+        if (reachAttribute != null)
+            reachDistance = reachAttribute.getValue();
+        HitResult hitResult = player.pick(reachDistance, 0.0F, false);
 
-            if (hitResult.getType() == HitResult.Type.MISS) {
+        if (hitResult.getType() == HitResult.Type.MISS) {
+            if (!ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
                 if (!player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                     player.getPersistentData().putBoolean("marioverse:prevent_warp", true);
                     player.getPersistentData().putInt("marioverse:prevent_warp_cooldown", ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
@@ -229,12 +233,12 @@ public class WarpDisruptorItem extends Item {
                         stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                     return InteractionResultHolder.success(stack);
                 }
-            } else return InteractionResultHolder.pass(stack);
-        }
+            }
+        } else return InteractionResultHolder.pass(stack);
         return super.use(world, player, hand);
     }
 
-    public void spawnParticles(ParticleOptions particleType, Level world, BlockPos pos, int avgAmount) {
+    public static void spawnParticles(ParticleOptions particleType, Level world, BlockPos pos, int avgAmount) {
         float scaleFactor = 1;
         int numParticles = (int) (scaleFactor * avgAmount);
         double radius = 0.65;

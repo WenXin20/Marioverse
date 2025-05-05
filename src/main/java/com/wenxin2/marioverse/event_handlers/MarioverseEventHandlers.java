@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.items.LinkerItem;
+import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
@@ -39,6 +40,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -52,6 +54,7 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -477,6 +480,25 @@ public class MarioverseEventHandlers {
                     }
                     player.swing(player.getUsedItemHand());
                 }
+            }
+        } else if (stack.getItem() instanceof WarpDisruptorItem disruptorItem) {
+            if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() && target instanceof WarpLinkableEntity linkableEntity
+                    && (!linkableEntity.marioverse$getPreventWarp() || !linkableEntity.marioverse$isBreakPainting())) {
+                if (linkableEntity.marioverse$getPreventWarp()) {
+                    WarpDisruptorItem.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
+                            target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
+                    linkableEntity.marioverse$setBreakPainting(Boolean.TRUE);
+                } else {
+                    WarpDisruptorItem.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                    player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
+                            target.getDisplayName()).withStyle(ChatFormatting.RED), true);
+                    linkableEntity.marioverse$setPreventWarp(Boolean.TRUE);
+                }
+
+                if (!player.isCreative())
+                    stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+                player.swing(player.getUsedItemHand());
             }
         }
     }
