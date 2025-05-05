@@ -43,6 +43,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -433,7 +434,11 @@ public class MarioverseEventHandlers {
                 if (player.isShiftKeyDown()) {
                     UUID uuid = target.getUUID();
 
-                    if (!LinkerItem.getIsBound(stack)) {
+                    if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.marioverse$isWaxed()
+                            && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                        player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
+                                target.getName()).withStyle(ChatFormatting.GOLD), true);
+                    } else if (!LinkerItem.getIsBound(stack)) {
                         if (target instanceof Painting painting) {
                             int width = painting.getVariant().value().width();
                             Direction dir = painting.getDirection();
