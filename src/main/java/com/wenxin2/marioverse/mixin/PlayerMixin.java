@@ -400,7 +400,7 @@ public abstract class PlayerMixin extends Entity {
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (this.marioverse$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
                 this.marioverse$warp(warpLinkableEntity);
-                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get()); // TODO
+                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             }
         }
     }

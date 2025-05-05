@@ -169,14 +169,9 @@ public abstract class LivingEntityMixin extends Entity {
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
 
-        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() // TODO
+        if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox().inflate(0.1));
-
-            for (Painting painting : nearbyPaintings) {
-                this.marioverse$enterWarp(pos);
-                break;
-            }
+            this.marioverse$enterWarp(pos);
         }
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
@@ -1515,7 +1510,7 @@ public abstract class LivingEntityMixin extends Entity {
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (this.marioverse$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
                 this.marioverse$warp(warpLinkableEntity);
-                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get()); // TODO
+                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             }
         }
     }

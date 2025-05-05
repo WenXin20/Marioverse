@@ -27,6 +27,7 @@ public class ConfigRegistry
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
     public static final String CATEGORY_QUESTION_BLOCK = "question_blocks";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
+    public static final String CATEGORY_WARP_PAINTINGS = "warp_paintings";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
     public static final String CATEGORY_WARP_TRAPDOORS = "warp_trapdoors";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
@@ -88,6 +89,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue DISABLE_VANILLA_TABS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_DOORS;
+    public static ModConfigSpec.BooleanValue DISABLE_WARP_PAINTINGS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
     public static ModConfigSpec.BooleanValue DISPLAY_BUTTON_TOOLTIP;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
@@ -167,6 +169,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
+    public static ModConfigSpec.IntValue WARP_PAINTING_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_TRAPDOOR_COOLDOWN;
 
@@ -307,6 +310,18 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 70]§b")
                             .defineInRange("warp_door_cooldown", 70, 0, 72000);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_WARP_PAINTINGS);
+                DISABLE_WARP_PAINTINGS = BUILDER.translation("configuration.marioverse.disable_warp_paintings")
+                        .comment("Disables the creation of warp paintings.")
+                        .comment("§9[Default: false]")
+                        .define("disable_warp_paintings", false);
+                WARP_PAINTING_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_painting_cooldown")
+                        .comment("Cooldown between teleports in ticks.")
+                        .comment("§6[20 ticks = 1 second]")
+                        .comment("§9[Default: 100]§b")
+                        .defineInRange("warp_painting_cooldown", 100, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
