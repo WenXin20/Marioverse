@@ -500,13 +500,17 @@
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.pipe": "§7 pipe",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.door": "§7, door",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.trapdoor": "§7, trapdoor",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click.painting": "§7, painting",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.warping": "§7 warping",
 
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2": "§6Shift-right-click x2:",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.breaks": " §7• Breaks",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.door": "§7 door",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.trapdoor": "§7, trapdoor",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.painting": "§7, painting",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click_2.warping": "§7 after warping",
+
+  "item.marioverse.warp_disruptor.message.waxed": "§6Cannot disrupt, §r%1$s §6is waxed",
 
   "item.marioverse.wrench.message.bound": "§aWrench bound to %1$s",
   "item.marioverse.wrench.message.dimension_fail_door": "Doors cannot cross dimensions!",

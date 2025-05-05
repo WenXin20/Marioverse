@@ -491,13 +491,16 @@ public class MarioverseEventHandlers {
         } else if (stack.getItem() instanceof WarpDisruptorItem disruptorItem) {
             if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() && target instanceof WarpLinkableEntity linkableEntity
                     && (!linkableEntity.marioverse$getPreventWarp() || !linkableEntity.marioverse$isBreakPainting())) {
-                if (linkableEntity.marioverse$getPreventWarp()) {
+                if (linkableEntity.marioverse$isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                    player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
+                            target.getName()).withStyle(ChatFormatting.GOLD), true);
+                } else if (linkableEntity.marioverse$getPreventWarp()) {
                     WarpDisruptorItem.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16); // TODO: fix pos
                     player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
                             target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     linkableEntity.marioverse$setBreakPainting(Boolean.TRUE);
                 } else {
-                    WarpDisruptorItem.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                    WarpDisruptorItem.spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16); // TODO: fix pos
                     player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
                             target.getDisplayName()).withStyle(ChatFormatting.RED), true);
                     linkableEntity.marioverse$setPreventWarp(Boolean.TRUE);

@@ -100,7 +100,12 @@ public class WarpDisruptorItem extends Item {
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                     && blockEntity instanceof WarpDoorBlockEntity doorBE
                     && (!doorBE.preventWarp || !doorBE.breakDoor)) {
-                if (doorBE.preventWarp) {
+                if (doorBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
+                            state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                    return InteractionResult.sidedSuccess(Boolean.TRUE);
+                } else if (doorBE.preventWarp) {
                     spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
@@ -123,7 +128,12 @@ public class WarpDisruptorItem extends Item {
             } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
                     && blockEntityBelow instanceof WarpDoorBlockEntity doorBE
                     && (!doorBE.preventWarp || !doorBE.breakDoor)) {
-                if (doorBE.preventWarp) {
+                if (doorBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
+                                state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                    return InteractionResult.sidedSuccess(Boolean.TRUE);
+                } else if (doorBE.preventWarp) {
                     spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
@@ -146,7 +156,12 @@ public class WarpDisruptorItem extends Item {
             }
         } else if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE
                 && (!warpTrapdoorBE.preventWarp || !warpTrapdoorBE.breakTrapdoor)) {
-            if (warpTrapdoorBE.preventWarp) {
+            if (warpTrapdoorBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
+                            state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                return InteractionResult.sidedSuccess(Boolean.TRUE);
+            } else if (warpTrapdoorBE.preventWarp) {
                 spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_trapdoor",
@@ -171,7 +186,11 @@ public class WarpDisruptorItem extends Item {
             spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
 
             if (player != null) {
-                if (state.getBlock() instanceof WarpPipeBlock)
+                if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
+                            state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                    return InteractionResult.sidedSuccess(Boolean.TRUE);
+                } else if (state.getBlock() instanceof WarpPipeBlock)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_pipe_warp"), true);
                 if (!player.isCreative())
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
