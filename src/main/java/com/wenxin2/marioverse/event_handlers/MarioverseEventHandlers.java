@@ -420,10 +420,11 @@ public class MarioverseEventHandlers {
         ItemStack stack = event.getItemStack();
 
         if (stack.getItem() instanceof LinkerItem linker) {
-            if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get()) { //TODO
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_PIPE_LINKING.get() //TODO
+                    && !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.requires_creative"), true);
                 player.swing(player.getUsedItemHand());
-            } else {
+            } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
                 if (player.isShiftKeyDown()) {
                     UUID uuid = target.getUUID();
 
