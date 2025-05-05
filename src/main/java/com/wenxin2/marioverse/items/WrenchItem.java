@@ -57,9 +57,7 @@ public class WrenchItem extends LinkerItem {
 
             list.add(warpableText);
 
-        } else {
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
-        }
+        } else list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
 
         super.appendHoverText(stack, tooltipContext, list, tooltip);
     }

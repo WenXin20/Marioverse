@@ -477,8 +477,8 @@
   "item.marioverse.wrench.select.closed": "Wrench set to open/close pipes",
 
   "item.marioverse.wrench.tooltip": "§e§o[Press Shift]",
-  "item.marioverse.wrench.tooltip.bound": "Bound to %1$s, %2$s, %3$s in %4$s",
-  "item.marioverse.wrench.tooltip.not_bound": "Wrench not bound",
+  "item.marioverse.wrench.tooltip.bound": "§6Bound to %1$s, %2$s, %3$s in %4$s",
+  "item.marioverse.wrench.tooltip.not_bound": "§c§oWrench not bound",
   "item.marioverse.wrench.tooltip.right_click": "§2Right-click:",
   "item.marioverse.wrench.tooltip.right_click.gui": " §7• Opens pipe GUI",
   "item.marioverse.wrench.tooltip.shift_right_click": "§6Shift-right-click:",
