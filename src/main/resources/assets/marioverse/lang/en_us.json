@@ -486,6 +486,7 @@
   "item.marioverse.wrench.tooltip.shift_right_click.pipe": "§7 pipes",
   "item.marioverse.wrench.tooltip.shift_right_click.door": "§7, doors",
   "item.marioverse.wrench.tooltip.shift_right_click.trapdoor": "§7, trapdoors",
+  "item.marioverse.wrench.tooltip.shift_right_click.painting": "§7, paintings",
 
   "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
   "item.marioverse.warp_disruptor.tooltip.right_click": "§6Right-click:",

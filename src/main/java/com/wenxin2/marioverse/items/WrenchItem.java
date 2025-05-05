@@ -52,6 +52,9 @@ public class WrenchItem extends LinkerItem {
             if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
                 warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.trapdoor"));
 
+            if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get())
+                warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.painting"));
+
             list.add(warpableText);
 
         } else {
