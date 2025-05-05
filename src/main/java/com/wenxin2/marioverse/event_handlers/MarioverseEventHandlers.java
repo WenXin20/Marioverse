@@ -38,9 +38,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -52,9 +54,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -473,7 +475,7 @@ public class MarioverseEventHandlers {
                         }
 
 
-                        linker.spawnParticles(world, target, pos, ParticleTypes.ENCHANT);
+                        linker.spawnParticles(world, target, pos, ParticleTypes.ENCHANT); // TODO: fix pos
                         linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
                     //  }
                         LinkerItem.setIsBound(stack, false);
@@ -485,7 +487,7 @@ public class MarioverseEventHandlers {
             if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() && target instanceof WarpLinkableEntity linkableEntity
                     && (!linkableEntity.marioverse$getPreventWarp() || !linkableEntity.marioverse$isBreakPainting())) {
                 if (linkableEntity.marioverse$getPreventWarp()) {
-                    WarpDisruptorItem.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    WarpDisruptorItem.spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16); // TODO: fix pos
                     player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
                             target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     linkableEntity.marioverse$setBreakPainting(Boolean.TRUE);
@@ -499,6 +501,18 @@ public class MarioverseEventHandlers {
                 if (!player.isCreative())
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 player.swing(player.getUsedItemHand());
+            }
+        } else if (stack.getItem() instanceof HoneycombItem) {
+            if (target instanceof WarpLinkableEntity linkableEntity
+                    && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                if (!linkableEntity.marioverse$isWaxed()) {
+                    linkableEntity.marioverse$setWaxed(true);
+                    world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5)); // TODO: fix pos
+
+                    stack.consume(1, player);
+                    player.swing(player.getUsedItemHand());
+                }
             }
         }
     }
