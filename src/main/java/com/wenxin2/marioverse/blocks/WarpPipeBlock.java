@@ -177,7 +177,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 && !heldItem.is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 && !(heldItem.getItem() instanceof SpawnEggItem)
                 && blockEntity instanceof WarpPipeBlockEntity pipeBE
-                && !ItemStack.isSameItemSameComponents(heldItem, pipeBE.getTheItem())) {
+                && !ItemStack.isSameItemSameComponents(heldItem, pipeBE.getTheItem())
+                && !pipeBE.isWaxed()) {
 
             pipeBE.setTheItem(player.getItemInHand(hand).copyWithCount(1));
             pipeBE.markUpdated();
