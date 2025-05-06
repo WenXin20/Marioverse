@@ -9,6 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class ServerParticleUtils {
@@ -43,6 +44,41 @@ public class ServerParticleUtils {
         double motionZ = zStep == 0 ? motion.z() : 0.0;
 
         serverWorld.sendParticles(particleOptions, x, y, z, 1, motionX, motionY, motionZ, 0.0);
+    }
+
+    public static void spawnParticlesAboveBlock(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos) {
+        RandomSource random = serverWorld.getRandom();
+
+        for (int i = 0; i < 40; ++i) {
+            serverWorld.sendParticles(particleOptions,
+                    pos.getX() + 0.5D + (0.5D * (random.nextBoolean() ? 1 : -1)),
+                    pos.getY() + 1.5D,
+                    pos.getZ() + 0.5D + (0.5D * (random.nextBoolean() ? 1 : -1)),
+                    1,
+                    (random.nextDouble() - 0.5D) * 2.0D,
+                    -random.nextDouble(),
+                    (random.nextDouble() - 0.5D) * 2.0D, 1.0);
+        }
+    }
+
+    public static void spawnThreeLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, int avgAmount) {
+        float scaleFactor = 1;
+        int numParticles = (int) (scaleFactor * avgAmount);
+        double radius = 0.65;
+
+        for (int i = 0; i < numParticles; i++) {
+            double angle = 2 * Math.PI * i / numParticles;
+            double offsetX = Math.cos(angle) * radius;
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = pos.getX() + 0.5 + offsetX;
+            double y = pos.getY();
+            double z = pos.getZ() + 0.5 + offsetZ;
+
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + 0.5, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y + 1.0, z, 1, 0, 0, 0, 0.0);
+        }
     }
 
     public static void spawnParticlesOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {

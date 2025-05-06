@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,6 +14,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -94,7 +96,8 @@ public class WarpDisruptorItem extends Item {
         ItemStack stack = useOnContext.getItemInHand();
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && state.getBlock() instanceof DoorBlock) {
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && state.getBlock() instanceof DoorBlock
+                && world instanceof ServerLevel serverWorld) {
             BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
 
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
@@ -106,13 +109,13 @@ public class WarpDisruptorItem extends Item {
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     return InteractionResult.sidedSuccess(Boolean.TRUE);
                 } else if (doorBE.preventWarp) {
-                    spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.WARPED_SPORE, serverWorld, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
                                 state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     doorBE.setBreakDoor(Boolean.TRUE);
                 } else {
-                    spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp", 50), true);
                     doorBE.setPreventWarp(Boolean.TRUE);
@@ -134,13 +137,13 @@ public class WarpDisruptorItem extends Item {
                                 state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     return InteractionResult.sidedSuccess(Boolean.TRUE);
                 } else if (doorBE.preventWarp) {
-                    spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.WARPED_SPORE, serverWorld, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
                                 state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     doorBE.setBreakDoor(Boolean.TRUE);
                 } else {
-                    spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp"), true);
                     doorBE.setPreventWarp(Boolean.TRUE);
@@ -155,20 +158,21 @@ public class WarpDisruptorItem extends Item {
                 return InteractionResult.SUCCESS;
             }
         } else if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get() && blockEntity instanceof WarpTrapDoorBlockEntity warpTrapdoorBE
-                && (!warpTrapdoorBE.preventWarp || !warpTrapdoorBE.breakTrapdoor)) {
+                && (!warpTrapdoorBE.preventWarp || !warpTrapdoorBE.breakTrapdoor)
+                && world instanceof ServerLevel serverWorld) {
             if (warpTrapdoorBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                 return InteractionResult.sidedSuccess(Boolean.TRUE);
             } else if (warpTrapdoorBE.preventWarp) {
-                spawnParticles(ParticleTypes.WARPED_SPORE, world, pos, 16);
+                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.WARPED_SPORE, serverWorld, pos, 16);
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_trapdoor",
                             state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                 warpTrapdoorBE.setBreakTrapdoor(Boolean.TRUE);
             } else {
-                spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, pos, 16);
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_trapdoor_warp"), true);
                 warpTrapdoorBE.setPreventWarp(Boolean.TRUE);
@@ -181,9 +185,10 @@ public class WarpDisruptorItem extends Item {
             warpTrapdoorBE.markUpdated();
             world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
             return InteractionResult.SUCCESS;
-        } else if (blockEntity instanceof BaseWarpBlockEntity warpBE && !warpBE.preventWarp) {
+        } else if (blockEntity instanceof BaseWarpBlockEntity warpBE && !warpBE.preventWarp
+                && world instanceof ServerLevel serverWorld) {
             warpBE.setPreventWarp(Boolean.TRUE);
-            spawnParticles(ParticleTypes.CRIMSON_SPORE, world, pos, 16);
+            ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, pos, 16);
 
             if (player != null) {
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
@@ -255,29 +260,6 @@ public class WarpDisruptorItem extends Item {
             }
         } else return InteractionResultHolder.pass(stack);
         return super.use(world, player, hand);
-    }
-
-    public static void spawnParticles(ParticleOptions particleType, Level world, BlockPos pos, int avgAmount) {
-        float scaleFactor = 1;
-        int numParticles = (int) (scaleFactor * avgAmount);
-        double radius = 0.65;
-
-        for (int i = 0; i < numParticles; i++) {
-            // Calculate angle for each particle
-            double angle = 2 * Math.PI * i / numParticles;
-            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-            double offsetX = Math.cos(angle) * radius;
-            double offsetY = 0.5;
-            double offsetZ = Math.sin(angle) * radius;
-
-            double x = pos.getX() + 0.5 + offsetX;
-            double y = pos.getY();
-            double z = pos.getZ() + 0.5 + offsetZ;
-
-            world.addParticle(particleType, x, y, z, 0, 0.5, 0);
-            world.addParticle(particleType, x, y + 0.5, z, 0, 0.5, 0);
-            world.addParticle(particleType, x, y + 1.0, z, 0, 0.5, 0);
-        }
     }
 
     public void spawnEntityParticles(ParticleOptions particleType, Entity entity, Level world, int avgAmount) {

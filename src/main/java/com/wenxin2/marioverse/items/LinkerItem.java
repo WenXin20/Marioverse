@@ -269,7 +269,8 @@ public class LinkerItem extends TieredItem {
 
             for (int i = 0; i < 40; ++i) {
                 world.addParticle(particleOptions,
-                        pos.getX() + entity.getBbWidth() + (0.5D * (random.nextBoolean() ? 1 : -1)), pos.getY() + entity.getBbHeight(),
+                        pos.getX() + entity.getBbWidth() + (0.5D * (random.nextBoolean() ? 1 : -1)),
+                        pos.getY() + entity.getBbHeight(),
                         pos.getZ() + entity.getBbWidth() + (0.5D * (random.nextBoolean() ? 1 : -1)),
                         (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
                         (random.nextDouble() - 0.5D) * 2.0D);
