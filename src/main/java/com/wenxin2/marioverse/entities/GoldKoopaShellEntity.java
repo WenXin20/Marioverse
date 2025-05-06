@@ -57,7 +57,7 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
 
         if (world instanceof ServerLevel serverWorld
                 && this.tickCount % 4 == 0 && this.isAlive())
-            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
+            ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
     }
 
     @Override

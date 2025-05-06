@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.phys.Vec3;
 
 public class ServerParticleUtils {
@@ -81,13 +81,46 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticlesOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
+    public static void spawnSingleParticleOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
         RandomSource rand = RandomSource.create();
         double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
         double offsetY = rand.nextDouble() * entity.getBbHeight();
         double offsetZ = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
 
-        serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ, 1, 0, 0, 0, 0.0);
+        serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ,
+                1, 0, 0, 0, 1.0);
+    }
+
+    public static void spawnParticlesOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, int avgAmount) {
+        RandomSource rand = RandomSource.create();
+
+        float scaleFactor = entity.getBbWidth() * entity.getBbHeight();
+        int numParticles = (int) (scaleFactor * avgAmount);
+
+        for (int i = 0; i < numParticles; i++) {
+            double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
+            double offsetY = rand.nextDouble() * entity.getBbHeight() - (entity.getBbHeight() / 2.0);
+            double offsetZ = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
+
+            if (entity instanceof Painting painting) {
+                int width = painting.getVariant().value().width();
+                int height = painting.getVariant().value().height();
+
+                offsetX = rand.nextDouble() * width - (width / 2.0);
+                offsetY = rand.nextDouble() * height - (height / 2.0);
+                offsetZ = rand.nextDouble() * width - (width / 2.0);
+
+                switch (painting.getDirection()) {
+                    case NORTH -> offsetZ = -0.2;
+                    case SOUTH -> offsetZ = 0.2;
+                    case EAST  -> offsetX = 0.2;
+                    case WEST  -> offsetX = -0.2;
+                }
+            }
+
+            serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ,
+                    1, 0, 0, 0, 0.5);
+        }
     }
 
     public static void spawnEntityBreakParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, float height, float width) {
@@ -103,6 +136,8 @@ public class ServerParticleUtils {
         float scaleFactor = entity.getBbWidth();
         int numParticles = (int) (scaleFactor * avgAmount);
         double radius = entity.getBbWidth() / 2;
+        if (entity instanceof Painting painting)
+            radius = (double) painting.getVariant().value().width() / 2;
 
         for (int i = 0; i < numParticles; i++) {
             // Calculate angle for each particle
@@ -111,6 +146,9 @@ public class ServerParticleUtils {
             double offsetX = Math.cos(angle) * radius;
             double offsetY = entity.getBbHeight();
             double offsetZ = Math.sin(angle) * radius;
+
+            if (entity instanceof Painting painting)
+                offsetY = painting.getVariant().value().height();
 
             double x = entity.getX() + offsetX;
             double y = entity.getY();

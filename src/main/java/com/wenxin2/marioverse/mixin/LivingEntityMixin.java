@@ -242,7 +242,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (hasSuperStar) {
             this.marioverse$superStarKillEntity(entity);
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
+                ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
             this.marioverse$playSuperStarTheme();
         } else if (!hasSuperStar && this.marioverse$playedStarTheme)
             this.marioverse$playedStarTheme = false;

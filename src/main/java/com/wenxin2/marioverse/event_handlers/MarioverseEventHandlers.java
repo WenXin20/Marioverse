@@ -459,30 +459,28 @@ public class MarioverseEventHandlers {
                             player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                     target.getName()).withStyle(ChatFormatting.GREEN), true);
 
-                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target);
+                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128);
                             linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                         } else {
                             BlockPos firstPos = LinkerItem.getWarpPos(stack);
                             UUID firstUUID = LinkerItem.getWarpUUID(stack);
 
-                            //  if (dimension.equals(getWarpDimension(stack))) {
-//                            if (world instanceof ServerLevel serverWorld) {
-                                Entity firstEntity = serverWorld.getEntity(firstUUID);
-                                if (firstEntity == null) {
-                                    WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(firstUUID);
-                                    if (warpTarget != null)
-                                        firstPos = warpTarget.pos();
-                                }
+                        //  if (dimension.equals(getWarpDimension(stack))) {
+                            Entity firstEntity = serverWorld.getEntity(firstUUID);
+                            if (firstEntity == null) {
+                                WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(firstUUID);
+                                if (warpTarget != null)
+                                    firstPos = warpTarget.pos();
+                            }
 
-                                linker.link(stack, firstEntity, target, firstPos);
-                                if (firstEntity != null)
-                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
-                                            target.getName(), firstEntity.getName()).withStyle(ChatFormatting.GOLD), true);
-//                            }
+                            linker.link(stack, firstEntity, target, firstPos);
+                            if (firstEntity != null)
+                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                        target.getName(), firstEntity.getName()).withStyle(ChatFormatting.GOLD), true);
 
-                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target);// TODO: fix pos
+                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128); // TODO: fix pos
                             linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
-                            //  }
+                        //  }
                             LinkerItem.setIsBound(stack, false);
                         }
                     }
@@ -518,12 +516,11 @@ public class MarioverseEventHandlers {
                     && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                 if (!linkableEntity.marioverse$isWaxed()) {
                     if (world instanceof ServerLevel serverWorld) {
-                        linkableEntity.marioverse$setWaxed(true);
                         world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target); // TODO: fix pos
-
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 64); // TODO: fix pos
                         stack.consume(1, player);
                     }
+                    linkableEntity.marioverse$setWaxed(true);
                     player.swing(player.getUsedItemHand());
                 }
             }
