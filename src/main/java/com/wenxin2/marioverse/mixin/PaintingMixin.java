@@ -64,17 +64,6 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
 
         if (this.marioverse$warpUUID != null)
             tag.putUUID(WARP_UUID, this.marioverse$getWarpUUID());
-
-        ListTag listTag = new ListTag();
-        for (Map.Entry<UUID, WarpTarget> entry : WARP_LOCATIONS.entrySet()) {
-            CompoundTag entryTag = new CompoundTag();
-            entryTag.putUUID("UUID", entry.getKey());
-            entryTag.putLong("Pos", entry.getValue().pos().asLong());
-            entryTag.putString("Direction", entry.getValue().direction().getName());
-            entryTag.putInt("Width", entry.getValue().width());
-            listTag.add(entryTag);
-        }
-        tag.put("WarpLocations", listTag);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -101,20 +90,6 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
 
         if (tag.contains(WARP_UUID))
             this.marioverse$warpUUID = tag.getUUID(WARP_UUID);
-
-        if (tag.contains("WarpLocations", Tag.TAG_LIST)) {
-            ListTag listTag = tag.getList("WarpLocations", Tag.TAG_COMPOUND);
-            for (Tag t : listTag) {
-                CompoundTag entryTag = (CompoundTag) t;
-                UUID uuid = entryTag.getUUID("UUID");
-                BlockPos pos = BlockPos.of(entryTag.getLong("Pos"));
-                Direction direction = Direction.byName(entryTag.getString("Direction"));
-                int width = entryTag.getInt("Width");
-
-                if (direction != null)
-                    WARP_LOCATIONS.put(uuid, new WarpTarget(pos, direction, width));
-            }
-        }
     }
 
     @Override
