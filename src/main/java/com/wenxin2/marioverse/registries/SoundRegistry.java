@@ -21,7 +21,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_SIZZLES;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_THROWN;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOAL_POLE_FINISH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_AMBIENT;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_BUMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_HURT;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_RUN;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_STEP;
@@ -156,8 +158,12 @@ public class SoundRegistry {
         KOOPA_TROOPA_STOMP = Marioverse.SOUNDS.register("entity.koopa_troopa_stomp",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.koopa_troopa_stomp")));
 
+        GOOMBA_AMBIENT = Marioverse.SOUNDS.register("entity.goomba_ambient",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_ambient")));
         GOOMBA_BUMP = Marioverse.SOUNDS.register("entity.goomba_bump",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_bump")));
+        GOOMBA_DEATH = Marioverse.SOUNDS.register("entity.goomba_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_death")));
         GOOMBA_HURT = Marioverse.SOUNDS.register("entity.goomba_hurt",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.goomba_hurt")));
         GOOMBA_RUN = Marioverse.SOUNDS.register("entity.goomba_run",

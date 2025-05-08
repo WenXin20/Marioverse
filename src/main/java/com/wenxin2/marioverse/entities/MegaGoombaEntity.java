@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -50,12 +51,6 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundRegistry.MEGA_GOOMBA_HURT.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundRegistry.MEGA_GOOMBA_STOMP.get();
     }
 
     @Override

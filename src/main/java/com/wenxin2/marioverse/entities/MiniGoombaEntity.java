@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
@@ -74,7 +75,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.MINI_GOOMBA_STOMP.get();
+        return SoundRegistry.GOOMBA_DEATH.get();
     }
 
     @Override
@@ -115,7 +116,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        this.checkForCollisions();
+        this.attachToEntity();
 
         if (stuckTo != null && stuckTo.getDeltaMovement().y > 0) {
             removeSpeedModifier(stuckTo);
@@ -144,12 +145,16 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @Override
-    public void die(DamageSource cause) {
+    public void die(DamageSource source) {
         if (stuckTo != null) {
             removeSpeedModifier(stuckTo);
             stuckTo = null;
         }
-        super.die(cause);
+
+        if (source.is(DamageTypeRegistry.STOMP)
+                || source.is(DamageTypeRegistry.PLAYER_STOMP))
+            this.playSound(SoundRegistry.MINI_GOOMBA_STOMP.get(), 1.0F, 1.0F);
+        super.die(source);
     }
 
     @Override
@@ -189,7 +194,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         return false;
     }
 
-    public void checkForCollisions() {
+    public void attachToEntity() {
         AABB boundingBox = this.getBoundingBox().inflate(0.1);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
@@ -198,17 +203,14 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                 if (entity instanceof LivingEntity livingEntity && !this.isNoAi()
                         && !livingEntity.isSpectator()
                         && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
-                        || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get()))
-                    stickToEntity(livingEntity);
+                        || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get())) {
+                    this.stuckTo = livingEntity;
+                    this.generateRandomOffsets(stuckTo);
+                    this.addSpeedModifier(stuckTo);
+                }
                 break;
             }
         }
-    }
-
-    public void stickToEntity(LivingEntity entity) {
-        this.stuckTo = entity;
-        generateRandomOffsets(stuckTo);
-        addSpeedModifier(stuckTo);
     }
 
     private void addSpeedModifier(LivingEntity livingEntity) {
