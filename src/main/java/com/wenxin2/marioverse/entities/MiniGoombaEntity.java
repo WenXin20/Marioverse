@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
@@ -72,10 +73,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         return SoundRegistry.MINI_GOOMBA_HURT.get();
     }
 
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundRegistry.GOOMBA_DEATH.get();
+    @NotNull
+    private static SoundEvent getStompSound() {
+        return SoundRegistry.MINI_GOOMBA_STOMP.get();
     }
 
     @Override
@@ -119,25 +119,21 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         this.attachToEntity();
 
         if (stuckTo != null && stuckTo.getDeltaMovement().y > 0) {
-            removeSpeedModifier(stuckTo);
+            this.removeSpeedModifier(stuckTo);
             stuckTo = null;
             this.kill();
+            this.playSound(SoundRegistry.MINI_GOOMBA_DEFEATED.get());
         } else if (stuckTo != null && (this.isDeadOrDying() || stuckTo.isSpectator())) {
-            removeSpeedModifier(stuckTo);
+            this.removeSpeedModifier(stuckTo);
             stuckTo = null;
         } else if (stuckTo != null && stuckTo.isAlive() && this.getY() >= stuckTo.getY()
                 && this.isAlive() && !(stuckTo.getDeltaMovement().y > 0)) {
             double distanceToTarget = distanceToTarget();
-            if (distanceToTarget < POSITION_THRESHOLD) {
-                generateRandomOffsets(stuckTo);
-            }
-            moveTowardsTarget();
+            if (distanceToTarget < POSITION_THRESHOLD)
+                 this.generateRandomOffsets(stuckTo);
+            this.moveTowardsTarget();
             this.resetFallDistance();
-            this.setPos(
-                    stuckTo.getX() + currentX,
-                    stuckTo.getY() + currentY,
-                    stuckTo.getZ() + currentZ
-            );
+            this.setPos(stuckTo.getX() + currentX, stuckTo.getY() + currentY, stuckTo.getZ() + currentZ);
         }
 
         if (currentCooldown > 0)
@@ -147,13 +143,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     public void die(DamageSource source) {
         if (stuckTo != null) {
-            removeSpeedModifier(stuckTo);
+            this.removeSpeedModifier(stuckTo);
             stuckTo = null;
         }
-
-        if (source.is(DamageTypeRegistry.STOMP)
-                || source.is(DamageTypeRegistry.PLAYER_STOMP))
-            this.playSound(SoundRegistry.MINI_GOOMBA_STOMP.get(), 1.0F, 1.0F);
         super.die(source);
     }
 
@@ -207,6 +199,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                     this.stuckTo = livingEntity;
                     this.generateRandomOffsets(stuckTo);
                     this.addSpeedModifier(stuckTo);
+                    this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get());
                 }
                 break;
             }

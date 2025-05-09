@@ -54,7 +54,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_RUN;
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_STOMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_ATTACH;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_BUMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_DEFEATED;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_HURT;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_RUN;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_STEP;
@@ -195,8 +197,12 @@ public class SoundRegistry {
         MEGA_GOOMBA_STOMP = Marioverse.SOUNDS.register("entity.mega_goomba_stomp",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mega_goomba_stomp")));
 
+        MINI_GOOMBA_ATTACH = Marioverse.SOUNDS.register("entity.mini_goomba_attach",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_attach")));
         MINI_GOOMBA_BUMP = Marioverse.SOUNDS.register("entity.mini_goomba_bump",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_bump")));
+        MINI_GOOMBA_DEFEATED = Marioverse.SOUNDS.register("entity.mini_goomba_defeated",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_defeated")));
         MINI_GOOMBA_HURT = Marioverse.SOUNDS.register("entity.mini_goomba_hurt",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mini_goomba_hurt")));
         MINI_GOOMBA_RUN = Marioverse.SOUNDS.register("entity.mini_goomba_run",

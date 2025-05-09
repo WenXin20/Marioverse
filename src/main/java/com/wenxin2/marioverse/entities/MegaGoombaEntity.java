@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.neoforge.event.EventHooks;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
@@ -51,6 +52,11 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundRegistry.MEGA_GOOMBA_HURT.get();
+    }
+
+    @NotNull
+    private static SoundEvent getStompSound() {
+        return SoundRegistry.MEGA_GOOMBA_STOMP.get();
     }
 
     @Override

@@ -178,8 +178,12 @@
   "entity.mega_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mega_goomba_split", "stream": false, "pitch": 1.0, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.mega_goomba_stomp" },
 
+  "entity.mini_goomba_attach": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_attach", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.mini_goomba_attach" },
   "entity.mini_goomba_bump": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_bump", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.mini_goomba_bump" },
+  "entity.mini_goomba_defeated": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_defeated", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.mini_goomba_defeated" },
   "entity.mini_goomba_hurt": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_stomp", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.mini_goomba_hurt" },
   "entity.mini_goomba_run": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_run", "stream": false }],

@@ -123,15 +123,21 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.GOOMBA_DEATH.get();
+        return null;
     }
 
     @Override
     public void die(DamageSource source) {
         if (source.is(DamageTypeRegistry.STOMP)
                 || source.is(DamageTypeRegistry.PLAYER_STOMP))
-            this.playSound(SoundRegistry.GOOMBA_STOMP.get(), 1.0F, 1.0F);
+            this.playSound(getStompSound());
+        else this.playSound(SoundRegistry.GOOMBA_DEATH.get());
         super.die(source);
+    }
+
+    @NotNull
+    private static SoundEvent getStompSound() {
+        return SoundRegistry.GOOMBA_STOMP.get();
     }
 
     @Nullable
