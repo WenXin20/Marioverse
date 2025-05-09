@@ -55,7 +55,8 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @NotNull
-    private static SoundEvent getStompSound() {
+    @Override
+    public SoundEvent getStompSound() {
         return SoundRegistry.HEFTY_GOOMBA_STOMP.get();
     }
 

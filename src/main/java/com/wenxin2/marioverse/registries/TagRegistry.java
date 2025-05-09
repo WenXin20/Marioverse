@@ -48,6 +48,7 @@ public class TagRegistry {
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
     public static final TagKey<DamageType> IS_BONKED = damageTypeTags("is_bonked");
+    public static final TagKey<DamageType> IS_DEFEATED = damageTypeTags("is_defeated");
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
     public static final TagKey<DamageType> IS_ICE_BALL = damageTypeTags("ice_ball");
     public static final TagKey<DamageType> IS_ICE_CUBE_CRUSHED = damageTypeTags("ice_cube_crushed");

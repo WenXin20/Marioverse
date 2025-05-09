@@ -29,6 +29,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.BONKED)
                 .add(DamageTypeRegistry.PLAYER_BONKED);
 
+        tag(TagRegistry.IS_DEFEATED)
+                .add(DamageTypeRegistry.MINI_GOOMBA_DEFEATED)
+                .add(DamageTypeRegistry.PLAYER_MINI_GOOMBA_DEFEATED);
+
         tag(TagRegistry.IS_FIREBALL)
                 .add(DamageTypeRegistry.FIREBALL)
                 .add(DamageTypeRegistry.PLAYER_FIREBALL);

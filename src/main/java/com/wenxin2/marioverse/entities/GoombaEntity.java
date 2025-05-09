@@ -131,12 +131,15 @@ public class GoombaEntity extends Monster implements GeoEntity {
         if (source.is(DamageTypeRegistry.STOMP)
                 || source.is(DamageTypeRegistry.PLAYER_STOMP))
             this.playSound(getStompSound());
+        else if (source.is(DamageTypeRegistry.MINI_GOOMBA_DEFEATED)
+                || source.is(DamageTypeRegistry.PLAYER_MINI_GOOMBA_DEFEATED))
+            this.playSound(SoundRegistry.MINI_GOOMBA_DEFEATED.get());
         else this.playSound(SoundRegistry.GOOMBA_DEATH.get());
         super.die(source);
     }
 
     @NotNull
-    private static SoundEvent getStompSound() {
+    public SoundEvent getStompSound() {
         return SoundRegistry.GOOMBA_STOMP.get();
     }
 

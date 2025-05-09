@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
-    private LivingEntity stuckTo;
+    public LivingEntity stuckTo;
     private double currentX, currentY, currentZ;
     private double targetX, targetY, targetZ;
     private final Random random = new Random();
@@ -74,7 +74,8 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @NotNull
-    private static SoundEvent getStompSound() {
+    @Override
+    public SoundEvent getStompSound() {
         return SoundRegistry.MINI_GOOMBA_STOMP.get();
     }
 
@@ -120,9 +121,8 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
         if (stuckTo != null && stuckTo.getDeltaMovement().y > 0) {
             this.removeSpeedModifier(stuckTo);
+            this.hurt(DamageTypeRegistry.defeated(this, stuckTo), 1.0F);
             stuckTo = null;
-            this.kill();
-            this.playSound(SoundRegistry.MINI_GOOMBA_DEFEATED.get());
         } else if (stuckTo != null && (this.isDeadOrDying() || stuckTo.isSpectator())) {
             this.removeSpeedModifier(stuckTo);
             stuckTo = null;
@@ -196,10 +196,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                         && !livingEntity.isSpectator()
                         && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                         || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get())) {
+                    if (this.stuckTo == null && this.isAlive())
+                        this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get());
                     this.stuckTo = livingEntity;
                     this.generateRandomOffsets(stuckTo);
                     this.addSpeedModifier(stuckTo);
-                    this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get());
                 }
                 break;
             }
@@ -296,19 +297,5 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
             if (hasReachedTarget && currentCooldown <= 0)
                 generateRandomOffsets(stuckTo);
         }
-    }
-
-    private double moveToward(double current, double target, double speed) {
-        if (current < target)
-            return Math.min(current + speed, target);
-        else return Math.max(current - speed, target);
-    }
-
-    public void setEasingFactor(double factor) {
-        this.easingFactor = factor;
-    }
-
-    public double getEasingFactor() {
-        return easingFactor;
     }
 }

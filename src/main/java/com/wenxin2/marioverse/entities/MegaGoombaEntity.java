@@ -55,7 +55,8 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @NotNull
-    private static SoundEvent getStompSound() {
+    @Override
+    public SoundEvent getStompSound() {
         return SoundRegistry.MEGA_GOOMBA_STOMP.get();
     }
 
