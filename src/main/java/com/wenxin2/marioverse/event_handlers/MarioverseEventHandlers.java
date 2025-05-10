@@ -484,19 +484,19 @@ public class MarioverseEventHandlers {
 
                             linker.link(stack, warpEntity, target, warpPos);
 
-                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
-                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
-                                if (serverLevel != null) {
-                                    ChunkAccess chunk = serverLevel.getChunk(warpPos.getX() >> 4, warpPos.getZ() >> 4, ChunkStatus.FULL, true);
-                                    serverLevel.getChunk(warpPos).getSections().;
-
-                                    final AABB box = new AABB(warpPos).inflate(1);
-                                    final List<Painting> list = serverLevel.getEntitiesOfClass(Painting.class, box);
-                                    for (final Painting warpPainting : list) {
-                                        linker.link(stack, warpPainting, target, warpPos);
-                                    }
-                                }
-                            }
+//                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
+//                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
+//                                if (serverLevel != null) {
+//                                    ChunkAccess chunk = serverLevel.getChunk(warpPos.getX() >> 4, warpPos.getZ() >> 4, ChunkStatus.FULL, true);
+//                                    serverLevel.getChunk(warpPos);
+//
+//                                    final AABB box = new AABB(warpPos).inflate(1);
+//                                    final List<Painting> list = serverLevel.getEntitiesOfClass(Painting.class, box);
+//                                    for (final Painting warpPainting : list) {
+//                                        linker.link(stack, warpPainting, target, warpPos);
+//                                    }
+//                                }
+//                            }
 
                             player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
                                     target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);

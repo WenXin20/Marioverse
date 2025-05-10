@@ -1378,6 +1378,10 @@ public abstract class LivingEntityMixin extends Entity {
 
                     if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.marioverse$isBreakPainting())
                         painting.kill();
+                    entity.setXRot(direction.toYRot());
+                    entity.setYRot(direction.toYRot());
+                    entity.yBodyRot = direction.toYRot();
+                    entity.setYHeadRot(direction.toYRot());
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
                     WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
@@ -1391,6 +1395,10 @@ public abstract class LivingEntityMixin extends Entity {
                     int width = savedTarget.width();
 
                     marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+                    entity.setXRot(direction.toYRot());
+                    entity.setYRot(direction.toYRot());
+                    entity.yBodyRot = direction.toYRot();
+                    entity.setYHeadRot(direction.toYRot());
 
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
                     for (Entity targetEntity : entitiesAtPos) {
