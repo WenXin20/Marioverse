@@ -7,16 +7,18 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.Painting;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
 public interface EntityWarpEntityHandler {
     @NotNull
-    default Boolean getTeleportConfig() {
+    default Boolean getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
     }
 
@@ -37,19 +39,20 @@ public interface EntityWarpEntityHandler {
                 if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
                     WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
 
-                this.enterWarpPainting(entity, world, linkableEntity);
+                this.enterWarpPainting(entity, world, linkableEntity, painting);
             }
             break;
         }
     }
 
-    default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity) {
-        if (this.getTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+    default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
+        if (this.getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
                 this.warp(entity, world, warpLinkableEntity);
                 setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
-            }
+            } else if (entity instanceof Player player && warpLinkableEntity.marioverse$hasDestinationPos())
+                this.displayCooldownMessage(player, warpEntity);
         }
     }
 
@@ -113,5 +116,18 @@ public interface EntityWarpEntityHandler {
         }
 
         WarpLinkableEntity.warp(entity, centerX, centerY, centerZ, world);
+    }
+
+    private void displayCooldownMessage(Player player, Entity warpEntity) {
+        if (EntityWarpEntityHandler.getWarpCooldown(player) >= 10) {
+            if (warpEntity instanceof Painting) {
+                if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
+                    if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
+                        player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown.ticks",
+                                BlockWarpEntityHandler.getWarpCooldown(player)), true);
+                    else player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown"), true);
+                }
+            }
+        }
     }
 }
