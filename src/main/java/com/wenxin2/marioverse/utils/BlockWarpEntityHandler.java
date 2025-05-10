@@ -19,12 +19,13 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 public interface BlockWarpEntityHandler {
-    @NotNull
-    default Boolean getBlockWarpTeleportConfig() {
-        return ConfigRegistry.TELEPORT_NON_MOBS.get();
+    boolean marioverse$getBlockWarpTeleportConfig();
+
+    private static boolean getShiftKeyForEntity(Entity entity) {
+        return (!entity.isShiftKeyDown() && !(entity instanceof Player))
+                || (entity.isShiftKeyDown() && entity instanceof Player);
     }
 
     static int getWarpCooldown(Entity entity) {
@@ -74,7 +75,7 @@ public interface BlockWarpEntityHandler {
     default void enterWarpDoor(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
         BlockState state = world.getBlockState(pos);
 
-        if (this.getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+        if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
                 this.warp(entity, world, pos, state, warpPos, warpBE);
@@ -95,9 +96,9 @@ public interface BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (this.getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+        if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && !entity.isShiftKeyDown() && (entityY + entity.getBbHeight() >= blockY - 1)
+            if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (getWarpCooldown(entity) == 0) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
@@ -150,7 +151,7 @@ public interface BlockWarpEntityHandler {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
-        if (this.getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+        if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -231,7 +232,7 @@ public interface BlockWarpEntityHandler {
         }
     }
 
-    private void displayCooldownMessage(Player player, BlockState state) {
+    default void displayCooldownMessage(Player player, BlockState state) {
         if (BlockWarpEntityHandler.getWarpCooldown(player) >= 10) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {

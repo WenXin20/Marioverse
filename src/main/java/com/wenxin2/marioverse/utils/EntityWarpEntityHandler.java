@@ -14,13 +14,9 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.NotNull;
 
 public interface EntityWarpEntityHandler {
-    @NotNull
-    default Boolean getEntityWarpTeleportConfig() {
-        return ConfigRegistry.TELEPORT_NON_MOBS.get();
-    }
+    boolean marioverse$getEntityWarpTeleportConfig();
 
     static int getWarpCooldown(Entity entity) {
         return entity.getPersistentData().getInt("marioverse:warp_cooldown");
@@ -46,7 +42,7 @@ public interface EntityWarpEntityHandler {
     }
 
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
-        if (this.getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+        if (this.marioverse$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
             if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
                 this.warp(entity, world, warpLinkableEntity);

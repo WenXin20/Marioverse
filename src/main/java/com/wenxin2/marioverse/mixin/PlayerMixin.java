@@ -1,38 +1,21 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
-import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
+import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpPlayerHandler;
-import java.util.List;
-import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandler, EntityWarpPlayerHandler {
@@ -45,8 +28,28 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     }
 
     @Override
+    public boolean marioverse$getBlockWarpTeleportConfig() {
+        return ConfigRegistry.TELEPORT_PLAYERS.get();
+    }
+
+    @Override
+    public boolean marioverse$getEntityWarpTeleportConfig() {
+        return ConfigRegistry.TELEPORT_PLAYERS.get();
+    }
+
+    @Override
     public void baseTick() {
+        super.baseTick();
         Player player = (Player) (Object) this;
+        Level world = player.level();
+        BlockPos pos = player.blockPosition();
+        BlockPos posAboveEntity = pos.above(Math.round(player.getBbHeight()));
+        BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
+        BlockPos posInBlock = pos.above(Math.round(player.getBbHeight()) - 1);
+        BlockState state = world.getBlockState(pos);
+        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
+        BlockState stateInBlock = world.getBlockState(posInBlock);
+        BlockState stateBelowEntity = world.getBlockState(posBelowEntity);
 
         int preventWarpCooldown = this.getPersistentData().getInt("marioverse:prevent_warp_cooldown");
         if (preventWarpCooldown > 0)
@@ -54,6 +57,17 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
 
         if (preventWarpCooldown == 0 && this.getPersistentData().getBoolean("marioverse:prevent_warp"))
             player.getPersistentData().putBoolean("marioverse:prevent_warp", false);
-        super.baseTick();
+
+        for (Direction facing : Direction.values()) {
+            BlockPos offsetPos = pos.relative(facing);
+            BlockState offsetState = world.getBlockState(offsetPos);
+
+            if (!player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
+                    this.enterWarp(player, world, offsetPos);
+                if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
+                    this.enterWarp(player, world, pos);
+            }
+        }
     }
 }

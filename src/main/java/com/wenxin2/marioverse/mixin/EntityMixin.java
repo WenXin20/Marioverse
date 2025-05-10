@@ -57,6 +57,16 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique protected float marioverse$appliedHeightScale = 1.0F;
     @Unique protected float marioverse$appliedWidthScale = 1.0F;
 
+    @Override
+    public boolean marioverse$getBlockWarpTeleportConfig() {
+        return ConfigRegistry.TELEPORT_NON_MOBS.get();
+    }
+
+    @Override
+    public boolean marioverse$getEntityWarpTeleportConfig() {
+        return ConfigRegistry.TELEPORT_NON_MOBS.get();
+    }
+
     @Inject(at = @At("TAIL"), method = "tick")
     public void tick(CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
@@ -90,7 +100,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            if (!(entity instanceof LivingEntity) && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))

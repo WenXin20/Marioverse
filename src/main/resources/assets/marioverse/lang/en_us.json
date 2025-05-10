@@ -715,7 +715,7 @@
   "display.marioverse.warp_trapdoor_cooldown": "",
   "display.marioverse.warp_trapdoor_cooldown.ticks": "§cTrapdoor warping on cooldown for §r%1$s §cticks!",
 
-  "display.marioverse.warp_painting_cooldown": "§Painting warping on cooldown!",
+  "display.marioverse.warp_painting_cooldown": "§cPainting warping on cooldown!",
   "display.marioverse.warp_painting_cooldown.ticks": "§cPainting warping on cooldown for §r%1$s §cticks!",
 
   "display.marioverse.warp_destination_missing": "§cWarp destination not found!",
