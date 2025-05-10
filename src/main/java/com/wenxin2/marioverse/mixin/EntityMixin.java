@@ -7,11 +7,14 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.List;
+import java.util.UUID;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -27,6 +30,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
@@ -57,7 +61,6 @@ public abstract class EntityMixin {
     @Shadow public abstract BlockPos blockPosition();
     @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
-    @Unique protected float marioverse$appliedEyeHeightScale = 1.0F;
     @Unique protected float marioverse$appliedHeightScale = 1.0F;
     @Unique protected float marioverse$appliedWidthScale = 1.0F;
 
@@ -128,6 +131,11 @@ public abstract class EntityMixin {
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.marioverse$enterWarp(posInBlock);
+
+        if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            this.marioverse$enterWarp(pos);
+        }
 
         float f6 = this.marioverse$getHeightScale();
         if (f6 != this.marioverse$appliedHeightScale) {
@@ -359,6 +367,19 @@ public abstract class EntityMixin {
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
                 this.marioverse$enterWarpPipeAbove(pos, warpPos, warpBE);
         }
+
+        List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
+        for (Painting painting : nearbyPaintings) {
+            if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.marioverse$getPreventWarp()) {
+                int entityId = this.getId();
+
+                if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
+                    WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
+
+                this.marioverse$enterWarpPainting(linkableEntity);
+            }
+            break;
+        }
     }
 
     @Unique
@@ -393,6 +414,73 @@ public abstract class EntityMixin {
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.marioverse$updateDoor(pos, state, warpPos, warpState);
         }
+    }
+
+    @Unique
+    public void marioverse$warp(WarpLinkableEntity warpLinkableEntity) {
+        Entity entity = (Entity) (Object) this;
+        Level world = entity.level();
+
+        if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null) {
+            UUID warpUUID = warpLinkableEntity.marioverse$getWarpUUID();
+            Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID());
+            if (warpEntity != null) {
+                if (warpEntity instanceof Painting painting) {
+                    int width = painting.getVariant().value().width();
+                    Direction direction = painting.getDirection();
+                    BlockPos basePos = painting.getPos();
+
+                    marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+
+                    if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.marioverse$isBreakPainting())
+                        painting.kill();
+                    entity.setXRot(direction.get2DDataValue());
+                    entity.setYRot(direction.get2DDataValue());
+                    entity.setYHeadRot(direction.get2DDataValue());
+                } else {
+                    BlockPos warpPos = warpEntity.blockPosition();
+                    WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
+                }
+            } else {
+                WarpLinkableEntity.WarpTarget savedTarget = WarpLinkableEntity.getWarpPos(warpUUID);
+
+                if (savedTarget != null) {
+                    BlockPos basePos = savedTarget.pos();
+                    Direction direction = savedTarget.direction();
+                    int width = savedTarget.width();
+
+                    marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+                    entity.setXRot(direction.get2DDataValue());
+                    entity.setYRot(direction.get2DDataValue());
+                    entity.setYHeadRot(direction.get2DDataValue());
+
+                    List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
+                    for (Entity targetEntity : entitiesAtPos) {
+                        if (targetEntity.getUUID().equals(warpUUID) && targetEntity instanceof WarpLinkableEntity linkableEntity
+                                && linkableEntity.marioverse$isBreakPainting()) {
+                            targetEntity.kill();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Unique
+    private static void marioverse$warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Level world) {
+        double centerX = basePos.getX();
+        double centerY = basePos.getY();
+        double centerZ = basePos.getZ();
+
+        switch (direction) {
+            case NORTH -> centerZ += 0.5;
+            case SOUTH -> { centerX += width / 2; centerZ += 0.5; }
+            case EAST  -> centerX += 0.5;
+            case WEST  -> { centerZ += width / 2; centerX += 0.5; }
+        }
+
+        WarpLinkableEntity.warp(entity, centerX, centerY, centerZ, world);
     }
 
     @Unique
@@ -484,6 +572,19 @@ public abstract class EntityMixin {
                     this.marioverse$warp(pos, stateAboveEntity, warpPos, warpBE);
                     this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 }
+            }
+        }
+    }
+
+    @Unique
+    public void marioverse$enterWarpPainting(WarpLinkableEntity warpLinkableEntity) {
+        Entity entity = (Entity) (Object) this;
+
+        if (ConfigRegistry.TELEPORT_MOBS.get() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            if (this.marioverse$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
+                this.marioverse$warp(warpLinkableEntity);
+                this.marioverse$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             }
         }
     }
