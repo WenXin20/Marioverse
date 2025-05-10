@@ -92,38 +92,38 @@ public abstract class EntityMixin {
 
             if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
-                    BlockWarpEntityHandler.marioverse$enterWarp(entity, world, offsetPos);
+                    BlockWarpEntityHandler.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                    BlockWarpEntityHandler.marioverse$enterWarp(entity, world, pos);
+                    BlockWarpEntityHandler.enterWarp(entity, world, pos);
             }
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
                 && !(entity instanceof LivingEntity) && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.marioverse$enterWarp(entity, world, pos);
+            BlockWarpEntityHandler.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.marioverse$enterWarp(entity, world, pos);
+            BlockWarpEntityHandler.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.marioverse$enterWarp(entity, world, pos);
+            BlockWarpEntityHandler.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.marioverse$enterWarp(entity, world, posInBlock);
+            BlockWarpEntityHandler.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            EntityWarpEntityHandler.marioverse$enterWarp(entity, world);
+            EntityWarpEntityHandler.enterWarp(entity, world);
         }
 
         float f6 = this.marioverse$getHeightScale();

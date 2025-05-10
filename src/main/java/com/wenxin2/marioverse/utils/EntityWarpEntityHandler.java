@@ -15,15 +15,15 @@ import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Unique;
 
 public class EntityWarpEntityHandler {
-    public static int marioverse$getWarpCooldown(Entity entity) {
+    public static int getWarpCooldown(Entity entity) {
         return entity.getPersistentData().getInt("marioverse:warp_cooldown");
     }
 
-    public static void marioverse$setWarpCooldown(Entity entity, int cooldown) {
+    public static void setWarpCooldown(Entity entity, int cooldown) {
         entity.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
     }
 
-    public static void marioverse$enterWarp(Entity entity, Level world) {
+    public static void enterWarp(Entity entity, Level world) {
         List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
         for (Painting painting : nearbyPaintings) {
             if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.marioverse$getPreventWarp()) {
@@ -32,25 +32,25 @@ public class EntityWarpEntityHandler {
                 if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
                     WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
 
-                marioverse$enterWarpPainting(entity, world, linkableEntity);
+                enterWarpPainting(entity, world, linkableEntity);
             }
             break;
         }
     }
 
     @Unique
-    public static void marioverse$enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity) {
+    public static void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity) {
         if (ConfigRegistry.TELEPORT_NON_MOBS.get() && !entity.getType().is(TagRegistry.CANNOT_WARP)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            if (marioverse$getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
-                marioverse$warp(entity, world, warpLinkableEntity);
-                marioverse$setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+            if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
+                warp(entity, world, warpLinkableEntity);
+                setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             }
         }
     }
 
     @Unique
-    public static void marioverse$warp(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity) {
+    public static void warp(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity) {
         if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null) {
             UUID warpUUID = warpLinkableEntity.marioverse$getWarpUUID();
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID());
@@ -60,7 +60,7 @@ public class EntityWarpEntityHandler {
                     Direction direction = painting.getDirection();
                     BlockPos basePos = painting.getPos();
 
-                    marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+                    warpPaintingDirection(basePos, direction, width, entity, world);
 
                     if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.marioverse$isBreakPainting())
                         painting.kill();
@@ -79,7 +79,7 @@ public class EntityWarpEntityHandler {
                     Direction direction = savedTarget.direction();
                     int width = savedTarget.width();
 
-                    marioverse$warpPaintingDirection(basePos, direction, width, entity, world);
+                    warpPaintingDirection(basePos, direction, width, entity, world);
                     entity.setXRot(direction.toYRot());
                     entity.setYRot(direction.toYRot());
                     entity.setYHeadRot(direction.toYRot());
@@ -98,7 +98,7 @@ public class EntityWarpEntityHandler {
     }
 
     @Unique
-    private static void marioverse$warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Level world) {
+    private static void warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Level world) {
         double centerX = basePos.getX();
         double centerY = basePos.getY();
         double centerZ = basePos.getZ();
