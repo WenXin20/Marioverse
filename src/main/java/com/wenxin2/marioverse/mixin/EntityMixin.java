@@ -100,7 +100,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (!(entity instanceof LivingEntity) && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
@@ -109,7 +109,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
-                && !(entity instanceof LivingEntity) && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
