@@ -27,6 +27,7 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -60,6 +61,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -442,8 +447,8 @@ public class MarioverseEventHandlers {
                         } else if (!LinkerItem.getIsBound(stack)) {
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
-                                Direction dir = painting.getDirection();
-                                WarpLinkableEntity.setWarpPos(uuid, pos, dir, width);
+                                Direction direction = painting.getDirection();
+                                WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 LinkerItem.setWarpPos(stack, pos);
                             } else {
                                 WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
@@ -462,21 +467,39 @@ public class MarioverseEventHandlers {
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128);
                             linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                         } else {
-                            BlockPos firstPos = LinkerItem.getWarpPos(stack);
-                            UUID firstUUID = LinkerItem.getWarpUUID(stack);
-
+                            BlockPos warpPos = LinkerItem.getWarpPos(stack);
+                            UUID warpUUID = LinkerItem.getWarpUUID(stack);
                         //  if (dimension.equals(getWarpDimension(stack))) {
-                            Entity firstEntity = serverWorld.getEntity(firstUUID);
-                            if (firstEntity == null) {
-                                WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(firstUUID);
+                            Entity warpEntity = serverWorld.getEntity(warpUUID);
+                            if (warpEntity == null) {
+                                WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(warpUUID);
                                 if (warpTarget != null)
-                                    firstPos = warpTarget.pos();
+                                    warpPos = warpTarget.pos();
                             }
 
-                            linker.link(stack, firstEntity, target, firstPos);
-                            if (firstEntity != null)
-                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
-                                        target.getName(), firstEntity.getName()).withStyle(ChatFormatting.GOLD), true);
+                            if (target instanceof Painting painting) {
+                                int width = painting.getVariant().value().width();
+                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, painting.getDirection(), width);
+                            }
+
+                            linker.link(stack, warpEntity, target, warpPos);
+
+                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
+                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
+                                if (serverLevel != null) {
+                                    ChunkAccess chunk = serverLevel.getChunk(warpPos.getX() >> 4, warpPos.getZ() >> 4, ChunkStatus.FULL, true);
+                                    serverLevel.getChunk(warpPos).getSections().;
+
+                                    final AABB box = new AABB(warpPos).inflate(1);
+                                    final List<Painting> list = serverLevel.getEntitiesOfClass(Painting.class, box);
+                                    for (final Painting warpPainting : list) {
+                                        linker.link(stack, warpPainting, target, warpPos);
+                                    }
+                                }
+                            }
+
+                            player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                    target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128); // TODO: fix pos
                             linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
@@ -586,9 +609,8 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onPlayerTeleport(EntityTeleportEvent event) {
-        if (event.getEntity() instanceof LivingEntity entity) {
+        if (event.getEntity() instanceof LivingEntity entity)
             removeMiniGoombaSpeedModifier(entity);
-        }
     }
 
     @SubscribeEvent
@@ -607,8 +629,7 @@ public class MarioverseEventHandlers {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
     private static void removeMiniGoombaSpeedModifier(LivingEntity entity) {
         AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
+        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
             speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
-        }
     }
 }
