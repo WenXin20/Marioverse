@@ -44,7 +44,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin {
+public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpEntityHandler {
     @Shadow public abstract Level level();
     @Shadow public abstract double getX();
     @Shadow public abstract double getY();
@@ -92,38 +92,38 @@ public abstract class EntityMixin {
 
             if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
-                    BlockWarpEntityHandler.enterWarp(entity, world, offsetPos);
+                    this.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                    BlockWarpEntityHandler.enterWarp(entity, world, pos);
+                    this.enterWarp(entity, world, pos);
             }
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
                 && !(entity instanceof LivingEntity) && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.enterWarp(entity, world, pos);
+            this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.enterWarp(entity, world, pos);
+            this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.enterWarp(entity, world, pos);
+            this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            BlockWarpEntityHandler.enterWarp(entity, world, posInBlock);
+            this.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            EntityWarpEntityHandler.enterWarp(entity, world);
+            this.enterWarp(entity, world);
         }
 
         float f6 = this.marioverse$getHeightScale();
