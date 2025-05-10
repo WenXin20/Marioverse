@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -14,12 +15,14 @@ public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
         if (entity instanceof Player player && (!this.marioverse$getEntityWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP)
                 || player.getPersistentData().getBoolean("marioverse:prevent_warp"))) {
-            this.displayNoTeleportMessage(player);
+            this.displayNoTeleportMessage(player, warpEntity);
         } else EntityWarpEntityHandler.super.enterWarpPainting(entity, world, warpLinkableEntity, warpEntity);
     }
 
-    private void displayNoTeleportMessage(Player player) {
-        if (!this.marioverse$getEntityWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP))
-            player.displayClientMessage(Component.translatable("display.marioverse.players_cannot_teleport"), true);
+    private void displayNoTeleportMessage(Player player, Entity warpEntity) {
+        if (warpEntity instanceof Painting) {
+            if (!this.marioverse$getEntityWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP))
+                player.displayClientMessage(Component.translatable("display.marioverse.paintings_cannot_teleport_players"), true);
+        }
     }
 }

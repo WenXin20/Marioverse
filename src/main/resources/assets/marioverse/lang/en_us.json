@@ -704,7 +704,10 @@
   "display.marioverse.consecutive_bounce.super": "§cSuper",
   "display.marioverse.consecutive_bounce.wonderful": "§9Wonderful",
 
-  "display.marioverse.players_cannot_teleport": "§cPlayers cannot teleport through Warp Pipes!",
+  "display.marioverse.doors_cannot_teleport_players": "§cWarp Doors cannot teleport Players!",
+  "display.marioverse.paintings_cannot_teleport_players": "§cWarp Paintings cannot teleport Players!",
+  "display.marioverse.pipes_cannot_teleport_players": "§cWarp Pipes cannot teleport Players!",
+  "display.marioverse.trapdoors_cannot_teleport_players": "§cWarp Trapdoors cannot teleport Players!",
 
   "display.marioverse.warp_pipe_cooldown": "§cPipe warping on cooldown!",
   "display.marioverse.warp_pipe_cooldown.ticks": "§cPipe warping on cooldown for §r%1$s §cticks!",
