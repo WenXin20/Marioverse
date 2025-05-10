@@ -41,15 +41,6 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     public void baseTick() {
         super.baseTick();
         Player player = (Player) (Object) this;
-        Level world = player.level();
-        BlockPos pos = player.blockPosition();
-        BlockPos posAboveEntity = pos.above(Math.round(player.getBbHeight()));
-        BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
-        BlockPos posInBlock = pos.above(Math.round(player.getBbHeight()) - 1);
-        BlockState state = world.getBlockState(pos);
-        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
-        BlockState stateInBlock = world.getBlockState(posInBlock);
-        BlockState stateBelowEntity = world.getBlockState(posBelowEntity);
 
         int preventWarpCooldown = this.getPersistentData().getInt("marioverse:prevent_warp_cooldown");
         if (preventWarpCooldown > 0)
@@ -57,17 +48,5 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
 
         if (preventWarpCooldown == 0 && this.getPersistentData().getBoolean("marioverse:prevent_warp"))
             player.getPersistentData().putBoolean("marioverse:prevent_warp", false);
-
-        for (Direction facing : Direction.values()) {
-            BlockPos offsetPos = pos.relative(facing);
-            BlockState offsetState = world.getBlockState(offsetPos);
-
-            if (!player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-                if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(player, world, offsetPos);
-                if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(player, world, pos);
-            }
-        }
     }
 }
