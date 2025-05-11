@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -17,7 +16,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
@@ -27,7 +25,6 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -60,16 +57,21 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PiranhaPlantEntity extends Monster implements GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BYTE);
-    public static final RawAnimation CONSTANT_BITES_ANIM = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
-    public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
-    public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("piranha_plant.idle");
-    public static final RawAnimation SQUASH_ANIM = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
+    public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
+    public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
+    public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("piranha_plant.emerge");
+    public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("piranha_plant.hide");
+    public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("piranha_plant.idle");
+    public static final RawAnimation SQUASH = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private BlockPos attachedBlockPos;
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
-    public boolean isHiding;private int attackCooldown = 0;
+    public boolean isHiding;
+    public int hideTicks = -1;
+    public int hideAnimationTicks = 0;
+    private int attackCooldown = 0;
 
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
@@ -138,6 +140,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("emerge", EMERGE));
+        controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("hide", HIDE));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
@@ -145,13 +151,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 this.getBoundingBox().inflate(5.0D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 
-        if (!nearbyEntities.isEmpty()) {
+        if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (!(collidingEntity instanceof PiranhaPlantEntity)
                         || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK))
-                    event.setAndContinue(CONSTANT_BITES_ANIM);
+                    event.setAndContinue(CONSTANT_BITES);
             }
-        } else event.setAndContinue(IDLE_ANIM);
+        } else event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
     }
 
@@ -160,10 +166,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             if (this.getLastDamageSource() != null
                 && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
                     || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-                event.setAndContinue(SQUASH_ANIM);
+                event.setAndContinue(SQUASH);
                 return PlayState.CONTINUE;
             } else {
-                event.setAndContinue(DEATH_ANIM);
+                event.setAndContinue(DEATH);
                 return PlayState.CONTINUE;
             }
         }
@@ -177,12 +183,20 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public void tick() {
+        super.tick();
+        this.head.tick();
+
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
-        super.tick();
-        this.checkForCollisions();
-        // this.hideInBlock(); TODO: Fix hiding
+        if (this.hideTicks > 0)
+            this.hideTicks--;
+
+        if (this.hideAnimationTicks > 0)
+            this.hideAnimationTicks--;
+
+        this.biteEntity();
+        this.hideInBlock();
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
@@ -217,16 +231,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void baseTick() {
-        int i = this.getAirSupply();
-
-        super.baseTick();
-        this.head.tick();
-        if (this.isAlive() && this.isInWaterOrBubble())
-            this.handleAirSupply(i);
-    }
-
-    @Override
     public void aiStep() {
         super.aiStep();
         Direction attachedSide = this.getAttachedSide();
@@ -235,6 +239,26 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             Vec3 offset = calculateHitboxOffset(attachedSide);
             this.tickPart(this.head, offset.x, offset.y, offset.z);
         } else this.tickPart(this.head, 0.0, 1.0, 00.0);
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!this.isHiding())
+            return super.hurt(source, amount);
+        else return false;
+    }
+
+    @Override
+    public void push(Entity p_21294_) {
+        if (!this.isHiding())
+            super.push(p_21294_);
+    }
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
+        if (!this.isHiding())
+            return super.canCollideWith(entity);
+        else return false;
     }
 
     @NotNull
@@ -444,7 +468,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             BlockPos neighborPos = entityPos.relative(direction);
             BlockState neighborState = this.level().getBlockState(neighborPos);
             if (!neighborState.isAir() && !neighborState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
-                    && (neighborState.isFaceSturdy(this.level(), neighborPos, direction.getOpposite())
+                    && (neighborState.isSolid()
                         || neighborState.getBlock() instanceof LeavesBlock)) {
                 return neighborPos;
             }
@@ -462,190 +486,71 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return Direction.UP;
     }
 
-    private float currentScale = 1.0F;
-    private float targetScale = 1.0F;
-    private float scaleCooldown;
-    private boolean isLerping = false;
-    private static final float SCALING_SPEED = 0.1F;
+    private int getHideDuration() {
+        return ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get();
+    }
 
     public void hideInBlock() {
-        AttributeInstance scale = this.getAttribute(Attributes.SCALE);
         Level world = this.level();
         BlockPos pos = this.blockPosition();
-        BlockPos posAbove = pos.above();
         BlockPos posBelow = pos.below();
         BlockState state = world.getBlockState(pos);
-        BlockState stateAbove = world.getBlockState(posAbove);
         BlockState stateBelow = world.getBlockState(posBelow);
-        double speed = 0.02;
-
-        if (scaleCooldown > 0)
-            scaleCooldown--;
-
-        if (!isLerping && scaleCooldown == 0) {
-            if (this.isHiding())
-                targetScale = 0.3F;
-            else targetScale = 1.0F;
-
-            if (Math.abs(currentScale - targetScale) > 0.01F)
-                isLerping = true;
-        }
-
-        if (isLerping) {
-            currentScale = Mth.lerp(SCALING_SPEED, currentScale, targetScale);
-            if (scale != null)
-                scale.setBaseValue(currentScale);
-
-            if (Math.abs(currentScale - targetScale) < 0.01F) {
-                currentScale = targetScale;
-                if (scale != null)
-                    scale.setBaseValue(currentScale);
-                isLerping = false;
-                scaleCooldown = 40;
-            }
-        }
-
-//        if (this.isHiding() && !state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-//                && !stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-//                && !state.hasProperty(BlockStateProperties.FACING)
-//                && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
-//            this.stopHiding();
-//            return;
-//        }
 
         Direction[] prioritizedDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-        if (this.isHiding()) {
-            // Handle emerging from hiding
+        if (this.isHiding() && stateBelow.hasProperty(BlockStateProperties.FACING)) {
             for (Direction direction : prioritizedDirections) {
                 BlockPos offsetPos = pos.relative(direction);
-                BlockPos oppositePos = pos.relative(direction.getOpposite());
                 BlockState offsetState = world.getBlockState(offsetPos);
 
-                // Check if the block has a FACING property or proceed without it
-                if (state.hasProperty(BlockStateProperties.FACING)
-                        && state.getValue(BlockStateProperties.FACING) == direction
-                        && state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) && !offsetState.isSolid()) {
-
-                    // Check if it's safe to emerge
-                    if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L) {
-                        double deltaX = oppositePos.getX() - this.getX();
-                        double deltaY = oppositePos.getY() - this.getY();
-                        double deltaZ = oppositePos.getZ() - this.getZ();
-                        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
-                        this.setNoGravity(false);
-                        this.noPhysics = false;
-                        if (distance > 0) {
-//                            this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
-                            this.move(MoverType.SELF, this.getDeltaMovement());
-                        }
-                        this.moveTo(offsetPos, this.getYRot(), this.getXRot());
+                if (offsetState.hasProperty(BlockStateProperties.FACING)
+                        && offsetState.getValue(BlockStateProperties.FACING) == direction
+                        && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) && !state.isSolid()) {
+                    if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
+                        this.stopTriggeredAnim("hide_controller", "hide");
+                        this.triggerAnim("emerge_controller", "emerge");
                         this.stopHiding();
                     }
                 }
-
-//                if (!state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-//                        && !offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-//                    this.stopHiding();
-//                    return;
-//                }
             }
-        } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L) {
-            // Handle hiding logic
+        } else if (world.getGameTime() % this.getHideDuration() == 0L) {
             for (Direction direction : prioritizedDirections) {
-                BlockPos offsetPos = pos.relative(direction);
                 BlockPos oppositePos = pos.relative(direction.getOpposite());
                 BlockState offsetState = world.getBlockState(oppositePos);
 
-                // Check if the block has a FACING property or proceed without it
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
                         && offsetState.getValue(BlockStateProperties.FACING) == direction
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-
-                    // Check if it's safe to hide
-                    if (!isLerping && scaleCooldown == 0) {
-                        double deltaX = (oppositePos.getX() + 0.5) - this.getX();
-                        double deltaY = (oppositePos.getY() + 0.5) - this.getY();
-                        double deltaZ = (oppositePos.getZ() + 0.5) - this.getZ();
-//                        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-                        double distance = Math.abs(deltaY);
-                        double deltaYBelow = (posBelow.getY()) - this.getY();
-                        double deltaZNorth = (pos.north().getZ()) - this.getZ();
-                        double deltaZSouth = (pos.south().getZ()) - this.getZ();
-                        double deltaXEast = (pos.east().getX()) - this.getX();
-                        double deltaXWest = (pos.west().getX()) - this.getX();
-                        double distanceBelow = Math.abs(deltaYBelow);
-                        double distanceNorth = Math.abs(deltaZNorth);
-                        double distanceSouth = Math.abs(deltaZSouth);
-                        double distanceEast = Math.abs(deltaXEast);
-                        double distanceWest = Math.abs(deltaXWest);
-
-                        this.setNoGravity(true);
-                        this.noPhysics = true;
-//                      this.setDeltaMovement((deltaX / distance) * speed, (deltaY / distance) * speed, (deltaZ / distance) * speed);
-//                        if (distanceBelow > 0) {
-//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.UP)
-//                                this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
-//                        }
-//                        if (distanceSouth > 0) {
-//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.NORTH)
-//                                this.setDeltaMovement(0, 0, 0.3);
-//                        }
-//                        if (distanceNorth > 0) {
-//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.SOUTH)
-//                                this.setDeltaMovement(0, 0, (deltaZNorth / distanceNorth) * speed);
-//                        }
-//                        if (distanceWest > 0) {
-//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.EAST)
-//                                this.setDeltaMovement(0.3, 0, 0);
-//                        }
-//                        if (distanceWest > 0) {
-//                            if (offsetState.getValue(BlockStateProperties.FACING) == Direction.WEST)
-//                                this.setDeltaMovement((deltaXWest / distanceWest) * speed, 0, 0);
-//                        }
-                        this.moveTo(oppositePos, this.getYRot(), this.getXRot());
-                        this.tryToHide();
-                    }
+                    this.hideAnimationTicks = 15;
+                    this.hideTicks = this.getHideDuration();
+                    this.stopTriggeredAnim("emerge_controller", "emerge");
+                    this.triggerAnim("hide_controller", "hide");
+                    this.tryToHide();
                 }
             }
-        } /*else this.setNoGravity(false);*/
+        }
 
         if (this.isHiding() && !state.hasProperty(BlockStateProperties.FACING)) {
-            if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
-                    && state.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                    && !stateAbove.isSolid()) {
-                double deltaYAbove = posAbove.getY() - this.getY();
-                double distanceAbove = Math.abs(deltaYAbove);
-
-                this.setNoGravity(false);
-                this.noPhysics = false;
-                if (distanceAbove > 0) {
-                    if (state.getBlock() instanceof ClearWarpPipeBlock)
-                        this.setDeltaMovement(0, 0.8, 0);
-                    else this.setDeltaMovement(0, 0.3, 0);
-                    this.move(MoverType.SELF, this.getDeltaMovement());
-                }
-                this.moveTo(posAbove, this.getYRot(), this.getXRot());
+            if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
+                    && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                    && !state.isSolid()) {
+                this.stopTriggeredAnim("hide_controller", "hide");
+                this.triggerAnim("emerge_controller", "emerge");
                 this.stopHiding();
             }
-        } else if (world.getGameTime() % ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get() == 0L
+        } else if (world.getGameTime() % this.getHideDuration() == 0L
                 && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                && !stateBelow.hasProperty(BlockStateProperties.FACING) && !isLerping && scaleCooldown == 0) {
-            double deltaYBelow = posBelow.getY() - this.getY();
-            double distanceBelow = Math.abs(deltaYBelow);
-
-//            if (distanceBelow > 0)
-//                this.setDeltaMovement(0, (deltaYBelow / distanceBelow) * speed, 0);
-            this.moveTo(posBelow, this.getYRot(), this.getXRot());
-
-            this.setNoGravity(true);
-            this.noPhysics = true;
+                && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
+            this.hideAnimationTicks = 15;
+            this.hideTicks = this.getHideDuration();
+            this.stopTriggeredAnim("emerge_controller", "emerge");
+            this.triggerAnim("hide_controller", "hide");
             this.tryToHide();
-        } else this.setNoGravity(false);
+        }
     }
 
-    public void checkForCollisions() {
+    public void biteEntity() {
         if (this.attackCooldown > 0) {
             this.attackCooldown--;
             return;
@@ -667,12 +572,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 this.attackCooldown = 20;
                 break;
             }
-        }
-    }
-
-    protected void handleAirSupply(int airSupplyAmount) {
-        if (this.isAlive() && this.isInWaterOrBubble()) {
-            this.setAirSupply(airSupplyAmount);
         }
     }
 

@@ -192,11 +192,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public void tick() {
         super.tick();
 
-        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
-            hideTicks--;
+        if (this.hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
+            this.hideTicks--;
 
-        if (!this.level().isClientSide && hideAnimationTicks > 0) {
-            hideAnimationTicks--;
+        if (!this.level().isClientSide && this.hideAnimationTicks > 0) {
+            this.hideAnimationTicks--;
             this.spawnKoopaShell(this.getHealth(), this.getHideDuration(), 0, true, true);
         }
     }

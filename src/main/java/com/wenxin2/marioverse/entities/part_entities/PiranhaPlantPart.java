@@ -69,7 +69,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
     @Override
     public void tick() {
         super.tick();
-        this.checkForCollisions();
+        this.biteEntity();
     }
 
     @NotNull
@@ -104,7 +104,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
 
     @Override
     public void push(final Entity entity) {
-        if (!this.getParent().isSleeping())
+        if (!this.getParent().isSleeping() && !this.getParent().isHiding())
             super.push(entity);
     }
 
@@ -160,7 +160,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
         return !this.isPassengerOfSameVehicle(entity);
     }
 
-    public void checkForCollisions() {
+    public void biteEntity() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));

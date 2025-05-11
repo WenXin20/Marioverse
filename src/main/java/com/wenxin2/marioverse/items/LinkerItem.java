@@ -48,6 +48,8 @@ public class LinkerItem extends TieredItem {
             return true;
         else if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE))
             return false;
+        else if (state.getBlock() instanceof ClearWarpPipeBlock)
+            return true;
         else return true;
     }
 
