@@ -12,16 +12,11 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 public class CompatRegistry {
     public static final Supplier<Block> BROWN_MUSHROOM_CAP = make("dynamictreesplus:brown_mushroom_cap", BuiltInRegistries.BLOCK);
     public static final Supplier<Block> RED_MUSHROOM_CAP = make("dynamictreesplus:red_mushroom_cap", BuiltInRegistries.BLOCK);
-    public static final Supplier<Block> FAST_PAINTING_BLOCK = make("fastpaintings:painting", BuiltInRegistries.BLOCK);
-
-    public static final Supplier<BlockEntityType<?>> FAST_PAINTING_BLOCK_ENTITY = make("fastpaintings:painting", BuiltInRegistries.BLOCK_ENTITY_TYPE);
 
     public static final Supplier<Item> ANTIQUE_INK = make("supplementaries:antique_ink", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BOMB_ITEM = make("supplementaries:bomb", BuiltInRegistries.ITEM);
