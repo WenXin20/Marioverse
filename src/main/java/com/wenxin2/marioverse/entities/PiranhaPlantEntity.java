@@ -248,19 +248,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         else return false;
     }
 
-    @Override
-    public void push(Entity p_21294_) {
-        if (!this.isHiding())
-            super.push(p_21294_);
-    }
-
-    @Override
-    public boolean canCollideWith(Entity entity) {
-        if (!this.isHiding())
-            return super.canCollideWith(entity);
-        else return false;
-    }
-
     @NotNull
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
@@ -319,6 +306,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         int skyLight = blockGetter.getRawBrightness(pos, 0);
         int blockLight = blockGetter.getBrightness(LightLayer.BLOCK, pos);
         return skyLight > 7 && blockLight <= 7;
+    }
+
+    @Override
+    protected void pushEntities() {
+        if (!isHiding())
+            super.pushEntities();
     }
 
     @Override
@@ -499,7 +492,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         Direction[] prioritizedDirections = new Direction[]{Direction.UP, Direction.DOWN, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-        if (this.isHiding() && stateBelow.hasProperty(BlockStateProperties.FACING)) {
+        if (this.isHiding()) {
             for (Direction direction : prioritizedDirections) {
                 BlockPos offsetPos = pos.relative(direction);
                 BlockState offsetState = world.getBlockState(offsetPos);
