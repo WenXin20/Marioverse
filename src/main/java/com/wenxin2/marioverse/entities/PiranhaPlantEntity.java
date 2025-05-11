@@ -494,12 +494,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         if (this.isHiding()) {
             for (Direction direction : prioritizedDirections) {
-                BlockPos offsetPos = pos.relative(direction);
-                BlockState offsetState = world.getBlockState(offsetPos);
+                BlockPos oppositePos = pos.relative(direction.getOpposite());
+                BlockState offsetState = world.getBlockState(oppositePos);
 
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
                         && offsetState.getValue(BlockStateProperties.FACING) == direction
-                        && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE) && !state.isSolid()) {
+                        && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
                         this.stopTriggeredAnim("hide_controller", "hide");
                         this.triggerAnim("emerge_controller", "emerge");
@@ -526,8 +526,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
         if (this.isHiding() && !state.hasProperty(BlockStateProperties.FACING)) {
             if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
-                    && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
-                    && !state.isSolid()) {
+                    && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                 this.stopTriggeredAnim("hide_controller", "hide");
                 this.triggerAnim("emerge_controller", "emerge");
                 this.stopHiding();
