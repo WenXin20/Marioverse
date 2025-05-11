@@ -43,6 +43,14 @@ public class LinkerItem extends TieredItem {
         super(tier, properties);
     }
 
+    private static boolean getLinkableBlock(BlockState state) {
+        if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE))
+            return true;
+        else if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE))
+            return false;
+        else return true;
+    }
+
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Player player = useOnContext.getPlayer();
@@ -58,10 +66,7 @@ public class LinkerItem extends TieredItem {
             return InteractionResult.sidedSuccess(Boolean.TRUE);
         } else if (player != null) {
             if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
-                    && (state.getBlock() instanceof DoorBlock
-                        || state.getBlock() instanceof TrapDoorBlock
-                        || state.getBlock() instanceof ClearWarpPipeBlock
-                        || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
+                    && getLinkableBlock(state)) {
                 UUID uuid = warpBE.getUUID();
 
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
