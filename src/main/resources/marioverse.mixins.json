@@ -11,6 +11,7 @@
     "DecoratedPotPatternsMixin",
     "DoorBlockMixin",
     "EntityMixin",
+    "FastPaintingsMixin",
     "HoneycombItemMixin",
     "LivingEntityMixin",
     "PaintingMixin",

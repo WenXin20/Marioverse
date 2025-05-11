@@ -3,7 +3,9 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpLinkableBlock;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
@@ -61,7 +63,8 @@ public class LinkerItem extends TieredItem {
                     && (state.getBlock() instanceof DoorBlock
                         || state.getBlock() instanceof TrapDoorBlock
                         || state.getBlock() instanceof ClearWarpPipeBlock
-                        || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE)))) {
+                        || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE))
+                        || state.getBlock() == CompatRegistry.FAST_PAINTING_BLOCK)) {
                 UUID uuid = warpBE.getUUID();
 
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
@@ -105,6 +108,62 @@ public class LinkerItem extends TieredItem {
 
                             // Perform the linking logic
                             this.link(stack, firstWarpBlockEntity, warpBE);
+
+                            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
+                                            state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+
+                            this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
+                            this.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
+                        }
+                  //  }
+                    setIsBound(stack, false);  // Reset binding
+                }
+                return InteractionResult.sidedSuccess(Boolean.TRUE);
+            } else if (player.isShiftKeyDown() && blockEntity instanceof WarpLinkableBlock warpBE
+                    && state.getBlock() == CompatRegistry.FAST_PAINTING_BLOCK) {
+                UUID uuid = warpBE.getUUID();
+
+                if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
+                            state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                    return InteractionResult.sidedSuccess(Boolean.TRUE);
+                } else if (!getIsBound(stack)) {
+
+                    if (!world.isClientSide && uuid == null) {
+                        uuid = UUID.randomUUID();
+                        warpBE.setUUID(uuid);
+                        warpBE.self().setChanged();
+                    }
+                    // First interaction: Bind the first block
+                    setWarpPos(stack, pos);
+                    setWarpDimension(stack, dimension);
+                    setWarpUUID(stack, uuid);
+                    setIsBound(stack, true);  // Mark the item as bound
+
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
+                                    state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
+
+                    this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
+                    this.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
+                } else {
+
+                    if (!world.isClientSide && uuid == null) {
+                        uuid = UUID.randomUUID();
+                        warpBE.setUUID(uuid);
+                        warpBE.self().setChanged();
+                    }
+
+                    // Second interaction: Link the blocks
+                    BlockPos firstPos = getWarpPos(stack);
+                    BlockState firstState = world.getBlockState(firstPos);
+                    String firstDim = getWarpDimension(stack);
+
+                  //  if (dimension.equals(getWarpDimension(stack))) {
+                        BlockEntity firstBlockEntity = world.getBlockEntity(firstPos);
+                        if (firstBlockEntity instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
+
+                            // Perform the linking logic
+                            this.link(stack, firstWarpBlockEntity, warpBE.self());
 
                             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
                                             state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);

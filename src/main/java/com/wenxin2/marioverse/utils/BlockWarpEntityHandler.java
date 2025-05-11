@@ -3,8 +3,10 @@ package com.wenxin2.marioverse.utils;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpLinkableBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -59,6 +61,13 @@ public interface BlockWarpEntityHandler {
                 this.enterWarpPipe(entity, world, pos, warpPos, warpBE);
         }
 
+        if (blockEntity.getType() == CompatRegistry.FAST_PAINTING_BLOCK_ENTITY
+                && blockEntity instanceof WarpLinkableBlock warpBE) {
+            warpPos = warpBE.getDestinationPos();
+            if (state.getBlock() == CompatRegistry.FAST_PAINTING_BLOCK)
+                this.enterPainting(entity, world, pos, warpPos, warpBE);
+        }
+
         if (blockEntityAbove instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null
                 && !warpBE.preventWarp) {
             warpPos = warpBE.destinationPos;
@@ -82,6 +91,18 @@ public interface BlockWarpEntityHandler {
                 if (state.getBlock() instanceof DoorBlock)
                     setWarpCooldown(entity, ConfigRegistry.WARP_DOOR_COOLDOWN.get());
                 else setWarpCooldown(entity, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+            }
+        }
+    }
+
+    default void enterPainting(Entity entity, Level world, BlockPos pos, BlockPos warpPos, WarpLinkableBlock warpBE) {
+        BlockState state = world.getBlockState(pos);
+
+        if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
+                this.warp(entity, world, pos, state, warpPos, warpBE.self());
+                setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             }
         }
     }
@@ -174,6 +195,8 @@ public interface BlockWarpEntityHandler {
                 WarpTrapDoorBlockEntity.warp(entity, warpPos, world, warpState, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
                 WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
+            if (warpState.getBlock() == CompatRegistry.FAST_PAINTING_BLOCK)
+                BaseWarpBlockEntity.warp(entity, warpPos, world);
             if (state.getBlock() instanceof WarpPipeBlock)
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.updateDoorState(world, pos, state, warpPos, warpState);

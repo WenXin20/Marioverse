@@ -44,6 +44,7 @@ dependencies {
     implementation "curse.maven:ctm-${ctm_version}"
     implementation "curse.maven:embeddium-${embeddium_version}"
     implementation "curse.maven:every-compat-${every_compat_version}"
+    implementation "curse.maven:fast-paintings-883287:5832111"
     implementation "curse.maven:fusion-connected-textures-${fusion_version}"
     implementation "curse.maven:geckolib-${geckolib_version}"
     implementation "curse.maven:mmmmmmmmmmmm-${test_dummy_version}"
