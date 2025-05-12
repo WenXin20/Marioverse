@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
@@ -56,7 +57,6 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PiranhaPlantEntity extends Monster implements GeoEntity {
-    private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("piranha_plant.emerge");
@@ -103,27 +103,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_ID_HIDE_FLAGS, (byte) 0);
-    }
-
-    @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
         this.isHiding = tag.getBoolean("isHiding");
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
         tag.putBoolean("isHiding", this.isHiding);
     }
 
@@ -242,8 +229,15 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!this.isHiding())
+        if (!this.isHiding() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
             return super.hurt(source, amount);
+        else return false;
+    }
+
+    @Override
+    public boolean canBeHitByProjectile() {
+        if (!this.isHiding())
+            return super.canBeHitByProjectile();
         else return false;
     }
 
@@ -502,7 +496,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
                         this.stopTriggeredAnim("hide_controller", "hide");
                         this.triggerAnim("emerge_controller", "emerge");
-                        this.stopHiding();
+                        this.hide(false);
                     }
                 }
             }
@@ -518,7 +512,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     this.hideTicks = this.getHideDuration();
                     this.stopTriggeredAnim("emerge_controller", "emerge");
                     this.triggerAnim("hide_controller", "hide");
-                    this.tryToHide();
+                    this.hide(true);
                 }
             }
         }
@@ -528,7 +522,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                     && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                 this.stopTriggeredAnim("hide_controller", "hide");
                 this.triggerAnim("emerge_controller", "emerge");
-                this.stopHiding();
+                this.hide(false);
             }
         } else if (world.getGameTime() % this.getHideDuration() == 0L
                 && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
@@ -537,7 +531,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
             this.hideTicks = this.getHideDuration();
             this.stopTriggeredAnim("emerge_controller", "emerge");
             this.triggerAnim("hide_controller", "hide");
-            this.tryToHide();
+            this.hide(true);
         }
     }
 
@@ -571,34 +565,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     }
 
     public void hide(boolean isHiding) {
-        this.setHideFlag(8, isHiding);
         this.isHiding = isHiding;
-    }
-
-    private boolean getHideFlag(int i) {
-        return (this.entityData.get(DATA_ID_HIDE_FLAGS) & i) != 0;
-    }
-
-    public void tryToHide() {
-        this.hide(Boolean.TRUE);
-        this.stopInPlace();
-    }
-
-    public void stopHiding() {
-        this.hide(Boolean.FALSE);
-        this.isHideStopping();
-    }
-
-    public void isHideStopping() {
-        this.getHideFlag(8);
-    }
-
-    private void setHideFlag(int i, boolean b) {
-        byte b0 = this.entityData.get(DATA_ID_HIDE_FLAGS);
-        if (b) {
-            this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 | i));
-        } else {
-            this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 & ~i));
-        }
     }
 }
