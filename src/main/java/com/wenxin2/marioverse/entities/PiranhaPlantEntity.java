@@ -135,10 +135,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Death", 5, this::squashAnimController));
-        controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Squash", 5, this::squashAnimController));
+        controllers.add(new AnimationController<>(this, "Death", 5, this::deathAnimation));
+        controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
+        controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("emerge", EMERGE));
@@ -146,7 +145,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 .triggerableAnim("hide", HIDE));
     }
 
-    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
+    protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(5.0D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
@@ -161,7 +160,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
         return PlayState.CONTINUE;
     }
 
-    protected <E extends GeoAnimatable> PlayState squashAnimController(final AnimationState<E> event) {
+    protected <E extends GeoAnimatable> PlayState deathAnimation(final AnimationState<E> event) {
         if (this.dead) {
             if (this.getLastDamageSource() != null
                 && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
