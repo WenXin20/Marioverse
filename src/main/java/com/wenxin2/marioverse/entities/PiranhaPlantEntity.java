@@ -61,6 +61,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("piranha_plant.emerge");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("piranha_plant.hide");
+    public static final RawAnimation HURT = RawAnimation.begin().thenPlay("piranha_plant.hurt");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -130,6 +131,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
                 .triggerableAnim("emerge", EMERGE));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
+        controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("hurt", HURT));
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
@@ -229,8 +232,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!this.isHiding() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
-            return super.hurt(source, amount);
+        if (!this.isHiding() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            boolean isHurt = super.hurt(source, amount);
+            if (isHurt && this.isAlive())
+                this.triggerAnim("hurt_controller", "hurt");
+            return isHurt;
+        }
         else return false;
     }
 

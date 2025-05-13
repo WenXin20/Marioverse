@@ -285,6 +285,16 @@
 				}
 			}
 		},
+		"piranha_plant.hurt": {
+			"animation_length": 0.75,
+			"bones": {
+				"stem": {
+					"rotation": {
+						"vector": [0, 0, "5 * math.cos(1000 * query.anim_time) * (1 - math.min(query.anim_time / 1, 1))"]
+					}
+				}
+			}
+		},
 		"piranha_plant.emerge": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 1,
