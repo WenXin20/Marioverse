@@ -43,6 +43,9 @@ public class MarioverseCreativeTabs {
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == MARIOVERSE_ITEMS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+            add(event, ItemRegistry.WRENCH);
+            add(event, ItemRegistry.WARP_DISRUPTOR);
+
             add(event, ItemRegistry.MUSHROOM);
             add(event, ItemRegistry.ONE_UP_MUSHROOM);
             add(event, ItemRegistry.FIRE_FLOWER);
@@ -54,9 +57,6 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GOLD_KOOPA_SHELL);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
-
-            add(event, ItemRegistry.WARP_DISRUPTOR);
-            add(event, ItemRegistry.WRENCH);
 
             add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
@@ -128,6 +128,9 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
+
+            add(event, BlockRegistry.CLEAR_WARP_PIPE);
+            addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK);
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
@@ -268,9 +271,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL);
             add(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
             add(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
-
-            add(event, BlockRegistry.CLEAR_WARP_PIPE);
-            addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE_STAIRS);
