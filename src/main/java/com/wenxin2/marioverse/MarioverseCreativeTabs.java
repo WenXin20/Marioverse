@@ -352,6 +352,8 @@ public class MarioverseCreativeTabs {
             if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
+
+                addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
