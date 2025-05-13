@@ -81,6 +81,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PEACH_ICE_DRESS;
     public static final DeferredItem<Item> PEACH_ICE_SHOES;
     public static final DeferredItem<Item> PEACH_SHOES;
+    public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
@@ -112,6 +113,9 @@ public class ItemRegistry {
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
+
+        PIRANHA_PLANT_POD = registerItem("piranha_plant_pod",
+                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);

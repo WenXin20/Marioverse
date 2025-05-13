@@ -87,6 +87,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PEACH_ICE_DRESS.get());
         this.basicItem(ItemRegistry.PEACH_ICE_SHOES.get());
         this.basicItem(ItemRegistry.PEACH_SHOES.get());
+        this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());

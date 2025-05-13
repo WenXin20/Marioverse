@@ -53,6 +53,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.RED_KOOPA_SHELL);
             add(event, ItemRegistry.GOLD_KOOPA_SHELL);
 
+            add(event, ItemRegistry.PIRANHA_PLANT_POD);
+
             add(event, ItemRegistry.WARP_DISRUPTOR);
             add(event, ItemRegistry.WRENCH);
 
