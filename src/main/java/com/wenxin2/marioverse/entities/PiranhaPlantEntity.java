@@ -31,6 +31,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -482,15 +483,24 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     }
 
     private float getHeightAttribute() {
-        return (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        AttributeMap attributeMap = this.getAttributes();
+        if (attributeMap != null)
+            return (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        else return 1.0F;
     }
 
     private float getWidthAttribute() {
-        return (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+        AttributeMap attributeMap = this.getAttributes();
+        if (attributeMap != null)
+            return (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+        else return 1.0F;
     }
 
     private float getScaleAttribute() {
-        return (float) this.getAttributeValue(Attributes.SCALE);
+        AttributeMap attributeMap = this.getAttributes();
+        if (attributeMap != null)
+            return (float) this.getAttributeValue(Attributes.SCALE);
+        else return 1.0F;
     }
 
     public Direction getAttachedSide() {
