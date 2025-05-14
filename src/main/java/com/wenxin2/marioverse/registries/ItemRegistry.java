@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.function.Supplier;
@@ -115,7 +116,7 @@ public class ItemRegistry {
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
 
         PIRANHA_PLANT_POD = registerItem("piranha_plant_pod",
-                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PiranhaPlantPodItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);

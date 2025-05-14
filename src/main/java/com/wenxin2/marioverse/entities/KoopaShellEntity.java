@@ -405,23 +405,23 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return false;
     }
 
-    public void setOwner(@Nullable Entity ownerEntity) {
-        if (ownerEntity != null) {
-            this.ownerUUID = ownerEntity.getUUID();
-            this.cachedOwner = ownerEntity;
-        }
-    }
-
     @Nullable
     @Override
     public Entity getOwner() {
         if (this.cachedOwner != null && !this.cachedOwner.isRemoved()) {
             return this.cachedOwner;
-        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverlevel) {
-            this.cachedOwner = serverlevel.getEntity(this.ownerUUID);
+        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverWorld) {
+            this.cachedOwner = serverWorld.getEntity(this.ownerUUID);
             return this.cachedOwner;
         } else {
             return null;
+        }
+    }
+
+    public void setOwner(@Nullable Entity ownerEntity) {
+        if (ownerEntity != null) {
+            this.ownerUUID = ownerEntity.getUUID();
+            this.cachedOwner = ownerEntity;
         }
     }
 
