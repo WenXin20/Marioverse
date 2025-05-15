@@ -138,9 +138,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (!(collidingEntity instanceof PiranhaPlantEntity)
-                        || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)
-                        || (this.getOwner() != null && !this.getOwner().getUUID().equals(collidingEntity.getUUID())))
+                        || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)) {
+                    if ((this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
+                        continue;
                     event.setAndContinue(CONSTANT_BITES);
+                }
             }
         } else event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
