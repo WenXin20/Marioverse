@@ -65,6 +65,7 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
                         BlockPos newPos = piranhaPlant.findValidBlockPos();
                         piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
                         piranhaPlant.setOwner(context.getPlayer());
+                        piranhaPlant.setBaby(true);
                     }
                 }
 

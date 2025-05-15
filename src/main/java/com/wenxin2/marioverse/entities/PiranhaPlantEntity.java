@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
@@ -15,6 +16,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -69,6 +73,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     public static final RawAnimation SQUASH = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
+    private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDimensions BABY_DIMENSIONS = EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.5F).withEyeHeight(0.93F);
+
     private BlockPos attachedBlockPos;
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
@@ -90,7 +97,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(1);
+        return 1 + this.level().random.nextInt(2);
     }
 
     @Nullable
@@ -171,7 +178,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putBoolean("isHiding", this.isHiding);
+        tag.putBoolean("IsBaby", this.isBaby());
+        tag.putBoolean("IsHiding", this.isHiding());
 
         if (this.ownerUUID != null)
             tag.putUUID("Owner", this.ownerUUID);
@@ -182,13 +190,27 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.isHiding = tag.getBoolean("isHiding");
+        this.setBaby(tag.getBoolean("IsBaby"));
+        this.hide(tag.getBoolean("IsHiding"));
         this.leftOwner = tag.getBoolean("LeftOwner");
 
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
             this.cachedOwner = null;
         }
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_BABY_ID, false);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        if (DATA_BABY_ID.equals(accessor))
+            this.refreshDimensions();
+        super.onSyncedDataUpdated(accessor);
     }
 
     @Override
@@ -231,10 +253,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
-
-        AttributeInstance scale = this.getAttribute(Attributes.SCALE);
-        if (scale != null && this.level().getBlockState(this.blockPosition()).getBlock() instanceof FlowerPotBlock)
-            scale.setBaseValue(0.4F);
 
         if (attachedBlockPos != null) {
             BlockPos newPos = this.findValidBlockPos();
@@ -297,6 +315,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         Direction attachedSide = this.getAttachedSide();
+
+        if (this.isBaby())
+            return BABY_DIMENSIONS;
 
         if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
                 || attachedSide == Direction.EAST || attachedSide == Direction.WEST) {
@@ -405,6 +426,16 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public PartEntity<?> @NotNull [] getParts() {
         return this.subEntities;
+    }
+
+    @Override
+    public boolean isBaby() {
+        return this.getEntityData().get(DATA_BABY_ID);
+    }
+
+    @Override
+    public void setBaby(boolean isBaby) {
+        this.getEntityData().set(DATA_BABY_ID, isBaby);
     }
 
     @Nullable
@@ -640,9 +671,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                     continue;
 
                 this.swing(InteractionHand.MAIN_HAND);
+
+                float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
+                        : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
                 if (this.getOwner() != null)
-                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
+                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
+
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.attackCooldown = 20;
                 break;

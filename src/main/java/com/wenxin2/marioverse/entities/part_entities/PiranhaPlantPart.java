@@ -176,9 +176,14 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                     continue;
 
                 this.getParent().swing(InteractionHand.MAIN_HAND);
+
+                float attackDamage = this.getParent().isBaby() ? (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
+                        : (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE);
+
                 if (this.getParent().getOwner() != null)
-                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
-                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
+                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), attackDamage);
+                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
+
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.getParent().attackCooldown = 20;
                 break;
