@@ -7,6 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "minecraft:leather",
           "functions": [
             {
               "add": false,
@@ -26,8 +27,7 @@
               "enchantment": "minecraft:looting",
               "function": "minecraft:enchanted_count_increase"
             }
-          ],
-          "name": "minecraft:leather"
+          ]
         }
       ],
       "rolls": 1.0

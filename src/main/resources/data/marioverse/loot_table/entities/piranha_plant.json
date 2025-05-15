@@ -14,15 +14,18 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 1,
+                "min": -5
+              },
+              "function": "minecraft:set_count"
+            },
+            {
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2,
                 "min": 0
               },
-              "function": "minecraft:set_count",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.25
-                }
-              ]
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
             }
           ]
         }
