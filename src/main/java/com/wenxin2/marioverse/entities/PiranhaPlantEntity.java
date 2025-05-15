@@ -642,7 +642,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 this.swing(InteractionHand.MAIN_HAND);
                 if (this.getOwner() != null)
                     collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.attackCooldown = 20;
                 break;

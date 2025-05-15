@@ -552,7 +552,7 @@
   "death.attack.marioverse.ice_cube_crushed.player": "%2$s crushed %1$s with ice cube",
   "death.attack.marioverse.mini_goomba_defeated": "%1$s was flung to death",
   "death.attack.marioverse.mini_goomba_defeated.player": "%1$s was flung to death by %2$s",
-  "death.attack.marioverse.piranha_chomp": "%1$s was chomped on",
+  "death.attack.marioverse.piranha_chomp": "%1$s was chomped on by Piranha Plant",
   "death.attack.marioverse.piranha_chomp.player": "%1$s was chomped on by %2$s's Piranha Plant",
   "death.attack.marioverse.shrapnel": "%1$s was shredded by shrapnel",
   "death.attack.marioverse.shrapnel.player": "%2$s caused %1$s to be shredded by shrapnel",
