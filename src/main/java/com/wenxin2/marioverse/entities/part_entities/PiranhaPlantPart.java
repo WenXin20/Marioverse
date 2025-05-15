@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.part_entities;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -163,16 +164,23 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
     public void biteEntity() {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
-                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
+                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
+                        && !this.level().isClientSide());
+
 
         if (!nearbyEntities.isEmpty() && !this.getParent().isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
-                        || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
-                    return;
+                        || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK))
+                        || (this.getParent().getOwner() != null && this.getParent().getOwner().getUUID().equals(collidingEntity.getUUID())))
+                    continue;
 
                 this.getParent().swing(InteractionHand.MAIN_HAND);
-                collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent()), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
+                if (this.getParent().getOwner() != null)
+                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
+                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this), (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE));
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                this.getParent().attackCooldown = 20;
                 break;
             }
         }

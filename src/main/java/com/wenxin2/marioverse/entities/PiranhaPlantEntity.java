@@ -79,7 +79,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     public boolean isHiding;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
-    private int attackCooldown = 0;
+    public int attackCooldown = 0;
 
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
@@ -139,7 +139,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             for (Entity collidingEntity : nearbyEntities) {
                 if (!(collidingEntity instanceof PiranhaPlantEntity)
                         || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)
-                        || this.getOwner() != collidingEntity)
+                        || (this.getOwner() != null && !this.getOwner().getUUID().equals(collidingEntity.getUUID())))
                     event.setAndContinue(CONSTANT_BITES);
             }
         } else event.setAndContinue(IDLE);
@@ -626,18 +626,21 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         }
 
         List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.01), entity -> !entity.isSpectator()
-                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
+                this.getBoundingBox().inflate(0.01, 0.0, 0.01), entity -> !entity.isSpectator()
+                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
+                        && !this.level().isClientSide());
 
         if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
                         || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK))
-                        || this.getOwner() == collidingEntity)
-                    return;
+                        || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
+                    continue;
 
                 this.swing(InteractionHand.MAIN_HAND);
-                collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                if (this.getOwner() != null)
+                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.attackCooldown = 20;
                 break;
