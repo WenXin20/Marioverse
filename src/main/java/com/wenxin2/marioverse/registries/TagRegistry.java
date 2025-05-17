@@ -111,6 +111,7 @@ public class TagRegistry {
     public static final TagKey<Item> PEACH_POWER_UP_COSTUMES = itemTags("power_up_costumes/peach");
     public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
     public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
+    public static final TagKey<Item> PIRANHA_FOOD = itemTags("piranha_food");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");

@@ -126,6 +126,17 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.GREEN_KOOPA_SHELL.get())
                 .add(ItemRegistry.RED_KOOPA_SHELL.get());
 
+        tag(TagRegistry.PIRANHA_FOOD)
+                .add(Items.BONE_MEAL);
+
+        tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
+                .addTag(TagRegistry.WARP_PIPE_ITEMS)
+                .add(ItemRegistry.WRENCH.get())
+                .add(ItemRegistry.WARP_DISRUPTOR.get());
+
+        tag(TagRegistry.WRENCH_TOOLS)
+                .add(ItemRegistry.WRENCH.get());
+
         tag(TagRegistry.KOOPA_SHOES)
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
@@ -324,13 +335,5 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PEACH_FIRE_SHOES.get())
                 .add(ItemRegistry.PEACH_ICE_SHOES.get())
                 .add(ItemRegistry.PEACH_SHOES.get());
-
-        tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
-                .addTag(TagRegistry.WARP_PIPE_ITEMS)
-                .add(ItemRegistry.WRENCH.get())
-                .add(ItemRegistry.WARP_DISRUPTOR.get());
-
-        tag(TagRegistry.WRENCH_TOOLS)
-                .add(ItemRegistry.WRENCH.get());
     }
 }

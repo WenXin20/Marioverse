@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -26,9 +27,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -43,7 +46,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -346,6 +351,26 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         }
     }
 
+    @NotNull
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (this.isFood(stack)) {
+            int i = this.getAge();
+
+            if (this.isBaby()) {
+                stack.consume(1, player);
+                this.ageUp(getSpeedUpSecondsWhenFeeding(-i), true);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+
+            if (this.level().isClientSide)
+                return InteractionResult.CONSUME;
+        }
+
+        return super.mobInteract(player, hand);
+    }
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (!this.isHiding() || source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
@@ -493,6 +518,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         return this.subEntities;
     }
 
+    public boolean isFood(ItemStack stack) {
+        return stack.is(TagRegistry.PIRANHA_FOOD);
+    }
+
     @Override
     public boolean isBaby() {
         return this.getAge() < 0;
@@ -567,9 +596,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 this.forcedAgeTimer = FORCED_AGE_PARTICLE_TICKS;
         }
 
-        if (this.getAge() == 0) {
+        if (this.getAge() == 0)
             this.setAge(this.forcedAge);
-        }
     }
 
     public void ageUp(int age) {
@@ -588,6 +616,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     protected void ageBoundaryReached() {
         if (!this.isBaby() && this.isPassenger() && this.getVehicle() instanceof Boat boat && !boat.hasEnoughSpaceFor(this))
             this.stopRiding();
+    }
+
+    public static int getSpeedUpSecondsWhenFeeding(int feedTicks) {
+        return (int)((float)(feedTicks / 20) * 0.1F);
     }
 
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
