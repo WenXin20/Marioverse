@@ -8,10 +8,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -102,7 +99,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
         if (this.onGround() || this.tickCount > 400) {
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.level().gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
@@ -136,8 +133,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
             if (this.level() instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -147,7 +144,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
@@ -279,7 +276,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         }
@@ -287,14 +284,14 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             if (this.level() instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
             }
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             if (this.level() instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
             }
         }
     }

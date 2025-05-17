@@ -160,7 +160,7 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticleRingOnEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+    public static void spawnParticleRingOnEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, double speed, int particleAmt) {
         for (int i = 0; i < particleAmt; i++) {
             double angle = 2 * Math.PI * i / particleAmt;
 
@@ -172,11 +172,11 @@ public class ServerParticleUtils {
             double y = entity.getY() + offsetY;
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 1.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, speed);
         }
     }
 
-    public static void spawnParticleRingAboveEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+    public static void spawnParticleRingAboveEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, double speed, int particleAmt) {
         for (int i = 0; i < particleAmt; i++) {
             double angle = 2 * Math.PI * i / particleAmt;
 
@@ -187,11 +187,11 @@ public class ServerParticleUtils {
             double y = entity.getY() + entity.getBbHeight();
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 1.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, speed);
         }
     }
 
-    public static void spawnParticleRingBelowEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, int particleAmt) {
+    public static void spawnParticleRingBelowEntity(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double radius, double speed, int particleAmt) {
         for (int i = 0; i < particleAmt; i++) {
             double angle = 2 * Math.PI * i / particleAmt;
 
@@ -202,7 +202,7 @@ public class ServerParticleUtils {
             double y = entity.getY();
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 1.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, speed);
         }
     }
 

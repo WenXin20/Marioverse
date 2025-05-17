@@ -284,7 +284,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
             if (bounceCooldown <= 0) {
                 if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 3);
+                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 0.0, 3);
                 entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
                 entity.resetFallDistance();
                 entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
