@@ -287,7 +287,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 this.detachFromBlock();
             } else if (newPos == null && !this.isHiding()) {
                 this.detachFromBlock();
-            } else {
+            } else if (newPos != null && this.determineAttachmentSide(newPos) != Direction.UP) {
                 this.setNoGravity(true);
                 this.setDeltaMovement(Vec3.ZERO);
             }

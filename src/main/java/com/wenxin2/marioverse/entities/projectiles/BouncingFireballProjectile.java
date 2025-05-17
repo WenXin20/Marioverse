@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -99,9 +101,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         }
 
         if (this.onGround() || this.tickCount > 400) {
-            if (!this.level().isClientSide) {
-                this.level().broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            }
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
             this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.level().gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
@@ -134,8 +135,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         BlockState stateAbove = this.level().getBlockState(hitPos.above());
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            if (!world.isClientSide) {
-                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            if (this.level() instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 10);
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -144,7 +146,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         } else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
-            world.broadcastEntityEvent(this, (byte) 61); // Smoke particle
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
             world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
@@ -275,17 +278,24 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             iceCube.shatterIceCube(false, false, this);
             world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.broadcastEntityEvent(this, (byte) 60);
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         }
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            if (this.level() instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 10);
+            }
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
+            if (this.level() instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 10);
+            }
         }
     }
 
@@ -300,52 +310,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             }
         }
         return false;
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 60) {
-            if (this.level().isClientSide) {
-                int numParticles = 10; // Number of particles to spawn in the circle
-                double radius = 0.2;  // Radius of the circle around the fireball
-
-                for (int i = 0; i < numParticles; i++) {
-                    // Calculate angle for each particle
-                    double angle = 2 * Math.PI * i / numParticles;
-
-                    // Calculate the X and Z offset using sine and cosine to spread in a circle
-                    double offsetX = Math.cos(angle) * radius;
-                    double offsetY = Math.sin(angle) * radius;
-                    double offsetZ = Math.sin(angle) * radius;
-
-                    double x = this.getX() + offsetX;
-                    double y = this.getY() + offsetY;
-                    double z = this.getZ() + offsetZ;
-
-                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
-                }
-            }
-        } else if (id == 61) {
-            if (this.level().isClientSide) {
-                int numParticles = 10; // Number of particles to spawn in the circle
-                double radius = 0.15;  // Radius of the circle around the fireball
-
-                for (int i = 0; i < numParticles; i++) {
-                    // Calculate angle for each particle
-                    double angle = 2 * Math.PI * i / numParticles;
-
-                    // Calculate the X and Z offset using sine and cosine to spread in a circle
-                    double offsetX = Math.cos(angle) * radius;
-                    double offsetZ = Math.sin(angle) * radius;
-
-                    double x = this.getX() + offsetX;
-                    double y = this.getY() - this.getBbHeight();
-                    double z = this.getZ() + offsetZ;
-
-                    this.level().addParticle(ParticleTypes.SMOKE, x, y, z, 0, 0, 0);
-                }
-            }
-        } else super.handleEntityEvent(id);
     }
 
     public void collideWithEntity() {

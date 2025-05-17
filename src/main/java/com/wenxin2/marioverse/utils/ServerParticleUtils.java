@@ -172,7 +172,7 @@ public class ServerParticleUtils {
             double y = entity.getY() + offsetY;
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 1.0);
         }
     }
 
@@ -187,7 +187,7 @@ public class ServerParticleUtils {
             double y = entity.getY() + entity.getBbHeight();
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 1.0);
         }
     }
 
@@ -202,7 +202,7 @@ public class ServerParticleUtils {
             double y = entity.getY();
             double z = entity.getZ() + offsetZ;
 
-            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 1.0);
         }
     }
 
