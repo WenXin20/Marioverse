@@ -87,7 +87,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDimensions BABY_DIMENSIONS = EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.6F).withEyeHeight(0.93F);
     public static final int BABY_START_AGE = -24000;
     private static final int FORCED_AGE_PARTICLE_TICKS = 40;
 
@@ -406,8 +405,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         Direction attachedSide = this.getAttachedSide();
 
-        if (this.isBaby())
-            return BABY_DIMENSIONS;
+        if (this.isBaby() && attachedSide == Direction.UP)
+            return EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.6F).withEyeHeight(0.9F);
 
         if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
                 || attachedSide == Direction.EAST || attachedSide == Direction.WEST) {
@@ -429,26 +428,28 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         if (facing == null)
             facing = Direction.UP;
 
-        return switch (facing) {
-            case UP -> new AABB(
-                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
-                    this.getX() + 0.5 * width * scale, this.getY() + 2.3125 * height * scale, this.getZ() + 0.5 * width * scale);
-            case DOWN -> new AABB(
-                    this.getX() - 0.5 * width * scale, this.getY() - 1.3125, this.getZ() - 0.5 * width * scale,
-                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
-            case NORTH -> new AABB(
-                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 1.8125 * width * scale,
-                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
-            case SOUTH -> new AABB(
-                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
-                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 1.8125 * width * scale);
-            case EAST -> new AABB(
-                    this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
-                    this.getX() + 1.8125 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
-            case WEST -> new AABB(
-                    this.getX() - 1.8125 * width * scale, this.getY(), this.getZ() - 0.5  * width * scale,
-                    this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
-        };
+        if (!this.isBaby()) {
+            return switch (facing) {
+                case UP -> new AABB(
+                        this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                        this.getX() + 0.5 * width * scale, this.getY() + 2.3125 * height * scale, this.getZ() + 0.5 * width * scale);
+                case DOWN -> new AABB(
+                        this.getX() - 0.5 * width * scale, this.getY() - 1.3125, this.getZ() - 0.5 * width * scale,
+                        this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
+                case NORTH -> new AABB(
+                        this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 1.8125 * width * scale,
+                        this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
+                case SOUTH -> new AABB(
+                        this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                        this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 1.8125 * width * scale);
+                case EAST -> new AABB(
+                        this.getX() - 0.5 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                        this.getX() + 1.8125 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
+                case WEST -> new AABB(
+                        this.getX() - 1.8125 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
+                        this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
+            };
+        } else return new AABB(0, 0, 0, 0, 0, 0);
     }
 
     public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
@@ -629,10 +630,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         double widthScale = this.getWidthAttribute();
         double scale = this.getScaleAttribute();
 
-        part.setPos(this.getX() + offsetX + 0.5, this.getY() + offsetY, this.getZ() + offsetZ + 0.5);
-        part.setBoundingBox(new AABB(this.getX() + offsetX - width, this.getY() + offsetY, this.getZ() + offsetZ - width,
-                this.getX() + (offsetX + width * widthScale * (scale / 2)), this.getY() + (offsetY + height * heightScale * scale),
-                this.getZ() + (offsetZ + width * widthScale * (scale / 2))));
+        if (!this.isBaby()) {
+            part.setPos(this.getX() + offsetX + 0.5, this.getY() + offsetY, this.getZ() + offsetZ + 0.5);
+            part.setBoundingBox(new AABB(this.getX() + offsetX - width, this.getY() + offsetY, this.getZ() + offsetZ - width,
+                    this.getX() + (offsetX + width * widthScale * (scale / 2)), this.getY() + (offsetY + height * heightScale * scale),
+                    this.getZ() + (offsetZ + width * widthScale * (scale / 2))));
+        }
     }
 
     private Vec3 calculateHitboxOffset(Direction attachedSide) {
