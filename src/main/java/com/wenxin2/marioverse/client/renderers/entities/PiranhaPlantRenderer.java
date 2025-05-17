@@ -5,12 +5,15 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.PiranhaPlantModel;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import java.util.Optional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.phys.AABB;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class PiranhaPlantRenderer extends GeoEntityRenderer<PiranhaPlantEntity> {
@@ -21,6 +24,29 @@ public class PiranhaPlantRenderer extends GeoEntityRenderer<PiranhaPlantEntity> 
     @Override
     protected float getDeathMaxRotation(PiranhaPlantEntity animatable) {
         return 0.0F;
+    }
+
+    @Override
+    public void scaleModelForRender(float widthScale, float heightScale, PoseStack poseStack, PiranhaPlantEntity animatable, BakedGeoModel model,
+                                    boolean isReRender, float partialTick, int packedLight, int packedOverlay) {
+        super.scaleModelForRender(widthScale, heightScale, poseStack, animatable, model, isReRender, partialTick, packedLight, packedOverlay);
+
+        Optional<GeoBone> root = model.getBone("root");
+        Optional<GeoBone> head = model.getBone("head");
+
+        if (animatable.isBaby()) {
+            if (root.isPresent()) {
+                root.get().setScaleX(0.5F);
+                root.get().setScaleY(0.5F);
+                root.get().setScaleZ(0.5F);
+            }
+
+            if (head.isPresent()) {
+                head.get().setScaleX(1.25F);
+                head.get().setScaleY(1.25F);
+                head.get().setScaleZ(1.25F);
+            }
+        }
     }
 
     @Override

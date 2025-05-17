@@ -75,7 +75,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableEntity {
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
-    public static final RawAnimation BABY = RawAnimation.begin().thenPlayAndHold("piranha_plant.baby");
     public static final RawAnimation BABY_DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.baby_death");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
@@ -142,7 +141,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Baby", 1, this::babyAnimation));
         controllers.add(new AnimationController<>(this, "Death", 5, this::deathAnimation));
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
@@ -155,14 +153,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 .triggerableAnim("hide", HIDE));
         controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hurt", HURT));
-    }
-
-    protected <E extends GeoAnimatable> PlayState babyAnimation(final AnimationState<E> event) {
-        if (this.isBaby()) {
-            event.setAndContinue(BABY);
-            return PlayState.CONTINUE;
-        }
-        return PlayState.STOP;
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
