@@ -74,6 +74,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableEntity {
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation BABY_DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.baby_death");
+    public static final RawAnimation BABY_EMERGE = RawAnimation.begin().thenPlay("piranha_plant.baby_emerge");
+    public static final RawAnimation BABY_HIDE = RawAnimation.begin().thenPlay("piranha_plant.baby_hide");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
     public static final RawAnimation GROW = RawAnimation.begin().thenPlayAndHold("piranha_plant.grow");
@@ -143,6 +145,10 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(new AnimationController<>(this, "baby_emerge_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("baby_emerge", BABY_EMERGE));
+        controllers.add(new AnimationController<>(this, "baby_hide_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("baby_hide", BABY_HIDE));
         controllers.add(new AnimationController<>(this, "grow_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("grow", GROW));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
@@ -745,8 +751,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                         && offsetState.getValue(BlockStateProperties.FACING) == direction
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
-                        this.stopTriggeredAnim("hide_controller", "hide");
-                        this.triggerAnim("emerge_controller", "emerge");
+                        if (this.isBaby()) {
+                            this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
+                            this.triggerAnim("baby_emerge_controller", "baby_emerge");
+                        } else {
+                            this.stopTriggeredAnim("hide_controller", "hide");
+                            this.triggerAnim("emerge_controller", "emerge");
+                        }
                         this.hide(false);
                     }
                 }
@@ -761,8 +772,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                     this.hideAnimationTicks = 15;
                     this.hideTicks = this.getHideDuration();
-                    this.stopTriggeredAnim("emerge_controller", "emerge");
-                    this.triggerAnim("hide_controller", "hide");
+                    if (this.isBaby()) {
+                        this.stopTriggeredAnim("baby_emerge_controller", "baby_emerge");
+                        this.triggerAnim("baby_hide_controller", "baby_hide");
+                    } else {
+                        this.stopTriggeredAnim("emerge_controller", "emerge");
+                        this.triggerAnim("hide_controller", "hide");
+                    }
                     this.hide(true);
                 }
             }
@@ -771,8 +787,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         if (this.isHiding() && !state.hasProperty(BlockStateProperties.FACING)) {
             if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
                     && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
-                this.stopTriggeredAnim("hide_controller", "hide");
-                this.triggerAnim("emerge_controller", "emerge");
+                if (this.isBaby()) {
+                    this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
+                    this.triggerAnim("baby_emerge_controller", "baby_emerge");
+                } else {
+                    this.stopTriggeredAnim("hide_controller", "hide");
+                    this.triggerAnim("emerge_controller", "emerge");
+                }
                 this.hide(false);
             }
         } else if (world.getGameTime() % this.getHideDuration() == 0L
@@ -780,8 +801,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
             this.hideAnimationTicks = 15;
             this.hideTicks = this.getHideDuration();
-            this.stopTriggeredAnim("emerge_controller", "emerge");
-            this.triggerAnim("hide_controller", "hide");
+            if (this.isBaby()) {
+                this.stopTriggeredAnim("baby_emerge_controller", "baby_emerge");
+                this.triggerAnim("baby_hide_controller", "baby_hide");
+            } else {
+                this.stopTriggeredAnim("emerge_controller", "emerge");
+                this.triggerAnim("hide_controller", "hide");
+            }
             this.hide(true);
         }
     }
