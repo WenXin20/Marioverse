@@ -397,7 +397,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         Direction attachedSide = this.getAttachedSide();
 
         if (this.isBaby() && attachedSide == Direction.UP)
-            return EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.6F).withEyeHeight(0.9F);
+            return EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.75F).withEyeHeight(0.9F);
 
         if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
                 || attachedSide == Direction.EAST || attachedSide == Direction.WEST) {
