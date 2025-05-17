@@ -352,7 +352,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         if (this.isFood(stack)) {
             int age = this.getAge();
 
-            if (this.isBaby()) {
+            if (this.isBaby() && !this.isHiding()) {
                 stack.consume(1, player);
                 this.swing(InteractionHand.MAIN_HAND);
                 this.ageUp(getSpeedUpSecondsWhenFeeding(-age), true);
