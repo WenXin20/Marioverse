@@ -127,6 +127,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.RED_KOOPA_SHELL.get());
 
         tag(TagRegistry.PIRANHA_FOOD)
+                .addTag(ItemTags.MEAT)
                 .add(Items.BONE_MEAL);
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
