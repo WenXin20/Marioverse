@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -40,6 +41,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -65,16 +67,21 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableEntity {
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
+    public static final RawAnimation BABY = RawAnimation.begin().thenPlayAndHold("piranha_plant.baby");
+    public static final RawAnimation BABY_DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.baby_death");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
-    public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("piranha_plant.emerge");
-    public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("piranha_plant.hide");
+    public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
+    public static final RawAnimation GROW = RawAnimation.begin().thenPlayAndHold("piranha_plant.grow");
+    public static final RawAnimation HIDE = RawAnimation.begin().thenPlay("piranha_plant.hide");
     public static final RawAnimation HURT = RawAnimation.begin().thenPlay("piranha_plant.hurt");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDimensions BABY_DIMENSIONS = EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.5F).withEyeHeight(0.93F);
+    private static final EntityDimensions BABY_DIMENSIONS = EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.6F).withEyeHeight(0.93F);
+    public static final int BABY_START_AGE = -24000;
+    private static final int FORCED_AGE_PARTICLE_TICKS = 40;
 
     private BlockPos attachedBlockPos;
     private Direction attachedSide;
@@ -87,6 +94,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
     public int attackCooldown = 0;
+    protected int age;
+    protected int forcedAge;
+    protected int forcedAgeTimer;
 
     public PiranhaPlantEntity(EntityType<? extends PiranhaPlantEntity> type, Level world) {
         super(type, world);
@@ -125,16 +135,27 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "Baby", 1, this::babyAnimation));
         controllers.add(new AnimationController<>(this, "Death", 5, this::deathAnimation));
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(new AnimationController<>(this, "grow_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("grow", GROW));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("emerge", EMERGE));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
         controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hurt", HURT));
+    }
+
+    protected <E extends GeoAnimatable> PlayState babyAnimation(final AnimationState<E> event) {
+        if (this.isBaby()) {
+            event.setAndContinue(BABY);
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
@@ -144,12 +165,19 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
         if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
-                if (!(collidingEntity instanceof PiranhaPlantEntity)
-                        || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)) {
-                    if ((this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
-                        continue;
-                    event.setAndContinue(CONSTANT_BITES);
-                }
+                if (collidingEntity instanceof PiranhaPlantEntity
+                        || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
+                    continue;
+
+                if ((this.getOwner() != null && !((collidingEntity instanceof Monster) || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                        || (this.getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                    continue;
+
+                if (this.getOwner() != null && collidingEntity.getTeam() != null && this.getOwner().getTeam() != null
+                        && collidingEntity.getTeam() == this.getOwner().getTeam())
+                    continue;
+
+                event.setAndContinue(CONSTANT_BITES);
             }
         } else event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
@@ -163,7 +191,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 event.setAndContinue(SQUASH);
                 return PlayState.CONTINUE;
             } else {
-                event.setAndContinue(DEATH);
+                if (this.isBaby())
+                    event.setAndContinue(BABY_DEATH);
+                else event.setAndContinue(DEATH);
                 return PlayState.CONTINUE;
             }
         }
@@ -180,6 +210,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         super.addAdditionalSaveData(tag);
         tag.putBoolean("IsBaby", this.isBaby());
         tag.putBoolean("IsHiding", this.isHiding());
+        tag.putInt("Age", this.getAge());
+        tag.putInt("ForcedAge", this.forcedAge);
 
         if (this.ownerUUID != null)
             tag.putUUID("Owner", this.ownerUUID);
@@ -193,6 +225,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         this.setBaby(tag.getBoolean("IsBaby"));
         this.hide(tag.getBoolean("IsHiding"));
         this.leftOwner = tag.getBoolean("LeftOwner");
+        this.setAge(tag.getInt("Age"));
+        this.forcedAge = tag.getInt("ForcedAge");
 
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
@@ -239,21 +273,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         super.tick();
         this.head.tick();
 
-        if (this.attackCooldown > 0)
-            this.attackCooldown--;
-
-        if (this.hideTicks > 0)
-            this.hideTicks--;
-
-        if (this.hideAnimationTicks > 0)
-            this.hideAnimationTicks--;
-
-        this.biteEntity();
-        this.hideInBlock();
-
-        if (this.isInWaterOrBubble())
-            this.ejectPassengers();
-
         if (attachedBlockPos != null) {
             BlockPos newPos = this.findValidBlockPos();
             if (this.level().isEmptyBlock(attachedBlockPos) && !this.isHiding()) {
@@ -285,12 +304,43 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public void aiStep() {
         super.aiStep();
-        Direction attachedSide = this.getAttachedSide();
 
+        if (this.attackCooldown > 0)
+            this.attackCooldown--;
+
+        if (this.hideTicks > 0)
+            this.hideTicks--;
+
+        if (this.hideAnimationTicks > 0)
+            this.hideAnimationTicks--;
+
+        this.biteEntity();
+        this.hideInBlock();
+
+        Direction attachedSide = this.getAttachedSide();
         if (attachedSide != null) {
             Vec3 offset = calculateHitboxOffset(attachedSide);
             this.tickPart(this.head, offset.x, offset.y, offset.z);
         } else this.tickPart(this.head, 0.0, 1.0, 00.0);
+
+        if (this.level().isClientSide) {
+            if (this.forcedAgeTimer > 0) {
+                if (this.forcedAgeTimer % 4 == 0)
+                    this.level().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getRandomX(1.0),
+                            this.getRandomY() + 0.5, this.getRandomZ(1.0), 0.0, 0.0, 0.0);
+                this.forcedAgeTimer--;
+            }
+        } else if (this.isAlive()) {
+            int age = this.getAge();
+
+            if (age < 0)
+                this.setAge(++age);
+            else if (age > 0)
+                this.setAge(--age);
+
+            if (age == -1 || age == 1)
+                this.triggerAnim("grow_controller", "grow");
+        }
     }
 
     @Override
@@ -430,12 +480,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     public boolean isBaby() {
-        return this.getEntityData().get(DATA_BABY_ID);
+        return this.getAge() < 0;
     }
 
     @Override
     public void setBaby(boolean isBaby) {
-        this.getEntityData().set(DATA_BABY_ID, isBaby);
+        this.setAge(isBaby ? BABY_START_AGE : 0);
     }
 
     @Nullable
@@ -480,6 +530,49 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             }
         }
         return true;
+    }
+
+    public int getAge() {
+        if (this.level().isClientSide)
+            return this.entityData.get(DATA_BABY_ID) ? -1 : 1;
+        else return this.age;
+    }
+
+    public void ageUp(int age, boolean doForceAge) {
+        int i = this.getAge();
+        i += age * 20;
+        if (i > 0)
+            i = 0;
+
+        int j = i - i;
+        this.setAge(i);
+        if (doForceAge) {
+            this.forcedAge += j;
+            if (this.forcedAgeTimer == 0)
+                this.forcedAgeTimer = FORCED_AGE_PARTICLE_TICKS;
+        }
+
+        if (this.getAge() == 0) {
+            this.setAge(this.forcedAge);
+        }
+    }
+
+    public void ageUp(int age) {
+        this.ageUp(age, false);
+    }
+
+    public void setAge(int age) {
+        int i = this.getAge();
+        this.age = age;
+        if (i < 0 && age >= 0 || i >= 0 && age < 0) {
+            this.entityData.set(DATA_BABY_ID, age < 0);
+            this.ageBoundaryReached();
+        }
+    }
+
+    protected void ageBoundaryReached() {
+        if (!this.isBaby() && this.isPassenger() && this.getVehicle() instanceof Boat boat && !boat.hasEnoughSpaceFor(this))
+            this.stopRiding();
     }
 
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
@@ -666,8 +759,15 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
-                        || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK))
                         || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
+                    continue;
+
+                if ((this.getOwner() != null && !((collidingEntity instanceof Monster) || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                        || (this.getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                    continue;
+
+                if (this.getOwner() != null && collidingEntity.getTeam() != null && this.getOwner().getTeam() != null
+                        && collidingEntity.getTeam() == this.getOwner().getTeam())
                     continue;
 
                 this.swing(InteractionHand.MAIN_HAND);

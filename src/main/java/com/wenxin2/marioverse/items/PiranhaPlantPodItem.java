@@ -62,10 +62,10 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
                     world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
 
                     if (entity instanceof PiranhaPlantEntity piranhaPlant) {
+                        piranhaPlant.setAge(-24000);
                         BlockPos newPos = piranhaPlant.findValidBlockPos();
                         piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
                         piranhaPlant.setOwner(context.getPlayer());
-                        piranhaPlant.setBaby(true);
                     }
                 }
 

@@ -30,9 +30,6 @@ public class PiranhaPlantRenderer extends GeoEntityRenderer<PiranhaPlantEntity> 
 
         if (Minecraft.getInstance().getEntityRenderDispatcher().shouldRenderHitBoxes())
             renderHitboxes(poseStack, vertexConsumer, entity);
-
-        if (entity.isBaby())
-            poseStack.scale(0.5F, 0.5F, 0.5F);
     }
 
     @Override
