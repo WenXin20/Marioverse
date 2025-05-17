@@ -141,13 +141,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Death", 5, this::deathAnimation));
+        controllers.add(new AnimationController<>(this, "Death", 0, this::deathAnimation));
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
         controllers.add(new AnimationController<>(this, "baby_emerge_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("baby_emerge", BABY_EMERGE));
-        controllers.add(new AnimationController<>(this, "baby_hide_controller", 5, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "baby_hide_controller", 0, state -> PlayState.STOP)
                 .triggerableAnim("baby_hide", BABY_HIDE));
         controllers.add(new AnimationController<>(this, "grow_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("grow", GROW));
