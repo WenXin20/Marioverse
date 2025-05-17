@@ -4,8 +4,10 @@ import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import javax.annotation.Nullable;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -13,6 +15,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,6 +25,8 @@ import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
@@ -167,12 +172,19 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
                         && !this.level().isClientSide());
 
-
         if (!nearbyEntities.isEmpty() && !this.getParent().isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
-                        || !(collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK))
                         || (this.getParent().getOwner() != null && this.getParent().getOwner().getUUID().equals(collidingEntity.getUUID())))
+                    continue;
+
+                if ((this.getParent().getOwner() != null && !((collidingEntity instanceof Monster)
+                        || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK) || (this.getParent().isBaby() && collidingEntity instanceof Animal)))
+                        || (this.getParent().getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                    continue;
+
+                if (this.getParent().getOwner() != null && collidingEntity.getTeam() != null && this.getParent().getOwner().getTeam() != null
+                        && collidingEntity.getTeam() == this.getParent().getOwner().getTeam())
                     continue;
 
                 this.getParent().swing(InteractionHand.MAIN_HAND);
@@ -183,6 +195,13 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                 if (this.getParent().getOwner() != null)
                     collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), attackDamage);
                 else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
+
+                int age = this.getParent().getAge();
+                if (this.getParent().isBaby()) {
+                    this.getParent().ageUp(PiranhaPlantEntity.getSpeedUpSecondsWhenFeeding(-age), true);
+                    if (this.getParent().level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
+                }
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.getParent().attackCooldown = 20;

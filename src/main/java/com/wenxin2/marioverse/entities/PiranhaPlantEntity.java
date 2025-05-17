@@ -27,7 +27,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
@@ -40,11 +39,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TraceableEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -54,7 +53,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -166,7 +164,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                         || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
                     continue;
 
-                if ((this.getOwner() != null && !((collidingEntity instanceof Monster) || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                if ((this.getOwner() != null && !((collidingEntity instanceof Monster)
+                            || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK) || (this.isBaby() && collidingEntity instanceof Animal)))
                         || (this.getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     continue;
 
@@ -335,7 +334,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             else if (age > 0)
                 this.setAge(--age);
 
-            if (age == -1 || age == 1)
+            if (age == -5 || age == 5)
                 this.triggerAnim("grow_controller", "grow");
         }
     }
@@ -345,11 +344,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (this.isFood(stack)) {
-            int i = this.getAge();
+            int age = this.getAge();
 
             if (this.isBaby()) {
                 stack.consume(1, player);
-                this.ageUp(getSpeedUpSecondsWhenFeeding(-i), true);
+                this.swing(InteractionHand.MAIN_HAND);
+                this.ageUp(getSpeedUpSecondsWhenFeeding(-age), true);
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
@@ -802,7 +803,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                         || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
                     continue;
 
-                if ((this.getOwner() != null && !((collidingEntity instanceof Monster) || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                if ((this.getOwner() != null && !((collidingEntity instanceof Monster)
+                            || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK) || (this.isBaby() && collidingEntity instanceof Animal)))
                         || (this.getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     continue;
 
@@ -818,6 +820,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 if (this.getOwner() != null)
                     collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
                 else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
+
+                int age = this.getAge();
+                if (this.isBaby()) {
+                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), true);
+                    if (this.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
+                }
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.attackCooldown = 20;

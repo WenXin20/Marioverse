@@ -99,7 +99,7 @@ public class ServerParticleUtils {
 
         for (int i = 0; i < numParticles; i++) {
             double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
-            double offsetY = rand.nextDouble() * entity.getBbHeight() - (entity.getBbHeight() / 2.0);
+            double offsetY = rand.nextDouble() * entity.getBbHeight();
             double offsetZ = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
 
             if (entity instanceof Painting painting) {
