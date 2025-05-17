@@ -1,21 +1,6 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"piranha_plant.baby": {
-			"loop": "hold_on_last_frame",
-			"bones": {
-				"root": {
-					"scale": {
-						"vector": [0.5, 0.5, 0.5]
-					}
-				},
-				"head": {
-					"scale": {
-						"vector": [1.25, 1.25, 1.25]
-					}
-				}
-			}
-		},
 		"piranha_plant.baby_emerge": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 1,
