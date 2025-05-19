@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
@@ -13,7 +14,9 @@ import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.items.LinkerItem;
+import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
@@ -27,7 +30,6 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -41,10 +43,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.util.ParticleUtils;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -59,12 +60,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -412,12 +413,35 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getLevel().isClientSide()) {
-            BlockPos clickedPos = event.getPos();
-            BlockEntity blockEntity = event.getLevel().getBlockEntity(clickedPos);
+        Level world = event.getLevel();
+        BlockPos pos = event.getPos();
+        BlockState state = world.getBlockState(pos);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        ItemStack heldItem = event.getItemStack();
+        Player player = event.getEntity();
+
+        Direction.Axis axis = event.getEntity().getDirection().getAxis();
+        BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
+
+        if (heldItem.getItem() instanceof PiranhaPlantPodItem
+                && state.getBlock() instanceof FlowerPotBlock flowerPot
+                && flowerPot.getPotted() == Blocks.AIR) {
+
+            world.setBlock(pos, newState, 3);
+            if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE)
+                piranhaPlantBE.setOwner(player);
+
+            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+            player.awardStat(Stats.POT_FLOWER);
+            player.swing(InteractionHand.MAIN_HAND);
+            heldItem.consume(1, player);
+        }
+
+        if (world.isClientSide()) {
             if (blockEntity instanceof WarpPipeBlockEntity) {
                 // Update the last clicked position
-                WarpPipeScreen.lastClickedPos = clickedPos;
+                WarpPipeScreen.lastClickedPos = pos;
             }
         }
     }

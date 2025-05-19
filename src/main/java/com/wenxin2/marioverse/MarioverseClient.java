@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRenderer;
+import com.wenxin2.marioverse.client.renderers.blocks.PottedPiranhaPlantBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
@@ -133,12 +134,13 @@ public class MarioverseClient {
         event.registerBlockEntityRenderer(BlockEntityRegistry.CHECKPOINT_FLAG_BLOCK_ENTITY.get(), CheckpointFlagBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), GoalPoleBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.POTTED_PIRANHA_PLANT_BLOCK_ENTITY.get(), PottedPiranhaPlantBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.STAR_COIN_BLOCK_ENTITY.get(), StarCoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), WarpPipeBlockEntityRenderer::new);
     }
 
     @SubscribeEvent
-    private static void registerRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+    private static void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBALL.get(), BouncingFireballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.BOUNCING_ICE_BALL.get(), BouncingIceBallRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_CUBE.get(), IceCubeRenderer::new);

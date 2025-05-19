@@ -46,6 +46,6 @@ public abstract class BaseEntityDirectionalBlock extends DirectionalBlock implem
     @Nullable
     public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
             BlockEntityType<A> type, BlockEntityType<E> type1, BlockEntityTicker<? super E> ticker) {
-        return type1 == type ? (BlockEntityTicker<A>)ticker : null;
+        return type1 == type ? (BlockEntityTicker<A>) ticker : null;
     }
 }

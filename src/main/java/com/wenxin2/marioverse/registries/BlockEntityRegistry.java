@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -23,6 +24,7 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CheckpointFlagBlockEntity>> CHECKPOINT_FLAG_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GoalPoleBlockEntity>> GOAL_POLE_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> INVISIBLE_QUESTION_BLOCK_ENTITY;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PottedPiranhaPlantBlockEntity>> POTTED_PIRANHA_PLANT_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> QUESTION_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuestionBlockEntity>> STORAGE_BRICKS_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StarCoinBlockEntity>> STAR_COIN_BLOCK_ENTITY;
@@ -34,6 +36,10 @@ public class BlockEntityRegistry {
         COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("coin",
                 () -> BlockEntityType.Builder.of(CoinBlockEntity::new,
                                 BlockRegistry.COIN.get()).build(null));
+
+        POTTED_PIRANHA_PLANT_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("potted_piranha_plant",
+                () -> BlockEntityType.Builder.of(PottedPiranhaPlantBlockEntity::new,
+                                BlockRegistry.POTTED_PIRANHA_PLANT.get()).build(null));
 
         STAR_COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("star_coin",
                 () -> BlockEntityType.Builder.of(StarCoinBlockEntity::new,
@@ -144,8 +150,8 @@ public class BlockEntityRegistry {
 
         WARP_PIPE_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_pipe",
                 () -> BlockEntityType.Builder.of(WarpPipeBlockEntity::new,
-                                Stream.concat(BlockRegistry.WARP_PIPES.values().stream().map(DeferredBlock::get),
-                                        Stream.of(BlockRegistry.CLEAR_WARP_PIPE.get())).toArray(Block[]::new)).build(null));
+                        Stream.concat(BlockRegistry.WARP_PIPES.values().stream().map(DeferredBlock::get),
+                                Stream.of(BlockRegistry.CLEAR_WARP_PIPE.get())).toArray(Block[]::new)).build(null));
 
         WARP_DOOR_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_door",
                 () -> BlockEntityType.Builder.of(WarpDoorBlockEntity::new,

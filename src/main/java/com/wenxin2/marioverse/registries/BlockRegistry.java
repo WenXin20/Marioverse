@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
@@ -165,6 +166,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
@@ -255,6 +257,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
 
     static {
+        POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
+                () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+
         STAR_COIN = registerBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)

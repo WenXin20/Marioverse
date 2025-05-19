@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-29T13:21:43.7708517	Loot Tables
+// 1.21.1	2025-05-19T00:01:01.4032283	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 0968a986ea9b50ba23d46fb87fc714d14b9e6dec data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -147,6 +147,7 @@ f869cb81e8cc15b5c0b8575abf31c11ae33a570d data/marioverse/loot_table/blocks/polis
 4b2a6659742612267d1a98d70ee3760be4c95d16 data/marioverse/loot_table/blocks/polished_fungal_stone_slab.json
 1058fa25fcae341cfebe11c8d8866edf403632de data/marioverse/loot_table/blocks/polished_fungal_stone_stairs.json
 20294a31ec53cd8892307c85fa1b50bd6986be31 data/marioverse/loot_table/blocks/polished_fungal_stone_wall.json
+bd59c4303ba0f4ecb696c9335b8952b74f9915df data/marioverse/loot_table/blocks/potted_piranha_plant.json
 d4e01f3682c04948792ceb978b00e02758882e1b data/marioverse/loot_table/blocks/prismarine_brick_pedestal.json
 7759c3636297fa1a4c80d5fffee015522f6083c3 data/marioverse/loot_table/blocks/prismarine_question_bricks.json
 cdfa39f8daae712bd6b80fe38f2822bcafdfdaf3 data/marioverse/loot_table/blocks/purple_checkpoint_flag.json

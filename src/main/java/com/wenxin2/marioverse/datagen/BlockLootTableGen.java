@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
+import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
@@ -11,6 +12,7 @@ import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +24,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -65,6 +69,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createStorageBlockDrop(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
+                    else if (block instanceof PottedPiranhaPlantBlock)
+                        this.add(block, this.createPotFlowerItemTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof StarCoinBlock)
                         this.add(block, this.createCoinDrop(block));
                     else if (block instanceof WarpPipeBlock)
@@ -94,6 +100,15 @@ public class BlockLootTableGen extends LootTableProvider {
                     else dropSelf(variantBlock);
                 });
             });
+        }
+
+        protected LootTable.Builder createPotFlowerItemTable(ItemLike itemLike) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(Blocks.FLOWER_POT,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(Blocks.FLOWER_POT))))
+                    .withPool(this.applyExplosionCondition(itemLike,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(itemLike))));
         }
 
         protected LootTable.Builder createNameableWarpPipeBEDrop(Block block) {
