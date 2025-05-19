@@ -51,8 +51,8 @@ public class PottedPiranhaPlantBlockEntity extends BlockEntity implements GeoBlo
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
-        if (this.level instanceof ServerLevel serverWorld) {
-            List<Entity> nearbyEntities = serverWorld.getEntitiesOfClass(Entity.class,
+        if (this.level != null) {
+            List<Entity> nearbyEntities = this.level.getEntitiesOfClass(Entity.class,
                     new AABB(this.getBlockPos()).inflate(5.0D), entity -> !entity.isSpectator()
                             && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
 

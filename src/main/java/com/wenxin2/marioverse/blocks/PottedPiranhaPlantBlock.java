@@ -64,23 +64,19 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
     @NotNull
     @Override
     public ItemStack getCloneItemStack(LevelReader worldReader, BlockPos pos, BlockState state) {
-        return this.getPotted() == Blocks.AIR ? super.getCloneItemStack(worldReader, pos, state) : new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
+        return new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
     }
 
     @NotNull
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (this.getPotted() == Blocks.AIR) {
-            return InteractionResult.CONSUME;
-        } else {
-            ItemStack stack = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
-            if (!player.addItem(stack))
-                player.drop(stack, false);
+        ItemStack stack = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
+        if (!player.addItem(stack))
+            player.drop(stack, false);
 
-            world.setBlock(pos, this.getEmptyPot().defaultBlockState(), 3);
-            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-            return InteractionResult.sidedSuccess(world.isClientSide);
-        }
+        world.setBlock(pos, Blocks.FLOWER_POT.defaultBlockState(), 3);
+        world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+        return InteractionResult.sidedSuccess(world.isClientSide);
     }
 
     @Override

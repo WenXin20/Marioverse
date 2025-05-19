@@ -508,6 +508,7 @@ public class MarioverseEventHandlers {
 
                             linker.link(stack, warpEntity, target, warpPos);
 
+                            // TODO: Fix paintings not linking in unloaded chunks
 //                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
 //                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
 //                                if (serverLevel != null) {
