@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
@@ -426,7 +427,9 @@ public class MarioverseEventHandlers {
 
         if (heldItem.getItem() instanceof PiranhaPlantPodItem
                 && state.getBlock() instanceof FlowerPotBlock flowerPot
-                && flowerPot.getPotted() == Blocks.AIR) {
+                && !(state.getBlock() instanceof PottedPiranhaPlantBlock)
+                && flowerPot.getPotted() == Blocks.AIR
+                && !player.isShiftKeyDown()) {
 
             world.setBlock(pos, newState, 3);
             if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE)

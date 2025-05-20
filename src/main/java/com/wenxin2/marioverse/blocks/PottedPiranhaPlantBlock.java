@@ -11,7 +11,10 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
@@ -69,14 +72,25 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
-        ItemStack stack = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
-        if (!player.addItem(stack))
-            player.drop(stack, false);
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
+                                              Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (this.getPotted() != Blocks.AIR)
+            return ItemInteractionResult.CONSUME;
+        else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
 
-        world.setBlock(pos, Blocks.FLOWER_POT.defaultBlockState(), 3);
-        world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-        return InteractionResult.sidedSuccess(world.isClientSide);
+    @NotNull
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+            ItemStack stack = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
+            if (!player.addItem(stack))
+                player.drop(stack, false);
+
+            world.setBlock(pos, Blocks.FLOWER_POT.defaultBlockState(), 3);
+            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+            return InteractionResult.sidedSuccess(world.isClientSide);
+        } else return InteractionResult.PASS;
     }
 
     @Override

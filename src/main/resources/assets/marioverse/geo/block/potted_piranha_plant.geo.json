@@ -39,7 +39,7 @@
 				{
 					"name": "right_jaw",
 					"parent": "head",
-					"pivot": [0, 13, 0],
+					"pivot": [0, 13.1, 0],
 					"rotation": [0, 0, -15],
 					"cubes": [
 						{
@@ -140,7 +140,7 @@
 				{
 					"name": "left_jaw",
 					"parent": "head",
-					"pivot": [0, 13, 0],
+					"pivot": [0, 13.1, 0],
 					"rotation": [0, 0, 15],
 					"cubes": [
 						{

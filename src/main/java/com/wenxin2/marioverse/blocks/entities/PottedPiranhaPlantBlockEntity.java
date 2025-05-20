@@ -75,7 +75,7 @@ public class PottedPiranhaPlantBlockEntity extends BlockEntity implements GeoBlo
 
                     event.setAndContinue(CONSTANT_BITES);
                 }
-            }
+            } else event.setAndContinue(IDLE);
         } else event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
     }
