@@ -79,15 +79,16 @@ public class Marioverse {
         AttributesRegistry.init();
         ConfigRegistry.register(container);
 
-        if (dist.isClient())
+        if (dist.isClient()) {
             ConfigRegistry.registerClient(container);
+            bus.addListener(MarioverseClient::clientSetup);
+            bus.addListener(MarioverseClient::addPackFinder);
+        }
 
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(RegistryEventHandlers::gatherData);
-        bus.addListener(MarioverseClient::clientSetup);
-        bus.addListener(MarioverseClient::addPackFinder);
     }
 
     public static ResourceLocation id(String id) {

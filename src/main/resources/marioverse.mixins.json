@@ -6,7 +6,6 @@
   "minVersion": "0.8",
   "mixins": [
     "AxeItemMixin",
-    "ButtonBlockMixin",
     "ContainersMixin",
     "DecoratedPotPatternsMixin",
     "DoorBlockMixin",
@@ -20,6 +19,7 @@
     "TrapDoorBlockMixin"
   ],
   "client": [
+    "ButtonBlockMixin",
     "EntityRenderDispatcherMixin",
     "EntityRendererMixin",
     "GeoEntityRendererMixin",

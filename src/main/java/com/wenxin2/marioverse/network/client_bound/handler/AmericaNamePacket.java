@@ -18,20 +18,18 @@ public class AmericaNamePacket {
     public void handle(final AmericaNamePayload payload, IPayloadContext context) {
         if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
-                Level level = Minecraft.getInstance().level;
-                if (level != null) {
-                    BlockEntity blockEntity = level.getBlockEntity(payload.pos());
-                    if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
-                        goalPoleBE.setAmericanFlag(payload.renderRenamedFlag());
-                        goalPoleBE.markUpdated();
-                        goalPoleBE.markUpdatedClients();
-                    }
+                Level level = context.player().level();
+                BlockEntity blockEntity = level.getBlockEntity(payload.pos());
+                if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
+                    goalPoleBE.setAmericanFlag(payload.renderRenamedFlag());
+                    goalPoleBE.markUpdated();
+                    goalPoleBE.markUpdatedClients();
+                }
 
-                    if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-                        checkpointFlagBE.setAmericanFlag(payload.renderRenamedFlag());
-                        checkpointFlagBE.markUpdated();
-                        checkpointFlagBE.markUpdatedClients();
-                    }
+                if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                    checkpointFlagBE.setAmericanFlag(payload.renderRenamedFlag());
+                    checkpointFlagBE.markUpdated();
+                    checkpointFlagBE.markUpdatedClients();
                 }
             });
         }

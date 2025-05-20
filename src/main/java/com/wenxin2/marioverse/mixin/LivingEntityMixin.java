@@ -73,6 +73,7 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -336,8 +337,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         AttributeInstance gravityAttribute = entity.getAttribute(Attributes.GRAVITY);
 
         if (jumpAttribute != null) {
-            Minecraft minecraft = Minecraft.getInstance();
-            KeyMapping sprintKey = minecraft.options.keySprint;
+//            Minecraft minecraft = Minecraft.getInstance();
+//            KeyMapping sprintKey = minecraft.options.keySprint;
             double normalJumpBoost = 0.4;
             double runningJumpBoost = 0.5;
             boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
@@ -349,9 +350,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 runningJumpBoost = 0.6;
             }
 
-            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), sprintKey.getKey().getValue())
-                    && entity instanceof Player)
-                isRunning = true;
+            //TODO: Test if this still works without
+//            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), sprintKey.getKey().getValue())
+//                    && entity instanceof Player player)
+//                isRunning = player.isSprinting();
 
             if (this.marioverse$hasMarioCostume(entity)
                     || this.marioverse$hasLuigiCostume(entity)
@@ -735,12 +737,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
         } else if (id == 113) {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-        } else if (id == 115) {
-            if (this.level().isClientSide) {
+        }/* else if (id == 115) {
+            if (this.level().isClientSide && Dist.CLIENT.isClient()) { // TODO: Test
                 if (entity == Minecraft.getInstance().player)
                     Minecraft.getInstance().gameRenderer.displayItemActivation(ItemRegistry.ONE_UP_MUSHROOM.get().getDefaultInstance());
             }
-        } else if (id == 119) {
+        }*/ else if (id == 119) {
             this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.COIN_GLINT.get(), 15);
         } else if (id == 120) {
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
@@ -1073,9 +1075,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     if (stompingEntity.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
                             && (stompingEntity.fallDistance > 0 || stompingEntity.isInWaterOrBubble())) {
                         double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
-                        if (stompingEntity instanceof Player)
-                            if (Minecraft.getInstance().options.keyJump.isDown())
-                                bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
+
+                        // TODO: change to packet
+//                        if (stompingEntity instanceof Player)
+//                            if (Minecraft.getInstance().options.keyJump.isDown())
+//                                bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT_JUMP.getAsDouble();
                         double gravity = 0.08; // Approximate Minecraft gravity value
                         double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 

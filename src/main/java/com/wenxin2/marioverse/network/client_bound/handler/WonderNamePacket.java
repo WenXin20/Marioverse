@@ -18,20 +18,18 @@ public class WonderNamePacket {
     public void handle(final WonderNamePayload payload, IPayloadContext context) {
         if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
-                Level level = Minecraft.getInstance().level;
-                if (level != null) {
-                    BlockEntity blockEntity = level.getBlockEntity(payload.pos());
-                    if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
-                        goalPoleBE.setWonderFlag(payload.renderRenamedFlag());
-                        goalPoleBE.markUpdated();
-                        goalPoleBE.markUpdatedClients();
-                    }
+                Level level = context.player().level();
+                BlockEntity blockEntity = level.getBlockEntity(payload.pos());
+                if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
+                    goalPoleBE.setWonderFlag(payload.renderRenamedFlag());
+                    goalPoleBE.markUpdated();
+                    goalPoleBE.markUpdatedClients();
+                }
 
-                    if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-                        checkpointFlagBE.setWonderFlag(payload.renderRenamedFlag());
-                        checkpointFlagBE.markUpdated();
-                        checkpointFlagBE.markUpdatedClients();
-                    }
+                if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                    checkpointFlagBE.setWonderFlag(payload.renderRenamedFlag());
+                    checkpointFlagBE.markUpdated();
+                    checkpointFlagBE.markUpdatedClients();
                 }
             });
         }
