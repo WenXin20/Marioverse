@@ -417,7 +417,6 @@ public class MarioverseEventHandlers {
         Level world = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -432,8 +431,12 @@ public class MarioverseEventHandlers {
                 && !player.isShiftKeyDown()) {
 
             world.setBlock(pos, newState, 3);
-            if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE)
+
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE) {
                 piranhaPlantBE.setOwner(player);
+                piranhaPlantBE.setChanged();
+            }
 
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             player.awardStat(Stats.POT_FLOWER);
@@ -442,6 +445,7 @@ public class MarioverseEventHandlers {
         }
 
         if (world.isClientSide()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof WarpPipeBlockEntity) {
                 // Update the last clicked position
                 WarpPipeScreen.lastClickedPos = pos;
