@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -29,7 +30,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.genStorageBrickVariants();
 
         this.basicItem(BlockRegistry.COIN.asItem());
-        this.basicItem(BlockRegistry.STAR_COIN.asItem());
+        this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
@@ -106,6 +107,16 @@ public class ItemModelGen extends ItemModelProvider {
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet())
             this.handheldItem(entry.getValue().asItem());
+    }
+
+    public ItemModelBuilder largeItem(Item item) {
+        return largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
+    }
+
+    public ItemModelBuilder largeItem(ResourceLocation item) {
+        return getBuilder(item.toString())
+                .parent(new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
 
     public void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
