@@ -849,15 +849,18 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                     collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
                 else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
 
+                if (collidingEntity instanceof NeutralMob neutralMob) {
+                    neutralMob.isAngryAt(this);
+                    neutralMob.setTarget(this);
+                    neutralMob.setPersistentAngerTarget(this.getUUID());
+                }
+
                 int age = this.getAge();
                 if (this.isBaby()) {
                     this.ageUp(getSpeedUpSecondsWhenFeeding(-age), true);
                     if (this.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
                 }
-
-                if (collidingEntity instanceof NeutralMob neutralMob)
-                    neutralMob.setPersistentAngerTarget(this.getUUID());
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.attackCooldown = 20;

@@ -197,15 +197,18 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                     collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), attackDamage);
                 else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
 
+                if (collidingEntity instanceof NeutralMob neutralMob) {
+                    neutralMob.isAngryAt(this.getParent());
+                    neutralMob.setTarget(this.getParent());
+                    neutralMob.setPersistentAngerTarget(this.getParent().getUUID());
+                }
+
                 int age = this.getParent().getAge();
                 if (this.getParent().isBaby()) {
                     this.getParent().ageUp(PiranhaPlantEntity.getSpeedUpSecondsWhenFeeding(-age), true);
                     if (this.getParent().level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
                 }
-
-                if (collidingEntity instanceof NeutralMob neutralMob)
-                    neutralMob.setPersistentAngerTarget(this.getUUID());
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.getParent().attackCooldown = 20;

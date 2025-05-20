@@ -123,8 +123,12 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
                 entity.hurt(DamageTypeRegistry.piranhaChomp(entity, blockEntity.getOwner()), attackDamage);
             else entity.hurt(world.damageSources().source(DamageTypeRegistry.PIRANHA_CHOMP), attackDamage);
 
-            if (entity instanceof NeutralMob neutralMob)
-                neutralMob.setPersistentAngerTarget(blockEntity.getOwner().getUUID());
+            if (entity instanceof NeutralMob neutralMob
+                    && blockEntity.getOwner() instanceof LivingEntity ownerEntity) {
+                neutralMob.isAngryAt(ownerEntity);
+                neutralMob.setTarget(ownerEntity);
+                neutralMob.setPersistentAngerTarget(ownerEntity.getUUID());
+            }
 
             blockEntity.attackCooldown = 20;
             blockEntity.triggerAnim("bite_controller", "bite");
