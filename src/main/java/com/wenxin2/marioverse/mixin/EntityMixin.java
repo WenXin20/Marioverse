@@ -276,13 +276,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
             double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
 
-            if (world.isClientSide() && entity instanceof Player) {
-                Minecraft minecraft = Minecraft.getInstance();
-                KeyMapping jumpKey = minecraft.options.keyJump;
-
-                if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), jumpKey.getKey().getValue()))
-                    newBounce *= 2;
-            }
+            // TODO: Fix server crash by adding a packet
+//            if (world.isClientSide() && entity instanceof Player) {
+//                Minecraft minecraft = Minecraft.getInstance();
+//                KeyMapping jumpKey = minecraft.options.keyJump;
+//
+//                if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), jumpKey.getKey().getValue()))
+//                    newBounce *= 2;
+//            }
 
             if (bounceCooldown <= 0) {
                 if (world instanceof ServerLevel serverWorld)
