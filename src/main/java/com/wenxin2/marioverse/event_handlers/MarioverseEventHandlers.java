@@ -232,7 +232,7 @@ public class MarioverseEventHandlers {
             }
 
             if (player.getPersistentData().getBoolean("marioverse:has_super_star")) {
-                if (!source.is(DamageTypeTags.BYPASSES_RESISTANCE) && !source.is(TagRegistry.IS_SUPER_STAR))
+                if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
 

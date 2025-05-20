@@ -450,6 +450,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)
+                .add(EntityType.BEE)
                 .add(EntityType.IRON_GOLEM)
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM)

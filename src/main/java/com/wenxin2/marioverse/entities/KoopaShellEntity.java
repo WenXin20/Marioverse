@@ -295,11 +295,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         BlockPos posBelow = this.blockPosition().below();
         BlockState stateBelow = world.getBlockState(posBelow);
 
-        if (source.is(DamageTypeRegistry.BONKED) || source.is(DamageTypeRegistry.PLAYER_BONKED)
-                || source.is(DamageTypeRegistry.SHRAPNEL) || source.is(DamageTypeRegistry.PLAYER_SHRAPNEL))
+        if (source.is(TagRegistry.FLIPS_KOOPA_SHELL))
             this.triggerAnim("flip_controller", "flip");
 
-        if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
+        if (source.is(TagRegistry.STOPS_KOOPA_SHELL)) {
             if (this.slidingDirection != Vec3.ZERO) {
                 this.setXxa(0.0F);
                 this.setSpeed(0.0F);
@@ -309,9 +308,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             }
         }
 
-        if (!source.is(DamageTypeRegistry.STOMP) && !source.is(DamageTypeRegistry.PLAYER_STOMP)
-                && !source.is(DamageTypeRegistry.BONKED) && !source.is(DamageTypeRegistry.PLAYER_BONKED)
-                && !source.is(DamageTypeRegistry.SHRAPNEL) && !source.is(DamageTypeRegistry.PLAYER_SHRAPNEL)
+        if (!source.is(TagRegistry.FLIPS_KOOPA_SHELL) && !source.is(TagRegistry.STOPS_KOOPA_SHELL)
                 || this.slidingDirection == Vec3.ZERO) {
             float friction = stateBelow.getFriction(world, posBelow, this);
             double slideSpeed;

@@ -23,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Leashable;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
@@ -202,6 +203,9 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                     if (this.getParent().level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
                 }
+
+                if (collidingEntity instanceof NeutralMob neutralMob)
+                    neutralMob.setPersistentAngerTarget(this.getUUID());
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 this.getParent().attackCooldown = 20;

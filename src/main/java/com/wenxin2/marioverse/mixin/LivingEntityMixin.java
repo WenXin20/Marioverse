@@ -334,6 +334,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
         AttributeInstance gravityAttribute = entity.getAttribute(Attributes.GRAVITY);
+
         if (jumpAttribute != null) {
             Minecraft minecraft = Minecraft.getInstance();
             KeyMapping sprintKey = minecraft.options.keySprint;

@@ -209,7 +209,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.is(DamageTypeRegistry.STOMP) || source.is(DamageTypeRegistry.PLAYER_STOMP)) {
+        if (source.is(TagRegistry.HIDES_KOOPA_TROOPA)) {
             this.hide(Boolean.TRUE);
             this.getNavigation().stop();
             this.setXxa(0.0F);

@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.DamageTypeTagsProvider;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class DamageTypeTagsGen extends DamageTypeTagsProvider {
@@ -24,6 +25,29 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
         tag(DamageTypeTags.NO_KNOCKBACK)
                 .add(DamageTypeRegistry.STOMP)
                 .add(DamageTypeRegistry.PLAYER_STOMP);
+
+        tag(TagRegistry.BYPASSES_SUPER_STAR)
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .add(DamageTypes.DROWN)
+                .add(DamageTypes.FLY_INTO_WALL)
+                .add(DamageTypes.LAVA)
+                .add(DamageTypes.OUTSIDE_BORDER)
+                .add(DamageTypes.SONIC_BOOM)
+                .add(DamageTypes.STARVE);
+
+        tag(TagRegistry.HIDES_KOOPA_TROOPA)
+                .addTag(TagRegistry.IS_BONKED)
+                .addTag(TagRegistry.IS_SHRAPNEL)
+                .addTag(TagRegistry.IS_STOMP);
+
+        tag(TagRegistry.FLIPS_KOOPA_SHELL)
+                .addTag(TagRegistry.IS_BONKED)
+                .addTag(TagRegistry.IS_SHRAPNEL);
+
+        tag(TagRegistry.STOPS_KOOPA_SHELL)
+                .addTag(TagRegistry.IS_BONKED)
+                .addTag(TagRegistry.IS_SHRAPNEL)
+                .addTag(TagRegistry.IS_STOMP);
 
         tag(TagRegistry.IS_BONKED)
                 .add(DamageTypeRegistry.BONKED)
@@ -48,6 +72,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
         tag(TagRegistry.IS_PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PLAYER_PIRANHA_CHOMP);
+
+        tag(TagRegistry.IS_SHRAPNEL)
+                .add(DamageTypeRegistry.SHRAPNEL)
+                .add(DamageTypeRegistry.PLAYER_SHRAPNEL);
 
         tag(TagRegistry.IS_SPINNING_SHELL)
                 .add(DamageTypeRegistry.SPINNING_SHELL)

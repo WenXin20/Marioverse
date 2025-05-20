@@ -47,6 +47,10 @@ public class TagRegistry {
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
+    public static final TagKey<DamageType> BYPASSES_SUPER_STAR = damageTypeTags("bypasses_super_star");
+    public static final TagKey<DamageType> HIDES_KOOPA_TROOPA = damageTypeTags("hides_koopa_troopa");
+    public static final TagKey<DamageType> FLIPS_KOOPA_SHELL = damageTypeTags("flips_koopa_shell");
+    public static final TagKey<DamageType> STOPS_KOOPA_SHELL = damageTypeTags("stops_koopa_shell");
     public static final TagKey<DamageType> IS_BONKED = damageTypeTags("is_bonked");
     public static final TagKey<DamageType> IS_DEFEATED = damageTypeTags("is_defeated");
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
