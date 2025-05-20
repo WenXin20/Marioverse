@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -121,6 +122,9 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
             if (blockEntity.getOwner() != null)
                 entity.hurt(DamageTypeRegistry.piranhaChomp(entity, blockEntity.getOwner()), attackDamage);
             else entity.hurt(world.damageSources().source(DamageTypeRegistry.PIRANHA_CHOMP), attackDamage);
+
+            if (entity instanceof NeutralMob neutralMob)
+                neutralMob.setPersistentAngerTarget(blockEntity.getOwner().getUUID());
 
             blockEntity.attackCooldown = 20;
             blockEntity.triggerAnim("bite_controller", "bite");
