@@ -815,10 +815,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     }
 
     public void biteEntity() {
-        if (this.attackCooldown > 0) {
-            this.attackCooldown--;
+        if (this.attackCooldown > 0)
             return;
-        }
 
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.01, 0.0, 0.01), entity -> !entity.isSpectator()

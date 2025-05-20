@@ -168,6 +168,9 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
     }
 
     public void biteEntity() {
+        if (this.getParent().attackCooldown > 0)
+            return;
+
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
