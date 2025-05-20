@@ -61,8 +61,10 @@ public class PottedPiranhaPlantBlockEntity extends BlockEntity implements GeoBlo
                     if (this.attackCooldown > 0)
                         continue;
 
-                    if (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID()))
+                    if (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())) {
+                        event.setAndContinue(IDLE);
                         continue;
+                    }
 
                     if ((this.getOwner() != null && !((collidingEntity instanceof Monster)
                                 || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
@@ -70,8 +72,10 @@ public class PottedPiranhaPlantBlockEntity extends BlockEntity implements GeoBlo
                         continue;
 
                     if (this.getOwner() != null && collidingEntity.getTeam() != null && this.getOwner().getTeam() != null
-                            && collidingEntity.getTeam() == this.getOwner().getTeam())
+                            && collidingEntity.getTeam() == this.getOwner().getTeam()) {
+                        event.setAndContinue(IDLE);
                         continue;
+                    }
 
                     event.setAndContinue(CONSTANT_BITES);
                 }
