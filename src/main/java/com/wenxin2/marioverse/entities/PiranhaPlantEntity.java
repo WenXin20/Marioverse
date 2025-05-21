@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -45,7 +46,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -357,7 +357,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             if (this.isBaby() && !this.isHiding()) {
                 stack.consume(1, player);
                 this.swing(InteractionHand.MAIN_HAND);
-                this.ageUp(getSpeedUpSecondsWhenFeeding(-age), true);
+                if (stack.getComponents().has(DataComponents.FOOD) && stack.getComponents().get(DataComponents.FOOD) != null)
+                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), stack.getComponents().get(DataComponents.FOOD).nutrition() * 10, true);
+                else this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
@@ -582,9 +584,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         else return this.age;
     }
 
-    public void ageUp(int age, boolean doForceAge) {
+    public void ageUp(int age, int ageUp, boolean doForceAge) {
         int i = this.getAge();
-        i += age * 20;
+        i += age * ageUp;
         if (i > 0)
             i = 0;
 
@@ -601,7 +603,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     }
 
     public void ageUp(int age) {
-        this.ageUp(age, false);
+        this.ageUp(age, 20, false);
     }
 
     public void setAge(int age) {
@@ -855,7 +857,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
                 int age = this.getAge();
                 if (this.isBaby()) {
-                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), true);
+                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
                     if (this.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
                 }

@@ -208,7 +208,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
 
                 int age = this.getParent().getAge();
                 if (this.getParent().isBaby()) {
-                    this.getParent().ageUp(PiranhaPlantEntity.getSpeedUpSecondsWhenFeeding(-age), true);
+                    this.getParent().ageUp(PiranhaPlantEntity.getSpeedUpSecondsWhenFeeding(-age), 20, true);
                     if (this.getParent().level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
                 }
