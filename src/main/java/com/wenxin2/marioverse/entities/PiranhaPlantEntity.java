@@ -357,10 +357,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             if (this.isBaby() && !this.isHiding()) {
                 stack.consume(1, player);
                 this.swing(InteractionHand.MAIN_HAND);
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+
                 if (stack.getComponents().has(DataComponents.FOOD) && stack.getComponents().get(DataComponents.FOOD) != null)
                     this.ageUp(getSpeedUpSecondsWhenFeeding(-age), stack.getComponents().get(DataComponents.FOOD).nutrition() * 10, true);
                 else this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
-                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
