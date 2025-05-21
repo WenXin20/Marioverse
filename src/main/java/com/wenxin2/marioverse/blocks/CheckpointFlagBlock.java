@@ -122,6 +122,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -247,10 +248,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                 if (flagBE.isWonderFlag()) {
                     flagBE.setWonderFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
+                    if (!world.isClientSide())
+                        PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
                 } else if (flagBE.isAmericanFlag()) {
                     flagBE.setAmericanFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
+                    if (!world.isClientSide())
+                        PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
                 }
 
                 BlockEntity middleBlockEntity = world.getBlockEntity(pos.above());
@@ -261,10 +264,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                         if (middleFlagBE.isWonderFlag()) {
                             middleFlagBE.setWonderFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new WonderNamePayload(pos.above(), middleFlagBE.hasWonderFlag()));
+                            if (!world.isClientSide())
+                                PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos.above(), middleFlagBE.hasWonderFlag()));
                         } else if (middleFlagBE.isAmericanFlag()) {
                             middleFlagBE.setAmericanFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos.above(), middleFlagBE.hasAmericanFlag()));
+                            if (!world.isClientSide())
+                                PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos.above(), middleFlagBE.hasAmericanFlag()));
                         }
                     }
                 }
@@ -277,10 +282,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                         if (topFlagBE.isWonderFlag()) {
                             topFlagBE.setWonderFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new WonderNamePayload(pos.above(2), topFlagBE.hasWonderFlag()));
+                            if (!world.isClientSide())
+                                PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos.above(2), topFlagBE.hasWonderFlag()));
                         } else if (topFlagBE.isAmericanFlag()) {
                             topFlagBE.setAmericanFlag(Boolean.TRUE);
-                            PacketHandler.sendToAllClients(new AmericaNamePayload(pos.above(2), topFlagBE.hasAmericanFlag()));
+                            if (!world.isClientSide())
+                                PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos.above(2), topFlagBE.hasAmericanFlag()));
                         }
                     }
                 }

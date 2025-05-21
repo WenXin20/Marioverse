@@ -56,12 +56,4 @@ public class PacketHandler {
     public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {
         PacketDistributor.sendToServer(message);
     }
-
-    public static <MSG extends CustomPacketPayload> void sendToAllClients(MSG message) {
-        PacketDistributor.sendToAllPlayers(message);
-    }
-
-    public static <MSG extends CustomPacketPayload> void sendToPlayer(MSG message, ServerPlayer player) {
-        PacketDistributor.sendToPlayer(player, message);
-    }
 }

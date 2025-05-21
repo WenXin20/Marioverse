@@ -87,6 +87,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -647,10 +648,12 @@ public class QuestionBlock extends BaseEntityBlock {
 
             if (flagBE.isWonderFlag()) {
                 flagBE.setWonderFlag(Boolean.TRUE);
-                PacketHandler.sendToAllClients(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
+                if (!world.isClientSide())
+                    PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
             } else if (flagBE.isAmericanFlag()) {
                 flagBE.setAmericanFlag(Boolean.TRUE);
-                PacketHandler.sendToAllClients(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
+                if (!world.isClientSide())
+                    PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
             }
 
             BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
@@ -661,10 +664,12 @@ public class QuestionBlock extends BaseEntityBlock {
 
                     if (middleFlagBE.isWonderFlag()) {
                         middleFlagBE.setWonderFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new WonderNamePayload(pos.relative(direction), middleFlagBE.hasWonderFlag()));
+                        if (!world.isClientSide())
+                            PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos.relative(direction), middleFlagBE.hasWonderFlag()));
                     } else if (middleFlagBE.isAmericanFlag()) {
                         middleFlagBE.setAmericanFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos.relative(direction), middleFlagBE.hasAmericanFlag()));
+                        if (!world.isClientSide())
+                            PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos.relative(direction), middleFlagBE.hasAmericanFlag()));
                     }
                 }
             }
@@ -677,10 +682,12 @@ public class QuestionBlock extends BaseEntityBlock {
 
                     if (topFlagBE.isWonderFlag()) {
                         topFlagBE.setWonderFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new WonderNamePayload(pos.relative(direction, 2), topFlagBE.hasWonderFlag()));
+                        if (!world.isClientSide())
+                            PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos.relative(direction, 2), topFlagBE.hasWonderFlag()));
                     } else if (topFlagBE.isAmericanFlag()) {
                         topFlagBE.setAmericanFlag(Boolean.TRUE);
-                        PacketHandler.sendToAllClients(new AmericaNamePayload(pos.relative(direction, 2), topFlagBE.hasAmericanFlag()));
+                        if (!world.isClientSide())
+                            PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos.relative(direction, 2), topFlagBE.hasAmericanFlag()));
                     }
                 }
             }

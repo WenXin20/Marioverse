@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class FireballShootPacket {
@@ -66,6 +67,7 @@ public class FireballShootPacket {
 
         world.addFreshEntity(fireball);
         world.gameEvent(entity, GameEvent.PROJECTILE_SHOOT, entity.position());
-        PacketHandler.sendToAllClients(new SwingHandPayload(Boolean.TRUE));
+        if (!world.isClientSide())
+            PacketDistributor.sendToAllPlayers(new SwingHandPayload(Boolean.TRUE));
     }
 }

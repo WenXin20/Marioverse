@@ -50,6 +50,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -164,10 +165,12 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
                 if (goalPoleBE.isWonderFlag()) {
                     goalPoleBE.setWonderFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new WonderNamePayload(pos, goalPoleBE.hasWonderFlag()));
+                    if (!world.isClientSide())
+                        PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos, goalPoleBE.hasWonderFlag()));
                 } else if (goalPoleBE.isAmericanFlag()) {
                     goalPoleBE.setAmericanFlag(Boolean.TRUE);
-                    PacketHandler.sendToAllClients(new AmericaNamePayload(pos, goalPoleBE.hasAmericanFlag()));
+                    if (!world.isClientSide())
+                        PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos, goalPoleBE.hasAmericanFlag()));
                 }
             }
         }

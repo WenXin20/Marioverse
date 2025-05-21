@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -120,10 +121,10 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
         if (this.name != null) {
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
-            if (this.isWonderFlag())
-                PacketHandler.sendToAllClients(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
-            else if (this.isAmericanFlag())
-                PacketHandler.sendToAllClients(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
+            if (this.isWonderFlag() && this.level != null && !this.level.isClientSide())
+                PacketDistributor.sendToAllPlayers(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
+            else if (this.isAmericanFlag() && this.level != null && !this.level.isClientSide())
+                PacketDistributor.sendToAllPlayers(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
         }
     }
 
@@ -137,8 +138,11 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
-            PacketHandler.sendToAllClients(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
-            PacketHandler.sendToAllClients(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
+            
+            if (this.level != null && !this.level.isClientSide()) {
+                PacketDistributor.sendToAllPlayers(new AmericaNamePayload(this.getBlockPos(), this.hasAmericanFlag()));
+                PacketDistributor.sendToAllPlayers(new WonderNamePayload(this.getBlockPos(), this.hasWonderFlag()));
+            }
         }
     }
 
