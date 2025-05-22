@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
+import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -24,7 +25,6 @@ import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -81,6 +81,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
@@ -624,11 +625,23 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
+
         if (player != null ) {
+            BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
+            BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
+
             if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
                     || (player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())) {
-                PacketHandler.sendToServer(new FireballShootPayload(player.blockPosition()));
-                PacketHandler.sendToServer(new IceBallShootPayload(player.blockPosition()));
+                PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
+                PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
+            }
+
+            if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
+                    && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
+                    && !player.isSuppressingBounce() && !player.isNoGravity()) {
+                if (Minecraft.getInstance().options.keyJump.isDown())
+                    PacketDistributor.sendToServer(new BouncePayload(true));
+                else PacketDistributor.sendToServer(new BouncePayload(false));
             }
         }
     }

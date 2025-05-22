@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.mixin;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
@@ -11,8 +10,6 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -90,7 +87,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                && !entity.isSuppressingBounce() && !entity.isNoGravity()) {
+                && !entity.isSuppressingBounce() && !entity.isNoGravity()
+                && !(entity instanceof Player)) {
             marioverse$bounceEntity(entity, bounceCooldown, world);
         }
 
@@ -275,15 +273,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
             double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
             double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
-
-            // TODO: Fix server crash by adding a packet
-//            if (world.isClientSide() && entity instanceof Player) {
-//                Minecraft minecraft = Minecraft.getInstance();
-//                KeyMapping jumpKey = minecraft.options.keyJump;
-//
-//                if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), jumpKey.getKey().getValue()))
-//                    newBounce *= 2;
-//            }
 
             if (bounceCooldown <= 0) {
                 if (world instanceof ServerLevel serverWorld)
