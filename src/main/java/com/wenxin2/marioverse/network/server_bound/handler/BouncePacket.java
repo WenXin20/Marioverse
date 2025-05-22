@@ -26,7 +26,6 @@ public class BouncePacket {
                 Player player = context.player();
                 int bounceCooldown = player.getPersistentData().getInt("marioverse:bounce_cooldown");
                 this.bounceEntity(player, payload.isHoldingJump(), bounceCooldown, player.level());
-                player.getPersistentData().putBoolean("marioverse:holding_jump", payload.isHoldingJump());
             });
         }
     }

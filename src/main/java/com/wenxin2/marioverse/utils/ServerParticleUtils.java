@@ -81,6 +81,11 @@ public class ServerParticleUtils {
         }
     }
 
+    public static void spawnRewardParticle(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
+        serverWorld.sendParticles(particleOptions, entity.getX(), entity.getY() + entity.getBbHeight() + 1.0, entity.getZ(),
+                1, 0, 1.0, 0, 0.5);
+    }
+
     public static void spawnSingleParticleOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
         RandomSource rand = RandomSource.create();
         double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);

@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
+import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.handler.ClosePipeButtonPacket;
@@ -22,6 +23,7 @@ import com.wenxin2.marioverse.network.server_bound.handler.IceBallShootPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesSliderPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.RenamePipePacket;
+import com.wenxin2.marioverse.network.server_bound.handler.SquashEntityPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutSliderPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -44,13 +46,14 @@ public class PacketHandler {
         registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
 
         // Sends to server
+        registrar.playToServer(BouncePayload.BOUNCE_PAYLOAD, BouncePayload.STREAM_CODEC, BouncePacket.get()::handle);
         registrar.playToServer(ClosePipeButtonPayload.CLOSE_STATE_PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
         registrar.playToServer(FireballShootPayload.FIREBALL_SHOOT_PAYLOAD, FireballShootPayload.STREAM_CODEC, FireballShootPacket.get()::handle);
-        registrar.playToServer(BouncePayload.BOUNCE_PAYLOAD, BouncePayload.STREAM_CODEC, BouncePacket.get()::handle);
         registrar.playToServer(IceBallShootPayload.ICE_BALL_SHOOT_PAYLOAD, IceBallShootPayload.STREAM_CODEC, IceBallShootPacket.get()::handle);
         registrar.playToServer(PipeBubblesButtonPayload.BUBBLES_STATE_PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
         registrar.playToServer(PipeBubblesSliderPayload.BUBBLES_DISTANCE_PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
         registrar.playToServer(RenamePipePayload.RENAME_PIPE_PAYLOAD, RenamePipePayload.STREAM_CODEC, RenamePipePacket.get()::handle);
+        registrar.playToServer(SquashEntityPayload.SQUASH_ENTITY_PAYLOAD, SquashEntityPayload.STREAM_CODEC, SquashEntityPacket.get()::handle);
         registrar.playToServer(WaterSpoutButtonPayload.SPOUT_STATE_PAYLOAD, WaterSpoutButtonPayload.STREAM_CODEC, WaterSpoutButtonPacket.get()::handle);
         registrar.playToServer(WaterSpoutSliderPayload.SPOUT_HEIGHT_PAYLOAD, WaterSpoutSliderPayload.STREAM_CODEC, WaterSpoutSliderPacket.get()::handle);
     }

@@ -18,6 +18,7 @@ import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
+import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -642,6 +643,14 @@ public class MarioverseEventHandlers {
                 if (Minecraft.getInstance().options.keyJump.isDown())
                     PacketDistributor.sendToServer(new BouncePayload(true));
                 else PacketDistributor.sendToServer(new BouncePayload(false));
+            }
+
+            if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                    && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                    && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
+                if (Minecraft.getInstance().options.keyJump.isDown())
+                    PacketDistributor.sendToServer(new SquashEntityPayload(true));
+                else PacketDistributor.sendToServer(new SquashEntityPayload(false));
             }
         }
     }
