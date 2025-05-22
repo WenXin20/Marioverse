@@ -108,7 +108,7 @@ public class ShootBouncingIceBallGoal extends Goal {
         iceBall.setOwner(livingEntity);
         iceBall.setPos(livingEntity.getX(), livingEntity.getEyeY() - 0.5, livingEntity.getZ());
         iceBall.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F); // TODO
+        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
 
         Vec3 look = livingEntity.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));

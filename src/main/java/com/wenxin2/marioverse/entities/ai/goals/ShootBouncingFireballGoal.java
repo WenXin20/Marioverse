@@ -107,7 +107,7 @@ public class ShootBouncingFireballGoal extends Goal {
         fireball.setOwner(livingEntity);
         fireball.setPos(livingEntity.getX(), livingEntity.getEyeY() - 0.5, livingEntity.getZ());
         fireball.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
 
         Vec3 look = livingEntity.getLookAngle();
         fireball.setDeltaMovement(look.scale(0.5));
