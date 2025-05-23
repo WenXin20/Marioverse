@@ -151,7 +151,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                     ? this.getHatItems().get(randomIndex) : stack;
 
             for (ItemStack item : this.getHatItems())
-                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
+                newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerHat.getAccessories().setItem(0, newStack);
@@ -165,7 +165,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                     : stack;
 
             for (ItemStack item : this.getShirtItems())
-                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
+                newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerShirt.getAccessories().setItem(0, newStack);
@@ -179,7 +179,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                     : stack;
 
             for (ItemStack item : this.getPantsItems())
-                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
+                newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerPants.getAccessories().setItem(0, newStack);
@@ -193,14 +193,14 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                     : stack;
 
             for (ItemStack item : this.getShoesItems())
-                newStack = this.equipCostumesInAccessorySlots(item, stackArmor, newStack, stack);
+                newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
             containerShoes.getAccessories().setItem(0, newStack);
         }
     }
 
-    private ItemStack equipCostumesInAccessorySlots(ItemStack item, ItemStack stackArmor, ItemStack newStack, ItemStack stack) {
+    private ItemStack equipCostumesInAccessorySlots(LivingEntity entity, ItemStack item, ItemStack stackArmor, ItemStack newStack, ItemStack stack) {
         if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
             if (item.is(this.getPowerUpCostumeTag()))
                 newStack = item.copy();
@@ -220,6 +220,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             if (item.is(this.getPowerUpCostumeTag()))
                 newStack = item.copy();
         }
+        entity.level().playSound(entity, entity.blockPosition(), SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         return newStack;
     }
 
@@ -240,6 +241,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
             newStack.applyComponents(currentStack.getComponents());
             entity.setItemSlot(slot, newStack);
+            entity.level().playSound(entity, entity.blockPosition(), SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 }
