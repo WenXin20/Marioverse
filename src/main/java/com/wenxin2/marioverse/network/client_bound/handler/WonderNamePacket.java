@@ -15,7 +15,7 @@ public class WonderNamePacket {
     }
 
     public void handle(final WonderNamePayload payload, IPayloadContext context) {
-//        if (context.flow().isClientbound()) {
+        if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
                 Level level = context.player().level();
                 if (!level.isClientSide()) {
@@ -33,6 +33,6 @@ public class WonderNamePacket {
                     }
                 }
             });
-//        }
+        }
     }
 }

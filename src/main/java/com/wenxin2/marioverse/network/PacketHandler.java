@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.network;
 
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
+import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.client_bound.handler.AmericaNamePacket;
+import com.wenxin2.marioverse.network.client_bound.handler.OneUpPacket;
 import com.wenxin2.marioverse.network.client_bound.handler.WonderNamePacket;
 import com.wenxin2.marioverse.network.client_bound.handler.SwingHandPacket;
 import com.wenxin2.marioverse.network.server_bound.data.ClosePipeButtonPayload;
@@ -42,8 +44,9 @@ public class PacketHandler {
 
         // Sends to client
         registrar.playToClient(AmericaNamePayload.AMERICA_GOAL_POLE_PAYLOAD, AmericaNamePayload.STREAM_CODEC, AmericaNamePacket.get()::handle);
-        registrar.playToClient(WonderNamePayload.WONDER_GOAL_POLE_PAYLOAD, WonderNamePayload.STREAM_CODEC, WonderNamePacket.get()::handle);
+        registrar.playToClient(OneUpPayload.ONE_UP_PAYLOAD, OneUpPayload.STREAM_CODEC, OneUpPacket.get()::handle);
         registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
+        registrar.playToClient(WonderNamePayload.WONDER_GOAL_POLE_PAYLOAD, WonderNamePayload.STREAM_CODEC, WonderNamePacket.get()::handle);
 
         // Sends to server
         registrar.playToServer(BouncePayload.BOUNCE_PAYLOAD, BouncePayload.STREAM_CODEC, BouncePacket.get()::handle);

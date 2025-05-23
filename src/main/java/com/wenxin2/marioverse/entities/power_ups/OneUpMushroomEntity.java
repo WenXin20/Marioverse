@@ -2,10 +2,13 @@ package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -60,8 +63,10 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.level().broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
-                    this.level().broadcastEntityEvent(player, (byte) 126); // 1-Up Collected particle
+                    if (entity.level() instanceof ServerLevel serverWorld) {
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity);
+                    }
                     this.remove(RemovalReason.KILLED);
                 }
             } else if (entity instanceof LivingEntity livingEntity
@@ -81,8 +86,10 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
-                    this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Collected particle
+                    if (entity.level() instanceof ServerLevel serverWorld) {
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity);
+                    }
                     this.remove(RemovalReason.KILLED);
                 }
             }

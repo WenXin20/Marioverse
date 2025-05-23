@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -71,6 +72,7 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -528,7 +530,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
     private void checkTotemDeathProtection(DamageSource source, CallbackInfoReturnable<Boolean> info) {
-        LivingEntity livingEntity = (LivingEntity)(Object)this;
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
 
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return;
@@ -556,26 +558,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         livingEntity.setHealth(1.0F);
                         livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                         stackCharm.shrink(1);
-                        this.level().broadcastEntityEvent(this, (byte) 124); // Mushroom Transform particle
-                        this.level().broadcastEntityEvent(this, (byte) 115); // 1-Up Pop Up
-                        this.level().broadcastEntityEvent(this, (byte) 126); // 1-Up Particle
-                        float scaleFactor = livingEntity.getBbHeight() * livingEntity.getBbWidth();
-                        int numParticles = (int) (scaleFactor * 20);
-                        double radius = livingEntity.getBbWidth() / 2;
 
-                        for (int i = 0; i < numParticles; i++) {
-                            // Calculate angle for each particle
-                            double angle = 2 * Math.PI * i / numParticles;
-                            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-                            double offsetX = Math.cos(angle) * radius;
-                            double offsetY = livingEntity.getBbHeight() / 2;
-                            double offsetZ = Math.sin(angle) * radius;
-
-                            double x = livingEntity.getX() + offsetX;
-                            double y = livingEntity.getY() + offsetY;
-                            double z = livingEntity.getZ() + offsetZ;
-
-                            this.level().addParticle(ParticleRegistry.POWERED_UP.get(), x, y, z, 0, 1.0, 0);
+                        if (livingEntity.level() instanceof ServerLevel serverWorld) {
+                            ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, livingEntity, 25);
+                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity);
+                            if (livingEntity instanceof ServerPlayer player)
+                                PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
                         }
 
                         if (livingEntity instanceof ServerPlayer serverplayer) {
@@ -594,9 +582,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 livingEntity.setHealth(1.0F);
                 livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
-                this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
-                this.level().broadcastEntityEvent(livingEntity, (byte) 115); // 1-Up Pop Up
-                this.level().broadcastEntityEvent(livingEntity, (byte) 126); // 1-Up Particle
+
+                if (livingEntity.level() instanceof ServerLevel serverWorld) {
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, livingEntity, 25);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity);
+                    if (livingEntity instanceof ServerPlayer player)
+                        PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
+                }
 
                 if (livingEntity instanceof ServerPlayer serverplayer) {
                     serverplayer.awardStat(Stats.ITEM_USED.get(ItemRegistry.ONE_UP_MUSHROOM.get()), 1);
@@ -727,12 +719,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
         } else if (id == 113) {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
-        }/* else if (id == 115) {
-            if (this.level().isClientSide && Dist.CLIENT.isClient()) { // TODO: Test
-                if (entity == Minecraft.getInstance().player)
-                    Minecraft.getInstance().gameRenderer.displayItemActivation(ItemRegistry.ONE_UP_MUSHROOM.get().getDefaultInstance());
-            }
-        }*/ else if (id == 119) {
+        } else if (id == 119) {
             this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.COIN_GLINT.get(), 15);
         } else if (id == 120) {
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {

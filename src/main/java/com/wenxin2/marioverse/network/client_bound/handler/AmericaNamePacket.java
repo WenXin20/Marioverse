@@ -15,7 +15,7 @@ public class AmericaNamePacket {
     }
 
     public void handle(final AmericaNamePayload payload, IPayloadContext context) {
-//        if (context.flow().isClientbound()) {
+        if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
                 Level level = context.player().level();
                 if (!level.isClientSide()) {
@@ -33,6 +33,6 @@ public class AmericaNamePacket {
                     }
                 }
             });
-//        }
+        }
     }
 }

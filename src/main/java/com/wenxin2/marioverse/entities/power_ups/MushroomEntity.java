@@ -2,9 +2,13 @@ package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousStrollGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -86,7 +90,8 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                    this.level().broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
+                    if (entity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
                 }
                 if (!this.level().isClientSide) {
                     if (player.getHealth() < player.getMaxHealth())
@@ -102,10 +107,12 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                        this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
+                        if (this.level() instanceof ServerLevel serverWorld)
+                            ServerParticleUtils.spawnAnimParticles(ParticleTypes.POOF, serverWorld, entity);
                     } else {
                         livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-                        this.level().broadcastEntityEvent(livingEntity, (byte) 124); // Mushroom Transform particle
+                        if (entity.level() instanceof ServerLevel serverWorld)
+                            ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
                     }
                 }
 
