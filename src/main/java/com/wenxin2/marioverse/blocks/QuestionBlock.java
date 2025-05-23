@@ -4,13 +4,14 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
+import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -278,6 +279,19 @@ public class QuestionBlock extends BaseEntityBlock {
                                     BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
                                     MobSpawnType.SPAWN_EGG, true, false);
                     }
+                    stack.copyWithCount(1);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
+                EntityType<?> entityType = pod.getType(stack);
+
+                if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+
+                    if (entity instanceof PiranhaPlantEntity piranhaPlant) {
+                        piranhaPlant.setAge(-24000);
+                        piranhaPlant.setOwner(entityHitBlock);
+                    }
+
                     stack.copyWithCount(1);
                 } else this.spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()

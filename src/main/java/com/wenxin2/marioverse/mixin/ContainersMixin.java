@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.mixin;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -26,7 +28,6 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.ThrownEgg;
@@ -79,11 +80,10 @@ public class ContainersMixin {
 
                 marioverse$stackCount = decoratedPotBE.getTheItem().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
-                    marioverse$spawnFromContainer(world, decoratedPotBE.getBlockPos(), container.getItem(i), null,
+                    marioverse$spawnFromContainer(world, decoratedPotBE.getBlockPos(), container.getItem(i),
                             ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
                             ConfigRegistry.DECORATED_POT_BUCKET_TWEAKS.get(), TagRegistry.DECORATED_POT_CANNOT_SPAWN);
                 }
-
                 decoratedPotBE.removeTheItem();
             }
         } else if (container instanceof QuestionBlockEntity questionBE) {
@@ -93,7 +93,7 @@ public class ContainersMixin {
 
                 marioverse$stackCount = questionBE.getTheItem().getCount();
                 for (int j = 0; j < marioverse$stackCount; j++) {
-                    marioverse$spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i), null,
+                    marioverse$spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i),
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
                             ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
                 }
@@ -105,7 +105,7 @@ public class ContainersMixin {
     }
 
     @Unique
-    private static void marioverse$spawnFromContainer(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean spawnMobs, boolean spawnPowerUps,
+    private static void marioverse$spawnFromContainer(Level world, BlockPos pos, ItemStack stack, boolean spawnMobs, boolean spawnPowerUps,
                                                       boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && spawnPowerUps) {
@@ -115,8 +115,18 @@ public class ContainersMixin {
                     entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
                     stack.copyWithCount(1);
                 } else marioverse$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs
-                    && !(stack.getItem() instanceof BasePowerUpItem)) {
+            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && spawnMobs) {
+                EntityType<?> entityType = pod.getType(stack);
+
+                if (!entityType.is(cannotSpawn)) {
+                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+
+                    if (entity instanceof PiranhaPlantEntity piranhaPlant)
+                        piranhaPlant.setAge(-24000);
+
+                    stack.copyWithCount(1);
+                } else marioverse$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs) {
                 EntityType<?> entityType = spawnEgg.getType(stack);
 
                 if (!entityType.is(cannotSpawn)) {
@@ -160,9 +170,6 @@ public class ContainersMixin {
                     stack.copyWithCount(1);
                     serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
                 } else marioverse$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
-                    && entityHitBlock instanceof Player player) {
-                player.addItem(stack.copyWithCount(1));
             } else if (stack.getItem() instanceof WindChargeItem) {
                 WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new Vec3(0, -0.5, 0));

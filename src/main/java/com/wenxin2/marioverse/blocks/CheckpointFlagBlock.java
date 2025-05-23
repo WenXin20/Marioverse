@@ -4,6 +4,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
+import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.GameEventRegistry;
@@ -14,7 +16,6 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -670,6 +671,19 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
                 
                 this.spawnPowerUps(world, pos, stack, entityHitBlock, powerUpItem, dropItemsAtPos);
+            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()) {
+                EntityType<?> entityType = pod.getType(stack);
+
+                if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+
+                    if (entity instanceof PiranhaPlantEntity piranhaPlant) {
+                        piranhaPlant.setAge(-24000);
+                        piranhaPlant.setOwner(entityHitBlock);
+                    }
+
+                    stack.copyWithCount(1);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()
                     && !(stack.getItem() instanceof BasePowerUpItem)) {
                 EntityType<?> entityType = spawnEgg.getType(stack);
