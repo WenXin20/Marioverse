@@ -1,14 +1,16 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.entities.GoombaEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -71,11 +73,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
     private void applyPowerUp(LivingEntity entity) {
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
-        if (entity.getPersistentData().getBoolean(getPowerUpTag()))
-            this.level().broadcastEntityEvent(this, (byte) 20); // Poof particle
-        if (this.level() instanceof ServerLevel serverWorld
-                && !entity.getPersistentData().getBoolean(getPowerUpTag()))
-            spawnPowerUpParticles(entity, serverWorld);
+        if (this.level() instanceof ServerLevel serverWorld) {
+            if (entity.getPersistentData().getBoolean(getPowerUpTag()))
+                ServerParticleUtils.spawnAnimParticles(ParticleTypes.POOF, serverWorld, entity);
+            else spawnPowerUpParticles(entity, serverWorld);
+        }
 
         if (entity.getHealth() < entity.getMaxHealth())
             entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
@@ -89,7 +91,6 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
         this.remove(RemovalReason.KILLED);
 
         this.applyCostumeChange(entity, capability);
-
     }
 
     private void applyCostumeChange(LivingEntity entity, AccessoriesCapability capability) {

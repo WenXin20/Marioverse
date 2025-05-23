@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -83,7 +84,18 @@ public class ServerParticleUtils {
 
     public static void spawnRewardParticle(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
         serverWorld.sendParticles(particleOptions, entity.getX(), entity.getY() + entity.getBbHeight() + 1.0, entity.getZ(),
-                1, 0, 1.0, 0, 0.5);
+                1, 0.0, 1.0, 0.0, 0.5);
+    }
+
+    public static void spawnAnimParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
+        for (int i = 0; i < 20; i++) {
+            double dx = serverWorld.random.nextGaussian() * 0.02;
+            double dy = serverWorld.random.nextGaussian() * 0.02;
+            double dz = serverWorld.random.nextGaussian() * 0.02;
+            serverWorld.sendParticles(particleOptions, entity.getX(1.0) - dx * 10.0,
+                    entity.getRandomY() - dy * 10.0, entity.getRandomZ(1.0) - dz * 10.0,
+                    1, dx, dy, dz, 0.2);
+        }
     }
 
     public static void spawnSingleParticleOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
