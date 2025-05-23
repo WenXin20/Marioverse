@@ -352,18 +352,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 runningJumpBoost = 0.6;
             }
 
-            //TODO: Test if this still works without
-//            if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), sprintKey.getKey().getValue())
-//                    && entity instanceof Player player)
-//                isRunning = player.isSprinting();
-
             if (this.marioverse$hasMarioCostume(entity)
                     || this.marioverse$hasLuigiCostume(entity)
                     || this.marioverse$hasPeachCostume(entity)) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-
                     if (hasJumpModifier)
                         jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
                 } else {
@@ -372,14 +366,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     if (hasRunningJumpModifier)
                         jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
                 }
-            }
-            else {
+            } else {
                 if (hasRunningJumpModifier)
                     jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
                 if (hasJumpModifier)
                     jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
             }
-
         }
 
         if (safeFallAttribute != null) {
