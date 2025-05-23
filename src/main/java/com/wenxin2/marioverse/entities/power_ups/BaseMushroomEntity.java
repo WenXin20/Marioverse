@@ -2,9 +2,11 @@ package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
@@ -149,42 +151,15 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
 
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
-                handleCollision(entity);
+                this.collideWithEntity(entity);
                 break;
             }
         }
     }
 
-    public void handleCollision(Entity entity) {
+    public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-            this.level().broadcastEntityEvent(entity, (byte) 60);
-            this.level().broadcastEntityEvent(this, (byte) 20);
+                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK))
             this.remove(RemovalReason.KILLED);
-        }
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 60) {
-            if (this.level().isClientSide) {
-                ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition(),
-                        ParticleRegistry.POWERED_UP.get(), UniformInt.of(1, 3));
-            }
-        } else if (id == 61) {
-            if (this.level().isClientSide) {
-                this.level().addParticle(ParticleRegistry.ONE_UP.get(),
-                        this.getX(), this.getY() + this.getBbHeight(), this.getZ(),
-                        0.0, 1.0, 0.0);
-            }
-        } else if (id == 62) {
-            if (this.level().isClientSide) {
-                for (int i = 0; i < 10; i++) {
-                    this.level().addParticle(ParticleTypes.POOF,
-                            this.getX(), this.getY() + 0.5, this.getZ(),
-                            0.0, 0.0, 0.0);
-                }
-            }
-        } else super.handleEntityEvent(id);
     }
 }

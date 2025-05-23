@@ -81,7 +81,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
     }
 
     @Override
-    public void handleCollision(Entity entity) {
+    public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
 
             if (entity instanceof Player player && !player.isSpectator()

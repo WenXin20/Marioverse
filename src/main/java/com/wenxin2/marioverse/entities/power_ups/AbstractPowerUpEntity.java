@@ -8,6 +8,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Objects;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -43,7 +44,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
     }
 
     @Override
-    public void handleCollision(Entity entity) {
+    public void collideWithEntity(Entity entity) {
         if (entity instanceof Player player && this.canPowerUpPlayer(player))
             this.applyPowerUp(player);
         else if (entity instanceof LivingEntity livingEntity && this.canPowerUpMob(livingEntity))
@@ -70,14 +71,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
     protected abstract void spawnPowerUpParticles(LivingEntity entity, ServerLevel serverWorld);
 
-    private void applyPowerUp(LivingEntity entity) {
+    public void applyPowerUp(LivingEntity entity) {
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
-        if (this.level() instanceof ServerLevel serverWorld) {
-            if (entity.getPersistentData().getBoolean(getPowerUpTag()))
-                ServerParticleUtils.spawnAnimParticles(ParticleTypes.POOF, serverWorld, entity);
-            else spawnPowerUpParticles(entity, serverWorld);
-        }
+        if (this.level() instanceof ServerLevel serverWorld)
+                this.spawnPowerUpParticles(entity, serverWorld);
 
         if (entity.getHealth() < entity.getMaxHealth())
             entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());

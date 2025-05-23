@@ -76,14 +76,14 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
-                handleCollision(entity);
+                collideWithEntity(entity);
                 break;
             }
         }
     }
 
     @Override
-    public void handleCollision(Entity entity) {
+    public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()

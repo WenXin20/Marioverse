@@ -88,13 +88,13 @@ public class ServerParticleUtils {
     }
 
     public static void spawnAnimParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             double dx = serverWorld.random.nextGaussian() * 0.02;
             double dy = serverWorld.random.nextGaussian() * 0.02;
             double dz = serverWorld.random.nextGaussian() * 0.02;
-            serverWorld.sendParticles(particleOptions, entity.getX(1.0) - dx * 10.0,
-                    entity.getRandomY() - dy * 10.0, entity.getRandomZ(1.0) - dz * 10.0,
-                    1, dx, dy, dz, 0.2);
+            serverWorld.sendParticles(particleOptions, entity.getRandomX(1.0) - dx * 10.0,
+                    entity.getRandomY() - dy * 5.0, entity.getRandomZ(1.0) - dz * 10.0,
+                    1, dx, dy, dz, 0.02);
         }
     }
 

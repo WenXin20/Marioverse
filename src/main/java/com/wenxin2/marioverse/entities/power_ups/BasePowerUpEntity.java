@@ -128,30 +128,15 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
 
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
-                handleCollision(entity);
+                this.collideWithEntity(entity);
                 break;
             }
         }
     }
 
-    public void handleCollision(Entity entity) {
+    public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
-            this.level().broadcastEntityEvent(this, (byte) 20);
+                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK))
             this.remove(Entity.RemovalReason.KILLED);
-        }
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 20) {
-            if (this.level().isClientSide) {
-                for (int i = 0; i < 10; i++) {
-                    this.level().addParticle(ParticleTypes.POOF,
-                            this.getX(), this.getY() + 0.5, this.getZ(),
-                            0.0, 0.0, 0.0);
-                }
-            }
-        } else super.handleEntityEvent(id);
     }
 }

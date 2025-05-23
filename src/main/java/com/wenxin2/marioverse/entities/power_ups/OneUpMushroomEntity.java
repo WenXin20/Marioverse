@@ -34,7 +34,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
     }
 
     @Override
-    public void handleCollision(Entity entity) {
+    public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
             long currentTime = System.currentTimeMillis();
             ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
