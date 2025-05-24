@@ -182,7 +182,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
             if (!heldItem.isEmpty())
                 pipeBE.setTheItem(player.getItemInHand(hand).copyWithCount(1));
-            else if (!pipeBE.getTheItem().isEmpty()) pipeBE.setTheItem(Items.AIR.getDefaultInstance());
+            else if (!pipeBE.getTheItem().isEmpty()) pipeBE.splitTheItem(1);
 
             pipeBE.markUpdated();
             world.sendBlockUpdated(pos, state, state, 3);
