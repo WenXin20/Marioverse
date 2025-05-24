@@ -153,7 +153,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
-                && !entity.onGround() && deltaY > -0.079) {
+                && !entity.onGround() && deltaY > -0.079
+                && !entity.isSpectator()) {
             this.marioverse$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
