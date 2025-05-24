@@ -187,8 +187,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             pipeBE.markUpdated();
             world.sendBlockUpdated(pos, state, state, 3);
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-            if (!player.getAbilities().instabuild && !heldItem.isEmpty())
-                player.getItemInHand(hand).shrink(1);
+            if (!heldItem.isEmpty())
+                player.getItemInHand(hand).consume(1, player);
 
             return ItemInteractionResult.SUCCESS;
         }
