@@ -173,18 +173,21 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
-        if (state.getValue(ENTRANCE) && player.isCreative() && !heldItem.isEmpty()
+        if (state.getValue(ENTRANCE) && player.isCreative()
                 && !heldItem.is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 && !(heldItem.getItem() instanceof SpawnEggItem)
                 && blockEntity instanceof WarpPipeBlockEntity pipeBE
                 && !ItemStack.isSameItemSameComponents(heldItem, pipeBE.getTheItem())
                 && !pipeBE.isWaxed()) {
 
-            pipeBE.setTheItem(player.getItemInHand(hand).copyWithCount(1));
+            if (!heldItem.isEmpty())
+                pipeBE.setTheItem(player.getItemInHand(hand).copyWithCount(1));
+            else if (!pipeBE.getTheItem().isEmpty()) pipeBE.setTheItem(Items.AIR.getDefaultInstance());
+
             pipeBE.markUpdated();
             world.sendBlockUpdated(pos, state, state, 3);
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-            if (!player.getAbilities().instabuild)
+            if (!player.getAbilities().instabuild && !heldItem.isEmpty())
                 player.getItemInHand(hand).shrink(1);
 
             return ItemInteractionResult.SUCCESS;
