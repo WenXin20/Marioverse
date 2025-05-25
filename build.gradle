@@ -50,9 +50,10 @@ dependencies {
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:selene-${moonlight_version}"
-//    implementation "curse.maven:simple-clouds-${simple_clouds_version}"
+    implementation "curse.maven:simple-clouds-${simple_clouds_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:supplementaries-${supplementaries_version}"
+    implementation "curse.maven:worldedit-225608:5830452"
 
     implementation "curse.maven:the-twilight-forest-227639:5699076"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
