@@ -735,6 +735,11 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         return Direction.UP;
     }
 
+    private boolean isPlayerNearby(double radius) {
+        return !this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(radius),
+                player -> !player.isSpectator() && player.isAlive() && !player.isCreative()).isEmpty();
+    }
+
     private int getHideDuration() {
         return ConfigRegistry.PIRANHA_PLANT_HIDE_DURATION.get();
     }
@@ -755,7 +760,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
                         && offsetState.getValue(BlockStateProperties.FACING) == direction
-                        && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+                        && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                        && !isPlayerNearby(1.0)) {
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
                         if (this.isBaby()) {
                             this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
@@ -792,7 +798,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
         if (this.isHiding() && !state.hasProperty(BlockStateProperties.FACING)) {
             if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
-                    && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+                    && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
+                    && !isPlayerNearby(1.0)) {
                 if (this.isBaby()) {
                     this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
                     this.triggerAnim("baby_emerge_controller", "baby_emerge");
