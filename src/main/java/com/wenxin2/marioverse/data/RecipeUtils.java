@@ -514,7 +514,6 @@ public class RecipeUtils extends RecipeProvider {
 
     protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
         family.getVariants().forEach((variant, block) -> {
-
             if (block == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
                     || block == BlockRegistry.POLISHED_FUNGAL_STONE.get())
                 return;
@@ -548,6 +547,10 @@ public class RecipeUtils extends RecipeProvider {
 
     protected void generateStonecuttingRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet featureFlags) {
         family.getVariants().forEach((variant, block) -> {
+            if (block == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
+                    || block == BlockRegistry.POLISHED_FUNGAL_STONE.get())
+                return;
+
             if (block.requiredFeatures().isSubsetOf(featureFlags)) {
                 ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
