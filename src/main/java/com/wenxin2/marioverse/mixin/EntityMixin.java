@@ -6,14 +6,11 @@ import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
-import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,7 +19,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -70,12 +66,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posBelowEntity = BlockPos.containing(entity.position().x, entity.position().y - 0.3, entity.position().z);
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
-        BlockState stateBelowEntity = world.getBlockState(posBelowEntity);
 
         int bounceCooldown = entity.getPersistentData().getInt("marioverse:bounce_cooldown");
         int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
@@ -84,13 +78,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             entity.getPersistentData().putInt("marioverse:bounce_cooldown", bounceCooldown - 1);
         if (warpCooldown > 0)
             entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
-
-        if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
-                && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                && !entity.isSuppressingBounce() && !entity.isNoGravity()
-                && !(entity instanceof Player)) {
-            marioverse$bounceEntity(entity, bounceCooldown, world);
-        }
 
         marioverse$rideIceCube(entity);
 
@@ -259,27 +246,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 if (entity instanceof Mob mob) {
                     mob.getNavigation().stop();
                 }
-            }
-        }
-    }
-
-    @Unique
-    private static void marioverse$bounceEntity(Entity entity, int bounceCooldown, Level world) {
-        Vec3 vec3 = entity.getDeltaMovement();
-
-        entity.resetFallDistance();
-        if (vec3.y < 0.0) {
-            double baseBounce = 0.42;
-            double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
-            double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
-            double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
-
-            if (bounceCooldown <= 0) {
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 0.0, 3);
-                entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
-                entity.resetFallDistance();
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
             }
         }
     }

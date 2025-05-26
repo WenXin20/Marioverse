@@ -47,11 +47,11 @@ public class BouncePacket {
                 if (world instanceof ServerLevel serverWorld)
                     ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 0.0, 3);
                 entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
                 entity.hasImpulse = true;
+                entity.resetFallDistance();
+                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
                 if (entity instanceof ServerPlayer serverPlayer)
                     serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
-                entity.resetFallDistance();
             }
         }
     }
