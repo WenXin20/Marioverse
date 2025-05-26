@@ -55,6 +55,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -279,7 +280,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
         if (attachedBlockPos != null) {
             BlockPos newPos = this.findValidBlockPos();
-            if (this.level().isEmptyBlock(attachedBlockPos) && !this.isHiding()) {
+            if (this.level().isEmptyBlock(attachedBlockPos)) {
                 this.detachFromBlock();
             } else if (newPos == null && !this.isHiding()) {
                 this.detachFromBlock();
@@ -291,9 +292,9 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
         if (attachedBlockPos == null) {
             BlockPos newPos = this.findValidBlockPos();
-            if (newPos != null && this.determineAttachmentSide(newPos) != Direction.UP)
+            if (newPos != null && this.onGround() && this.getAttachedSide() == Direction.UP)
                 this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
-            else if (newPos != null && this.onGround() && this.getAttachedSide() == Direction.UP)
+            else if (newPos != null)
                 this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
         }
 
@@ -698,16 +699,18 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         this.attachedBlockPos = pos;
     }
 
-    public void attachToBlock(BlockPos blockPos, Direction direction) {
-        this.attachedBlockPos = blockPos;
-        this.attachedSide = direction;
-        this.setNoGravity(true);
-        this.setDeltaMovement(Vec3.ZERO);
+    public void attachToBlock(BlockPos pos, Direction direction) {
+        this.setAttachedBlockPos(pos);
+        this.setAttachedSide(direction);
+        if (this.getAttachedSide() != Direction.UP) {
+            this.setNoGravity(true);
+            this.setDeltaMovement(Vec3.ZERO);
+        }
     }
 
     public void detachFromBlock() {
-        this.attachedBlockPos = null;
-        this.attachedSide = null;
+        this.setAttachedBlockPos(null);
+        this.setAttachedSide(null);
         this.setNoGravity(false);
     }
 
@@ -726,7 +729,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             BlockPos neighborPos = entityPos.relative(direction);
             BlockState neighborState = this.level().getBlockState(neighborPos);
             if (!neighborState.isAir() && !neighborState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)) {
-                if (neighborState.isSolid() || neighborState.getBlock() instanceof LeavesBlock)
+                if (neighborState.isSolid() || neighborState.getBlock() instanceof LeavesBlock
+                        || neighborState.getBlock() instanceof DirtPathBlock)
                     return neighborPos;
             }
         }
@@ -765,11 +769,14 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             for (Direction direction : prioritizedDirections) {
                 BlockPos oppositePos = pos.relative(direction.getOpposite());
                 BlockState offsetState = world.getBlockState(oppositePos);
+                Direction attachDir = this.getAttachedSide();
 
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
                         && offsetState.getValue(BlockStateProperties.FACING) == direction
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                         && !isPlayerNearby(1.0)) {
+                    if (direction != attachDir) continue;
+
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
                         if (this.isBaby()) {
                             this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
@@ -786,10 +793,13 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
             for (Direction direction : prioritizedDirections) {
                 BlockPos oppositePos = pos.relative(direction.getOpposite());
                 BlockState offsetState = world.getBlockState(oppositePos);
+                Direction attachDir = this.getAttachedSide();
 
                 if (offsetState.hasProperty(BlockStateProperties.FACING)
                         && offsetState.getValue(BlockStateProperties.FACING) == direction
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
+                    if (direction != attachDir) continue;
+
                     this.hideAnimationTicks = 15;
                     this.hideTicks = this.getHideDuration();
                     if (this.isBaby()) {
