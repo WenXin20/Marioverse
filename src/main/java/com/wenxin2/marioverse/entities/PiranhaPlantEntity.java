@@ -716,10 +716,18 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         for (Direction direction : Direction.values()) {
             BlockPos neighborPos = entityPos.relative(direction);
             BlockState neighborState = this.level().getBlockState(neighborPos);
-            if (!neighborState.isAir() && !neighborState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
-                    && (neighborState.isSolid()
-                        || neighborState.getBlock() instanceof LeavesBlock)) {
-                return neighborPos;
+            if (!neighborState.isAir() && !neighborState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)) {
+                if (neighborState.is(TagRegistry.WARP_PIPE_BLOCKS))
+                    return neighborPos;
+            }
+        }
+
+        for (Direction direction : Direction.values()) {
+            BlockPos neighborPos = entityPos.relative(direction);
+            BlockState neighborState = this.level().getBlockState(neighborPos);
+            if (!neighborState.isAir() && !neighborState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)) {
+                if (neighborState.isSolid() || neighborState.getBlock() instanceof LeavesBlock)
+                    return neighborPos;
             }
         }
         return null;
