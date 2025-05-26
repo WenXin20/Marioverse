@@ -24,35 +24,30 @@ public class BouncePacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                int bounceCooldown = player.getPersistentData().getInt("marioverse:bounce_cooldown");
-                this.bounceEntity(player, payload.isHoldingJump(), bounceCooldown, player.level());
+                this.bounceEntity(player, payload.isHoldingJump(), player.level());
             });
         }
     }
 
-    private void bounceEntity(Entity entity, boolean holdingJump, int bounceCooldown, Level world) {
+    private void bounceEntity(Entity entity, boolean holdingJump, Level world) {
         Vec3 vec3 = entity.getDeltaMovement();
 
-        entity.resetFallDistance();
         if (vec3.y < 0.0) {
-            double baseBounce = 0.42;
+            double baseBounce = 0.69;
             double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
             double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
             double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
 
             if (holdingJump)
-                newBounce *= 2;
+                newBounce *= 1.5;
 
-            if (bounceCooldown <= 0) {
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 0.0, 3);
-                entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
-                entity.hasImpulse = true;
-                entity.resetFallDistance();
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
-                if (entity instanceof ServerPlayer serverPlayer)
-                    serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
-            }
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity,
+                        entity.getBbWidth() / 2, 0.0, 3);
+            entity.resetFallDistance();
+            entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
+            if (entity instanceof ServerPlayer serverPlayer)
+                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
         }
     }
 }

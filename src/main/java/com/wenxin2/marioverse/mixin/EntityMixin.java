@@ -71,11 +71,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
-        int bounceCooldown = entity.getPersistentData().getInt("marioverse:bounce_cooldown");
         int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
 
-        if (bounceCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:bounce_cooldown", bounceCooldown - 1);
         if (warpCooldown > 0)
             entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
 

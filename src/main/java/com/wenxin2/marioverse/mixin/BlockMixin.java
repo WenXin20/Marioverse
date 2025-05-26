@@ -44,20 +44,17 @@ public class BlockMixin {
     private static void marioverse$bounceEntity(Entity entity, Level world) {
         Vec3 vec3 = entity.getDeltaMovement();
 
-        entity.resetFallDistance();
         if (vec3.y < 0.0) {
-            double baseBounce = 0.42;
+            double baseBounce = 0.69;
             double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
             double fallMultiplier = Math.min(entity.fallDistance / 10.0, 2.0);
             double newBounce = Math.max(-vec3.y * bounceFactor * fallMultiplier, baseBounce);
 
-//            if (bounceCooldown <= 0) {
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity, entity.getBbWidth() / 2, 0.0, 3);
-//                entity.getPersistentData().putInt("marioverse:bounce_cooldown", 1);
-                entity.resetFallDistance();
-                entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
-//            }
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity,
+                        entity.getBbWidth() / 2, 0.0, 3);
+            entity.resetFallDistance();
+            entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
         }
     }
 }
