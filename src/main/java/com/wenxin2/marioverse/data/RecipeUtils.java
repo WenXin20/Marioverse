@@ -514,28 +514,28 @@ public class RecipeUtils extends RecipeProvider {
 
     protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
         family.getVariants().forEach((variant, block) -> {
-                    if (block.requiredFeatures().isSubsetOf(set)) {
-                        BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
-                        ItemLike itemlike = getBaseBlock(family, variant);
-                        if (bifunction != null
-                                && itemlike != BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get()
-                                && itemlike != BlockRegistry.POLISHED_FUNGAL_BRICKS.get()) {
-                            RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
-                            family.getRecipeGroupPrefix().ifPresent(
-                                    string -> recipebuilder.group(string +
-                                            (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup()))
-                            );
-                            recipebuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
-                            recipebuilder.save(output);
-                        }
 
-                        if (variant == BlockFamilyExtended.Variant.CRACKED
-                                || itemlike == BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get()
-                                || itemlike == BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
-                            smeltingResultFromBase(output, block, itemlike);
-                    }
+            if (block == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
+                    || block == BlockRegistry.POLISHED_FUNGAL_STONE.get())
+                return;
+
+            if (block.requiredFeatures().isSubsetOf(set)) {
+                BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
+                ItemLike itemlike = getBaseBlock(family, variant);
+                if (bifunction != null) {
+                    RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
+                    family.getRecipeGroupPrefix().ifPresent(
+                            string -> recipebuilder.group(string +
+                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup()))
+                    );
+                    recipebuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
+                    recipebuilder.save(output);
                 }
-        );
+
+                if (variant == BlockFamilyExtended.Variant.CRACKED)
+                    smeltingResultFromBase(output, block, itemlike);
+            }
+        });
     }
 
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
