@@ -93,10 +93,13 @@ public class BlockLootTableGen extends LootTableProvider {
         private void genBlockVariants() {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
+                    BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
                     if (variant == smashableBlocks)
                         add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
+                    else if (variant == slabs)
+                        add(variantBlock, this.createSlabItemTable(variantBlock));
                     else dropSelf(variantBlock);
                 });
             });

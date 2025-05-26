@@ -518,8 +518,8 @@ public class RecipeUtils extends RecipeProvider {
                         BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
                         ItemLike itemlike = getBaseBlock(family, variant);
                         if (bifunction != null
-                                && itemlike != BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
-                                && itemlike != BlockRegistry.POLISHED_FUNGAL_STONE.get()) {
+                                && itemlike != BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get()
+                                && itemlike != BlockRegistry.POLISHED_FUNGAL_BRICKS.get()) {
                             RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
                             family.getRecipeGroupPrefix().ifPresent(
                                     string -> recipebuilder.group(string +
@@ -530,8 +530,8 @@ public class RecipeUtils extends RecipeProvider {
                         }
 
                         if (variant == BlockFamilyExtended.Variant.CRACKED
-                                || itemlike == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
-                                || itemlike == BlockRegistry.POLISHED_FUNGAL_STONE.get())
+                                || itemlike == BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get()
+                                || itemlike == BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
                             smeltingResultFromBase(output, block, itemlike);
                     }
                 }
