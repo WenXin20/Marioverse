@@ -133,7 +133,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble())
-                && !(entity instanceof Player))
+                && !(entity instanceof Player)
+                && !entity.isSpectator())
             this.marioverse$squashEntity(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
@@ -162,7 +163,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && !entity.onGround() && deltaY > -0.079)
+                && !entity.onGround() && deltaY > -0.079
+                && !entity.isSpectator())
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -171,7 +173,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && !entity.onGround() && deltaY > -0.079)
+                && !entity.onGround() && deltaY > -0.079
+                && !entity.isSpectator())
             this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
         this.marioiverse$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
