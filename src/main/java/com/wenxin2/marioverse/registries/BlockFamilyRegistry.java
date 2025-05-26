@@ -42,6 +42,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.DEEP_FUNGAL_STONE.get())
+            .bricks(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
             .button(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
             .polished(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
             .pressurePlate(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
@@ -61,7 +62,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended POLISHED_DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
-            .bricks(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
+            .bricks(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
@@ -69,7 +70,18 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
             .getFamily();
 
+    public static final BlockFamilyExtended POLISHED_DEEP_FUNGAL_BRICKS = familyBuilder(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
+            .chiseled(BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+            .pedestal(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get())
+            .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
+            .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_POLISHED_DEEP_FUNGAL_BRICKS.get())
+            .wall(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
+            .getFamily();
+
     public static final BlockFamilyExtended FUNGAL_STONE = familyBuilder(BlockRegistry.FUNGAL_STONE.get())
+            .bricks(BlockRegistry.FUNGAL_BRICKS.get())
             .button(BlockRegistry.FUNGAL_STONE_BUTTON.get())
             .polished(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .pressurePlate(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get())
@@ -89,12 +101,22 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended POLISHED_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_FUNGAL_STONE.get())
-            .bricks(BlockRegistry.FUNGAL_BRICKS.get())
+            .bricks(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_FUNGAL_BRICKS = familyBuilder(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
+            .chiseled(BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS.get())
+            .cracked(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
+            .pedestal(BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get())
+            .slab(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
+            .stairs(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_POLISHED_FUNGAL_BRICKS.get())
+            .wall(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended CUT_SANDSTONE = familyBuilder(Blocks.CUT_SANDSTONE)

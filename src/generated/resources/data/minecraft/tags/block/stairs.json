@@ -6,10 +6,12 @@
     "marioverse:deep_fungal_stone_stairs",
     "marioverse:fungal_brick_stairs",
     "marioverse:fungal_stone_stairs",
-    "marioverse:red_sandstone_brick_stairs",
-    "marioverse:sandstone_brick_stairs",
     "marioverse:polished_amethyst_stairs",
+    "marioverse:polished_deep_fungal_brick_stairs",
     "marioverse:polished_deep_fungal_stone_stairs",
-    "marioverse:polished_fungal_stone_stairs"
+    "marioverse:polished_fungal_brick_stairs",
+    "marioverse:polished_fungal_stone_stairs",
+    "marioverse:red_sandstone_brick_stairs",
+    "marioverse:sandstone_brick_stairs"
   ]
 }

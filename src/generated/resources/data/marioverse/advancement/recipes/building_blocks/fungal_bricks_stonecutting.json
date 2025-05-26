@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_polished_fungal_stone": {
+    "has_fungal_stone": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:polished_fungal_stone"
+            "items": "marioverse:fungal_stone"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_polished_fungal_stone"
+      "has_fungal_stone"
     ]
   ],
   "rewards": {

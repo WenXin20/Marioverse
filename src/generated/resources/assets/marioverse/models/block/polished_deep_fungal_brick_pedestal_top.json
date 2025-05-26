@@ -1,0 +1,6 @@
+{
+  "parent": "marioverse:block/template_large_brick_pedestal_top",
+  "textures": {
+    "bricks": "marioverse:block/polished_deep_fungal_bricks"
+  }
+}

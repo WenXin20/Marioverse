@@ -124,6 +124,8 @@ public class BlockEntityRegistry {
                         BlockRegistry.STORAGE_MUD_BRICKS.get(),
                         BlockRegistry.STORAGE_NETHER_BRICKS.get(),
                         BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get(),
+                        BlockRegistry.STORAGE_POLISHED_DEEP_FUNGAL_BRICKS.get(),
+                        BlockRegistry.STORAGE_POLISHED_FUNGAL_BRICKS.get(),
                         BlockRegistry.STORAGE_PRISMARINE_BRICKS.get(),
                         BlockRegistry.STORAGE_PURPUR_BLOCK.get(),
                         BlockRegistry.STORAGE_QUARTZ_BRICKS.get(),

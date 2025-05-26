@@ -185,6 +185,8 @@ public class ItemModelGen extends ItemModelProvider {
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
                         sideTexture = modLoc("block/" + blockName);

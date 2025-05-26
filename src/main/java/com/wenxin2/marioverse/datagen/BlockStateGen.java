@@ -129,8 +129,13 @@ public class BlockStateGen extends BlockStateProvider {
 
                 if (variant == bricks || variant == chiseled || variant == cracked || variant == polished) {
                     String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation texture = modLoc("block/" + blockName);
-                    this.cubeAllModel(block, blockName, texture);
+                    ResourceLocation mainTexture = modLoc("block/" + blockName);
+                    ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+
+                    if (blockName.startsWith("chiseled_deep_fungal_bricks")
+                            || blockName.startsWith("chiseled_fungal_bricks"))
+                        this.cubeBottomTopModel(block, blockName, topTexture, mainTexture, topTexture);
+                    else this.cubeAllModel(block, blockName, mainTexture);
                 }
             });
         });
@@ -208,6 +213,11 @@ public class BlockStateGen extends BlockStateProvider {
                         texture = modLoc("block/" + removePedestalName);
 
                         this.pedestalModel(block, blockName, texture);
+                    } else if (block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(pedestal)) {
+                        texture = modLoc("block/" + removePedestalName);
+
+                        this.largeBrickPedestalModel(block, blockName, texture);
                     } else if (blockName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removePedestalName = unWaxedName.replace("_pedestal", "");
@@ -323,7 +333,9 @@ public class BlockStateGen extends BlockStateProvider {
                         this.slabBlock(slabBlock, texture, texture);
                         this.itemModels().slab(blockName, texture, texture, texture);
                     } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
                             || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(slab)
                             || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                         texture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeSlabName);
@@ -352,7 +364,9 @@ public class BlockStateGen extends BlockStateProvider {
 
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(smashableBlock)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(smashableBlock)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(smashableBlock)) {
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(smashableBlock)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(smashableBlock)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(smashableBlock)) {
                         mainTexture = modLoc("block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
 
@@ -440,9 +454,15 @@ public class BlockStateGen extends BlockStateProvider {
 
                     if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)) {
+                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(storageBrick)) {
                         questionBlockName = removeStorageName
                                 .replace("bricks", "question_block");
+                        if (questionBlockName.contains("polished_"))
+                            questionBlockName = removeStorageName
+                                    .replace("bricks", "question_block")
+                                    .replace("polished_", "");
                         mainTexture = modLoc("block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
@@ -512,6 +532,17 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
                 .texture("all", mainTexture);
+
+        simpleBlockWithItem(block, model);
+    }
+
+    private void cubeBottomTopModel(Block block, String modelName, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                    ResourceLocation topTexture) {
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture);
 
         simpleBlockWithItem(block, model);
     }
@@ -621,6 +652,21 @@ public class BlockStateGen extends BlockStateProvider {
     private void pedestalModel(Block block, String modelName, ResourceLocation mainTexture) {
         ModelFile modelTop = models()
                 .withExistingParent(modelName + "_top", modLoc("block/template_brick_pedestal_top"))
+                .texture("bricks", mainTexture);
+        ModelFile modelBottom = models()
+                .withExistingParent(modelName, modLoc("block/template_brick_pedestal"))
+                .texture("bricks", mainTexture);
+
+        simpleBlockItem(block, modelTop);
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
+        variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
+    }
+
+    private void largeBrickPedestalModel(Block block, String modelName, ResourceLocation mainTexture) {
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_large_brick_pedestal_top"))
                 .texture("bricks", mainTexture);
         ModelFile modelBottom = models()
                 .withExistingParent(modelName, modLoc("block/template_brick_pedestal"))

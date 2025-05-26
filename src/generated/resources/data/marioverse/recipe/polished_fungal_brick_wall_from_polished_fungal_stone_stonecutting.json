@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:polished_fungal_stone"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:polished_fungal_brick_wall"
+  }
+}

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
@@ -516,7 +517,9 @@ public class RecipeUtils extends RecipeProvider {
                     if (block.requiredFeatures().isSubsetOf(set)) {
                         BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
                         ItemLike itemlike = getBaseBlock(family, variant);
-                        if (bifunction != null) {
+                        if (bifunction != null
+                                && itemlike != BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
+                                && itemlike != BlockRegistry.POLISHED_FUNGAL_STONE.get()) {
                             RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
                             family.getRecipeGroupPrefix().ifPresent(
                                     string -> recipebuilder.group(string +
@@ -526,7 +529,9 @@ public class RecipeUtils extends RecipeProvider {
                             recipebuilder.save(output);
                         }
 
-                        if (variant == BlockFamilyExtended.Variant.CRACKED)
+                        if (variant == BlockFamilyExtended.Variant.CRACKED
+                                || itemlike == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
+                                || itemlike == BlockRegistry.POLISHED_FUNGAL_STONE.get())
                             smeltingResultFromBase(output, block, itemlike);
                     }
                 }
