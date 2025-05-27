@@ -93,14 +93,6 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         this.setBounceCount(tag.getInt("BounceCount"));
     }
 
-    private int getBounceCount() {
-        return this.bounceCount;
-    }
-
-    private void setBounceCount(int bounceCount) {
-        this.bounceCount = bounceCount;
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
@@ -148,6 +140,14 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     @Override
     public boolean isPushedByFluid() {
         return false;
+    }
+
+    private int getBounceCount() {
+        return this.bounceCount;
+    }
+
+    private void setBounceCount(int bounceCount) {
+        this.bounceCount = bounceCount;
     }
 
     @Override
