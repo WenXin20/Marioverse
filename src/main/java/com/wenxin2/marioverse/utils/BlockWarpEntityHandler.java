@@ -13,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
@@ -109,6 +110,9 @@ public interface BlockWarpEntityHandler {
                     this.displayCooldownMessage(player, state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !entity.isShiftKeyDown()
+                    && (entity.onGround() || entity.isSwimming()
+                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
+                        || (entity instanceof Player player && player.getAbilities().flying))
                     && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
                 if (getWarpCooldown(entity) == 0) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
@@ -117,6 +121,9 @@ public interface BlockWarpEntityHandler {
                     this.displayCooldownMessage(player, state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !entity.isShiftKeyDown()
+                    && (entity.onGround() || entity.isSwimming()
+                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
+                        || (entity instanceof Player player && player.getAbilities().flying))
                     && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
                 if (getWarpCooldown(entity) == 0) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
@@ -125,6 +132,9 @@ public interface BlockWarpEntityHandler {
                     this.displayCooldownMessage(player, state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !entity.isShiftKeyDown()
+                    && (entity.onGround() || entity.isSwimming()
+                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
+                        || (entity instanceof Player player && player.getAbilities().flying))
                     && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (getWarpCooldown(entity) == 0) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
@@ -133,6 +143,9 @@ public interface BlockWarpEntityHandler {
                     this.displayCooldownMessage(player, state);
             }
             if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !entity.isShiftKeyDown()
+                    && (entity.onGround() || entity.isSwimming()
+                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
+                        || (entity instanceof Player player && player.getAbilities().flying))
                     && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 if (getWarpCooldown(entity) == 0) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
