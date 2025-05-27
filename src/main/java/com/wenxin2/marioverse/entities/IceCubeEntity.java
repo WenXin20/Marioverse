@@ -100,6 +100,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         tag.putFloat("FrozenEntityHeight", entityHeight);
         tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
 
+        if (this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
+            tag.putInt("EntityFrozenCooldown", this.getPersistentData().getInt("marioverse:entity_frozen_cooldown"));
         if (frozenEntityData != null)
             tag.put("FrozenEntityData", frozenEntityData);
         if (this.ownerUUID != null)
@@ -111,6 +113,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.leftOwner = tag.getBoolean("LeftOwner");
+        this.getPersistentData().putInt("EntityFrozenCooldown", tag.getInt("marioverse:entity_frozen_cooldown"));
 
         if (tag.contains("FrozenEntityWidth") && tag.contains("FrozenEntityHeight")) {
             this.entityWidth = tag.getFloat("FrozenEntityWidth");
