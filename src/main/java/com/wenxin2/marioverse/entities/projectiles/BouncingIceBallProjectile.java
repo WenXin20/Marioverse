@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -59,7 +60,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class BouncingIceBallProjectile extends ThrowableProjectile implements GeoEntity {
     protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.bouncing_ice_ball.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    private final String BOUNCE_COUNT = "marioverse:ice_ball_bounce_count";
+    private int bounceCount;
 
     public BouncingIceBallProjectile(EntityType<? extends BouncingIceBallProjectile> entityType, Level world) {
         super(entityType, world);
@@ -81,6 +82,26 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     }
 
     @Override
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("BounceCount", this.getBounceCount());
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.setBounceCount(tag.getInt("BounceCount"));
+    }
+
+    private int getBounceCount() {
+        return this.bounceCount;
+    }
+
+    private void setBounceCount(int bounceCount) {
+        this.bounceCount = bounceCount;
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
@@ -90,9 +111,6 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Vec3 motion = this.getDeltaMovement();
 
         this.collideWithEntity();
-
-        if (!this.getPersistentData().contains(BOUNCE_COUNT))
-            this.getPersistentData().putInt(BOUNCE_COUNT, 0);
 
         if (!this.isInWater())
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
@@ -148,7 +166,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
             this.remove(RemovalReason.DISCARDED); // Despawn on side hit
-        } else if (this.getPersistentData().getInt(BOUNCE_COUNT) < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
+        } else if (this.getBounceCount() < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.5, motion.z); // Bounce
             if (world instanceof ServerLevel serverWorld)
@@ -156,8 +174,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_BOUNCED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
 
-            if (this.getPersistentData().contains(BOUNCE_COUNT))
-                this.getPersistentData().putInt(BOUNCE_COUNT, this.getPersistentData().getInt(BOUNCE_COUNT) + 1);
+            this.setBounceCount(this.getBounceCount() + 1);
         } else {
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
