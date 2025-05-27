@@ -31,7 +31,6 @@ public class KoopaShellItem extends BasePowerUpItem {
         Entity entity = entityType.create(world);
 
         if (entity instanceof KoopaShellEntity shell) {
-            AttributeInstance gravityAttribute = shell.getAttribute(Attributes.GRAVITY);
             double speed = 1.5;
             double spawnDistance = 1.0;
             Vec3 look = player.getLookAngle();
@@ -43,8 +42,6 @@ public class KoopaShellItem extends BasePowerUpItem {
             if (look.y >= 0.9) {
                 shell.setDeltaMovement(look.x, 1.25, look.z);
                 world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                if (gravityAttribute != null)
-                    gravityAttribute.setBaseValue(0.08D);
             } else {
                 shell.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
                 world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
