@@ -40,11 +40,11 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL = register("bouncing_fireball", BouncingFireballProjectile::new,
-            MobCategory.AMBIENT, 0.3f, 0.3f);
+            MobCategory.MISC, 0.3f, 0.3f);
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL = register("bouncing_ice_ball", BouncingIceBallProjectile::new,
-            MobCategory.AMBIENT, 0.5f, 0.5f);
+            MobCategory.MISC, 0.5f, 0.5f);
     public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE = Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new,
-            MobCategory.AMBIENT).sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
+            MobCategory.MISC).sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
             MobCategory.AMBIENT, 0.6f, 0.6f);
