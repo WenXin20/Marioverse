@@ -52,6 +52,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
+    @Unique private int mv$warpCooldown;
 
     @Override
     public boolean mv$getBlockWarpTeleportConfig() {
@@ -67,12 +68,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     public void save(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
+        tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
     }
 
     @Inject(method = "load", at = @At("TAIL"))
     public void load(CompoundTag tag, CallbackInfo ci) {
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
+        this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -86,10 +89,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
-        int warpCooldown = entity.getPersistentData().getInt("marioverse:warp_cooldown");
+        int warpCooldown = this.mv$getWarpCooldown();
 
         if (warpCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
+            this.mv$setWarpCooldown(warpCooldown - 1);
 
         mv$rideIceCube(entity);
 
@@ -164,6 +167,16 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
         this.mv$preventWarpCooldown = preventWarpCooldown;
+    }
+
+    @Override
+    public int mv$getWarpCooldown() {
+        return this.mv$warpCooldown;
+    }
+
+    @Override
+    public void mv$setWarpCooldown(int warpCooldown) {
+        this.mv$warpCooldown = warpCooldown;
     }
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))

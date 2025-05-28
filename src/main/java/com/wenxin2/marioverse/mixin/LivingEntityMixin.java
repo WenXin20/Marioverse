@@ -89,6 +89,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
+    @Unique private int mv$warpCooldown;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -108,6 +109,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
+        tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
 
 //        if (this.getPersistentData().contains("marioverse:has_fire_flower"))
 //            tag.putBoolean("HasFireFlower", this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
@@ -128,6 +130,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
+        this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
 
 //        this.getPersistentData().putBoolean("marioverse:has_fire_flower", tag.getBoolean("HasFireFlower"));
 //        this.getPersistentData().putBoolean("marioverse:has_ice_flower", tag.getBoolean("HasIceFlower"));
@@ -287,6 +290,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
         this.mv$preventWarpCooldown = preventWarpCooldown;
+    }
+
+    @Override
+    public int mv$getWarpCooldown() {
+        return this.mv$warpCooldown;
+    }
+
+    @Override
+    public void mv$setWarpCooldown(int warpCooldown) {
+        this.mv$warpCooldown = warpCooldown;
     }
 
     @Unique

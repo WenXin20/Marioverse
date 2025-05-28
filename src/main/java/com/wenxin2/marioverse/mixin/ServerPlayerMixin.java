@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler {
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
+    @Unique private int mv$warpCooldown;
 
     @Override
     public boolean mv$getBlockWarpTeleportConfig() {
@@ -67,5 +68,15 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
         this.mv$preventWarpCooldown = preventWarpCooldown;
+    }
+
+    @Override
+    public int mv$getWarpCooldown() {
+        return this.mv$warpCooldown;
+    }
+
+    @Override
+    public void mv$setWarpCooldown(int warpCooldown) {
+        this.mv$warpCooldown = warpCooldown;
     }
 }

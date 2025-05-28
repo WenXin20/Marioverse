@@ -29,19 +29,14 @@ public interface BlockWarpEntityHandler {
                 || (entity.isShiftKeyDown() && entity instanceof Player);
     }
 
-    static int getWarpCooldown(Entity entity) {
-        return entity.getPersistentData().getInt("marioverse:warp_cooldown");
-    }
-    
-    static void setWarpCooldown(Entity entity, int cooldown) {
-        entity.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
-    }
-
     boolean mv$doPreventWarp();
     void mv$setPreventWarp(boolean preventWarp);
 
     int mv$getPreventWarpCooldown();
     void mv$setPreventWarpCooldown(int preventWarpCooldown);
+
+    int mv$getWarpCooldown();
+    void mv$setWarpCooldown(int warpCooldown);
 
     default void enterWarp(Entity entity, Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
@@ -84,11 +79,11 @@ public interface BlockWarpEntityHandler {
 
         if (!this.mv$doPreventWarp()) {
             if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
+                if (this.mv$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
                     if (state.getBlock() instanceof DoorBlock)
-                        setWarpCooldown(entity, ConfigRegistry.WARP_DOOR_COOLDOWN.get());
-                    else setWarpCooldown(entity, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_DOOR_COOLDOWN.get());
+                    else this.mv$setWarpCooldown(ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
                 }
             }
         }
@@ -108,9 +103,9 @@ public interface BlockWarpEntityHandler {
             if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (getWarpCooldown(entity) == 0) {
+                    if (this.mv$getWarpCooldown() == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
-                        setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                     } /* else if (this.mv$getWarpCooldown() <= 10 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getWarpUuid()) == null && !warpBE.hasDestinationPos())
                     mv$displayDestinationMissingMessage();*/ else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, state);
@@ -120,9 +115,9 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
-                    if (getWarpCooldown(entity) == 0) {
+                    if (this.mv$getWarpCooldown() == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
-                        setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                     } else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, state);
                 }
@@ -131,9 +126,9 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
-                    if (getWarpCooldown(entity) == 0) {
+                    if (this.mv$getWarpCooldown() == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
-                        setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                     } else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, state);
                 }
@@ -142,9 +137,9 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (getWarpCooldown(entity) == 0) {
+                    if (this.mv$getWarpCooldown() == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
-                        setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                     } else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, state);
                 }
@@ -153,9 +148,9 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (getWarpCooldown(entity) == 0) {
+                    if (this.mv$getWarpCooldown() == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
-                        setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                     } else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, state);
                 }
@@ -175,9 +170,9 @@ public interface BlockWarpEntityHandler {
             if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (getWarpCooldown(entity) == 0) {
+                    if (this.mv$getWarpCooldown() == 0) {
                         this.warp(entity, world, pos, stateAboveEntity, warpPos, warpBE);
-                        setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        this.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                     } else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, stateAboveEntity);
                 }
@@ -254,26 +249,26 @@ public interface BlockWarpEntityHandler {
     }
 
     default void displayCooldownMessage(Player player, BlockState state) {
-        if (BlockWarpEntityHandler.getWarpCooldown(player) >= 10) {
+        if (this.mv$getWarpCooldown() >= 10) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown.ticks",
-                                BlockWarpEntityHandler.getWarpCooldown(player)), true);
+                                this.mv$getWarpCooldown()), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown"), true);
                 }
             } else if (state.getBlock() instanceof DoorBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown.ticks",
-                                BlockWarpEntityHandler.getWarpCooldown(player)), true);
+                                this.mv$getWarpCooldown()), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown"), true);
                 }
             } else if (state.getBlock() instanceof TrapDoorBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_trapdoor_cooldown.ticks",
-                                BlockWarpEntityHandler.getWarpCooldown(player)), true);
+                                this.mv$getWarpCooldown()), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_trapdoor_cooldown"), true);
                 }
             }

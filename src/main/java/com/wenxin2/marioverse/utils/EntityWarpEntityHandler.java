@@ -18,19 +18,14 @@ import net.minecraft.world.phys.AABB;
 public interface EntityWarpEntityHandler {
     boolean mv$getEntityWarpTeleportConfig();
 
-    static int getWarpCooldown(Entity entity) {
-        return entity.getPersistentData().getInt("marioverse:warp_cooldown");
-    }
-
-    static void setWarpCooldown(Entity entity, int cooldown) {
-        entity.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
-    }
-
     boolean mv$doPreventWarp();
     void mv$setPreventWarp(boolean preventWarp);
 
     int mv$getPreventWarpCooldown();
     void mv$setPreventWarpCooldown(int preventWarpCooldown);
+
+    int mv$getWarpCooldown();
+    void mv$setWarpCooldown(int warpCooldown);
 
     default void enterWarp(Entity entity, Level world) {
         List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
@@ -51,9 +46,9 @@ public interface EntityWarpEntityHandler {
 
         if (!this.mv$doPreventWarp()) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
+                if (this.mv$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, warpLinkableEntity);
-                    setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+                    this.mv$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
                 } else if (entity instanceof Player player && warpLinkableEntity.mv$hasDestinationPos())
                     this.displayCooldownMessage(player, warpEntity);
             }
@@ -123,12 +118,12 @@ public interface EntityWarpEntityHandler {
     }
 
     private void displayCooldownMessage(Player player, Entity warpEntity) {
-        if (EntityWarpEntityHandler.getWarpCooldown(player) >= 10) {
+        if (this.mv$getWarpCooldown() >= 10) {
             if (warpEntity instanceof Painting) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown.ticks",
-                                BlockWarpEntityHandler.getWarpCooldown(player)), true);
+                                this.mv$getWarpCooldown()), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown"), true);
                 }
             }
