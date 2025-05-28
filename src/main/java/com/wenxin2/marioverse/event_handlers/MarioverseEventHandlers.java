@@ -29,6 +29,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -103,11 +104,6 @@ public class MarioverseEventHandlers {
         CompoundTag tag = entity.getPersistentData();
 
         if (!(entity instanceof LivingEntity)) return;
-
-        if (!tag.contains("marioverse:has_fire_flower")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
-            tag.putBoolean("marioverse:has_fire_flower", false);
 
         if (!tag.contains("marioverse:fireball_ready")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
@@ -206,17 +202,18 @@ public class MarioverseEventHandlers {
         Level world = event.getEntity().level();
         DamageSource source = event.getSource();
 
-        if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
+        if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())
+                && player instanceof PowerUpHandler handler) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
             if (world instanceof ServerLevel serverWorld) {
-                if (tag.getBoolean("marioverse:has_fire_flower")
+                if (handler.mv$hasFireFlower()
                         || tag.getBoolean("marioverse:has_ice_flower"))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
             }
 
-            if (tag.getBoolean("marioverse:has_fire_flower")) {
-                tag.putBoolean("marioverse:has_fire_flower", false);
+            if (handler.mv$hasFireFlower()) {
+                handler.mv$setFireFlower(false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
@@ -248,20 +245,21 @@ public class MarioverseEventHandlers {
                     }
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())) {
+        } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())
+                && entity instanceof PowerUpHandler handler) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
 
             if (world instanceof ServerLevel serverWorld) {
-                if (tag.getBoolean("marioverse:has_fire_flower")
+                if (handler.mv$hasFireFlower()
                         || tag.getBoolean("marioverse:has_ice_flower"))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, entity, 10);
             }
 
-            if (tag.getBoolean("marioverse:has_fire_flower")
+            if (handler.mv$hasFireFlower()
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                tag.putBoolean("marioverse:has_fire_flower", false);
+                handler.mv$setFireFlower(false);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }

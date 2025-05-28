@@ -18,6 +18,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -1029,11 +1030,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static void applyFireFlowerPowerUp(Level world, Entity entityHitBlock) {
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
+                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                && player instanceof PowerUpHandler handler) {
             AccessoriesCapability capability = AccessoriesCapability.get(player);
 
             if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                if (player.getPersistentData().getBoolean("marioverse:has_fire_flower"))
+                if (handler.mv$hasFireFlower())
                     world.broadcastEntityEvent(player, (byte) 20); // Poof particle
                 else world.broadcastEntityEvent(player, (byte) 123); // Fire Powered Up particle
             }
@@ -1041,7 +1043,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             if (player.getHealth() < player.getMaxHealth())
                 player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
             player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-            player.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
+            handler.mv$setFireFlower(true);
             world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
 

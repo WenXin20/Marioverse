@@ -52,6 +52,8 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
     protected abstract boolean canPowerUpMob(LivingEntity entity);
 
+    protected abstract void setHasPowerUp(LivingEntity entity, boolean hasPowerUp);
+
     protected abstract String getPowerUpTag();
 
     protected abstract List<String> disablePowerUpTags();
@@ -79,6 +81,8 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         entity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
         entity.getPersistentData().putBoolean(getPowerUpTag(), Boolean.TRUE);
+        this.setHasPowerUp(entity, true);
+
         for (String tag : disablePowerUpTags())
             entity.getPersistentData().putBoolean(tag, Boolean.FALSE);
 

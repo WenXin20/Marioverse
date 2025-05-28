@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -602,8 +603,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         entity.setHealth(this.getHealth());
         entity.setNoAi(this.isNoAi());
 
-        entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
-                this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
+        if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler)
+            entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+
         entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
                 this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
         entity.getPersistentData().putBoolean("marioverse:has_mushroom",

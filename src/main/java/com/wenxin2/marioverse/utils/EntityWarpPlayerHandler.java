@@ -1,14 +1,12 @@
 package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
-import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
     @Override

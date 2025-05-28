@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -244,21 +245,23 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
-        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
-            int i = random.nextInt(6);
-            int randomInt = random.nextInt(1);
-            if (i == 0) {
-                if (randomInt == 0)
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
-                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
-                this.getPersistentData().putBoolean("marioverse:has_fire_flower", Boolean.TRUE);
-            } else if (i == 1) {
-                if (randomInt == 0)
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
-                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                this.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
-            } else {
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+        if (this instanceof PowerUpHandler handler) {
+            if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+                int i = random.nextInt(6);
+                int randomInt = random.nextInt(1);
+                if (i == 0) {
+                    if (randomInt == 0)
+                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
+                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
+                    handler.mv$setFireFlower(true);
+                } else if (i == 1) {
+                    if (randomInt == 0)
+                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
+                    this.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
+                } else {
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+                }
             }
         }
     }
@@ -508,8 +511,9 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             }
 
             if (savePowerUp) {
-                entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
-                        this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
+                if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler)
+                    entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+
                 entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
                         this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
                 entity.getPersistentData().putBoolean("marioverse:has_mushroom",

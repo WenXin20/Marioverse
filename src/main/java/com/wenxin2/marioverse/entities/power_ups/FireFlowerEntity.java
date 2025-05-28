@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.server.level.ServerLevel;
@@ -71,6 +72,12 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
         return !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get());
+    }
+
+    @Override
+    protected void setHasPowerUp(LivingEntity entity, boolean hasPowerUp) {
+        if (entity instanceof PowerUpHandler handler)
+            handler.mv$setFireFlower(hasPowerUp);
     }
 
     @Override

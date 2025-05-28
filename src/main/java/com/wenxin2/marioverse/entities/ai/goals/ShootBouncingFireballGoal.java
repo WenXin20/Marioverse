@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import java.util.EnumSet;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -47,7 +48,7 @@ public class ShootBouncingFireballGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireFireFlower || livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower");
+        boolean canShoot = !requireFireFlower || (livingEntity instanceof PowerUpHandler handler && handler.mv$hasFireFlower());
         return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
@@ -83,21 +84,23 @@ public class ShootBouncingFireballGoal extends Goal {
         int fireballCount = livingEntity.getPersistentData().getInt("marioverse:fireball_count");
         int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
-        if (!requireFireFlower && fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower) {
-            shootFireball();
-            livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
-            livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-        } else if (fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower
-                && livingEntity.getPersistentData().getBoolean("marioverse:has_fire_flower")) {
-            shootFireball();
-            livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
-            livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-        } else if (!requireFireFlower && fireballCount >= maxFireballs + addFireballsWithFireFlower) {
-            livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
-            livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
-        } else if (fireballCount >= maxFireballs) {
-            livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
-            livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
+        if (livingEntity instanceof PowerUpHandler handler) {
+            if (!requireFireFlower && fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower) {
+                this.shootFireball();
+                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
+                livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
+            } else if (fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower
+                    && handler.mv$hasFireFlower()) {
+                this.shootFireball();
+                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
+                livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
+            } else if (!requireFireFlower && fireballCount >= maxFireballs + addFireballsWithFireFlower) {
+                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
+                livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
+            } else if (fireballCount >= maxFireballs) {
+                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
+                livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
+            }
         }
     }
 
