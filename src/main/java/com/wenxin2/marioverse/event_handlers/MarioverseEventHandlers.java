@@ -104,22 +104,6 @@ public class MarioverseEventHandlers {
 
         if (!(entity instanceof LivingEntity)) return;
 
-//        if (entity instanceof BlockWarpEntityHandler handler) {
-//            if (!handler.mv$doPreventWarp()
-//                    && !entity.getType().is(TagRegistry.CANNOT_WARP)
-//                    && (ConfigRegistry.TELEPORT_MOBS.get()
-//                        || ConfigRegistry.TELEPORT_PLAYERS.get())
-//                        || ConfigRegistry.TELEPORT_NON_MOBS.get())
-//                handler.mv$setPreventWarp(false);
-//        }
-//
-//        if (!tag.contains("marioverse:prevent_warp")
-//                && !entity.getType().is(TagRegistry.CANNOT_WARP)
-//                && (ConfigRegistry.TELEPORT_MOBS.get()
-//                    || ConfigRegistry.TELEPORT_PLAYERS.get())
-//                    || ConfigRegistry.TELEPORT_NON_MOBS.get())
-//            tag.putBoolean("marioverse:prevent_warp", false);
-
         if (!tag.contains("marioverse:has_fire_flower")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
