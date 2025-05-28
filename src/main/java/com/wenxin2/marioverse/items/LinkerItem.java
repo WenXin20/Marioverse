@@ -164,20 +164,20 @@ public class LinkerItem extends TieredItem {
             // Try to cast firstEntity to WarpLinkableEntity if available
             if (firstEntity instanceof WarpLinkableEntity firstWarpEntity) {
                 UUID firstUuid = firstEntity.getUUID();
-                ResourceKey<Level> firstDim = firstWarpEntity.marioverse$getDestinationDim();
-                ResourceKey<Level> secondDim = secondWarpEntity.marioverse$getDestinationDim();
+                ResourceKey<Level> firstDim = firstWarpEntity.mv$getDestinationDim();
+                ResourceKey<Level> secondDim = secondWarpEntity.mv$getDestinationDim();
 
                 // Linking both ways
-                firstWarpEntity.marioverse$setDestinationPos(secondPos);
-                secondWarpEntity.marioverse$setDestinationPos(firstEntity.blockPosition());
+                firstWarpEntity.mv$setDestinationPos(secondPos);
+                secondWarpEntity.mv$setDestinationPos(firstEntity.blockPosition());
 
                 if (secondDim != null)
-                    firstWarpEntity.marioverse$setDestinationDim(secondDim);
+                    firstWarpEntity.mv$setDestinationDim(secondDim);
                 if (firstDim != null)
-                    secondWarpEntity.marioverse$setDestinationDim(firstDim);
+                    secondWarpEntity.mv$setDestinationDim(firstDim);
 
-                firstWarpEntity.marioverse$setWarpUuid(secondUuid);
-                secondWarpEntity.marioverse$setWarpUuid(firstUuid);
+                firstWarpEntity.mv$setWarpUuid(secondUuid);
+                secondWarpEntity.mv$setWarpUuid(firstUuid);
                 WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(firstPos, firstEntity);
                 WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(secondPos, secondEntity);
 
@@ -188,8 +188,8 @@ public class LinkerItem extends TieredItem {
                 } else WarpLinkableEntity.setWarpPos(firstUuid, firstPos, Direction.NORTH, 1);
             } else {
                 UUID firstUuid = LinkerItem.getWarpUUID(stack);
-                secondWarpEntity.marioverse$setDestinationPos(firstPos);
-                secondWarpEntity.marioverse$setWarpUuid(firstUuid);
+                secondWarpEntity.mv$setDestinationPos(firstPos);
+                secondWarpEntity.mv$setWarpUuid(firstUuid);
                 WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(firstPos, firstEntity);
                 WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(secondPos, secondEntity);
             }

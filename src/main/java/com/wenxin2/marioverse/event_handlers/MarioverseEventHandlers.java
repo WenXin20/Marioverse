@@ -467,7 +467,7 @@ public class MarioverseEventHandlers {
                     UUID uuid = target.getUUID();
 
                     if (world instanceof ServerLevel serverWorld) {
-                        if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.marioverse$isWaxed()
+                        if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$isWaxed()
                                 && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                             player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
                                     target.getName()).withStyle(ChatFormatting.GOLD), true);
@@ -540,21 +540,21 @@ public class MarioverseEventHandlers {
             }
         } else if (stack.getItem() instanceof WarpDisruptorItem disruptorItem) {
             if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() && target instanceof WarpLinkableEntity linkableEntity
-                    && (!linkableEntity.marioverse$getPreventWarp() || !linkableEntity.marioverse$isBreakPainting())) {
+                    && (!linkableEntity.mv$getPreventWarp() || !linkableEntity.mv$isBreakPainting())) {
                 if (world instanceof ServerLevel serverWorld) {
-                    if (linkableEntity.marioverse$isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                    if (linkableEntity.mv$isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                         player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
                                 target.getName()).withStyle(ChatFormatting.GOLD), true);
-                    } else if (linkableEntity.marioverse$getPreventWarp()) {
+                    } else if (linkableEntity.mv$getPreventWarp()) {
                         ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16); // TODO: fix pos
                         player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
                                 target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                        linkableEntity.marioverse$setBreakPainting(Boolean.TRUE);
+                        linkableEntity.mv$setBreakPainting(Boolean.TRUE);
                     } else {
                         ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16); // TODO: fix pos
                         player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
                                 target.getDisplayName()).withStyle(ChatFormatting.RED), true);
-                        linkableEntity.marioverse$setPreventWarp(Boolean.TRUE);
+                        linkableEntity.mv$setPreventWarp(Boolean.TRUE);
                     }
 
                     if (!player.isCreative())
@@ -565,13 +565,13 @@ public class MarioverseEventHandlers {
         } else if (stack.getItem() instanceof HoneycombItem) {
             if (target instanceof WarpLinkableEntity linkableEntity
                     && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-                if (!linkableEntity.marioverse$isWaxed()) {
+                if (!linkableEntity.mv$isWaxed()) {
                     if (world instanceof ServerLevel serverWorld) {
                         world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 64); // TODO: fix pos
                         stack.consume(1, player);
                     }
-                    linkableEntity.marioverse$setWaxed(true);
+                    linkableEntity.mv$setWaxed(true);
                     player.swing(player.getUsedItemHand());
                 }
             }

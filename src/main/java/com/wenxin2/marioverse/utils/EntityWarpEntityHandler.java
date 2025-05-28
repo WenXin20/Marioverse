@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 public interface EntityWarpEntityHandler {
-    boolean marioverse$getEntityWarpTeleportConfig();
+    boolean mv$getEntityWarpTeleportConfig();
 
     static int getWarpCooldown(Entity entity) {
         return entity.getPersistentData().getInt("marioverse:warp_cooldown");
@@ -35,7 +35,7 @@ public interface EntityWarpEntityHandler {
     default void enterWarp(Entity entity, Level world) {
         List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
         for (Painting painting : nearbyPaintings) {
-            if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.marioverse$getPreventWarp()) {
+            if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.mv$getPreventWarp()) {
                 int entityId = entity.getId();
 
                 if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
@@ -50,20 +50,20 @@ public interface EntityWarpEntityHandler {
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
 
         if (!this.mv$doPreventWarp()) {
-            if (this.marioverse$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, warpLinkableEntity);
                     setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
-                } else if (entity instanceof Player player && warpLinkableEntity.marioverse$hasDestinationPos())
+                } else if (entity instanceof Player player && warpLinkableEntity.mv$hasDestinationPos())
                     this.displayCooldownMessage(player, warpEntity);
             }
         }
     }
 
     default void warp(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity) {
-        if (world instanceof ServerLevel serverWorld && warpLinkableEntity.marioverse$getWarpUUID() != null) {
-            UUID warpUUID = warpLinkableEntity.marioverse$getWarpUUID();
-            Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.marioverse$getWarpUUID());
+        if (world instanceof ServerLevel serverWorld && warpLinkableEntity.mv$getWarpUUID() != null) {
+            UUID warpUUID = warpLinkableEntity.mv$getWarpUUID();
+            Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.mv$getWarpUUID());
             if (warpEntity != null) {
                 if (warpEntity instanceof Painting painting) {
                     int width = painting.getVariant().value().width();
@@ -72,7 +72,7 @@ public interface EntityWarpEntityHandler {
 
                     this.warpPaintingDirection(basePos, direction, width, entity, world);
 
-                    if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.marioverse$isBreakPainting())
+                    if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.mv$isBreakPainting())
                         painting.kill();
                     entity.setXRot(direction.toYRot());
                     entity.setYRot(direction.toYRot());
@@ -97,7 +97,7 @@ public interface EntityWarpEntityHandler {
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
                     for (Entity targetEntity : entitiesAtPos) {
                         if (targetEntity.getUUID().equals(warpUUID) && targetEntity instanceof WarpLinkableEntity linkableEntity
-                                && linkableEntity.marioverse$isBreakPainting()) {
+                                && linkableEntity.mv$isBreakPainting()) {
                             targetEntity.kill();
                             break;
                         }

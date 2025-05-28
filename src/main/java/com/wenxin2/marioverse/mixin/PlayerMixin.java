@@ -19,12 +19,12 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     }
 
     @Override
-    public boolean marioverse$getBlockWarpTeleportConfig() {
+    public boolean mv$getBlockWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
     }
 
     @Override
-    public boolean marioverse$getEntityWarpTeleportConfig() {
+    public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
     }
 

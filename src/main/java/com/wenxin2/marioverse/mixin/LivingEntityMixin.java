@@ -83,10 +83,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler {
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique private boolean marioverse$playedDamagedSound;
-    @Unique protected float marioverse$appliedEyeHeightScale = 1.0F;
-    @Unique protected float marioverse$appliedHeightScale = 1.0F;
-    @Unique protected float marioverse$appliedWidthScale = 1.0F;
+    @Unique private boolean mv$playedDamagedSound;
+    @Unique protected float mv$appliedEyeHeightScale = 1.0F;
+    @Unique protected float mv$appliedHeightScale = 1.0F;
+    @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
 
@@ -95,12 +95,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public boolean marioverse$getBlockWarpTeleportConfig() {
+    public boolean mv$getBlockWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_MOBS.get();
     }
 
     @Override
-    public boolean marioverse$getEntityWarpTeleportConfig() {
+    public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_MOBS.get();
     }
 
@@ -163,15 +163,15 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         int oneUpsRewarded = entity.getPersistentData().getInt("marioverse:one_ups_rewarded");
         boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
-        this.marioverse$characterAbilities(entity);
-        this.marioverse$entityScale(entity);
+        this.mv$characterAbilities(entity);
+        this.mv$entityScale(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble())
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
-            this.marioverse$squashEntity(entity);
+            this.mv$squashEntity(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
@@ -192,10 +192,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && !entity.onGround() && deltaY > -0.079
                 && !entity.isSpectator()) {
-            this.marioverse$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
+            this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
-        this.marioverse$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
+        this.mv$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
@@ -205,13 +205,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
-        this.marioverse$shellBonkBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
+        this.mv$shellBonkBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079
                 && !entity.isSpectator())
-            this.marioverse$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
         this.marioiverse$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
@@ -234,28 +234,28 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             entity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.FALSE);
 
         if (hasSuperStar) {
-            this.marioverse$superStarKillEntity(entity);
+            this.mv$superStarKillEntity(entity);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
-            this.marioverse$playSuperStarTheme();
-        } else if (!hasSuperStar && this.marioverse$playedStarTheme)
-            this.marioverse$playedStarTheme = false;
+            this.mv$playSuperStarTheme();
+        } else if (!hasSuperStar && this.mv$playedStarTheme)
+            this.mv$playedStarTheme = false;
 
-        float f5 = this.marioverse$getEyeHeightScale();
-        if (f5 != this.marioverse$appliedEyeHeightScale) {
-            this.marioverse$appliedEyeHeightScale = f5;
+        float f5 = this.mv$getEyeHeightScale();
+        if (f5 != this.mv$appliedEyeHeightScale) {
+            this.mv$appliedEyeHeightScale = f5;
             this.refreshDimensions();
         }
 
-        float f6 = this.marioverse$getHeightScale();
-        if (f6 != this.marioverse$appliedHeightScale) {
-            this.marioverse$appliedHeightScale = f6;
+        float f6 = this.mv$getHeightScale();
+        if (f6 != this.mv$appliedHeightScale) {
+            this.mv$appliedHeightScale = f6;
             entity.refreshDimensions();
         }
 
-        float f7 = this.marioverse$getWidthScale();
-        if (f7 != this.marioverse$appliedWidthScale) {
-            this.marioverse$appliedWidthScale = f6;
+        float f7 = this.mv$getWidthScale();
+        if (f7 != this.mv$appliedWidthScale) {
+            this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
 
@@ -290,13 +290,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private void marioverse$shellSmashBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
+    private void mv$shellSmashBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
         if ((stateNorth.is(TagRegistry.SMASHABLE_BLOCKS) || stateNorth.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            marioverse$smashBlock(world, posNorth, stateNorth, entity);
+            mv$smashBlock(world, posNorth, stateNorth, entity);
             shell.bounceShell(world, Direction.NORTH);
         }
 
@@ -305,7 +305,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            marioverse$smashBlock(world, posSouth, stateSouth, entity);
+            mv$smashBlock(world, posSouth, stateSouth, entity);
             shell.bounceShell(world, Direction.SOUTH);
         }
 
@@ -314,7 +314,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            marioverse$smashBlock(world, posEast, stateEast, entity);
+            mv$smashBlock(world, posEast, stateEast, entity);
             shell.bounceShell(world, Direction.EAST);
         }
 
@@ -323,13 +323,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && entity instanceof KoopaShellEntity shell
                 && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && entity.getDeltaMovement().horizontalDistance() > 0.1) {
-            marioverse$smashBlock(world, posWest, stateWest, entity);
+            mv$smashBlock(world, posWest, stateWest, entity);
             shell.bounceShell(world, Direction.WEST);
         }
     }
 
     @Unique
-    private void marioverse$shellBonkBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
+    private void mv$shellBonkBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
         if (stateNorth.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
                 && entity instanceof KoopaShellEntity
@@ -369,29 +369,29 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.marioverse$hitQuestionBlock(world, posNorth, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posNorth, questionBlockEntity);
 
         if (world.getBlockEntity(posSouth) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.marioverse$hitQuestionBlock(world, posSouth, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posSouth, questionBlockEntity);
 
         if (world.getBlockEntity(posEast) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.marioverse$hitQuestionBlock(world, posEast, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posEast, questionBlockEntity);
 
         if (world.getBlockEntity(posWest) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.marioverse$hitQuestionBlock(world, posWest, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posWest, questionBlockEntity);
     }
 
     @Unique
-    private void marioverse$characterAbilities(LivingEntity entity) {
+    private void mv$characterAbilities(LivingEntity entity) {
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
         AttributeInstance gravityAttribute = entity.getAttribute(Attributes.GRAVITY);
@@ -405,14 +405,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
 
-            if (this.marioverse$hasLuigiCostume(entity)) {
+            if (this.mv$hasLuigiCostume(entity)) {
                 normalJumpBoost = 0.5;
                 runningJumpBoost = 0.6;
             }
 
-            if (this.marioverse$hasMarioCostume(entity)
-                    || this.marioverse$hasLuigiCostume(entity)
-                    || this.marioverse$hasPeachCostume(entity)) {
+            if (this.mv$hasMarioCostume(entity)
+                    || this.mv$hasLuigiCostume(entity)
+                    || this.mv$hasPeachCostume(entity)) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
@@ -433,9 +433,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
 
         if (safeFallAttribute != null) {
-            if (this.marioverse$hasMarioCostume(entity)
-                    || this.marioverse$hasLuigiCostume(entity)
-                    || this.marioverse$hasPeachCostume(entity)) {
+            if (this.mv$hasMarioCostume(entity)
+                    || this.mv$hasLuigiCostume(entity)
+                    || this.mv$hasPeachCostume(entity)) {
                 boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE) != null;
                 if (!hasSafeFallModifier)
                     safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
@@ -443,7 +443,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE);
         }
 
-        if (this.marioverse$hasPeachCostume(entity)) {
+        if (this.mv$hasPeachCostume(entity)) {
             Vec3 motion = entity.getDeltaMovement();
             if (motion.y < 0)
                 entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
@@ -451,7 +451,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private boolean marioverse$hasMarioCostume(LivingEntity entity) {
+    private boolean mv$hasMarioCostume(LivingEntity entity) {
         if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_COSTUMES)
                 && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.MARIO_COSTUMES)
                 && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.MARIO_COSTUMES)
@@ -478,7 +478,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private boolean marioverse$hasLuigiCostume(LivingEntity entity) {
+    private boolean mv$hasLuigiCostume(LivingEntity entity) {
         if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.LUIGI_COSTUMES)
                 && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.LUIGI_COSTUMES)
                 && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.LUIGI_COSTUMES)
@@ -505,7 +505,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private boolean marioverse$hasPeachCostume(LivingEntity entity) {
+    private boolean mv$hasPeachCostume(LivingEntity entity) {
         if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.PEACH_COSTUMES)
                 && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.PEACH_COSTUMES)
                 && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.PEACH_COSTUMES)
@@ -688,23 +688,23 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float heightScale;
         float widthScale;
 
-        if (this.marioverse$getHeightScale() > 1)
-            heightScale = this.marioverse$getHeightScale() / 2;
-        else if (this.marioverse$getHeightScale() == 1)
-            heightScale = this.marioverse$getHeightScale();
-        else heightScale = this.marioverse$getHeightScale();
+        if (this.mv$getHeightScale() > 1)
+            heightScale = this.mv$getHeightScale() / 2;
+        else if (this.mv$getHeightScale() == 1)
+            heightScale = this.mv$getHeightScale();
+        else heightScale = this.mv$getHeightScale();
 
-        if (this.marioverse$getEyeHeightScale() > 1)
-            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.marioverse$getEyeHeightScale() / 2;
-        else if (this.marioverse$getEyeHeightScale() == 1)
-            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.marioverse$getEyeHeightScale();
-        else eyeHeightScale = cir.getReturnValue().eyeHeight() * this.marioverse$getEyeHeightScale();
+        if (this.mv$getEyeHeightScale() > 1)
+            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.mv$getEyeHeightScale() / 2;
+        else if (this.mv$getEyeHeightScale() == 1)
+            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.mv$getEyeHeightScale();
+        else eyeHeightScale = cir.getReturnValue().eyeHeight() * this.mv$getEyeHeightScale();
 
-        if (this.marioverse$getWidthScale() > 1)
-            widthScale = this.marioverse$getWidthScale() / 2;
-        else if (this.marioverse$getWidthScale() == 1)
-            widthScale = this.marioverse$getWidthScale();
-        else widthScale = this.marioverse$getWidthScale();
+        if (this.mv$getWidthScale() > 1)
+            widthScale = this.mv$getWidthScale() / 2;
+        else if (this.mv$getWidthScale() == 1)
+            widthScale = this.mv$getWidthScale();
+        else widthScale = this.mv$getWidthScale();
 
         if (pose != Pose.SLEEPING) {
             EntityDimensions customDimensions = cir.getReturnValue()
@@ -780,7 +780,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else if (id == 113) {
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
         } else if (id == 119) {
-            this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.COIN_GLINT.get(), 15);
+            this.mv$spawnPowerUpParticles(entity, ParticleRegistry.COIN_GLINT.get(), 15);
         } else if (id == 120) {
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
                 this.level().addParticle(ParticleTypes.ENCHANT,
@@ -789,9 +789,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         (random.nextDouble() - 0.5D) * 2.0D);
             }
         } else if (id == 123) {
-            this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.FIRE_POWERED_UP.get(), 15);
+            this.mv$spawnPowerUpParticles(entity, ParticleRegistry.FIRE_POWERED_UP.get(), 15);
         } else if (id == 124) {
-            this.marioverse$spawnPowerUpParticles(entity, ParticleRegistry.POWERED_UP.get(), 25);
+            this.mv$spawnPowerUpParticles(entity, ParticleRegistry.POWERED_UP.get(), 25);
         } else if (id == 125) {
             if (this.level().isClientSide) {
                 ParticleUtils.spawnParticlesOnBlockFaces(this.level(), this.blockPosition().above(Math.round(this.getBbHeight())).above(),
@@ -807,7 +807,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
+    public void mv$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
         if (entity.level() instanceof ServerLevel serverWorld)
             serverWorld.sendParticles(particleType, entity.getX(),
                     entity.getY() + entity.getBbHeight() + 1.0,
@@ -815,33 +815,33 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public float marioverse$getEyeHeightScale() {
+    public float mv$getEyeHeightScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
+        return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
     }
 
     @Unique
-    public float marioverse$getHeightScale() {
+    public float mv$getHeightScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
+        return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE));
     }
 
     @Unique
-    public float marioverse$getWidthScale() {
+    public float mv$getWidthScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
-        return attributemap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
+        return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE));
     }
 
     @Unique
-    public float marioverse$sanitizeScales(float scale) {
+    public float mv$sanitizeScales(float scale) {
         return scale;
     }
 
     @Unique
-    public void marioverse$spawnPowerUpParticles(Entity entity, ParticleOptions particleType, int avgAmount) {
+    public void mv$spawnPowerUpParticles(Entity entity, ParticleOptions particleType, int avgAmount) {
         if (entity.level().isClientSide) {
             float scaleFactor = entity.getBbWidth();
             int numParticles = (int) (scaleFactor * avgAmount);
@@ -867,7 +867,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$entityScale(LivingEntity entity) {
+    public void mv$entityScale(LivingEntity entity) {
         Level world = entity.level();
         CompoundTag tag = entity.getPersistentData();
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
@@ -895,27 +895,27 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
-            marioverse$updateScale(heightScale, targetHeightScale, scalingSpeed);
-            marioverse$updateScale(widthScale, targetWidthScale, scalingSpeed);
+            mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
+            mv$updateScale(heightScale, targetHeightScale, scalingSpeed);
+            mv$updateScale(widthScale, targetWidthScale, scalingSpeed);
 
-            if (!marioverse$playedDamagedSound) {
-                marioverse$playedDamagedSound = true;
+            if (!mv$playedDamagedSound) {
+                mv$playedDamagedSound = true;
                 SoundSource soundSource = isPlayer ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
             }
         }
 
         if (shouldReset) {
-            marioverse$playedDamagedSound = false;
-            marioverse$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
-            marioverse$updateScale(heightScale, targetHeightScale, scalingSpeed);
-            marioverse$updateScale(widthScale, targetWidthScale, scalingSpeed);
+            mv$playedDamagedSound = false;
+            mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
+            mv$updateScale(heightScale, targetHeightScale, scalingSpeed);
+            mv$updateScale(widthScale, targetWidthScale, scalingSpeed);
         }
     }
 
     @Unique
-    private void marioverse$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed) {
+    private void mv$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed) {
         if (scaleAttribute != null) {
             ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
             double currentScale = scaleAttribute.getValue();
@@ -932,7 +932,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$dropCoin(Level world, BlockPos pos, Entity entity) {
+    public void mv$dropCoin(Level world, BlockPos pos, Entity entity) {
         if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
             ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
 
@@ -951,18 +951,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
+    public void mv$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getTheItem();
 
             if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                marioverse$hitEntityAbove(pos, world, entity);
+                mv$hitEntityAbove(pos, world, entity);
             }
 
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                this.marioverse$dropCoin(world, pos, this);
+                this.mv$dropCoin(world, pos, this);
 
                 if (!world.isClientSide)
                     questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
@@ -995,9 +995,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private void marioverse$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
+    private void mv$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
 
-        marioverse$hitEntityAbove(pos, world, entity);
+        mv$hitEntityAbove(pos, world, entity);
 
         if (entity.getPersistentData().getBoolean("marioverse:has_mushroom")) {
             if (state.getBlock() instanceof SlabBlock) {
@@ -1019,15 +1019,15 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             else if (state.getBlock() instanceof DecoratedPotBlock)
                 world.playSound(null, pos, SoundType.DECORATED_POT.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, pos, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.marioverse$dropCoin(world, pos, this);
+            this.mv$dropCoin(world, pos, this);
         } else {
             world.playSound(null, pos, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.marioverse$dropCoin(world, pos, this);
+            this.mv$dropCoin(world, pos, this);
         }
     }
 
     @Unique
-    private static void marioverse$hitEntityAbove(BlockPos pos, Level world, LivingEntity attackingEntity) {
+    private static void mv$hitEntityAbove(BlockPos pos, Level world, LivingEntity attackingEntity) {
         AABB boundingBox = new AABB(pos.above()).inflate(0.01);
         List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
 
@@ -1050,7 +1050,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$superStarKillEntity(LivingEntity attackingEntity) {
+    public void mv$superStarKillEntity(LivingEntity attackingEntity) {
         List<Entity> nearbyEntities = attackingEntity.level().getEntities(attackingEntity, attackingEntity.getBoundingBox());
 
         if (!nearbyEntities.isEmpty()) {
@@ -1067,7 +1067,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
 
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive() && !entity.isInvulnerable())
-                            this.marioverse$consecutiveReward(attackingEntity, entity);
+                            this.mv$consecutiveReward(attackingEntity, entity);
                         entity.setDeltaMovement(knockbackVelocity);
                         entity.hurt(DamageTypeRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
                     }
@@ -1077,21 +1077,21 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private boolean marioverse$playedStarTheme = false;
+    private boolean mv$playedStarTheme = false;
 
     @Unique
-    private void marioverse$playSuperStarTheme() {
+    private void mv$playSuperStarTheme() {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
 
-        if ((world.getGameTime() % 262L == 0L) || !marioverse$playedStarTheme) {
+        if ((world.getGameTime() % 262L == 0L) || !mv$playedStarTheme) {
             world.playSound(null, entity.blockPosition(), SoundRegistry.SUPER_STAR_THEME.get(), SoundSource.PLAYERS, 1.0F, 1.0f);
-            marioverse$playedStarTheme = true;
+            mv$playedStarTheme = true;
         }
     }
 
     @Unique
-    public void marioverse$squashEntity(LivingEntity stompingEntity) {
+    public void mv$squashEntity(LivingEntity stompingEntity) {
         List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0, 0.5, 0));
 
         if (!nearbyEntities.isEmpty()) {
@@ -1147,7 +1147,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                                 else damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
-                                this.marioverse$consecutiveReward(stompingEntity, damagedEntity);
+                                this.mv$consecutiveReward(stompingEntity, damagedEntity);
                         }
                     }
                 }
@@ -1156,7 +1156,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
+    public void mv$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
         int consecutiveBounces = attackingEntity.getPersistentData().getInt("marioverse:consecutive_bounces");
         int oneUpsRewarded = attackingEntity.getPersistentData().getInt("marioverse:one_ups_rewarded");
         attackingEntity.getPersistentData().putInt("marioverse:consecutive_bounces", consecutiveBounces + 1);
@@ -1212,7 +1212,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
         else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
             attackingEntity.getPersistentData().putInt("marioverse:one_ups_rewarded", oneUpsRewarded + 1);
-            this.marioverse$bounceReward(attackingEntity);
+            this.mv$bounceReward(attackingEntity);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
                     ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
@@ -1222,7 +1222,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void marioverse$bounceReward(LivingEntity entity) {
+    public void mv$bounceReward(LivingEntity entity) {
         ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
         if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()) {
             AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);

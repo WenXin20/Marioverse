@@ -48,18 +48,18 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Shadow public abstract BlockPos blockPosition();
     @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
-    @Unique protected float marioverse$appliedHeightScale = 1.0F;
-    @Unique protected float marioverse$appliedWidthScale = 1.0F;
+    @Unique protected float mv$appliedHeightScale = 1.0F;
+    @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
 
     @Override
-    public boolean marioverse$getBlockWarpTeleportConfig() {
+    public boolean mv$getBlockWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
     }
 
     @Override
-    public boolean marioverse$getEntityWarpTeleportConfig() {
+    public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
     }
 
@@ -91,7 +91,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (warpCooldown > 0)
             entity.getPersistentData().putInt("marioverse:warp_cooldown", warpCooldown - 1);
 
-        marioverse$rideIceCube(entity);
+        mv$rideIceCube(entity);
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
@@ -133,15 +133,15 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             this.enterWarp(entity, world);
         }
 
-        float f6 = this.marioverse$getHeightScale();
-        if (f6 != this.marioverse$appliedHeightScale) {
-            this.marioverse$appliedHeightScale = f6;
+        float f6 = this.mv$getHeightScale();
+        if (f6 != this.mv$appliedHeightScale) {
+            this.mv$appliedHeightScale = f6;
             entity.refreshDimensions();
         }
 
-        float f7 = this.marioverse$getWidthScale();
-        if (f7 != this.marioverse$appliedWidthScale) {
-            this.marioverse$appliedWidthScale = f6;
+        float f7 = this.mv$getWidthScale();
+        if (f7 != this.mv$appliedWidthScale) {
+            this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
     }
@@ -259,7 +259,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     }
 
     @Unique
-    private static void marioverse$rideIceCube(Entity entity) {
+    private static void mv$rideIceCube(Entity entity) {
         Entity belowEntity = null;
         for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
             if (e instanceof IceCubeEntity) {
@@ -283,27 +283,27 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     }
 
     @Unique
-    public float marioverse$getHeightScale() {
+    public float mv$getHeightScale() {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
-            return attributeMap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE));
+            return attributeMap == null ? 1.0F : this.mv$sanitizeScales((float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE));
         }
         return 1.0F;
     }
 
     @Unique
-    public float marioverse$getWidthScale() {
+    public float mv$getWidthScale() {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
-            return attributeMap == null ? 1.0F : this.marioverse$sanitizeScales((float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE));
+            return attributeMap == null ? 1.0F : this.mv$sanitizeScales((float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE));
         }
         return 1.0F;
     }
 
     @Unique
-    public float marioverse$sanitizeScales(float scale) {
+    public float mv$sanitizeScales(float scale) {
         return scale;
     }
 }

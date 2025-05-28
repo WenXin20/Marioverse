@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface BlockWarpEntityHandler {
-    boolean marioverse$getBlockWarpTeleportConfig();
+    boolean mv$getBlockWarpTeleportConfig();
 
     private static boolean getShiftKeyForEntity(Entity entity) {
         return (!entity.isShiftKeyDown() && !(entity instanceof Player))
@@ -83,7 +83,7 @@ public interface BlockWarpEntityHandler {
         BlockState state = world.getBlockState(pos);
 
         if (!this.mv$doPreventWarp()) {
-            if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
                     if (state.getBlock() instanceof DoorBlock)
@@ -105,14 +105,14 @@ public interface BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (!this.mv$doPreventWarp()) {
-            if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (getWarpCooldown(entity) == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                         setWarpCooldown(entity, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
-                    } /* else if (this.marioverse$getWarpCooldown() <= 10 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getWarpUuid()) == null && !warpBE.hasDestinationPos())
-                    marioverse$displayDestinationMissingMessage();*/ else if (entity instanceof Player player && warpBE.hasDestinationPos())
+                    } /* else if (this.mv$getWarpCooldown() <= 10 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getWarpUuid()) == null && !warpBE.hasDestinationPos())
+                    mv$displayDestinationMissingMessage();*/ else if (entity instanceof Player player && warpBE.hasDestinationPos())
                         this.displayCooldownMessage(player, state);
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !entity.isShiftKeyDown()
@@ -172,7 +172,7 @@ public interface BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (!this.mv$doPreventWarp()) {
-            if (this.marioverse$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (getWarpCooldown(entity) == 0) {

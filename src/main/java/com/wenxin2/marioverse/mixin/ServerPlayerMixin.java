@@ -23,12 +23,12 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private int mv$preventWarpCooldown;
 
     @Override
-    public boolean marioverse$getBlockWarpTeleportConfig() {
+    public boolean mv$getBlockWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
     }
 
     @Override
-    public boolean marioverse$getEntityWarpTeleportConfig() {
+    public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
     }
 

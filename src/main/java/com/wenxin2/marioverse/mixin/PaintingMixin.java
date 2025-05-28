@@ -29,14 +29,14 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     @Unique private static final String WARP_DIMENSION = "Dimension";
     @Unique private static final String WARP_POS = "WarpPos";
     @Unique private static final String WARP_UUID = "WarpUUID";
-    @Unique public BlockPos marioverse$destinationPos;
-    @Unique public Entity marioverse$warpEntity;
-    @Unique public String marioverse$dimensionTag;
-    @Unique public UUID marioverse$UUID;
-    @Unique public UUID marioverse$warpUUID;
-    @Unique public boolean marioverse$breakPainting = Boolean.FALSE;
-    @Unique public boolean marioverse$isWaxed;
-    @Unique public boolean marioverse$preventWarp = Boolean.FALSE;
+    @Unique public BlockPos mv$destinationPos;
+    @Unique public Entity mv$warpEntity;
+    @Unique public String mv$dimensionTag;
+    @Unique public UUID mv$UUID;
+    @Unique public UUID mv$warpUUID;
+    @Unique public boolean mv$breakPainting = Boolean.FALSE;
+    @Unique public boolean mv$isWaxed;
+    @Unique public boolean mv$preventWarp = Boolean.FALSE;
 
     public PaintingMixin(EntityType<? extends HangingEntity> type, Level world) {
         super(type, world);
@@ -44,84 +44,84 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.marioverse$getWarpEntity());
-        tag.putBoolean(BREAK_PAINTING, this.marioverse$breakPainting);
-        tag.putBoolean(IS_WAXED, this.marioverse$isWaxed);
-        tag.putBoolean(PREVENT_WARP, this.marioverse$preventWarp);
+        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.mv$getWarpEntity());
+        tag.putBoolean(BREAK_PAINTING, this.mv$breakPainting);
+        tag.putBoolean(IS_WAXED, this.mv$isWaxed);
+        tag.putBoolean(PREVENT_WARP, this.mv$preventWarp);
 
-        if (this.marioverse$hasDestinationPos() && this.marioverse$destinationPos != null)
-            tag.put(WARP_POS, NbtUtils.writeBlockPos(this.marioverse$destinationPos));
+        if (this.mv$hasDestinationPos() && this.mv$destinationPos != null)
+            tag.put(WARP_POS, NbtUtils.writeBlockPos(this.mv$destinationPos));
 
-        if (this.marioverse$dimensionTag != null)
-            tag.putString(WARP_DIMENSION, this.marioverse$dimensionTag);
+        if (this.mv$dimensionTag != null)
+            tag.putString(WARP_DIMENSION, this.mv$dimensionTag);
 
-        if (this.marioverse$UUID != null)
+        if (this.mv$UUID != null)
             tag.putUUID(UUID, this.getUUID());
 
-        if (this.marioverse$warpUUID != null)
-            tag.putUUID(WARP_UUID, this.marioverse$getWarpUUID());
+        if (this.mv$warpUUID != null)
+            tag.putUUID(WARP_UUID, this.mv$getWarpUUID());
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.marioverse$getWarpEntity());
-        this.marioverse$isWaxed = tag.getBoolean(IS_WAXED);
+        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.mv$getWarpEntity());
+        this.mv$isWaxed = tag.getBoolean(IS_WAXED);
 
         if (tag.contains(WARP_POS)) {
-            this.marioverse$destinationPos = NbtUtils.readBlockPos(tag, WARP_POS).orElse(null);
-            this.marioverse$setDestinationPos(this.marioverse$destinationPos);
+            this.mv$destinationPos = NbtUtils.readBlockPos(tag, WARP_POS).orElse(null);
+            this.mv$setDestinationPos(this.mv$destinationPos);
         }
 
         if (tag.contains(BREAK_PAINTING))
-            this.marioverse$breakPainting = tag.getBoolean(BREAK_PAINTING);
+            this.mv$breakPainting = tag.getBoolean(BREAK_PAINTING);
 
         if (tag.contains(PREVENT_WARP))
-            this.marioverse$preventWarp = tag.getBoolean(PREVENT_WARP);
+            this.mv$preventWarp = tag.getBoolean(PREVENT_WARP);
 
         if (tag.contains(UUID))
-            this.marioverse$UUID = tag.getUUID(UUID);
+            this.mv$UUID = tag.getUUID(UUID);
 
         if (tag.contains(WARP_DIMENSION))
-            this.marioverse$dimensionTag = tag.getString(WARP_DIMENSION);
+            this.mv$dimensionTag = tag.getString(WARP_DIMENSION);
 
         if (tag.contains(WARP_UUID))
-            this.marioverse$warpUUID = tag.getUUID(WARP_UUID);
+            this.mv$warpUUID = tag.getUUID(WARP_UUID);
     }
 
     @Override
-    public boolean marioverse$isWaxed() {
-        return this.marioverse$isWaxed;
+    public boolean mv$isWaxed() {
+        return this.mv$isWaxed;
     }
 
     @Override
-    public void marioverse$setWaxed(boolean isWaxed) {
-        if (this.marioverse$isWaxed != isWaxed) {
-            this.marioverse$isWaxed = isWaxed;
+    public void mv$setWaxed(boolean isWaxed) {
+        if (this.mv$isWaxed != isWaxed) {
+            this.mv$isWaxed = isWaxed;
         }
     }
 
     @Override
-    public boolean marioverse$hasDestinationPos() {
-        return this.marioverse$destinationPos != null;
+    public boolean mv$hasDestinationPos() {
+        return this.mv$destinationPos != null;
     }
 
     @Override
-    public void marioverse$setDestinationPos(@Nullable BlockPos pos) {
-        this.marioverse$destinationPos = pos;
+    public void mv$setDestinationPos(@Nullable BlockPos pos) {
+        this.mv$destinationPos = pos;
     }
 
     @Override
-    public BlockPos marioverse$getDestinationPos() {
-        if (this.marioverse$destinationPos != null) {
-            return this.marioverse$destinationPos;
+    public BlockPos mv$getDestinationPos() {
+        if (this.mv$destinationPos != null) {
+            return this.mv$destinationPos;
         }
         return null;
     }
 
     @Override
-    public ResourceKey<Level> marioverse$getDestinationDim() {
-        if (this.marioverse$dimensionTag != null) {
-            ResourceLocation location = ResourceLocation.tryParse(this.marioverse$dimensionTag);
+    public ResourceKey<Level> mv$getDestinationDim() {
+        if (this.mv$dimensionTag != null) {
+            ResourceLocation location = ResourceLocation.tryParse(this.mv$dimensionTag);
             if (location != null) {
                 return ResourceKey.create(Registries.DIMENSION, location);
             }
@@ -130,48 +130,48 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     }
 
     @Override
-    public void marioverse$setDestinationDim(@Nullable ResourceKey<Level> dimension) {
+    public void mv$setDestinationDim(@Nullable ResourceKey<Level> dimension) {
         if (dimension != null)
-            this.marioverse$dimensionTag = dimension.location().toString();
+            this.mv$dimensionTag = dimension.location().toString();
     }
 
     @Override
-    public boolean marioverse$isBreakPainting() {
-        return this.marioverse$breakPainting;
+    public boolean mv$isBreakPainting() {
+        return this.mv$breakPainting;
     }
 
     @Override
-    public void marioverse$setBreakPainting(boolean breakPainting) {
-        this.marioverse$breakPainting = breakPainting;
+    public void mv$setBreakPainting(boolean breakPainting) {
+        this.mv$breakPainting = breakPainting;
     }
 
     @Override
-    public boolean marioverse$getPreventWarp() {
-        return this.marioverse$preventWarp;
+    public boolean mv$getPreventWarp() {
+        return this.mv$preventWarp;
     }
 
     @Override
-    public void marioverse$setPreventWarp(boolean preventWarp) {
-        this.marioverse$preventWarp = preventWarp;
+    public void mv$setPreventWarp(boolean preventWarp) {
+        this.mv$preventWarp = preventWarp;
     }
 
     @Override
-    public UUID marioverse$getWarpUUID() {
-        return this.marioverse$warpUUID;
+    public UUID mv$getWarpUUID() {
+        return this.mv$warpUUID;
     }
 
     @Override
-    public void marioverse$setWarpUuid(UUID uuid) {
-        this.marioverse$warpUUID = uuid;
+    public void mv$setWarpUuid(UUID uuid) {
+        this.mv$warpUUID = uuid;
     }
 
     @Override
-    public Entity marioverse$getWarpEntity() {
-        return this.marioverse$warpEntity;
+    public Entity mv$getWarpEntity() {
+        return this.mv$warpEntity;
     }
 
     @Override
-    public void marioverse$setWarpEntity(Entity entity) {
-        this.marioverse$warpEntity = entity;
+    public void mv$setWarpEntity(Entity entity) {
+        this.mv$warpEntity = entity;
     }
 }

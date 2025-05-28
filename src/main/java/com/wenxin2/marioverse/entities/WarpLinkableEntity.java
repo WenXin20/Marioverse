@@ -25,35 +25,35 @@ public interface WarpLinkableEntity {
 
     record WarpTarget(BlockPos pos, Direction direction, int width) {};
 
-    boolean marioverse$isWaxed();
+    boolean mv$isWaxed();
 
-    void marioverse$setWaxed(boolean isWaxed);
+    void mv$setWaxed(boolean isWaxed);
 
-    boolean marioverse$hasDestinationPos();
+    boolean mv$hasDestinationPos();
 
-    void marioverse$setDestinationPos(@Nullable BlockPos pos);
+    void mv$setDestinationPos(@Nullable BlockPos pos);
 
-    BlockPos marioverse$getDestinationPos();
+    BlockPos mv$getDestinationPos();
 
-    ResourceKey<Level> marioverse$getDestinationDim();
+    ResourceKey<Level> mv$getDestinationDim();
 
-    void marioverse$setDestinationDim(@Nullable ResourceKey<Level> dimension);
+    void mv$setDestinationDim(@Nullable ResourceKey<Level> dimension);
 
-    boolean marioverse$isBreakPainting();
+    boolean mv$isBreakPainting();
 
-    void marioverse$setBreakPainting(boolean breakPainting);
+    void mv$setBreakPainting(boolean breakPainting);
 
-    boolean marioverse$getPreventWarp();
+    boolean mv$getPreventWarp();
 
-    void marioverse$setPreventWarp(boolean preventWarp);
+    void mv$setPreventWarp(boolean preventWarp);
 
-    UUID marioverse$getWarpUUID();
+    UUID mv$getWarpUUID();
 
-    void marioverse$setWarpUuid(UUID uuid);
+    void mv$setWarpUuid(UUID uuid);
 
-    Entity marioverse$getWarpEntity();
+    Entity mv$getWarpEntity();
 
-    void marioverse$setWarpEntity(Entity entity);
+    void mv$setWarpEntity(Entity entity);
 
     static @Nullable WarpTarget getWarpPos(UUID uuid) {
         return WARP_LOCATIONS.get(uuid);

@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(DecoratedPotPatterns.class)
 public class DecoratedPotPatternsMixin {
-    @Unique private static final ResourceKey<DecoratedPotPattern> MV$BOWSER = marioverse$create("bowser");
-    @Unique private static final ResourceKey<DecoratedPotPattern> MV$PLUMBER = marioverse$create("plumber");
+    @Unique private static final ResourceKey<DecoratedPotPattern> MV$BOWSER = mv$create("bowser");
+    @Unique private static final ResourceKey<DecoratedPotPattern> MV$PLUMBER = mv$create("plumber");
 
 
     @Inject(method = "getPatternFromItem", at = @At("TAIL"), cancellable = true)
@@ -33,17 +33,17 @@ public class DecoratedPotPatternsMixin {
 
     @Inject(method = "bootstrap", at = @At("TAIL"))
     private static void bootstrap(Registry<DecoratedPotPattern> registry, CallbackInfoReturnable<DecoratedPotPattern> cir) {
-        marioverse$register(registry, MV$BOWSER, "bowser_pottery_pattern");
-        marioverse$register(registry, MV$PLUMBER, "plumber_pottery_pattern");
+        mv$register(registry, MV$BOWSER, "bowser_pottery_pattern");
+        mv$register(registry, MV$PLUMBER, "plumber_pottery_pattern");
     }
 
     @Unique
-    private static ResourceKey<DecoratedPotPattern> marioverse$create(String name) {
+    private static ResourceKey<DecoratedPotPattern> mv$create(String name) {
         return ResourceKey.create(Registries.DECORATED_POT_PATTERN, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
     @Unique
-    private static void marioverse$register(Registry<DecoratedPotPattern> registry, ResourceKey<DecoratedPotPattern> pattern, String name) {
+    private static void mv$register(Registry<DecoratedPotPattern> registry, ResourceKey<DecoratedPotPattern> pattern, String name) {
         Registry.register(registry, pattern, new DecoratedPotPattern(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name)));
     }
 }

@@ -38,13 +38,13 @@ public class BlockMixin {
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                 && !entity.isSuppressingBounce() && !entity.isNoGravity()
                 && !(entity instanceof Player)) {
-            marioverse$bounceEntity(entity, entity.level());
+            mv$bounceEntity(entity, entity.level());
             ci.cancel();
         }
     }
 
     @Unique
-    private static void marioverse$bounceEntity(Entity entity, Level world) {
+    private static void mv$bounceEntity(Entity entity, Level world) {
         Vec3 vec3 = entity.getDeltaMovement();
 
         if (vec3.y < 0.0) {

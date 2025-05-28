@@ -28,14 +28,14 @@ public abstract class LivingEntityClientMixin extends Entity {
         if (id == 127) {
             if (this.level().isClientSide) {
                 if (livingEntity instanceof Player player) {
-                    Minecraft.getInstance().gameRenderer.displayItemActivation(marioverse$find1Up(player));
+                    Minecraft.getInstance().gameRenderer.displayItemActivation(mv$find1Up(player));
                 }
             }
         } else super.handleEntityEvent(id);
     }
 
     @Unique
-    private static ItemStack marioverse$find1Up(Player player) {
+    private static ItemStack mv$find1Up(Player player) {
         for (InteractionHand interactionhand : InteractionHand.values()) {
             ItemStack stack = player.getItemInHand(interactionhand);
             if (stack.getItem() instanceof OneUpMushroomItem) {
