@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -70,16 +71,18 @@ public interface WarpLinkableEntity {
     static void warp(Entity entity, double x, double y, double z, Level world) {
         Entity passengerEntity = entity.getControllingPassenger();
 
-        if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            entity.teleportTo(x, y, z);
-            if (ConfigRegistry.BLINDNESS_EFFECT.get())
-                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
-        } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            entity.teleportTo(x, y, z);
-            if (passengerEntity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+        if (entity instanceof EntityWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
+            if (entity instanceof Player player) {
+                entity.teleportTo(x, y, z);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
-                entity.unRide();
+            } else {
+                entity.teleportTo(x, y, z);
+                if (passengerEntity instanceof Player player) {
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                    entity.unRide();
+                }
             }
         }
 

@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -49,6 +50,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Shadow public abstract void setPos(Vec3 vec3);
     @Unique protected float marioverse$appliedHeightScale = 1.0F;
     @Unique protected float marioverse$appliedWidthScale = 1.0F;
+    @Unique private boolean mv$preventWarp;
+    @Unique private int mv$preventWarpCooldown;
 
     @Override
     public boolean marioverse$getBlockWarpTeleportConfig() {
@@ -58,6 +61,18 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public boolean marioverse$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
+    }
+
+    @Inject(method = "save", at = @At("TAIL"))
+    public void save(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
+        tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
+        tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
+    }
+
+    @Inject(method = "load", at = @At("TAIL"))
+    public void load(CompoundTag tag, CallbackInfo ci) {
+        this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
+        this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -82,7 +97,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+            if (!this.mv$doPreventWarp()) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
@@ -91,30 +106,30 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
-                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
+                && !this.mv$doPreventWarp())
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
+                && !this.mv$doPreventWarp())
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
-                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
+                && !this.mv$doPreventWarp())
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
-                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp"))
+                && !this.mv$doPreventWarp())
             this.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+                && !this.mv$doPreventWarp()) {
             this.enterWarp(entity, world);
         }
 
@@ -129,6 +144,26 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             this.marioverse$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
+    }
+
+    @Override
+    public boolean mv$doPreventWarp() {
+        return this.mv$preventWarp;
+    }
+
+    @Override
+    public void mv$setPreventWarp(boolean preventWarp) {
+        this.mv$preventWarp = preventWarp;
+    }
+
+    @Override
+    public int mv$getPreventWarpCooldown() {
+        return this.mv$preventWarpCooldown;
+    }
+
+    @Override
+    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
+        this.mv$preventWarpCooldown = preventWarpCooldown;
     }
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))

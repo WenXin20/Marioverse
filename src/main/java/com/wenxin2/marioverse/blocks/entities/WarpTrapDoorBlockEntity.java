@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -59,20 +60,22 @@ public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
     public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state, TrapDoorBlock trapdoorBlock, BaseWarpBlockEntity warpBE) {
         Entity passengerEntity = entity.getControllingPassenger();
 
-        if (entity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            if (state.getBlock() instanceof TrapDoorBlock)
-                warpBE.playTrapdoorSounds(null, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
-            entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-            if (ConfigRegistry.BLINDNESS_EFFECT.get())
-                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
-        } else if (!entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            if (state.getBlock() instanceof TrapDoorBlock)
-                warpBE.playTrapdoorSounds(entity, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
-            entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-            if (passengerEntity instanceof Player player && !player.getPersistentData().getBoolean("marioverse:prevent_warp")) {
+        if (entity instanceof BlockWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
+            if (entity instanceof Player player) {
+                if (state.getBlock() instanceof TrapDoorBlock)
+                    warpBE.playTrapdoorSounds(null, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
+                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
-                entity.unRide();
+            } else {
+                if (state.getBlock() instanceof TrapDoorBlock)
+                    warpBE.playTrapdoorSounds(entity, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
+                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+                if (passengerEntity instanceof Player player) {
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+                    entity.unRide();
+                }
             }
         }
 

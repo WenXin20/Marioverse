@@ -12,12 +12,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler {
+    @Unique private boolean mv$preventWarp;
+    @Unique private int mv$preventWarpCooldown;
+
     @Override
     public boolean marioverse$getBlockWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
@@ -43,5 +47,25 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
 
             cir.setReturnValue(Optional.of(new ServerPlayer.RespawnPosAngle(spawnPos, angle)));
         }
+    }
+
+    @Override
+    public boolean mv$doPreventWarp() {
+        return this.mv$preventWarp;
+    }
+
+    @Override
+    public void mv$setPreventWarp(boolean preventWarp) {
+        this.mv$preventWarp = preventWarp;
+    }
+
+    @Override
+    public int mv$getPreventWarpCooldown() {
+        return this.mv$preventWarpCooldown;
+    }
+
+    @Override
+    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
+        this.mv$preventWarpCooldown = preventWarpCooldown;
     }
 }

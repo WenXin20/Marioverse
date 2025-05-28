@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
     @Override
     default void enterWarpDoor(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
-        if (entity instanceof Player player && (!this.marioverse$getBlockWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP)
-                || player.getPersistentData().getBoolean("marioverse:prevent_warp"))) {
+        if (entity instanceof Player player && (!this.marioverse$getBlockWarpTeleportConfig()
+                || player.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
             this.displayNoTeleportMessage(player, world.getBlockState(pos));
         } else BlockWarpEntityHandler.super.enterWarpDoor(entity, world, pos, warpPos, warpBE);
     }
@@ -32,8 +32,8 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (entity instanceof Player player && (!this.marioverse$getBlockWarpTeleportConfig() || entity.getType().is(TagRegistry.CANNOT_WARP)
-                || entity.getPersistentData().getBoolean("marioverse:prevent_warp"))) {
+        if (entity instanceof Player player && (!this.marioverse$getBlockWarpTeleportConfig()
+                || entity.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && entity.isShiftKeyDown() && (entityY + entity.getBbHeight() >= blockY - 1)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.displayNoTeleportMessage(player, state);
@@ -67,8 +67,8 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (entity instanceof Player player && (!this.marioverse$getBlockWarpTeleportConfig() || entity.getType().is(TagRegistry.CANNOT_WARP)
-                || entity.getPersistentData().getBoolean("marioverse:prevent_warp"))) {
+        if (entity instanceof Player player && (!this.marioverse$getBlockWarpTeleportConfig()
+                || entity.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
             if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN && (entity.getBlockY() < blockY)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.displayNoTeleportMessage(player, stateAboveEntity);

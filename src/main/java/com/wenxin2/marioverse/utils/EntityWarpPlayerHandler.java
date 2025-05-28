@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
     @Override
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
-        if (entity instanceof Player player && (!this.marioverse$getEntityWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP)
-                || player.getPersistentData().getBoolean("marioverse:prevent_warp"))) {
+        if (entity instanceof Player player && (!this.marioverse$getEntityWarpTeleportConfig()
+                || player.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
             this.displayNoTeleportMessage(player, warpEntity);
         } else EntityWarpEntityHandler.super.enterWarpPainting(entity, world, warpLinkableEntity, warpEntity);
     }

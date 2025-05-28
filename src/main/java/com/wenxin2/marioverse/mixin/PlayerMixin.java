@@ -31,13 +31,12 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     @Override
     public void baseTick() {
         super.baseTick();
-        Player player = (Player) (Object) this;
 
-        int preventWarpCooldown = this.getPersistentData().getInt("marioverse:prevent_warp_cooldown");
+        int preventWarpCooldown = this.mv$getPreventWarpCooldown();
         if (preventWarpCooldown > 0)
-            player.getPersistentData().putInt("marioverse:prevent_warp_cooldown", preventWarpCooldown - 1);
+            this.mv$setPreventWarpCooldown(this.mv$getPreventWarpCooldown() - 1);
 
-        if (preventWarpCooldown == 0 && this.getPersistentData().getBoolean("marioverse:prevent_warp"))
-            player.getPersistentData().putBoolean("marioverse:prevent_warp", false);
+        if (preventWarpCooldown == 0 && this.mv$doPreventWarp())
+            this.mv$setPreventWarp(false);
     }
 }

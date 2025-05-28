@@ -28,6 +28,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
+import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -103,12 +104,21 @@ public class MarioverseEventHandlers {
 
         if (!(entity instanceof LivingEntity)) return;
 
-        if (!tag.contains("marioverse:prevent_warp")
-                && !entity.getType().is(TagRegistry.CANNOT_WARP)
-                && (ConfigRegistry.TELEPORT_MOBS.get()
-                    || ConfigRegistry.TELEPORT_PLAYERS.get())
-                    || ConfigRegistry.TELEPORT_NON_MOBS.get())
-            tag.putBoolean("marioverse:prevent_warp", false);
+//        if (entity instanceof BlockWarpEntityHandler handler) {
+//            if (!handler.mv$doPreventWarp()
+//                    && !entity.getType().is(TagRegistry.CANNOT_WARP)
+//                    && (ConfigRegistry.TELEPORT_MOBS.get()
+//                        || ConfigRegistry.TELEPORT_PLAYERS.get())
+//                        || ConfigRegistry.TELEPORT_NON_MOBS.get())
+//                handler.mv$setPreventWarp(false);
+//        }
+//
+//        if (!tag.contains("marioverse:prevent_warp")
+//                && !entity.getType().is(TagRegistry.CANNOT_WARP)
+//                && (ConfigRegistry.TELEPORT_MOBS.get()
+//                    || ConfigRegistry.TELEPORT_PLAYERS.get())
+//                    || ConfigRegistry.TELEPORT_NON_MOBS.get())
+//            tag.putBoolean("marioverse:prevent_warp", false);
 
         if (!tag.contains("marioverse:has_fire_flower")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)

@@ -87,6 +87,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float marioverse$appliedEyeHeightScale = 1.0F;
     @Unique protected float marioverse$appliedHeightScale = 1.0F;
     @Unique protected float marioverse$appliedWidthScale = 1.0F;
+    @Unique private boolean mv$preventWarp;
+    @Unique private int mv$preventWarpCooldown;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -102,7 +104,41 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         return ConfigRegistry.TELEPORT_MOBS.get();
     }
 
-    @Inject(at = @At("TAIL"), method = "tick")
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
+        tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
+
+//        if (this.getPersistentData().contains("marioverse:has_fire_flower"))
+//            tag.putBoolean("HasFireFlower", this.getPersistentData().getBoolean("marioverse:has_fire_flower"));
+//        if (this.getPersistentData().contains("marioverse:has_ice_flower"))
+//            tag.putBoolean("HasIceFlower", this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
+//        if (this.getPersistentData().contains("marioverse:has_mega_mushroom"))
+//            tag.putBoolean("HasMegaMushroom", this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
+//        if (this.getPersistentData().contains("marioverse:has_mushroom"))
+//            tag.putBoolean("HasMushroom", this.getPersistentData().getBoolean("marioverse:has_mushroom"));
+//        if (this.getPersistentData().contains("marioverse:has_super_star"))
+//            tag.putBoolean("HasSuperStar", this.getPersistentData().getBoolean("marioverse:has_super_star"));
+
+//        if (this.getPersistentData().contains("marioverse:super_star_cooldown"))
+//            tag.putInt("SuperStarCooldown", this.getPersistentData().getInt("marioverse:super_star_cooldown"));
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
+        this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
+
+//        this.getPersistentData().putBoolean("marioverse:has_fire_flower", tag.getBoolean("HasFireFlower"));
+//        this.getPersistentData().putBoolean("marioverse:has_ice_flower", tag.getBoolean("HasIceFlower"));
+//        this.getPersistentData().putBoolean("marioverse:has_mega_mushroom", tag.getBoolean("HasMegaMushroom"));
+//        this.getPersistentData().putBoolean("marioverse:has_mushroom", tag.getBoolean("HasMushroom"));
+//        this.getPersistentData().putBoolean("marioverse:has_super_star", tag.getBoolean("HasSuperStar"));
+
+//        this.getPersistentData().putInt("marioverse:super_star_cooldown", tag.getInt("SuperStarCooldown"));
+    }
+
+    @Inject( method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
@@ -231,6 +267,26 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 //            ScaleTypes.REACH.getScaleData(this).setTargetScale(5.0F);
 //            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
 //        }
+    }
+
+    @Override
+    public boolean mv$doPreventWarp() {
+        return this.mv$preventWarp;
+    }
+
+    @Override
+    public void mv$setPreventWarp(boolean preventWarp) {
+        this.mv$preventWarp = preventWarp;
+    }
+
+    @Override
+    public int mv$getPreventWarpCooldown() {
+        return this.mv$preventWarpCooldown;
+    }
+
+    @Override
+    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
+        this.mv$preventWarpCooldown = preventWarpCooldown;
     }
 
     @Unique

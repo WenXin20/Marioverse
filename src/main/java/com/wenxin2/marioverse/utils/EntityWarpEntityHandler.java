@@ -26,6 +26,12 @@ public interface EntityWarpEntityHandler {
         entity.getPersistentData().putInt("marioverse:warp_cooldown", cooldown);
     }
 
+    boolean mv$doPreventWarp();
+    void mv$setPreventWarp(boolean preventWarp);
+
+    int mv$getPreventWarpCooldown();
+    void mv$setPreventWarpCooldown(int preventWarpCooldown);
+
     default void enterWarp(Entity entity, Level world) {
         List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
         for (Painting painting : nearbyPaintings) {
@@ -42,13 +48,15 @@ public interface EntityWarpEntityHandler {
     }
 
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
-        if (this.marioverse$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)
-                && !entity.getPersistentData().getBoolean("marioverse:prevent_warp")) {
-            if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
-                this.warp(entity, world, warpLinkableEntity);
-                setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
-            } else if (entity instanceof Player player && warpLinkableEntity.marioverse$hasDestinationPos())
-                this.displayCooldownMessage(player, warpEntity);
+
+        if (!this.mv$doPreventWarp()) {
+            if (this.marioverse$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+                if (getWarpCooldown(entity) == 0 && !entity.isShiftKeyDown()) {
+                    this.warp(entity, world, warpLinkableEntity);
+                    setWarpCooldown(entity, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+                } else if (entity instanceof Player player && warpLinkableEntity.marioverse$hasDestinationPos())
+                    this.displayCooldownMessage(player, warpEntity);
+            }
         }
     }
 
