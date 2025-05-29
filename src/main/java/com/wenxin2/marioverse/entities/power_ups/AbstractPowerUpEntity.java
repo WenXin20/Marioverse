@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -54,10 +55,6 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
     protected abstract void setHasPowerUp(LivingEntity entity, boolean hasPowerUp);
 
-    protected abstract String getPowerUpTag();
-
-    protected abstract List<String> disablePowerUpTags();
-
     protected abstract TagKey<Item> getPowerUpCostumeTag();
 
     protected abstract List<ItemStack> getHatItems();
@@ -80,11 +77,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
 
         entity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-        entity.getPersistentData().putBoolean(getPowerUpTag(), Boolean.TRUE);
-        this.setHasPowerUp(entity, true);
 
-        for (String tag : disablePowerUpTags())
-            entity.getPersistentData().putBoolean(tag, Boolean.FALSE);
+        if (entity instanceof PowerUpHandler handler) {
+            handler.mv$clearAllPowerUps();
+            this.setHasPowerUp(entity, true);
+        }
 
         this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         this.remove(RemovalReason.KILLED);
@@ -219,7 +216,6 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             if (item.is(this.getPowerUpCostumeTag()))
                 newStack = item.copy();
         }
-        entity.level().playSound(entity, entity.blockPosition(), SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         return newStack;
     }
 
@@ -240,7 +236,6 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
             newStack.applyComponents(currentStack.getComponents());
             entity.setItemSlot(slot, newStack);
-            entity.level().playSound(entity, entity.blockPosition(), SoundEvents.ARMOR_EQUIP_LEATHER.value(), SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +29,7 @@ public class IceBallShootPacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                if (player.getPersistentData().getBoolean("marioverse:has_ice_flower"))
+                if (player instanceof PowerUpHandler handler && handler.mv$hasIceFlower())
                     this.handleIceballShooting(player);
             });
         }

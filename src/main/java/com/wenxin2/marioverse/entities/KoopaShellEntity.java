@@ -603,11 +603,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         entity.setHealth(this.getHealth());
         entity.setNoAi(this.isNoAi());
 
-        if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler)
+        if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler) {
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+            entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+        }
 
-        entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
-                this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
         entity.getPersistentData().putBoolean("marioverse:has_mushroom",
                 this.getPersistentData().getBoolean("marioverse:has_mushroom"));
         entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",

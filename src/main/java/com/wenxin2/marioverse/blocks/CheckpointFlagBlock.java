@@ -1068,11 +1068,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static void applyIceFlowerPowerUp(Level world, Entity entityHitBlock) {
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)) {
+                && player.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                && player instanceof PowerUpHandler handler) {
             AccessoriesCapability capability = AccessoriesCapability.get(player);
 
             if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                if (player.getPersistentData().getBoolean("marioverse:has_ice_flower"))
+                if (handler.mv$hasIceFlower())
                     world.broadcastEntityEvent(player, (byte) 20); // Poof particle
                 else if (world instanceof ServerLevel serverWorld)
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, player, 10);
@@ -1081,7 +1082,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             if (player.getHealth() < player.getMaxHealth())
                 player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
             player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-            player.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
+            handler.mv$setIceFlower(true);
             world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
 

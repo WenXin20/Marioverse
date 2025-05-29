@@ -258,7 +258,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                     if (randomInt == 0)
                         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
                     else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    this.getPersistentData().putBoolean("marioverse:has_ice_flower", Boolean.TRUE);
+                    handler.mv$setIceFlower(true);
                 } else {
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
                 }
@@ -511,11 +511,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             }
 
             if (savePowerUp) {
-                if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler)
+                if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler) {
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+                    entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                }
 
-                entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
-                        this.getPersistentData().getBoolean("marioverse:has_ice_flower"));
                 entity.getPersistentData().putBoolean("marioverse:has_mushroom",
                         this.getPersistentData().getBoolean("marioverse:has_mushroom"));
                 entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",

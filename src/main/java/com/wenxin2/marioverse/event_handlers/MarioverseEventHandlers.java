@@ -120,11 +120,6 @@ public class MarioverseEventHandlers {
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:fireball_count", 0);
 
-        if (!tag.contains("marioverse:has_ice_flower")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
-            tag.putBoolean("marioverse:has_ice_flower", false);
-
         if (!tag.contains("marioverse:ice_ball_ready")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
@@ -207,8 +202,7 @@ public class MarioverseEventHandlers {
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
             if (world instanceof ServerLevel serverWorld) {
-                if (handler.mv$hasFireFlower()
-                        || tag.getBoolean("marioverse:has_ice_flower"))
+                if (handler.mv$hasFireFlower() || handler.mv$hasIceFlower())
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
             }
 
@@ -218,8 +212,8 @@ public class MarioverseEventHandlers {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            if (tag.getBoolean("marioverse:has_ice_flower")) {
-                tag.putBoolean("marioverse:has_ice_flower", false);
+            if (handler.mv$hasIceFlower()) {
+                handler.mv$setIceFlower(false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
@@ -252,8 +246,7 @@ public class MarioverseEventHandlers {
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
 
             if (world instanceof ServerLevel serverWorld) {
-                if (handler.mv$hasFireFlower()
-                        || tag.getBoolean("marioverse:has_ice_flower"))
+                if (handler.mv$hasFireFlower() || handler.mv$hasIceFlower())
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, entity, 10);
             }
 
@@ -264,9 +257,8 @@ public class MarioverseEventHandlers {
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
-            if (tag.getBoolean("marioverse:has_ice_flower")
-                    && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                tag.putBoolean("marioverse:has_ice_flower", false);
+            if (handler.mv$hasIceFlower() && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                handler.mv$setIceFlower(false);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }

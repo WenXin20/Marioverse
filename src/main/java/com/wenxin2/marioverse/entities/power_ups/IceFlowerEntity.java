@@ -81,16 +81,6 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     }
 
     @Override
-    protected String getPowerUpTag() {
-        return "marioverse:has_ice_flower";
-    }
-
-    @Override
-    protected List<String> disablePowerUpTags() {
-        return List.of("marioverse:has_fire_flower");
-    }
-
-    @Override
     protected TagKey<Item> getPowerUpCostumeTag() {
         return TagRegistry.ICE_COSTUMES;
     }

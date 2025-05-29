@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, PowerUpHandler {
     @Unique private boolean mv$hasFireFlower;
+    @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
@@ -53,6 +54,12 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
+    public void mv$clearAllPowerUps() {
+        mv$setFireFlower(false);
+        mv$setIceFlower(false);
+    }
+
+    @Override
     public boolean mv$hasFireFlower() {
         return this.mv$hasFireFlower;
     }
@@ -60,6 +67,16 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setFireFlower(boolean hasFireFlower) {
         this.mv$hasFireFlower = hasFireFlower;
+    }
+
+    @Override
+    public boolean mv$hasIceFlower() {
+        return this.mv$hasIceFlower;
+    }
+
+    @Override
+    public void mv$setIceFlower(boolean hasIceFlower) {
+        this.mv$hasIceFlower = hasIceFlower;
     }
 
     @Override
