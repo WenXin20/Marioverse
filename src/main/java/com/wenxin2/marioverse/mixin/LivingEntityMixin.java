@@ -90,6 +90,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$hasFireFlower;
     @Unique private boolean mv$hasIceFlower;
+    @Unique private boolean mv$hasMushroom;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
@@ -112,14 +113,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
+        tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
         tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom"))
 //            tag.putBoolean("HasMegaMushroom", this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
-//        if (this.getPersistentData().contains("marioverse:has_mushroom"))
-//            tag.putBoolean("HasMushroom", this.getPersistentData().getBoolean("marioverse:has_mushroom"));
 //        if (this.getPersistentData().contains("marioverse:has_super_star"))
 //            tag.putBoolean("HasSuperStar", this.getPersistentData().getBoolean("marioverse:has_super_star"));
 
@@ -131,12 +131,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
+        this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
         this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
 
 //        this.getPersistentData().putBoolean("marioverse:has_mega_mushroom", tag.getBoolean("HasMegaMushroom"));
-//        this.getPersistentData().putBoolean("marioverse:has_mushroom", tag.getBoolean("HasMushroom"));
 //        this.getPersistentData().putBoolean("marioverse:has_super_star", tag.getBoolean("HasSuperStar"));
 
 //        this.getPersistentData().putInt("marioverse:super_star_cooldown", tag.getInt("SuperStarCooldown"));
@@ -909,11 +909,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique
     public void mv$entityScale(LivingEntity entity) {
         Level world = entity.level();
-        CompoundTag tag = entity.getPersistentData();
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMushroom = tag.getBoolean("marioverse:has_mushroom");
+        boolean hasMushroom = this.mv$hasMushroom();
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
@@ -1039,7 +1038,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         mv$hitEntityAbove(pos, world, entity);
 
-        if (entity.getPersistentData().getBoolean("marioverse:has_mushroom")) {
+        if (entity instanceof PowerUpHandler handler && handler.mv$hasMushroom()) {
             if (state.getBlock() instanceof SlabBlock) {
                 if (state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE) {
                     world.setBlock(pos, state.setValue(SlabBlock.TYPE, SlabType.TOP), 3);

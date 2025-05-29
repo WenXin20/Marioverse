@@ -514,10 +514,9 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler) {
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
                     entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                    handler.mv$setMushroom(handler.mv$hasMushroom());
                 }
 
-                entity.getPersistentData().putBoolean("marioverse:has_mushroom",
-                        this.getPersistentData().getBoolean("marioverse:has_mushroom"));
                 entity.getPersistentData().putBoolean("marioverse:has_mega_mushroom",
                         this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
                 entity.getPersistentData().putBoolean("marioverse:has_super_star",

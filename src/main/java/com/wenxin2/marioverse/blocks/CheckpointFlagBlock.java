@@ -984,9 +984,10 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static void applyMushroomPowerUp(Level world, Entity entityHitBlock) {
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+                && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                && player instanceof PowerUpHandler handler) {
             if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                handler.mv$setMushroom(true);
                 world.broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
             }
             
@@ -1042,7 +1043,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
             if (player.getHealth() < player.getMaxHealth())
                 player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-            player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+            handler.mv$setMushroom(true);
             handler.mv$setFireFlower(true);
             world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -1081,7 +1082,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
             if (player.getHealth() < player.getMaxHealth())
                 player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-            player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+            handler.mv$setMushroom(true);
             handler.mv$setIceFlower(true);
             world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);

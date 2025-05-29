@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
@@ -87,9 +88,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                    && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+                    && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                    && player instanceof PowerUpHandler handler) {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                    player.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                    handler.mv$setMushroom(true);
                     if (entity.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
                 }
@@ -103,14 +105,15 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     }
                 }
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                    && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+                    && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                    && entity instanceof PowerUpHandler handler) {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
-                        livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                        handler.mv$setMushroom(true);
                         if (this.level() instanceof ServerLevel serverWorld)
                             ServerParticleUtils.spawnAnimParticles(ParticleTypes.POOF, serverWorld, entity);
                     } else {
-                        livingEntity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
+                        handler.mv$setMushroom(true);
                         if (entity.level() instanceof ServerLevel serverWorld)
                             ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
                     }

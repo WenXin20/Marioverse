@@ -76,10 +76,9 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
         if (entity.getHealth() < entity.getMaxHealth())
             entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
 
-        entity.getPersistentData().putBoolean("marioverse:has_mushroom", Boolean.TRUE);
-
         if (entity instanceof PowerUpHandler handler) {
             handler.mv$clearAllPowerUps();
+            handler.mv$setMushroom(true);
             this.setHasPowerUp(entity, true);
         }
 

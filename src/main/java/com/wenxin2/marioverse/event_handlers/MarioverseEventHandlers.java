@@ -135,9 +135,6 @@ public class MarioverseEventHandlers {
                     || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:ice_ball_count", 0);
 
-        if (!tag.contains("marioverse:has_mushroom"))
-            tag.putBoolean("marioverse:has_mushroom", true);
-
         if (!tag.contains("marioverse:has_mega_mushroom"))
             tag.putBoolean("marioverse:has_mega_mushroom", false);
 
@@ -224,7 +221,7 @@ public class MarioverseEventHandlers {
             }
 
             if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                tag.putBoolean("marioverse:has_mushroom", false);
+                handler.mv$setMushroom(false);
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
@@ -269,7 +266,7 @@ public class MarioverseEventHandlers {
             }
 
             if (healthAfterDamage <= threshold)
-                tag.putBoolean("marioverse:has_mushroom", false);
+                handler.mv$setMushroom(false);
 
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
@@ -387,14 +384,15 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntityHeal(LivingHealEvent event) {
         Entity entity = event.getEntity();
-        CompoundTag tag = entity.getPersistentData();
 
-        if (entity instanceof Player player) {
-            if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                tag.putBoolean("marioverse:has_mushroom", true);
-        } else if (entity instanceof LivingEntity livingEntity) {
-            if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                tag.putBoolean("marioverse:has_mushroom", true);
+        if (entity instanceof PowerUpHandler handler) {
+            if (entity instanceof Player player) {
+                if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+                    handler.mv$setMushroom(true);
+            } else if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
+                    handler.mv$setMushroom(true);
+            }
         }
     }
 
@@ -581,8 +579,9 @@ public class MarioverseEventHandlers {
                     if (ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
                         player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
                         player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
-                        if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                            player.getPersistentData().putBoolean("marioverse:has_mushroom", false);
+                        if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
+                                && player instanceof PowerUpHandler handler)
+                            handler.mv$setMushroom(false);
                     }
 
                     if (world instanceof ServerLevel serverWorld)

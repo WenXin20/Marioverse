@@ -3,6 +3,9 @@ package com.wenxin2.marioverse.utils;
 public interface PowerUpHandler {
     void mv$clearAllPowerUps();
 
+    boolean mv$hasMushroom();
+    void mv$setMushroom(boolean hasMushroom);
+
     boolean mv$hasFireFlower();
     void mv$setFireFlower(boolean hasFireFlower);
 
