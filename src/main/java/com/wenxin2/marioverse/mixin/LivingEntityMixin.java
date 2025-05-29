@@ -280,6 +280,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
+    public boolean mv$hasMushroom() {
+        return this.mv$hasMushroom;
+    }
+
+    @Override
+    public void mv$setMushroom(boolean hasMushroom) {
+        this.mv$hasMushroom = hasMushroom;
+    }
+
+    @Override
     public boolean mv$hasFireFlower() {
         return this.mv$hasFireFlower;
     }
