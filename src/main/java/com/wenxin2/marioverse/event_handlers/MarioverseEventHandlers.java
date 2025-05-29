@@ -105,6 +105,16 @@ public class MarioverseEventHandlers {
 
         if (!(entity instanceof LivingEntity)) return;
 
+        if (entity instanceof PowerUpHandler handler) {
+            if (entity instanceof Player player) {
+                if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+                    handler.mv$setMushroom(true);
+            } else if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
+                    handler.mv$setMushroom(true);
+            }
+        }
+
         if (!tag.contains("marioverse:fireball_ready")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
@@ -185,6 +195,21 @@ public class MarioverseEventHandlers {
 
             for (Entity rider : entity.getPassengers())
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityHeal(LivingHealEvent event) {
+        Entity entity = event.getEntity();
+
+        if (entity instanceof PowerUpHandler handler) {
+            if (entity instanceof Player player) {
+                if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+                    handler.mv$setMushroom(true);
+            } else if (entity instanceof LivingEntity livingEntity) {
+                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
+                    handler.mv$setMushroom(true);
+            }
         }
     }
 
@@ -378,21 +403,6 @@ public class MarioverseEventHandlers {
                 containerShoes.getAccessories().setItem(0, shoesItem);
 
             shoesItem.applyComponents(stack.getComponents());
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityHeal(LivingHealEvent event) {
-        Entity entity = event.getEntity();
-
-        if (entity instanceof PowerUpHandler handler) {
-            if (entity instanceof Player player) {
-                if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                    handler.mv$setMushroom(true);
-            } else if (entity instanceof LivingEntity livingEntity) {
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                    handler.mv$setMushroom(true);
-            }
         }
     }
 
