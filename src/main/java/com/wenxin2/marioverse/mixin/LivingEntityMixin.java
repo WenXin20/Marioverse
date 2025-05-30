@@ -97,6 +97,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasMushroom;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
+    @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
     @Unique private int mv$warpCooldown;
@@ -124,6 +125,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
 
+        tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
         tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
         tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
@@ -138,6 +140,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
 
+        this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
         this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
@@ -164,7 +167,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
         int iceCubeCooldown = entity.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown");
         int consecutiveBounces = entity.getPersistentData().getInt("marioverse:consecutive_bounces");
-        int oneUpsRewarded = entity.getPersistentData().getInt("marioverse:one_ups_rewarded");
 
         this.mv$characterAbilities(entity);
         this.mv$entityScale(entity);
@@ -179,10 +181,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.onGround() || entity.isInWaterOrBubble())
-                && (consecutiveBounces > 0 || oneUpsRewarded > 0)
+                && (consecutiveBounces > 0 || this.mv$getOneUpsRewarded() > 0)
                 && !this.mv$hasSuperStar()) {
             entity.getPersistentData().putInt("marioverse:consecutive_bounces", 0);
-            entity.getPersistentData().putInt("marioverse:one_ups_rewarded", 0);
+            this.mv$setOneUpsRewarded(0);
         }
 
         if (entity.onGround() && entity.getDeltaMovement().y <= 0
@@ -336,6 +338,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setSuperStarCooldown(int superStarCooldown) {
         this.mv$superStarCooldown = superStarCooldown;
+    }
+
+    @Override
+    public int mv$getOneUpsRewarded() {
+        return this.mv$oneUpsRewarded;
+    }
+
+    @Override
+    public void mv$setOneUpsRewarded(int oneUpsRewarded) {
+        this.mv$oneUpsRewarded = oneUpsRewarded;
     }
 
     @Override
@@ -1240,7 +1252,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique
     public void mv$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
         int consecutiveBounces = attackingEntity.getPersistentData().getInt("marioverse:consecutive_bounces");
-        int oneUpsRewarded = attackingEntity.getPersistentData().getInt("marioverse:one_ups_rewarded");
+        int oneUpsRewarded = this.mv$getOneUpsRewarded();
         attackingEntity.getPersistentData().putInt("marioverse:consecutive_bounces", consecutiveBounces + 1);
 
         if (consecutiveBounces == 0) {
@@ -1293,7 +1305,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
         }
         else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
-            attackingEntity.getPersistentData().putInt("marioverse:one_ups_rewarded", oneUpsRewarded + 1);
+            this.mv$setOneUpsRewarded(oneUpsRewarded + 1);
             this.mv$bounceReward(attackingEntity);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)

@@ -18,6 +18,9 @@ public interface PowerUpHandler {
     boolean mv$hasSuperStar();
     void mv$setSuperStar(boolean hasSuperStar);
 
+    int mv$getOneUpsRewarded();
+    void mv$setOneUpsRewarded(int oneUpsRewarded);
+
     int mv$getSuperStarCooldown();
     void mv$setSuperStarCooldown(int superStarCooldown);
 }

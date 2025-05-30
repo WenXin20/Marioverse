@@ -166,8 +166,9 @@ public class SquashEntityPacket {
                     ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
             } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
         }
-        else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
-            attackingPlayer.getPersistentData().putInt("marioverse:one_ups_rewarded", oneUpsRewarded + 1);
+        else if (consecutiveBounces >= 7 && attackingPlayer instanceof PowerUpHandler handler
+                && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > handler.mv$getOneUpsRewarded()) {
+            handler.mv$setOneUpsRewarded(handler.mv$getOneUpsRewarded() + 1);
             this.bounceReward(attackingPlayer);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
