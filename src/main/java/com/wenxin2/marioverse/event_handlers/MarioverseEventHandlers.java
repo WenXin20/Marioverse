@@ -148,11 +148,6 @@ public class MarioverseEventHandlers {
         if (!tag.contains("marioverse:has_mega_mushroom"))
             tag.putBoolean("marioverse:has_mega_mushroom", false);
 
-        if (!tag.contains("marioverse:has_super_star")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
-                || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
-            tag.putBoolean("marioverse:has_super_star", false);
-
         if (!tag.contains("marioverse:claimed_checkpoint_flag_cooldown")
                 && (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)))
             tag.putInt("marioverse:claimed_checkpoint_flag_cooldown", 0);
@@ -240,7 +235,7 @@ public class MarioverseEventHandlers {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            if (player.getPersistentData().getBoolean("marioverse:has_super_star")) {
+            if (handler.mv$hasSuperStar()) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
@@ -285,7 +280,7 @@ public class MarioverseEventHandlers {
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
-            if (entity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+            if (handler.mv$hasSuperStar()) {
                 if (!source.is(DamageTypeTags.BYPASSES_RESISTANCE) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }

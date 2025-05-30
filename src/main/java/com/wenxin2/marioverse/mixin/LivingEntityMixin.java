@@ -75,6 +75,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -83,6 +84,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, PowerUpHandler {
+    @Shadow public abstract void setSpeed(float p_21320_);
+
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique private boolean mv$playedDamagedSound;
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
@@ -91,6 +94,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasFireFlower;
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMushroom;
+    @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
@@ -114,14 +118,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
         tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
+        tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
         tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
 
 //        if (this.getPersistentData().contains("marioverse:has_mega_mushroom"))
 //            tag.putBoolean("HasMegaMushroom", this.getPersistentData().getBoolean("marioverse:has_mega_mushroom"));
-//        if (this.getPersistentData().contains("marioverse:has_super_star"))
-//            tag.putBoolean("HasSuperStar", this.getPersistentData().getBoolean("marioverse:has_super_star"));
 
 //        if (this.getPersistentData().contains("marioverse:super_star_cooldown"))
 //            tag.putInt("SuperStarCooldown", this.getPersistentData().getInt("marioverse:super_star_cooldown"));
@@ -132,12 +135,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
+        this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
         this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
 
 //        this.getPersistentData().putBoolean("marioverse:has_mega_mushroom", tag.getBoolean("HasMegaMushroom"));
-//        this.getPersistentData().putBoolean("marioverse:has_super_star", tag.getBoolean("HasSuperStar"));
 
 //        this.getPersistentData().putInt("marioverse:super_star_cooldown", tag.getInt("SuperStarCooldown"));
     }
@@ -165,7 +168,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         int superStarCooldown = entity.getPersistentData().getInt("marioverse:super_star_cooldown");
         int consecutiveBounces = entity.getPersistentData().getInt("marioverse:consecutive_bounces");
         int oneUpsRewarded = entity.getPersistentData().getInt("marioverse:one_ups_rewarded");
-        boolean hasSuperStar = entity.getPersistentData().getBoolean("marioverse:has_super_star");
 
         this.mv$characterAbilities(entity);
         this.mv$entityScale(entity);
@@ -181,7 +183,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.onGround() || entity.isInWaterOrBubble())
                 && (consecutiveBounces > 0 || oneUpsRewarded > 0)
-                && !hasSuperStar) {
+                && !this.mv$hasSuperStar()) {
             entity.getPersistentData().putInt("marioverse:consecutive_bounces", 0);
             entity.getPersistentData().putInt("marioverse:one_ups_rewarded", 0);
         }
@@ -234,15 +236,15 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (superStarCooldown > 0)
             entity.getPersistentData().putInt("marioverse:super_star_cooldown", superStarCooldown - 1);
 
-        if (superStarCooldown == 0 && hasSuperStar)
-            entity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.FALSE);
+        if (superStarCooldown == 0 && this.mv$hasSuperStar())
+            this.mv$setSuperStar(false);
 
-        if (hasSuperStar) {
+        if (this.mv$hasSuperStar()) {
             this.mv$superStarKillEntity(entity);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
             this.mv$playSuperStarTheme();
-        } else if (!hasSuperStar && this.mv$playedStarTheme)
+        } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
             this.mv$playedStarTheme = false;
 
         float f5 = this.mv$getEyeHeightScale();
@@ -307,6 +309,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setIceFlower(boolean hasIceFlower) {
         this.mv$hasIceFlower = hasIceFlower;
+    }
+
+    @Override
+    public boolean mv$hasSuperStar() {
+        return this.mv$hasSuperStar;
+    }
+
+    @Override
+    public void mv$setSuperStar(boolean hasSuperStar) {
+        this.mv$hasSuperStar = hasSuperStar;
     }
 
     @Override
@@ -1105,10 +1117,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (!nearbyEntities.isEmpty()) {
             for (Entity collidedEntity : nearbyEntities) {
                 if (collidedEntity instanceof LivingEntity entity) {
-                    if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)
-                            && !collidedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
-
-                        if (entity instanceof Player player && (player.isCreative() || player.isSpectator()))
+                    if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)) {
+                        if (entity instanceof Player player && player.isCreative() || entity.isSpectator())
+                            return;
+                        if (collidedEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
                             return;
 
                         Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
@@ -1147,14 +1159,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             for (Entity entity : nearbyEntities) {
                 if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
                         && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
-                        && !stompingEntity.getPersistentData().getBoolean("marioverse:has_super_star")
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
-                        || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                        || ConfigRegistry.STOMP_ALL_MOBS.get())
-                        && !damagedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                            || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
+                            || ConfigRegistry.STOMP_ALL_MOBS.get())) {
 
                     if (stompingEntity instanceof Player player && player.getAbilities().flying)
+                        return;
+
+                    if (stompingEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                        return;
+
+                    if (damagedEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
                         return;
 
                     // Check if the colliding entity is above the current entity and falling

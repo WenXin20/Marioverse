@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -86,10 +87,11 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
             if (entity instanceof Player player && !player.isSpectator()
                     && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                    && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
+                    && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                    && entity instanceof PowerUpHandler handler) {
 
+                handler.mv$hasSuperStar();
                 this.level().broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
-                player.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.TRUE);
                 player.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
                 player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
@@ -101,10 +103,11 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                     && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
                         || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
-                    && !(livingEntity instanceof Player)) {
+                    && !(livingEntity instanceof Player)
+                    && entity instanceof PowerUpHandler handler) {
 
+                handler.mv$hasSuperStar();
                 this.level().broadcastEntityEvent(livingEntity, (byte) 119); // Super Star Powered Up particle
-                livingEntity.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.TRUE);
                 livingEntity.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 

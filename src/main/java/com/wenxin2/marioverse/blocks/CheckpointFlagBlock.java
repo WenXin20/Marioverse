@@ -1108,16 +1108,16 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static void applySuperStarPowerUp(Level world, Entity entityHitBlock) {
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)) {
+                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                && player instanceof PowerUpHandler handler) {
 
             world.broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
-            player.getPersistentData().putBoolean("marioverse:has_super_star", Boolean.TRUE);
+            handler.mv$setSuperStar(true);
             player.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
             world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
                     SoundSource.PLAYERS, 1.0F, 1.0F);
-
         }
     }
 

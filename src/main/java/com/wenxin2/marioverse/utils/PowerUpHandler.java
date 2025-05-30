@@ -11,4 +11,7 @@ public interface PowerUpHandler {
 
     boolean mv$hasIceFlower();
     void mv$setIceFlower(boolean hasIceFlower);
+
+    boolean mv$hasSuperStar();
+    void mv$setSuperStar(boolean hasSuperStar);
 }

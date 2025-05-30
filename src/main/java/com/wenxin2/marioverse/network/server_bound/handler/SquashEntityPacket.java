@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.List;
@@ -54,14 +55,18 @@ public class SquashEntityPacket {
             for (Entity entity : nearbyEntities) {
                 if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
                         && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
-                        && !stompingPlayer.getPersistentData().getBoolean("marioverse:has_super_star")
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                         || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                        || ConfigRegistry.STOMP_ALL_MOBS.get())
-                        && !damagedEntity.getPersistentData().getBoolean("marioverse:has_super_star")) {
+                        || ConfigRegistry.STOMP_ALL_MOBS.get())) {
 
                     if (stompingPlayer instanceof Player player && player.getAbilities().flying)
+                        return;
+
+                    if (stompingPlayer instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                        return;
+
+                    if (damagedEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
                         return;
 
                     if (stompingPlayer.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
