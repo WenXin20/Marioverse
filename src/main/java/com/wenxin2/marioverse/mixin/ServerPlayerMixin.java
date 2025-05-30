@@ -26,6 +26,7 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$hasMushroom;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
+    @Unique private int mv$consecutiveBounces;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -122,6 +123,16 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setSuperStarCooldown(int superStarCooldown) {
         this.mv$superStarCooldown = superStarCooldown;
+    }
+
+    @Override
+    public int mv$getConsecutiveBounces() {
+        return this.mv$consecutiveBounces;
+    }
+
+    @Override
+    public void mv$setConsecutiveBounces(int consecutiveBounces) {
+        this.mv$consecutiveBounces = consecutiveBounces;
     }
 
     @Override

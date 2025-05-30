@@ -97,6 +97,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasMushroom;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
+    @Unique private int mv$consecutiveBounces;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -125,6 +126,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
 
+        tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
         tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
         tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
@@ -140,6 +142,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
 
+        this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
         this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
@@ -166,7 +169,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
         int iceCubeCooldown = entity.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown");
-        int consecutiveBounces = entity.getPersistentData().getInt("marioverse:consecutive_bounces");
 
         this.mv$characterAbilities(entity);
         this.mv$entityScale(entity);
@@ -181,9 +183,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.onGround() || entity.isInWaterOrBubble())
-                && (consecutiveBounces > 0 || this.mv$getOneUpsRewarded() > 0)
+                && (this.mv$getConsecutiveBounces() > 0 || this.mv$getOneUpsRewarded() > 0)
                 && !this.mv$hasSuperStar()) {
-            entity.getPersistentData().putInt("marioverse:consecutive_bounces", 0);
+            this.mv$setConsecutiveBounces(0);
             this.mv$setOneUpsRewarded(0);
         }
 
@@ -338,6 +340,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setSuperStarCooldown(int superStarCooldown) {
         this.mv$superStarCooldown = superStarCooldown;
+    }
+
+    @Override
+    public int mv$getConsecutiveBounces() {
+        return this.mv$consecutiveBounces;
+    }
+
+    @Override
+    public void mv$setConsecutiveBounces(int consecutiveBounces) {
+        this.mv$consecutiveBounces = consecutiveBounces;
     }
 
     @Override
@@ -1251,9 +1263,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     public void mv$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
-        int consecutiveBounces = attackingEntity.getPersistentData().getInt("marioverse:consecutive_bounces");
         int oneUpsRewarded = this.mv$getOneUpsRewarded();
-        attackingEntity.getPersistentData().putInt("marioverse:consecutive_bounces", consecutiveBounces + 1);
+        int consecutiveBounces = this.mv$getConsecutiveBounces();
+        this.mv$setConsecutiveBounces(consecutiveBounces + 1);
 
         if (consecutiveBounces == 0) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {

@@ -120,60 +120,63 @@ public class SquashEntityPacket {
 
     @Unique
     public void consecutiveReward(Player attackingPlayer, LivingEntity damagedEntity) {
-        int consecutiveBounces = attackingPlayer.getPersistentData().getInt("marioverse:consecutive_bounces");
-        int oneUpsRewarded = attackingPlayer.getPersistentData().getInt("marioverse:one_ups_rewarded");
-        attackingPlayer.getPersistentData().putInt("marioverse:consecutive_bounces", consecutiveBounces + 1);
 
-        if (consecutiveBounces == 0) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 1) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 2) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 3) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 4) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 5) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 6) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces >= 7 && attackingPlayer instanceof PowerUpHandler handler
-                && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > handler.mv$getOneUpsRewarded()) {
-            handler.mv$setOneUpsRewarded(handler.mv$getOneUpsRewarded() + 1);
-            this.bounceReward(attackingPlayer);
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
-            } else attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
+        if (attackingPlayer instanceof PowerUpHandler handler) {
+            int oneUpsRewarded = handler.mv$getOneUpsRewarded();
+            int consecutiveBounces = handler.mv$getConsecutiveBounces();
+            handler.mv$setConsecutiveBounces(consecutiveBounces + 1);
+
+            if (consecutiveBounces == 0) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
+            } else if (consecutiveBounces == 1) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
+            } else if (consecutiveBounces == 2) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
+            } else if (consecutiveBounces == 3) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
+            } else if (consecutiveBounces == 4) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
+            } else if (consecutiveBounces == 5) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
+            } else if (consecutiveBounces == 6) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
+            } else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
+                handler.mv$setOneUpsRewarded(oneUpsRewarded + 1);
+                this.bounceReward(attackingPlayer);
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
+                } else
+                    attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
+            }
         }
     }
 
