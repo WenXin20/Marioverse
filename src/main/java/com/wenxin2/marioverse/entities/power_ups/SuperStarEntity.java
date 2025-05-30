@@ -90,7 +90,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                     && entity instanceof PowerUpHandler handler) {
 
-                handler.mv$hasSuperStar();
+                handler.mv$setSuperStar(true);
                 this.level().broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
                 player.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
                 player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
@@ -106,7 +106,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && !(livingEntity instanceof Player)
                     && entity instanceof PowerUpHandler handler) {
 
-                handler.mv$hasSuperStar();
+                handler.mv$setSuperStar(true);
                 this.level().broadcastEntityEvent(livingEntity, (byte) 119); // Super Star Powered Up particle
                 livingEntity.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
