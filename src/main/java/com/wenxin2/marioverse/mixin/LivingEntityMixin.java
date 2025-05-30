@@ -98,6 +98,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
+    @Unique private int mv$superStarCooldown;
     @Unique private int mv$warpCooldown;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
@@ -124,10 +125,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
 
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
+        tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
         tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-
-//        if (this.getPersistentData().contains("marioverse:super_star_cooldown"))
-//            tag.putInt("SuperStarCooldown", this.getPersistentData().getInt("marioverse:super_star_cooldown"));
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -140,9 +139,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
 
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
+        this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
         this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-
-//        this.getPersistentData().putInt("marioverse:super_star_cooldown", tag.getInt("SuperStarCooldown"));
     }
 
     @Inject( method = "tick", at = @At("TAIL"))
@@ -165,7 +163,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
         int iceCubeCooldown = entity.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown");
-        int superStarCooldown = entity.getPersistentData().getInt("marioverse:super_star_cooldown");
         int consecutiveBounces = entity.getPersistentData().getInt("marioverse:consecutive_bounces");
         int oneUpsRewarded = entity.getPersistentData().getInt("marioverse:one_ups_rewarded");
 
@@ -233,10 +230,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (iceCubeCooldown > 0)
             entity.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", iceCubeCooldown - 1);
 
-        if (superStarCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:super_star_cooldown", superStarCooldown - 1);
+        if (this.mv$getSuperStarCooldown() > 0)
+            this.mv$setSuperStarCooldown(this.mv$getSuperStarCooldown() - 1);
 
-        if (superStarCooldown == 0 && this.mv$hasSuperStar())
+        if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar())
             this.mv$setSuperStar(false);
 
         if (this.mv$hasSuperStar()) {
@@ -329,6 +326,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setSuperStar(boolean hasSuperStar) {
         this.mv$hasSuperStar = hasSuperStar;
+    }
+
+    @Override
+    public int mv$getSuperStarCooldown() {
+        return this.mv$superStarCooldown;
+    }
+
+    @Override
+    public void mv$setSuperStarCooldown(int superStarCooldown) {
+        this.mv$superStarCooldown = superStarCooldown;
     }
 
     @Override

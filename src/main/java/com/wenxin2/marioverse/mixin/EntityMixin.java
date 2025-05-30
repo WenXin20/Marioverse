@@ -89,10 +89,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
-        int warpCooldown = this.mv$getWarpCooldown();
-
-        if (warpCooldown > 0)
-            this.mv$setWarpCooldown(warpCooldown - 1);
+        if (this.mv$getWarpCooldown() > 0)
+            this.mv$setWarpCooldown(this.mv$getWarpCooldown() - 1);
 
         mv$rideIceCube(entity);
 

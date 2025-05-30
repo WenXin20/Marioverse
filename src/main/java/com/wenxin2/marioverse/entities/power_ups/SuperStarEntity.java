@@ -91,8 +91,8 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && entity instanceof PowerUpHandler handler) {
 
                 handler.mv$setSuperStar(true);
+                handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
                 this.level().broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
-                player.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
                 player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
@@ -107,8 +107,8 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && entity instanceof PowerUpHandler handler) {
 
                 handler.mv$setSuperStar(true);
+                handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
                 this.level().broadcastEntityEvent(livingEntity, (byte) 119); // Super Star Powered Up particle
-                livingEntity.getPersistentData().putInt("marioverse:super_star_cooldown", ConfigRegistry.SUPER_STAR_DURATION.get());
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),

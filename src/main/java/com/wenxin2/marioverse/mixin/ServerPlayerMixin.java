@@ -27,6 +27,7 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$preventWarpCooldown;
+    @Unique private int mv$superStarCooldown;
     @Unique private int mv$warpCooldown;
 
     @Override
@@ -110,6 +111,16 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setSuperStar(boolean hasSuperStar) {
         this.mv$hasSuperStar = hasSuperStar;
+    }
+
+    @Override
+    public int mv$getSuperStarCooldown() {
+        return this.mv$superStarCooldown;
+    }
+
+    @Override
+    public void mv$setSuperStarCooldown(int superStarCooldown) {
+        this.mv$superStarCooldown = superStarCooldown;
     }
 
     @Override

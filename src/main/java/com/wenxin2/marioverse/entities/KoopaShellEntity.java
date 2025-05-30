@@ -609,10 +609,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
             entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
             entityHandler.mv$setSuperStar(handler.mv$hasSuperStar());
+            entityHandler.mv$setSuperStarCooldown(handler.mv$getSuperStarCooldown());
         }
-
-        entity.getPersistentData().putInt("marioverse:super_star_cooldown",
-                this.getPersistentData().getInt("marioverse:super_star_cooldown"));
 
         this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
         this.copyAttributeWithModifiers(entity, Attributes.SCALE);
