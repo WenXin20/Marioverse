@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, PowerUpHandler {
     @Unique private boolean mv$hasFireFlower;
     @Unique private boolean mv$hasIceFlower;
+    @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasMushroom;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
@@ -69,6 +70,16 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setMushroom(boolean hasMushroom) {
         this.mv$hasMushroom = hasMushroom;
+    }
+
+    @Override
+    public boolean mv$hasMegaMushroom() {
+        return this.mv$hasMegaMushroom;
+    }
+
+    @Override
+    public void mv$setMegaMushroom(boolean hasMegaMushroom) {
+        this.mv$hasMegaMushroom = hasMegaMushroom;
     }
 
     @Override

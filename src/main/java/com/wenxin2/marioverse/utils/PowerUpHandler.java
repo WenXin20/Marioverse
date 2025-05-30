@@ -6,6 +6,9 @@ public interface PowerUpHandler {
     boolean mv$hasMushroom();
     void mv$setMushroom(boolean hasMushroom);
 
+    boolean mv$hasMegaMushroom();
+    void mv$setMegaMushroom(boolean hasMushroom);
+
     boolean mv$hasFireFlower();
     void mv$setFireFlower(boolean hasFireFlower);
 
