@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GoombaRideGoal extends Goal {
-    private static final int MAX_STACK_SIZE = 5;
+    private static final int MAX_STACK_SIZE = 5; // TODO: Add config
     private final GoombaEntity goomba;
     private final float chanceToRide;
     private int cooldown;
