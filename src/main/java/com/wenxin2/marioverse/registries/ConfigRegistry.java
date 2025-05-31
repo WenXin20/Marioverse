@@ -37,9 +37,12 @@ public class ConfigRegistry
 
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
+    public static final String CATEGORY_GOOMBAS = "goombas";
+    public static final String CATEGORY_GREEN_KOOPA_SHELL = "red_koopa_shell";
+    public static final String CATEGORY_GREEN_KOOPA_TROOPA = "red_koopa_troopa";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
-    public static final String CATEGORY_KOOPA_SHELL = "koopa_shell";
-    public static final String CATEGORY_KOOPA_TROOPA = "koopa_troopa";
+    public static final String CATEGORY_KOOPA_SHELLS = "koopa_shells";
+    public static final String CATEGORY_KOOPA_TROOPAS = "koopa_troopas";
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
@@ -132,7 +135,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
-    public static ModConfigSpec.DoubleValue KOOPA_SHELL_DAMAGE;
+    public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
@@ -153,8 +156,9 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
-    public static ModConfigSpec.IntValue KOOPA_TROOPA_HIDE_DURATION;
+    public static ModConfigSpec.IntValue GREEN_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_COINS;
+    public static ModConfigSpec.IntValue MAX_GOOMBA_STACK;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
@@ -496,11 +500,7 @@ public class ConfigRegistry
 
             BUILDER.push(CATEGORY_MOBS);
 
-                BUILDER.push(CATEGORY_KOOPA_SHELL);
-                    KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.koopa_shell_damage")
-                            .comment("Amount of damage koopa shells cause.")
-                            .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("koopa_shell_damage", 6.0, 0.0, 16.0);
+                BUILDER.push(CATEGORY_KOOPA_SHELLS);
                     REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
                             .comment("Allow koopa shells to be repaired with items tagged as §6\"repairs_koopa_shells\"§r.")
                             .comment("§9[Default: true]")
@@ -509,79 +509,98 @@ public class ConfigRegistry
                             .comment("Max amount of bounces a shell can make before shattering.")
                             .comment("§6Set to -1 to never break.§b")
                             .defineInRange("max_koopa_shell_bounces", 200, -1, 999);
+
+                    BUILDER.push(CATEGORY_GOLD_KOOPA_SHELL);
+                        GOLD_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.gold_koopa_shell_damage")
+                                .comment("Amount of damage gold koopa shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("gold_koopa_shell_damage", 6.0, 0.0, 16.0);
+                        MAX_GOLD_KOOPA_SHELL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_coins")
+                                .comment("Max amount of coins gold koopa shells can place§b")
+                                .defineInRange("max_gold_koopa_shell_coins", 16, 0, 64);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_GREEN_KOOPA_SHELL);
+                        GREEN_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.green_koopa_shell_damage")
+                                .comment("Amount of damage green koopa shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("green_koopa_shell_damage", 6.0, 0.0, 16.0);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
+                        RED_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.red_koopa_shell_damage")
+                                .comment("Amount of damage red koopa shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("red_koopa_shell_damage", 4.0, 0.0, 16.0);
+                        RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
+                                .comment("Mob detection radius of red koopa shells.§b")
+                                .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
+                        RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_player_detection_radius")
+                                .comment("Player detection radius of red koopa shells.§b")
+                                .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
+                    BUILDER.pop();
+
                 BUILDER.pop();
 
-                BUILDER.push(CATEGORY_KOOPA_TROOPA);
-                    KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.koopa_troopa_hide_duration")
-                            .comment("Duration koopa troopas hide in their shells in ticks.")
-                            .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("koopa_troopa_hide_duration", 140, 0, 999);
+                BUILDER.push(CATEGORY_KOOPA_TROOPAS);
+
+                    BUILDER.push(CATEGORY_GOLD_KOOPA_TROOPA);
+                        GOLD_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.gold_koopa_troopa_hide_duration")
+                                .comment("Duration gold koopa troopas hide in their shells in ticks.")
+                                .comment("§6[20 ticks = 1 second]§b")
+                                .defineInRange("gold_koopa_troopa_hide_duration", 80, 0, 999);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_GREEN_KOOPA_TROOPA);
+                        GREEN_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.green_koopa_troopa_hide_duration")
+                                .comment("Duration green koopa troopas hide in their shells in ticks.")
+                                .comment("§6[20 ticks = 1 second]§b")
+                                .defineInRange("green_koopa_troopa_hide_duration", 140, 0, 999);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_RED_KOOPA_TROOPA);
+                        RED_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.red_koopa_troopa_hide_duration")
+                                .comment("Duration red koopa troopas hide in their shells in ticks.")
+                                .comment("§6[20 ticks = 1 second]§b")
+                                .defineInRange("red_koopa_troopa_hide_duration", 100, 0, 999);
+                    BUILDER.pop();
+
                 BUILDER.pop();
 
-                BUILDER.push(CATEGORY_GOLD_KOOPA_SHELL);
-                    GOLD_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.gold_koopa_shell_damage")
-                            .comment("Amount of damage gold koopa shells cause.")
-                            .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("gold_koopa_shell_damage", 6.0, 0.0, 16.0);
-                    MAX_GOLD_KOOPA_SHELL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_coins")
-                            .comment("Max amount of coins gold koopa shells can place§b")
-                            .defineInRange("max_gold_koopa_shell_coins", 16, 0, 64);
-                BUILDER.pop();
+                BUILDER.push(CATEGORY_GOOMBAS);
+                    MAX_GOOMBA_STACK = BUILDER.translation("configuration.marioverse.max_goomba_stack")
+                            .comment("Max stack size goombas can ride.§b")
+                            .defineInRange("max_goomba_stack", 5, 0, 16);
 
-                BUILDER.push(CATEGORY_GOLD_KOOPA_TROOPA);
-                    GOLD_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.gold_koopa_troopa_hide_duration")
-                            .comment("Duration gold koopa troopas hide in their shells in ticks.")
-                            .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("gold_koopa_troopa_hide_duration", 80, 0, 999);
-                BUILDER.pop();
+                    BUILDER.push(CATEGORY_HEFTY_GOOMBA);
+                        GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
+                                .comment("Base count of goombas to spawn when a hefty goomba splits.§b")
+                                .defineInRange("goomba_split_count", 2, 0, 16);
+                        GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_random_count")
+                                .comment("Random count of goombas to spawn when a hefty goomba splits in addition to \"goomba_split_count\".§b")
+                                .defineInRange("goomba_split_random_count", 1, 0, 16);
+                    BUILDER.pop();
 
-                BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
-                    RED_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.red_koopa_shell_damage")
-                            .comment("Amount of damage red koopa shells cause.")
-                            .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("red_koopa_shell_damage", 4.0, 0.0, 16.0);
-                    RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
-                            .comment("Mob detection radius of red koopa shells.§b")
-                            .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
-                    RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_player_detection_radius")
-                            .comment("Player detection radius of red koopa shells.§b")
-                            .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
-                BUILDER.pop();
+                    BUILDER.push(CATEGORY_MEGA_GOOMBA);
+                        HEFTY_GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_count")
+                                .comment("Base count of hefty goombas to spawn when a mega goomba splits.§b")
+                                .defineInRange("hefty_goomba_split_count", 2, 0, 8);
+                        HEFTY_GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_random_count")
+                                .comment("Random count of hefty goombas to spawn when a mega goomba splits in addition to \"hefty_goomba_split_count\".§b")
+                                .defineInRange("hefty_goomba_split_random_count", 1, 0, 8);
+                    BUILDER.pop();
 
-                BUILDER.push(CATEGORY_RED_KOOPA_TROOPA);
-                    RED_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.red_koopa_troopa_hide_duration")
-                            .comment("Duration red koopa troopas hide in their shells in ticks.")
-                            .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("red_koopa_troopa_hide_duration", 100, 0, 999);
-                BUILDER.pop();
+                    BUILDER.push(CATEGORY_MINI_GOOMBA);
+                        MINI_GOOMBAS_ATTACH_ALL_MOBS = BUILDER.translation("configuration.marioverse.mini_goombas_attach_all_mobs")
+                                .comment("Allow mini goombas to attach to all mobs.")
+                                .comment("§9[Default: false]")
+                                .define("mini_goombas_attach_all_mobs", false);
+                        MINI_GOOMBAS_PUSH = BUILDER.translation("configuration.marioverse.mini_goombas_push")
+                                .comment("Allow mini goombas to push the mobs it is attached to.")
+                                .comment("§9[Default: false]")
+                                .define("mini_goombas_push", false);
+                    BUILDER.pop();
 
-                BUILDER.push(CATEGORY_HEFTY_GOOMBA);
-                    GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
-                            .comment("Base count of goombas to spawn when a hefty goomba splits.§b")
-                            .defineInRange("goomba_split_count", 2, 0, 16);
-                    GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_random_count")
-                            .comment("Random count of goombas to spawn when a hefty goomba splits in addition to \"goomba_split_count\".§b")
-                            .defineInRange("goomba_split_random_count", 1, 0, 16);
-                BUILDER.pop();
-
-                BUILDER.push(CATEGORY_MEGA_GOOMBA);
-                    HEFTY_GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_count")
-                            .comment("Base count of hefty goombas to spawn when a mega goomba splits.§b")
-                            .defineInRange("hefty_goomba_split_count", 2, 0, 8);
-                    HEFTY_GOOMBA_SPLIT_RANDOM_COUNT = BUILDER.translation("configuration.marioverse.hefty_goomba_split_random_count")
-                            .comment("Random count of hefty goombas to spawn when a mega goomba splits in addition to \"hefty_goomba_split_count\".§b")
-                            .defineInRange("hefty_goomba_split_random_count", 1, 0, 8);
-                BUILDER.pop();
-
-                BUILDER.push(CATEGORY_MINI_GOOMBA);
-                    MINI_GOOMBAS_ATTACH_ALL_MOBS = BUILDER.translation("configuration.marioverse.mini_goombas_attach_all_mobs")
-                            .comment("Allow mini goombas to attach to all mobs.")
-                            .comment("§9[Default: false]")
-                            .define("mini_goombas_attach_all_mobs", false);
-                    MINI_GOOMBAS_PUSH = BUILDER.translation("configuration.marioverse.mini_goombas_push")
-                            .comment("Allow mini goombas to push the mobs it is attached to.")
-                            .comment("§9[Default: false]")
-                            .define("mini_goombas_push", false);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_PIRANHA_PLANT);

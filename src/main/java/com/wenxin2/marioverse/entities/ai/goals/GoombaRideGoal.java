@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.GoombaEntity;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -9,7 +10,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class GoombaRideGoal extends Goal {
-    private static final int MAX_STACK_SIZE = 5; // TODO: Add config
     private final GoombaEntity goomba;
     private final float chanceToRide;
     private int cooldown;
@@ -71,7 +71,7 @@ public class GoombaRideGoal extends Goal {
     private Entity findNearbyGoombaToRide() {
         List<Entity> nearbyGoombas =
                 this.goomba.level().getEntities(this.goomba,
-                        this.goomba.getBoundingBox().inflate(0.5D), goomba -> !this.goomba.isPassenger());
+                        this.goomba.getBoundingBox().inflate(0.5D, ConfigRegistry.MAX_GOOMBA_STACK.get(), 0.5D), goomba -> !this.goomba.isPassenger());
 
         for (Entity candidate : nearbyGoombas) {
             if (candidate != this.goomba && canRide(candidate)) {
@@ -98,9 +98,8 @@ public class GoombaRideGoal extends Goal {
         while (current.getVehicle() != null && current.getVehicle().getType().is(TagRegistry.GOOMBA_CAN_RIDE)) {
             current = current.getVehicle();
             stackCount++;
-            if (stackCount >= MAX_STACK_SIZE) {
+            if (stackCount >= ConfigRegistry.MAX_GOOMBA_STACK.get())
                 return false;
-            }
         }
         return true;
     }

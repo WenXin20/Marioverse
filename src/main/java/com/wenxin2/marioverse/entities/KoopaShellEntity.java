@@ -445,7 +445,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public float getShellDamage() {
-        return ConfigRegistry.KOOPA_SHELL_DAMAGE.get().floatValue();
+        return ConfigRegistry.GREEN_KOOPA_SHELL_DAMAGE.get().floatValue();
     }
 
     protected boolean ownedBy(Entity entity) {
