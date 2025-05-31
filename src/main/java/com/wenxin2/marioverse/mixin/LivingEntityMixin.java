@@ -183,11 +183,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
                 && (entity.onGround() || entity.isInWaterOrBubble())
-                && (this.mv$getConsecutiveBounces() > 0 || this.mv$getOneUpsRewarded() > 0)
-                && !this.mv$hasSuperStar()) {
+                && this.mv$getConsecutiveBounces() > 0
+                && !this.mv$hasSuperStar())
             this.mv$setConsecutiveBounces(0);
-            this.mv$setOneUpsRewarded(0);
-        }
 
         if (entity.onGround() && entity.getDeltaMovement().y <= 0
                 && entity.getPersistentData().getBoolean("marioverse:has_smashed_block"))

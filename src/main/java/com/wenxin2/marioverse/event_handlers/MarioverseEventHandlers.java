@@ -28,7 +28,6 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
-import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -78,6 +77,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -320,6 +320,17 @@ public class MarioverseEventHandlers {
 //            ScaleTypes.REACH.getScaleData(event.getEntity()).setTargetScale(1.0F);
 //            ScaleTypes.ATTACK.getScaleData(event.getEntity()).setTargetScale(1.0F);
 //        }
+    }
+
+    public static void onDeath(LivingDeathEvent event) {
+        LivingEntity entity = event.getEntity();
+
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                && entity instanceof PowerUpHandler handler
+                && handler.mv$getOneUpsRewarded() > 0) {
+            handler.mv$setOneUpsRewarded(0);
+        }
     }
 
     private static void removeCostume(LivingEntity entity, AccessoriesCapability capability) {
