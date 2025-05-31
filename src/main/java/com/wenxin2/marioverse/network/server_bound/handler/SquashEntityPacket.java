@@ -111,6 +111,7 @@ public class SquashEntityPacket {
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                                 this.consecutiveReward(stompingPlayer, damagedEntity);
+                            break;
                         }
                     }
                 }

@@ -1254,6 +1254,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                                 this.mv$consecutiveReward(stompingEntity, damagedEntity);
+                            break;
                         }
                     }
                 }
