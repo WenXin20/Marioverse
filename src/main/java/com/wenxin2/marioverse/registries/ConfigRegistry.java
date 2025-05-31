@@ -501,14 +501,6 @@ public class ConfigRegistry
             BUILDER.push(CATEGORY_MOBS);
 
                 BUILDER.push(CATEGORY_KOOPA_SHELLS);
-                    REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
-                            .comment("Allow koopa shells to be repaired with items tagged as §6\"repairs_koopa_shells\"§r.")
-                            .comment("§9[Default: true]")
-                            .define("repair_koopa_shells", true);
-                    MAX_KOOPA_SHELL_BOUNCES = BUILDER.translation("configuration.marioverse.max_koopa_shell_bounces")
-                            .comment("Max amount of bounces a shell can make before shattering.")
-                            .comment("§6Set to -1 to never break.§b")
-                            .defineInRange("max_koopa_shell_bounces", 200, -1, 999);
 
                     BUILDER.push(CATEGORY_GOLD_KOOPA_SHELL);
                         GOLD_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.gold_koopa_shell_damage")
@@ -540,6 +532,15 @@ public class ConfigRegistry
                                 .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
                     BUILDER.pop();
 
+                    REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
+                            .comment("Allow koopa shells to be repaired with items tagged as §6\"repairs_koopa_shells\"§r.")
+                            .comment("§9[Default: true]")
+                            .define("repair_koopa_shells", true);
+                    MAX_KOOPA_SHELL_BOUNCES = BUILDER.translation("configuration.marioverse.max_koopa_shell_bounces")
+                            .comment("Max amount of bounces a shell can make before shattering.")
+                            .comment("§6Set to -1 to never break.§b")
+                            .defineInRange("max_koopa_shell_bounces", 200, -1, 999);
+
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_KOOPA_TROOPAS);
@@ -568,9 +569,6 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_GOOMBAS);
-                    MAX_GOOMBA_STACK = BUILDER.translation("configuration.marioverse.max_goomba_stack")
-                            .comment("Max stack size goombas can ride.§b")
-                            .defineInRange("max_goomba_stack", 5, 0, 16);
 
                     BUILDER.push(CATEGORY_HEFTY_GOOMBA);
                         GOOMBA_SPLIT_COUNT = BUILDER.translation("configuration.marioverse.goomba_split_count")
@@ -600,6 +598,10 @@ public class ConfigRegistry
                                 .comment("§9[Default: false]")
                                 .define("mini_goombas_push", false);
                     BUILDER.pop();
+
+                    MAX_GOOMBA_STACK = BUILDER.translation("configuration.marioverse.max_goomba_stack")
+                            .comment("Max stack size goombas can ride.§b")
+                            .defineInRange("max_goomba_stack", 5, 0, 16);
 
                 BUILDER.pop();
 
