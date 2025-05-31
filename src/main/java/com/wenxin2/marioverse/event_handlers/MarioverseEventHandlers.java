@@ -145,10 +145,6 @@ public class MarioverseEventHandlers {
                     || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
             tag.putInt("marioverse:ice_ball_count", 0);
 
-        if (!tag.contains("marioverse:claimed_checkpoint_flag_cooldown")
-                && (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)))
-            tag.putInt("marioverse:claimed_checkpoint_flag_cooldown", 0);
-
 //        if (!tag.contains("marioverse:warp_cooldown")
 //                && !entity.getType().is(TagRegistry.CANNOT_WARP)
 //                && (ConfigRegistry.TELEPORT_MOBS.get()

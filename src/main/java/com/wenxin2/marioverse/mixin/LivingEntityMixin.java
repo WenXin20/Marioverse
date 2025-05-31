@@ -97,6 +97,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasMushroom;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
+    @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
@@ -126,6 +127,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
 
+        tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
         tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
         tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
@@ -142,6 +144,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
 
+        this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
         this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
         this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
@@ -165,7 +168,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         BlockState stateEast = world.getBlockState(posEast);
         BlockState stateWest = world.getBlockState(posWest);
 
-        int checkpointCooldown = entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown");
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
         int iceCubeCooldown = entity.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown");
@@ -220,8 +222,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         this.marioiverse$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
-        if (checkpointCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", checkpointCooldown - 1);
+        if (this.mv$getCheckpointFlagCooldown() > 0)
+            this.mv$setCheckpointFlagCooldown(this.mv$getCheckpointFlagCooldown() - 1);
 
         if (fireballCooldown > 0)
             entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
@@ -388,6 +390,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setWarpCooldown(int warpCooldown) {
         this.mv$warpCooldown = warpCooldown;
+    }
+
+    @Override
+    public int mv$getCheckpointFlagCooldown() {
+        return this.mv$checkpointFlagCooldown;
+    }
+
+    @Override
+    public void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown) {
+        this.mv$checkpointFlagCooldown = checkpointFlagCooldown;
     }
 
     @Unique

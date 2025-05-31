@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
-public interface PowerUpHandler {
+public interface PowerUpHandler extends AbilitiesHandler {
     void mv$clearAllPowerUps();
 
     boolean mv$hasMushroom();
@@ -17,9 +17,6 @@ public interface PowerUpHandler {
 
     boolean mv$hasSuperStar();
     void mv$setSuperStar(boolean hasSuperStar);
-
-    int mv$getConsecutiveBounces();
-    void mv$setConsecutiveBounces(int consecutiveBounces);
 
     int mv$getOneUpsRewarded();
     void mv$setOneUpsRewarded(int oneUpsRewarded);

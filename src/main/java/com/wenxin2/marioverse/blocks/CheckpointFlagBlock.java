@@ -18,6 +18,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -535,8 +536,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         BlockState statePart = world.getBlockState(statePos);
 
 
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
-                && entity.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown") <= 0) {
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS) && entity instanceof AbilitiesHandler handler
+                && handler.mv$getCheckpointFlagCooldown() <= 0) {
             if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
                 if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
@@ -588,8 +589,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 }
             }
 
-            if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())
-                    && player.getPersistentData().getInt("marioverse:claimed_checkpoint_flag_cooldown") <= 0) {
+            if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
                 BlockPos playerRespawnPos = player.getRespawnPosition();
                 BlockPos newRespawnPos = switch (state.getValue(PART)) {
                     case TOP -> respawnPos.below(2);
@@ -606,7 +606,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
                     ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
                     player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
-                    player.getPersistentData().putInt("marioverse:claimed_checkpoint_flag_cooldown", 40);
+                    handler.mv$setCheckpointFlagCooldown(40);
 
                     if (world instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
