@@ -3,13 +3,12 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -76,7 +75,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
         if (entity.getHealth() < entity.getMaxHealth())
             entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
 
-        if (entity instanceof PowerUpHandler handler) {
+        if (entity instanceof AbilitiesHandler handler) {
             handler.mv$clearAllPowerUps();
             handler.mv$setMushroom(true);
             this.setHasPowerUp(entity, true);

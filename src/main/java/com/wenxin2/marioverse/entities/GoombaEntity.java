@@ -11,7 +11,7 @@ import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -381,7 +381,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
-        if (this instanceof PowerUpHandler handler) {
+        if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);
                 int randomInt = random.nextInt(1);
@@ -581,7 +581,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                         || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0))
                     return;
 
-                if (collidingEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                if (collidingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
                     return;
 
                 // Apply knockback to both the Goomba and the bumping collidingEntity

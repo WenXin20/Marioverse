@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.registries.TextureRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,7 +24,7 @@ public class SuperStarLayer<T extends LivingEntity, M extends EntityModel<T>> ex
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity,
                        float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
                        float netHeadYaw, float headPitch) {
-        if (entity instanceof PowerUpHandler handler && handler.mv$hasSuperStar()) {
+        if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
             float alpha = 1F;
 
             Minecraft.getInstance().getTextureManager().getTexture(TextureRegistry.SUPER_STAR_OVERLAY);

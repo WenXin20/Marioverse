@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.EnumSet;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -48,7 +48,7 @@ public class ShootBouncingIceBallGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireIceFlower|| (livingEntity instanceof PowerUpHandler handler && handler.mv$hasIceFlower());
+        boolean canShoot = !requireIceFlower|| (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower());
         return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
@@ -84,7 +84,7 @@ public class ShootBouncingIceBallGoal extends Goal {
         int iceBallCount = livingEntity.getPersistentData().getInt("marioverse:ice_ball_count");
         int iceBallCooldown = livingEntity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
 
-        if (livingEntity instanceof PowerUpHandler handler) {
+        if (livingEntity instanceof AbilitiesHandler handler) {
             if (!requireIceFlower && iceBallCooldown == 0 && iceBallCount < maxIceBalls + addIceBallsWithIceFlower) {
                 this.shootIceBall();
                 livingEntity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ICE_BALL_COOLDOWN);

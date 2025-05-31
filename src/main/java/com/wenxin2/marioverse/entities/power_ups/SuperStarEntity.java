@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -88,7 +88,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isSpectator()
                     && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                     && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    && entity instanceof PowerUpHandler handler) {
+                    && entity instanceof AbilitiesHandler handler) {
 
                 handler.mv$setSuperStar(true);
                 handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
@@ -104,7 +104,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                     && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
                         || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
                     && !(livingEntity instanceof Player)
-                    && entity instanceof PowerUpHandler handler) {
+                    && entity instanceof AbilitiesHandler handler) {
 
                 handler.mv$setSuperStar(true);
                 handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());

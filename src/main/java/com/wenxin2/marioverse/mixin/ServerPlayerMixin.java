@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.EntityWarpPlayerHandler;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
-public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, PowerUpHandler {
+public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
     @Unique private boolean mv$hasFireFlower;
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;

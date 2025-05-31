@@ -12,7 +12,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -251,7 +251,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
             if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof PowerUpHandler handler && handler.mv$hasIceFlower())) {
+                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
@@ -300,7 +300,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
             if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof PowerUpHandler handler && handler.mv$hasIceFlower())) {
+                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
@@ -335,7 +335,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
             if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof PowerUpHandler handler && handler.mv$hasIceFlower())) {
+                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));

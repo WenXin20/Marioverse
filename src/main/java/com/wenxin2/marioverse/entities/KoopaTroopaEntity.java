@@ -8,7 +8,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -241,7 +241,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
-        if (this instanceof PowerUpHandler handler) {
+        if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);
                 int randomInt = random.nextInt(1);
@@ -507,7 +507,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
             }
 
             if (savePowerUp) {
-                if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler) {
+                if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
                     entityHandler.mv$setMushroom(handler.mv$hasMushroom());
                     entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());

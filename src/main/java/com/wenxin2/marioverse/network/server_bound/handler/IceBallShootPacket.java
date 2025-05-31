@@ -4,10 +4,9 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -29,7 +28,7 @@ public class IceBallShootPacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                if (player instanceof PowerUpHandler handler && handler.mv$hasIceFlower())
+                if (player instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())
                     this.handleIceballShooting(player);
             });
         }

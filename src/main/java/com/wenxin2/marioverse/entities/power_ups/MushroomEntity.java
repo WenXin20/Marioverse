@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
@@ -89,7 +89,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
             if (entity instanceof Player player && !player.isSpectator()
                     && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                    && player instanceof PowerUpHandler handler) {
+                    && player instanceof AbilitiesHandler handler) {
                 if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     handler.mv$setMushroom(true);
                     if (entity.level() instanceof ServerLevel serverWorld)
@@ -106,7 +106,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 }
             } else if (entity instanceof LivingEntity livingEntity && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                     && !livingEntity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                    && entity instanceof PowerUpHandler handler) {
+                    && entity instanceof AbilitiesHandler handler) {
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
                         handler.mv$setMushroom(true);

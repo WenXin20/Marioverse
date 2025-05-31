@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -10,7 +9,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.List;
@@ -63,10 +62,10 @@ public class SquashEntityPacket {
                     if (stompingPlayer instanceof Player player && player.getAbilities().flying)
                         return;
 
-                    if (stompingPlayer instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                    if (stompingPlayer instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
                         return;
 
-                    if (damagedEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                    if (damagedEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
                         return;
 
                     if (stompingPlayer.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
@@ -122,7 +121,7 @@ public class SquashEntityPacket {
     @Unique
     public void consecutiveReward(Player attackingPlayer, LivingEntity damagedEntity) {
 
-        if (attackingPlayer instanceof PowerUpHandler handler) {
+        if (attackingPlayer instanceof AbilitiesHandler handler) {
             int oneUpsRewarded = handler.mv$getOneUpsRewarded();
             int consecutiveBounces = handler.mv$getConsecutiveBounces();
             handler.mv$setConsecutiveBounces(consecutiveBounces + 1);

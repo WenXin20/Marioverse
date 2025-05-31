@@ -18,7 +18,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -83,7 +83,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, PowerUpHandler {
+public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
     @Shadow public abstract void setSpeed(float p_21320_);
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
@@ -1111,7 +1111,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         mv$hitEntityAbove(pos, world, entity);
 
-        if (entity instanceof PowerUpHandler handler && handler.mv$hasMushroom()) {
+        if (entity instanceof AbilitiesHandler handler && handler.mv$hasMushroom()) {
             if (state.getBlock() instanceof SlabBlock) {
                 if (state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE) {
                     world.setBlock(pos, state.setValue(SlabBlock.TYPE, SlabType.TOP), 3);
@@ -1171,7 +1171,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)) {
                         if (entity instanceof Player player && player.isCreative() || entity.isSpectator())
                             return;
-                        if (collidedEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                        if (collidedEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
                             return;
 
                         Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
@@ -1218,10 +1218,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     if (stompingEntity instanceof Player player && player.getAbilities().flying)
                         return;
 
-                    if (stompingEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                    if (stompingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
                         return;
 
-                    if (damagedEntity instanceof PowerUpHandler handler && handler.mv$hasSuperStar())
+                    if (damagedEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
                         return;
 
                     // Check if the colliding entity is above the current entity and falling

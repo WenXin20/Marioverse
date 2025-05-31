@@ -19,7 +19,6 @@ import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -985,7 +984,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                 && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && player instanceof PowerUpHandler handler) {
+                && player instanceof AbilitiesHandler handler) {
             if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                 handler.mv$setMushroom(true);
                 world.broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
@@ -1032,7 +1031,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                && player instanceof PowerUpHandler handler) {
+                && player instanceof AbilitiesHandler handler) {
             AccessoriesCapability capability = AccessoriesCapability.get(player);
 
             if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
@@ -1070,7 +1069,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && player.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                && player instanceof PowerUpHandler handler) {
+                && player instanceof AbilitiesHandler handler) {
             AccessoriesCapability capability = AccessoriesCapability.get(player);
 
             if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
@@ -1109,7 +1108,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (entityHitBlock instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                && player instanceof PowerUpHandler handler) {
+                && player instanceof AbilitiesHandler handler) {
 
             handler.mv$setSuperStar(true);
             handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());

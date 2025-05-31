@@ -28,7 +28,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -105,7 +105,7 @@ public class MarioverseEventHandlers {
 
         if (!(entity instanceof LivingEntity)) return;
 
-        if (entity instanceof PowerUpHandler handler) {
+        if (entity instanceof AbilitiesHandler handler) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
                     handler.mv$setMushroom(true);
@@ -190,7 +190,7 @@ public class MarioverseEventHandlers {
     public static void onEntityHeal(LivingHealEvent event) {
         Entity entity = event.getEntity();
 
-        if (entity instanceof PowerUpHandler handler) {
+        if (entity instanceof AbilitiesHandler handler) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
                     handler.mv$setMushroom(true);
@@ -208,7 +208,7 @@ public class MarioverseEventHandlers {
         DamageSource source = event.getSource();
 
         if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())
-                && player instanceof PowerUpHandler handler) {
+                && player instanceof AbilitiesHandler handler) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
 
             if (world instanceof ServerLevel serverWorld) {
@@ -250,7 +250,7 @@ public class MarioverseEventHandlers {
                 }
             }
         } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())
-                && entity instanceof PowerUpHandler handler) {
+                && entity instanceof AbilitiesHandler handler) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
@@ -323,7 +323,7 @@ public class MarioverseEventHandlers {
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
-                && entity instanceof PowerUpHandler handler
+                && entity instanceof AbilitiesHandler handler
                 && handler.mv$getOneUpsRewarded() > 0) {
             handler.mv$setOneUpsRewarded(0);
         }
@@ -589,7 +589,7 @@ public class MarioverseEventHandlers {
                         player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
                         player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
                         if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                                && player instanceof PowerUpHandler handler)
+                                && player instanceof AbilitiesHandler handler)
                             handler.mv$setMushroom(false);
                     }
 

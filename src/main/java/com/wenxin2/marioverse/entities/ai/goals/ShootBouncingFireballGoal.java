@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.EnumSet;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -48,7 +48,7 @@ public class ShootBouncingFireballGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireFireFlower || (livingEntity instanceof PowerUpHandler handler && handler.mv$hasFireFlower());
+        boolean canShoot = !requireFireFlower || (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower());
         return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
@@ -84,7 +84,7 @@ public class ShootBouncingFireballGoal extends Goal {
         int fireballCount = livingEntity.getPersistentData().getInt("marioverse:fireball_count");
         int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
 
-        if (livingEntity instanceof PowerUpHandler handler) {
+        if (livingEntity instanceof AbilitiesHandler handler) {
             if (!requireFireFlower && fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower) {
                 this.shootFireball();
                 livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);

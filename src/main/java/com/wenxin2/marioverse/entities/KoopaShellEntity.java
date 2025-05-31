@@ -9,7 +9,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.PowerUpHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -603,7 +603,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         entity.setHealth(this.getHealth());
         entity.setNoAi(this.isNoAi());
 
-        if (this instanceof PowerUpHandler handler && entity instanceof PowerUpHandler entityHandler) {
+        if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
             entityHandler.mv$setMushroom(handler.mv$hasMushroom());
             entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
