@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_bottom_top",
-	"render_type": "cutout",
+	"render_type": "cutout_mipped",
 	"textures": {
 		"side_ns": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side_ns",
 		"particle": "marioverse:block/clear_warp_pipe/clear_warp_pipe_side",

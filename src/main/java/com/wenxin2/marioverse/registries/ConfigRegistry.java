@@ -602,7 +602,6 @@ public class ConfigRegistry
                     MAX_GOOMBA_STACK = BUILDER.translation("configuration.marioverse.max_goomba_stack")
                             .comment("Max stack size goombas can ride.§b")
                             .defineInRange("max_goomba_stack", 5, 0, 16);
-
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_PIRANHA_PLANT);
