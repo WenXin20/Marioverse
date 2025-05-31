@@ -38,8 +38,8 @@ public class ConfigRegistry
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
     public static final String CATEGORY_GOOMBAS = "goombas";
-    public static final String CATEGORY_GREEN_KOOPA_SHELL = "red_koopa_shell";
-    public static final String CATEGORY_GREEN_KOOPA_TROOPA = "red_koopa_troopa";
+    public static final String CATEGORY_GREEN_KOOPA_SHELL = "green_koopa_shell";
+    public static final String CATEGORY_GREEN_KOOPA_TROOPA = "green_koopa_troopa";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
     public static final String CATEGORY_KOOPA_SHELLS = "koopa_shells";
     public static final String CATEGORY_KOOPA_TROOPAS = "koopa_troopas";
