@@ -863,6 +863,7 @@
   "configuration.marioverse.ice_cube_lifespan": "Ice Cube Lifespan",
   "configuration.marioverse.ice_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.max_gold_koopa_shell_coins": "Max Coins Placed",
+  "configuration.marioverse.max_goomba_stack": "Max Ride Stack",
   "configuration.marioverse.max_ice_ball_bounces": "Max Ice Balls Bounces",
   "configuration.marioverse.shrink_mobs_at_health": "Health % to Shrink Mobs",
   "configuration.marioverse.shrink_players_at_health": "Health to Shrink Players",

@@ -96,10 +96,10 @@ public class GoombaRideGoal extends Goal {
         Entity current = targetGoomba;
 
         while (current.getVehicle() != null && current.getVehicle().getType().is(TagRegistry.GOOMBA_CAN_RIDE)) {
-            current = current.getVehicle();
-            stackCount++;
             if (stackCount >= ConfigRegistry.MAX_GOOMBA_STACK.get())
                 return false;
+            current = current.getVehicle();
+            stackCount++;
         }
         return true;
     }
