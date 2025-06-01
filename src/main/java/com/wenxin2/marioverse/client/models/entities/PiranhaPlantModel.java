@@ -41,7 +41,7 @@ public class PiranhaPlantModel extends GeoModel<PiranhaPlantEntity> {
         GeoBone head = this.getAnimationProcessor().getBone("head_rotator");
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-            head.setRotZ(entityData.headPitch() * 0.030F);
+            head.setRotX(entityData.headPitch() * 0.040F);
             head.setRotY(entityData.netHeadYaw() * 0.025F);
         }
     }
