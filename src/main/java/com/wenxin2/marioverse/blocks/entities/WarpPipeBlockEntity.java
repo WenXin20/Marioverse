@@ -316,9 +316,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             if (warpPipeBE.spawnItemDelay > 0) {
                 warpPipeBE.spawnItemDelay--;
             } else if (!warpPipeBE.getTheItem().isEmpty()) {
-                RandomSource random = RandomSource.create();
-                int itemCount = 1 + random.nextInt(5);
-                ItemStack stack = warpPipeBE.getTheItem().copyWithCount(itemCount);
+                ItemStack stack = warpPipeBE.getTheItem().copyWithCount(1);
 
                 warpPipeBE.spawnFromWarpPipe(world, pos, stack);
                 warpPipeBE.playSounds(world, pos, stack);
