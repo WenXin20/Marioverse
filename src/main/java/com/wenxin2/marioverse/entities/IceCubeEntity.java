@@ -78,6 +78,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     private float previousFallDistance = 0;
     public int frozenCooldown;
     public int entityFrozenCooldown;
+    public int ticksInAir;
 
     public IceCubeEntity(EntityType<? extends IceCubeEntity> type, Level world) {
         super(type, world);
@@ -100,14 +101,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
+        tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
         tag.putFloat("FrozenEntityWidth", entityWidth);
         tag.putFloat("FrozenEntityHeight", entityHeight);
-        tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
+        tag.putInt("FrozenCooldown", this.getFrozenCooldown());
+        tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
 
-        if (this.getFrozenCooldown() != 0)
-            tag.putInt("FrozenCooldown", this.getFrozenCooldown());
-        if (this.getEntityFrozenCooldown() != 0)
-            tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
         if (frozenEntityData != null)
             tag.put("FrozenEntityData", frozenEntityData);
         if (this.ownerUUID != null)
@@ -167,6 +166,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 this.setEntityFrozenCooldown(this.getEntityFrozenCooldown() - 1);
             if (this.getEntityFrozenCooldown() == 0)
                 this.shatterIceCube(false, false, this);
+        }
+
+        if (this.getPersistentData().contains("TicksInAir")) {
+            if (this.getTicksInAir() > 0)
+                this.setTicksInAir(this.getTicksInAir() - 1);
         }
 
         if (this.frozenEntityData != null) {
@@ -758,10 +762,12 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         } else if (isUnderwater && !isRising) {
             this.setDeltaMovement(velocity.x * waterDrag, 0.03, velocity.z * waterDrag);
         } else if (!this.isOnSolidGround() && !this.isInWaterOrBubble()) {
-            if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
-            else if (!(this.displayEntity instanceof Mob))
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
+            if (this.getTicksInAir() == 0) {
+                if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
+                    this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
+                else if (!(this.displayEntity instanceof Mob))
+                    this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
+            }
             else this.setDeltaMovement(0, 0, 0);
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
@@ -776,12 +782,18 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     }
 
     public int getEntityFrozenCooldown() {
-//        return this.entityFrozenCooldown;
         return this.getPersistentData().getInt("EntityFrozenCooldown");
     }
 
     public void setEntityFrozenCooldown(int entityFrozenCooldown) {
-//        this.entityFrozenCooldown = entityFrozenCooldown;
         this.getPersistentData().putInt("EntityFrozenCooldown", entityFrozenCooldown);
+    }
+
+    public int getTicksInAir() {
+        return this.getPersistentData().getInt("TicksInAir");
+    }
+
+    public void setTicksInAir(int ticksInAir) {
+        this.getPersistentData().putInt("TicksInAir", ticksInAir);
     }
 }
