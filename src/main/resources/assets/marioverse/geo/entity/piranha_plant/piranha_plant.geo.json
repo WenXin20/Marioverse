@@ -6,7 +6,7 @@
 				"identifier": "geometry.piranha_plant",
 				"texture_width": 96,
 				"texture_height": 96,
-				"visible_bounds_width": 3,
+				"visible_bounds_width": 4,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -32,8 +32,13 @@
 					]
 				},
 				{
-					"name": "head",
+					"name": "head_rotator",
 					"parent": "stem",
+					"pivot": [0, 19, 0]
+				},
+				{
+					"name": "head",
+					"parent": "head_rotator",
 					"pivot": [0, 19, 0]
 				},
 				{
