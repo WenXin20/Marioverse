@@ -99,6 +99,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
+    @Unique private int mv$freezeImmunityCooldown;
+    @Unique private int mv$frozenCooldown;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -129,6 +131,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
         tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
+        tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
+        tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
         tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
         tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
         tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
@@ -146,6 +150,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
         this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
+        this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
+        this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
         this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
@@ -170,7 +176,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
-        int iceCubeCooldown = entity.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown");
 
         this.mv$characterAbilities(entity);
         this.mv$entityScale(entity);
@@ -231,8 +236,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (iceBallCooldown > 0)
             entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", iceBallCooldown - 1);
 
-        if (iceCubeCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", iceCubeCooldown - 1);
+        if (this.mv$getFreezeImmunityCooldown() > 0)
+            this.mv$setFreezeImmunityCooldown(this.mv$getFreezeImmunityCooldown() - 1);
+
+        if (this.mv$getFrozenCooldown() > 0)
+            this.mv$setFrozenCooldown(this.mv$getFrozenCooldown() - 1);
 
         if (this.mv$getSuperStarCooldown() > 0)
             this.mv$setSuperStarCooldown(this.mv$getSuperStarCooldown() - 1);
@@ -400,6 +408,26 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown) {
         this.mv$checkpointFlagCooldown = checkpointFlagCooldown;
+    }
+
+    @Override
+    public int mv$getFreezeImmunityCooldown() {
+        return this.mv$frozenCooldown;
+    }
+
+    @Override
+    public void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown) {
+        this.mv$frozenCooldown = freezeImmunityCooldown;
+    }
+
+    @Override
+    public int mv$getFrozenCooldown() {
+        return this.mv$frozenCooldown;
+    }
+
+    @Override
+    public void mv$setFrozenCooldown(int frozenCooldown) {
+        this.mv$frozenCooldown = frozenCooldown;
     }
 
     @Unique

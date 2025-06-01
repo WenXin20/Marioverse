@@ -28,6 +28,8 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
+    @Unique private int mv$freezeImmunityCooldown;
+    @Unique private int mv$frozenCooldown;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -184,5 +186,25 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown) {
         this.mv$checkpointFlagCooldown = checkpointFlagCooldown;
+    }
+
+    @Override
+    public int mv$getFreezeImmunityCooldown() {
+        return this.mv$freezeImmunityCooldown;
+    }
+
+    @Override
+    public void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown) {
+        this.mv$freezeImmunityCooldown = freezeImmunityCooldown;
+    }
+
+    @Override
+    public int mv$getFrozenCooldown() {
+        return this.mv$frozenCooldown;
+    }
+
+    @Override
+    public void mv$setFrozenCooldown(int frozenCooldown) {
+        this.mv$frozenCooldown = frozenCooldown;
     }
 }

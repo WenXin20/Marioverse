@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +58,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Unique;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -74,6 +76,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     private float entityWidth = 1.0F;
     private float entityHeight = 1.0F;
     private float previousFallDistance = 0;
+    public int frozenCooldown;
+    public int entityFrozenCooldown;
 
     public IceCubeEntity(EntityType<? extends IceCubeEntity> type, Level world) {
         super(type, world);
@@ -100,8 +104,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         tag.putFloat("FrozenEntityHeight", entityHeight);
         tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
 
-        if (this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-            tag.putInt("EntityFrozenCooldown", this.getPersistentData().getInt("marioverse:entity_frozen_cooldown"));
+        if (this.getFrozenCooldown() != 0)
+            tag.putInt("FrozenCooldown", this.getFrozenCooldown());
+        if (this.getEntityFrozenCooldown() != 0)
+            tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
         if (frozenEntityData != null)
             tag.put("FrozenEntityData", frozenEntityData);
         if (this.ownerUUID != null)
@@ -113,7 +119,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.leftOwner = tag.getBoolean("LeftOwner");
-        this.getPersistentData().putInt("EntityFrozenCooldown", tag.getInt("marioverse:entity_frozen_cooldown"));
+        this.setEntityFrozenCooldown(tag.getInt("EntityFrozenCooldown"));
+        this.frozenCooldown = tag.getInt("FrozenCooldown");
 
         if (tag.contains("FrozenEntityWidth") && tag.contains("FrozenEntityHeight")) {
             this.entityWidth = tag.getFloat("FrozenEntityWidth");
@@ -155,12 +162,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
-
-        if (this.getPersistentData().contains("marioverse:entity_frozen_cooldown")) {
-            int entityFrozenCooldown = this.getPersistentData().getInt("marioverse:entity_frozen_cooldown");
-            if (entityFrozenCooldown > 0)
-                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", entityFrozenCooldown - 1);
-            if (entityFrozenCooldown == 0)
+        if (this.getPersistentData().contains("EntityFrozenCooldown")) {
+            if (this.getEntityFrozenCooldown() > 0)
+                this.setEntityFrozenCooldown(this.getEntityFrozenCooldown() - 1);
+            if (this.getEntityFrozenCooldown() == 0)
                 this.shatterIceCube(false, false, this);
         }
 
@@ -447,9 +452,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             if (!(entity instanceof Player))
                 entity.discard();
 
-            if (!this.getPersistentData().contains("marioverse:entity_frozen_cooldown"))
-                this.getPersistentData().putInt("marioverse:entity_frozen_cooldown", ticksFrozen);
-
+            this.setEntityFrozenCooldown(ticksFrozen);
             this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
     }
@@ -585,6 +588,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 }
             }
         }
+        if (this.getControllingPassenger() instanceof AbilitiesHandler handler)
+            handler.mv$setFreezeImmunityCooldown(20);
         this.ejectPassengers();
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
@@ -760,5 +765,23 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             else this.setDeltaMovement(0, 0, 0);
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
+    }
+
+    public int getFrozenCooldown() {
+        return this.frozenCooldown;
+    }
+
+    public void setFrozenCooldown(int frozenCooldown) {
+        this.frozenCooldown = frozenCooldown;
+    }
+
+    public int getEntityFrozenCooldown() {
+//        return this.entityFrozenCooldown;
+        return this.getPersistentData().getInt("EntityFrozenCooldown");
+    }
+
+    public void setEntityFrozenCooldown(int entityFrozenCooldown) {
+//        this.entityFrozenCooldown = entityFrozenCooldown;
+        this.getPersistentData().putInt("EntityFrozenCooldown", entityFrozenCooldown);
     }
 }

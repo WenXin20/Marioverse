@@ -25,6 +25,12 @@ public interface AbilitiesHandler {
     int mv$getConsecutiveBounces();
     void mv$setConsecutiveBounces(int consecutiveBounces);
 
+    int mv$getFreezeImmunityCooldown();
+    void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown);
+
+    int mv$getFrozenCooldown();
+    void mv$setFrozenCooldown(int frozenCooldown);
+
     int mv$getOneUpsRewarded();
     void mv$setOneUpsRewarded(int oneUpsRewarded);
 

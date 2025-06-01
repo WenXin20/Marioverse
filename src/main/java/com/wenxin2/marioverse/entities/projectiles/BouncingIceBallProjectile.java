@@ -240,7 +240,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Level world = this.level();
         Entity entity = hit.getEntity();
 
-        if (entity instanceof Player player && !player.isSpectator()
+        if (entity instanceof Player player && player instanceof AbilitiesHandler handler && !player.isSpectator()
                 && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             ItemStack shield = player.getUseItem();
             float width = player.getBbWidth() * 2.55F;
@@ -250,8 +250,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 return;
 
             if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
-                if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
+                if (shield.getItem() instanceof ShieldItem || handler.mv$hasIceFlower()) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
@@ -266,18 +265,16 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 player.extinguishFire();
 
-                if (player.isAlive() && player.getPersistentData().getInt("marioverse:frozen_in_ice_cube_cooldown") == 0) {
+                if (player.isAlive() && handler.mv$getFrozenCooldown() == 0 && handler.mv$getFreezeImmunityCooldown() == 0) {
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
                     iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                     if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                             || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                        if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
-                            iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
-                        player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", 2);
+                        iceCube.setFrozenCooldown(2);
+                        handler.mv$setFrozenCooldown(2);
                     } else {
-                        if (!iceCube.getPersistentData().contains("marioverse:frozen_in_ice_cube_cooldown"))
-                            iceCube.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                        player.getPersistentData().putInt("marioverse:frozen_in_ice_cube_cooldown", ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        iceCube.setFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        handler.mv$setFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                     }
                     iceCube.setSize(width, height);
                     iceCube.setOwner(this.getOwner());
