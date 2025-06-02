@@ -98,6 +98,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.ContainerSingleItem;
@@ -801,7 +802,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
             ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, spawnPos, MobSpawnType.SPAWN_EGG, true, true);
 
-            if (armorStand != null && !armorStand.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (armorStand != null && !armorStand.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
+                    && world.getEntitiesOfClass(ArmorStand.class, new AABB(spawnPos)).isEmpty()) {
                 armorStand.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(armorStand);
                 stack.copyWithCount(1);
@@ -811,7 +813,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             AbstractMinecart abstractMinecart =
                     AbstractMinecart.createMinecart(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D, cart.type, stack, null);
 
-            if (!abstractMinecart.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (!abstractMinecart.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
+                    && world.getEntitiesOfClass(AbstractMinecart.class, new AABB(spawnPos)).isEmpty()) {
                 abstractMinecart.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(abstractMinecart);
                 stack.copyWithCount(1);
@@ -821,7 +824,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D)
                     : new Boat(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D);
 
-            if (!boat.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (!boat.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
+                    && world.getEntitiesOfClass(Boat.class, new AABB(spawnPos)).isEmpty()) {
                 boat.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 boat.setVariant(boatItem.type);
                 world.addFreshEntity(boat);
