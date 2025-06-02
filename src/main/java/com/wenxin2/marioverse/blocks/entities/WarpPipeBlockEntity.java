@@ -788,47 +788,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void spawnFromWarpPipe(Level world, BlockPos pos, ItemStack stack) {
         BlockPos spawnPos;
         Direction facing = world.getBlockState(pos).getOptionalValue(BlockStateProperties.FACING).orElse(Direction.UP);
-        if (world.getBlockState(pos).hasProperty(BlockStateProperties.FACING)) {
+        if (world.getBlockState(pos).hasProperty(BlockStateProperties.FACING))
             spawnPos = pos.relative(facing);
-            double entityWidth = 1.0F / 2.0;
-            double entityHeight = 2.0;
-            double x;
-            double y;
-            double z;
-
-            switch (facing) {
-                default:
-                    x = spawnPos.getX() + 0.5;
-                    y = spawnPos.getY() + 0.1;
-                    z = spawnPos.getZ() + 0.5;
-                    break;
-                case DOWN:
-                    x = spawnPos.getX() + 0.5;
-                    y = spawnPos.getY() + 1.0 - entityHeight - 0.1;
-                    z = spawnPos.getZ() + 0.5;
-                    break;
-                case NORTH:
-                    x = spawnPos.getX() + 0.5;
-                    y = spawnPos.getY();
-                    z = spawnPos.getZ() + entityWidth + 0.1;
-                    break;
-                case SOUTH:
-                    x = spawnPos.getX() + 0.5;
-                    y = spawnPos.getY();
-                    z = spawnPos.getZ() + entityWidth + 0.1;
-                    break;
-                case WEST:
-                    x = spawnPos.getX() + entityWidth + 0.1;
-                    y = spawnPos.getY();
-                    z = spawnPos.getZ() + 0.5;
-                    break;
-                case EAST:
-                    x = spawnPos.getX() + entityWidth + 0.1;
-                    y = spawnPos.getY();
-                    z = spawnPos.getZ() + 0.5;
-                    break;
-            }
-        } else spawnPos = pos.above();
+        else spawnPos = pos.above();
 
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof ArmorStandItem) {
@@ -1052,32 +1014,32 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         switch (facing) {
             default:
                 x = spawnPos.getX() + 0.5;
-                y = spawnPos.getY() + 0.1;
+                y = spawnPos.getY() - 1.0;
                 z = spawnPos.getZ() + 0.5;
                 break;
             case DOWN:
                 x = spawnPos.getX() + 0.5;
-                y = spawnPos.getY() + 1.0 - entityHeight - 0.1;
+                y = spawnPos.getY() - 1.0 - entityHeight - 0.1;
                 z = spawnPos.getZ() + 0.5;
                 break;
             case NORTH:
                 x = spawnPos.getX() + 0.5;
-                y = spawnPos.getY();
-                z = spawnPos.getZ() + entityWidth + 0.1;
+                y = spawnPos.getY() - 1.0;
+                z = spawnPos.getZ() - entityWidth - 0.1;
                 break;
             case SOUTH:
                 x = spawnPos.getX() + 0.5;
-                y = spawnPos.getY();
+                y = spawnPos.getY() - 1.0;
                 z = spawnPos.getZ() + entityWidth + 0.1;
                 break;
             case WEST:
-                x = spawnPos.getX() + entityWidth + 0.1;
-                y = spawnPos.getY();
+                x = spawnPos.getX() - entityWidth - 0.1;
+                y = spawnPos.getY() - 1.0;
                 z = spawnPos.getZ() + 0.5;
                 break;
             case EAST:
                 x = spawnPos.getX() + entityWidth + 0.1;
-                y = spawnPos.getY();
+                y = spawnPos.getY() - 1.0;
                 z = spawnPos.getZ() + 0.5;
                 break;
         }
