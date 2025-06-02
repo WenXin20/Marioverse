@@ -1,6 +1,7 @@
 {
   "fusion": {
     "type": "connecting",
-    "layout": "full"
+    "layout": "full",
+    "render_type": "cutout"
   }
 }
