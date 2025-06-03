@@ -802,8 +802,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
             ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, spawnPos, MobSpawnType.SPAWN_EGG, true, true);
 
-            if (armorStand != null && !armorStand.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
-                    && world.getEntitiesOfClass(ArmorStand.class, new AABB(spawnPos)).isEmpty()) {
+            if (armorStand != null && !armorStand.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+                if (!world.getEntitiesOfClass(ArmorStand.class, new AABB(spawnPos)).isEmpty())
+                    return;
                 armorStand.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(armorStand);
                 stack.copyWithCount(1);
@@ -813,8 +814,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             AbstractMinecart abstractMinecart =
                     AbstractMinecart.createMinecart(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D, cart.type, stack, null);
 
-            if (!abstractMinecart.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
-                    && world.getEntitiesOfClass(AbstractMinecart.class, new AABB(spawnPos)).isEmpty()) {
+            if (!abstractMinecart.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+                if (!world.getEntitiesOfClass(AbstractMinecart.class, new AABB(spawnPos)).isEmpty())
+                    return;
                 abstractMinecart.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(abstractMinecart);
                 stack.copyWithCount(1);
@@ -824,8 +826,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D)
                     : new Boat(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D);
 
-            if (!boat.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
-                    && world.getEntitiesOfClass(Boat.class, new AABB(spawnPos)).isEmpty()) {
+            if (!boat.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+                if (!world.getEntitiesOfClass(Boat.class, new AABB(spawnPos)).isEmpty())
+                    return;
                 boat.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 boat.setVariant(boatItem.type);
                 world.addFreshEntity(boat);
