@@ -212,7 +212,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         if (ticksToDie > 1)
             this.getPersistentData().putInt("marioverse:ticks_to_die", ticksToDie - 1);
-        else if (ticksToDie == 1) this.kill();
+        else if (ticksToDie == 1) {
+            this.spawnDeathParticles(this);
+            this.discard();
+        }
 
         if (motion.horizontalDistance() > 0.1)
             this.spawnSprintParticle();
@@ -220,8 +223,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
 
-        if (this.bounceCount >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue())
-            this.kill();
+        if (this.bounceCount >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue()) {
+            this.spawnDeathParticles(this);
+            this.discard();
+        }
 
         if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
             hideTicks--;
@@ -266,6 +271,26 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         } else if (!isSliding && motion.horizontalDistance() > 0.0001) {
             this.slidingDirection = motion;
             isSliding = true;
+        }
+    }
+
+    private void spawnDeathParticles(Entity entity) {
+        float scale = (float) this.getAttributeValue(Attributes.SCALE);
+        float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
+        if (entity.level() instanceof ServerLevel serverWorld) {
+            float height = this.getBbHeight() * scale * heightScale;
+            float width = this.getBbWidth() * scale * widthScale;
+
+            if (this.getBbHeight() >= this.getBbWidth() * 3)
+                width *= 2.0F;
+
+            float scaleFactor = height * width * 1.2F;
+            int numParticles = (int) (scaleFactor * 10);
+            for (int i = 0; i < numParticles; ++i)
+                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
+                        entity, height * 1.55F + 0.1F, width * 1.55F);
         }
     }
 
@@ -342,23 +367,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public void die(DamageSource source) {
-        float scale = (float) this.getAttributeValue(Attributes.SCALE);
-        float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
-        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
-
-        if (this.level() instanceof ServerLevel serverWorld) {
-            float height = this.getBbHeight() * scale * heightScale;
-            float width = this.getBbWidth() * scale * widthScale;
-
-            if (this.getBbHeight() >= this.getBbWidth() * 3)
-                width *= 2.0F;
-
-            float scaleFactor = height * width * 1.2F;
-            int numParticles = (int) (scaleFactor * 10);
-            for (int i = 0; i < numParticles; ++i)
-                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
-                        this, height * 1.55F + 0.1F, width * 1.55F);
-        }
+        this.spawnDeathParticles(this);
         super.die(source);
     }
 
@@ -552,13 +561,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
-        List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+        List<Entity> entities = this.level().getEntities(this, collisionBox);
         double speed = this.getDeltaMovement().horizontalDistance();
         Set<UUID> newCollisions = new HashSet<>();
 
-        for (Entity entity : collidingEntities) {
-            if (speed >= 0.1 && !this.hasPassenger(entity)) {
-                if (entity instanceof VehicleEntity vehicle) {
+        for (Entity entityHit : entities) {
+            if (speed >= 0.1 && !this.hasPassenger(entityHit)) {
+                if (entityHit instanceof VehicleEntity vehicle) {
                     vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
                     this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
 
@@ -568,21 +577,27 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                                     ? livingEntity.getHealth() * 1.25F : this.getShellDamage();
 
                             if (this.getOwner() != null)
-                                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
-                            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
+                                entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
+                            else entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
                         }
                     }
                 }
 
-                if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
+                if (entityHit instanceof KoopaShellEntity) {
+                    this.spawnDeathParticles(entityHit);
+                    entityHit.discard();
+                    return;
+                }
+
+                if (entityHit instanceof LivingEntity livingEntity && livingEntity.isAlive()
                         && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
                     this.damageEntity(livingEntity, newCollisions);
 
-                if (entity instanceof EnderDragonPart part && part.isAlive()
+                if (entityHit instanceof EnderDragonPart part && part.isAlive()
                         && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
                     this.damageEntity(part.parentMob, newCollisions);
 
-                if (entity instanceof PiranhaPlantPart part && part.isAlive()
+                if (entityHit instanceof PiranhaPlantPart part && part.isAlive()
                         && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
                     this.damageEntity(part.parentMob, newCollisions);
             }
