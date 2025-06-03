@@ -14,12 +14,12 @@ import java.util.UUID;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -49,17 +49,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Unique;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -74,11 +75,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
-    private float entityWidth = 1.0F;
     private float entityHeight = 1.0F;
+    private float entityWidth = 1.0F;
+    private float height = 1.0F;
     private float previousFallDistance = 0;
-    public int frozenCooldown;
+    private float width = 1.0F;
     public int entityFrozenCooldown;
+    public int frozenCooldown;
     public int ticksInAir;
 
     public IceCubeEntity(EntityType<? extends IceCubeEntity> type, Level world) {
@@ -103,14 +106,16 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
-        tag.putFloat("FrozenEntityWidth", entityWidth);
-        tag.putFloat("FrozenEntityHeight", entityHeight);
+        tag.putFloat("FrozenEntityHeight", this.entityHeight);
+        tag.putFloat("FrozenEntityWidth", this.entityWidth);
+        tag.putFloat("Height", this.height);
+        tag.putFloat("Width", this.width);
         tag.putInt("FrozenCooldown", this.getFrozenCooldown());
         tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
         tag.putInt("TicksInAir", this.getTicksInAir());
 
-        if (frozenEntityData != null)
-            tag.put("FrozenEntityData", frozenEntityData);
+        if (this.frozenEntityData != null)
+            tag.put("FrozenEntityData", this.frozenEntityData);
         if (this.ownerUUID != null)
             tag.putUUID("Owner", this.ownerUUID);
         if (this.leftOwner)
@@ -129,10 +134,15 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             this.entityHeight = tag.getFloat("FrozenEntityHeight");
         }
 
+        if (tag.contains("Width") && tag.contains("Height")) {
+            this.width = tag.getFloat("Width");
+            this.height = tag.getFloat("Height");
+        }
+
         if (tag.contains("FrozenData", Tag.TAG_COMPOUND))
             this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
         if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
-            frozenEntityData = tag.getCompound("FrozenEntityData");
+            this.frozenEntityData = tag.getCompound("FrozenEntityData");
 
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
@@ -173,6 +183,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
 
         if (this.getTicksInAir() > 0)
             this.setTicksInAir(this.getTicksInAir() - 1);
+
+        if (this.getDeltaMovement().horizontalDistance() > 0.1) {
+            this.spawnSprintParticle();
+            this.spawnSnowParticles();
+        }
 
         if (this.frozenEntityData != null) {
             float height = this.frozenEntityData.getFloat("Height") * 1.55F;
@@ -528,8 +543,14 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     }
 
     public void setSize(float width, float height) {
+        this.height = height;
+        this.width = width;
         this.setBoundingBox(new AABB(this.getX() - width / 2, this.getY(), this.getZ() - width / 2,
                 this.getX() + width / 2, this.getY() + height, this.getZ() + width / 2));
+    }
+
+    public Vec2 getSize() {
+        return new Vec2(this.width, this.height);
     }
 
     public CompoundTag getFrozenEntityData() {
@@ -772,6 +793,27 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             else this.setDeltaMovement(0, 0, 0);
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
+    }
+
+    protected void spawnSnowParticles() {
+        BlockPos posLegacy = this.getOnPosLegacy();
+        BlockState state = this.level().getBlockState(posLegacy);
+        if (!state.addRunningEffects(this.level(), posLegacy, this)) {
+            if (state.getRenderShape() != RenderShape.INVISIBLE) {
+                Vec3 vec3 = this.getDeltaMovement();
+                BlockPos pos = this.blockPosition();
+                double x = this.getX() + (this.random.nextDouble() - 0.5) * this.getSize().x;
+                double z = this.getZ() + (this.random.nextDouble() - 0.5) * this.getSize().x;
+                if (pos.getX() != posLegacy.getX())
+                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
+
+                if (pos.getZ() != posLegacy.getZ())
+                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
+
+                this.level().addParticle(ParticleTypes.SNOWFLAKE, x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
+                this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
+            }
+        }
     }
 
     public int getFrozenCooldown() {
