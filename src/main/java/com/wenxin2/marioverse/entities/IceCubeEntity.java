@@ -19,6 +19,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -170,10 +171,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 this.shatterIceCube(false, false, this);
         }
 
-//        if (this.getPersistentData().contains("TicksInAir")) {
-            if (this.getTicksInAir() > 0)
-                this.setTicksInAir(this.getTicksInAir() - 1);
-//        }
+        if (this.getTicksInAir() > 0)
+            this.setTicksInAir(this.getTicksInAir() - 1);
 
         if (this.frozenEntityData != null) {
             float height = this.frozenEntityData.getFloat("Height") * 1.55F;
@@ -763,8 +762,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             this.setDeltaMovement(velocity.x * waterDrag, -0.01, velocity.z * waterDrag);
         } else if (isUnderwater && !isRising) {
             this.setDeltaMovement(velocity.x * waterDrag, 0.03, velocity.z * waterDrag);
-        } else if (!this.isOnSolidGround() && !this.isInWaterOrBubble()) {
-            if (this.getTicksInAir() == 0 && !this.level().isClientSide()) {
+        } else if (!this.isOnSolidGround() && !this.isInWaterOrBubble() && !this.level().isClientSide()) {
+            if (this.getTicksInAir() == 0) {
                 if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
                     this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
                 else if (!(this.displayEntity instanceof Mob))
