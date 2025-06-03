@@ -111,7 +111,7 @@ public interface BlockWarpEntityHandler {
                         this.displayCooldownMessage(player, state);
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isSwimming()
+                        && (entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
@@ -122,7 +122,7 @@ public interface BlockWarpEntityHandler {
                         this.displayCooldownMessage(player, state);
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isSwimming()
+                        && (entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
@@ -133,7 +133,7 @@ public interface BlockWarpEntityHandler {
                         this.displayCooldownMessage(player, state);
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isSwimming()
+                        && (entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -144,7 +144,7 @@ public interface BlockWarpEntityHandler {
                         this.displayCooldownMessage(player, state);
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isSwimming()
+                        && (entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
