@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
@@ -144,6 +145,24 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (f7 != this.mv$appliedWidthScale) {
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
+        }
+    }
+
+    @Inject(method = "isInWaterOrBubble", at = @At("RETURN"), cancellable = true)
+    private void isInWaterOrBubble(CallbackInfoReturnable<Boolean> cir) {
+        BlockState state = this.level().getBlockState(this.blockPosition());
+        if (!cir.getReturnValue()) {
+            if (state.is(BlockRegistry.PIPE_BUBBLES.get()))
+                cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "isInWaterRainOrBubble", at = @At("RETURN"), cancellable = true)
+    private void isInWaterRainOrBubble(CallbackInfoReturnable<Boolean> cir) {
+        BlockState state = this.level().getBlockState(this.blockPosition());
+        if (!cir.getReturnValue()) {
+            if (state.is(BlockRegistry.PIPE_BUBBLES.get()))
+                cir.setReturnValue(true);
         }
     }
 
