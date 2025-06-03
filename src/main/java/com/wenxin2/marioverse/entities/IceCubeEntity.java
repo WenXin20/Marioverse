@@ -184,10 +184,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         if (this.getTicksInAir() > 0)
             this.setTicksInAir(this.getTicksInAir() - 1);
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.1) {
-            this.spawnSprintParticle();
+        if (this.getDeltaMovement().horizontalDistance() > 0.1)
             this.spawnSnowParticles();
-        }
 
         if (this.frozenEntityData != null) {
             float height = this.frozenEntityData.getFloat("Height") * 1.55F;
@@ -811,6 +809,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                     z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
 
                 this.level().addParticle(ParticleTypes.SNOWFLAKE, x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
+                this.level().addParticle(ParticleRegistry.ICE_CUBE_SHATTER.get(), x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
                 this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
             }
         }
