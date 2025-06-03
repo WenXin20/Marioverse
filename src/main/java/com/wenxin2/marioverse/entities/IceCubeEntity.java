@@ -808,8 +808,10 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 if (pos.getZ() != posLegacy.getZ())
                     z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
 
-                this.level().addParticle(ParticleTypes.SNOWFLAKE, x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
-                this.level().addParticle(ParticleRegistry.ICE_CUBE_SHATTER.get(), x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
+                if (!this.isInWaterOrBubble()) {
+                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
+                    this.level().addParticle(ParticleRegistry.ICE_CUBE_SHATTER.get(), x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
+                }
                 this.level().addParticle(ParticleRegistry.ICE_STAR.get(), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
             }
         }
