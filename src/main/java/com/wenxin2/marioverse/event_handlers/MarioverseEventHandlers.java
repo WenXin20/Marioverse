@@ -115,26 +115,6 @@ public class MarioverseEventHandlers {
             }
         }
 
-        if (!tag.contains("marioverse:fireball_ready")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
-            tag.putBoolean("marioverse:fireball_ready", false);
-
-        if (!tag.contains("marioverse:fireball_cooldown")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
-            tag.putInt("marioverse:fireball_cooldown", 0);
-
-        if (!tag.contains("marioverse:fireball_count")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                    || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
-            tag.putInt("marioverse:fireball_count", 0);
-
-        if (!tag.contains("marioverse:ice_ball_ready")
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
-            tag.putBoolean("marioverse:ice_ball_ready", false);
-
         if (!tag.contains("marioverse:ice_ball_cooldown")
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))

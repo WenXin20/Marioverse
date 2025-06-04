@@ -57,15 +57,12 @@ public class ShootBouncingFireballGoal extends Goal {
         if (canUse()) {
             if ((livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
                     || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
-                    || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem)) {
+                    || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem))
                 handleFireballShooting();
-            }
         }
 
-        int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
-        if (fireballCooldown > 0) {
-            livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
-        }
+        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$getFireballCooldown() > 0)
+            handler.mv$setFireballCooldown(handler.mv$getFireballCooldown() - 1);
 
         if (livingEntity instanceof Mob mob) {
             LivingEntity livingentity = mob.getTarget();
@@ -81,25 +78,24 @@ public class ShootBouncingFireballGoal extends Goal {
     }
 
     public void handleFireballShooting() {
-        int fireballCount = livingEntity.getPersistentData().getInt("marioverse:fireball_count");
-        int fireballCooldown = livingEntity.getPersistentData().getInt("marioverse:fireball_cooldown");
-
         if (livingEntity instanceof AbilitiesHandler handler) {
-            if (!requireFireFlower && fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower) {
+            if (!requireFireFlower && handler.mv$getFireballCooldown() == 0
+                    && handler.mv$getFireballCount() < maxFireballs + addFireballsWithFireFlower) {
                 this.shootFireball();
-                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
-                livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-            } else if (fireballCooldown == 0 && fireballCount < maxFireballs + addFireballsWithFireFlower
+                handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
+                handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
+            } else if (handler.mv$getFireballCooldown() == 0
+                    && handler.mv$getFireballCount() < maxFireballs + addFireballsWithFireFlower
                     && handler.mv$hasFireFlower()) {
                 this.shootFireball();
-                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
-                livingEntity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-            } else if (!requireFireFlower && fireballCount >= maxFireballs + addFireballsWithFireFlower) {
-                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
-                livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
-            } else if (fireballCount >= maxFireballs) {
-                livingEntity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
-                livingEntity.getPersistentData().putInt("marioverse:fireball_count", 0);
+                handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
+                handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
+            } else if (!requireFireFlower && handler.mv$getFireballCount() >= maxFireballs + addFireballsWithFireFlower) {
+                handler.mv$setFireballCooldown(ConfigRegistry.FIREBALL_COOLDOWN.get());
+                handler.mv$setFireballCount(0);
+            } else if (handler.mv$getFireballCount() >= maxFireballs) {
+                handler.mv$setFireballCooldown(ConfigRegistry.FIREBALL_COOLDOWN.get());
+                handler.mv$setFireballCount(0);
             }
         }
     }

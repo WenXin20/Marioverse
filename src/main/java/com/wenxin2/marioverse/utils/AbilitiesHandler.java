@@ -19,6 +19,16 @@ public interface AbilitiesHandler {
     void mv$setSuperStar(boolean hasSuperStar);
 
 
+    int mv$getFireballCooldown();
+    void mv$setFireballCooldown(int fireballCooldown);
+
+    int mv$getFireballCount();
+    void mv$setFireballCount(int fireballCount);
+
+    int mv$getSuperStarCooldown();
+    void mv$setSuperStarCooldown(int superStarCooldown);
+
+
     int mv$getCheckpointFlagCooldown();
     void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown);
 
@@ -33,7 +43,4 @@ public interface AbilitiesHandler {
 
     int mv$getOneUpsRewarded();
     void mv$setOneUpsRewarded(int oneUpsRewarded);
-
-    int mv$getSuperStarCooldown();
-    void mv$setSuperStarCooldown(int superStarCooldown);
 }

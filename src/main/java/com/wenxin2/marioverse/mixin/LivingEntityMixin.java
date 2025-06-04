@@ -99,6 +99,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
+    @Unique private int mv$fireballCooldown;
+    @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$oneUpsRewarded;
@@ -122,6 +124,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
+
         tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
         tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
@@ -131,6 +135,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
         tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
+
+        if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
+            tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
+            tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
+        }
         tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
         tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
         tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
@@ -141,6 +151,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
         this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
@@ -150,6 +161,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
         this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
+        if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
+            this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
+            this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
+        }
         this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
         this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
         this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
@@ -174,7 +190,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         BlockState stateEast = world.getBlockState(posEast);
         BlockState stateWest = world.getBlockState(posWest);
 
-        int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
         int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
 
         this.mv$characterAbilities(entity);
@@ -230,8 +245,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (this.mv$getCheckpointFlagCooldown() > 0)
             this.mv$setCheckpointFlagCooldown(this.mv$getCheckpointFlagCooldown() - 1);
 
-        if (fireballCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", fireballCooldown - 1);
+        if (this.mv$getFireballCooldown() > 0)
+            this.mv$setFireballCooldown(this.mv$getFireballCooldown() - 1);
 
         if (iceBallCooldown > 0)
             entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", iceBallCooldown - 1);
@@ -338,6 +353,26 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setSuperStar(boolean hasSuperStar) {
         this.mv$hasSuperStar = hasSuperStar;
+    }
+
+    @Override
+    public int mv$getFireballCooldown() {
+        return this.mv$fireballCooldown;
+    }
+
+    @Override
+    public void mv$setFireballCooldown(int fireballCooldown) {
+        this.mv$fireballCooldown = fireballCooldown;
+    }
+
+    @Override
+    public int mv$getFireballCount() {
+        return this.mv$fireballCount;
+    }
+
+    @Override
+    public void mv$setFireballCount(int fireballCount) {
+        this.mv$fireballCount = fireballCount;
     }
 
     @Override

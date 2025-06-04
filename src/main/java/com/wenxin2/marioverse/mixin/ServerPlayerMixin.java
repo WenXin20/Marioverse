@@ -28,6 +28,8 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
+    @Unique private int mv$fireballCooldown;
+    @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$oneUpsRewarded;
@@ -116,6 +118,26 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setSuperStar(boolean hasSuperStar) {
         this.mv$hasSuperStar = hasSuperStar;
+    }
+
+    @Override
+    public int mv$getFireballCooldown() {
+        return this.mv$fireballCooldown;
+    }
+
+    @Override
+    public void mv$setFireballCooldown(int fireballCooldown) {
+        this.mv$fireballCooldown = fireballCooldown;
+    }
+
+    @Override
+    public int mv$getFireballCount() {
+        return this.mv$fireballCount;
+    }
+
+    @Override
+    public void mv$setFireballCount(int fireballCount) {
+        this.mv$fireballCount = fireballCount;
     }
 
     @Override

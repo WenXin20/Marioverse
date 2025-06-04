@@ -35,16 +35,15 @@ public class FireballShootPacket {
     }
 
     public void handleFireballShooting(Entity entity) {
-        int fireballCount = entity.getPersistentData().getInt("marioverse:fireball_count");
-        int fireballCooldown = entity.getPersistentData().getInt("marioverse:fireball_cooldown");
-
-        if (fireballCooldown == 0 && fireballCount < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
-            shootFireball(entity);
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", FIREBALL_COOLDOWN);
-            entity.getPersistentData().putInt("marioverse:fireball_count", fireballCount + 1);
-        } else if (fireballCount >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
-            entity.getPersistentData().putInt("marioverse:fireball_cooldown", ConfigRegistry.FIREBALL_COOLDOWN.get());
-            entity.getPersistentData().putInt("marioverse:fireball_count", 0);
+        if (entity instanceof AbilitiesHandler handler) {
+            if (handler.mv$getFireballCooldown() == 0 && handler.mv$getFireballCount() < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
+                shootFireball(entity);
+                handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
+                handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
+            } else if (handler.mv$getFireballCount() >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
+                handler.mv$setFireballCooldown(ConfigRegistry.FIREBALL_COOLDOWN.get());
+                handler.mv$setFireballCount(0);
+            }
         }
     }
 
