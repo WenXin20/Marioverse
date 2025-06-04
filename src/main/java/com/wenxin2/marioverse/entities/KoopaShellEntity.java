@@ -213,7 +213,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (ticksToDie > 1)
             this.getPersistentData().putInt("marioverse:ticks_to_die", ticksToDie - 1);
         else if (ticksToDie == 1) {
-            this.spawnDeathParticles(this);
+            this.playDeathAnimation(this);
             this.discard();
         }
 
@@ -224,7 +224,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.leftOwner = this.checkLeftOwner();
 
         if (this.bounceCount >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue()) {
-            this.spawnDeathParticles(this);
+            this.playDeathAnimation(this);
             this.discard();
         }
 
@@ -271,26 +271,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         } else if (!isSliding && motion.horizontalDistance() > 0.0001) {
             this.slidingDirection = motion;
             isSliding = true;
-        }
-    }
-
-    private void spawnDeathParticles(Entity entity) {
-        float scale = (float) this.getAttributeValue(Attributes.SCALE);
-        float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
-        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
-
-        if (entity.level() instanceof ServerLevel serverWorld) {
-            float height = this.getBbHeight() * scale * heightScale;
-            float width = this.getBbWidth() * scale * widthScale;
-
-            if (this.getBbHeight() >= this.getBbWidth() * 3)
-                width *= 2.0F;
-
-            float scaleFactor = height * width * 1.2F;
-            int numParticles = (int) (scaleFactor * 10);
-            for (int i = 0; i < numParticles; ++i)
-                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
-                        entity, height * 1.55F + 0.1F, width * 1.55F);
         }
     }
 
@@ -367,7 +347,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public void die(DamageSource source) {
-        this.spawnDeathParticles(this);
+        this.playDeathAnimation(this);
         super.die(source);
     }
 
@@ -583,9 +563,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     }
                 }
 
-                if (entityHit instanceof KoopaShellEntity) {
-                    this.spawnDeathParticles(entityHit);
-                    entityHit.discard();
+                if (entityHit instanceof KoopaShellEntity koopaShell) {
+                    this.playDeathAnimation(this);
+                    this.discard();
+                    koopaShell.playDeathAnimation(koopaShell);
+                    koopaShell.discard();
                     return;
                 }
 
@@ -605,6 +587,53 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         entityCollided.retainAll(newCollisions);
         entityCollided.addAll(newCollisions);
+    }
+
+    public void damageEntity(LivingEntity entity, Set<UUID> newCollisions) {
+        Level world = this.level();
+        ItemStack shield = entity.getUseItem();
+        Vec3 toShell = this.position().subtract(entity.position()).normalize();
+        Vec3 look = entity.getLookAngle().normalize();
+        double dot = toShell.dot(look);
+
+        UUID id = entity.getUUID();
+        newCollisions.add(id);
+
+        if (!entityCollided.contains(id)) {
+            if (entity.isBlocking() && dot > 0.25) {
+                this.deflect(entity, this.getOwner(), true);
+                shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
+                world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        SoundSource.NEUTRAL, 1.0F, 1.0F);
+                world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
+                        SoundSource.NEUTRAL, 1.0F, 1.0F);
+                return;
+            }
+
+            if (entity instanceof Breeze) {
+                this.deflect(entity, this.getOwner(), true);
+                world.playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
+                        entity.getSoundSource(), 1.0F, 1.0F);
+                return;
+            }
+
+            float shellDamage = entity.getType().is(this.getInstakillEntityTag())
+                    ? entity.getHealth() * 1.25F : this.getShellDamage();
+
+            if (this.getOwner() != null)
+                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
+            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
+
+            if (world instanceof ServerLevel serverWorld)
+                serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
+                        3, 0.1, 0.1, 0.1, 0.0);
+
+            if (entity.isPassenger() && entity.getVehicle() != null) {
+                Entity vehicle = entity.getVehicle();
+                vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
+            }
+            this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
+        }
     }
 
     private void spawnKoopaTroopa() {
@@ -665,50 +694,26 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
     }
 
-    public void damageEntity(LivingEntity entity, Set<UUID> newCollisions) {
-        Level world = this.level();
-        ItemStack shield = entity.getUseItem();
-        Vec3 toShell = this.position().subtract(entity.position()).normalize();
-        Vec3 look = entity.getLookAngle().normalize();
-        double dot = toShell.dot(look);
+    private void playDeathAnimation(Entity entity) {
+        float scale = (float) this.getAttributeValue(Attributes.SCALE);
+        float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
 
-        UUID id = entity.getUUID();
-        newCollisions.add(id);
+        if (entity.level() instanceof ServerLevel serverWorld) {
+            float height = this.getBbHeight() * scale * heightScale;
+            float width = this.getBbWidth() * scale * widthScale;
 
-        if (!entityCollided.contains(id)) {
-            if (entity.isBlocking() && dot > 0.25) {
-                this.deflect(entity, this.getOwner(), true);
-                shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
-                world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                        SoundSource.NEUTRAL, 1.0F, 1.0F);
-                world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
-                        SoundSource.NEUTRAL, 1.0F, 1.0F);
-                return;
-            }
+            if (this.getBbHeight() >= this.getBbWidth() * 3)
+                width *= 2.0F;
 
-            if (entity instanceof Breeze) {
-                this.deflect(entity, this.getOwner(), true);
-                world.playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
-                        entity.getSoundSource(), 1.0F, 1.0F);
-                return;
-            }
-
-            float shellDamage = entity.getType().is(this.getInstakillEntityTag())
-                    ? entity.getHealth() * 1.25F : this.getShellDamage();
-
-            if (this.getOwner() != null)
-                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
-            else entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
-
-            if (world instanceof ServerLevel serverWorld)
-                serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
-                        3, 0.1, 0.1, 0.1, 0.0);
-
-            if (entity.isPassenger() && entity.getVehicle() != null) {
-                Entity vehicle = entity.getVehicle();
-                vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
-            }
-            this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
+            float scaleFactor = height * width * 1.2F;
+            int numParticles = (int) (scaleFactor * 10);
+            for (int i = 0; i < numParticles; ++i)
+                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
+                        entity, height * 1.55F + 0.1F, width * 1.55F);
         }
+
+        if (this.getDeathSound() != null)
+            this.playSound(this.getDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
     }
 }
