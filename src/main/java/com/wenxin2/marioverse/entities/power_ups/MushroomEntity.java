@@ -107,15 +107,9 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
                         || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
                     && entity instanceof AbilitiesHandler handler) {
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()) {
-                    handler.mv$setMushroom(true);
-                    if (this.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnAnimParticles(ParticleTypes.POOF, serverWorld, entity);
-                } else {
-                    handler.mv$setMushroom(true);
-                    if (entity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
-                }
+                handler.mv$setMushroom(true);
+                if (entity.level() instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
 
                 if (!this.level().isClientSide) {
                     if (livingEntity.getHealth() < livingEntity.getMaxHealth())
