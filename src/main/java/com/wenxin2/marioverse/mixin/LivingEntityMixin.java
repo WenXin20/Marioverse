@@ -412,12 +412,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Override
     public int mv$getFreezeImmunityCooldown() {
-        return this.mv$frozenCooldown;
+        return this.mv$freezeImmunityCooldown;
     }
 
     @Override
     public void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown) {
-        this.mv$frozenCooldown = freezeImmunityCooldown;
+        this.mv$freezeImmunityCooldown = freezeImmunityCooldown;
     }
 
     @Override
