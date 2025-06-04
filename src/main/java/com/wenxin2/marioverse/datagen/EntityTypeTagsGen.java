@@ -168,6 +168,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
                 .addOptional(TEST_DUMMY);
 
+        tag(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
+
         tag(TagRegistry.CAN_CONSUME_ONE_UPS)
                 .add(EntityType.IRON_GOLEM)
                 .add(EntityType.PLAYER)

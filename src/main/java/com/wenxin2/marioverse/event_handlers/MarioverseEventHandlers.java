@@ -105,7 +105,9 @@ public class MarioverseEventHandlers {
 
         if (!(entity instanceof LivingEntity)) return;
 
-        if (entity instanceof AbilitiesHandler handler) {
+        if (entity instanceof AbilitiesHandler handler
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
                     handler.mv$setMushroom(true);
@@ -160,7 +162,9 @@ public class MarioverseEventHandlers {
     public static void onEntityHeal(LivingHealEvent event) {
         Entity entity = event.getEntity();
 
-        if (entity instanceof AbilitiesHandler handler) {
+        if (entity instanceof AbilitiesHandler handler
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
                     handler.mv$setMushroom(true);
@@ -219,8 +223,11 @@ public class MarioverseEventHandlers {
                     }
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity entity && !entity.isDamageSourceBlocked(event.getSource())
-                && entity instanceof AbilitiesHandler handler) {
+        } else if (event.getEntity() instanceof LivingEntity entity
+                && !entity.isDamageSourceBlocked(event.getSource())
+                && entity instanceof AbilitiesHandler handler
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();

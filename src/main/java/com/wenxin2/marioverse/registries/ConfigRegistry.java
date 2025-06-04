@@ -105,6 +105,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
+    public static ModConfigSpec.BooleanValue MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_BUCKET_TWEAKS;
@@ -690,6 +691,10 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);
+                    MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.mushroom_powers_all_mobs")
+                            .comment("Allow Mushrooms to power all mobs.")
+                            .comment("§9[Default: false]")
+                            .define("mushroom_powers_all_mobs", false);
                     MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.mushroom_health_healed")
                             .comment("Amount of health Mushrooms heals.")
                             .comment("§9[Default: 5.0F]§b")

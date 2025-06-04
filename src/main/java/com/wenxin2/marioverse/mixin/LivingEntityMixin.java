@@ -128,24 +128,28 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
-        tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
-        tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
-        tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
 
         tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
         tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
 
+        if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
+            tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
+            tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
+        }
+
         if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
+            || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
+            tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
             tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
             tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
         }
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()) {
+            tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
             tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
             tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
         }
@@ -160,24 +164,28 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
-        this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
-        this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
-        this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
 
         this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
         this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
 
+        if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
+            this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
+            this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
+        }
+
         if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
+            this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
             this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
             this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
         }
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()) {
+            this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
             this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
             this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
         }
@@ -1091,7 +1099,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         double targetWidthScale = hasMushroom ? 1.0D : 0.75D;
 
         boolean isPlayer = entity instanceof Player;
-        boolean shouldShrink =  !hasMushroom
+        boolean shouldShrink = !hasMushroom
                 && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && ((isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
