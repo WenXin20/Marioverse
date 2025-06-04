@@ -35,16 +35,16 @@ public class IceBallShootPacket {
     }
 
     public void handleIceballShooting(Entity entity) {
-        int iceBallCount = entity.getPersistentData().getInt("marioverse:ice_ball_count");
-        int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
-
-        if (iceBallCooldown == 0 && iceBallCount < ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
-            shootIceBall(entity);
-            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ICE_BALL_COOLDOWN);
-            entity.getPersistentData().putInt("marioverse:ice_ball_count", iceBallCount + 1);
-        } else if (iceBallCount >= ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
-            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ConfigRegistry.ICE_BALL_COOLDOWN.get());
-            entity.getPersistentData().putInt("marioverse:ice_ball_count", 0);
+        if (entity instanceof AbilitiesHandler handler) {
+            if (handler.mv$getIceBallCooldown() == 0
+                    && handler.mv$getIceBallCount() < ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
+                shootIceBall(entity);
+                handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
+                handler.mv$setIceBallCount(handler.mv$getIceBallCount() + 1);
+            } else if (handler.mv$getIceBallCount() >= ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
+                handler.mv$setIceBallCooldown(ConfigRegistry.ICE_BALL_COOLDOWN.get());
+                handler.mv$setIceBallCount(0);
+            }
         }
     }
 

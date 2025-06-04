@@ -25,6 +25,12 @@ public interface AbilitiesHandler {
     int mv$getFireballCount();
     void mv$setFireballCount(int fireballCount);
 
+    int mv$getIceBallCooldown();
+    void mv$setIceBallCooldown(int iceBallCooldown);
+
+    int mv$getIceBallCount();
+    void mv$setIceBallCount(int iceBallCount);
+
     int mv$getSuperStarCooldown();
     void mv$setSuperStarCooldown(int superStarCooldown);
 

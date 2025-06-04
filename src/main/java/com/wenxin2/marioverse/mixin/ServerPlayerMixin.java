@@ -32,6 +32,8 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
     @Unique private int mv$frozenCooldown;
+    @Unique private int mv$iceBallCooldown;
+    @Unique private int mv$iceBallCount;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -138,6 +140,26 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setFireballCount(int fireballCount) {
         this.mv$fireballCount = fireballCount;
+    }
+
+    @Override
+    public int mv$getIceBallCooldown() {
+        return this.mv$iceBallCooldown;
+    }
+
+    @Override
+    public void mv$setIceBallCooldown(int iceBallCooldown) {
+        this.mv$iceBallCooldown = iceBallCooldown;
+    }
+
+    @Override
+    public int mv$getIceBallCount() {
+        return this.mv$iceBallCount;
+    }
+
+    @Override
+    public void mv$setIceBallCount(int iceBallCount) {
+        this.mv$iceBallCount = iceBallCount;
     }
 
     @Override

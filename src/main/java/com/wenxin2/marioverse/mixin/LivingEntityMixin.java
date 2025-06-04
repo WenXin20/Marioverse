@@ -103,6 +103,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
     @Unique private int mv$frozenCooldown;
+    @Unique private int mv$iceBallCooldown;
+    @Unique private int mv$iceBallCount;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -141,6 +143,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
             tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
         }
+
+        if (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()) {
+            tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
+            tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
+        }
         tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
         tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
         tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
@@ -161,11 +169,19 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
         this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
+
         if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
             this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
             this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
         }
+
+        if (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()) {
+            this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
+            this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
+        }
+
         this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
         this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
         this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
@@ -189,8 +205,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         BlockState stateSouth = world.getBlockState(posSouth);
         BlockState stateEast = world.getBlockState(posEast);
         BlockState stateWest = world.getBlockState(posWest);
-
-        int iceBallCooldown = entity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
 
         this.mv$characterAbilities(entity);
         this.mv$entityScale(entity);
@@ -248,8 +262,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (this.mv$getFireballCooldown() > 0)
             this.mv$setFireballCooldown(this.mv$getFireballCooldown() - 1);
 
-        if (iceBallCooldown > 0)
-            entity.getPersistentData().putInt("marioverse:ice_ball_cooldown", iceBallCooldown - 1);
+        if (this.mv$getIceBallCooldown() > 0)
+            this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
 
         if (this.mv$getFreezeImmunityCooldown() > 0)
             this.mv$setFreezeImmunityCooldown(this.mv$getFreezeImmunityCooldown() - 1);
@@ -373,6 +387,26 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setFireballCount(int fireballCount) {
         this.mv$fireballCount = fireballCount;
+    }
+
+    @Override
+    public int mv$getIceBallCooldown() {
+        return this.mv$iceBallCooldown;
+    }
+
+    @Override
+    public void mv$setIceBallCooldown(int iceBallCooldown) {
+        this.mv$iceBallCooldown = iceBallCooldown;
+    }
+
+    @Override
+    public int mv$getIceBallCount() {
+        return this.mv$iceBallCount;
+    }
+
+    @Override
+    public void mv$setIceBallCount(int iceBallCount) {
+        this.mv$iceBallCount = iceBallCount;
     }
 
     @Override

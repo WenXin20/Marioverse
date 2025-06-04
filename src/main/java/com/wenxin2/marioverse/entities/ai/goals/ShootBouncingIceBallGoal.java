@@ -57,15 +57,12 @@ public class ShootBouncingIceBallGoal extends Goal {
         if (canUse()) {
             if ((livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
                     || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
-                    || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem)) {
+                    || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem))
                 handleIceBallShooting();
-            }
         }
 
-        int iceBallCooldown = livingEntity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
-        if (iceBallCooldown > 0) {
-            livingEntity.getPersistentData().putInt("marioverse:ice_ball_cooldown", iceBallCooldown - 1);
-        }
+        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$getIceBallCooldown() > 0)
+            handler.mv$setIceBallCooldown(handler.mv$getIceBallCooldown() - 1);
 
         if (livingEntity instanceof Mob mob) {
             LivingEntity livingentity = mob.getTarget();
@@ -81,25 +78,24 @@ public class ShootBouncingIceBallGoal extends Goal {
     }
 
     public void handleIceBallShooting() {
-        int iceBallCount = livingEntity.getPersistentData().getInt("marioverse:ice_ball_count");
-        int iceBallCooldown = livingEntity.getPersistentData().getInt("marioverse:ice_ball_cooldown");
-
         if (livingEntity instanceof AbilitiesHandler handler) {
-            if (!requireIceFlower && iceBallCooldown == 0 && iceBallCount < maxIceBalls + addIceBallsWithIceFlower) {
+            if (!requireIceFlower && handler.mv$getIceBallCooldown() == 0
+                    && handler.mv$getIceBallCount() < maxIceBalls + addIceBallsWithIceFlower) {
                 this.shootIceBall();
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ICE_BALL_COOLDOWN);
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_count", iceBallCount + 1);
-            } else if (iceBallCooldown == 0 && iceBallCount < maxIceBalls + addIceBallsWithIceFlower
+                handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
+                handler.mv$setIceBallCount(handler.mv$getIceBallCooldown() + 1);
+            } else if (handler.mv$getIceBallCooldown() == 0
+                    && handler.mv$getIceBallCount() < maxIceBalls + addIceBallsWithIceFlower
                     && handler.mv$hasIceFlower()) {
                 this.shootIceBall();
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ICE_BALL_COOLDOWN);
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_count", iceBallCount + 1);
-            } else if (!requireIceFlower && iceBallCount >= maxIceBalls + addIceBallsWithIceFlower) {
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ConfigRegistry.ICE_BALL_COOLDOWN.get());
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_count", 0);
-            } else if (iceBallCount >= maxIceBalls) {
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_cooldown", ConfigRegistry.ICE_BALL_COOLDOWN.get());
-                livingEntity.getPersistentData().putInt("marioverse:ice_ball_count", 0);
+                handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
+                handler.mv$setIceBallCount(handler.mv$getIceBallCooldown() + 1);
+            } else if (!requireIceFlower && handler.mv$getIceBallCount() >= maxIceBalls + addIceBallsWithIceFlower) {
+                handler.mv$setIceBallCooldown(ConfigRegistry.ICE_BALL_COOLDOWN.get());
+                handler.mv$setIceBallCount(0);
+            } else if (handler.mv$getIceBallCount() >= maxIceBalls) {
+                handler.mv$setIceBallCooldown(ConfigRegistry.ICE_BALL_COOLDOWN.get());
+                handler.mv$setIceBallCount(0);
             }
         }
     }
