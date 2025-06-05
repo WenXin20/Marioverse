@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import net.minecraft.core.BlockPos;
@@ -67,16 +68,24 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
     @Inject(method = "save", at = @At("TAIL"))
     public void save(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
-        tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-        tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
-        tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
+        Entity entity = (Entity) (Object) this;
+
+        if (!entity.getType().is(TagRegistry.CANNOT_WARP)
+                && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
+            tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
+            tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
+        }
     }
 
     @Inject(method = "load", at = @At("TAIL"))
     public void load(CompoundTag tag, CallbackInfo ci) {
-        this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-        this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
-        this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
+        Entity entity = (Entity) (Object) this;
+
+        if (!entity.getType().is(TagRegistry.CANNOT_WARP)
+                && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
+            this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
+            this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
+        }
     }
 
     @Inject(at = @At("TAIL"), method = "tick")

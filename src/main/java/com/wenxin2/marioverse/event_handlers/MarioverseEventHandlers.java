@@ -117,13 +117,6 @@ public class MarioverseEventHandlers {
             }
         }
 
-//        if (!tag.contains("marioverse:warp_cooldown")
-//                && !entity.getType().is(TagRegistry.CANNOT_WARP)
-//                && (ConfigRegistry.TELEPORT_MOBS.get()
-//                    || ConfigRegistry.TELEPORT_PLAYERS.get())
-//                    || ConfigRegistry.TELEPORT_NON_MOBS.get())
-//            tag.putInt("marioverse:warp_cooldown", 0);
-
         if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)) {
             if (!(mob instanceof FireGoombaEntity)) {
                 if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)

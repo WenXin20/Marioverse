@@ -128,23 +128,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-        tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
-        tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
-        tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
-        tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
-        tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
-        tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-
         if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
                 || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
             tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
             tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
         }
 
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
-                || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
+        if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
+                    || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
+            tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
             tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
+        }
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
             || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
@@ -165,19 +160,32 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
             tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
         }
+
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
+            tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
+
+        if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
+            tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
+            tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
+        }
+
+        if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
+                tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
+                tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
+            } else if (ConfigRegistry.TELEPORT_MOBS.get()) {
+                tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
+                tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
+            }
+
+            if (entity instanceof Player)
+                tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
+        }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-
-        this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-        this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
-        this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
-        this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
-        this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
-        this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
-        this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
                 || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
@@ -185,9 +193,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
         }
 
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
-                || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
+        if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
+                || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
+            this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
             this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
+        }
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
@@ -207,6 +218,27 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()) {
             this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
             this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
+        }
+
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
+            this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
+
+        if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
+            this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
+            this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
+        }
+
+        if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
+                this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
+                this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
+            } else if (ConfigRegistry.TELEPORT_MOBS.get()) {
+                this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
+                this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
+            }
+
+            if (entity instanceof Player)
+                this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
         }
     }
 
