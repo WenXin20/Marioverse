@@ -74,12 +74,12 @@ public interface WarpLinkableEntity {
         if (entity instanceof EntityWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
             if (entity instanceof Player player) {
                 entity.teleportTo(x, y, z);
-                if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(x, y, z);
                 if (passengerEntity instanceof Player player) {
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     entity.unRide();
                 }

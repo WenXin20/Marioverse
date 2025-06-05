@@ -65,14 +65,14 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
                 if (state.getBlock() instanceof DoorBlock)
                     warpBE.playDoorSounds(null, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-                if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 if (state.getBlock() instanceof DoorBlock)
                     warpBE.playDoorSounds(entity, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
                 if (passengerEntity instanceof Player player) {
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     entity.unRide();
                 }
