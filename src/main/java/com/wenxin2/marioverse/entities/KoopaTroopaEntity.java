@@ -95,6 +95,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private boolean isHiding;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
 
@@ -175,6 +176,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+        tag.putBoolean("IsHiding", this.isHiding());
         tag.putInt("HideTicks", this.hideTicks);
     }
 
@@ -183,6 +185,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
         this.hideTicks = tag.getInt("HideTicks");
+        this.hide(tag.getBoolean("IsHiding"));
     }
 
     @Override
@@ -207,7 +210,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.is(TagRegistry.HIDES_KOOPA_TROOPA)) {
-            this.hide(Boolean.TRUE);
+            this.hide(true);
             this.getNavigation().stop();
             this.setXxa(0.0F);
             this.setSpeed(0.0F);
@@ -447,11 +450,12 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     }
 
     public boolean isHiding() {
-        return hideTicks > 0;
+        return this.isHiding;
     }
 
-    public void hide(boolean isSitting) {
-        this.setHideFlag(8, isSitting);
+    public void hide(boolean isHiding) {
+        this.setHideFlag(8, isHiding);
+        this.isHiding = isHiding;
     }
 
     private boolean getHideFlag(int i) {
