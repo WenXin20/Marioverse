@@ -86,6 +86,9 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
                 player.displayClientMessage(Component.translatable("display.marioverse.trapdoors_cannot_teleport_players"), true);
             }
         }
+
+        if (this.mv$doPreventWarp())
+            player.displayClientMessage(Component.translatable("display.marioverse.warp_disruptor_prevented_warp"), true);
     }
 
     private void displayDestinationMissingMessage(Player player) {

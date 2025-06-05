@@ -727,6 +727,8 @@
   "display.marioverse.pipes_cannot_teleport_players": "§cWarp Pipes cannot teleport Players!",
   "display.marioverse.trapdoors_cannot_teleport_players": "§cWarp Trapdoors cannot teleport Players!",
 
+  "display.marioverse.warp_disruptor_prevented_warp": "§cYou were prevented from warping!",
+
   "display.marioverse.warp_pipe_cooldown": "§cPipe warping on cooldown!",
   "display.marioverse.warp_pipe_cooldown.ticks": "§cPipe warping on cooldown for §r%1$s §cticks!",
 

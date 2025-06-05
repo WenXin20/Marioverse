@@ -22,5 +22,8 @@ public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
             if (!this.mv$getEntityWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP))
                 player.displayClientMessage(Component.translatable("display.marioverse.paintings_cannot_teleport_players"), true);
         }
+
+        if (this.mv$doPreventWarp())
+            player.displayClientMessage(Component.translatable("display.marioverse.warp_disruptor_prevented_warp"), true);
     }
 }
