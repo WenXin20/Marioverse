@@ -208,15 +208,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.tick();
         Vec3 motion = this.getDeltaMovement();
 
-        int ticksToDie = this.getPersistentData().getInt("marioverse:ticks_to_die");
-
-        if (ticksToDie > 1)
-            this.getPersistentData().putInt("marioverse:ticks_to_die", ticksToDie - 1);
-        else if (ticksToDie == 1) {
-            this.playDeathAnimation(this);
-            this.discard();
-        }
-
         if (motion.horizontalDistance() > 0.1)
             this.spawnSprintParticle();
 
@@ -549,7 +540,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (speed >= 0.1 && !this.hasPassenger(entityHit)) {
                 if (entityHit instanceof VehicleEntity vehicle) {
                     vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
-                    this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
 
                     for (Entity rider : vehicle.getPassengers()) {
                         if (rider instanceof LivingEntity livingEntity && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE)) {
@@ -559,6 +549,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                             if (this.getOwner() != null)
                                 entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
                             else entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
+
+                            if (!entityHit.isAlive()) {
+                                this.playDeathAnimation(this);
+                                this.discard();
+                            }
                         }
                     }
                 }
@@ -632,7 +627,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 Entity vehicle = entity.getVehicle();
                 vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
             }
-            this.getPersistentData().putInt("marioverse:ticks_to_die", 4);
+            
+            this.playDeathAnimation(this);
+            this.discard();
         }
     }
 
