@@ -477,26 +477,24 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void collideWithWall(Level world) {
         if (!world.isClientSide) {
             AABB bb = this.getBoundingBox();
+            double maxStep = this.maxUpStep();
+            double forwardDistance = 0.5;
+            double stepIncrement = 0.1;
 
+            outer:
             for (Direction dir : Direction.Plane.HORIZONTAL) {
-                Vec3 offset = new Vec3(dir.getStepX() * 0.5, 0.5, dir.getStepZ() * 0.5);
-                AABB movedBox = bb.move(offset);
-                BlockPos checkPos = BlockPos.containing(this.position().add(offset));
+                Vec3 forward = new Vec3(dir.getStepX() * forwardDistance, 0, dir.getStepZ() * forwardDistance);
 
-                BlockState state = world.getBlockState(checkPos);
-                VoxelShape shape = state.getCollisionShape(world, checkPos);
+                for (double dy = 0; dy <= maxStep; dy += stepIncrement) {
+                    Vec3 offset = forward.add(0, dy, 0);
+                    AABB movedBox = bb.move(offset);
 
-                if (!shape.isEmpty()) {
-                    AABB shapeBox = shape.bounds().move(checkPos);
-                    if (shapeBox.intersects(movedBox)) {
-                        double maxHeight = shape.max(Direction.Axis.Y);
-
-                        if (maxHeight <= 0.5)
-                            continue;
-                        this.bounceShell(world, dir);
-                        break;
-                    }
+                    if (world.noCollision(this, movedBox))
+                        continue outer;
                 }
+
+                this.bounceShell(world, dir);
+                break;
             }
         }
     }
@@ -627,7 +625,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 Entity vehicle = entity.getVehicle();
                 vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
             }
-            
+
             this.playDeathAnimation(this);
             this.discard();
         }
