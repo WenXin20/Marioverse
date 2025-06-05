@@ -58,9 +58,6 @@ public interface EntityWarpEntityHandler {
         if (world instanceof ServerLevel serverWorld && warpLinkableEntity.mv$getWarpUUID() != null) {
             UUID warpUUID = warpLinkableEntity.mv$getWarpUUID();
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.mv$getWarpUUID());
-            if (warpEntity == null && entity instanceof Player player)
-                this.displayEntityDestinationMissingMessage(player);
-
             if (warpEntity != null) {
                 if (warpEntity instanceof Painting painting) {
                     int width = painting.getVariant().value().width();
