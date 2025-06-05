@@ -43,7 +43,6 @@ public interface EntityWarpEntityHandler {
     }
 
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
-
         if (!this.mv$doPreventWarp()) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (this.mv$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
