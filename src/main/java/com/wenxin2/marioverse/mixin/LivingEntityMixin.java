@@ -95,6 +95,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasMushroom;
+    @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
@@ -161,6 +162,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
         }
 
+        if (entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS))
+            tag.putBoolean("marioverse:has_smashed_block", this.mv$hasSmashedBlock());
+
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
             tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
 
@@ -220,6 +224,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
         }
 
+        if (entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS))
+            this.mv$setSmashedBlock(tag.getBoolean("marioverse:has_smashed_block"));
+
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
             this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
 
@@ -275,16 +282,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !this.mv$hasSuperStar())
             this.mv$setConsecutiveBounces(0);
 
-        if (entity.onGround() && entity.getDeltaMovement().y <= 0
-                && entity.getPersistentData().getBoolean("marioverse:has_smashed_block"))
-            entity.getPersistentData().putBoolean("marioverse:has_smashed_block", false);
+        if ((entity.onGround() || entity.isInWaterOrBubble())
+                && entity.getDeltaMovement().y <= 0 && this.mv$hasSmashedBlock())
+            this.mv$setSmashedBlock(false);
 
         double deltaY = entity.getDeltaMovement().y;
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
                 && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator()) {
+                && !entity.isSpectator()
+                && !this.mv$hasSmashedBlock()) {
             this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
@@ -422,6 +429,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
+    public boolean mv$hasSmashedBlock() {
+        return this.mv$hasSmashedBlock;
+    }
+
+    @Override
+    public void mv$setSmashedBlock(boolean hasSmashedBlock) {
+        this.mv$hasSmashedBlock = hasSmashedBlock;
+    }
+
+    @Override
     public int mv$getFireballCooldown() {
         return this.mv$fireballCooldown;
     }
@@ -556,8 +573,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((stateNorth.is(TagRegistry.SMASHABLE_BLOCKS) || stateNorth.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
-                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
-                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+                && entity.getDeltaMovement().horizontalDistance() > 0.1
+                && !this.mv$hasSmashedBlock()) {
             mv$smashBlock(world, posNorth, stateNorth, entity);
             shell.bounceShell(world, Direction.NORTH);
         }
@@ -565,8 +582,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((stateSouth.is(TagRegistry.SMASHABLE_BLOCKS) || stateSouth.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
-                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
-                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+                && entity.getDeltaMovement().horizontalDistance() > 0.1
+                && !this.mv$hasSmashedBlock()) {
             mv$smashBlock(world, posSouth, stateSouth, entity);
             shell.bounceShell(world, Direction.SOUTH);
         }
@@ -574,8 +591,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((stateEast.is(TagRegistry.SMASHABLE_BLOCKS) || stateEast.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
-                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
-                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+                && entity.getDeltaMovement().horizontalDistance() > 0.1
+                && !this.mv$hasSmashedBlock()) {
             mv$smashBlock(world, posEast, stateEast, entity);
             shell.bounceShell(world, Direction.EAST);
         }
@@ -583,8 +600,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((stateWest.is(TagRegistry.SMASHABLE_BLOCKS) || stateWest.getBlock() instanceof DecoratedPotBlock)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
-                && !entity.getPersistentData().getBoolean("marioverse:has_smashed_block")
-                && entity.getDeltaMovement().horizontalDistance() > 0.1) {
+                && entity.getDeltaMovement().horizontalDistance() > 0.1
+                && !this.mv$hasSmashedBlock()) {
             mv$smashBlock(world, posWest, stateWest, entity);
             shell.bounceShell(world, Direction.WEST);
         }
@@ -659,8 +676,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         AttributeInstance gravityAttribute = entity.getAttribute(Attributes.GRAVITY);
 
         if (jumpAttribute != null) {
-//            Minecraft minecraft = Minecraft.getInstance();
-//            KeyMapping sprintKey = minecraft.options.keySprint;
             double normalJumpBoost = 0.4;
             double runningJumpBoost = 0.5;
             boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
@@ -1260,11 +1275,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         mv$hitEntityAbove(pos, world, entity);
 
-        if (entity instanceof AbilitiesHandler handler && handler.mv$hasMushroom()) {
+        if (this.mv$hasMushroom()) {
             if (state.getBlock() instanceof SlabBlock) {
                 if (state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE) {
                     world.setBlock(pos, state.setValue(SlabBlock.TYPE, SlabType.TOP), 3);
-                    entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
+                    this.mv$setSmashedBlock(true);
                 } else world.destroyBlock(pos, false);
                 world.levelEvent(2001, pos, Block.getId(state));
             } else if (state.getBlock() instanceof DecoratedPotBlock) {
@@ -1272,7 +1287,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 world.destroyBlock(pos, true, entity);
             } else world.destroyBlock(pos, false);
 
-            entity.getPersistentData().putBoolean("marioverse:has_smashed_block", true);
+            this.mv$setSmashedBlock(true);
             world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
 
             if (state.is(BlockTags.CRYSTAL_SOUND_BLOCKS))

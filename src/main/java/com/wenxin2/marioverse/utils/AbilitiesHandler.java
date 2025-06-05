@@ -18,6 +18,9 @@ public interface AbilitiesHandler {
     boolean mv$hasSuperStar();
     void mv$setSuperStar(boolean hasSuperStar);
 
+    boolean mv$hasSmashedBlock();
+    void mv$setSmashedBlock(boolean hasSmashedBlock);
+
 
     int mv$getFireballCooldown();
     void mv$setFireballCooldown(int fireballCooldown);

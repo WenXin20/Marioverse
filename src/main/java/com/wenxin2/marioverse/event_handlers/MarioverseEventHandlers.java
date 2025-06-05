@@ -103,16 +103,17 @@ public class MarioverseEventHandlers {
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity)) return;
 
-        if (entity instanceof AbilitiesHandler handler
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
-            if (entity instanceof Player player) {
-                if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                    handler.mv$setMushroom(true);
-            } else if (entity instanceof LivingEntity livingEntity) {
-                if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                    handler.mv$setMushroom(true);
-            }
+        if (entity instanceof AbilitiesHandler handler) {
+            if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
+                if (entity instanceof Player player) {
+                    if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+                        handler.mv$setMushroom(true);
+                } else if (entity instanceof LivingEntity livingEntity) {
+                    if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
+                        handler.mv$setMushroom(true);
+                }
+            } else handler.mv$setMushroom(true);
         }
 
         if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)) {
