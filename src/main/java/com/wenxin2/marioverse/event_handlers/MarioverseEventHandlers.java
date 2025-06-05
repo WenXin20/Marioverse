@@ -101,8 +101,6 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
-        CompoundTag tag = entity.getPersistentData();
-
         if (!(entity instanceof LivingEntity)) return;
 
         if (entity instanceof AbilitiesHandler handler
