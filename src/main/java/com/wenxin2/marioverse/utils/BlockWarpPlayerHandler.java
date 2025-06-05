@@ -90,8 +90,4 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         if (this.mv$doPreventWarp())
             player.displayClientMessage(Component.translatable("display.marioverse.warp_disruptor_prevented_warp"), true);
     }
-
-    private void displayDestinationMissingMessage(Player player) {
-        player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
-    }
 }

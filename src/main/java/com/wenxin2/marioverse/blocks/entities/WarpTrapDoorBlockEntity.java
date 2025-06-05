@@ -61,16 +61,22 @@ public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
         Entity passengerEntity = entity.getControllingPassenger();
 
         if (entity instanceof BlockWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
+            if (!(world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
+                    && entity instanceof Player player)
+                handler.displayDestinationMissingMessage(player);
+
             if (entity instanceof Player player) {
                 if (state.getBlock() instanceof TrapDoorBlock)
                     warpBE.playTrapdoorSounds(null, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 if (state.getBlock() instanceof TrapDoorBlock)
                     warpBE.playTrapdoorSounds(entity, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
                 entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));

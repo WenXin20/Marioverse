@@ -48,7 +48,6 @@ public interface EntityWarpEntityHandler {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (this.mv$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, warpLinkableEntity);
-                    this.mv$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
                 } else if (entity instanceof Player player && warpLinkableEntity.mv$hasDestinationPos())
                     this.displayCooldownMessage(player, warpEntity);
             }
@@ -59,13 +58,16 @@ public interface EntityWarpEntityHandler {
         if (world instanceof ServerLevel serverWorld && warpLinkableEntity.mv$getWarpUUID() != null) {
             UUID warpUUID = warpLinkableEntity.mv$getWarpUUID();
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.mv$getWarpUUID());
+            if (warpEntity == null && entity instanceof Player player)
+                this.displayEntityDestinationMissingMessage(player);
+
             if (warpEntity != null) {
                 if (warpEntity instanceof Painting painting) {
                     int width = painting.getVariant().value().width();
                     Direction direction = painting.getDirection();
                     BlockPos basePos = painting.getPos();
 
-                    this.warpPaintingDirection(basePos, direction, width, entity, world);
+                    this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
 
                     if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.mv$isBreakPainting())
                         painting.kill();
@@ -84,7 +86,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = savedTarget.direction();
                     int width = savedTarget.width();
 
-                    this.warpPaintingDirection(basePos, direction, width, entity, world);
+                    this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
                     entity.setXRot(direction.toYRot());
                     entity.setYRot(direction.toYRot());
                     entity.setYHeadRot(direction.toYRot());
@@ -102,7 +104,7 @@ public interface EntityWarpEntityHandler {
         }
     }
 
-    private void warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Level world) {
+    private void warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Entity warpEntity, Level world) {
         double centerX = basePos.getX();
         double centerY = basePos.getY();
         double centerZ = basePos.getZ();
@@ -128,5 +130,9 @@ public interface EntityWarpEntityHandler {
                 }
             }
         }
+    }
+
+    default void displayEntityDestinationMissingMessage(Player player) {
+        player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
     }
 }

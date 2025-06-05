@@ -659,6 +659,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
         if (entity instanceof BlockWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles
@@ -676,6 +677,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
 
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -692,6 +694,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -708,6 +711,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -724,6 +728,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -740,6 +745,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -756,6 +762,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
