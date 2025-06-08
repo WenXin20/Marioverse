@@ -24,6 +24,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -130,7 +131,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
+                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()
+                || ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
+                || ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
             tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
             tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
         }
@@ -192,7 +195,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         LivingEntity entity = (LivingEntity) (Object) this;
 
         if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
+                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()
+                || ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
+                || ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
             this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
             this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
         }
@@ -1008,9 +1013,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         // Remove the speed modifier when the entity jumps
         AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
+        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
             speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
-        }
     }
 
     @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
@@ -1159,21 +1163,21 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         boolean isPlayer = entity instanceof Player;
         boolean shouldShrink = !hasMushroom
-                && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && ((isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
                 || (!isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
 
-        boolean shouldReset = (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+        boolean shouldReset = hasMushroom
+                && (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
                 || (!isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
         if (shouldShrink) {
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
-            mv$updateScale(heightScale, targetHeightScale, scalingSpeed);
-            mv$updateScale(widthScale, targetWidthScale, scalingSpeed);
+            mv$updateScale(eyeHeightScale, currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+            mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+            mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
 
             if (!mv$playedDamagedSound) {
                 mv$playedDamagedSound = true;
@@ -1184,28 +1188,41 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (shouldReset) {
             mv$playedDamagedSound = false;
-            mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed);
-            mv$updateScale(heightScale, targetHeightScale, scalingSpeed);
-            mv$updateScale(widthScale, targetWidthScale, scalingSpeed);
+            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
+                mv$updateScale(eyeHeightScale, currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+            if (heightScale != null && heightScale.getValue() != 1.0D)
+                mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+            if (widthScale != null && widthScale.getValue() != 1.0D)
+                mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
         }
     }
+    private double currentEyeHeightScale = 1.0;
+    private double currentHeightScale = 1.0;
+    private double currentWidthScale = 1.0;
 
     @Unique
-    private void mv$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed) {
+    private void mv$updateScale(AttributeInstance scaleAttribute, double currentScale, double targetScale, float scalingSpeed, Consumer<Double> setter) {
         if (scaleAttribute != null) {
             ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
-            double currentScale = scaleAttribute.getValue();
             double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale);
 
-            if (Math.abs(currentScale - targetScale) < 0.001)
+            if (Math.abs(currentScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier) && lerpedScale != targetScale || targetScale == 1.0)
+            if (scaleAttribute.hasModifier(modifier) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
                 scaleAttribute.removeModifier(modifier);
-            if (lerpedScale != targetScale)
+
+            if (lerpedScale != targetScale) {
+                scaleAttribute.removeModifier(modifier);
                 scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+
+                if (Math.abs(currentScale - targetScale) < 0.01)
+                    setter.accept(targetScale);
+                else setter.accept(lerpedScale);
+            }
         }
     }
+
 
     @Unique
     public void mv$dropCoin(Level world, BlockPos pos, Entity entity) {

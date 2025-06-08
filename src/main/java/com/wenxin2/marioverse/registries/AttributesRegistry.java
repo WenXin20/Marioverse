@@ -11,7 +11,7 @@ public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> HEIGHT_SCALE;
     public static final DeferredHolder<Attribute, Attribute> WIDTH_SCALE;
 
-    public static final ResourceLocation DAMAGED_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "damaged_height_scale");
+    public static final ResourceLocation DAMAGED_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "damaged_scale");
     public static final ResourceLocation RESET_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "reset_scale");
     public static final ResourceLocation JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_jump_boost");
     public static final ResourceLocation RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_running_jump_boost");

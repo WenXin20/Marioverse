@@ -219,7 +219,8 @@ public class MarioverseEventHandlers {
                 && !entity.isDamageSourceBlocked(event.getSource())
                 && entity instanceof AbilitiesHandler handler
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()
+                    || ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get())) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
