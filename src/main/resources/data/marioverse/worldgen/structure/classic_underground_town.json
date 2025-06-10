@@ -2,7 +2,7 @@
   "type": "minecraft:jigsaw",
   "start_pool": "marioverse:classic_underground/town_centers",
   "project_start_to_heightmap": "WORLD_SURFACE_WG",
-  "biomes": "#marioverse:has_structure/world_1-2",
+  "biomes": "#marioverse:has_structure/classic_underground",
   "terrain_adaptation": "beard_box",
   "step": "surface_structures",
   "max_distance_from_center": 116,

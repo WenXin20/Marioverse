@@ -21,7 +21,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_KOOPA_TROOPA = biomeTags("has_koopa_troopa");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA_RARE = biomeTags("has_koopa_troopa_rare");
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
-    public static final TagKey<Biome> HAS_WORLD_1_2 = biomeTags("has_structure/has_world_1-2");
+    public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");

@@ -45,7 +45,7 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .addTag(Tags.Biomes.IS_JUNGLE)
                 .addTag(BiomeTags.IS_JUNGLE);
 
-        tag(TagRegistry.HAS_WORLD_1_2)
+        tag(TagRegistry.HAS_CLASSIC_UNDERGROUND)
                 .addTag(Tags.Biomes.IS_MUSHROOM)
                 .addTag(Tags.Biomes.IS_PLAINS)
                 .addTag(Tags.Biomes.IS_SPOOKY)
