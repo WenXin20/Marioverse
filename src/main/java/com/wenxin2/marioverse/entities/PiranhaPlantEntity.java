@@ -78,12 +78,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableEntity {
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
-    public static final RawAnimation BABY_DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.baby_death");
-    public static final RawAnimation BABY_EMERGE = RawAnimation.begin().thenPlay("piranha_plant.baby_emerge");
-    public static final RawAnimation BABY_HIDE = RawAnimation.begin().thenPlay("piranha_plant.baby_hide");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
-    public static final RawAnimation GROW = RawAnimation.begin().thenPlayAndHold("piranha_plant.grow");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlay("piranha_plant.hide");
     public static final RawAnimation HURT = RawAnimation.begin().thenPlay("piranha_plant.hurt");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("piranha_plant.idle");
@@ -152,12 +148,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
-        controllers.add(new AnimationController<>(this, "baby_emerge_controller", 5, state -> PlayState.STOP)
-                .triggerableAnim("baby_emerge", BABY_EMERGE));
-        controllers.add(new AnimationController<>(this, "baby_hide_controller", 0, state -> PlayState.STOP)
-                .triggerableAnim("baby_hide", BABY_HIDE));
-        controllers.add(new AnimationController<>(this, "grow_controller", 5, state -> PlayState.STOP)
-                .triggerableAnim("grow", GROW));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("emerge", EMERGE));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
@@ -200,9 +190,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 event.setAndContinue(SQUASH);
                 return PlayState.CONTINUE;
             } else {
-                if (this.isBaby())
-                    event.setAndContinue(BABY_DEATH);
-                else event.setAndContinue(DEATH);
+                event.setAndContinue(DEATH);
                 return PlayState.CONTINUE;
             }
         }
