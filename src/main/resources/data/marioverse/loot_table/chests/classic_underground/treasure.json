@@ -6,12 +6,12 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "value": "marioverse:chests/world_1-2/treasure_rare",
+          "value": "marioverse:chests/classic_underground/treasure_rare",
           "weight": 8
         },
         {
           "type": "minecraft:loot_table",
-          "value": "marioverse:chests/world_1-2/treasure_common",
+          "value": "marioverse:chests/classic_underground/treasure_common",
           "weight": 2
         }
       ],
@@ -22,7 +22,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "value": "marioverse:chests/world_1-2/treasure_common"
+          "value": "marioverse:chests/classic_underground/treasure_common"
         }
       ],
       "rolls": {
@@ -42,11 +42,11 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "value": "marioverse:chests/world_1-2/treasure_unique"
+          "value": "marioverse:chests/classic_underground/treasure_unique"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "marioverse:chests/world_1-2/treasure"
+  "random_sequence": "marioverse:chests/classic_underground/treasure"
 }
