@@ -1,11 +1,11 @@
 {
-  "name": "marioverse:mobs/koopa",
+  "name": "marioverse:mobs/green_koopa_troopa",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "marioverse:mobs/koopa",
+        "location": "marioverse:mobs/red_koopa_troopa",
         "element_type": "minecraft:single_pool_element",
         "processors": "minecraft:empty",
         "projection": "rigid"
