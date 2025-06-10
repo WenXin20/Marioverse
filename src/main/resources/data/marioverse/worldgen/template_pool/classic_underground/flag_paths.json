@@ -1,11 +1,11 @@
 {
-  "name": "marioverse:world_1-2/end_stairs_paths",
+  "name": "marioverse:classic_underground/flag_paths",
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 1,
+      "weight": 5,
       "element": {
-        "location": "marioverse:world_1-2/end_stairs_path",
+        "location": "marioverse:classic_underground/flag_path",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:path_decay",
         "projection": "terrain_matching"

@@ -1,11 +1,11 @@
 {
-  "name": "marioverse:world_1-2/town_centers",
+  "name": "marioverse:classic_underground/town_centers",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "marioverse:world_1-2/red_mushroom_center",
+        "location": "marioverse:classic_underground/red_mushroom_center",
         "element_type": "minecraft:single_pool_element",
         "processors": "minecraft:street_plains",
         "projection": "rigid"
@@ -14,7 +14,7 @@
     {
       "weight": 1,
       "element": {
-        "location": "marioverse:world_1-2/brown_mushroom_center",
+        "location": "marioverse:classic_underground/brown_mushroom_center",
         "element_type": "minecraft:single_pool_element",
         "processors": "minecraft:street_plains",
         "projection": "rigid"

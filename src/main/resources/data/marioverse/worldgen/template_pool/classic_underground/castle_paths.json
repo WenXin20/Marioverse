@@ -1,11 +1,11 @@
 {
-  "name": "marioverse:world_1-2/end_castle_paths",
+  "name": "marioverse:classic_underground/castle_paths",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 5,
       "element": {
-        "location": "marioverse:world_1-2/end_castle_path",
+        "location": "marioverse:classic_underground/castle_path",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:path_decay",
         "projection": "terrain_matching"
@@ -14,7 +14,7 @@
     {
       "weight": 1,
       "element": {
-        "location": "marioverse:world_1-2/end_castle_path_curve",
+        "location": "marioverse:classic_underground/castle_path_curve",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:path_decay",
         "projection": "terrain_matching"

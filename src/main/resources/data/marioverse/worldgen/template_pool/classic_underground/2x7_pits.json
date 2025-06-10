@@ -1,11 +1,11 @@
 {
-  "name": "marioverse:world_1-2/2x7_pits",
+  "name": "marioverse:classic_underground/2x7_pits",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 3,
       "element": {
-        "location": "marioverse:world_1-2/2x7_pit",
+        "location": "marioverse:classic_underground/2x7_pit",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:deepslate_tiles",
         "projection": "rigid"
@@ -14,7 +14,7 @@
     {
       "weight": 1,
       "element": {
-        "location": "marioverse:world_1-2/2x7_lava_pit",
+        "location": "marioverse:classic_underground/2x7_lava_pit",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:deepslate_tiles",
         "projection": "rigid"

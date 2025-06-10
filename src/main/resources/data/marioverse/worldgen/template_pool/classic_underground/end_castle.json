@@ -1,11 +1,11 @@
 {
-  "name": "marioverse:world_1-2/start_castle",
+  "name": "marioverse:classic_underground/end_castle",
   "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
-        "location": "marioverse:world_1-2/start_castle",
+        "location": "marioverse:classic_underground/end_castle",
         "element_type": "minecraft:single_pool_element",
         "processors": "minecraft:empty",
         "projection": "rigid"
