@@ -96,11 +96,8 @@ public class PowerUpCommand {
                 applyPowerUpType(handler, powerUpName, enablePowerUp);
                 count++;
                 if (count == 1) {
-                    if (enablePowerUp)
-                        source.sendSuccess(
-                                () -> Component.literal("Enabled " + powerUpName + " for " + entity.getName() + "."), true);
-                    else source.sendSuccess(
-                            () -> Component.literal("Disabled " + powerUpName + " for " + entity.getName() + "."), true);
+                    source.sendSuccess(() ->
+                            Component.literal(powerUpName + " set to " + enablePowerUp + " for " + entity.getDisplayName() + "."), true);
                 }
             }
         }
@@ -108,11 +105,8 @@ public class PowerUpCommand {
         int finalCount = count;
 
         if (finalCount > 1) {
-            if (enablePowerUp)
-                source.sendSuccess(
-                        () -> Component.literal("Enabled " + powerUpName + " for " + finalCount + " entities."), true);
-            else source.sendSuccess(
-                    () -> Component.literal("Disabled " + powerUpName + " for " + finalCount + " entities."), true);
+            source.sendSuccess(() ->
+                    Component.literal(powerUpName + " set to " + enablePowerUp + " for " + finalCount + " entities."), true);
         }
 
         return count;
@@ -134,25 +128,17 @@ public class PowerUpCommand {
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
                 }
 
-                if (count == 1) {
-                    if (enablePowerUp)
-                        source.sendSuccess(
-                                () -> Component.literal("Enabled Super Star for " + entity + " for " + cooldown + " ticks."), true);
-                    else source.sendSuccess(
-                            () -> Component.literal("Disabled Super Star for " + entity + " for " + cooldown + " ticks."), true);
-                }
+                if (count == 1)
+                    source.sendSuccess(() ->
+                            Component.literal("Super Star set to" + enablePowerUp + " for " + entity.getDisplayName() + " for " + cooldown + " ticks."), true);
             }
         }
 
         int finalCount = count;
 
-        if (finalCount > 1) {
-            if (enablePowerUp)
-                source.sendSuccess(
-                        () -> Component.literal("Enabled Super Star for " + finalCount + " entities for " + cooldown + " ticks."), true);
-            else source.sendSuccess(
-                    () -> Component.literal("Disabled Super Star for " + finalCount + " entities for " + cooldown + " ticks."), true);
-        }
+        if (finalCount > 1)
+            source.sendSuccess(() ->
+                    Component.literal("Super Star set to" + enablePowerUp + " for " + finalCount + " entities for " + cooldown + " ticks."), true);
 
         return count;
     }
