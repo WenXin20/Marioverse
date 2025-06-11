@@ -9,6 +9,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -178,6 +179,8 @@ public class PowerUpCommand {
         int count = 0;
         int falseCount = 0;
 
+        List<Component> singleResults = new ArrayList<>();
+
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
                 boolean hasPowerUp = switch (powerUpName) {
@@ -194,56 +197,35 @@ public class PowerUpCommand {
                 if (hasPowerUp) count++;
                 else falseCount++;
 
-                if (count == 1 || falseCount == 1) {
-                    switch (powerUpName) {
-                        case "fire_flower" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.fire_flower.value", powerUpBoolean, entity.getDisplayName()), true);
-                        case "ice_flower" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.ice_flower.value", powerUpBoolean, entity.getDisplayName()), true);
-                        case "mushroom" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mushroom.value", powerUpBoolean, entity.getDisplayName()), true);
-                        case "super_star" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.super_star.value", powerUpBoolean, entity.getDisplayName()), true);
-                    }
-                }
-
-                if (count > 1) {
-                    int finalCount = count;
-                    switch (powerUpName) {
-                        case "fire_flower" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.fire_flower.value.count", powerUpBoolean, finalCount), true);
-                        case "ice_flower" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.ice_flower.value.count", powerUpBoolean, finalCount), true);
-                        case "mushroom" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mushroom.value.count", powerUpBoolean, finalCount), true);
-                        case "super_star" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.super_star.value.count", powerUpBoolean, finalCount), true);
-                    }
-                }
-
-                if (falseCount > 1) {
-                    int finalFalseCount = falseCount;
-                    switch (powerUpName) {
-                        case "fire_flower" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.fire_flower.value.count", powerUpBoolean, finalFalseCount), true);
-                        case "ice_flower" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.ice_flower.value.count", powerUpBoolean, finalFalseCount), true);
-                        case "mushroom" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mushroom.value.count", powerUpBoolean, finalFalseCount), true);
-                        case "super_star" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.super_star.value.count", powerUpBoolean, finalFalseCount), true);
-                    }
-                }
+                if (targets.size() == 1)
+                    singleResults.add(Component
+                            .translatable("commands.marioverse.power_up." + powerUpName + ".value", powerUpBoolean, entity.getDisplayName()));
             }
         }
 
-//        int finalTrueCount = count;
-//        int finalFalseCount = falseCount;
-//        source.sendSuccess(() -> Component.literal(
-//                        powerUpName + " = true for " + finalTrueCount + " entities, false for " + finalFalseCount + " entities."),
-//                false
-//        );
+        if (singleResults.size() == 1) {
+            source.sendSuccess(singleResults::getFirst, true);
+        }
+
+        if (targets.size() > 1) {
+            if (count > 0) {
+                Component powerUpBoolean = Component.translatable("commands.marioverse.boolean.true");
+                int finalCount = count;
+
+                source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up." + powerUpName + ".value.count", powerUpBoolean, finalCount), true);
+            }
+
+            if (falseCount > 0) {
+                Component powerUpBoolean = Component.translatable("commands.marioverse.boolean.false");
+                int finalFalseCount = falseCount;
+
+                source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up." + powerUpName + ".value.count", powerUpBoolean, finalFalseCount), true);
+            }
+        }
 
         return count + falseCount;
     }
+
 }
