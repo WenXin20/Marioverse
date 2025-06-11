@@ -33,6 +33,7 @@ public class PowerUpCommand {
                 List.of("fire_flower", "ice_flower", "mushroom", "super_star"), builder);
     }
 
+    // TODO: Fix mushroom command
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("powerup")
                 .requires(source -> source.hasPermission(2))
@@ -61,12 +62,12 @@ public class PowerUpCommand {
                         .then(Commands.literal("super_star")
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "super_star"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
-                                        .then(Commands.argument("cooldown", IntegerArgumentType.integer(0))
+                                        .then(Commands.argument("cooldownTicks", IntegerArgumentType.integer(0))
                                                 .executes(ctx -> applySuperStar(
                                                         ctx.getSource(),
                                                         EntityArgument.getEntities(ctx, "targets"),
                                                         BoolArgumentType.getBool(ctx, "enablePowerUp"),
-                                                        IntegerArgumentType.getInteger(ctx, "cooldown")
+                                                        IntegerArgumentType.getInteger(ctx, "cooldownTicks")
                                                 ))
                                         )
                                         .executes(ctx -> applySuperStar(
@@ -131,7 +132,7 @@ public class PowerUpCommand {
         return count;
     }
 
-    private static int applySuperStar(CommandSourceStack source, Collection<? extends Entity> targets, boolean enablePowerUp, int cooldown) {
+    private static int applySuperStar(CommandSourceStack source, Collection<? extends Entity> targets, boolean enablePowerUp, int cooldownTicks) {
         int count = 0;
         Component powerUpBoolean = Component.translatable(enablePowerUp
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
@@ -144,9 +145,9 @@ public class PowerUpCommand {
                 if (enablePowerUp)
                     entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-                if (cooldown >= 0) {
-                    handler.mv$setSuperStarCooldown(cooldown);
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, cooldown, 4, true, false));
+                if (cooldownTicks >= 0) {
+                    handler.mv$setSuperStarCooldown(cooldownTicks);
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, cooldownTicks, 4, true, false));
                 } else {
                     handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
@@ -155,7 +156,7 @@ public class PowerUpCommand {
                 if (count == 1) {
                     if (enablePowerUp)
                         source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.super_star.ticks", powerUpBoolean, entity.getDisplayName(), cooldown), true);
+                                Component.translatable("commands.marioverse.power_up.super_star.ticks", powerUpBoolean, entity.getDisplayName(), cooldownTicks), true);
                     else source.sendSuccess(() ->
                                 Component.translatable("commands.marioverse.power_up.super_star", powerUpBoolean, entity.getDisplayName()), true);
                 }
@@ -167,7 +168,7 @@ public class PowerUpCommand {
         if (finalCount > 1) {
             if (enablePowerUp)
                 source.sendSuccess(() ->
-                        Component.translatable("commands.marioverse.power_up.super_star.ticks.count", powerUpBoolean, finalCount, cooldown), true);
+                        Component.translatable("commands.marioverse.power_up.super_star.ticks.count", powerUpBoolean, finalCount, cooldownTicks), true);
             else source.sendSuccess(() ->
                     Component.translatable("commands.marioverse.power_up.super_star.count", powerUpBoolean, finalCount), true);
         }
