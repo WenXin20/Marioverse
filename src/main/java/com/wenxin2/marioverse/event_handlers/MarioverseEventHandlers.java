@@ -116,16 +116,15 @@ public class MarioverseEventHandlers {
             } else handler.mv$setMushroom(true);
         }
 
-        if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)) {
+        if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)
+                && mob instanceof AbilitiesHandler handler) {
             if (!(mob instanceof FireGoombaEntity)) {
-                if ((entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
+                if (handler.mv$hasFireFlower()) {
                     mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
                             0, true));
                 }
 
-                if ((entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                        || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
+                if (handler.mv$hasIceFlower()) {
                     mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
                             0, true));
                 }
@@ -244,7 +243,7 @@ public class MarioverseEventHandlers {
             }
 
             if (handler.mv$hasSuperStar()) {
-                if (!source.is(DamageTypeTags.BYPASSES_RESISTANCE) && !source.is(TagRegistry.IS_SUPER_STAR))
+                if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
 

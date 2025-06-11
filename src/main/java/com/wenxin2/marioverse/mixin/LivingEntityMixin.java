@@ -47,6 +47,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -130,39 +132,22 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()
-                || ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                || ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-            tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
-            tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
-        }
+        tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
+        tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
+        tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
+        tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
+        tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
+        tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
+        tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
+        tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
+        tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
+        tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
                     || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
             tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
             tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-            || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
-            tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
-            tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
-            tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()) {
-            tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
-            tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
-            tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
-                || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()) {
-            tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
-            tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
         }
 
         if (entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS))
@@ -194,39 +179,22 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()
-                || ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                || ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()) {
-            this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
-            this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
-        }
+        this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
+        this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
+        this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
+        this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
+        this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
+        this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
+        this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
+        this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
+        this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
+        this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
                 || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
             this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
             this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()) {
-            this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
-            this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
-            this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()) {
-            this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
-            this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
-            this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
-                || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()) {
-            this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
-            this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
         }
 
         if (entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS))

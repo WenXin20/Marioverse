@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
 import com.wenxin2.marioverse.datagen.DataMapGen;
 import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
@@ -41,12 +42,18 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class RegistryEventHandlers {
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
+        PowerUpCommand.register(event.getDispatcher());
+    }
+
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
