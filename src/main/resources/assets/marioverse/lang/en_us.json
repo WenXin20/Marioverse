@@ -556,6 +556,30 @@
   "accessories.slot.costume_shoes": "Costume Shoes",
 
   "death.attack.marioverse.bonked": "%1$s took a deadly hit from below",
+
+  "commands.marioverse.boolean.true": "true",
+  "commands.marioverse.boolean.false": "false",
+
+  "commands.marioverse.power_up.fire_flower": "Fire Flower set to %1$s for %2$s.",
+  "commands.marioverse.power_up.fire_flower.count": "Fire Flower set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.ice_flower": "Ice Flower set to %1$s for %2$s.",
+  "commands.marioverse.power_up.ice_flower.count": "Ice Flower set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.mushroom": "Mushroom set to %1$s for %2$s.",
+  "commands.marioverse.power_up.mushroom.count": "Mushroom set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.super_star": "Super Star set to %1$s for %2$s.",
+  "commands.marioverse.power_up.super_star.count": "Super Star set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.super_star.ticks": "Super Star set to %1$s for %2$s for %3$s ticks.",
+  "commands.marioverse.power_up.super_star.ticks.count": "Super Star set to %1$s for %2$s entities for %3$s ticks.",
+
+  "commands.marioverse.power_up.fire_flower.value": "Fire Flower is set to %1$s for %2$s.",
+  "commands.marioverse.power_up.fire_flower.value.count": "Fire Flower is set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.ice_flower.value": "Ice Flower is set to %1$s for %2$s.",
+  "commands.marioverse.power_up.ice_flower.value.count": "Ice Flower is set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.mushroom.value": "Mushroom is set to %1$s for %2$s.",
+  "commands.marioverse.power_up.mushroom.value.count": "Mushroom is set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.super_star.value": "Super Star is set to %1$s for %2$s.",
+  "commands.marioverse.power_up.super_star.value.count": "Super Star is set to %1$s for %2$s entities.",
+
   "death.attack.marioverse.bonked.player": "%2$s caused %1$s to take a deadly hit from below",
   "death.attack.marioverse.fireball": "%1$s was fireballed",
   "death.attack.marioverse.fireball.item": "%1$s was fireballed by %2$s using %3$s",

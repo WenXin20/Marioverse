@@ -90,14 +90,26 @@ public class PowerUpCommand {
 
     private static int applyPowerUp(CommandSourceStack source, Collection<? extends Entity> targets, String powerUpName, boolean enablePowerUp) {
         int count = 0;
+        Component powerUpBoolean = Component.translatable(enablePowerUp
+                ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
+
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) { // TODO: Fix requiring reload for mobs
                 applyPowerUpType(handler, powerUpName, enablePowerUp);
                 count++;
+
+                if (enablePowerUp)
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+
                 if (count == 1) {
-                    source.sendSuccess(() ->
-                            Component.literal(powerUpName + " set to " + enablePowerUp + " for " + entity.getDisplayName() + "."), true);
+                    switch (powerUpName) {
+                        case "fire_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.fire_flower", powerUpBoolean, entity.getDisplayName()), true);
+                        case "ice_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.ice_flower", powerUpBoolean, entity.getDisplayName()), true);
+                        case "mushroom" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.mushroom", powerUpBoolean, entity.getDisplayName()), true);
+                    }
                 }
             }
         }
@@ -105,8 +117,14 @@ public class PowerUpCommand {
         int finalCount = count;
 
         if (finalCount > 1) {
-            source.sendSuccess(() ->
-                    Component.literal(powerUpName + " set to " + enablePowerUp + " for " + finalCount + " entities."), true);
+            switch (powerUpName) {
+                case "fire_flower" -> source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up.fire_flower.count", powerUpBoolean, finalCount), true);
+                case "ice_flower" -> source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up.ice_flower.count", powerUpBoolean, finalCount), true);
+                case "mushroom" -> source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up.mushroom.count", powerUpBoolean, finalCount), true);
+            }
         }
 
         return count;
@@ -114,11 +132,16 @@ public class PowerUpCommand {
 
     private static int applySuperStar(CommandSourceStack source, Collection<? extends Entity> targets, boolean enablePowerUp, int cooldown) {
         int count = 0;
+        Component powerUpBoolean = Component.translatable(enablePowerUp
+                ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
+
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 handler.mv$setSuperStar(enablePowerUp);
                 count++;
+
+                if (enablePowerUp)
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 if (cooldown >= 0) {
                     handler.mv$setSuperStarCooldown(cooldown);
@@ -128,28 +151,36 @@ public class PowerUpCommand {
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
                 }
 
-                if (count == 1)
-                    source.sendSuccess(() ->
-                            Component.literal("Super Star set to" + enablePowerUp + " for " + entity.getDisplayName() + " for " + cooldown + " ticks."), true);
+                if (count == 1) {
+                    if (enablePowerUp)
+                        source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.super_star.ticks", powerUpBoolean, entity.getDisplayName(), cooldown), true);
+                    else source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.super_star", powerUpBoolean, entity.getDisplayName()), true);
+                }
             }
         }
 
         int finalCount = count;
 
-        if (finalCount > 1)
-            source.sendSuccess(() ->
-                    Component.literal("Super Star set to" + enablePowerUp + " for " + finalCount + " entities for " + cooldown + " ticks."), true);
+        if (finalCount > 1) {
+            if (enablePowerUp)
+                source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up.super_star.ticks.count", powerUpBoolean, finalCount, cooldown), true);
+            else source.sendSuccess(() ->
+                    Component.translatable("commands.marioverse.power_up.super_star.count", powerUpBoolean, finalCount), true);
+        }
 
         return count;
     }
 
-    private static int hasPowerUp(CommandSourceStack source, Collection<? extends Entity> targets, String powerup) {
+    private static int hasPowerUp(CommandSourceStack source, Collection<? extends Entity> targets, String powerUpName) {
         int count = 0;
         int falseCount = 0;
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                boolean hasPowerUp = switch (powerup) {
+                boolean hasPowerUp = switch (powerUpName) {
                     case "fire_flower" -> handler.mv$hasFireFlower();
                     case "ice_flower" -> handler.mv$hasIceFlower();
                     case "mushroom" -> handler.mv$hasMushroom();
@@ -157,17 +188,61 @@ public class PowerUpCommand {
                     default -> false;
                 };
 
+                Component powerUpBoolean = Component.translatable(hasPowerUp
+                        ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
+
                 if (hasPowerUp) count++;
                 else falseCount++;
+
+                if (count == 1 || falseCount == 1) {
+                    switch (powerUpName) {
+                        case "fire_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.fire_flower.value", powerUpBoolean, entity.getDisplayName()), true);
+                        case "ice_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.ice_flower.value", powerUpBoolean, entity.getDisplayName()), true);
+                        case "mushroom" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.mushroom.value", powerUpBoolean, entity.getDisplayName()), true);
+                        case "super_star" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.super_star.value", powerUpBoolean, entity.getDisplayName()), true);
+                    }
+                }
+
+                if (count > 1) {
+                    int finalCount = count;
+                    switch (powerUpName) {
+                        case "fire_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.fire_flower.value.count", powerUpBoolean, finalCount), true);
+                        case "ice_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.ice_flower.value.count", powerUpBoolean, finalCount), true);
+                        case "mushroom" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.mushroom.value.count", powerUpBoolean, finalCount), true);
+                        case "super_star" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.super_star.value.count", powerUpBoolean, finalCount), true);
+                    }
+                }
+
+                if (falseCount > 1) {
+                    int finalFalseCount = falseCount;
+                    switch (powerUpName) {
+                        case "fire_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.fire_flower.value.count", powerUpBoolean, finalFalseCount), true);
+                        case "ice_flower" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.ice_flower.value.count", powerUpBoolean, finalFalseCount), true);
+                        case "mushroom" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.mushroom.value.count", powerUpBoolean, finalFalseCount), true);
+                        case "super_star" -> source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.super_star.value.count", powerUpBoolean, finalFalseCount), true);
+                    }
+                }
             }
         }
 
-        int finalTrueCount = count;
-        int finalFalseCount = falseCount;
-        source.sendSuccess(() -> Component.literal(
-                        powerup + " = true for " + finalTrueCount + " entities, false for " + finalFalseCount + " entities."),
-                false
-        );
+//        int finalTrueCount = count;
+//        int finalFalseCount = falseCount;
+//        source.sendSuccess(() -> Component.literal(
+//                        powerUpName + " = true for " + finalTrueCount + " entities, false for " + finalFalseCount + " entities."),
+//                false
+//        );
 
         return count + falseCount;
     }
