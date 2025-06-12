@@ -1165,7 +1165,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             }
         }
 
-        if (shouldReset) {
+        if (shouldReset && currentEyeHeightScale != targetEyeHeightScale
+                && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
             mv$playedDamagedSound = false;
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
                 mv$updateScale(eyeHeightScale, currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
