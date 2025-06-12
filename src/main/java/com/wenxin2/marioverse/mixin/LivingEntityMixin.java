@@ -47,8 +47,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -98,6 +96,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasMushroom;
+    @Unique private boolean mv$hasMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
@@ -136,6 +135,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
         tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
         tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
+        tag.putBoolean("marioverse:has_mushroom_override", this.mv$hasMushroomOverride());
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
         tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
@@ -187,6 +187,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
         this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
+        this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_mushroom_override"));
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
 
@@ -239,7 +240,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         BlockState stateWest = world.getBlockState(posWest);
 
         this.mv$characterAbilities(entity);
-        this.mv$entityScale(entity);
+        this.mv$mushroomScale(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
@@ -359,6 +360,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setMushroom(boolean hasMushroom) {
         this.mv$hasMushroom = hasMushroom;
+    }
+
+    @Override
+    public boolean mv$hasMushroomOverride() {
+        return this.mv$hasMushroom;
+    }
+
+    @Override
+    public void mv$setMushroomOverride(boolean hasMushroomOverride) {
+        this.mv$hasMushroomOverride = hasMushroomOverride;
     }
 
     @Override
@@ -841,6 +852,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
     private void checkTotemDeathProtection(DamageSource source, CallbackInfoReturnable<Boolean> info) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
+        SoundSource soundSource = livingEntity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return;
@@ -863,8 +875,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
                     if (stackCharm.getItem() instanceof OneUpMushroomItem) {
                         info.setReturnValue(true);
-                        this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                                SoundSource.PLAYERS, 1.0F, 1.0F);
+                        this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
                         livingEntity.setHealth(1.0F);
                         livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                         stackCharm.shrink(1);
@@ -887,8 +898,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
                 info.setReturnValue(true);
-                this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
                 livingEntity.setHealth(1.0F);
                 livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
@@ -1116,7 +1126,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void mv$entityScale(LivingEntity entity) {
+    public void mv$mushroomScale(LivingEntity entity) {
         Level world = entity.level();
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
@@ -1132,14 +1142,15 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         boolean isPlayer = entity instanceof Player;
         boolean shouldShrink = !hasMushroom
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && ((isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (!isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
+                && (this.mv$hasMushroomOverride || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (this.mv$hasMushroomOverride || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
 
         boolean shouldReset = hasMushroom
-                && (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (!isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
+                && (this.mv$hasMushroomOverride || isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (this.mv$hasMushroomOverride || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
-        if (shouldShrink) {
+        if (shouldShrink && currentEyeHeightScale != targetEyeHeightScale
+                && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
@@ -1147,7 +1158,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
             mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
 
-            if (!mv$playedDamagedSound) {
+            if (!mv$playedDamagedSound && !this.mv$hasMushroomOverride) {
                 mv$playedDamagedSound = true;
                 SoundSource soundSource = isPlayer ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
@@ -1346,7 +1357,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         Level world = entity.level();
 
         if ((world.getGameTime() % 262L == 0L) || !mv$playedStarTheme) {
-            world.playSound(null, entity.blockPosition(), SoundRegistry.SUPER_STAR_THEME.get(), SoundSource.PLAYERS, 1.0F, 1.0f);
+            SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+
+            world.playSound(null, entity.blockPosition(), SoundRegistry.SUPER_STAR_THEME.get(), soundSource, 1.0F, 1.0f);
             mv$playedStarTheme = true;
         }
     }

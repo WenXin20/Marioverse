@@ -49,13 +49,13 @@ public class FireballShootPacket {
 
     public static void shootFireball(Entity entity) {
         Level world = entity.level();
+        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
         BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
         fireball.setOwner(entity);
         fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
         fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
-                SoundSource.PLAYERS, 1.0F, 1.0F);
+        world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), soundSource, 1.0F, 1.0F);
 
         Vec3 look = entity.getLookAngle();
         fireball.setDeltaMovement(look.scale(0.5));

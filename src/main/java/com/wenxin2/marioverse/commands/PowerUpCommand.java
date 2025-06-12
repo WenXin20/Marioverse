@@ -22,6 +22,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class PowerUpCommand {
 
@@ -55,26 +56,31 @@ public class PowerUpCommand {
                         .then(Commands.literal("mushroom")
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "mushroom"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
-                                        .executes(ctx -> applyPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"),
-                                                "mushroom", BoolArgumentType.getBool(ctx, "enablePowerUp")))
+                                        .then(Commands.argument("manualOverride", BoolArgumentType.bool())
+                                                .executes(ctx -> applyMushroom(ctx.getSource(),
+                                                        EntityArgument.getEntities(ctx, "targets"),
+                                                        BoolArgumentType.getBool(ctx, "enablePowerUp"),
+                                                        BoolArgumentType.getBool(ctx, "manualOverride")
+                                                ))
+                                        )
+                                        .executes(ctx -> applyMushroom(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"),
+                                                BoolArgumentType.getBool(ctx, "enablePowerUp"), true)
+                                        )
                                 )
                         )
                         .then(Commands.literal("super_star")
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "super_star"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
                                         .then(Commands.argument("cooldownTicks", IntegerArgumentType.integer(0))
-                                                .executes(ctx -> applySuperStar(
-                                                        ctx.getSource(),
+                                                .executes(ctx -> applySuperStar(ctx.getSource(),
                                                         EntityArgument.getEntities(ctx, "targets"),
                                                         BoolArgumentType.getBool(ctx, "enablePowerUp"),
                                                         IntegerArgumentType.getInteger(ctx, "cooldownTicks")
                                                 ))
                                         )
-                                        .executes(ctx -> applySuperStar(
-                                                ctx.getSource(),
+                                        .executes(ctx -> applySuperStar(ctx.getSource(),
                                                 EntityArgument.getEntities(ctx, "targets"),
-                                                BoolArgumentType.getBool(ctx, "enablePowerUp"),
-                                                -1
+                                                BoolArgumentType.getBool(ctx, "enablePowerUp"), -1
                                         ))
                                 )
                         )
@@ -86,7 +92,6 @@ public class PowerUpCommand {
         switch (powerUpName) {
             case "fire_flower" -> handler.mv$setFireFlower(enablePowerUp);
             case "ice_flower" -> handler.mv$setIceFlower(enablePowerUp);
-            case "mushroom" -> handler.mv$setMushroom(enablePowerUp);
         }
     }
 
@@ -97,11 +102,12 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) { // TODO: Fix requiring reload for mobs
+                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 applyPowerUpType(handler, powerUpName, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
 
                 if (count == 1) {
                     switch (powerUpName) {
@@ -109,8 +115,6 @@ public class PowerUpCommand {
                                 Component.translatable("commands.marioverse.power_up.fire_flower", powerUpBoolean, entity.getDisplayName()), true);
                         case "ice_flower" -> source.sendSuccess(() ->
                                 Component.translatable("commands.marioverse.power_up.ice_flower", powerUpBoolean, entity.getDisplayName()), true);
-                        case "mushroom" -> source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mushroom", powerUpBoolean, entity.getDisplayName()), true);
                     }
                 }
             }
@@ -124,10 +128,39 @@ public class PowerUpCommand {
                         Component.translatable("commands.marioverse.power_up.fire_flower.count", powerUpBoolean, finalCount), true);
                 case "ice_flower" -> source.sendSuccess(() ->
                         Component.translatable("commands.marioverse.power_up.ice_flower.count", powerUpBoolean, finalCount), true);
-                case "mushroom" -> source.sendSuccess(() ->
-                        Component.translatable("commands.marioverse.power_up.mushroom.count", powerUpBoolean, finalCount), true);
             }
         }
+
+        return count;
+    }
+
+    private static int applyMushroom(CommandSourceStack source, Collection<? extends Entity> targets, boolean enablePowerUp, boolean manualOverride) {
+        int count = 0;
+        Component powerUpBoolean = Component.translatable(enablePowerUp
+                ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
+
+        for (Entity entity : targets) {
+            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
+                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+                handler.mv$setMushroom(enablePowerUp);
+                handler.mv$setMushroomOverride(manualOverride);
+                count++;
+
+                if (enablePowerUp)
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                else entity.level().playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
+
+                if (count == 1)
+                    source.sendSuccess(() ->
+                            Component.translatable("commands.marioverse.power_up.mushroom", powerUpBoolean, entity.getDisplayName()), true);
+            }
+        }
+
+        int finalCount = count;
+
+        if (finalCount > 1)
+            source.sendSuccess(() ->
+                    Component.translatable("commands.marioverse.power_up.mushroom.count", powerUpBoolean, finalCount), true);
 
         return count;
     }
@@ -139,11 +172,12 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 handler.mv$setSuperStar(enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
 
                 if (cooldownTicks >= 0) {
                     handler.mv$setSuperStarCooldown(cooldownTicks);

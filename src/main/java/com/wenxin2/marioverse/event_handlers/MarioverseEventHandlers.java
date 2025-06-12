@@ -103,7 +103,7 @@ public class MarioverseEventHandlers {
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity)) return;
 
-        if (entity instanceof AbilitiesHandler handler) {
+        if (entity instanceof AbilitiesHandler handler && !handler.mv$hasMushroomOverride()) {
             if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
                     || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
                 if (entity instanceof Player player) {
@@ -117,17 +117,12 @@ public class MarioverseEventHandlers {
         }
 
         if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)
-                && mob instanceof AbilitiesHandler handler) {
+                && mob instanceof AbilitiesHandler) {
             if (!(mob instanceof FireGoombaEntity)) {
-                if (handler.mv$hasFireFlower()) {
-                    mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
-                            0, true));
-                }
-
-                if (handler.mv$hasIceFlower()) {
-                    mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
-                            0, true));
-                }
+                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
+                        0, true));
+                mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
+                        0, true));
             }
 
             if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))

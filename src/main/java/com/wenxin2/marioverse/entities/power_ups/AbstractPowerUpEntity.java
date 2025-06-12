@@ -67,6 +67,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
     protected abstract void spawnPowerUpParticles(LivingEntity entity, ServerLevel serverWorld);
 
     public void applyPowerUp(LivingEntity entity) {
+        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
         if (this.level() instanceof ServerLevel serverWorld)
@@ -81,7 +82,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             this.setHasPowerUp(entity, true);
         }
 
-        this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+        this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
         this.remove(RemovalReason.KILLED);
 
         this.applyCostumeChange(entity, capability);

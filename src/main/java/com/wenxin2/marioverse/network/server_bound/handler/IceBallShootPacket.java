@@ -50,13 +50,13 @@ public class IceBallShootPacket {
 
     public static void shootIceBall(Entity entity) {
         Level world = entity.level();
+        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
         BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), world);
         iceBall.setOwner(entity);
         iceBall.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
         iceBall.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, entity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(),
-                SoundSource.PLAYERS, 1.0F, 1.0F);
+        world.playSound(null, entity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), soundSource, 1.0F, 1.0F);
 
         Vec3 look = entity.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));

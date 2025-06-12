@@ -85,7 +85,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
 
                 if (!livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                            SoundSource.NEUTRAL, 1.0F, 1.0F);
                     if (entity.level() instanceof ServerLevel serverWorld) {
                         ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
                         ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity);

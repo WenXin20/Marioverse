@@ -115,7 +115,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                     if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                         livingEntity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
                     this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                            SoundSource.NEUTRAL, 1.0F, 1.0F);
                     this.remove(Entity.RemovalReason.KILLED);
                 }
             }

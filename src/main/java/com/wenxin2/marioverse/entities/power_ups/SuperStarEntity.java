@@ -84,7 +84,6 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
-
             if (entity instanceof Player player && !player.isSpectator()
                     && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                     && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
@@ -112,7 +111,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                        SoundSource.NEUTRAL, 1.0F, 1.0F);
                 this.remove(RemovalReason.KILLED);
             }
         }

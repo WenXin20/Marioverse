@@ -6,6 +6,9 @@ public interface AbilitiesHandler {
     boolean mv$hasMushroom();
     void mv$setMushroom(boolean hasMushroom);
 
+    boolean mv$hasMushroomOverride();
+    void mv$setMushroomOverride(boolean hasMushroomOverride);
+
     boolean mv$hasMegaMushroom();
     void mv$setMegaMushroom(boolean hasMushroom);
 

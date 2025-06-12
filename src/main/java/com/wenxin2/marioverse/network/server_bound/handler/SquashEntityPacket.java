@@ -193,8 +193,7 @@ public class SquashEntityPacket {
                 player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
             else if (offhandStack.getCount() >= 1)
                 player.addItem(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            player.level().playSound(null, player.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.level().playSound(null, player.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
         }
     }
