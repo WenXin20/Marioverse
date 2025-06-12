@@ -34,7 +34,6 @@ public class PowerUpCommand {
                 List.of("fire_flower", "ice_flower", "mushroom", "super_star"), builder);
     }
 
-    // TODO: Fix mushroom command
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("powerup")
                 .requires(source -> source.hasPermission(2))
@@ -101,7 +100,7 @@ public class PowerUpCommand {
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) { // TODO: Fix requiring reload for mobs
+            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
                 SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 applyPowerUpType(handler, powerUpName, enablePowerUp);
                 count++;
