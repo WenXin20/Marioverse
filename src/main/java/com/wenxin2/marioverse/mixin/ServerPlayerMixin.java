@@ -86,7 +86,7 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
 
     @Override
     public boolean mv$hasMushroomOverride() {
-        return this.mv$hasMushroom;
+        return this.mv$hasMushroomOverride;
     }
 
     @Override

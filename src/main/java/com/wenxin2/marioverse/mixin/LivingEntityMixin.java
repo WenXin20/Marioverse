@@ -364,7 +364,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Override
     public boolean mv$hasMushroomOverride() {
-        return this.mv$hasMushroom;
+        return this.mv$hasMushroomOverride;
     }
 
     @Override
@@ -1142,12 +1142,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         boolean isPlayer = entity instanceof Player;
         boolean shouldShrink = !hasMushroom
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && (this.mv$hasMushroomOverride || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (this.mv$hasMushroomOverride || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
+                && (isPlayer && this.mv$hasMushroomOverride() || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && this.mv$hasMushroomOverride() || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
 
         boolean shouldReset = hasMushroom
-                && (this.mv$hasMushroomOverride || isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (this.mv$hasMushroomOverride || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
+                && (isPlayer && this.mv$hasMushroomOverride() || isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && this.mv$hasMushroomOverride() || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
         if (shouldShrink && currentEyeHeightScale != targetEyeHeightScale
                 && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
@@ -1158,7 +1158,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
             mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
 
-            if (!mv$playedDamagedSound && !this.mv$hasMushroomOverride) {
+            if (!mv$playedDamagedSound && !this.mv$hasMushroomOverride()) {
                 mv$playedDamagedSound = true;
                 SoundSource soundSource = isPlayer ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
@@ -1175,6 +1175,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
         }
     }
+
     private double currentEyeHeightScale = 1.0;
     private double currentHeightScale = 1.0;
     private double currentWidthScale = 1.0;
