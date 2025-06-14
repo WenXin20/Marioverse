@@ -149,16 +149,18 @@ public class ConfigRegistry
 
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
+    public static ModConfigSpec.IntValue GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS;
     public static ModConfigSpec.IntValue GOLD_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_RANDOM_COUNT;
+    public static ModConfigSpec.IntValue GREEN_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_COUNT;
     public static ModConfigSpec.IntValue HEFTY_GOOMBA_SPLIT_RANDOM_COUNT;
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
-    public static ModConfigSpec.IntValue GREEN_KOOPA_TROOPA_HIDE_DURATION;
-    public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_COINS;
+    public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS;
+    public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_TRAIL_COINS;
     public static ModConfigSpec.IntValue MAX_GOOMBA_STACK;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
     public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_BOUNCES;
@@ -508,9 +510,15 @@ public class ConfigRegistry
                                 .comment("Amount of damage gold koopa shells cause.")
                                 .comment("§6[1 point = 1/2 Heart]§b")
                                 .defineInRange("gold_koopa_shell_damage", 6.0, 0.0, 16.0);
-                        MAX_GOLD_KOOPA_SHELL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_coins")
+                        MAX_GOLD_KOOPA_SHELL_TRAIL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_trail_coins")
                                 .comment("Max amount of coins gold koopa shells can place§b")
-                                .defineInRange("max_gold_koopa_shell_coins", 16, 0, 64);
+                                .defineInRange("max_gold_koopa_shell_trail_coins", 16, 0, 64);
+                        MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_circle_coins")
+                                .comment("Max amount of coins gold koopa shells can place in a circle§b")
+                                .defineInRange("max_gold_koopa_shell_circle_coins", 8, 0, 64);
+                        GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS = BUILDER.translation("configuration.marioverse.gold_koopa_shell_coin_circle_radius")
+                                .comment("Max amount of coins gold koopa shells can place in a circle§b")
+                                .defineInRange("gold_koopa_shell_coin_circle_radius", 3, 0, 16);
                     BUILDER.pop();
 
                     BUILDER.push(CATEGORY_GREEN_KOOPA_SHELL);

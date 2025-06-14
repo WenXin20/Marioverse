@@ -45,7 +45,7 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
         BlockState coinState = BlockRegistry.COIN.get().defaultBlockState();
 
         if (!world.isClientSide && world.getBlockState(pos).canBeReplaced()
-                && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_COINS.get()
+                && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get()
                 && this.getDeltaMovement().horizontalDistance() > 0.25 && this.isAlive()) {
             world.setBlock(this.blockPosition(), coinState.setValue(BlockStateProperties.WATERLOGGED,
                     fluidState.getType() == Fluids.WATER), 3);
@@ -54,7 +54,7 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
             coinCount++;
         }
 
-        if (coinCount >= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_COINS.get())
+        if (coinCount >= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get())
             this.kill();
 
         if (world instanceof ServerLevel serverWorld
@@ -107,8 +107,8 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     }
 
     public void placeCoinCircle(Level world, BlockPos center) {
-        int radius = 3;
-        int coinCount = 8;
+        int radius = ConfigRegistry.GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS.get();
+        int coinCount = ConfigRegistry.MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS.get();
 
         for (int i = 0; i < coinCount; i++) {
             double angle = 2 * Math.PI * i / coinCount;
