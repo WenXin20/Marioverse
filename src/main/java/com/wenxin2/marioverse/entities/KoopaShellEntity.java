@@ -689,7 +689,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
     }
 
-    private void playDeathAnimation(Entity entity) {
+    public void playDeathAnimation(Entity entity) {
         float scale = (float) this.getAttributeValue(Attributes.SCALE);
         float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
         float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
@@ -702,7 +702,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 width *= 2.0F;
 
             float scaleFactor = height * width * 1.2F;
-            int numParticles = (int) (scaleFactor * 10);
+            int numParticles = (int) (scaleFactor * 15);
             for (int i = 0; i < numParticles; ++i)
                 ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
                         entity, height * 1.55F + 0.1F, width * 1.55F);

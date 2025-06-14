@@ -11,7 +11,9 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -93,4 +95,53 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     public float getShellDamage() {
         return ConfigRegistry.GOLD_KOOPA_SHELL_DAMAGE.get().floatValue();
     }
+
+    @Override
+    public void playDeathAnimation(Entity entity) {
+        super.playDeathAnimation(entity);
+
+        if (!this.level().isClientSide()) {
+            BlockPos center = this.blockPosition();
+            this.placeCoinCircle(this.level(), center);
+        }
+    }
+
+    public void placeCoinCircle(Level world, BlockPos center) {
+        int radius = 3;
+        int coinCount = 8;
+
+        for (int i = 0; i < coinCount; i++) {
+            double angle = 2 * Math.PI * i / coinCount;
+            int x = center.getX() + (int) Math.round(radius * Math.cos(angle));
+            int z = center.getZ() + (int) Math.round(radius * Math.sin(angle));
+            BlockPos basePos = new BlockPos(x, center.getY(), z);
+
+            BlockPos coinPos = this.findValidCoinPosition(world, basePos);
+            BlockState coinState = world.getBlockState(coinPos);
+            if (coinState.canBeReplaced() || coinState.getFluidState().is(FluidTags.WATER) || coinState.getBlock() == BlockRegistry.COIN.get())
+                world.setBlock(coinPos, BlockRegistry.COIN.get().defaultBlockState()
+                        .setValue(BlockStateProperties.WATERLOGGED, coinState.getFluidState().is(FluidTags.WATER)), 3);
+        }
+    }
+
+    private BlockPos findValidCoinPosition(Level world, BlockPos basePos) {
+        BlockPos pos = basePos;
+        BlockState state = world.getBlockState(pos);
+        boolean isAirOrWater = state.canBeReplaced() || state.getFluidState().is(FluidTags.WATER) || state.getBlock() == BlockRegistry.COIN.get();
+
+        if (isAirOrWater) {
+            return pos;
+        }
+
+        for (int i = 1; i <= 3; i++) {
+            BlockPos posAbove = pos.above(i);
+            BlockState stateAbove = world.getBlockState(posAbove);
+            if (stateAbove.canBeReplaced() || stateAbove.getFluidState().is(FluidTags.WATER) || stateAbove.getBlock() == BlockRegistry.COIN.get()) {
+                pos = posAbove;
+                break;
+            }
+        }
+        return pos;
+    }
+
 }
