@@ -54,8 +54,10 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
             coinCount++;
         }
 
-        if (coinCount >= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get())
-            this.kill();
+        if (coinCount >= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get()) {
+            this.playDeathAnimation(this);
+            this.discard();
+        }
 
         if (world instanceof ServerLevel serverWorld
                 && this.tickCount % 4 == 0 && this.isAlive())
