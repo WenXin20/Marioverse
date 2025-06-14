@@ -46,7 +46,7 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
 
         if (!world.isClientSide && this.level().getGameTime() % 4 == 0 && world.getBlockState(pos).canBeReplaced()
                 && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get()
-                && this.getDeltaMovement().horizontalDistance() > 0.25 && this.isAlive()) {
+                && this.getDeltaMovement().length() > 0.25 && this.isAlive()) {
             world.setBlock(this.blockPosition(), coinState.setValue(BlockStateProperties.WATERLOGGED,
                     fluidState.getType() == Fluids.WATER), 3);
             world.playSound(null, pos, BlockRegistry.COIN.get().getSoundType(coinState, world, pos, null).getPlaceSound(),
