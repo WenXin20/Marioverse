@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TraceableEntity;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
@@ -51,6 +53,8 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
                     fluidState.getType() == Fluids.WATER), 3);
             world.playSound(null, pos, BlockRegistry.COIN.get().getSoundType(coinState, world, pos, null).getPlaceSound(),
                     SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
             coinCount++;
         }
 
@@ -58,10 +62,6 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
             this.playDeathAnimation(this);
             this.discard();
         }
-
-        if (world instanceof ServerLevel serverWorld
-                && this.tickCount % 4 == 0 && this.isAlive())
-            ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
     }
 
     @Override
@@ -108,6 +108,13 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
         }
     }
 
+    @Override
+    public void trailParticles(BlockState state, BlockPos pos, double x, double z, Vec3 vec3) {
+        super.trailParticles(state, pos, x, z, vec3);
+        if (this.level().getGameTime() % 4 == 0)
+            this.level().addParticle(ParticleRegistry.COIN_GLINT.get(), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
+    }
+
     public void placeCoinCircle(Level world, BlockPos center) {
         int radius = ConfigRegistry.GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS.get();
         int coinCount = ConfigRegistry.MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS.get();
@@ -120,9 +127,14 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
 
             BlockPos coinPos = this.findValidCoinPosition(world, basePos);
             BlockState coinState = world.getBlockState(coinPos);
-            if (coinState.canBeReplaced() || coinState.getFluidState().is(FluidTags.WATER) || coinState.getBlock() == BlockRegistry.COIN.get())
+            if (coinState.canBeReplaced() || coinState.getFluidState().is(FluidTags.WATER) || coinState.getBlock() == BlockRegistry.COIN.get()) {
                 world.setBlock(coinPos, BlockRegistry.COIN.get().defaultBlockState()
                         .setValue(BlockStateProperties.WATERLOGGED, coinState.getFluidState().is(FluidTags.WATER)), 3);
+                world.playSound(null, coinPos, BlockRegistry.COIN.get().getSoundType(coinState, world, coinPos, null).getPlaceSound(),
+                        SoundSource.BLOCKS, 1.0F, 1.0F);
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, coinPos, UniformInt.of(1, 1));
+            }
         }
     }
 
@@ -145,5 +157,4 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
         }
         return pos;
     }
-
 }

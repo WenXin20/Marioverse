@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
@@ -37,6 +38,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -62,10 +64,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -209,7 +211,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         Vec3 motion = this.getDeltaMovement();
 
         if (motion.horizontalDistance() > 0.1)
-            this.spawnSprintParticle();
+            this.spawnTrailParticles();
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
@@ -710,5 +712,32 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         if (this.getDeathSound() != null)
             this.playSound(this.getDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+    }
+
+    protected void spawnTrailParticles() {
+        BlockPos posLegacy = this.getOnPosLegacy();
+        BlockState state = this.level().getBlockState(posLegacy);
+        float scale = (float) this.getAttributeValue(Attributes.SCALE);
+        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
+        if (!state.addRunningEffects(this.level(), posLegacy, this)) {
+            if (state.getRenderShape() != RenderShape.INVISIBLE) {
+                Vec3 vec3 = this.getDeltaMovement();
+                BlockPos pos = this.blockPosition();
+                double x = this.getX() + (this.random.nextDouble() - 0.5) * scale * widthScale;
+                double z = this.getZ() + (this.random.nextDouble() - 0.5) * scale * widthScale;
+                if (pos.getX() != posLegacy.getX())
+                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
+
+                if (pos.getZ() != posLegacy.getZ())
+                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
+
+                this.trailParticles(state, posLegacy, x, z, vec3);
+            }
+        }
+    }
+
+    public void trailParticles(BlockState state, BlockPos posLegacy, double x, double z, Vec3 vec3) {
+        this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(posLegacy), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
     }
 }
