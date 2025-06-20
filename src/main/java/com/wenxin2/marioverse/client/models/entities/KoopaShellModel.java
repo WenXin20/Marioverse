@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Crackiness;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
@@ -32,7 +33,17 @@ public class KoopaShellModel extends GeoModel<KoopaShellEntity> {
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/gold_koopa_troopa.png");
         else if (animatable.getType() == EntityRegistry.RED_KOOPA_SHELL.get())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/red_koopa_troopa.png");
-        else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa.png");
+        else {
+            if (animatable.getCrackiness() == Crackiness.Level.NONE)
+                return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa.png");
+            else if (animatable.getCrackiness() == Crackiness.Level.LOW)
+                return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa_crackiness_low.png");
+            else if (animatable.getCrackiness() == Crackiness.Level.MEDIUM)
+                return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa_crackiness_medium.png");
+            else if (animatable.getCrackiness() == Crackiness.Level.HIGH)
+                return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa_crackiness_high.png");
+            else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_troopa.png");
+        }
     }
 
     @Override

@@ -49,7 +49,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -97,7 +96,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
     private boolean isSliding = false;
-    private int bounceCount = 0;
+    public int bounceCount = 0;
     private int hideTicks = -1;
     public int emergeAnimationTicks = -1;
 
@@ -386,6 +385,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return false;
     }
 
+    @Override
+    public Crackiness.Level getCrackiness() {
+        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
+    }
+
     @Nullable
     @Override
     public Entity getOwner() {
@@ -472,11 +476,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         this.hideTicks = hideTicks;
     }
 
-    @Override
-    public Crackiness.Level getCrackiness() {
-        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
-    }
-
     public void collideWithWall(Level world) {
         AABB bb = this.getBoundingBox();
         double maxStep = this.maxUpStep();
@@ -527,7 +526,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
 
         if (this.getCrackiness() != crackinessLevel)
-            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F); // TODO
+            this.playSound(SoundRegistry.KOOPA_SHELL_SHATTER.get(), 1.0F, 1.0F);
     }
 
     public void collideWithEntity() {
@@ -634,17 +633,18 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     private void spawnKoopaTroopa() {
-        KoopaTroopaEntity entity = this.getKoopaTroopaEntity();
+        KoopaTroopaEntity troopa = this.getKoopaTroopaEntity();
 
-        entity.setPos(this.getX(), this.getY(), this.getZ());
-        entity.setYRot(this.getYRot());
-        entity.setXRot(this.getXRot());
-        entity.yBodyRot = this.yBodyRot;
-        entity.setYHeadRot(this.getYHeadRot());
-        entity.setHealth(this.getHealth());
-        entity.setNoAi(this.isNoAi());
+        troopa.bounceCount = this.bounceCount;
+        troopa.setPos(this.getX(), this.getY(), this.getZ());
+        troopa.setYRot(this.getYRot());
+        troopa.setXRot(this.getXRot());
+        troopa.yBodyRot = this.yBodyRot;
+        troopa.setYHeadRot(this.getYHeadRot());
+        troopa.setHealth(this.getHealth());
+        troopa.setNoAi(this.isNoAi());
 
-        if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
+        if (this instanceof AbilitiesHandler handler && troopa instanceof AbilitiesHandler entityHandler) {
             entityHandler.mv$setMushroom(handler.mv$hasMushroom());
             entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
@@ -653,13 +653,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             entityHandler.mv$setSuperStarCooldown(handler.mv$getSuperStarCooldown());
         }
 
-        this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
-        this.copyAttributeWithModifiers(entity, Attributes.SCALE);
-        this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
-        this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
+        this.copyAttributeWithModifiers(troopa, Attributes.SAFE_FALL_DISTANCE);
+        this.copyAttributeWithModifiers(troopa, Attributes.SCALE);
+        this.copyAttributeWithModifiers(troopa, AttributesRegistry.HEIGHT_SCALE);
+        this.copyAttributeWithModifiers(troopa, AttributesRegistry.WIDTH_SCALE);
 
         for (EquipmentSlot slot : EquipmentSlot.values())
-            entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+            troopa.setItemSlot(slot, this.getItemBySlot(slot).copy());
 
         AccessoriesCapability capability = AccessoriesCapability.get(this);
         if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
@@ -667,7 +667,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
             for (String slotType : slotTypes) {
                 AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(troopa, slotType));
                 if (container != null) {
                     ItemStack stack = container.getAccessories().getItem(0);
                     if (containerEntity != null)
@@ -676,7 +676,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             }
         }
 
-        this.level().addFreshEntity(entity);
+        this.level().addFreshEntity(troopa);
         this.discard();
     }
 

@@ -37,6 +37,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Crackiness;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -87,7 +88,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class KoopaTroopaEntity extends Monster implements GeoEntity {
+public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
@@ -96,6 +97,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean isHiding;
+    public int bounceCount = 0;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
 
@@ -177,6 +179,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
         tag.putBoolean("IsHiding", this.isHiding());
+        tag.putInt("BounceCount", this.bounceCount);
         tag.putInt("HideTicks", this.hideTicks);
     }
 
@@ -184,6 +187,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+        this.bounceCount = tag.getInt("BounceCount");
         this.hideTicks = tag.getInt("HideTicks");
         this.hide(tag.getBoolean("IsHiding"));
     }
@@ -430,6 +434,11 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public Crackiness.Level getCrackiness() {
+        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
+    }
+
+    @Override
     protected BodyRotationControl createBodyControl() {
         return new BodyRotationControl(this) {
             @Override
@@ -488,30 +497,31 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
 
     public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
         if (hideAnimationTicks == 0) {
-            KoopaShellEntity entity = this.getKoopaShellEntity();
+            KoopaShellEntity shell = this.getKoopaShellEntity();
 
-            entity.setHideTicks(hideTicks);
-            entity.setPos(this.getX(), this.getY(), this.getZ());
-            entity.setYRot(this.getYRot());
-            entity.setXRot(this.getXRot());
-            entity.yBodyRot = this.yBodyRot;
-            entity.setYHeadRot(this.getYHeadRot());
-            entity.setHealth(shellHealth);
-            entity.emergeAnimationTicks = emergeAnimationTicks;
-            entity.setNoAi(this.isNoAi());
+            shell.bounceCount = this.bounceCount;
+            shell.setHideTicks(hideTicks);
+            shell.setPos(this.getX(), this.getY(), this.getZ());
+            shell.setYRot(this.getYRot());
+            shell.setXRot(this.getXRot());
+            shell.yBodyRot = this.yBodyRot;
+            shell.setYHeadRot(this.getYHeadRot());
+            shell.setHealth(shellHealth);
+            shell.emergeAnimationTicks = emergeAnimationTicks;
+            shell.setNoAi(this.isNoAi());
 
-            this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
-            this.copyAttributeWithModifiers(entity, Attributes.SCALE);
-            this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
-            this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
+            this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
+            this.copyAttributeWithModifiers(shell, Attributes.SCALE);
+            this.copyAttributeWithModifiers(shell, AttributesRegistry.HEIGHT_SCALE);
+            this.copyAttributeWithModifiers(shell, AttributesRegistry.WIDTH_SCALE);
 
             if (saveArmor) {
                 for (EquipmentSlot slot : EquipmentSlot.values())
-                    entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+                    shell.setItemSlot(slot, this.getItemBySlot(slot).copy());
             }
 
             if (savePowerUp) {
-                if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
+                if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
                     entityHandler.mv$setMushroom(handler.mv$hasMushroom());
                     entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
@@ -526,7 +536,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                     String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
                     for (String slotType : slotTypes) {
                         AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(shell, slotType));
                         if (container != null) {
                             ItemStack stack = container.getAccessories().getItem(0);
                             if (containerEntity != null)
@@ -536,7 +546,7 @@ public class KoopaTroopaEntity extends Monster implements GeoEntity {
                 }
             }
 
-            this.level().addFreshEntity(entity);
+            this.level().addFreshEntity(shell);
             this.remove(RemovalReason.DISCARDED);
         }
     }
