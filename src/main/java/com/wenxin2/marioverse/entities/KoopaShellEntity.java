@@ -49,6 +49,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -477,27 +478,25 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public void collideWithWall(Level world) {
-        if (!world.isClientSide) {
-            AABB bb = this.getBoundingBox();
-            double maxStep = this.maxUpStep();
-            double forwardDistance = 0.5;
-            double stepIncrement = 0.1;
+        AABB bb = this.getBoundingBox();
+        double maxStep = this.maxUpStep();
+        double forwardDistance = 0.5;
+        double stepIncrement = 0.1;
 
-            outer:
-            for (Direction dir : Direction.Plane.HORIZONTAL) {
-                Vec3 forward = new Vec3(dir.getStepX() * forwardDistance, 0, dir.getStepZ() * forwardDistance);
+        outer:
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            Vec3 forward = new Vec3(dir.getStepX() * forwardDistance, 0, dir.getStepZ() * forwardDistance);
 
-                for (double dy = 0; dy <= maxStep; dy += stepIncrement) {
-                    Vec3 offset = forward.add(0, dy, 0);
-                    AABB movedBox = bb.move(offset);
+            for (double dy = 0; dy <= maxStep; dy += stepIncrement) {
+                Vec3 offset = forward.add(0, dy, 0);
+                AABB movedBox = bb.move(offset);
 
-                    if (world.noCollision(this, movedBox))
-                        continue outer;
-                }
-
-                this.bounceShell(world, dir);
-                break;
+                if (world.noCollision(this, movedBox))
+                    continue outer;
             }
+
+            this.bounceShell(world, dir);
+            break;
         }
     }
 
@@ -514,6 +513,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         this.setDeltaMovement(new Vec3(newX, motion.y, newZ));
         this.slidingDirection = new Vec3(newX, motion.y, newZ);
+        this.hasImpulse = true;
 
         Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
         if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {

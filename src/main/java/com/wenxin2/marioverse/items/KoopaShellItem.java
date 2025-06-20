@@ -34,8 +34,8 @@ public class KoopaShellItem extends BasePowerUpItem {
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (!(world instanceof ServerLevel))
-            return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+//        if (!(world instanceof ServerLevel))
+//            return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
 
         EntityType<?> entityType = this.getType(stack);
         Entity entity = entityType.create(world);
@@ -57,6 +57,7 @@ public class KoopaShellItem extends BasePowerUpItem {
                 world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
+            shell.hasImpulse = true;
             shell.setOwner(player);
             world.gameEvent(player, GameEvent.ENTITY_PLACE, spawnPos);
             world.addFreshEntity(shell);
