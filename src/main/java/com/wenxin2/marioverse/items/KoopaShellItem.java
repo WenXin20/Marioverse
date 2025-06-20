@@ -47,6 +47,7 @@ public class KoopaShellItem extends BasePowerUpItem {
             Vec3 spawnPos = player.position()
                     .add(look.x * spawnDistance, player.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
 
+            world.addFreshEntity(shell);
             shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
             if (look.y >= 0.9) {
@@ -60,7 +61,6 @@ public class KoopaShellItem extends BasePowerUpItem {
             shell.hasImpulse = true;
             shell.setOwner(player);
             world.gameEvent(player, GameEvent.ENTITY_PLACE, spawnPos);
-            world.addFreshEntity(shell);
             stack.consume(1, player);
         }
 
