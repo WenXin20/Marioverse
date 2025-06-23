@@ -240,7 +240,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         if (this.isAlive()) {
             this.collideWithWall(this.level());
-            this.collideWithEntity();
+            if (!this.level().isClientSide)
+                this.collideWithEntity();
         }
 
         if (this.isSliding() && this.isAlive()) {
@@ -255,9 +256,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 this.setDeltaMovement(Vec3.ZERO);
                 this.slidingMovement = Vec3.ZERO;
-            } else if (this.onGround()) {
+            } else if (this.onGround() && motion.horizontalDistance() > 0.0001) {
                 this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
                 this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+                this.hasImpulse = true;
             }
         }
 
