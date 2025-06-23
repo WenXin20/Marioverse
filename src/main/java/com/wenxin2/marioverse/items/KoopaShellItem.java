@@ -33,22 +33,19 @@ public class KoopaShellItem extends BasePowerUpItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-
-//        if (!(world instanceof ServerLevel))
-//            return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
-
         EntityType<?> entityType = this.getType(stack);
         Entity entity = entityType.create(world);
 
         if (entity instanceof KoopaShellEntity shell) {
-            double speed = 1.5;
+            double speed = 1.0;
             double spawnDistance = 1.0;
+
             Vec3 look = player.getLookAngle();
             Vec3 spawnPos = player.position()
                     .add(look.x * spawnDistance, player.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
 
-            world.addFreshEntity(shell);
             shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
+            world.addFreshEntity(shell);
 
             if (look.y >= 0.9) {
                 shell.setDeltaMovement(look.x, 1.25, look.z);
