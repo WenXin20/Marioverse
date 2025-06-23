@@ -82,7 +82,8 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEntity, TraceableEntity {
-    private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_IS_HIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> DATA_IS_SLIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BOOLEAN);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation FLIP = RawAnimation.begin().thenPlayAndHold("misc.flip");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
@@ -161,13 +162,14 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
+        builder.define(DATA_IS_HIDING, (byte)0);
+        builder.define(DATA_IS_SLIDING, false);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
+        tag.putByte("HideFlags", this.entityData.get(DATA_IS_HIDING));
         tag.putInt("BounceCount", this.bounceCount);
         tag.putInt("HideTicks", this.hideTicks);
 
@@ -180,7 +182,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
+        this.entityData.set(DATA_IS_HIDING, tag.getByte("HideFlags"));
         this.leftOwner = tag.getBoolean("LeftOwner");
         this.bounceCount = tag.getInt("BounceCount");
         this.hideTicks = tag.getInt("HideTicks");
@@ -221,7 +223,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.discard();
         }
 
-        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround())
+        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
             hideTicks--;
 
         if (emergeAnimationTicks > 0)
@@ -241,7 +243,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.collideWithEntity();
         }
 
-        if (isSliding && this.isAlive()) {
+        if (this.isSliding() && this.isAlive()) {
             BlockPos posBelow = this.blockPosition().below();
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);
@@ -259,11 +261,15 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             }
         }
 
-        if (motion.horizontalDistance() < 0.0001) {
-            isSliding = false;
-        } else if (!isSliding && motion.horizontalDistance() > 0.0001) {
-            this.slidingDirection = motion;
-            isSliding = true;
+        if (!this.isNoAi()) {
+            if (motion.horizontalDistance() < 0.0001) {
+                this.setSliding(false);
+            } else if (!this.isSliding() && motion.horizontalDistance() > 0.0001) {
+                this.setSliding(true);
+                this.setDeltaMovement(motion);
+                this.slidingDirection = motion;
+                this.hasImpulse = true;
+            }
         }
     }
 
@@ -303,7 +309,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.setSpeed(0.0F);
                 this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
                 this.slidingDirection = new Vec3(0, this.getDeltaMovement().y, 0);
-                this.isSliding = false;
+                this.setSliding(false);
             }
         }
 
@@ -330,8 +336,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
             if (!isNoAi()) {
                 this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
-                this.isSliding = true;
                 this.slidingDirection = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
+                this.setSliding(true);
+                this.hasImpulse = true;
                 this.setOwner(source.getEntity());
             }
         }
@@ -388,6 +395,14 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     public Crackiness.Level getCrackiness() {
         return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
+
+    public void setSliding(boolean sliding) {
+        this.entityData.set(DATA_IS_SLIDING, sliding);
+        this.isSliding = sliding;
+    }
+
+    public boolean isSliding() {
+        return this.entityData.get(DATA_IS_SLIDING);
     }
 
     @Nullable
