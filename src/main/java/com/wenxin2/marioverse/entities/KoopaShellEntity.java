@@ -517,15 +517,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         double newZ = motion.z;
 
         if (dir.getAxis() == Direction.Axis.X) {
-            if (Math.signum(motion.x) == Math.signum(dir.getStepX())) {
+            if (Math.signum(motion.x) == Math.signum(dir.getStepX()))
                 newX = -motion.x;
-            }
         }
 
         if (dir.getAxis() == Direction.Axis.Z) {
-            if (Math.signum(motion.z) == Math.signum(dir.getStepZ())) {
+            if (Math.signum(motion.z) == Math.signum(dir.getStepZ()))
                 newZ = -motion.z;
-            }
         }
 
         Vec3 newMotion = new Vec3(newX, motion.y, newZ);
