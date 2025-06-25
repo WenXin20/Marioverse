@@ -43,12 +43,14 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Crackiness;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -66,8 +68,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -96,7 +100,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
-    private boolean isSliding = false;
     public int bounceCount = 0;
     private int hideTicks = -1;
     public int emergeAnimationTicks = -1;
@@ -150,10 +153,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
     }
 
-    public boolean isHiding() {
-        return hideTicks > 0;
-    }
-
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
@@ -162,7 +161,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_IS_HIDING, (byte)0);
+        builder.define(DATA_IS_HIDING, (byte) 0);
         builder.define(DATA_IS_SLIDING, false);
     }
 
@@ -233,7 +232,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.spawnKoopaTroopa();
 
         if (hideTicks == 0 && emergeAnimationTicks == 0
-                && this.getDeltaMovement().horizontalDistance() == 0 && this.onGround()) {
+                && this.getDeltaMovement().horizontalDistance() == 0 && (this.onGround() || this.isInWaterOrBubble())) {
             this.triggerAnim("emerge_controller", "emerge");
             this.emergeAnimationTicks = 60;
         }
@@ -244,7 +243,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.collideWithEntity();
         }
 
-        if (this.isSliding() && this.isAlive()) {
+        if (this.isSliding() && this.isAlive() && !this.isNoAi()) {
             BlockPos posBelow = this.blockPosition().below();
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);
@@ -256,10 +255,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 this.setDeltaMovement(Vec3.ZERO);
                 this.slidingMovement = Vec3.ZERO;
-            } else if (this.onGround() && motion.horizontalDistance() > 0.0001) {
+            } else if ((this.onGround()) && motion.horizontalDistance() > 0.0001) {
                 this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
                 this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
                 this.hasImpulse = true;
+            } else if (this.isInWaterOrBubble() && !this.isNoGravity()) {
+                this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y - this.getAttributeValue(Attributes.GRAVITY), slideMotion.z);
             }
         }
 
@@ -353,6 +354,54 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.die(source);
     }
 
+    @Override
+    public void travel(Vec3 vec3) {
+        if (this.isControlledByLocalInstance()) {
+            double d9 = this.getY();
+            double d0 = this.getGravity();
+            boolean flag = this.getDeltaMovement().y <= 0.0;
+            FluidState fluidstate = this.level().getFluidState(this.blockPosition());
+            if (flag && this.hasEffect(MobEffects.SLOW_FALLING))
+                d0 = Math.min(d0, 0.01);
+
+            if ((this.isInWaterOrBubble() || (this.isInFluidType(fluidstate)
+                    && fluidstate.getFluidType() != NeoForgeMod.LAVA_TYPE.value()))
+                    && this.isAffectedByFluids() && !this.canStandOnFluid(fluidstate)) {
+                if (this.isInWaterOrBubble() || (this.isInFluidType(fluidstate)
+                        && !this.moveInFluid(fluidstate, vec3, d0))) {
+                    float f4 = this.isSprinting() ? 0.9F : this.getWaterSlowDown();
+                    float f5 = 0.02F;
+                    float f6 = (float) this.getAttributeValue(Attributes.WATER_MOVEMENT_EFFICIENCY);
+
+                    if (!this.onGround())
+                        f6 *= 1.0F;
+
+                    if (f6 > 0.0F) {
+                        f4 += (0.54600006F - f4) * f6;
+                        f5 += (this.getSpeed() - f5) * f6;
+                    }
+
+                    if (this.hasEffect(MobEffects.DOLPHINS_GRACE))
+                        f4 = 0.96F;
+
+                    f5 *= (float) this.getAttributeValue(NeoForgeMod.SWIM_SPEED);
+                    this.moveRelative(f5, vec3);
+                    this.move(MoverType.SELF, this.getDeltaMovement());
+                    Vec3 vec36 = this.getDeltaMovement();
+                    if (this.horizontalCollision && this.onClimbable())
+                        vec36 = new Vec3(vec36.x, 0.5, vec36.z);
+
+                    this.setDeltaMovement(vec36.multiply(f4, 0.7F, f4));
+                    Vec3 vec32 = this.getFluidFallingAdjustedMovement(d0, flag, this.getDeltaMovement());
+                    this.setDeltaMovement(vec32);
+                    if (this.horizontalCollision
+                            && this.isFree(vec32.x, vec32.y + 0.6F - this.getY() + d9, vec32.z))
+                        this.setDeltaMovement(vec32.x, 0.5F, vec32.z);
+                }
+            } else super.travel(vec3);
+        }
+    }
+
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
@@ -400,7 +449,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public void setSliding(boolean sliding) {
         this.entityData.set(DATA_IS_SLIDING, sliding);
-        this.isSliding = sliding;
     }
 
     public boolean isSliding() {
