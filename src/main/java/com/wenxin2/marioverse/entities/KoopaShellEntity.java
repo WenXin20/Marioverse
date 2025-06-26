@@ -86,8 +86,9 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEntity, TraceableEntity {
-    private static final EntityDataAccessor<Byte> DATA_IS_HIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> DATA_IS_SLIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Byte> DATA_IS_HIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> DATA_BOUNCE_COUNT = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.INT);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation FLIP = RawAnimation.begin().thenPlayAndHold("misc.flip");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
@@ -100,7 +101,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
-    public int bounceCount = 0;
     private int hideTicks = -1;
     public int emergeAnimationTicks = -1;
 
@@ -161,6 +161,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(DATA_BOUNCE_COUNT, 0);
         builder.define(DATA_IS_HIDING, (byte) 0);
         builder.define(DATA_IS_SLIDING, false);
     }
@@ -169,7 +170,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_IS_HIDING));
-        tag.putInt("BounceCount", this.bounceCount);
+        tag.putInt("BounceCount", this.entityData.get(DATA_BOUNCE_COUNT));
         tag.putInt("HideTicks", this.hideTicks);
 
         if (this.ownerUUID != null)
@@ -181,9 +182,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_BOUNCE_COUNT, tag.getInt("BounceCount"));
         this.entityData.set(DATA_IS_HIDING, tag.getByte("HideFlags"));
         this.leftOwner = tag.getBoolean("LeftOwner");
-        this.bounceCount = tag.getInt("BounceCount");
         this.hideTicks = tag.getInt("HideTicks");
 
         if (tag.hasUUID("Owner")) {
@@ -217,7 +218,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
 
-        if (this.bounceCount >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue()) {
+        if (this.getBounceCount() >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue()) {
             this.playDeathAnimation(this);
             this.discard();
         }
@@ -283,10 +284,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         ItemStack stack = player.getItemInHand(hand);
         SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
 
-        if (this.bounceCount > 0 && player.getItemInHand(hand).is(TagRegistry.REPAIRS_KOOPA_SHELLS)
+        if (this.getBounceCount() > 0 && player.getItemInHand(hand).is(TagRegistry.REPAIRS_KOOPA_SHELLS)
                 && ConfigRegistry.REPAIR_KOOPA_SHELLS.get()) {
             stack.consume(1, player);
-            this.bounceCount = Math.max(0, this.bounceCount - 25);;
+            this.setBounceCount(Math.max(0, this.getBounceCount() - 25));
             this.playSound(SoundRegistry.KOOPA_SHELL_STOMP.get(), 1.0F, soundPitch);
             return InteractionResult.SUCCESS;
         } else if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
@@ -445,7 +446,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public Crackiness.Level getCrackiness() {
-        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
+        return Crackiness.WOLF_ARMOR.byFraction(1.0F - ((float) this.getBounceCount() / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.getAsInt()));
+    }
 
     public void setSliding(boolean sliding) {
         this.entityData.set(DATA_IS_SLIDING, sliding);
@@ -453,6 +455,14 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public boolean isSliding() {
         return this.entityData.get(DATA_IS_SLIDING);
+    }
+
+    public void setBounceCount(int bounceCount) {
+        this.entityData.set(DATA_BOUNCE_COUNT, bounceCount);
+    }
+
+    public int getBounceCount() {
+        return this.entityData.get(DATA_BOUNCE_COUNT);
     }
 
     @Nullable
@@ -530,8 +540,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         Vec3 motion = this.slidingMovement;
         this.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
         this.slidingMovement = new Vec3(-motion.x, motion.y, -motion.z);
-        if (this.bounceCount != -1)
-            this.bounceCount++;
+        if (this.getBounceCount() != -1)
+            this.setBounceCount(this.getBounceCount() + 1);
     }
 
     public void setHideTicks(int hideTicks) {
@@ -597,8 +607,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
             serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
                     3, 0.1, 0.1, 0.1, 0.0);
-            if (this.bounceCount != -1)
-                this.bounceCount++;
+            if (this.getBounceCount() != -1)
+                this.setBounceCount(this.getBounceCount() + 1);
         }
 
         if (this.getDeltaMovement().horizontalDistance() > 0.25)
@@ -714,7 +724,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     private void spawnKoopaTroopa() {
         KoopaTroopaEntity troopa = this.getKoopaTroopaEntity();
 
-        troopa.bounceCount = this.bounceCount;
+        troopa.setBounceCount(this.getBounceCount());
         troopa.setPos(this.getX(), this.getY(), this.getZ());
         troopa.setYRot(this.getYRot());
         troopa.setXRot(this.getXRot());

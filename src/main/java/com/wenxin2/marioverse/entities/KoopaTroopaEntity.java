@@ -90,6 +90,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEntity {
     private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> DATA_BOUNCE_COUNT = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.INT);
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
@@ -97,7 +98,6 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean isHiding;
-    public int bounceCount = 0;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
 
@@ -134,6 +134,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(DATA_BOUNCE_COUNT, 0);
         builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
     }
 
@@ -178,16 +179,16 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
-        tag.putBoolean("IsHiding", this.isHiding());
-        tag.putInt("BounceCount", this.bounceCount);
+        tag.putInt("BounceCount", this.entityData.get(DATA_BOUNCE_COUNT));
         tag.putInt("HideTicks", this.hideTicks);
+        tag.putBoolean("IsHiding", this.isHiding());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_BOUNCE_COUNT, tag.getInt("BounceCount"));
         this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
-        this.bounceCount = tag.getInt("BounceCount");
         this.hideTicks = tag.getInt("HideTicks");
         this.hide(tag.getBoolean("IsHiding"));
     }
@@ -435,7 +436,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     @Override
     public Crackiness.Level getCrackiness() {
-        return Crackiness.WOLF_ARMOR.byFraction(this.bounceCount / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue());
+        return Crackiness.WOLF_ARMOR.byFraction(1.0F - ((float) this.getBounceCount() / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.getAsInt()));
     }
 
     @Override
@@ -495,11 +496,19 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
         return ConfigRegistry.GREEN_KOOPA_TROOPA_HIDE_DURATION.get();
     }
 
+    public void setBounceCount(int bounceCount) {
+        this.entityData.set(DATA_BOUNCE_COUNT, bounceCount);
+    }
+
+    public int getBounceCount() {
+        return this.entityData.get(DATA_BOUNCE_COUNT);
+    }
+
     public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
         if (hideAnimationTicks == 0) {
             KoopaShellEntity shell = this.getKoopaShellEntity();
 
-            shell.bounceCount = this.bounceCount;
+            shell.setBounceCount(this.getBounceCount());
             shell.setHideTicks(hideTicks);
             shell.setPos(this.getX(), this.getY(), this.getZ());
             shell.setYRot(this.getYRot());
