@@ -284,13 +284,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         ItemStack stack = player.getItemInHand(hand);
         SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
 
-        if (this.getBounceCount() > 0 && player.getItemInHand(hand).is(TagRegistry.REPAIRS_KOOPA_SHELLS)
-                && ConfigRegistry.REPAIR_KOOPA_SHELLS.get()) {
-            stack.consume(1, player);
-            this.setBounceCount(Math.max(0, this.getBounceCount() - 25));
-            this.playSound(SoundRegistry.KOOPA_SHELL_STOMP.get(), 1.0F, soundPitch);
-            return InteractionResult.SUCCESS;
-        } else if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
+        if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
             player.setItemInHand(hand, new ItemStack(spawnEggItem));
             player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
             this.discard();
