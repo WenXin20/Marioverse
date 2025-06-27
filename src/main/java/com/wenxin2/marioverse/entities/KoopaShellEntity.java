@@ -280,8 +280,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        float soundPitch = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-        ItemStack stack = player.getItemInHand(hand);
         SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
 
         if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {

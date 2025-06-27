@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.items.LinkerItem;
@@ -127,6 +128,7 @@ public class MarioverseEventHandlers {
 
             if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
                 mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
+            mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
         }
     }
 
