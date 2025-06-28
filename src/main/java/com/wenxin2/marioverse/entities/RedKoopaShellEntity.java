@@ -164,14 +164,20 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         }
 
         if (target != null && speed >= 0.1) {
-            Vec3 toTarget = target.position().subtract(this.position()).normalize();
-            Vec3 currentVelocity = this.getDeltaMovement();
-            double length = currentVelocity.length();
-            Vec3 newDirection = currentVelocity.normalize().scale(0.9).add(toTarget.scale(0.1)).normalize();
-            Vec3 newVelocity = newDirection.scale(length);
+            Vec3 toTarget = target.position().add(0, target.getBbHeight() / 2, 0)
+                    .subtract(this.position().add(0, this.getBbHeight() / 2, 0));
 
-            this.setDeltaMovement(newVelocity.x, this.getDeltaMovement().y, newVelocity.z);
-            this.slidingMovement = new Vec3(newVelocity.x, this.getDeltaMovement().y, newVelocity.z);
+            Vec3 currentVelocity = this.getDeltaMovement();
+            double currentSpeed = currentVelocity.length();
+
+            Vec3 desiredDirection = toTarget.normalize();
+            Vec3 blendedDirection = currentVelocity.normalize().scale(0.6).add(desiredDirection.scale(0.4)).normalize();
+
+            Vec3 newVelocity = blendedDirection.scale(currentSpeed);
+            
+            this.setDeltaMovement(newVelocity.x, currentVelocity.y * 0.98, newVelocity.z);
+            this.slidingMovement = new Vec3(newVelocity.x, currentVelocity.y * 0.98, newVelocity.z);
+
             this.setYRot((float) (Mth.atan2(-newVelocity.x, newVelocity.z) * (180F / Math.PI)));
         }
     }
