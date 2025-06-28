@@ -611,7 +611,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public void collideWithEntity() {
-        AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
+        AABB collisionBox = this.getBoundingBox().inflate(0.1, 0, 0.1);
         List<Entity> entities = this.level().getEntities(this, collisionBox);
         double speed = this.getDeltaMovement().horizontalDistance();
         Set<UUID> newCollisions = new HashSet<>();
