@@ -1,4 +1,4 @@
-// 1.21.1	2025-05-25T18:06:06.2753115	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-06-29T15:08:06.2317676	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -84,7 +84,7 @@ ee2a53500cadf1c7b38d771bbf05b1421fc8d3c2 data/marioverse/tags/item/warp_pipe_can
 5f58a6058f6b5c0fa49549b59017732c7d3130e4 data/minecraft/tags/item/freeze_immune_wearables.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/minecraft/tags/item/head_armor.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
-7f9574628a87aaae387dc53522a9cc6c93b84593 data/minecraft/tags/item/piglin_loved.json
+1f4b6ab84d6b62228971fd057e95f6f2ab9bb2c7 data/minecraft/tags/item/piglin_loved.json
 c381d2b8e4afec3c8030043a90021aefdd597f7c data/minecraft/tags/item/slabs.json
 89068be761555a6270b5373c58a8ee61fcc0ad52 data/minecraft/tags/item/stairs.json
 b26fbb315a12bd2dc06582d452419a7e01b30aba data/minecraft/tags/item/stone_buttons.json

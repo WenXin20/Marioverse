@@ -76,6 +76,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
+                .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
+                .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
+                .add(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get())
+                .add(ItemRegistry.PEACH_CROWN.get())
                 .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.asItem())
                 .add(BlockRegistry.STAR_COIN.asItem())
                 .add(ItemRegistry.SUPER_STAR.get());

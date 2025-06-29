@@ -1,6 +1,14 @@
 {
   "values": [
+    "#minecraft:illager",
+    "#minecraft:skeletons",
     "#minecraft:zombies",
-    "minecraft:player"
+    "#c:bosses",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:player",
+    "minecraft:vex",
+    "minecraft:villager",
+    "minecraft:wandering_trader"
   ]
 }
