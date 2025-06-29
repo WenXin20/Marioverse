@@ -202,7 +202,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PIGLIN)
                 .add(EntityType.PIGLIN_BRUTE)
                 .add(EntityType.PLAYER)
-                .add(EntityType.VEX)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
