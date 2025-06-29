@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.items.KoopaShellItem;
-import com.wenxin2.marioverse.registries.SoundRegistry;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.Optional;
@@ -21,14 +20,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 public class PickupAndThrowShellGoal extends Goal {
     private ItemStack heldShell = ItemStack.EMPTY;
     private LivingEntity target;
     private final Mob mob;
+    private int aimingTicks = 0;
     private int cooldown;
 
     public PickupAndThrowShellGoal(Mob mob) {
@@ -47,12 +45,10 @@ public class PickupAndThrowShellGoal extends Goal {
                 || (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())) {
             if (mob.getMainHandItem().getItem() instanceof KoopaShellItem || !heldShell.isEmpty()) {
                 this.target = mob.getTarget();
-                return target != null && mob.hasLineOfSight(target) && mob.distanceToSqr(target) < 16 * 16;
+                return true /*target != null && mob.hasLineOfSight(target) && mob.distanceToSqr(target) < 16 * 16*/;
             } else return this.findNearbyShell() != null;
         } else return false;
     }
-
-    private int aimingTicks = 0;
 
     @Override
     public void tick() {
@@ -65,7 +61,8 @@ public class PickupAndThrowShellGoal extends Goal {
         boolean hasShellInMemory = !heldShell.isEmpty();
 
         if ((hasShellInHand || hasShellInMemory)) {
-            mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
+            if (target != null)
+                mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
             mob.yRotO = mob.getYHeadRot();
             mob.setYRot(Mth.wrapDegrees(mob.getYHeadRot()));
 
@@ -118,8 +115,8 @@ public class PickupAndThrowShellGoal extends Goal {
                 mob.setItemInHand(InteractionHand.MAIN_HAND, itemEntity.getItem());
             else if (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())
                 mob.setItemInHand(InteractionHand.OFF_HAND, itemEntity.getItem());
-            else heldShell = itemEntity.getItem().copy();
 
+            heldShell = itemEntity.getItem().copy();
             mob.swing(mob.getUsedItemHand());
             mob.level().playSound(mob, mob.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.NEUTRAL, 1.0F, 1.0F);
             itemEntity.discard();
@@ -130,8 +127,8 @@ public class PickupAndThrowShellGoal extends Goal {
                 mob.setItemInHand(InteractionHand.MAIN_HAND, shellItem);
             else if (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())
                 mob.setItemInHand(InteractionHand.OFF_HAND, shellItem);
-            else heldShell = shellItem;
 
+            heldShell = shellItem;
             mob.swing(mob.getUsedItemHand());
             mob.level().playSound(mob, mob.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.NEUTRAL, 1.0F, 1.0F);
             shell.discard();
@@ -144,33 +141,13 @@ public class PickupAndThrowShellGoal extends Goal {
         EntityType<?> type = heldShell.isEmpty() ? shellItem.getType(stack) : shellItem.getType(heldShell);
         Entity entity = type.create(mob.level());
 
-        if (entity instanceof KoopaShellEntity koopaShell) {
-            double speed = 1.0;
-            double spawnDistance = 1.0;
+        if (entity instanceof KoopaShellEntity shell) {
+            shellItem.throwShell(mob.level(), mob, shell, stack);
 
             mob.yRotO = mob.getYRot();
             mob.setYRot(Mth.wrapDegrees(mob.getYRot()));
             mob.swing(mob.getUsedItemHand());
 
-            Vec3 look = mob.getLookAngle();
-            Vec3 spawnPos = mob.position()
-                    .add(look.x * spawnDistance, mob.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
-
-            entity.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
-            mob.level().addFreshEntity(entity);
-
-            if (look.y >= 0.9) {
-                entity.setDeltaMovement(look.x, 1.25, look.z);
-                mob.level().playSound(mob, mob.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
-            } else {
-                entity.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
-                mob.level().playSound(mob, mob.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
-            }
-
-            koopaShell.hasImpulse = true;
-            koopaShell.setOwner(mob);
-            mob.level().gameEvent(mob, GameEvent.ENTITY_PLACE, spawnPos);
-            stack.consume(1, mob);
             heldShell = ItemStack.EMPTY;
             cooldown = 100;
         }
