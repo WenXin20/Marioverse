@@ -42,13 +42,15 @@ public class PickupAndThrowShellGoal extends Goal {
             return false;
         }
 
-        if ((this.hasMainHandSlot(mob) && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
-                || (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())) {
-            if (mob.getMainHandItem().getItem() instanceof KoopaShellItem || !heldShell.isEmpty()) {
+//        if ((this.hasMainHandSlot(mob) && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
+//                || (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())) {
+            if (mob.getMainHandItem().getItem() instanceof KoopaShellItem
+                    || mob.getOffhandItem().getItem() instanceof KoopaShellItem
+                    || !heldShell.isEmpty()) {
                 this.target = mob.getTarget();
-                return true /*target != null && mob.hasLineOfSight(target) && mob.distanceToSqr(target) < 16 * 16*/;
+                return true;
             } else return this.findNearbyShell() != null;
-        } else return false;
+//        } else return false;
     }
 
     @Override
@@ -58,10 +60,11 @@ public class PickupAndThrowShellGoal extends Goal {
             return;
         }
 
-        boolean hasShellInHand = mob.getMainHandItem().getItem() instanceof KoopaShellItem;
+        boolean hasShellInMainHand = mob.getMainHandItem().getItem() instanceof KoopaShellItem;
+        boolean hasShellInOffHand = mob.getOffhandItem().getItem() instanceof KoopaShellItem;
         boolean hasShellInMemory = !heldShell.isEmpty();
 
-        if ((hasShellInHand || hasShellInMemory)) {
+        if ((hasShellInMainHand || hasShellInOffHand || hasShellInMemory)) {
             if (target != null)
                 mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
             mob.yRotO = mob.getYHeadRot();
@@ -73,12 +76,14 @@ public class PickupAndThrowShellGoal extends Goal {
             }
 
             if (!(mob instanceof Monster) && !(mob instanceof AbstractGolem)) {
-                this.throwShellAt(hasShellInHand ? mob.getMainHandItem() : heldShell);
+                this.throwShellAt(hasShellInMainHand ? mob.getMainHandItem() : heldShell);
+                this.throwShellAt(hasShellInOffHand ? mob.getOffhandItem() : heldShell);
                 cooldown = 100;
             } else if (target != null && mob.distanceToSqr(target) < 16 * 16
                     && mob.getSensing().hasLineOfSight(target)
                     && mob.getLookControl().isLookingAtTarget()) {
-                this.throwShellAt(hasShellInHand ? mob.getMainHandItem() : heldShell);
+                this.throwShellAt(hasShellInMainHand ? mob.getMainHandItem() : heldShell);
+                this.throwShellAt(hasShellInOffHand ? mob.getOffhandItem() : heldShell);
                 cooldown = 100;
                 aimingTicks = 0;
             }
