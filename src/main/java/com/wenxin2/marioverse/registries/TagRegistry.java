@@ -144,6 +144,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
+    public static final TagKey<EntityType<?>> CAN_PICKUP_AND_THROW_SHELLS = entityTypeTags("can_pickup_and_throw_shells");
     public static final TagKey<EntityType<?>> CAN_SMASH_BLOCKS = entityTypeTags("can_smash_blocks");
     public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags("can_stomp_enemies");
     public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags("can_wear_costumes");
@@ -165,6 +166,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> GOOMBA_ENTITIES = entityTypeTags("goombas");
     public static final TagKey<EntityType<?>> GREEN_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("green_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> GREEN_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("green_koopa_troopa_can_attack");
+    public static final TagKey<EntityType<?>> HAS_INFINITE_SHELL_AMMO = entityTypeTags("has_infinite_shell_ammo");
     public static final TagKey<EntityType<?>> HAS_NO_DELTA_MOVEMENT = entityTypeTags("has_no_delta_movement");
     public static final TagKey<EntityType<?>> HEFTY_GOOMBA_CAN_ATTACK = entityTypeTags("hefty_goomba_can_attack");
     public static final TagKey<EntityType<?>> ICE_BALL_CAN_INSTAKILL = entityTypeTags("ice_ball_can_instakill");

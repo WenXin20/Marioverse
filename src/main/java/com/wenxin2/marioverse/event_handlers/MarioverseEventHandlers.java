@@ -128,8 +128,10 @@ public class MarioverseEventHandlers {
 
             if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
                 mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
-            mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
         }
+
+        if (entity instanceof Mob mob && mob.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS))
+            mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
     }
 
     @SubscribeEvent

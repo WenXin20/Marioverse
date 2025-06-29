@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.items.KoopaShellItem;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.Optional;
@@ -148,7 +149,8 @@ public class PickupAndThrowShellGoal extends Goal {
             mob.setYRot(Mth.wrapDegrees(mob.getYRot()));
             mob.swing(mob.getUsedItemHand());
 
-            heldShell = ItemStack.EMPTY;
+            if (!mob.getType().is(TagRegistry.HAS_INFINITE_SHELL_AMMO))
+                heldShell = ItemStack.EMPTY;
             cooldown = 100;
         }
     }

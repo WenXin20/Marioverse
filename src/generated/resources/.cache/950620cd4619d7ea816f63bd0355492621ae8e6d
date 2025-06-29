@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-04T13:13:24.9162939	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-06-29T13:32:30.912319	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -17,6 +17,7 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/can_co
 c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_consume_super_stars.json
 8e0c862f8a9d5210244cf50c00ae7315824e9b1f data/marioverse/tags/entity_type/can_hit_question_blocks.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_lower_flags.json
+104144f6e22632459d58f9394d1a259c38a5fea9 data/marioverse/tags/entity_type/can_pickup_and_throw_shells.json
 8e0c862f8a9d5210244cf50c00ae7315824e9b1f data/marioverse/tags/entity_type/can_smash_blocks.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_stomp_enemies.json
 edb9c12ba44e2dca1324fdbc3f5697587a2cf803 data/marioverse/tags/entity_type/can_wear_costumes.json
@@ -38,6 +39,7 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/goomba
 40bb55cde13dbe6d01721ff5d5254c7e2faea019 data/marioverse/tags/entity_type/goomba_can_ride.json
 b195fab24da50552e1b21cfbb9f3781c40c7d874 data/marioverse/tags/entity_type/green_koopa_shell_can_instakill.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/green_koopa_troopa_can_attack.json
+86a469d8e9ee317a1ca5b93bfed0be34ff5b0d89 data/marioverse/tags/entity_type/has_infinite_shell_ammo.json
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/has_no_delta_movement.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/hefty_goomba_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/ice_ball_can_instakill.json

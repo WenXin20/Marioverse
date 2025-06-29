@@ -194,6 +194,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_LOWER_FLAGS)
                 .add(EntityType.PLAYER);
 
+        tag(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS)
+                .addTag(EntityTypeTags.ZOMBIES)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)
@@ -377,6 +381,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
                 .add(EntityRegistry.MEGA_GOOMBA.get())
                 .add(EntityRegistry.MINI_GOOMBA.get());
+
+        tag(TagRegistry.HAS_INFINITE_SHELL_AMMO)
+                .addTag(Tags.EntityTypes.BOSSES);
 
         tag(TagRegistry.HAS_NO_DELTA_MOVEMENT)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
