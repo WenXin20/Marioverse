@@ -96,6 +96,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                         && player.getTeam() == this.getOwner().getTeam())
                     continue;
 
+                if (this.getOwner() != null && !(this.getOwner() instanceof Monster) && !(this.getOwner() instanceof Player))
+                    continue;
+
                 if (dist < closestDistance) {
                     closestDistance = dist;
                     target = player;
