@@ -205,6 +205,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
+        tag(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES);
+
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)

@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
+import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
@@ -35,6 +36,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.UUID;
+import net.mehvahdjukaar.supplementaries.Supplementaries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -73,6 +75,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -132,6 +135,10 @@ public class MarioverseEventHandlers {
 
         if (entity instanceof Mob mob && mob.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS))
             mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
+
+        if (entity instanceof Mob mob && mob.getType().is(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
+                && ModList.get().isLoaded("supplementaries"))
+            SupplementariesCompat.addGoals(mob);
     }
 
     @SubscribeEvent
