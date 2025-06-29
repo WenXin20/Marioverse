@@ -29,7 +29,6 @@ public class PickupAndThrowShellGoal extends Goal {
     private ItemStack heldShell = ItemStack.EMPTY;
     private LivingEntity target;
     private final Mob mob;
-    private int aimingTicks = 0;
     private int cooldown;
 
     public PickupAndThrowShellGoal(Mob mob) {
@@ -53,6 +52,8 @@ public class PickupAndThrowShellGoal extends Goal {
         } else return false;
     }
 
+    private int aimingTicks = 0;
+
     @Override
     public void tick() {
         if (cooldown > 0) {
@@ -64,29 +65,31 @@ public class PickupAndThrowShellGoal extends Goal {
         boolean hasShellInMemory = !heldShell.isEmpty();
 
         if ((hasShellInHand || hasShellInMemory)) {
-            if (target != null && mob.distanceToSqr(target) < 16 * 16 && mob.hasLineOfSight(target)) {
-                mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
+            mob.yRotO = mob.getYHeadRot();
+            mob.setYRot(Mth.wrapDegrees(mob.getYHeadRot()));
 
-                if (isLookingAt(target, 45.0)) {
-//                    aimingTicks++;
-//                    if (aimingTicks >= 5) {
-                        this.throwShellAt(target, hasShellInHand ? mob.getMainHandItem() : heldShell);
-                        cooldown = 100;
-//                        aimingTicks = 0;
-//                    }
-                }/* else {
-                    aimingTicks = 0;
-                }*/
-            } else if (!(mob instanceof Monster) && !(mob instanceof AbstractGolem)) {
-                this.throwShellAt(null, hasShellInHand ? mob.getMainHandItem() : heldShell);
+            if (aimingTicks < 10) {
+                aimingTicks++;
+                return;
+            }
+
+            if (!(mob instanceof Monster) && !(mob instanceof AbstractGolem)) {
+                this.throwShellAt(hasShellInHand ? mob.getMainHandItem() : heldShell);
+                cooldown = 100;
+            } else if (target != null && mob.distanceToSqr(target) < 16 * 16
+                    && mob.getSensing().hasLineOfSight(target)
+                    && mob.getLookControl().isLookingAtTarget()) {
+                this.throwShellAt(hasShellInHand ? mob.getMainHandItem() : heldShell);
                 cooldown = 100;
                 aimingTicks = 0;
             }
         } else {
+            aimingTicks = 0;
             Entity shell = this.findNearbyShell();
             if (shell != null) {
                 mob.getNavigation().moveTo(shell, 1.0);
-                if (mob.distanceToSqr(shell) < 1.0)
+                if (mob.distanceToSqr(shell) < mob.getBbWidth() + 2.0)
                     this.pickUpShell(shell);
             }
         }
@@ -97,7 +100,7 @@ public class PickupAndThrowShellGoal extends Goal {
         AABB searchBox = mob.getBoundingBox().inflate(8.0);
 
         Optional<KoopaShellEntity> entityShell = level.getEntitiesOfClass(KoopaShellEntity.class, searchBox)
-                .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.01 && e.isAlive())
+                .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.1 && e.isAlive())
                 .min(Comparator.comparingDouble(mob::distanceToSqr));
 
         if (entityShell.isPresent()) return entityShell.get();
@@ -135,7 +138,7 @@ public class PickupAndThrowShellGoal extends Goal {
         }
     }
 
-    private void throwShellAt(LivingEntity target, ItemStack stack) {
+    private void throwShellAt(ItemStack stack) {
         if (!(stack.getItem() instanceof KoopaShellItem shellItem)) return;
 
         EntityType<?> type = heldShell.isEmpty() ? shellItem.getType(stack) : shellItem.getType(heldShell);
@@ -145,7 +148,6 @@ public class PickupAndThrowShellGoal extends Goal {
             double speed = 1.0;
             double spawnDistance = 1.0;
 
-            mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
             mob.yRotO = mob.getYRot();
             mob.setYRot(Mth.wrapDegrees(mob.getYRot()));
             mob.swing(mob.getUsedItemHand());
@@ -190,15 +192,5 @@ public class PickupAndThrowShellGoal extends Goal {
         } catch (IllegalArgumentException e) {
             return false;
         }
-    }
-
-    private boolean isLookingAt(LivingEntity target, double maxAngleDegrees) {
-        Vec3 mobLook = mob.getLookAngle().normalize();
-        Vec3 toTarget = target.position().add(0, target.getEyeHeight() / 2.0, 0)
-                .subtract(mob.getEyePosition()).normalize();
-
-        double dot = mobLook.dot(toTarget);
-        double angle = Math.acos(dot) * (180 / Math.PI);
-        return angle <= maxAngleDegrees;
     }
 }

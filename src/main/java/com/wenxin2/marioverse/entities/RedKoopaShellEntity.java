@@ -174,10 +174,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
             Vec3 blendedDirection = currentVelocity.normalize().scale(0.6).add(desiredDirection.scale(0.4)).normalize();
 
             Vec3 newVelocity = blendedDirection.scale(currentSpeed);
-            
+
             this.setDeltaMovement(newVelocity.x, currentVelocity.y * 0.98, newVelocity.z);
             this.slidingMovement = new Vec3(newVelocity.x, currentVelocity.y * 0.98, newVelocity.z);
-
             this.setYRot((float) (Mth.atan2(-newVelocity.x, newVelocity.z) * (180F / Math.PI)));
         }
     }
