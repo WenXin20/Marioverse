@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -36,31 +37,34 @@ public class KoopaShellItem extends BasePowerUpItem {
         EntityType<?> entityType = this.getType(stack);
         Entity entity = entityType.create(world);
 
-        if (entity instanceof KoopaShellEntity shell) {
-            double speed = 1.0;
-            double spawnDistance = 1.0;
-
-            Vec3 look = player.getLookAngle();
-            Vec3 spawnPos = player.position()
-                    .add(look.x * spawnDistance, player.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
-
-            shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
-            world.addFreshEntity(shell);
-
-            if (look.y >= 0.9) {
-                shell.setDeltaMovement(look.x, 1.25, look.z);
-                world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            } else {
-                shell.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
-                world.playSound(player, player.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            }
-
-            shell.hasImpulse = true;
-            shell.setOwner(player);
-            world.gameEvent(player, GameEvent.ENTITY_PLACE, spawnPos);
-            stack.consume(1, player);
-        }
+        if (entity instanceof KoopaShellEntity shell)
+            this.throwShell(world, player, shell, stack);
 
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+    }
+
+    public void throwShell(Level world, LivingEntity entity, KoopaShellEntity shell, ItemStack stack) {
+        double speed = 1.0;
+        double spawnDistance = 1.0;
+
+        Vec3 look = entity.getLookAngle();
+        Vec3 spawnPos = entity.position()
+                .add(look.x * spawnDistance, entity.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
+
+        shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
+        world.addFreshEntity(shell);
+
+        if (look.y >= 0.9) {
+            shell.setDeltaMovement(look.x, 1.25, look.z);
+            world.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+        } else {
+            shell.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
+            world.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+        }
+
+        shell.hasImpulse = true;
+        shell.setOwner(entity);
+        world.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnPos);
+        stack.consume(1, entity);
     }
 }
