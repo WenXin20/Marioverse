@@ -86,7 +86,7 @@ public class PickupAndThrowShellGoal extends Goal {
             Entity shell = this.findNearbyShell();
             if (shell != null) {
                 mob.getNavigation().moveTo(shell, 1.0);
-                if (mob.distanceToSqr(shell) < mob.getBbWidth() + 2.0)
+                if (mob.distanceToSqr(shell) < mob.getBbWidth() + 2.5)
                     this.pickUpShell(shell);
             }
         }
