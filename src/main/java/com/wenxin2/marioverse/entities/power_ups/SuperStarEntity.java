@@ -86,7 +86,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
         if (!this.level().isClientSide) {
             if (entity instanceof Player player && !player.isSpectator()
                     && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                    && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                    && player.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
                     && entity instanceof AbilitiesHandler handler) {
 
                 handler.mv$setSuperStar(true);
