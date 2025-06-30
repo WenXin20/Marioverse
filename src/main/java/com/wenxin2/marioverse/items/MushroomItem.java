@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.function.Supplier;
@@ -17,8 +18,10 @@ public class MushroomItem extends BasePowerUpItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
-        if (entity instanceof AbilitiesHandler handler)
+        if (entity instanceof AbilitiesHandler handler) {
+            MushroomEntity.powerUp(world, entity, null);
             handler.mv$setMushroomBoostDuration(ConfigRegistry.MUSHROOM_BOOST_DURATION.get());
+        }
         return super.finishUsingItem(stack, world, entity);
     }
 }

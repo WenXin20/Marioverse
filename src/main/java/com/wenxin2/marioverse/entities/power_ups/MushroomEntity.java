@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import javax.annotation.Nullable;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -86,37 +87,45 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
-            if (entity instanceof Player player && !player.isSpectator()
-                    && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                    && (player.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                        || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
-                    && player instanceof AbilitiesHandler handler) {
-                handler.mv$setMushroom(true);
-                if (entity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
+            powerUp(this.level(), entity, this);
+        }
+    }
 
-                if (!this.level().isClientSide) {
-                    if (player.getHealth() < player.getMaxHealth())
-                        player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+    public static void powerUp(Level world, Entity entity, @Nullable Entity mushroom) {
+        if (entity instanceof Player player && !player.isSpectator()
+                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && (player.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                && player instanceof AbilitiesHandler handler) {
+            handler.mv$setMushroom(true);
+            if (entity.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
+
+            if (!world.isClientSide) {
+                if (player.getHealth() < player.getMaxHealth())
+                    player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                if (mushroom != null) {
+                    world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
-                    this.remove(Entity.RemovalReason.KILLED);
+                    mushroom.remove(RemovalReason.KILLED);
                 }
-            } else if (entity instanceof LivingEntity livingEntity
-                    && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                    && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                        || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
-                    && entity instanceof AbilitiesHandler handler) {
-                handler.mv$setMushroom(true);
-                if (entity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
+            }
+        } else if (entity instanceof LivingEntity livingEntity
+                && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                && entity instanceof AbilitiesHandler handler) {
+            handler.mv$setMushroom(true);
+            if (entity.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
 
-                if (!this.level().isClientSide) {
-                    if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                        livingEntity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-                    this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+            if (!world.isClientSide) {
+                if (livingEntity.getHealth() < livingEntity.getMaxHealth())
+                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                if (mushroom != null) {
+                    world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.NEUTRAL, 1.0F, 1.0F);
-                    this.remove(Entity.RemovalReason.KILLED);
+                    mushroom.remove(RemovalReason.KILLED);
                 }
             }
         }
