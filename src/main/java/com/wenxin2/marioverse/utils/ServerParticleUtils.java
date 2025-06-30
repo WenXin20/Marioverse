@@ -227,7 +227,7 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, LivingEntity entity, boolean particlesInAir) {
+    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, LivingEntity entity, boolean particlesInAir, int particleAmt) {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
         float scale = (float) entity.getAttributeValue(Attributes.SCALE);
@@ -253,7 +253,7 @@ public class ServerParticleUtils {
                 if (pos.getZ() != posLegacy.getZ())
                     z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
 
-                serverWorld.sendParticles(particleOptions, x, entity.getY() + 0.1, z, 4, offsetX, offsetY, offsetZ, speed);
+                serverWorld.sendParticles(particleOptions, x, entity.getY() + 0.1, z, particleAmt, offsetX, offsetY, offsetZ, speed);
             }
         }
     }

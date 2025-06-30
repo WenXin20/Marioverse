@@ -174,9 +174,9 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FIRE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.GLOWING_STAR.get(), GlowingSuspendedTownParticle.GlowingProvider::new);
+        event.registerSpriteSet(ParticleRegistry.GOLD_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.GOOD.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.GREAT.get(), MediumRewardParticle::new);
-        event.registerSpriteSet(ParticleRegistry.GOLD_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_CUBE_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
@@ -186,12 +186,12 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_BLACKSTONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEPSLATE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEPSLATE_TILE_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_END_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_MOSSY_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_MUD_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
@@ -206,10 +206,11 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_TUFF_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
+        event.registerSpriteSet(ParticleRegistry.SUSPENDED_FIRE.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
 

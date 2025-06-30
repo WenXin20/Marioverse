@@ -42,15 +42,12 @@ public class PickupAndThrowShellGoal extends Goal {
             return false;
         }
 
-//        if ((this.hasMainHandSlot(mob) && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
-//                || (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())) {
-            if (mob.getMainHandItem().getItem() instanceof KoopaShellItem
-                    || mob.getOffhandItem().getItem() instanceof KoopaShellItem
-                    || !heldShell.isEmpty()) {
-                this.target = mob.getTarget();
-                return true;
-            } else return this.findNearbyShell() != null;
-//        } else return false;
+        if (mob.getMainHandItem().getItem() instanceof KoopaShellItem
+                || mob.getOffhandItem().getItem() instanceof KoopaShellItem
+                || !heldShell.isEmpty()) {
+            this.target = mob.getTarget();
+            return true;
+        } else return this.findNearbyShell() != null;
     }
 
     @Override

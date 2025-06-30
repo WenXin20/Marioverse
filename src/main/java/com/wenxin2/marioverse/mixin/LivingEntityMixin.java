@@ -330,7 +330,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             if (this.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, this);
-                ServerParticleUtils.spawnParticleTrail(ParticleTypes.FLAME, serverWorld, entity, true);
+                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 10);
             }
         }
 
