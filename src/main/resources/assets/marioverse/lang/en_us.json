@@ -901,6 +901,8 @@
   "configuration.marioverse.max_player_ice_balls": "Max Player Ice Balls",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Attach to All Mobs",
   "configuration.marioverse.mini_goombas_push": "Push Mobs",
+  "configuration.marioverse.mushroom_boost_duration": "Boost Duration",
+  "configuration.marioverse.mushroom_boost_strength": "Boost Strength",
   "configuration.marioverse.mushroom_health_healed": "Health Healed",
   "configuration.marioverse.mushroom_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.one_up_heals_mobs": "Heals All Mobs",

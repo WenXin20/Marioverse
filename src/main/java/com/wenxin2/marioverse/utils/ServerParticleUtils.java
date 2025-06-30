@@ -1,16 +1,20 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.Painting;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public class ServerParticleUtils {
@@ -220,6 +224,37 @@ public class ServerParticleUtils {
             double z = entity.getZ() + offsetZ;
 
             serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, speed);
+        }
+    }
+
+    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, LivingEntity entity, boolean particlesInAir) {
+        BlockPos posLegacy = entity.getOnPosLegacy();
+        BlockState state = entity.level().getBlockState(posLegacy);
+        float scale = (float) entity.getAttributeValue(Attributes.SCALE);
+        float widthScale = (float) entity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
+        if (!state.addRunningEffects(entity.level(), posLegacy, entity)) {
+            if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
+                Vec3 vec3 = entity.getDeltaMovement();
+                BlockPos pos = entity.blockPosition();
+                double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                double dx = (vec3.x / 2) * -4.0;
+                double dy = 0.5;
+                double dz = (vec3.z / 2) * -4.0;
+                double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                double offsetX = dx / speed;
+                double offsetY = dy / speed;
+                double offsetZ = dz / speed;
+
+                if (pos.getX() != posLegacy.getX())
+                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
+
+                if (pos.getZ() != posLegacy.getZ())
+                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
+
+                serverWorld.sendParticles(particleOptions, x, entity.getY() + 0.1, z, 4, offsetX, offsetY, offsetZ, speed);
+            }
         }
     }
 

@@ -462,6 +462,10 @@ public class MarioverseCreativeTabs {
                 addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
             }
 
+            if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
+                addAfter(event, Items.PUFFERFISH, ItemRegistry.MUSHROOM);
+            }
+
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
                 addAfter(event, Items.GUSTER_BANNER_PATTERN, ItemRegistry.BOWSER_BANNER_PATTERN);
                 addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN, ItemRegistry.PLUMBER_BANNER_PATTERN);

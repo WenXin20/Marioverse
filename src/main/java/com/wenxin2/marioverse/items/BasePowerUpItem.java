@@ -5,16 +5,26 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Spawner;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,6 +79,45 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
                 }
 
                 return InteractionResult.CONSUME;
+            }
+        }
+    }
+
+    @NotNull
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        BlockHitResult blockhitresult = getPlayerPOVHitResult(world, player, ClipContext.Fluid.SOURCE_ONLY);
+        if (blockhitresult.getType() != HitResult.Type.BLOCK) {
+            ItemStack stack = player.getItemInHand(hand);
+            FoodProperties foodproperties = stack.getFoodProperties(player);
+            if (foodproperties != null) {
+                if (player.canEat(foodproperties.canAlwaysEat())) {
+                    player.startUsingItem(hand);
+                    return InteractionResultHolder.consume(stack);
+                } else {
+                    return InteractionResultHolder.fail(stack);
+                }
+            } else return InteractionResultHolder.pass(player.getItemInHand(hand));
+        } else if (!(world instanceof ServerLevel)) {
+            return InteractionResultHolder.success(itemstack);
+        } else {
+            BlockPos blockpos = blockhitresult.getBlockPos();
+            if (!(world.getBlockState(blockpos).getBlock() instanceof LiquidBlock)) {
+                return InteractionResultHolder.pass(itemstack);
+            } else if (world.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos, blockhitresult.getDirection(), itemstack)) {
+                EntityType<?> entitytype = this.getType(itemstack);
+                Entity entity = entitytype.spawn((ServerLevel)world, itemstack, player, blockpos, MobSpawnType.SPAWN_EGG, false, false);
+                if (entity == null) {
+                    return InteractionResultHolder.pass(itemstack);
+                } else {
+                    itemstack.consume(1, player);
+                    player.awardStat(Stats.ITEM_USED.get(this));
+                    world.gameEvent(player, GameEvent.ENTITY_PLACE, entity.position());
+                    return InteractionResultHolder.consume(itemstack);
+                }
+            } else {
+                return InteractionResultHolder.fail(itemstack);
             }
         }
     }

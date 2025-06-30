@@ -108,6 +108,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
+    @Unique private int mv$mushroomBoostDuration;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -141,6 +142,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
+        tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
+        tag.putInt("marioverse:mushroom_boost_duration", this.mv$getMushroomBoostDuration());
         tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
@@ -187,6 +190,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
         this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
+        this.mv$setMushroomBoostDuration(tag.getInt("marioverse:mushroom_boost_duration"));
         this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_mushroom_override"));
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
@@ -318,6 +322,17 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
             this.mv$playedStarTheme = false;
 
+        if (this.mv$getMushroomBoostDuration() > 0) {
+            this.setDeltaMovement(this.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(), this.getDeltaMovement().y, this.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
+            this.mv$setMushroomBoostDuration(this.mv$getMushroomBoostDuration() - 1);
+            this.hasImpulse = true;
+
+            if (this.level() instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, this);
+                ServerParticleUtils.spawnParticleTrail(ParticleTypes.FLAME, serverWorld, entity, true);
+            }
+        }
+
         float f5 = this.mv$getEyeHeightScale();
         if (f5 != this.mv$appliedEyeHeightScale) {
             this.mv$appliedEyeHeightScale = f5;
@@ -370,6 +385,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setMushroomOverride(boolean hasMushroomOverride) {
         this.mv$hasMushroomOverride = hasMushroomOverride;
+    }
+
+    @Override
+    public int mv$getMushroomBoostDuration() {
+        return this.mv$mushroomBoostDuration;
+    }
+
+    @Override
+    public void mv$setMushroomBoostDuration(int mushroomBoostDuration) {
+        this.mv$mushroomBoostDuration = mushroomBoostDuration;
     }
 
     @Override

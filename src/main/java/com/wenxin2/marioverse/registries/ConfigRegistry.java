@@ -137,6 +137,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
+    public static ModConfigSpec.DoubleValue MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
@@ -169,6 +170,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
+    public static ModConfigSpec.IntValue MUSHROOM_BOOST_DURATION;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_MOB_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS;
@@ -692,7 +694,7 @@ public class ConfigRegistry
                             .comment("§9[Default: 2.0]§b")
                             .defineInRange("ice_cube_damage", 5.0, 0.0, 32.0);
                     ICE_CUBE_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.ice_cube_freeze_duration")
-                            .comment("How long mobs experience the freeze effect in ticks.")
+                            .comment("Duration mobs experience the freeze effect in ticks.")
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 180]§b")
                             .defineInRange("ice_cube_freeze_duration", 180, 0, 72000);
@@ -707,6 +709,13 @@ public class ConfigRegistry
                             .comment("Amount of health Mushrooms heals.")
                             .comment("§9[Default: 5.0F]§b")
                             .defineInRange("mushroom_health_healed", 5.0F, 0.0F, 100.0F);
+                    MUSHROOM_BOOST_DURATION = BUILDER.translation("configuration.marioverse.mushroom_boost_duration")
+                            .comment("Duration mobs are boosted by eating Mushrooms in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("mushroom_boost_duration", 30, 0, 72000);
+                    MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.mushroom_boost_strength")
+                            .comment("Strength of Mushroom boost.")
+                            .defineInRange("mushroom_boost_strength", 1.25F, 0.0F, 5.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_ONE_UP);

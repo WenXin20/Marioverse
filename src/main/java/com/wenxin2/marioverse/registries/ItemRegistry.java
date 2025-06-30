@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
+import com.wenxin2.marioverse.items.MushroomItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
@@ -98,8 +99,9 @@ public class ItemRegistry {
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
+
         MUSHROOM = registerItem("mushroom",
-                () -> new BasePowerUpItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new MushroomItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().food(FoodRegistry.MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
                 () -> new OneUpMushroomItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",
