@@ -97,7 +97,6 @@ public interface AbilitiesHandler {
     default void applyMushroomPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
