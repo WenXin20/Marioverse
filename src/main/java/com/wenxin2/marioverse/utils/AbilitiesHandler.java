@@ -1,5 +1,26 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
+import io.wispforest.accessories.api.AccessoriesCapability;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+
 public interface AbilitiesHandler {
     void mv$clearAllPowerUps();
 
@@ -58,4 +79,137 @@ public interface AbilitiesHandler {
 
     int mv$getOneUpsRewarded();
     void mv$setOneUpsRewarded(int oneUpsRewarded);
+
+    @NotNull
+    private static Boolean getDamageShrinksConfig(LivingEntity entity) {
+        if (entity instanceof Player)
+            return ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get();
+        else return ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get();
+    }
+
+    @NotNull
+    private static Boolean equipCostumes(LivingEntity entity) {
+        if (entity instanceof Player)
+            return ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get();
+        else return ConfigRegistry.EQUIP_COSTUMES_MOBS.get();
+    }
+
+    default void applyMushroomPowerUp(Level world, LivingEntity entity) {
+        if (!entity.isSpectator() && getDamageShrinksConfig(entity)
+                && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
+
+            if (!world.isClientSide) {
+                if (entity.getHealth() < entity.getMaxHealth())
+                    entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                    world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+                            entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
+                }
+            }
+        }
+    }
+
+    default void applyOneUpMushroomPowerUp(Level world, ItemStack stack, LivingEntity entity) {
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)) {
+            AccessoriesCapability capability = AccessoriesCapability.get(entity);
+            ItemStack offhandStack = entity.getOffhandItem();
+
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
+                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            } else if (offhandStack.isEmpty())
+                entity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(stack.getItem()));
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+                if (offhandStack.getCount() >= offhandStack.getMaxStackSize() && entity instanceof Player player) {
+                    player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
+                } else offhandStack.grow(1);
+            }
+
+            world.playSound(null, entity, SoundRegistry.ONE_UP_COLLECTED.get(),
+                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
+            if (world instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
+                ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity);
+            }
+        }
+    }
+
+    default void applySuperStarPowerUp(Level world, LivingEntity entity) {
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
+                && entity instanceof AbilitiesHandler handler) {
+
+            handler.mv$setSuperStar(true);
+            handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
+            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
+
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
+            world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
+        }
+    }
+
+    default void applyFireFlowerPowerUp(Level world, LivingEntity entity) {
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                && entity instanceof AbilitiesHandler handler) {
+            AccessoriesCapability capability = AccessoriesCapability.get(entity);
+
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.FIRE_POWERED_UP.get(), serverWorld, entity, 10);
+
+            if (entity.getHealth() < entity.getMaxHealth())
+                entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            handler.mv$setMushroom(true);
+            handler.mv$setFireFlower(true);
+            world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
+
+            this.applyCostume(entity, capability, ItemRegistry.MARIO_FIRE_HAT.get(), ItemRegistry.MARIO_FIRE_SHIRT.get(),
+                    ItemRegistry.MARIO_FIRE_PANTS.get(), ItemRegistry.MARIO_FIRE_SHOES.get());
+        }
+    }
+
+    default void applyIceFlowerPowerUp(Level world, LivingEntity entity) {
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                && entity instanceof AbilitiesHandler handler) {
+            AccessoriesCapability capability = AccessoriesCapability.get(entity);
+
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
+
+            if (entity.getHealth() < entity.getMaxHealth())
+                entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            handler.mv$setMushroom(true);
+            handler.mv$setIceFlower(true);
+            world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
+
+            this.applyCostume(entity, capability, ItemRegistry.MARIO_ICE_HAT.get(), ItemRegistry.MARIO_ICE_SHIRT.get(),
+                    ItemRegistry.MARIO_ICE_PANTS.get(), ItemRegistry.MARIO_ICE_SHOES.get());
+        }
+    }
+
+    default void applyCostume(LivingEntity entity, AccessoriesCapability capability, Item hat, Item shirt, Item pants, Item shoes) {
+        if (capability != null && equipCostumes(entity)) {
+            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
+            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
+            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
+            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+
+            if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != hat)
+                containerHat.getAccessories().setItem(0, new ItemStack(hat));
+            if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != shirt)
+                containerShirt.getAccessories().setItem(0, new ItemStack(shirt));
+            if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != pants)
+                containerPants.getAccessories().setItem(0, new ItemStack(pants));
+            if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != shoes)
+                containerShoes.getAccessories().setItem(0, new ItemStack(shoes));
+        }
+    }
 }

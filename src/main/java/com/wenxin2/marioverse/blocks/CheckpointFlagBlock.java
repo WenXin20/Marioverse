@@ -958,17 +958,17 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (world instanceof ServerLevel serverWorld) {
             if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                 Entity spawnedEntity = entityType.create(serverWorld);
-                if (spawnedEntity != null) {
+                if (spawnedEntity instanceof LivingEntity entity && entity instanceof AbilitiesHandler handler) {
                     if (stack.getItem() == ItemRegistry.MUSHROOM.get()) {
-                        applyMushroomPowerUp(world, entityHitBlock);
+                        handler.applyMushroomPowerUp(world, entity);
                     } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()) {
-                        applyOneUpMushroomPowerUp(world, stack, entityHitBlock);
+                        handler.applyOneUpMushroomPowerUp(world, stack, entity);
                     } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()) {
-                        applyFireFlowerPowerUp(world, entityHitBlock);
+                        handler.applyFireFlowerPowerUp(world, entity);
                     } else if (stack.getItem() == ItemRegistry.ICE_FLOWER.get()) {
-                        applyIceFlowerPowerUp(world, entityHitBlock);
+                        handler.applyIceFlowerPowerUp(world, entity);
                     } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()) {
-                        applySuperStarPowerUp(world, entityHitBlock);
+                        handler.applySuperStarPowerUp(world, entity);
                     } else {
                         entityType.spawn(serverWorld, stack, null,
                                 BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
@@ -977,146 +977,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 }
                 stack.copyWithCount(1);
             } else this.spawnItem(world, pos, stack, dropItemsAtPos);
-        }
-    }
-
-    public static void applyMushroomPowerUp(Level world, Entity entityHitBlock) {
-        if (entityHitBlock instanceof Player player && !player.isSpectator()
-                && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && player instanceof AbilitiesHandler handler) {
-            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                handler.mv$setMushroom(true);
-                world.broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
-            }
-            
-            if (!world.isClientSide) {
-                if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-                if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                    world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                }
-            }
-        }
-    }
-
-    public static void applyOneUpMushroomPowerUp(Level world, ItemStack stack, Entity entityHitBlock) {
-        if (entityHitBlock instanceof Player player && !player.isSpectator()
-                && !player.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && player.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)) {
-            AccessoriesCapability capability = AccessoriesCapability.get(player);
-            ItemStack offhandStack = player.getOffhandItem();
-
-            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())) {
-                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            } else if (offhandStack.isEmpty())
-                player.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(stack.getItem()));
-            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
-                if (offhandStack.getCount() >= 8) {
-                    player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
-                } else offhandStack.grow(1);
-            }
-
-            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                world.playSound(null, player, SoundRegistry.ONE_UP_COLLECTED.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
-                world.broadcastEntityEvent(player, (byte) 124); // Mushroom Transform particle
-                world.broadcastEntityEvent(player, (byte) 126); // 1-Up Collected particle
-            }
-        }
-    }
-
-    public static void applyFireFlowerPowerUp(Level world, Entity entityHitBlock) {
-        if (entityHitBlock instanceof Player player && !player.isSpectator()
-                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                && player instanceof AbilitiesHandler handler) {
-            AccessoriesCapability capability = AccessoriesCapability.get(player);
-
-            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                if (handler.mv$hasFireFlower())
-                    world.broadcastEntityEvent(player, (byte) 20); // Poof particle
-                else world.broadcastEntityEvent(player, (byte) 123); // Fire Powered Up particle
-            }
-
-            if (player.getHealth() < player.getMaxHealth())
-                player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-            handler.mv$setMushroom(true);
-            handler.mv$setFireFlower(true);
-            world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
-
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
-                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
-                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
-                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
-                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
-
-                if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_HAT.get())
-                    containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
-                if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_SHIRT.get())
-                    containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_FIRE_SHIRT.get()));
-                if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_PANTS.get())
-                    containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_FIRE_PANTS.get()));
-                if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_FIRE_SHOES.get())
-                    containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_FIRE_SHOES.get()));
-            }
-        }
-    }
-
-    public static void applyIceFlowerPowerUp(Level world, Entity entityHitBlock) {
-        if (entityHitBlock instanceof Player player && !player.isSpectator()
-                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                && player instanceof AbilitiesHandler handler) {
-            AccessoriesCapability capability = AccessoriesCapability.get(player);
-
-            if (!player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                if (handler.mv$hasIceFlower())
-                    world.broadcastEntityEvent(player, (byte) 20); // Poof particle
-                else if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, player, 10);
-            }
-
-            if (player.getHealth() < player.getMaxHealth())
-                player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
-            handler.mv$setMushroom(true);
-            handler.mv$setIceFlower(true);
-            world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
-
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()) {
-                AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_hat"));
-                AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shirt"));
-                AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_pants"));
-                AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(player, "costume_shoes"));
-
-                if (containerHat != null && containerHat.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_HAT.get())
-                    containerHat.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
-                if (containerShirt != null && containerShirt.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHIRT.get())
-                    containerShirt.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHIRT.get()));
-                if (containerPants != null && containerPants.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_PANTS.get())
-                    containerPants.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_PANTS.get()));
-                if (containerShoes != null && containerShoes.getAccessories().getItem(0).getItem() != ItemRegistry.MARIO_ICE_SHOES.get())
-                    containerShoes.getAccessories().setItem(0, new ItemStack(ItemRegistry.MARIO_ICE_SHOES.get()));
-            }
-        }
-    }
-
-    public static void applySuperStarPowerUp(Level world, Entity entityHitBlock) {
-        if (entityHitBlock instanceof Player player && !player.isSpectator()
-                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                && player instanceof AbilitiesHandler handler) {
-
-            handler.mv$setSuperStar(true);
-            handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
-            world.broadcastEntityEvent(player, (byte) 119); // Super Star Powered Up particle
-            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
-
-            world.playSound(null, player, SoundRegistry.PLAYER_POWERS_UP.get(),
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
         }
     }
 

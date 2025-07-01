@@ -12,9 +12,14 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
+import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
@@ -36,7 +41,6 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.UUID;
-import net.mehvahdjukaar.supplementaries.Supplementaries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -50,7 +54,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -120,25 +123,48 @@ public class MarioverseEventHandlers {
             } else handler.mv$setMushroom(true);
         }
 
-        if (entity instanceof Mob mob && !(mob instanceof KoopaShellEntity)
-                && mob instanceof AbilitiesHandler) {
-            if (!(mob instanceof FireGoombaEntity)) {
-                mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
-                        0, true));
-                mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
-                        0, true));
+        if (entity instanceof Mob mob) {
+            if (mob.getType().is(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
+                    && ModList.get().isLoaded("supplementaries"))
+                SupplementariesCompat.addGoals(mob);
+
+            if (mob.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS))
+                mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
+
+            if (!(mob instanceof KoopaShellEntity) && mob instanceof AbilitiesHandler) {
+                if (!(mob instanceof FireGoombaEntity)) {
+                    mob.goalSelector.addGoal(0, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
+                            0, true));
+                    mob.goalSelector.addGoal(0, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
+                            0, true));
+                }
+
+                if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
+                    mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
             }
 
-            if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
-                mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
+            if (!mob.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, FireFlowerEntity.class));
+
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                        || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, IceFlowerEntity.class));
+
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
+                        || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, OneUpMushroomEntity.class));
+
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                        || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, MushroomEntity.class));
+
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
+                        || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, MushroomEntity.class));
+            }
         }
-
-        if (entity instanceof Mob mob && mob.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS))
-            mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
-
-        if (entity instanceof Mob mob && mob.getType().is(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
-                && ModList.get().isLoaded("supplementaries"))
-            SupplementariesCompat.addGoals(mob);
     }
 
     @SubscribeEvent
