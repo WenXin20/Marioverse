@@ -97,7 +97,8 @@ public interface AbilitiesHandler {
     default void applyMushroomPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)) {
+                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
@@ -114,7 +115,7 @@ public interface AbilitiesHandler {
 
     default void applyOneUpMushroomPowerUp(Level world, ItemStack stack, LivingEntity entity) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)) {
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             ItemStack offhandStack = entity.getOffhandItem();
 
@@ -139,7 +140,7 @@ public interface AbilitiesHandler {
 
     default void applySuperStarPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
                 && entity instanceof AbilitiesHandler handler) {
 
             handler.mv$setSuperStar(true);
@@ -155,7 +156,7 @@ public interface AbilitiesHandler {
 
     default void applyFireFlowerPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
                 && entity instanceof AbilitiesHandler handler) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
@@ -176,7 +177,7 @@ public interface AbilitiesHandler {
 
     default void applyIceFlowerPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())
                 && entity instanceof AbilitiesHandler handler) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
