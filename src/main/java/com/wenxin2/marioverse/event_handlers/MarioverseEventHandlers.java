@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
@@ -162,7 +163,7 @@ public class MarioverseEventHandlers {
 
                 if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
                         || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
-                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, MushroomEntity.class));
+                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, SuperStarEntity.class));
             }
         }
     }
