@@ -165,6 +165,7 @@ public interface AbilitiesHandler {
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            handler.mv$clearAllPowerUps();
             handler.mv$setMushroom(true);
             handler.mv$setFireFlower(true);
             world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
@@ -186,6 +187,7 @@ public interface AbilitiesHandler {
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            handler.mv$clearAllPowerUps();
             handler.mv$setMushroom(true);
             handler.mv$setIceFlower(true);
             world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
