@@ -88,7 +88,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
                 if (this.target instanceof MushroomEntity && !handler.mv$hasMushroom())
-                    handler.applyFireFlowerPowerUp(world, this.mob);
+                    handler.applyMushroomPowerUp(world, this.mob);
                 else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
                     handler.applyFireFlowerPowerUp(world, this.mob);
                 else if (this.target instanceof IceFlowerEntity && !handler.mv$hasIceFlower())
