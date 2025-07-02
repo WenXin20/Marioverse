@@ -134,9 +134,9 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
+    public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
-    public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
@@ -147,6 +147,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
     public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
+    public static ModConfigSpec.DoubleValue VEHICLE_MUSHROOM_BOOST_STRENGTH;
 
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
@@ -177,6 +178,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue RED_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
+    public static ModConfigSpec.IntValue VEHICLE_MUSHROOM_BOOST_DURATION;
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_PAINTING_COOLDOWN;
@@ -716,6 +718,13 @@ public class ConfigRegistry
                     MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.mushroom_boost_strength")
                             .comment("Strength of Mushroom boost.")
                             .defineInRange("mushroom_boost_strength", 1.25F, 0.0F, 5.0F);
+                    VEHICLE_MUSHROOM_BOOST_DURATION = BUILDER.translation("configuration.marioverse.vehicle_mushroom_boost_duration")
+                            .comment("Duration vehicles are boosted by eating Mushrooms in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("vehicle_mushroom_boost_duration", 60, 0, 72000);
+                    VEHICLE_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.vehicle_mushroom_boost_strength")
+                            .comment("Strength of Mushroom boost for vehicles.")
+                            .defineInRange("vehicle_mushroom_boost_strength", 1.25F, 0.0F, 5.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_ONE_UP);
