@@ -145,25 +145,20 @@ public class MarioverseEventHandlers {
             }
 
             if (!mob.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
-                        || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
-                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, FireFlowerEntity.class));
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, FireFlowerEntity.class));
 
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                        || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())
-                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, IceFlowerEntity.class));
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, IceFlowerEntity.class));
 
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
-                        || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
-                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, OneUpMushroomEntity.class));
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, OneUpMushroomEntity.class));
 
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                        || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
-                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, MushroomEntity.class));
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, MushroomEntity.class));
 
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS)
-                        || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
-                    mob.goalSelector.addGoal(0, new ChaseTargetGoal<>(mob, SuperStarEntity.class));
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
+                    mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, SuperStarEntity.class));
             }
         }
     }
