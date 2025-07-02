@@ -328,7 +328,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             if (entity.isPassenger() && vehicle != null)
                 vehicle.setDeltaMovement(vehicle.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(),
-                        this.getDeltaMovement().y, vehicle.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
+                        vehicle.getDeltaMovement().y, vehicle.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
             else this.setDeltaMovement(this.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(),
                     this.getDeltaMovement().y, this.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
             this.mv$setMushroomBoostDuration(this.mv$getMushroomBoostDuration() - 1);
