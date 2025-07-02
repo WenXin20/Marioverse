@@ -65,12 +65,12 @@ public class ShootBouncingIceBallGoal extends Goal {
             handler.mv$setIceBallCooldown(handler.mv$getIceBallCooldown() - 1);
 
         if (livingEntity instanceof Mob mob) {
-            LivingEntity livingentity = mob.getTarget();
-            if (livingentity != null) {
-                mob.getNavigation().moveTo(livingentity, livingentity.getAttributeValue(Attributes.MOVEMENT_SPEED));
+            LivingEntity target = mob.getTarget();
+            if (target != null) {
+                mob.getNavigation().moveTo(target, 1.2);
                 if (mob.getControlledVehicle() instanceof Mob)
-                    mob.lookAt(livingentity, 30.0F, 30.0F);
-                mob.lookAt(livingentity, 30.0F, 30.0F);
+                    mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
+                mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
             }
         }
 
