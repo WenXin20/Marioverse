@@ -227,18 +227,16 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, LivingEntity entity, boolean particlesInAir, int particleAmt) {
+    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, boolean particlesInAir, int particleAmt) {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
-        float scale = (float) entity.getAttributeValue(Attributes.SCALE);
-        float widthScale = (float) entity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
 
         if (!state.addRunningEffects(entity.level(), posLegacy, entity)) {
             if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
                 Vec3 vec3 = entity.getDeltaMovement();
                 BlockPos pos = entity.blockPosition();
-                double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
-                double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);
+                double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5);
                 double dx = (vec3.x / 2) * -4.0;
                 double dy = 0.5;
                 double dz = (vec3.z / 2) * -4.0;
@@ -246,6 +244,14 @@ public class ServerParticleUtils {
                 double offsetX = dx / speed;
                 double offsetY = dy / speed;
                 double offsetZ = dz / speed;
+
+                if (entity instanceof LivingEntity livingEntity) {
+                    float scale = (float) livingEntity.getAttributeValue(Attributes.SCALE);
+                    float widthScale = (float) livingEntity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
+                    x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                    z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                }
 
                 if (pos.getX() != posLegacy.getX())
                     x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);

@@ -324,13 +324,25 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$playedStarTheme = false;
 
         if (this.mv$getMushroomBoostDuration() > 0) {
-            this.setDeltaMovement(this.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(), this.getDeltaMovement().y, this.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
+            Entity vehicle = entity.getVehicle();
+
+            if (entity.isPassenger() && vehicle != null)
+                vehicle.setDeltaMovement(vehicle.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(),
+                        this.getDeltaMovement().y, vehicle.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
+            else this.setDeltaMovement(this.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(),
+                    this.getDeltaMovement().y, this.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
             this.mv$setMushroomBoostDuration(this.mv$getMushroomBoostDuration() - 1);
             this.hasImpulse = true;
 
             if (this.level() instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, this);
-                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
+
+                if (entity.isPassenger() && vehicle != null) {
+                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
+                } else {
+                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
+                }
             }
         }
 
