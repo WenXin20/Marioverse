@@ -24,6 +24,7 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasMushroom;
+    @Unique private boolean mv$hasMushroomBoost;
     @Unique private boolean mv$hasMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
@@ -36,7 +37,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
-    @Unique private int mv$mushroomBoostDuration;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -96,13 +96,13 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public int mv$getMushroomBoostDuration() {
-        return this.mv$mushroomBoostDuration;
+    public boolean mv$hasMushroomBoost() {
+        return this.mv$hasMushroomBoost;
     }
 
     @Override
-    public void mv$setMushroomBoostDuration(int mushroomBoostDuration) {
-        this.mv$mushroomBoostDuration = mushroomBoostDuration;
+    public void mv$setMushroomBoost(boolean hasMushroomBoost) {
+        this.mv$hasMushroomBoost = hasMushroomBoost;
     }
 
     @Override

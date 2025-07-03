@@ -100,6 +100,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasMushroom;
+    @Unique private boolean mv$hasMushroomBoost;
     @Unique private boolean mv$hasMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
@@ -112,7 +113,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
-    @Unique private int mv$mushroomBoostDuration;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$superStarCooldown;
@@ -140,6 +140,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
         tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
         tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
+        tag.putBoolean("marioverse:has_mushroom_boost", this.mv$hasMushroomBoost());
         tag.putBoolean("marioverse:has_mushroom_override", this.mv$hasMushroomOverride());
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
@@ -147,7 +148,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-        tag.putInt("marioverse:mushroom_boost_duration", this.mv$getMushroomBoostDuration());
         tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
@@ -194,7 +194,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
         this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
-        this.mv$setMushroomBoostDuration(tag.getInt("marioverse:mushroom_boost_duration"));
+        this.mv$setMushroomBoost(tag.getBoolean("marioverse:has_mushroom_boost"));
         this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_mushroom_override"));
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
@@ -326,27 +326,24 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
             this.mv$playedStarTheme = false;
 
-        if (this.mv$getMushroomBoostDuration() > 0) {
-            Entity vehicle = entity.getVehicle();
+        Entity vehicle = entity.getVehicle();
+        if (this.mv$hasMushroomBoost()) {
+            Vec3 motion = this.getDeltaMovement();
+            if (vehicle != null) motion = vehicle.getDeltaMovement();
+            double speed = motion.length();
+            double minimumBoostSpeed = 1.0;
 
-            if (entity.isPassenger() && vehicle != null)
-                vehicle.setDeltaMovement(vehicle.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(),
-                        vehicle.getDeltaMovement().y, vehicle.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
-            else this.setDeltaMovement(this.getLookAngle().normalize().x * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(),
-                    this.getDeltaMovement().y, this.getLookAngle().normalize().z * ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
-            this.mv$setMushroomBoostDuration(this.mv$getMushroomBoostDuration() - 1);
-            this.hasImpulse = true;
-
-            if (this.level() instanceof ServerLevel serverWorld) {
-
-                if (entity.isPassenger() && vehicle != null) {
-                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
-                } else {
-                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
+            if (speed >= minimumBoostSpeed) {
+                if (this.level() instanceof ServerLevel serverWorld) {
+                    if (entity.isPassenger() && vehicle != null) {
+                        ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
+                        ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
+                    } else {
+                        ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
+                        ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
+                    }
                 }
-            }
+            } else this.mv$setMushroomBoost(true);
         }
 
         float f5 = this.mv$getEyeHeightScale();
@@ -404,13 +401,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public int mv$getMushroomBoostDuration() {
-        return this.mv$mushroomBoostDuration;
+    public boolean mv$hasMushroomBoost() {
+        return this.mv$hasMushroomBoost;
     }
 
     @Override
-    public void mv$setMushroomBoostDuration(int mushroomBoostDuration) {
-        this.mv$mushroomBoostDuration = mushroomBoostDuration;
+    public void mv$setMushroomBoost(boolean hasMushroomBoost) {
+        this.mv$hasMushroomBoost = hasMushroomBoost;
     }
 
     @Override

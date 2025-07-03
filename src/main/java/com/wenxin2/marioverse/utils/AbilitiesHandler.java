@@ -27,8 +27,8 @@ public interface AbilitiesHandler {
     boolean mv$hasMushroom();
     void mv$setMushroom(boolean hasMushroom);
 
-    int mv$getMushroomBoostDuration();
-    void mv$setMushroomBoostDuration(int mushroomBoostDuration);
+    boolean mv$hasMushroomBoost();
+    void mv$setMushroomBoost(boolean hasMushroom);
 
     boolean mv$hasMushroomOverride();
     void mv$setMushroomOverride(boolean hasMushroomOverride);
