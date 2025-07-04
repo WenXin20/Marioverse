@@ -1,20 +1,16 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.game.ServerboundPaddleBoatPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
