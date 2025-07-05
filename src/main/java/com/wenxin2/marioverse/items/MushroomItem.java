@@ -34,40 +34,49 @@ public class MushroomItem extends BasePowerUpItem {
     }
 
     public void mushroomAbilities(ItemStack stack, Level world, LivingEntity entity) {
-        if (entity instanceof AbilitiesHandler handler) {
-            Entity vehicle = entity.getVehicle();
-            stack.consume(1, entity);
-            MushroomEntity.powerUp(world, entity, null);
+        if (ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get() > 0 || ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() > 0) {
+            if (entity instanceof AbilitiesHandler handler) {
+                BlockPos posBelow = entity.blockPosition().below();
+                BlockState stateBelow = world.getBlockState(posBelow);
 
-            double baseBoost = ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get();
-            BlockPos posBelow = entity.blockPosition().below();
-            BlockState stateBelow = world.getBlockState(posBelow);
-            float friction = stateBelow.getBlock().getFriction();
-            if (entity.isInWaterOrBubble() || entity.isFallFlying() || stateBelow.isAir()) friction = 1.5F;
-            double boost = baseBoost / friction;
-            Vec3 direction = entity.getLookAngle().normalize();
+                float friction = stateBelow.getBlock().getFriction();
+                if (entity.isInWaterOrBubble() || entity.isFallFlying() || stateBelow.isAir()) friction = 1.5F;
 
-            if (vehicle != null) {
-                baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get();
-                if (vehicle instanceof AbstractMinecart)
-                    baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() / 10;
-                posBelow = vehicle.blockPosition().below();
-                stateBelow = world.getBlockState(posBelow);
-                friction = stateBelow.getBlock().getFriction();
-                boost = baseBoost / friction;
-                direction = vehicle.getLookAngle().normalize();
-                if (vehicle instanceof AbstractMinecart)
-                    direction = entity.getLookAngle().normalize();
+                double baseBoost = ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get();
+                double boost = baseBoost / friction;
+                Vec3 direction = entity.getLookAngle().normalize();
 
-                handler.mv$setMushroomBoost(true);
-                if (!(vehicle instanceof Boat))
-                    vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                Entity vehicle = entity.getVehicle();
+                stack.consume(1, entity);
+                MushroomEntity.powerUp(world, entity, null);
 
-                if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
-                    vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
-            } else {
-                handler.mv$setMushroomBoost(true);
-                entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
+                if (vehicle != null) {
+                    posBelow = vehicle.blockPosition().below();
+                    stateBelow = world.getBlockState(posBelow);
+                    friction = stateBelow.getBlock().getFriction();
+                    if (vehicle instanceof Boat && friction <= 0.7F)
+                        friction = stateBelow.getBlock().getFriction() / 1.5F;
+                    if (vehicle instanceof Boat && friction > 0.7F)
+                        friction = stateBelow.getBlock().getFriction() * 0.5F;
+
+                    baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get();
+                    if (vehicle instanceof AbstractMinecart)
+                        baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() / 10;
+                    boost = baseBoost / friction;
+                    direction = vehicle.getLookAngle().normalize();
+                    if (vehicle instanceof AbstractMinecart)
+                        direction = entity.getLookAngle().normalize();
+
+                    handler.mv$setMushroomBoost(true);
+                    if (!(vehicle instanceof Boat))
+                        vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+
+                    if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
+                        vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                } else {
+                    handler.mv$setMushroomBoost(true);
+                    entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
+                }
             }
         }
     }
@@ -77,47 +86,55 @@ public class MushroomItem extends BasePowerUpItem {
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (player instanceof AbilitiesHandler handler) {
-            Entity vehicle = player.getVehicle();
-            stack.consume(1, player);
-            MushroomEntity.powerUp(world, player, null);
+        if (ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get() > 0 || ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() > 0) {
+            if (player instanceof AbilitiesHandler handler) {
+                BlockPos posBelow = player.blockPosition().below();
+                BlockState stateBelow = world.getBlockState(posBelow);
 
-            double baseBoost = ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get();
-            BlockPos posBelow = player.blockPosition().below();
-            BlockState stateBelow = world.getBlockState(posBelow);
-            float friction = stateBelow.getBlock().getFriction();
-            if (player.isInWaterOrBubble() || player.isFallFlying() || player.getAbilities().flying || stateBelow.isAir()) friction = 1.5F;
-            double boost = baseBoost / friction;
-            Vec3 direction = player.getLookAngle().normalize();
+                float friction = stateBelow.getBlock().getFriction();
+                if (player.isInWaterOrBubble() || player.isFallFlying() || player.getAbilities().flying || stateBelow.isAir())
+                    friction = 1.5F;
 
-            if (vehicle != null) {
-                baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get();
-                if (vehicle instanceof AbstractMinecart)
-                    baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() / 10;
-                posBelow = vehicle.blockPosition().below();
-                stateBelow = world.getBlockState(posBelow);
-                friction = stateBelow.getBlock().getFriction();
-                if (vehicle instanceof AbstractMinecart && friction <= 0.7F)
-                    friction = stateBelow.getBlock().getFriction() * 1.5F;
-                boost = baseBoost / friction;
-                direction = vehicle.getLookAngle().normalize();
-                if (vehicle instanceof AbstractMinecart)
-                    direction = player.getLookAngle().normalize();
+                double baseBoost = ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get();
+                double boost = baseBoost / friction;
+                Vec3 direction = player.getLookAngle().normalize();
 
-                handler.mv$setMushroomBoost(true);
-                if (!(vehicle instanceof Boat))
-                    vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
-                player.getCooldowns().addCooldown(stack.getItem(), (int) (boost));
+                Entity vehicle = player.getVehicle();
+                stack.consume(1, player);
+                MushroomEntity.powerUp(world, player, null);
 
-                if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
-                    vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                if (vehicle != null) {
+                    posBelow = vehicle.blockPosition().below();
+                    stateBelow = world.getBlockState(posBelow);
+                    friction = stateBelow.getBlock().getFriction();
+                    if (vehicle instanceof Boat && friction <= 0.7F)
+                        friction = stateBelow.getBlock().getFriction() / 1.5F;
+                    if (vehicle instanceof Boat && friction > 0.7F)
+                        friction = stateBelow.getBlock().getFriction() * 0.5F;
 
-                return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
-            } else {
-                handler.mv$setMushroomBoost(true);
-                player.setDeltaMovement(direction.x * boost, player.getDeltaMovement().y, direction.z * boost);
-                player.getCooldowns().addCooldown(stack.getItem(), (int) (boost));
-                return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+                    baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get();
+                    if (vehicle instanceof AbstractMinecart)
+                        baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() / 10;
+                    boost = baseBoost / friction;
+                    direction = vehicle.getLookAngle().normalize();
+                    if (vehicle instanceof AbstractMinecart)
+                        direction = player.getLookAngle().normalize();
+
+                    handler.mv$setMushroomBoost(true);
+                    if (!(vehicle instanceof Boat))
+                        vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                    player.getCooldowns().addCooldown(stack.getItem(), (int) (boost));
+
+                    if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
+                        vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+
+                    return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+                } else {
+                    handler.mv$setMushroomBoost(true);
+                    player.setDeltaMovement(direction.x * boost, player.getDeltaMovement().y, direction.z * boost);
+                    player.getCooldowns().addCooldown(stack.getItem(), (int) (boost));
+                    return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
+                }
             }
         }
         return InteractionResultHolder.fail(stack);
