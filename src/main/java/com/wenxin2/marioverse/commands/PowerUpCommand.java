@@ -2,10 +2,12 @@ package com.wenxin2.marioverse.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import com.wenxin2.marioverse.items.MushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -23,6 +26,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.VehicleEntity;
 
 public class PowerUpCommand {
 
@@ -65,6 +69,17 @@ public class PowerUpCommand {
                                         .executes(ctx -> applyMushroom(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"),
                                                 BoolArgumentType.getBool(ctx, "enablePowerUp"), true)
                                         )
+                                )
+                        )
+                        .then(Commands.literal("mushroom_boost")
+                                .then(Commands.argument("boostStrength", DoubleArgumentType.doubleArg(0.0, 50.0))
+                                        .executes(ctx -> applyMushroomBoost(ctx.getSource(),
+                                                EntityArgument.getEntities(ctx, "targets"),
+                                                DoubleArgumentType.getDouble(ctx, "boostStrength"))
+                                        )
+                                )
+                                .executes(ctx -> applyMushroomBoost(ctx.getSource(),
+                                        EntityArgument.getEntities(ctx, "targets"), 1.0)
                                 )
                         )
                         .then(Commands.literal("super_star")
@@ -116,7 +131,8 @@ public class PowerUpCommand {
                                 Component.translatable("commands.marioverse.power_up.ice_flower", powerUpBoolean, entity.getDisplayName()), true);
                     }
                 }
-            }
+            } else source.sendSuccess(() ->
+                    Component.translatable("commands.marioverse.power_up.fail", entity.getDisplayName()).withStyle(ChatFormatting.RED), true);
         }
 
         int finalCount = count;
@@ -152,7 +168,8 @@ public class PowerUpCommand {
                 if (count == 1)
                     source.sendSuccess(() ->
                             Component.translatable("commands.marioverse.power_up.mushroom", powerUpBoolean, entity.getDisplayName()), true);
-            }
+            } else source.sendSuccess(() ->
+                    Component.translatable("commands.marioverse.power_up.fail"), true);
         }
 
         int finalCount = count;
@@ -160,6 +177,41 @@ public class PowerUpCommand {
         if (finalCount > 1)
             source.sendSuccess(() ->
                     Component.translatable("commands.marioverse.power_up.mushroom.count", powerUpBoolean, finalCount), true);
+
+        return count;
+    }
+
+    private static int applyMushroomBoost(CommandSourceStack source, Collection<? extends Entity> targets, double boostStrength) {
+        int count = 0;
+
+        for (Entity entity : targets) {
+            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+                handler.mv$setMushroomBoost(true);
+                MushroomItem.mushroomAbilities(null, entity.level(), livingEntity, boostStrength);
+                count++;
+
+                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+
+                if (count == 1) {
+                    if (entity.getVehicle() != null)
+                        source.sendSuccess(() ->
+                                Component.translatable("commands.marioverse.power_up.mushroom_boost", boostStrength, entity.getVehicle().getDisplayName()), true);
+                     else source.sendSuccess(() ->
+                            Component.translatable("commands.marioverse.power_up.mushroom_boost", boostStrength, entity.getDisplayName()), true);
+                }
+            } else if (entity instanceof VehicleEntity) {
+                source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up_boost.fail", entity.getDisplayName()).withStyle(ChatFormatting.RED), true);
+            } else source.sendSuccess(() ->
+                        Component.translatable("commands.marioverse.power_up.fail"), true);
+        }
+
+        int finalCount = count;
+
+        if (finalCount > 1)
+            source.sendSuccess(() ->
+                    Component.translatable("commands.marioverse.power_up.mushroom_boost.count", boostStrength, finalCount), true);
 
         return count;
     }
@@ -193,7 +245,8 @@ public class PowerUpCommand {
                     else source.sendSuccess(() ->
                                 Component.translatable("commands.marioverse.power_up.super_star", powerUpBoolean, entity.getDisplayName()), true);
                 }
-            }
+            } else source.sendSuccess(() ->
+                    Component.translatable("commands.marioverse.power_up.fail"), true);
         }
 
         int finalCount = count;

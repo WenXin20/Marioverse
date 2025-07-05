@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class MushroomItem extends BasePowerUpItem {
     public MushroomItem(Supplier<? extends EntityType<? extends Mob>> entityType,
@@ -28,13 +29,16 @@ public class MushroomItem extends BasePowerUpItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
-        if (!(entity instanceof Player))
-            mushroomAbilities(stack, world, entity);
+        if (!(entity instanceof Player)) {
+            if (entity.isVehicle())
+                MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get());
+            else MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
+        }
         return super.finishUsingItem(stack, world, entity);
     }
 
-    public void mushroomAbilities(ItemStack stack, Level world, LivingEntity entity) {
-        if (ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get() > 0 || ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() > 0) {
+    public static void mushroomAbilities(@Nullable ItemStack stack, Level world, LivingEntity entity, double boostStrength) {
+        if (boostStrength > 0) {
             if (entity instanceof AbilitiesHandler handler) {
                 BlockPos posBelow = entity.blockPosition().below();
                 BlockState stateBelow = world.getBlockState(posBelow);
@@ -42,12 +46,13 @@ public class MushroomItem extends BasePowerUpItem {
                 float friction = stateBelow.getBlock().getFriction();
                 if (entity.isInWaterOrBubble() || entity.isFallFlying() || stateBelow.isAir()) friction = 1.5F;
 
-                double baseBoost = ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get();
+                double baseBoost = boostStrength;
                 double boost = baseBoost / friction;
                 Vec3 direction = entity.getLookAngle().normalize();
 
                 Entity vehicle = entity.getVehicle();
-                stack.consume(1, entity);
+                if (stack != null)
+                    stack.consume(1, entity);
                 MushroomEntity.powerUp(world, entity, null);
 
                 if (vehicle != null) {
@@ -59,16 +64,15 @@ public class MushroomItem extends BasePowerUpItem {
                     if (vehicle instanceof Boat && friction > 0.7F)
                         friction = stateBelow.getBlock().getFriction() * 0.5F;
 
-                    baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get();
                     if (vehicle instanceof AbstractMinecart)
-                        baseBoost = ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() / 10;
+                        baseBoost = boostStrength / 10;
                     boost = baseBoost / friction;
                     direction = vehicle.getLookAngle().normalize();
                     if (vehicle instanceof AbstractMinecart)
                         direction = entity.getLookAngle().normalize();
 
                     handler.mv$setMushroomBoost(true);
-                    if (!(vehicle instanceof Boat))
+                    if (!(vehicle instanceof Boat) && !vehicle.isControlledByLocalInstance())
                         vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
 
                     if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())

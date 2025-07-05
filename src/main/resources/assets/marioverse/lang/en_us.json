@@ -558,8 +558,11 @@
 
   "death.attack.marioverse.bonked": "%1$s took a deadly hit from below",
 
-  "commands.marioverse.boolean.true": "true",
-  "commands.marioverse.boolean.false": "false",
+  "commands.marioverse.boolean.true": "§atrue",
+  "commands.marioverse.boolean.false": "§cfalse",
+
+  "commands.marioverse.power_up.fail": "§cTarget must be a living entity.",
+  "commands.marioverse.power_up_boost.fail": "§cTarget the rider, not the %1$s, to apply a boost.",
 
   "commands.marioverse.power_up.fire_flower": "Fire Flower set to %1$s for %2$s.",
   "commands.marioverse.power_up.fire_flower.count": "Fire Flower set to %1$s for %2$s entities.",
@@ -567,6 +570,8 @@
   "commands.marioverse.power_up.ice_flower.count": "Ice Flower set to %1$s for %2$s entities.",
   "commands.marioverse.power_up.mushroom": "Mushroom set to %1$s for %2$s.",
   "commands.marioverse.power_up.mushroom.count": "Mushroom set to %1$s for %2$s entities.",
+  "commands.marioverse.power_up.mushroom_boost": "Mushroom boost strength set to %1$s for %2$s.",
+  "commands.marioverse.power_up.mushroom_boost.count": "Mushroom boost strength set to %1$s for %2$s entities.",
   "commands.marioverse.power_up.super_star": "Super Star set to %1$s for %2$s.",
   "commands.marioverse.power_up.super_star.count": "Super Star set to %1$s for %2$s entities.",
   "commands.marioverse.power_up.super_star.ticks": "Super Star set to %1$s for %2$s for %3$s ticks.",
