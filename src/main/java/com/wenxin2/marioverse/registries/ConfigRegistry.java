@@ -710,10 +710,10 @@ public class ConfigRegistry
                             .defineInRange("mushroom_health_healed", 5.0F, 0.0F, 100.0F);
                     MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.mushroom_boost_strength")
                             .comment("Strength of Mushroom boost.§b")
-                            .defineInRange("mushroom_boost_strength", 5.0F, 1.0F, 50.0F);
+                            .defineInRange("mushroom_boost_strength", 4.0F, 1.0F, 50.0F);
                     VEHICLE_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.vehicle_mushroom_boost_strength")
                             .comment("Strength of Mushroom boost for vehicles.§b")
-                            .defineInRange("vehicle_mushroom_boost_strength", 5.0F, 1.0F, 50.0F);
+                            .defineInRange("vehicle_mushroom_boost_strength", 3.0F, 1.0F, 50.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_ONE_UP);
