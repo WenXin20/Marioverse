@@ -28,7 +28,13 @@ public class MushroomItem extends BasePowerUpItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
-        if (entity instanceof AbilitiesHandler handler && !(entity instanceof Player)) {
+        if (!(entity instanceof Player))
+            mushroomAbilities(stack, world, entity);
+        return super.finishUsingItem(stack, world, entity);
+    }
+
+    public void mushroomAbilities(ItemStack stack, Level world, LivingEntity entity) {
+        if (entity instanceof AbilitiesHandler handler) {
             Entity vehicle = entity.getVehicle();
             stack.consume(1, entity);
             MushroomEntity.powerUp(world, entity, null);
@@ -64,7 +70,6 @@ public class MushroomItem extends BasePowerUpItem {
                 entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
             }
         }
-        return super.finishUsingItem(stack, world, entity);
     }
 
     @NotNull
@@ -92,6 +97,8 @@ public class MushroomItem extends BasePowerUpItem {
                 posBelow = vehicle.blockPosition().below();
                 stateBelow = world.getBlockState(posBelow);
                 friction = stateBelow.getBlock().getFriction();
+                if (vehicle instanceof AbstractMinecart && friction <= 0.7F)
+                    friction = stateBelow.getBlock().getFriction() * 1.5F;
                 boost = baseBoost / friction;
                 direction = vehicle.getLookAngle().normalize();
                 if (vehicle instanceof AbstractMinecart)
@@ -104,6 +111,7 @@ public class MushroomItem extends BasePowerUpItem {
 
                 if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
                     vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+
                 return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
             } else {
                 handler.mv$setMushroomBoost(true);

@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -61,7 +60,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -69,11 +68,9 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DecoratedPotBlock;
-import net.minecraft.world.level.block.RailBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
@@ -328,22 +325,35 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         Entity vehicle = entity.getVehicle();
         if (this.mv$hasMushroomBoost()) {
-            Vec3 motion = this.getDeltaMovement();
-            if (vehicle != null) motion = vehicle.getDeltaMovement();
-            double speed = motion.length();
-            double minimumBoostSpeed = 1.0;
+            double speed = this.getDeltaMovement().horizontalDistance();
+            double minimumBoostSpeed = 0.3;
 
-            if (speed >= minimumBoostSpeed) {
-                if (this.level() instanceof ServerLevel serverWorld) {
-                    if (entity.isPassenger() && vehicle != null) {
+            if (vehicle != null) {
+                speed = vehicle.getDeltaMovement().horizontalDistance();
+
+                if (vehicle instanceof Boat && speed > 0) {
+                    if (vehicle.level() instanceof ServerLevel serverWorld) {
                         ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
                         ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
-                    } else {
-                        ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
-                        ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
                     }
+                    if (vehicle.level().isClientSide)
+                        ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 5);
                 }
-            } else this.mv$setMushroomBoost(true);
+
+                if (speed >= minimumBoostSpeed) {
+                    if (vehicle.level() instanceof ServerLevel serverWorld) {
+                        ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
+                        ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
+                    }
+                } else this.mv$setMushroomBoost(false);
+            }
+
+            if (speed >= minimumBoostSpeed) {
+                if (entity.level() instanceof ServerLevel serverWorld) {
+                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
+                }
+            } else this.mv$setMushroomBoost(false);
         }
 
         float f5 = this.mv$getEyeHeightScale();

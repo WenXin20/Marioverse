@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.Painting;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -231,19 +232,55 @@ public class ServerParticleUtils {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
 
-        if (!state.addRunningEffects(entity.level(), posLegacy, entity)) {
+        if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
+            Vec3 vec3 = entity.getDeltaMovement();
+            BlockPos pos = entity.blockPosition();
+            double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);
+            double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5);
+            double dOffset = -4.0;
+            if (entity instanceof AbstractMinecart)
+                dOffset = -16.0;
+
+            double dx = (vec3.x / 2) * dOffset;
+            double dy = 0.5;
+            double dz = (vec3.z / 2) * dOffset;
+            double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            double offsetX = dx / speed;
+            double offsetY = dy / speed;
+            double offsetZ = dz / speed;
+
+            if (entity instanceof LivingEntity livingEntity) {
+                float scale = (float) livingEntity.getAttributeValue(Attributes.SCALE);
+                float widthScale = (float) livingEntity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
+                x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+            }
+
+            if (pos.getX() != posLegacy.getX())
+                x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
+
+            if (pos.getZ() != posLegacy.getZ())
+                z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
+
+            serverWorld.sendParticles(particleOptions, x, entity.getY() + 0.1, z, particleAmt, offsetX, offsetY, offsetZ, speed);
+        }
+    }
+
+    public static void spawnClientParticleTrail(ParticleOptions particleOptions, Entity entity, boolean particlesInAir, int particleAmt) {
+        BlockPos posLegacy = entity.getOnPosLegacy();
+        BlockState state = entity.level().getBlockState(posLegacy);
+
+        for (int i = 0; i < particleAmt; i++) {
             if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
                 Vec3 vec3 = entity.getDeltaMovement();
                 BlockPos pos = entity.blockPosition();
                 double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);
                 double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5);
-                double dx = (vec3.x / 2) * -4.0;
-                double dy = 0.5;
-                double dz = (vec3.z / 2) * -4.0;
-                double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                double offsetX = dx / speed;
-                double offsetY = dy / speed;
-                double offsetZ = dz / speed;
+                double offset = -4.0;
+
+                if (entity instanceof AbstractMinecart)
+                    offset = -16.0;
 
                 if (entity instanceof LivingEntity livingEntity) {
                     float scale = (float) livingEntity.getAttributeValue(Attributes.SCALE);
@@ -259,7 +296,7 @@ public class ServerParticleUtils {
                 if (pos.getZ() != posLegacy.getZ())
                     z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
 
-                serverWorld.sendParticles(particleOptions, x, entity.getY() + 0.1, z, particleAmt, offsetX, offsetY, offsetZ, speed);
+                entity.level().addParticle(particleOptions, x, entity.getY() + 0.1, z, vec3.x * offset, 1.5, vec3.z * offset);
             }
         }
     }
