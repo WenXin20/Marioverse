@@ -72,11 +72,11 @@ public class MushroomItem extends BasePowerUpItem {
                         direction = entity.getLookAngle().normalize();
 
                     handler.mv$setMushroomBoost(true);
-                    if (!(vehicle instanceof Boat) && !vehicle.isControlledByLocalInstance())
-                        vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+
 
                     if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
                         vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                    else vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
                 } else {
                     handler.mv$setMushroomBoost(true);
                     entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
