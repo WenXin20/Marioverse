@@ -17,6 +17,7 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class ServerParticleUtils {
     public static void spawnParticlesOnBlockFaces(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, IntProvider count) {
@@ -267,7 +268,7 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnClientParticleTrail(ParticleOptions particleOptions, Entity entity, boolean particlesInAir, int particleAmt) {
+    public static void spawnClientParticleTrail(ParticleOptions particleOptions, @NotNull Entity entity, boolean particlesInAir, int particleAmt) {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
 

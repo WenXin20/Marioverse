@@ -323,38 +323,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
             this.mv$playedStarTheme = false;
 
-        Entity vehicle = entity.getVehicle();
-        if (this.mv$hasMushroomBoost()) {
-            double speed = this.getDeltaMovement().horizontalDistance();
-            double minimumBoostSpeed = 0.3;
-
-            if (vehicle != null) {
-                speed = vehicle.getDeltaMovement().horizontalDistance();
-
-                if (vehicle instanceof Boat && speed > 0) {
-                    if (vehicle.level() instanceof ServerLevel serverWorld) {
-                        ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                        ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
-                    }
-                    if (vehicle.level().isClientSide)
-                        ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 5);
-                }
-
-                if (speed >= minimumBoostSpeed) {
-                    if (vehicle.level() instanceof ServerLevel serverWorld) {
-                        ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                        ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 5);
-                    }
-                } else this.mv$setMushroomBoost(false);
-            }
-
-            if (speed >= minimumBoostSpeed) {
-                if (entity.level() instanceof ServerLevel serverWorld) {
-                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 5);
-                }
-            } else this.mv$setMushroomBoost(false);
-        }
+        if (this.mv$hasMushroomBoost())
+            this.mv$boostEntityParticles(entity.getVehicle(), entity);
 
         float f5 = this.mv$getEyeHeightScale();
         if (f5 != this.mv$appliedEyeHeightScale) {
@@ -383,7 +353,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 //            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
 //        }
     }
-
+    
     @Override
     public void mv$clearAllPowerUps() {
         mv$setFireFlower(false);
@@ -598,6 +568,39 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setFrozenCooldown(int frozenCooldown) {
         this.mv$frozenCooldown = frozenCooldown;
+    }
+
+    @Unique
+    private void mv$boostEntityParticles(Entity vehicle, LivingEntity entity) {
+        double speed = this.getDeltaMovement().horizontalDistance();
+        double minimumBoostSpeed = 0.5;
+
+        if (vehicle != null) {
+            speed = vehicle.getDeltaMovement().horizontalDistance();
+
+            if (vehicle instanceof Boat && speed > 0) {
+                if (vehicle.level() instanceof ServerLevel serverWorld) {
+                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10);
+                }
+                if (vehicle.level().isClientSide)
+                    ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 10);
+            }
+
+            if (speed >= minimumBoostSpeed) {
+                if (vehicle.level() instanceof ServerLevel serverWorld) {
+                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10);
+                }
+            } else this.mv$setMushroomBoost(false);
+        }
+
+        if (speed >= minimumBoostSpeed) {
+            if (entity.level() instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
+                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 10);
+            }
+        } else this.mv$setMushroomBoost(false);
     }
 
     @Unique
