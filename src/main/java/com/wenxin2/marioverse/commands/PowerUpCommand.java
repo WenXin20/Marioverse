@@ -132,7 +132,7 @@ public class PowerUpCommand {
                     }
                 }
             } else source.sendSuccess(() ->
-                    Component.translatable("commands.marioverse.power_up.fail", entity.getDisplayName()).withStyle(ChatFormatting.RED), true);
+                    Component.translatable("commands.marioverse.power_up.fail"), true);
         }
 
         int finalCount = count;
@@ -188,7 +188,7 @@ public class PowerUpCommand {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
                 SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 handler.mv$setMushroomBoost(true);
-                MushroomItem.mushroomAbilities(null, entity.level(), livingEntity, boostStrength);
+                MushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false);
                 count++;
 
                 entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);

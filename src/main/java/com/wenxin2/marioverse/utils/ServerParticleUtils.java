@@ -278,10 +278,10 @@ public class ServerParticleUtils {
                 BlockPos pos = entity.blockPosition();
                 double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);
                 double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5);
-                double offset = -4.0;
+                double dOffset = -4.0;
 
                 if (entity instanceof AbstractMinecart)
-                    offset = -16.0;
+                    dOffset = -16.0;
 
                 if (entity instanceof LivingEntity livingEntity) {
                     float scale = (float) livingEntity.getAttributeValue(Attributes.SCALE);
@@ -297,7 +297,7 @@ public class ServerParticleUtils {
                 if (pos.getZ() != posLegacy.getZ())
                     z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
 
-                entity.level().addParticle(particleOptions, x, entity.getY() + 0.1, z, vec3.x * offset, 1.5, vec3.z * offset);
+                entity.level().addParticle(particleOptions, x, entity.getY() + 0.1, z, vec3.x * dOffset, 0.5, vec3.z * dOffset);
             }
         }
     }

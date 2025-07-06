@@ -31,13 +31,13 @@ public class MushroomItem extends BasePowerUpItem {
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
         if (!(entity instanceof Player)) {
             if (entity.isVehicle())
-                MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get());
-            else MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get());
+                MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get(), true);
+            else MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(), true);
         }
         return super.finishUsingItem(stack, world, entity);
     }
 
-    public static void mushroomAbilities(@Nullable ItemStack stack, Level world, LivingEntity entity, double boostStrength) {
+    public static void mushroomAbilities(@Nullable ItemStack stack, Level world, LivingEntity entity, double boostStrength, boolean nerfBoost) {
         if (boostStrength > 0) {
             if (entity instanceof AbilitiesHandler handler) {
                 BlockPos posBelow = entity.blockPosition().below();
@@ -64,7 +64,7 @@ public class MushroomItem extends BasePowerUpItem {
                     if (vehicle instanceof Boat && friction > 0.7F)
                         friction = stateBelow.getBlock().getFriction() * 0.5F;
 
-                    if (vehicle instanceof AbstractMinecart)
+                    if (vehicle instanceof AbstractMinecart && nerfBoost)
                         baseBoost = boostStrength / 10;
                     boost = baseBoost / friction;
                     direction = vehicle.getLookAngle().normalize();
@@ -77,9 +77,11 @@ public class MushroomItem extends BasePowerUpItem {
                     if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
                         vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
                     else vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                    vehicle.hasImpulse = true;
                 } else {
                     handler.mv$setMushroomBoost(true);
                     entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
+                    entity.hasImpulse = true;
                 }
             }
         }

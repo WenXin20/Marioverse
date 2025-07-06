@@ -60,6 +60,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -353,7 +354,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 //            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
 //        }
     }
-    
+
     @Override
     public void mv$clearAllPowerUps() {
         mv$setFireFlower(false);
@@ -573,7 +574,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique
     private void mv$boostEntityParticles(Entity vehicle, LivingEntity entity) {
         double speed = this.getDeltaMovement().horizontalDistance();
-        double minimumBoostSpeed = 0.5;
+        double minimumBoostSpeed = 0.3;
 
         if (vehicle != null) {
             speed = vehicle.getDeltaMovement().horizontalDistance();
@@ -583,19 +584,23 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
                     ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10);
                 }
-                if (vehicle.level().isClientSide)
+                if (vehicle.level().isClientSide) {
+                    ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), vehicle, true, 5);
                     ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 10);
+                }
             }
 
             if (speed >= minimumBoostSpeed) {
-                if (vehicle.level() instanceof ServerLevel serverWorld) {
+                if (vehicle.level().isClientSide && vehicle instanceof AbstractMinecart) {
+                    ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), vehicle, true, 5);
+                    ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 10);
+                } else if (vehicle.level() instanceof ServerLevel serverWorld
+                        && !(entity instanceof Player)) {
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
                     ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10);
                 }
             } else this.mv$setMushroomBoost(false);
-        }
-
-        if (speed >= minimumBoostSpeed) {
+        } else if (speed >= minimumBoostSpeed) {
             if (entity.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
                 ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 10);
