@@ -47,7 +47,7 @@ import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
-@EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class RegistryEventHandlers {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {

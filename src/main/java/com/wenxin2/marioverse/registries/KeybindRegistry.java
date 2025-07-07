@@ -10,7 +10,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import org.lwjgl.glfw.GLFW;
 
-@EventBusSubscriber(modid = Marioverse.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class KeybindRegistry {
     public static KeyMapping ACTIVATE_POWER_UP;
 

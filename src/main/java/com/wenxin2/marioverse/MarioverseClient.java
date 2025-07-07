@@ -59,7 +59,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 
 @OnlyIn(Dist.CLIENT)
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = Marioverse.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class MarioverseClient {
 
     public static void clientSetup(final FMLClientSetupEvent event) {
