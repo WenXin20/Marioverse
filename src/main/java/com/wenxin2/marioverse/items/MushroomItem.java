@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -32,15 +33,15 @@ public class MushroomItem extends BasePowerUpItem {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entity) {
-        if (!(entity instanceof Player)) {
+        if (!(entity instanceof Player) && !entity.getType().is(TagRegistry.MUSHROOM_CANNOT_BOOST)) {
             if (entity.isVehicle())
-                MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get(), true);
-            else MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(), true);
+                MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get(), true, false);
+            else MushroomItem.mushroomAbilities(stack, world, entity, ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get(), true, false);
         }
         return super.finishUsingItem(stack, world, entity);
     }
 
-    public static void mushroomAbilities(@Nullable ItemStack stack, Level world, LivingEntity entity, double boostStrength, boolean nerfBoost) {
+    public static void mushroomAbilities(@Nullable ItemStack stack, Level world, LivingEntity entity, double boostStrength, boolean nerfBoost, boolean isCommand) {
         if (boostStrength > 0) {
             if (entity instanceof AbilitiesHandler handler) {
                 BlockPos posBelow = entity.blockPosition().below();
@@ -58,7 +59,8 @@ public class MushroomItem extends BasePowerUpItem {
                     stack.consume(1, entity);
                 MushroomEntity.powerUp(world, entity, null);
 
-                if (vehicle != null) {
+                if (vehicle != null
+                        && (!vehicle.getType().is(TagRegistry.MUSHROOM_CANNOT_BOOST) || isCommand)) {
                     posBelow = vehicle.blockPosition().below();
                     stateBelow = world.getBlockState(posBelow);
                     friction = stateBelow.getBlock().getFriction();
@@ -103,7 +105,7 @@ public class MushroomItem extends BasePowerUpItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (ConfigRegistry.MUSHROOM_BOOST_STRENGTH.get() > 0 || ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get() > 0) {
-            if (player instanceof AbilitiesHandler handler) {
+            if (player instanceof AbilitiesHandler handler && !player.getType().is(TagRegistry.MUSHROOM_CANNOT_BOOST)) {
                 BlockPos posBelow = player.blockPosition().below();
                 BlockState stateBelow = world.getBlockState(posBelow);
 

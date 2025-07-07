@@ -188,7 +188,7 @@ public class PowerUpCommand {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
                 SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 handler.mv$setMushroomBoost(true);
-                MushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false);
+                MushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
                 count++;
 
                 entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);

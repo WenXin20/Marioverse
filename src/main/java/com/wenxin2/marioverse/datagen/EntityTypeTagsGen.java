@@ -472,6 +472,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(TEST_DUMMY);
 
+        tag(TagRegistry.MUSHROOM_CANNOT_BOOST)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
         tag(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)
                 .add(EntityType.BEE)
                 .add(EntityType.IRON_GOLEM)
