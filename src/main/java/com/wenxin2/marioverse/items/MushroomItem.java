@@ -5,6 +5,9 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -73,14 +76,21 @@ public class MushroomItem extends BasePowerUpItem {
 
                     handler.mv$setMushroomBoost(true);
 
-
                     if (vehicle.level().isClientSide && vehicle instanceof Boat && vehicle.isControlledByLocalInstance())
                         vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
                     else vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
+                    if (vehicle instanceof ServerPlayer serverPlayer)
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(vehicle));
+                    else if (world instanceof ServerLevel serverWorld)
+                        serverWorld.getChunkSource().broadcast(vehicle, new ClientboundSetEntityMotionPacket(vehicle));
                     vehicle.hasImpulse = true;
                 } else {
                     handler.mv$setMushroomBoost(true);
                     entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(entity));
+                    else if (world instanceof ServerLevel serverWorld)
+                        serverWorld.getChunkSource().broadcast(entity, new ClientboundSetEntityMotionPacket(entity));
                     entity.hasImpulse = true;
                 }
             }
