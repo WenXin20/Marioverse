@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -64,6 +65,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -109,7 +111,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         super(type, world);
         this.head = new PiranhaPlantPart(this, "head",
                 1.0F * this.getWidthAttribute() * this.getScaleAttribute(), 1.0F * this.getHeightAttribute() * this.getScaleAttribute());
-        this.subEntities = new PiranhaPlantPart[]{this.head};
+        this.subEntities = new PiranhaPlantPart[] {this.head};
     }
 
     @Override
@@ -316,7 +318,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
         Direction attachedSide = this.getAttachedSide();
         if (attachedSide != null) {
-            Vec3 offset = calculateHitboxOffset(attachedSide);
+            Vec3 offset = calculateHitBoxOffset(attachedSide);
             this.tickPart(this.head, offset.x, offset.y, offset.z);
         } else this.tickPart(this.head, 0.0, 1.0, 00.0);
 
@@ -634,7 +636,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         }
     }
 
-    private Vec3 calculateHitboxOffset(Direction attachedSide) {
+    private Vec3 calculateHitBoxOffset(Direction attachedSide) {
         double height = this.getHeightAttribute();
         double width = this.getWidthAttribute();
         double scale = this.getScaleAttribute();
@@ -894,5 +896,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
     public void hide(boolean isHiding) {
         this.isHiding = isHiding;
+        if (this.level().isClientSide)
+            PacketDistributor.sendToServer(new PiranhaPlantHidePayload(isHiding, this.getId()));
     }
 }

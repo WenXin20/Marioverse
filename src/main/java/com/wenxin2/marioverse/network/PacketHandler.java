@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesSliderPayload;
+import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
@@ -24,6 +25,7 @@ import com.wenxin2.marioverse.network.server_bound.handler.BouncePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.IceBallShootPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesSliderPacket;
+import com.wenxin2.marioverse.network.server_bound.handler.PiranhaPlantHidePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.RenamePipePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.SquashEntityPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutButtonPacket;
@@ -35,7 +37,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class PacketHandler {
 
     @SubscribeEvent
@@ -55,6 +57,7 @@ public class PacketHandler {
         registrar.playToServer(IceBallShootPayload.ICE_BALL_SHOOT_PAYLOAD, IceBallShootPayload.STREAM_CODEC, IceBallShootPacket.get()::handle);
         registrar.playToServer(PipeBubblesButtonPayload.BUBBLES_STATE_PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
         registrar.playToServer(PipeBubblesSliderPayload.BUBBLES_DISTANCE_PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
+        registrar.playToServer(PiranhaPlantHidePayload.HIDE_PAYLOAD, PiranhaPlantHidePayload.STREAM_CODEC, PiranhaPlantHidePacket.get()::handle);
         registrar.playToServer(RenamePipePayload.RENAME_PIPE_PAYLOAD, RenamePipePayload.STREAM_CODEC, RenamePipePacket.get()::handle);
         registrar.playToServer(SquashEntityPayload.SQUASH_ENTITY_PAYLOAD, SquashEntityPayload.STREAM_CODEC, SquashEntityPacket.get()::handle);
         registrar.playToServer(WaterSpoutButtonPayload.SPOUT_STATE_PAYLOAD, WaterSpoutButtonPayload.STREAM_CODEC, WaterSpoutButtonPacket.get()::handle);
