@@ -620,7 +620,7 @@ public class ConfigRegistry
                             .comment("Duration piranha plants hide and emerge from pipes in ticks.")
                             .comment("Applies to any block in the '#marioverse:piranha_plant_can_hide' block tag.")
                             .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("piranha_plant_hide_duration", 150, 80, 72000);
+                            .defineInRange("piranha_plant_hide_duration", 200, 80, 72000);
                 BUILDER.pop();
 
             BUILDER.pop();
