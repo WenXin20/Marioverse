@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:red_koopa_shell",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:gold_koopa_shell",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:green_koopa_shell",
+          "weight": 10
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "marioverse:question_blocks/koopa_shells"
+}

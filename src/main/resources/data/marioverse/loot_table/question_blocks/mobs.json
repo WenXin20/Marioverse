@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:fire_goomba_spawn_egg",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_spawn_egg",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:mini_goomba_spawn_egg",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:goomba_spawn_egg",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:tag",
+          "name": "marioverse:koopa_troopa_spawn_eggs",
+          "expand": true,
+          "weight": 5
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "marioverse:question_blocks/mobs"
+}
