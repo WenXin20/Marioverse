@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:one_up",
+          "name": "marioverse:one_up_mushroom",
           "weight": 1
         }
       ],
