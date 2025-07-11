@@ -130,6 +130,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.GREEN_KOOPA_SHELL.get())
                 .add(ItemRegistry.RED_KOOPA_SHELL.get());
 
+        tag(TagRegistry.KOOPA_TROOPA_SPAWN_EGGS)
+                .add(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get())
+                .add(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get())
+                .add(ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG.get());
+
         tag(TagRegistry.PIRANHA_FOOD)
                 .addTag(ItemTags.FISHES)
                 .addTag(ItemTags.MEAT)

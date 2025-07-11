@@ -89,6 +89,7 @@ public class TagRegistry {
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
     public static final TagKey<Item> KOOPA_SHOES = itemTags("koopa_shoes");
+    public static final TagKey<Item> KOOPA_TROOPA_SPAWN_EGGS = itemTags("spawn_eggs/koopa_troopa");
     public static final TagKey<Item> REPAIRS_KOOPA_SHELLS = itemTags("repairs_koopa_shells");
     public static final TagKey<Item> LUIGI_COSTUMES = itemTags("costumes/luigi");;
     public static final TagKey<Item> LUIGI_FIRE_COSTUMES = itemTags("costumes/fire/luigi");
