@@ -5,7 +5,7 @@
     {
       "weight": 10,
       "element": {
-        "location": "marioverse:brick_lanes/3x1_power_ups",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_coins",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"
@@ -14,18 +14,18 @@
     {
       "weight": 5,
       "element": {
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_power_ups",
         "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/3x1_mobs",
-        "processors": "marioverse:brick_decay"
+        "processors": "marioverse:brick_decay",
+        "projection": "rigid"
       }
     },
     {
-      "weight": 5,
+      "weight": 3,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/3x1_koopa_shells",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_mobs",
         "processors": "marioverse:brick_decay"
       }
     },
@@ -34,7 +34,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/3x1_one_up",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_koopa_shells",
         "processors": "marioverse:brick_decay"
       }
     },
@@ -43,8 +43,23 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/3x1_super_star",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_one_up",
         "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_super_star",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
       }
     }
   ]
