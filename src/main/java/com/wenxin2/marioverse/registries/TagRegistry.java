@@ -16,12 +16,13 @@ public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
     public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
+    public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
+    public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA = biomeTags("has_koopa_troopa");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA_RARE = biomeTags("has_koopa_troopa_rare");
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
-    public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");

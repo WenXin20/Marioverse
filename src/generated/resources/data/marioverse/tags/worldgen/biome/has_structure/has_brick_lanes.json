@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#c:is_mushroom",
+    "#c:is_plains",
+    "#minecraft:is_savanna",
+    "minecraft:mushroom_fields",
+    "minecraft:plains",
+    "minecraft:snowy_plains",
+    "minecraft:sunflower_plains"
+  ]
+}
