@@ -26,7 +26,7 @@
         },
         {
           "type": "minecraft:tag",
-          "name": "marioverse:koopa_troopa_spawn_eggs",
+          "name": "marioverse:spawn_eggs/koopa_troopa",
           "expand": true,
           "weight": 5
         }

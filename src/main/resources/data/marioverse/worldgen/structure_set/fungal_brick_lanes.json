@@ -1,13 +1,13 @@
 {
   "placement": {
     "type": "minecraft:random_spread",
-    "spacing": 48,
+    "spacing": 15,
     "separation": 4,
-    "salt": 1966658293
+    "salt": 1865562556
   },
   "structures": [
     {
-      "structure": "marioverse:classic_underground",
+      "structure": "marioverse:fungal_brick_lanes",
       "weight": 1
     }
   ]

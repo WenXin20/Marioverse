@@ -1,0 +1,35 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "marioverse:deep_fungal_bricks",
+            "probability": 0.2
+          },
+          "output_state": {
+            "Name": "marioverse:cracked_deep_fungal_bricks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "marioverse:fungal_bricks",
+            "probability": 0.2
+          },
+          "output_state": {
+            "Name": "marioverse:cracked_fungal_bricks"
+          }
+        }
+      ]
+    }
+  ]
+}
