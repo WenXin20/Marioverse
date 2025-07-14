@@ -7,9 +7,10 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -29,7 +30,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -157,10 +157,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         Direction facing = state.getValue(FACING);
         boolean itemAdded = false;
 
+        this.removeCoinParts(world, pos, half, quadrant, facing, true, false);
         world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
-//        if (state.hasProperty(FACING)) {
-            this.removeCoinPartsWithParticles(world, pos, facing);
-//        }
 
         if (entity instanceof Player player) {
             itemAdded = player.addItem(coinItem);
@@ -215,16 +213,6 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
         Direction facing = context.getHorizontalDirection().getOpposite();
 
-//        if (!canPlaceBlock(world, pos)
-//                && !canPlaceBlock(world, pos.relative(facing.getClockWise()))
-//                && !canPlaceBlock(world, pos.relative(facing.getOpposite()))
-//                && !canPlaceBlock(world, pos.relative(facing.getOpposite()).relative(facing.getClockWise()))
-//                && !canPlaceBlock(world, pos.above())
-//                && !canPlaceBlock(world, pos.relative(facing.getClockWise()).above())
-//                && !canPlaceBlock(world, pos.relative(facing.getOpposite()).above())
-//                && !canPlaceBlock(world, pos.relative(facing.getOpposite()).relative(facing.getClockWise()).above())) {
-//            return null;
-//        }
         return this.defaultBlockState().setValue(FACING, facing).setValue(HALF, DoubleBlockHalf.LOWER)
                 .setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST).setValue(WATERLOGGED, waterlogged);
     }
@@ -244,53 +232,32 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
             Direction facing = entity.getDirection().getOpposite();
             BlockState baseState = state.setValue(FACING, facing);
 
-//            if (canPlaceBlock(world, pos)
-//                    && canPlaceBlock(world, pos.relative(facing.getClockWise()))
-//                    && canPlaceBlock(world, pos.relative(facing.getOpposite()))
-//                    && canPlaceBlock(world, pos.relative(facing.getOpposite()).relative(facing.getClockWise()))
-//                    && canPlaceBlock(world, pos.above())
-//                    && canPlaceBlock(world, pos.relative(facing.getClockWise()).above())
-//                    && canPlaceBlock(world, pos.relative(facing.getOpposite()).above())
-//                    && canPlaceBlock(world, pos.relative(facing.getOpposite()).relative(facing.getClockWise()).above())) {
+            // Lower half
+            world.setBlock(pos, baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER), 3);
 
-                // Lower half
-                world.setBlock(pos, baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos).getType() == Fluids.WATER), 3);
+            world.setBlock(pos.relative(facing.getClockWise()), baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise())).getType() == Fluids.WATER), 3);
 
-                world.setBlock(pos.relative(facing.getClockWise()), baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise())).getType() == Fluids.WATER), 3);
+            world.setBlock(pos.relative(facing.getOpposite()), baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite())).getType() == Fluids.WATER), 3);
 
-                world.setBlock(pos.relative(facing.getOpposite()), baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite())).getType() == Fluids.WATER), 3);
+            world.setBlock(pos.relative(facing.getOpposite()).relative(facing.getClockWise()), baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite()).relative(facing.getClockWise())).getType() == Fluids.WATER), 3);
 
-                world.setBlock(pos.relative(facing.getOpposite()).relative(facing.getClockWise()), baseState.setValue(HALF, DoubleBlockHalf.LOWER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite()).relative(facing.getClockWise())).getType() == Fluids.WATER), 3);
+            // Upper half
+            world.setBlock(pos.above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.above()).getType() == Fluids.WATER), 3);
 
-                // Upper half
-                world.setBlock(pos.above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.above()).getType() == Fluids.WATER), 3);
+            world.setBlock(pos.relative(facing.getClockWise()).above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise()).above()).getType() == Fluids.WATER), 3);
 
-                world.setBlock(pos.relative(facing.getClockWise()).above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.NORTH_EAST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getClockWise()).above()).getType() == Fluids.WATER), 3);
+            world.setBlock(pos.relative(facing.getOpposite()).above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite()).above()).getType() == Fluids.WATER), 3);
 
-                world.setBlock(pos.relative(facing.getOpposite()).above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_WEST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite()).above()).getType() == Fluids.WATER), 3);
-
-                world.setBlock(pos.relative(facing.getOpposite()).relative(facing.getClockWise()).above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
-                        .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite()).relative(facing.getClockWise()).above()).getType() == Fluids.WATER), 3);
-//            }
+            world.setBlock(pos.relative(facing.getOpposite()).relative(facing.getClockWise()).above(), baseState.setValue(HALF, DoubleBlockHalf.UPPER).setValue(QUADRANT, QuadrantBlockStates.SOUTH_EAST)
+                    .setValue(WATERLOGGED, world.getFluidState(pos.relative(facing.getOpposite()).relative(facing.getClockWise()).above()).getType() == Fluids.WATER), 3);
         }
-    }
-
-    @Override
-    protected void onRemove(BlockState oldState, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
-        QuadrantBlockStates quadrant = oldState.getValue(QUADRANT);
-        DoubleBlockHalf half = oldState.getValue(HALF);
-        Direction facing = oldState.getValue(FACING);
-
-        if (!world.isClientSide() && !(newState.getBlock() instanceof StarCoinBlock))
-            this.removeCoinPartsWithParticles(world, pos, facing);
-        super.onRemove(oldState, world, pos, newState, isMoving);
     }
 
     @Override
@@ -298,8 +265,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         QuadrantBlockStates quadrant = state.getValue(QUADRANT);
         DoubleBlockHalf half = state.getValue(HALF);
         Direction facing = state.getValue(FACING);
-        if (!worldAccessor.isClientSide())
-            this.removeCoinParts(worldAccessor, pos, facing);
+        if (!worldAccessor.isClientSide() && worldAccessor instanceof Level world)
+            this.removeCoinParts(world, pos, half, quadrant, facing, true, true);
         super.destroy(worldAccessor, pos, state);
     }
 
@@ -310,18 +277,11 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         DoubleBlockHalf half = state.getValue(HALF);
         Direction facing = state.getValue(FACING);
         if (!world.isClientSide) {
-            if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
-                this.removeCoinPartsWithParticles(world, pos, facing);
-            }
+            if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos))
+                this.removeCoinParts(world, pos, half, quadrant, facing, false, false);
+            else this.removeCoinParts(world, pos, half, quadrant, facing, true, true);
         }
         return super.playerWillDestroy(world, pos, state, player);
-    }
-
-    private boolean canPlaceBlock(Level world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-
-        return (state.isAir() || state.canBeReplaced() || state.is(this))
-                && world.getWorldBorder().isWithinBounds(pos);
     }
 
     public BlockPos getPartPos(BlockPos pos, QuadrantBlockStates quadrant, DoubleBlockHalf half, Direction direction) {
@@ -332,19 +292,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
             case SOUTH_EAST -> pos.relative(direction.getClockWise()).relative(direction.getOpposite());
         };
 
-//        offset = this.rotateOffset(offset, facing);
-
-//        BlockPos base = pos.offset(offset);
         return half == DoubleBlockHalf.UPPER ? base.below() : base;
-    }
-
-    private Vec3i rotateOffset(Vec3i offset, Direction facing) {
-        return switch (facing) {
-            case SOUTH -> new Vec3i(-offset.getX(), 0, -offset.getZ());
-            case WEST -> new Vec3i(offset.getZ(), 0, -offset.getX());
-            case EAST -> new Vec3i(-offset.getZ(), 0, offset.getX());
-            default -> offset;
-        };
     }
 
     private boolean areCoinPartsValid(LevelReader world, BlockPos pos, Direction facing) {
@@ -369,54 +317,56 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 && world.getBlockState(this.getPartPos(pos, QuadrantBlockStates.SOUTH_EAST, DoubleBlockHalf.UPPER, facing)).canBeReplaced();
     }
 
-    private void removeCoinPartsWithParticles(Level world, BlockPos pos, Direction direction) {
-        for (QuadrantBlockStates quadrant : QuadrantBlockStates.values()) {
-            for (DoubleBlockHalf half : DoubleBlockHalf.values()) {
-                BlockPos partPos = this.getPartPos(pos, quadrant, half, direction);
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, partPos, UniformInt.of(1, 1));
-                world.removeBlock(partPos, false);
+    public void removeCoinParts(Level world, BlockPos pos, DoubleBlockHalf half, QuadrantBlockStates quadrant, Direction facing, boolean spawnParticles, boolean dropResources) {
+        BlockPos basePos = (half == DoubleBlockHalf.UPPER) ? pos.below() : pos;
+        for (QuadrantBlockStates quadrants : QuadrantBlockStates.values()) {
+            for (Direction directions : Direction.Plane.HORIZONTAL) {
+                for (DoubleBlockHalf halves : DoubleBlockHalf.values()) {
+
+                    if (quadrant == quadrants && facing == directions && half == halves) {
+                        Direction right = directions.getClockWise();
+                        Direction left = directions.getCounterClockWise();
+                        Direction back = directions.getOpposite();
+
+                        Direction axis1 = switch (quadrants) {
+                            case NORTH_WEST, NORTH_EAST -> back;
+                            case SOUTH_WEST, SOUTH_EAST -> directions;
+                        };
+
+                        Direction axis2 = switch (quadrants) {
+                            case NORTH_WEST, SOUTH_WEST -> right;
+                            case NORTH_EAST, SOUTH_EAST -> left;
+                        };
+
+                        for (int x = 0; x <= 1; x++) {
+                            for (int z = 0; z <= 1; z++) {
+                                BlockPos targetPos = basePos.relative(axis1, x).relative(axis2, z);
+
+                                if (dropResources) {
+                                    world.destroyBlock(targetPos, true);
+                                    world.destroyBlock(targetPos.above(), true);
+                                } else {
+                                    world.removeBlock(targetPos, false);
+                                    world.removeBlock(targetPos.above(), false);
+                                }
+
+                                if (world instanceof ServerLevel serverWorld && spawnParticles) {
+                                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, targetPos, UniformInt.of(1, 1));
+                                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, targetPos.above(), UniformInt.of(1, 1));
+                                } else {
+                                    world.levelEvent(2001, targetPos, Block.getId(world.getBlockState(targetPos)));
+                                    world.levelEvent(2001, targetPos.above(), Block.getId(world.getBlockState(targetPos.above())));
+                                }
+
+                                if (!spawnParticles) {
+                                    world.levelEvent(2001, targetPos, Block.getId(world.getBlockState(targetPos)));
+                                    world.levelEvent(2001, targetPos.above(), Block.getId(world.getBlockState(targetPos.above())));
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
-
-    private void removeCoinParts(LevelAccessor world, BlockPos pos, Direction direction) {
-        for (QuadrantBlockStates quadrant : QuadrantBlockStates.values()) {
-            for (DoubleBlockHalf half : DoubleBlockHalf.values()) {
-                BlockPos partPos = this.getPartPos(pos, quadrant, half, direction);
-                world.destroyBlock(partPos, false);
-                world.levelEvent(2001, partPos, Block.getId(world.getBlockState(partPos)));
-            }
-        }
-    }
-
-    protected void preventDropFromParts(Level world, BlockPos pos, BlockState state, Player player) {
-        DoubleBlockHalf half = state.getValue(HALF);
-        QuadrantBlockStates quadrant = state.getValue(QUADRANT);
-        Direction facing = state.getValue(FACING);
-        BlockPos partPos = this.getPartPos(pos, quadrant, half, facing);
-
-        if (!world.isClientSide) {
-            if (areCoinPartsValid(world, partPos, facing)) {
-                replaceWithCorrectFluidState(world, partPos, player);
-                replaceWithCorrectFluidState(world, partPos.east(), player);
-                replaceWithCorrectFluidState(world, partPos.south(), player);
-                replaceWithCorrectFluidState(world, partPos.south().east(), player);
-                replaceWithCorrectFluidState(world, partPos.above(), player);
-                replaceWithCorrectFluidState(world, partPos.east().above(), player);
-                replaceWithCorrectFluidState(world, partPos.south().above(), player);
-                replaceWithCorrectFluidState(world, partPos.south().east().above(), player);
-            }
-        }
-    }
-
-    private void replaceWithCorrectFluidState(Level world, BlockPos pos, Player player) {
-        BlockState currentState = world.getBlockState(pos);
-        BlockState replacementState = currentState.getFluidState().is(Fluids.WATER)
-                ? Blocks.WATER.defaultBlockState()
-                : Blocks.AIR.defaultBlockState();
-
-        world.levelEvent(player, 2001, pos, Block.getId(currentState));
-        world.setBlock(pos, replacementState, 35);
     }
 }
