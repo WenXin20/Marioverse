@@ -1,6 +1,7 @@
 {
   "replace": false,
   "entries": [
-    "marioverse:coin_from_burning_mobs"
+    "marioverse:coin_from_burning_mobs",
+    "marioverse:sniffer_digging"
   ]
 }
