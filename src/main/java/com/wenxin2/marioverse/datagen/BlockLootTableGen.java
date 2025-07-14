@@ -106,15 +106,6 @@ public class BlockLootTableGen extends LootTableProvider {
             });
         }
 
-        protected LootTable.Builder createPotFlowerItemTable(ItemLike itemLike) {
-            return LootTable.lootTable().withPool(this.applyExplosionCondition(Blocks.FLOWER_POT,
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(Blocks.FLOWER_POT))))
-                    .withPool(this.applyExplosionCondition(itemLike,
-                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                                    .add(LootItem.lootTableItem(itemLike))));
-        }
-
         protected LootTable.Builder createCheckpointFlagDrop(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
