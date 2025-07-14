@@ -29,7 +29,9 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -155,7 +157,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         Direction facing = state.getValue(FACING);
         boolean itemAdded = false;
 
-        this.removeCoinParts(world, pos, half, quadrant, facing, true, false);
+        this.removeCoinParts(world, pos, half, quadrant, facing, true, false, false);
         world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
 
         if (entity instanceof Player player) {
@@ -225,6 +227,16 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     }
 
     @Override
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return rotate(state, mirror.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity entity, ItemStack stack) {
         if (entity != null) {
             Direction facing = entity.getDirection().getOpposite();
@@ -264,7 +276,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         DoubleBlockHalf half = state.getValue(HALF);
         Direction facing = state.getValue(FACING);
         if (!worldAccessor.isClientSide() && worldAccessor instanceof Level world)
-            this.removeCoinParts(world, pos, half, quadrant, facing, true, true);
+            this.removeCoinParts(world, pos, half, quadrant, facing, true, true, true);
         super.destroy(worldAccessor, pos, state);
     }
 
@@ -276,8 +288,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         Direction facing = state.getValue(FACING);
         if (!world.isClientSide) {
             if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos))
-                this.removeCoinParts(world, pos, half, quadrant, facing, false, false);
-            else this.removeCoinParts(world, pos, half, quadrant, facing, true, true);
+                this.removeCoinParts(world, pos, half, quadrant, facing, false, false, true);
+            else this.removeCoinParts(world, pos, half, quadrant, facing, true, true, true);
         }
         return super.playerWillDestroy(world, pos, state, player);
     }
@@ -315,7 +327,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                 && world.getBlockState(this.getPartPos(pos, QuadrantBlockStates.SOUTH_EAST, DoubleBlockHalf.UPPER, facing)).canBeReplaced();
     }
 
-    public void removeCoinParts(Level world, BlockPos pos, DoubleBlockHalf half, QuadrantBlockStates quadrant, Direction facing, boolean spawnParticles, boolean dropResources) {
+    public void removeCoinParts(Level world, BlockPos pos, DoubleBlockHalf half, QuadrantBlockStates quadrant, Direction facing,
+                                boolean spawnParticles, boolean dropResources, boolean destroyBlock) {
         BlockPos basePos = (half == DoubleBlockHalf.UPPER) ? pos.below() : pos;
         for (QuadrantBlockStates quadrants : QuadrantBlockStates.values()) {
             for (Direction directions : Direction.Plane.HORIZONTAL) {
@@ -340,8 +353,13 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                             for (int z = 0; z <= 1; z++) {
                                 BlockPos targetPos = basePos.relative(axis1, x).relative(axis2, z);
 
-                                world.destroyBlock(targetPos, dropResources);
-                                world.destroyBlock(targetPos.above(), dropResources);
+                                if (destroyBlock) {
+                                    world.destroyBlock(targetPos, dropResources);
+                                    world.destroyBlock(targetPos.above(), dropResources);
+                                } else {
+                                    world.removeBlock(targetPos, false);
+                                    world.removeBlock(targetPos.above(), false);
+                                }
 
                                 if (world instanceof ServerLevel serverWorld && spawnParticles) {
                                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, targetPos, UniformInt.of(1, 1));
