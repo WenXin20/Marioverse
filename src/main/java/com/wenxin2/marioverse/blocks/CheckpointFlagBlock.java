@@ -201,6 +201,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     }
 
     @Override
+    public boolean canSurvive(BlockState state, @NotNull LevelReader worldReader, BlockPos pos) {
+        return worldReader instanceof Level world && this.canPlaceBlock(world, pos) && this.canPlaceBlock(world, pos.above())
+                && this.canPlaceBlock(world, pos.above(2));
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         final BlockPos pos = context.getClickedPos();
         final Level world = context.getLevel();
@@ -650,9 +656,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
     private boolean canPlaceBlock(Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-
-        return (state.isAir() || state.canBeReplaced() || state.is(this))
-                && world.getWorldBorder().isWithinBounds(pos);
+        return (state.isAir() || state.canBeReplaced() || state.is(this));
     }
 
     public void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos) {
