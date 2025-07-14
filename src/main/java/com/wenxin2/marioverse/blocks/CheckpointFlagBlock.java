@@ -328,18 +328,18 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public void destroy(LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
         if (!worldAccessor.isClientSide()) {
             if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                worldAccessor.removeBlock(pos.above(), false);
-                worldAccessor.removeBlock(pos.above(2), false);
+                worldAccessor.destroyBlock(pos.above(), true);
+                worldAccessor.destroyBlock(pos.above(2), true);
                 worldAccessor.levelEvent(2001, pos.above(), Block.getId(worldAccessor.getBlockState(pos.above())));
                 worldAccessor.levelEvent(2001, pos.above(2), Block.getId(worldAccessor.getBlockState(pos.above(2))));
             } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                worldAccessor.removeBlock(pos.below(), false);
-                worldAccessor.removeBlock(pos.above(), false);
+                worldAccessor.destroyBlock(pos.below(), true);
+                worldAccessor.destroyBlock(pos.above(), true);
                 worldAccessor.levelEvent(2001, pos.below(), Block.getId(worldAccessor.getBlockState(pos.below())));
                 worldAccessor.levelEvent(2001, pos.above(), Block.getId(worldAccessor.getBlockState(pos.above())));
             } else if (state.getValue(PART) == TripleBlockStates.TOP) {
-                worldAccessor.removeBlock(pos.below(), false);
-                worldAccessor.removeBlock(pos.below(2), false);
+                worldAccessor.destroyBlock(pos.below(), true);
+                worldAccessor.destroyBlock(pos.below(2), true);
                 worldAccessor.levelEvent(2001, pos.below(), Block.getId(worldAccessor.getBlockState(pos.below())));
                 worldAccessor.levelEvent(2001, pos.below(2), Block.getId(worldAccessor.getBlockState(pos.below(2))));
             }
@@ -353,18 +353,18 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (!world.isClientSide) {
             if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
                 if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                    world.removeBlock(pos.above(), false);
-                    world.removeBlock(pos.above(2), false);
+                    world.destroyBlock(pos.above(), false);
+                    world.destroyBlock(pos.above(2), false);
                     this.spawnDestroyParticles(world, player, pos.above(), world.getBlockState(pos.above()));
                     this.spawnDestroyParticles(world, player, pos.above(2), world.getBlockState(pos.above(2)));
                 } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                    world.removeBlock(pos.below(), false);
-                    world.removeBlock(pos.above(), false);
+                    world.destroyBlock(pos.below(), false);
+                    world.destroyBlock(pos.above(), false);
                     this.spawnDestroyParticles(world, player, pos.below(), world.getBlockState(pos.below()));
                     this.spawnDestroyParticles(world, player, pos.above(), world.getBlockState(pos.above()));
                 } else if (state.getValue(PART) == TripleBlockStates.TOP) {
-                    world.removeBlock(pos.below(), false);
-                    world.removeBlock(pos.below(2), false);
+                    world.destroyBlock(pos.below(), false);
+                    world.destroyBlock(pos.below(2), false);
                     this.spawnDestroyParticles(world, player, pos.below(), world.getBlockState(pos.below()));
                     this.spawnDestroyParticles(world, player, pos.below(2), world.getBlockState(pos.below(2)));
                 }

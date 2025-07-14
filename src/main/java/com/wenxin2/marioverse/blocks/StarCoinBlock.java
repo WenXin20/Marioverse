@@ -340,23 +340,13 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
                             for (int z = 0; z <= 1; z++) {
                                 BlockPos targetPos = basePos.relative(axis1, x).relative(axis2, z);
 
-                                if (dropResources) {
-                                    world.destroyBlock(targetPos, true);
-                                    world.destroyBlock(targetPos.above(), true);
-                                } else {
-                                    world.removeBlock(targetPos, false);
-                                    world.removeBlock(targetPos.above(), false);
-                                }
+                                world.destroyBlock(targetPos, dropResources);
+                                world.destroyBlock(targetPos.above(), dropResources);
 
                                 if (world instanceof ServerLevel serverWorld && spawnParticles) {
                                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, targetPos, UniformInt.of(1, 1));
                                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, targetPos.above(), UniformInt.of(1, 1));
                                 } else {
-                                    world.levelEvent(2001, targetPos, Block.getId(world.getBlockState(targetPos)));
-                                    world.levelEvent(2001, targetPos.above(), Block.getId(world.getBlockState(targetPos.above())));
-                                }
-
-                                if (!spawnParticles) {
                                     world.levelEvent(2001, targetPos, Block.getId(world.getBlockState(targetPos)));
                                     world.levelEvent(2001, targetPos.above(), Block.getId(world.getBlockState(targetPos.above())));
                                 }
