@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
+import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
@@ -66,13 +67,13 @@ public class BlockLootTableGen extends LootTableProvider {
                     if (isBlockInVariants(block))
                         this.genBlockVariants();
                     else if (block instanceof CheckpointFlagBlock)
-                        this.add(block, this.createStorageBlockDrop(block));
+                        this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPotFlowerItemTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof StarCoinBlock)
-                        this.add(block, this.createCoinDrop(block));
+                        this.add(block, this.createStarCoinDrop(block));
                     else if (block instanceof WarpPipeBlock)
                         this.add(block, this.createNameableWarpPipeBEDrop(block));
                     else this.dropSelf(block);
@@ -114,6 +115,21 @@ public class BlockLootTableGen extends LootTableProvider {
                                     .add(LootItem.lootTableItem(itemLike))));
         }
 
+        protected LootTable.Builder createCheckpointFlagDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponents.CUSTOM_NAME)
+                                            .include(DataComponents.CONTAINER)
+                                            .include(DataComponents.LOCK)
+                                            .include(DataComponents.CONTAINER_LOOT)))
+                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                            .hasProperty(CheckpointFlagBlock.PART, TripleBlockStates.BOTTOM))))
+            );
+        }
+
         protected LootTable.Builder createNameableWarpPipeBEDrop(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
@@ -121,6 +137,17 @@ public class BlockLootTableGen extends LootTableProvider {
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponents.CUSTOM_NAME)
                                             .include(DataComponentRegistry.PIPE_NAME.get()))))
+            );
+        }
+
+        protected LootTable.Builder createStarCoinDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                    .hasProperty(StarCoinBlock.HALF, DoubleBlockHalf.LOWER)
+                                                    .hasProperty(StarCoinBlock.QUADRANT, QuadrantBlockStates.NORTH_WEST)))))
             );
         }
 
@@ -133,17 +160,6 @@ public class BlockLootTableGen extends LootTableProvider {
                                                         .include(DataComponents.CONTAINER)
                                                         .include(DataComponents.LOCK)
                                                         .include(DataComponents.CONTAINER_LOOT))))
-            );
-        }
-
-        protected LootTable.Builder createCoinDrop(Block block) {
-            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(block)
-                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                                            .setProperties(StatePropertiesPredicate.Builder.properties()
-                                                    .hasProperty(StarCoinBlock.HALF, DoubleBlockHalf.LOWER)
-                                                    .hasProperty(StarCoinBlock.QUADRANT, QuadrantBlockStates.NORTH_WEST)))))
             );
         }
     }

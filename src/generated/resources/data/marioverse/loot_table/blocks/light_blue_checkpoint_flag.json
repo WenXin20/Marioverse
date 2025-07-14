@@ -5,6 +5,13 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
+          "block": "marioverse:light_blue_checkpoint_flag",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "part": "bottom"
+          }
+        },
+        {
           "condition": "minecraft:survives_explosion"
         }
       ],
