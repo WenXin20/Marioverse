@@ -7,10 +7,8 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -214,7 +212,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         Direction facing = context.getHorizontalDirection().getOpposite();
 
         return this.defaultBlockState().setValue(FACING, facing).setValue(HALF, DoubleBlockHalf.LOWER)
-                .setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST).setValue(WATERLOGGED, waterlogged);
+                    .setValue(QUADRANT, QuadrantBlockStates.NORTH_WEST).setValue(WATERLOGGED, waterlogged);
     }
 
     @NotNull

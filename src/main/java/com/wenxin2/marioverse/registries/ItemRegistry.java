@@ -4,19 +4,24 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
+import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.MushroomItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
@@ -27,8 +32,12 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ItemRegistry {
+    public static final EnumMap<DyeColor, DeferredItem<Item>> CHECKPOINT_FLAGS =
+            new EnumMap<>(DyeColor.class);
+
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
@@ -90,11 +99,20 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
+    public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
     public static final DeferredItem<Item> WRENCH;
 
     static {
+        STAR_COIN = registerItem("star_coin", () -> new StarCoinBlockItem(BlockRegistry.STAR_COIN.get(), new Item.Properties()));
+        CLASSIC_CHECKPOINT_FLAG = registerItem("classic_checkpoint_flag",
+                () -> new CheckpointFlagBlockItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), new Item.Properties()));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CHECKPOINT_FLAGS.put(color, registerItem(color.getName() + "_checkpoint_flag",
+                        () -> new CheckpointFlagBlockItem(BlockRegistry.CHECKPOINT_FLAGS.get(color).get(), new Item.Properties()))));
+
         WRENCH = registerItem("wrench",
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
