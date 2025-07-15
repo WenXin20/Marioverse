@@ -2,6 +2,7 @@
   "type": "minecraft:gift",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -9,7 +10,12 @@
           "name": "marioverse:piranha_plant_pod"
         }
       ],
-      "rolls": 1.0
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.25
+        }
+      ]
     }
   ],
   "random_sequence": "minecraft:gameplay/sniffer_digging"
