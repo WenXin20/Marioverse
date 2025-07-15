@@ -8,7 +8,7 @@
   "max_distance_from_center": 116,
   "use_expansion_hack": false,
   "spawn_overrides": {},
-  "size": 5,
+  "size": 3,
   "start_height": {
     "type": "minecraft:uniform",
     "min_inclusive": {
