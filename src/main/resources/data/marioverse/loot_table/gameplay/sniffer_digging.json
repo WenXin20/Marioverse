@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:piranha_plant_pod"
+          "name": "marioverse:piranha_plant_pod"
         }
       ],
       "rolls": 1.0

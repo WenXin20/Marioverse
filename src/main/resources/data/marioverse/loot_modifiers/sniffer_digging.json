@@ -1,0 +1,5 @@
+{
+  "type": "neoforge:add_table",
+  "table": "marioverse:gameplay/sniffer_digging",
+  "conditions": []
+}
