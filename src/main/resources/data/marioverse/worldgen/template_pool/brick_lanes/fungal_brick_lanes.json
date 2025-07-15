@@ -147,15 +147,6 @@
       }
     },
     {
-      "weight": 3,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_star_coin",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
       "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
@@ -201,11 +192,20 @@
       }
     },
     {
-      "weight": 1,
+      "weight": 8,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
         "location": "marioverse:brick_lanes/fungal_bricks/6x6_star_coin_circle",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/pipe_room_star_coin",
         "processors": "marioverse:brick_decay"
       }
     },
