@@ -168,12 +168,6 @@ public class BaseWarpBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void setRemoved() {
-        super.setRemoved();
-        WARP_LOCATIONS.remove(this.getWarpUuid());
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
         WARP_LOCATIONS.put(this.getWarpUuid(), this.getBlockPos());
