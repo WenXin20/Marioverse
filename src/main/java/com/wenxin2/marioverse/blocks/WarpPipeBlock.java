@@ -142,13 +142,13 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
         if (state.getValue(ENTRANCE) && player.isCreative()
                 && blockEntity instanceof WarpPipeBlockEntity pipeBE
-                && heldItem.isEmpty()) {
-            pipeBE.splitTheItem(1);
-            pipeBE.markUpdated();
+                && !pipeBE.getTheItem().isEmpty() && heldItem.isEmpty()) {
             world.sendBlockUpdated(pos, state, state, 3);
             world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
+            pipeBE.splitTheItem(1);
+            pipeBE.markUpdated();
+            
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
