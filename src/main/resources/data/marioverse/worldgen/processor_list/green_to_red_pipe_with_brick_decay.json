@@ -1,0 +1,80 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "marioverse:deep_fungal_bricks",
+            "probability": 0.2
+          },
+          "output_state": {
+            "Name": "marioverse:cracked_deep_fungal_bricks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "marioverse:fungal_bricks",
+            "probability": 0.2
+          },
+          "output_state": {
+            "Name": "marioverse:cracked_fungal_bricks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_blockstate_match",
+            "block_state": {
+              "Name": "marioverse:green_warp_pipe",
+              "Properties": {
+                "facing": "up"
+              }
+            },
+            "probability": 1
+          },
+          "output_state": {
+            "Name": "marioverse:red_warp_pipe",
+            "Properties": {
+              "facing": "up"
+            }
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_blockstate_match",
+            "block_state": {
+              "Name": "marioverse:green_warp_pipe",
+              "Properties": {
+                "facing": "down"
+              }
+            },
+            "probability": 1
+          },
+          "output_state": {
+            "Name": "marioverse:red_warp_pipe",
+            "Properties": {
+              "facing": "down"
+            }
+          },
+          "block_entity_modifier": {
+            "type": "minecraft:passthrough"
+          }
+        }
+      ]
+    }
+  ]
+}

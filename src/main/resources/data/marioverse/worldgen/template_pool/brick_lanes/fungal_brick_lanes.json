@@ -106,6 +106,15 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x3_green_pipe",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
         "location": "marioverse:brick_lanes/fungal_bricks/1x5_green_pipe",
         "processors": "marioverse:brick_decay"
       }
@@ -115,7 +124,25 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x6_double_green_pipe",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
         "location": "marioverse:brick_lanes/fungal_bricks/1x7_green_pipe",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x7_red_pipe",
         "processors": "marioverse:brick_decay"
       }
     },
@@ -205,7 +232,61 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/pipe_room_star_coin",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x3_secret_entrance",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x5_secret_entrance",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x6_double_secret_entrance",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x7_secret_entrance",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/1x7_red_secret_entrance",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x1_secret_entrance",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 8,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x6_secret_entrance",
         "processors": "marioverse:brick_decay"
       }
     },
