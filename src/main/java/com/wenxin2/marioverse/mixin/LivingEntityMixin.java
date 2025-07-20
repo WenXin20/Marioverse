@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
@@ -60,7 +61,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -87,6 +87,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
+
     @Shadow public abstract void setSpeed(float p_21320_);
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
@@ -1289,12 +1290,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getTheItem();
 
-            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY))
                 mv$hitEntityAbove(pos, world, entity);
-            }
 
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                this.mv$dropCoin(world, pos, this);
+//                this.mv$dropCoin(world, pos, this);
+
+                BlockState stateAbove = world.getBlockState(pos.above());
+                ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
+                if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
+                    StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
+                else if (stateAbove.getBlock() instanceof CoinBlock)
+                    CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
 
                 if (!world.isClientSide)
                     questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
@@ -1328,6 +1335,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     private void mv$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
+        BlockState stateAbove = world.getBlockState(pos.above());
+        ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
 
         mv$hitEntityAbove(pos, world, entity);
 
@@ -1351,10 +1360,19 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             else if (state.getBlock() instanceof DecoratedPotBlock)
                 world.playSound(null, pos, SoundType.DECORATED_POT.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, pos, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.mv$dropCoin(world, pos, this);
+
+            if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
+                StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
+            else if (stateAbove.getBlock() instanceof CoinBlock)
+                CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
         } else {
             world.playSound(null, pos, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.mv$dropCoin(world, pos, this);
+            if (!(state.getBlock() instanceof QuestionBlock)) {
+                if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
+                    StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
+                else if (stateAbove.getBlock() instanceof CoinBlock)
+                    CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
+            }
         }
     }
 

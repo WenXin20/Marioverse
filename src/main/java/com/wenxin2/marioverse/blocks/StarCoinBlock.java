@@ -145,19 +145,18 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
 
         if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null
                 && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_COINS))
-            this.collectCoin(state, world, pos, koopaShell.getOwner(), coinItem);
+            StarCoinBlock.collectCoin(this, world, state, pos, koopaShell.getOwner(), coinItem);
         else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS))
-            this.collectCoin(state, world, pos, entity, coinItem);
+            StarCoinBlock.collectCoin(this, world, state, pos, entity, coinItem);
     }
 
-    @Override
-    public void collectCoin(BlockState state, Level world, BlockPos pos, Entity entity, ItemStack coinItem) {
+    public static void collectCoin(StarCoinBlock starCoinBlock, Level world, BlockState state, BlockPos pos, Entity entity, ItemStack coinItem) {
         QuadrantBlockStates quadrant = state.getValue(QUADRANT);
         DoubleBlockHalf half = state.getValue(HALF);
         Direction facing = state.getValue(FACING);
         boolean itemAdded = false;
 
-        this.removeCoinParts(world, pos, half, quadrant, facing, true, false, false);
+        starCoinBlock.removeCoinParts(world, pos, half, quadrant, facing, true, false, false);
         world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
 
         if (entity instanceof Player player) {

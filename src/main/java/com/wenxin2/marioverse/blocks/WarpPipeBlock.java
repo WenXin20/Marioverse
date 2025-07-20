@@ -148,7 +148,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             pipeBE.splitTheItem(1);
             pipeBE.markUpdated();
-            
+
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
