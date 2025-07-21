@@ -33,6 +33,12 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     }
 
     @Override
+    public void push(Entity entity) {
+        this.setOwner(entity);
+        super.push(entity);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
