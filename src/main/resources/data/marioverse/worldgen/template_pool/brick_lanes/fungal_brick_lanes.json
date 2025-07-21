@@ -232,61 +232,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/1x3_secret_entrance",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 8,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/1x5_secret_entrance",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 8,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/1x6_double_secret_entrance",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 8,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/1x7_secret_entrance",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 8,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/1x7_red_secret_entrance",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 8,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_secret_entrance",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 8,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x6_secret_entrance",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_secret_entrance",
         "processors": "marioverse:brick_decay"
       }
     },
