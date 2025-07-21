@@ -219,7 +219,7 @@
       }
     },
     {
-      "weight": 8,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -228,7 +228,7 @@
       }
     },
     {
-      "weight": 8,
+      "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
