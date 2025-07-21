@@ -49,6 +49,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -320,13 +321,24 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
+        if (blockEntity instanceof WarpPipeBlockEntity pipeBE) {
             if (stack.has(DataComponents.CUSTOM_NAME) || stack.has(DataComponentRegistry.PIPE_NAME)) {
-                pipeBlockEntity.setCustomName(stack.getHoverName());
-                pipeBlockEntity.setPipeName(stack.getHoverName());
-                pipeBlockEntity.setChanged();
+                pipeBE.setCustomName(stack.getHoverName());
+                pipeBE.setPipeName(stack.getHoverName());
+                pipeBE.setChanged();
             }
-            pipeBlockEntity.onLoad();
+
+            CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+            if (data != null && data.copyTag().hasUUID("UUID")) {
+                pipeBE.setUUID(data.copyTag().getUUID("UUID"));
+                pipeBE.setChanged();
+            } else {
+                UUID uuid = UUID.randomUUID();
+                pipeBE.setUUID(uuid);
+                pipeBE.setChanged();
+            }
+
+            pipeBE.onLoad();
         }
     }
 
@@ -485,13 +497,6 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 && warpPipeBE.destinationPos != null) {
             destinationPos = warpPipeBE.destinationPos;
             world.scheduleTick(pos, this, 3);
-        }
-
-        if (!world.isClientSide && blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-            UUID uuid = UUID.randomUUID();
-            pipeBlockEntity.setPreventWarp(Boolean.FALSE);
-            pipeBlockEntity.setUUID(uuid);
-            pipeBlockEntity.setChanged();
         }
 
         if (state.getValue(FACING) == Direction.UP) {
