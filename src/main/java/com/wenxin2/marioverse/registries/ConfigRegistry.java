@@ -24,8 +24,10 @@ public class ConfigRegistry
     public static final String CATEGORY_TELEPORTATION = "teleportation";
 
     public static final String CATEGORY_CHECKPOINT_FLAGS = "checkpoint_flags";
+    public static final String CATEGORY_COINS = "coins";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
     public static final String CATEGORY_QUESTION_BLOCK = "question_blocks";
+    public static final String CATEGORY_STAR_COINS = "star_coins";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PAINTINGS = "warp_paintings";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
@@ -70,6 +72,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_REMOVE_ITEMS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_RESPAWN_USES_ITEMS;
     public static ModConfigSpec.BooleanValue CHECKPOINT_FLAG_SPAWNS_MOBS;
+    public static ModConfigSpec.BooleanValue COINS_COLLECTED_IN_CREATIVE;
+    public static ModConfigSpec.BooleanValue COINS_COLLECTED_ON_COLLISION;
     public static ModConfigSpec.BooleanValue CREATIVE_BUBBLES;
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
@@ -117,6 +121,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue REPAIR_KOOPA_SHELLS;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
+    public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_IN_CREATIVE;
+    public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_ON_COLLISION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_STAR_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
@@ -217,6 +223,17 @@ public class ConfigRegistry
 
             BUILDER.push(CATEGORY_BLOCKS);
 
+                BUILDER.push(CATEGORY_COINS);
+                    COINS_COLLECTED_ON_COLLISION = BUILDER.translation("configuration.marioverse.coins_collected_on_collision")
+                            .comment("Coins can be collected during collision.")
+                            .comment("§9[Default: true]")
+                            .define("coins_collected_on_collision", true);
+                    COINS_COLLECTED_IN_CREATIVE = BUILDER.translation("configuration.marioverse.coins_collected_in_creative")
+                            .comment("Coins can be collected by players in creative.")
+                            .comment("§9[Default: true]")
+                            .define("coins_collected_in_creative", true);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_CHECKPOINT_FLAGS);
                     CHECKPOINT_FLAG_MODIFY_HEALTH = BUILDER.translation("configuration.marioverse.checkpoint_flag_modify_health")
                             .comment("Checkpoint flags respawn players with modified health & food levels.")
@@ -254,11 +271,11 @@ public class ConfigRegistry
                             .comment("Allow survival players to add items using right-click.")
                             .comment("§9[Default: true]")
                             .define("checkpoint_flag_add_items", true);
-                            BUILDER.pop();
                     CHECKPOINT_FLAG_REMOVE_ITEMS = BUILDER.translation("configuration.marioverse.checkpoint_flag_remove_items")
                             .comment("Allow survival players to remove items using right-click.")
                             .comment("§9[Default: true]")
                             .define("checkpoint_flag_remove_items", true);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_DECORATED_POTS);
                     DISABLE_DECORATED_POT_TWEAKS = BUILDER.translation("configuration.marioverse.disable_decorated_pot_tweaks")
@@ -310,6 +327,17 @@ public class ConfigRegistry
                             .define("select_invisible_question", false);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_STAR_COINS);
+                STAR_COINS_COLLECTED_ON_COLLISION = BUILDER.translation("configuration.marioverse.star_coins_collected_on_collision")
+                        .comment("Star coins can be collected during collision.")
+                        .comment("§9[Default: true]")
+                        .define("star_coins_collected_on_collision", true);
+                STAR_COINS_COLLECTED_IN_CREATIVE = BUILDER.translation("configuration.marioverse.star_coins_collected_in_creative")
+                        .comment("Star coins can be collected by players in creative.")
+                        .comment("§9[Default: true]")
+                        .define("star_coins_collected_in_creative", true);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_WARP_DOORS);
                     DISABLE_WARP_DOORS = BUILDER.translation("configuration.marioverse.disable_warp_doors")
                             .comment("Disables the creation of warp doors.")
@@ -323,15 +351,15 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PAINTINGS);
-                DISABLE_WARP_PAINTINGS = BUILDER.translation("configuration.marioverse.disable_warp_paintings")
-                        .comment("Disables the creation of warp paintings.")
-                        .comment("§9[Default: false]")
-                        .define("disable_warp_paintings", false);
-                WARP_PAINTING_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_painting_cooldown")
-                        .comment("Cooldown between teleports in ticks.")
-                        .comment("§6[20 ticks = 1 second]")
-                        .comment("§9[Default: 100]§b")
-                        .defineInRange("warp_painting_cooldown", 100, 0, 72000);
+                    DISABLE_WARP_PAINTINGS = BUILDER.translation("configuration.marioverse.disable_warp_paintings")
+                            .comment("Disables the creation of warp paintings.")
+                            .comment("§9[Default: false]")
+                            .define("disable_warp_paintings", false);
+                    WARP_PAINTING_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_painting_cooldown")
+                            .comment("Cooldown between teleports in ticks.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 100]§b")
+                            .defineInRange("warp_painting_cooldown", 100, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);

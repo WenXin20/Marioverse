@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -99,8 +100,11 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
         if (entity instanceof KoopaShellEntity koopaShell && !(entity instanceof GoldKoopaShellEntity)
                 && koopaShell.getOwner() != null && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_COINS))
             CoinBlock.collectCoin(world, state, pos, koopaShell.getOwner(), coinItem);
-        else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS))
+        else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS) && ConfigRegistry.COINS_COLLECTED_ON_COLLISION.get()) {
+            if (entity instanceof Player player && player.isCreative() && !ConfigRegistry.COINS_COLLECTED_IN_CREATIVE.get())
+                return;
             CoinBlock.collectCoin(world, state, pos, entity, coinItem);
+        }
     }
 
     public static void collectCoin(Level world, BlockState state, BlockPos pos, Entity entity, ItemStack coinItem) {
