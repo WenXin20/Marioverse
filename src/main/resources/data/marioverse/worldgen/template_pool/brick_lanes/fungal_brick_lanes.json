@@ -3,7 +3,7 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 10,
+      "weight": 20,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/5x1_coins",
         "element_type": "minecraft:single_pool_element",
@@ -12,7 +12,7 @@
       }
     },
     {
-      "weight": 8,
+      "weight": 16,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/3x1_coins",
         "element_type": "minecraft:single_pool_element",
@@ -21,7 +21,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 10,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/5x1_coin_line",
         "element_type": "minecraft:single_pool_element",
@@ -30,7 +30,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 10,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/3x1_fungal_bricks",
         "element_type": "minecraft:single_pool_element",
@@ -39,7 +39,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 10,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/5x1_fungal_bricks",
         "element_type": "minecraft:single_pool_element",
@@ -48,7 +48,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 8,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/3x1_power_ups",
         "element_type": "minecraft:single_pool_element",
@@ -57,7 +57,7 @@
       }
     },
     {
-      "weight": 5,
+      "weight": 8,
       "element": {
         "location": "marioverse:brick_lanes/fungal_bricks/5x1_power_ups",
         "element_type": "minecraft:single_pool_element",
@@ -66,7 +66,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -75,7 +75,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -93,7 +93,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -102,7 +102,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -111,7 +111,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -120,7 +120,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -129,7 +129,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -138,7 +138,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -147,7 +147,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -156,7 +156,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
@@ -165,7 +165,7 @@
       }
     },
     {
-      "weight": 3,
+      "weight": 6,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
