@@ -448,7 +448,7 @@
   "item.marioverse.mario_ice_shirt": "Mario's Ice Shirt",
   "item.marioverse.mario_ice_shoes": "Mario's Ice Shoes",
   "item.marioverse.mario_costume.tooltip.line1": "§7Full Set Bonus:",
-  "item.marioverse.mario_costume.tooltip.line2": "§9+4 Jump Boost §7[+4]",
+  "item.marioverse.mario_costume.tooltip.line2": "§9+4 Jump Height §7[+4]",
 
   "item.marioverse.luigi_hat": "Luigi's Hat",
   "item.marioverse.luigi_pants": "Luigi's Pants",
@@ -463,7 +463,7 @@
   "item.marioverse.luigi_ice_shirt": "Luigi's Ice Shirt",
   "item.marioverse.luigi_ice_shoes": "Luigi's Ice Shoes",
   "item.marioverse.luigi_costume.tooltip.line1": "§7Full Set Bonus:",
-  "item.marioverse.luigi_costume.tooltip.line2": "§9+5 Jump Boost §7[+5]",
+  "item.marioverse.luigi_costume.tooltip.line2": "§9+5 Jump Height §7[+5]",
 
   "item.marioverse.peach_bodice": "Princess Peach's Bodice",
   "item.marioverse.peach_crown": "Princess Peach's Crown",
@@ -476,7 +476,7 @@
   "item.marioverse.peach_ice_shoes": "Princess Peach's Ice Shoes",
   "item.marioverse.peach_shoes": "Princess Peach's Shoes",
   "item.marioverse.peach_costume.tooltip.line1": "§7Full Set Bonus:",
-  "item.marioverse.peach_costume.tooltip.line2": "§9+3 Jump Boost §7[+3]",
+  "item.marioverse.peach_costume.tooltip.line2": "§9+3 Jump Height §7[+3]",
   "item.marioverse.peach_costume.tooltip.line3": "§970% Slow Fall §7[0.7x]",
 
   "item.marioverse.smithing_template.leather_armor.applies_to": "Leather Armor",
