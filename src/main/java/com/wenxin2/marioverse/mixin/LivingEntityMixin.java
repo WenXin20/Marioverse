@@ -725,6 +725,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
 
+            if (this.mv$hasPeachCostume(entity)) {
+                normalJumpBoost = 0.3;
+                runningJumpBoost = 0.4;
+            }
+
             if (this.mv$hasLuigiCostume(entity)) {
                 normalJumpBoost = 0.5;
                 runningJumpBoost = 0.6;

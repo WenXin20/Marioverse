@@ -290,13 +290,13 @@ public class LinkerItem extends TieredItem {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
         if (getIsBound(stack) && getWarpPos(stack) != null) {
-            list.add(Component.translatable("", true));
+            list.add(Component.literal(""));
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound",
                             getWarpPos(stack).getX(), getWarpPos(stack).getY(), getWarpPos(stack).getZ(), /*getWarpDimension(stack),*/ true)
                     .withStyle(ChatFormatting.GOLD));
         } else {
-            list.add(Component.translatable("", true));
+            list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.not_bound", true)
                     .withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
         }
