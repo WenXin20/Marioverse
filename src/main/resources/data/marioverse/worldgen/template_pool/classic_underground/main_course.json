@@ -7,7 +7,7 @@
       "element": {
         "location": "marioverse:classic_underground/main_course",
         "element_type": "minecraft:single_pool_element",
-        "processors": "marioverse:deepslate_tiles",
+        "processors": "marioverse:brick_decay",
         "projection": "rigid"
       }
     }
