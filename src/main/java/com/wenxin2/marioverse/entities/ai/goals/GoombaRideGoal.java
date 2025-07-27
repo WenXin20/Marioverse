@@ -15,6 +15,7 @@ public class GoombaRideGoal extends Goal {
     private int cooldown;
     private int rideDuration;
     private int maxRideDuration;
+    private int rideCooldown = 0;
 
     public GoombaRideGoal(GoombaEntity goomba, float chanceToRide) {
         this.goomba = goomba;
@@ -23,10 +24,16 @@ public class GoombaRideGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (rideCooldown > 0) {
+            rideCooldown--;
+            return false;
+        }
+
         if (!this.goomba.isPassenger() && this.goomba.getPassengers().isEmpty()
-                && !this.goomba.isVehicle() && !this.goomba.isInWaterOrBubble() && this.cooldown == 0) {
+                && !this.goomba.isVehicle() && !this.goomba.isInWaterOrBubble() && this.cooldown == 0 && this.rideCooldown == 0) {
             if (this.goomba.getRandom().nextFloat() < chanceToRide) {
                 Entity targetGoomba = findNearbyGoombaToRide();
+                rideCooldown = 200;
                 return targetGoomba != null && canRide(targetGoomba);
             }
         }
