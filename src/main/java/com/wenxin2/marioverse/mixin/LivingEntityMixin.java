@@ -92,6 +92,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique private boolean mv$playedDamagedSound;
+    @Unique private double mv$currentEyeHeightScale = 1.0;
+    @Unique private double mv$currentHeightScale = 1.0;
+    @Unique private double mv$currentWidthScale = 1.0;
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
@@ -99,7 +102,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasSuperMushroom;
-    @Unique private boolean mv$hasSuperMushroomBoost;
+    @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
@@ -135,12 +138,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
+        tag.putBoolean("marioverse:has_dash_mushroom_boost", this.mv$hasDashMushroomBoost());
         tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
         tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
         tag.putBoolean("marioverse:has_super_mushroom", this.mv$hasSuperMushroom());
-        tag.putBoolean("marioverse:has_mushroom_boost", this.mv$hasSuperMushroomBoost());
-        tag.putBoolean("marioverse:has_mushroom_override", this.mv$hasSuperMushroomOverride());
+        tag.putBoolean("marioverse:has_super_mushroom_override", this.mv$hasSuperMushroomOverride());
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
         tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
@@ -185,6 +188,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
+        this.mv$setDashMushroomBoost(tag.getBoolean("marioverse:has_dash_mushroom_boost"));
         this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
         this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
         this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
@@ -192,9 +196,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
+        this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_super_mushroom_override"));
         this.mv$setSuperMushroom(tag.getBoolean("marioverse:has_super_mushroom"));
-        this.mv$setMushroomBoost(tag.getBoolean("marioverse:has_mushroom_boost"));
-        this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_mushroom_override"));
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
         this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
 
@@ -294,7 +297,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !entity.isSpectator())
             this.mv$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
-        this.marioiverse$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
+        this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
         if (this.mv$getCheckpointFlagCooldown() > 0)
             this.mv$setCheckpointFlagCooldown(this.mv$getCheckpointFlagCooldown() - 1);
@@ -325,7 +328,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
             this.mv$playedStarTheme = false;
 
-        if (this.mv$hasSuperMushroomBoost())
+        if (this.mv$hasDashMushroomBoost())
             this.mv$boostEntityParticles(entity.getVehicle(), entity);
 
         float f5 = this.mv$getEyeHeightScale();
@@ -383,13 +386,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public boolean mv$hasSuperMushroomBoost() {
-        return this.mv$hasSuperMushroomBoost;
+    public boolean mv$hasDashMushroomBoost() {
+        return this.mv$hasDashMushroomBoost;
     }
 
     @Override
-    public void mv$setMushroomBoost(boolean hasSuperMushroomBoost) {
-        this.mv$hasSuperMushroomBoost = hasSuperMushroomBoost;
+    public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
+        this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
     }
 
     @Override
@@ -599,7 +602,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
                     ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10);
                 }
-            } else this.mv$setMushroomBoost(false);
+            } else this.mv$setDashMushroomBoost(false);
         } else if (speed >= minimumBoostSpeed) {
             if (entity.level().isClientSide) {
                 ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), entity, true, 5);
@@ -608,7 +611,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
                 ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 10);
             }
-        } else this.mv$setMushroomBoost(false);
+        } else this.mv$setDashMushroomBoost(false);
     }
 
     @Unique
@@ -686,7 +689,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private void marioiverse$shellHitQuestionBlock(Level world, BlockPos posNorth, LivingEntity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
+    private void mv$shellHitQuestionBlock(Level world, BlockPos posNorth, LivingEntity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
         if (world.getBlockEntity(posNorth) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
@@ -716,7 +719,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     private void mv$characterAbilities(LivingEntity entity) {
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
-        AttributeInstance gravityAttribute = entity.getAttribute(Attributes.GRAVITY);
 
         if (jumpAttribute != null) {
             double normalJumpBoost = 0.4;
@@ -918,9 +920,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         SoundSource soundSource = livingEntity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
-        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return;
-        } else {
+        if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             ItemStack stack = livingEntity.getOffhandItem();
 
             for (InteractionHand hand : InteractionHand.values()) {
@@ -1130,14 +1130,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void mv$rewardParticles(LivingEntity entity, ParticleOptions particleType) {
-        if (entity.level() instanceof ServerLevel serverWorld)
-            serverWorld.sendParticles(particleType, entity.getX(),
-                    entity.getY() + entity.getBbHeight() + 1.0,
-                    entity.getZ(), 1, 0, 1.0, 0, 0.5);
-    }
-
-    @Unique
     public float mv$getEyeHeightScale() {
         LivingEntity entity = (LivingEntity) (Object) this;
         AttributeMap attributemap = entity.getAttributes();
@@ -1213,14 +1205,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && (isPlayer && this.mv$hasSuperMushroomOverride() || isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
                 || (!isPlayer && this.mv$hasSuperMushroomOverride() || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
-        if (shouldShrink && currentEyeHeightScale != targetEyeHeightScale
-                && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+        if (shouldShrink && mv$currentEyeHeightScale != targetEyeHeightScale
+                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            mv$updateScale(eyeHeightScale, currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
-            mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
-            mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+            mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
+            mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
+            mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
 
             if (!mv$playedDamagedSound && !this.mv$hasSuperMushroomOverride()) {
                 mv$playedDamagedSound = true;
@@ -1229,21 +1221,17 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             }
         }
 
-        if (shouldReset && currentEyeHeightScale != targetEyeHeightScale
-                && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+        if (shouldReset && mv$currentEyeHeightScale != targetEyeHeightScale
+                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
             mv$playedDamagedSound = false;
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                mv$updateScale(eyeHeightScale, currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+                mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
             if (heightScale != null && heightScale.getValue() != 1.0D)
-                mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+                mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
             if (widthScale != null && widthScale.getValue() != 1.0D)
-                mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+                mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
         }
     }
-
-    private double currentEyeHeightScale = 1.0;
-    private double currentHeightScale = 1.0;
-    private double currentWidthScale = 1.0;
 
     @Unique
     private void mv$updateScale(AttributeInstance scaleAttribute, double currentScale, double targetScale, float scalingSpeed, Consumer<Double> setter) {
@@ -1268,26 +1256,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
     }
 
-
-    @Unique
-    public void mv$dropCoin(Level world, BlockPos pos, Entity entity) {
-        if (world.getBlockState(pos.above()).getBlock() instanceof CoinBlock) {
-            ItemStack coinItem = new ItemStack(world.getBlockState(pos.above()).getBlock());
-
-            this.level().broadcastEntityEvent(entity, (byte) 125); // Coin Glint particle
-            world.playSound(null, pos.above(), SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-            if (entity instanceof Player player) {
-                world.removeBlock(pos.above(), false);
-                player.getInventory().add(coinItem);
-
-                if (!player.getInventory().add(coinItem)) {
-                    player.drop(coinItem, false);
-                }
-            } else world.removeBlock(pos.above(), true);
-        }
-    }
-
     @Unique
     public void mv$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
         LivingEntity entity = (LivingEntity) (Object) this;
@@ -1299,8 +1267,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 mv$hitEntityAbove(pos, world, entity);
 
             if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-//                this.mv$dropCoin(world, pos, this);
-
                 BlockState stateAbove = world.getBlockState(pos.above());
                 ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
                 if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)

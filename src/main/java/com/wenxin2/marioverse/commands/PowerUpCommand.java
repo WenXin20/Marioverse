@@ -4,17 +4,13 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
-import com.mojang.brigadier.suggestion.Suggestions;
-import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import com.wenxin2.marioverse.items.MushroomItem;
+import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -30,13 +26,13 @@ import net.minecraft.world.entity.vehicle.VehicleEntity;
 
 public class PowerUpCommand {
 
-    private static final SuggestionProvider<CommandSourceStack> POWERUP_SUGGESTIONS = (context, builder) ->
-            suggestPowerUps(builder);
+//    private static final SuggestionProvider<CommandSourceStack> POWERUP_SUGGESTIONS = (context, builder) ->
+//            suggestPowerUps(builder);
 
-    private static CompletableFuture<Suggestions> suggestPowerUps(SuggestionsBuilder builder) {
-        return net.minecraft.commands.SharedSuggestionProvider.suggest(
-                List.of("fire_flower", "ice_flower", "super_mushroom", "super_star"), builder);
-    }
+//    private static CompletableFuture<Suggestions> suggestPowerUps(SuggestionsBuilder builder) {
+//        return net.minecraft.commands.SharedSuggestionProvider.suggest(
+//                List.of("fire_flower", "ice_flower", "super_mushroom", "super_star"), builder);
+//    }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("powerup")
@@ -71,14 +67,14 @@ public class PowerUpCommand {
                                         )
                                 )
                         )
-                        .then(Commands.literal("mushroom_boost")
+                        .then(Commands.literal("dash_mushroom")
                                 .then(Commands.argument("boostStrength", DoubleArgumentType.doubleArg(0.0, 50.0))
-                                        .executes(ctx -> applyMushroomBoost(ctx.getSource(),
+                                        .executes(ctx -> applyDashMushroom(ctx.getSource(),
                                                 EntityArgument.getEntities(ctx, "targets"),
                                                 DoubleArgumentType.getDouble(ctx, "boostStrength"))
                                         )
                                 )
-                                .executes(ctx -> applyMushroomBoost(ctx.getSource(),
+                                .executes(ctx -> applyDashMushroom(ctx.getSource(),
                                         EntityArgument.getEntities(ctx, "targets"), 1.0)
                                 )
                         )
@@ -181,14 +177,14 @@ public class PowerUpCommand {
         return count;
     }
 
-    private static int applyMushroomBoost(CommandSourceStack source, Collection<? extends Entity> targets, double boostStrength) {
+    private static int applyDashMushroom(CommandSourceStack source, Collection<? extends Entity> targets, double boostStrength) {
         int count = 0;
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
                 SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
-                handler.mv$setMushroomBoost(true);
-                MushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
+                handler.mv$setDashMushroomBoost(true);
+                DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
                 count++;
 
                 entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
@@ -196,9 +192,9 @@ public class PowerUpCommand {
                 if (count == 1) {
                     if (entity.getVehicle() != null)
                         source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.super_mushroom_boost", boostStrength, entity.getVehicle().getDisplayName()), true);
+                                Component.translatable("commands.marioverse.power_up.dash_mushroom", boostStrength, entity.getVehicle().getDisplayName()), true);
                      else source.sendSuccess(() ->
-                            Component.translatable("commands.marioverse.power_up.super_mushroom_boost", boostStrength, entity.getDisplayName()), true);
+                            Component.translatable("commands.marioverse.power_up.dash_mushroom", boostStrength, entity.getDisplayName()), true);
                 }
             } else if (entity instanceof VehicleEntity) {
                 source.sendSuccess(() ->
@@ -211,7 +207,7 @@ public class PowerUpCommand {
 
         if (finalCount > 1)
             source.sendSuccess(() ->
-                    Component.translatable("commands.marioverse.power_up.super_mushroom_boost.count", boostStrength, finalCount), true);
+                    Component.translatable("commands.marioverse.power_up.dash_mushroom.count", boostStrength, finalCount), true);
 
         return count;
     }

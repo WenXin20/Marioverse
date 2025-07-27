@@ -6,9 +6,9 @@ import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.CostumeItem;
+import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
-import com.wenxin2.marioverse.items.MushroomItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
@@ -38,6 +38,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
+    public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
@@ -79,7 +80,6 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MARIO_SHOES;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
-    public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PEACH_BODICE;
     public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
@@ -100,6 +100,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
+    public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
     public static final DeferredItem<Item> WRENCH;
@@ -119,7 +120,9 @@ public class ItemRegistry {
                         .durability(128), Tiers.IRON));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
-                () -> new MushroomItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().food(FoodRegistry.SUPER_MUSHROOM)));
+                () -> new BasePowerUpItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        DASH_MUSHROOM = registerItem("dash_mushroom",
+                () -> new DashMushroomItem(new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
                 () -> new OneUpMushroomItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",

@@ -112,7 +112,7 @@ public class MarioverseEventHandlers {
         if (!(entity instanceof LivingEntity)) return;
 
         if (entity instanceof AbilitiesHandler handler && !handler.mv$hasSuperMushroomOverride()) {
-            if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+            if (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()) {
                 if (entity instanceof Player player) {
                     if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
@@ -154,7 +154,7 @@ public class MarioverseEventHandlers {
                 if (mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
                     mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, OneUpMushroomEntity.class));
 
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
                     mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, MushroomEntity.class));
 
                 if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
@@ -182,7 +182,7 @@ public class MarioverseEventHandlers {
         Entity entity = event.getEntity();
 
         if (entity instanceof AbilitiesHandler handler
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())

@@ -30,8 +30,8 @@ public interface AbilitiesHandler {
     boolean mv$hasSuperMushroomOverride();
     void mv$setMushroomOverride(boolean hasSuperMushroomOverride);
 
-    boolean mv$hasSuperMushroomBoost();
-    void mv$setMushroomBoost(boolean hasSuperMushroom);
+    boolean mv$hasDashMushroomBoost();
+    void mv$setDashMushroomBoost(boolean hasSuperMushroom);
 
     boolean mv$hasMegaMushroom();
     void mv$setMegaMushroom(boolean hasSuperMushroom);
@@ -97,7 +97,7 @@ public interface AbilitiesHandler {
     default void applyMushroomPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 

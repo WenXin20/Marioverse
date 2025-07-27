@@ -141,8 +141,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_COLLECT_COINS = entityTypeTags("can_collect_coins");
     public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags("can_consume_fire_flowers");
     public static final TagKey<EntityType<?>> CAN_CONSUME_ICE_FLOWERS = entityTypeTags("can_consume_ice_flowers");
-    public static final TagKey<EntityType<?>> CAN_CONSUME_MUSHROOMS = entityTypeTags("can_consume_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_ONE_UPS = entityTypeTags("can_consume_one_ups");
+    public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_MUSHROOMS = entityTypeTags("can_consume_super_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
@@ -157,6 +157,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_WEAR_SHOES = entityTypeTags("can_wear_shoes");
     public static final TagKey<EntityType<?>> CHECKPOINT_FLAG_CANNOT_SPAWN = entityTypeTags("checkpoint_flag_cannot_spawn");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
+    public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
     public static final TagKey<EntityType<?>> EQUIP_COSTUMES_IN_ARMOR_SLOTS = entityTypeTags("equip_costumes_in_armor_slots");
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
@@ -183,7 +184,6 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
-    public static final TagKey<EntityType<?>> SUPER_MUSHROOM_CANNOT_BOOST = entityTypeTags("mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");

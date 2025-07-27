@@ -24,7 +24,7 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasSuperMushroom;
-    @Unique private boolean mv$hasSuperMushroomBoost;
+    @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
@@ -96,13 +96,13 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public boolean mv$hasSuperMushroomBoost() {
-        return this.mv$hasSuperMushroomBoost;
+    public boolean mv$hasDashMushroomBoost() {
+        return this.mv$hasDashMushroomBoost;
     }
 
     @Override
-    public void mv$setMushroomBoost(boolean hasSuperMushroomBoost) {
-        this.mv$hasSuperMushroomBoost = hasSuperMushroomBoost;
+    public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
+        this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
     }
 
     @Override

@@ -168,7 +168,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
                 .addOptional(TEST_DUMMY);
 
-        tag(TagRegistry.CAN_CONSUME_MUSHROOMS)
+        tag(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
@@ -472,7 +472,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(TEST_DUMMY);
 
-        tag(TagRegistry.SUPER_MUSHROOM_CANNOT_BOOST)
+        tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)

@@ -51,10 +51,11 @@ public class ConfigRegistry
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
 
+    public static final String CATEGORY_DASH_MUSHROOM = "dash_mushroom";
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_ICE_FLOWER = "ice_flower";
-    public static final String CATEGORY_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_ONE_UP = "one_up";
+    public static final String CATEGORY_SUPER_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_SUPER_STAR = "super_star";
 
     public static final String CATEGORY_HALLOWEEN = "halloween";
@@ -138,13 +139,13 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
+    public static ModConfigSpec.DoubleValue DASH_MUSHROOM_BOOST_STRENGTH;
+    public static ModConfigSpec.DoubleValue DASH_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
-    public static ModConfigSpec.DoubleValue SUPER_MUSHROOM_BOOST_STRENGTH;
-    public static ModConfigSpec.DoubleValue SUPER_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -152,6 +153,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
+    public static ModConfigSpec.DoubleValue SUPER_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
     public static ModConfigSpec.DoubleValue VEHICLE_MUSHROOM_BOOST_STRENGTH;
 
@@ -728,20 +730,26 @@ public class ConfigRegistry
                             .defineInRange("ice_cube_freeze_duration", 180, 0, 72000);
                 BUILDER.pop();
 
-                BUILDER.push(CATEGORY_MUSHROOM);
-                    SUPER_MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.super_mushroom_powers_all_mobs")
-                            .comment("Allow Mushrooms to power all mobs.")
-                            .comment("§9[Default: false]")
-                            .define("mushroom_powers_all_mobs", false);
-                    SUPER_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.super_mushroom_health_healed")
-                            .comment("Amount of health Mushrooms heals.§b")
-                            .defineInRange("mushroom_health_healed", 5.0F, 0.0F, 100.0F);
-                    SUPER_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.super_mushroom_boost_strength")
-                            .comment("Strength of Mushroom boost.§b")
-                            .defineInRange("mushroom_boost_strength", 4.0F, 1.0F, 50.0F);
+                BUILDER.push(CATEGORY_DASH_MUSHROOM);
+                    DASH_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.dash_mushroom_boost_strength")
+                            .comment("Strength of Dash Mushroom boost.§b")
+                            .defineInRange("dash_mushroom_boost_strength", 4.0F, 1.0F, 50.0F);
                     VEHICLE_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.vehicle_mushroom_boost_strength")
-                            .comment("Strength of Mushroom boost for vehicles.§b")
+                            .comment("Strength of Dash Mushroom boost for vehicles.§b")
                             .defineInRange("vehicle_mushroom_boost_strength", 3.0F, 1.0F, 50.0F);
+                    DASH_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.dash_mushroom_health_healed")
+                            .comment("Amount of health Dash Mushrooms heals.§b")
+                            .defineInRange("dash_mushroom_health_healed", 2.0F, 0.0F, 100.0F);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_SUPER_MUSHROOM);
+                    SUPER_MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.super_mushroom_powers_all_mobs")
+                            .comment("Allow Super Mushrooms to power all mobs.")
+                            .comment("§9[Default: false]")
+                            .define("super_mushroom_powers_all_mobs", false);
+                    SUPER_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.super_mushroom_health_healed")
+                            .comment("Amount of health Super Mushrooms heals.§b")
+                            .defineInRange("super_mushroom_health_healed", 5.0F, 0.0F, 100.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_ONE_UP);

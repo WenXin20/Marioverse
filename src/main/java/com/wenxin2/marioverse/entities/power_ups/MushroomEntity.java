@@ -86,14 +86,14 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
-            powerUp(this.level(), entity, this);
+            powerUp(this.level(), entity, this, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
         }
     }
 
-    public static void powerUp(Level world, Entity entity, @Nullable Entity mushroom) {
+    public static void powerUp(Level world, Entity entity, @Nullable Entity mushroom, float healthHealed) {
         if (entity instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (player.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                && (player.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
                 && player instanceof AbilitiesHandler handler) {
             handler.mv$setSuperMushroom(true);
@@ -102,7 +102,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
             if (!world.isClientSide) {
                 if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    player.heal(healthHealed);
                 if (mushroom != null) {
                     world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -112,7 +112,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
             }
         } else if (entity instanceof LivingEntity livingEntity
                 && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
+                && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
                 && entity instanceof AbilitiesHandler handler) {
             handler.mv$setSuperMushroom(true);
@@ -121,7 +121,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
             if (!world.isClientSide) {
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                    livingEntity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    livingEntity.heal(healthHealed);
                 if (mushroom != null) {
                     world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.NEUTRAL, 1.0F, 1.0F);

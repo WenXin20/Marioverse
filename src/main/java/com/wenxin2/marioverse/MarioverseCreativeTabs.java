@@ -47,6 +47,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.WARP_DISRUPTOR);
 
             add(event, ItemRegistry.SUPER_MUSHROOM);
+            add(event, ItemRegistry.DASH_MUSHROOM);
             add(event, ItemRegistry.ONE_UP_MUSHROOM);
             add(event, ItemRegistry.FIRE_FLOWER);
             add(event, ItemRegistry.ICE_FLOWER);
@@ -388,7 +389,8 @@ public class MarioverseCreativeTabs {
                 addBefore(event, Items.SHIELD, ItemRegistry.WRENCH);
 
                 addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.SUPER_MUSHROOM);
-                addAfter(event, ItemRegistry.SUPER_MUSHROOM, ItemRegistry.ONE_UP_MUSHROOM);
+                addAfter(event, ItemRegistry.SUPER_MUSHROOM, ItemRegistry.DASH_MUSHROOM);
+                addAfter(event, ItemRegistry.DASH_MUSHROOM, ItemRegistry.ONE_UP_MUSHROOM);
                 addAfter(event, ItemRegistry.ONE_UP_MUSHROOM, ItemRegistry.FIRE_FLOWER);
                 addAfter(event, ItemRegistry.FIRE_FLOWER, ItemRegistry.ICE_FLOWER);
                 addAfter(event, ItemRegistry.ICE_FLOWER, ItemRegistry.SUPER_STAR);
@@ -463,7 +465,7 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
-                addAfter(event, Items.PUFFERFISH, ItemRegistry.SUPER_MUSHROOM);
+                addAfter(event, Items.PUFFERFISH, ItemRegistry.DASH_MUSHROOM);
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
