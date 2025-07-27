@@ -74,11 +74,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
                 this.spawnPowerUpParticles(entity, serverWorld);
 
         if (entity.getHealth() < entity.getMaxHealth())
-            entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+            entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
 
         if (entity instanceof AbilitiesHandler handler) {
             handler.mv$clearAllPowerUps();
-            handler.mv$setMushroom(true);
+            handler.mv$setSuperMushroom(true);
             this.setHasPowerUp(entity, true);
         }
 

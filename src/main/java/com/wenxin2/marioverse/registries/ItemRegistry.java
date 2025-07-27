@@ -79,7 +79,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MARIO_SHOES;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
-    public static final DeferredItem<Item> MUSHROOM;
+    public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PEACH_BODICE;
     public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
@@ -118,8 +118,8 @@ public class ItemRegistry {
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
 
-        MUSHROOM = registerItem("mushroom",
-                () -> new MushroomItem(EntityRegistry.MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().food(FoodRegistry.MUSHROOM)));
+        SUPER_MUSHROOM = registerItem("super_mushroom",
+                () -> new MushroomItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().food(FoodRegistry.SUPER_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
                 () -> new OneUpMushroomItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",

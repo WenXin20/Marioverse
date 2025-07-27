@@ -38,7 +38,7 @@ public class MarioverseCreativeTabs {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_ITEMS_TAB = TABS.register("marioverse_items_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_items"))
-            .icon(() -> new ItemStack(ItemRegistry.MUSHROOM.get())).build());
+            .icon(() -> new ItemStack(ItemRegistry.SUPER_MUSHROOM.get())).build());
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -46,7 +46,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.WRENCH);
             add(event, ItemRegistry.WARP_DISRUPTOR);
 
-            add(event, ItemRegistry.MUSHROOM);
+            add(event, ItemRegistry.SUPER_MUSHROOM);
             add(event, ItemRegistry.ONE_UP_MUSHROOM);
             add(event, ItemRegistry.FIRE_FLOWER);
             add(event, ItemRegistry.ICE_FLOWER);
@@ -387,8 +387,8 @@ public class MarioverseCreativeTabs {
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
                 addBefore(event, Items.SHIELD, ItemRegistry.WRENCH);
 
-                addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.MUSHROOM);
-                addAfter(event, ItemRegistry.MUSHROOM, ItemRegistry.ONE_UP_MUSHROOM);
+                addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.SUPER_MUSHROOM);
+                addAfter(event, ItemRegistry.SUPER_MUSHROOM, ItemRegistry.ONE_UP_MUSHROOM);
                 addAfter(event, ItemRegistry.ONE_UP_MUSHROOM, ItemRegistry.FIRE_FLOWER);
                 addAfter(event, ItemRegistry.FIRE_FLOWER, ItemRegistry.ICE_FLOWER);
                 addAfter(event, ItemRegistry.ICE_FLOWER, ItemRegistry.SUPER_STAR);
@@ -463,7 +463,7 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
-                addAfter(event, Items.PUFFERFISH, ItemRegistry.MUSHROOM);
+                addAfter(event, Items.PUFFERFISH, ItemRegistry.SUPER_MUSHROOM);
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {

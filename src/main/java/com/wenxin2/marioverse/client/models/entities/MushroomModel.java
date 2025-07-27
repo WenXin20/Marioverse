@@ -8,7 +8,7 @@ import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 
 public class MushroomModel extends DefaultedEntityGeoModel<MushroomEntity> {
     public MushroomModel() {
-        super(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up/mushroom"));
+        super(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up/super_mushroom"));
     }
 
     @Override

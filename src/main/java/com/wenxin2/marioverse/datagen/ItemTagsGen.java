@@ -176,7 +176,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.POWER_UP_ITEMS)
                 .add(ItemRegistry.FIRE_FLOWER.get())
                 .add(ItemRegistry.ICE_FLOWER.get())
-                .add(ItemRegistry.MUSHROOM.get())
+                .add(ItemRegistry.SUPER_MUSHROOM.get())
                 .add(ItemRegistry.ONE_UP_MUSHROOM.get())
                 .add(ItemRegistry.SUPER_STAR.get());
 

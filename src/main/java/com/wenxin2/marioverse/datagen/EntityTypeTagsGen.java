@@ -472,7 +472,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(TEST_DUMMY);
 
-        tag(TagRegistry.MUSHROOM_CANNOT_BOOST)
+        tag(TagRegistry.SUPER_MUSHROOM_CANNOT_BOOST)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)
@@ -486,7 +486,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
                 .add(EntityRegistry.ICE_FLOWER.get())
-                .add(EntityRegistry.MUSHROOM.get())
+                .add(EntityRegistry.SUPER_MUSHROOM.get())
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());
 

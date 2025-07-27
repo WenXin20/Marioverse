@@ -11,21 +11,21 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_mushroom": {
-      "conditions": {
-        "items": [
-          {
-            "items": "marioverse:mushroom"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_smooth_stone_slab": {
       "conditions": {
         "items": [
           {
             "items": "minecraft:smooth_stone_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_super_mushroom": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:super_mushroom"
           }
         ]
       },
@@ -52,7 +52,7 @@
     [
       "has_the_recipe",
       "has_gold_ingot",
-      "has_mushroom",
+      "has_super_mushroom",
       "has_white_wool",
       "has_smooth_stone_slab"
     ]

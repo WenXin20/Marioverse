@@ -24,17 +24,17 @@ import org.jetbrains.annotations.NotNull;
 public interface AbilitiesHandler {
     void mv$clearAllPowerUps();
 
-    boolean mv$hasMushroom();
-    void mv$setMushroom(boolean hasMushroom);
+    boolean mv$hasSuperMushroom();
+    void mv$setSuperMushroom(boolean hasSuperMushroom);
 
-    boolean mv$hasMushroomOverride();
-    void mv$setMushroomOverride(boolean hasMushroomOverride);
+    boolean mv$hasSuperMushroomOverride();
+    void mv$setMushroomOverride(boolean hasSuperMushroomOverride);
 
-    boolean mv$hasMushroomBoost();
-    void mv$setMushroomBoost(boolean hasMushroom);
+    boolean mv$hasSuperMushroomBoost();
+    void mv$setMushroomBoost(boolean hasSuperMushroom);
 
     boolean mv$hasMegaMushroom();
-    void mv$setMegaMushroom(boolean hasMushroom);
+    void mv$setMegaMushroom(boolean hasSuperMushroom);
 
     boolean mv$hasFireFlower();
     void mv$setFireFlower(boolean hasFireFlower);
@@ -97,13 +97,13 @@ public interface AbilitiesHandler {
     default void applyMushroomPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
             if (!world.isClientSide) {
                 if (entity.getHealth() < entity.getMaxHealth())
-                    entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
                     world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
                             entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
@@ -163,9 +163,9 @@ public interface AbilitiesHandler {
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.FIRE_POWERED_UP.get(), serverWorld, entity, 10);
 
             if (entity.getHealth() < entity.getMaxHealth())
-                entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
             handler.mv$clearAllPowerUps();
-            handler.mv$setMushroom(true);
+            handler.mv$setSuperMushroom(true);
             handler.mv$setFireFlower(true);
             world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
@@ -185,9 +185,9 @@ public interface AbilitiesHandler {
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
 
             if (entity.getHealth() < entity.getMaxHealth())
-                entity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
             handler.mv$clearAllPowerUps();
-            handler.mv$setMushroom(true);
+            handler.mv$setSuperMushroom(true);
             handler.mv$setIceFlower(true);
             world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);

@@ -111,17 +111,17 @@ public class MarioverseEventHandlers {
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity)) return;
 
-        if (entity instanceof AbilitiesHandler handler && !handler.mv$hasMushroomOverride()) {
+        if (entity instanceof AbilitiesHandler handler && !handler.mv$hasSuperMushroomOverride()) {
             if (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get()) {
+                    || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()) {
                 if (entity instanceof Player player) {
                     if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                        handler.mv$setMushroom(true);
+                        handler.mv$setSuperMushroom(true);
                 } else if (entity instanceof LivingEntity livingEntity) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                        handler.mv$setMushroom(true);
+                        handler.mv$setSuperMushroom(true);
                 }
-            } else handler.mv$setMushroom(true);
+            } else handler.mv$setSuperMushroom(true);
         }
 
         if (entity instanceof Mob mob) {
@@ -154,7 +154,7 @@ public class MarioverseEventHandlers {
                 if (mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
                     mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, OneUpMushroomEntity.class));
 
-                if (mob.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                if (mob.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
                     mob.goalSelector.addGoal(3, new ChaseTargetGoal<>(mob, MushroomEntity.class));
 
                 if (mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
@@ -183,13 +183,13 @@ public class MarioverseEventHandlers {
 
         if (entity instanceof AbilitiesHandler handler
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())) {
+                    || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                    handler.mv$setMushroom(true);
+                    handler.mv$setSuperMushroom(true);
             } else if (entity instanceof LivingEntity livingEntity) {
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                    handler.mv$setMushroom(true);
+                    handler.mv$setSuperMushroom(true);
             }
         }
     }
@@ -227,7 +227,7 @@ public class MarioverseEventHandlers {
             }
 
             if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                handler.mv$setMushroom(false);
+                handler.mv$setSuperMushroom(false);
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
@@ -273,7 +273,7 @@ public class MarioverseEventHandlers {
             }
 
             if (healthAfterDamage <= threshold)
-                handler.mv$setMushroom(false);
+                handler.mv$setSuperMushroom(false);
 
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
@@ -584,7 +584,7 @@ public class MarioverseEventHandlers {
                         player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
                         if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
                                 && player instanceof AbilitiesHandler handler)
-                            handler.mv$setMushroom(false);
+                            handler.mv$setSuperMushroom(false);
                     }
 
                     if (world instanceof ServerLevel serverWorld)

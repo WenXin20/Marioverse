@@ -23,9 +23,9 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$hasFireFlower;
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
-    @Unique private boolean mv$hasMushroom;
-    @Unique private boolean mv$hasMushroomBoost;
-    @Unique private boolean mv$hasMushroomOverride;
+    @Unique private boolean mv$hasSuperMushroom;
+    @Unique private boolean mv$hasSuperMushroomBoost;
+    @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
@@ -76,33 +76,33 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public boolean mv$hasMushroom() {
-        return this.mv$hasMushroom;
+    public boolean mv$hasSuperMushroom() {
+        return this.mv$hasSuperMushroom;
     }
 
     @Override
-    public void mv$setMushroom(boolean hasMushroom) {
-        this.mv$hasMushroom = hasMushroom;
+    public void mv$setSuperMushroom(boolean hasSuperMushroom) {
+        this.mv$hasSuperMushroom = hasSuperMushroom;
     }
 
     @Override
-    public boolean mv$hasMushroomOverride() {
-        return this.mv$hasMushroomOverride;
+    public boolean mv$hasSuperMushroomOverride() {
+        return this.mv$hasSuperMushroomOverride;
     }
 
     @Override
-    public void mv$setMushroomOverride(boolean hasMushroomOverride) {
-        this.mv$hasMushroomOverride = hasMushroomOverride;
+    public void mv$setMushroomOverride(boolean hasSuperMushroomOverride) {
+        this.mv$hasSuperMushroomOverride = hasSuperMushroomOverride;
     }
 
     @Override
-    public boolean mv$hasMushroomBoost() {
-        return this.mv$hasMushroomBoost;
+    public boolean mv$hasSuperMushroomBoost() {
+        return this.mv$hasSuperMushroomBoost;
     }
 
     @Override
-    public void mv$setMushroomBoost(boolean hasMushroomBoost) {
-        this.mv$hasMushroomBoost = hasMushroomBoost;
+    public void mv$setMushroomBoost(boolean hasSuperMushroomBoost) {
+        this.mv$hasSuperMushroomBoost = hasSuperMushroomBoost;
     }
 
     @Override

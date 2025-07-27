@@ -9,7 +9,6 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import javax.annotation.Nullable;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +29,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.mushroom.walk");
+    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.super_mushroom.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MushroomEntity(EntityType<? extends MushroomEntity> entityType, Level world) {
@@ -95,15 +94,15 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
         if (entity instanceof Player player && !player.isSpectator()
                 && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (player.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                    || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
                 && player instanceof AbilitiesHandler handler) {
-            handler.mv$setMushroom(true);
+            handler.mv$setSuperMushroom(true);
             if (entity.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
 
             if (!world.isClientSide) {
                 if (player.getHealth() < player.getMaxHealth())
-                    player.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    player.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                 if (mushroom != null) {
                     world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -114,15 +113,15 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
         } else if (entity instanceof LivingEntity livingEntity
                 && !livingEntity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (livingEntity.getType().is(TagRegistry.CAN_CONSUME_MUSHROOMS)
-                    || ConfigRegistry.MUSHROOM_POWERS_ALL_MOBS.get())
+                    || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())
                 && entity instanceof AbilitiesHandler handler) {
-            handler.mv$setMushroom(true);
+            handler.mv$setSuperMushroom(true);
             if (entity.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
 
             if (!world.isClientSide) {
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
-                    livingEntity.heal(ConfigRegistry.MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    livingEntity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                 if (mushroom != null) {
                     world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
                             SoundSource.NEUTRAL, 1.0F, 1.0F);

@@ -103,7 +103,7 @@ public class RegistryEventHandlers {
         if (event.getType() == VillagerProfession.CLERIC) {
             trades.get(2).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 5),
-                    new ItemStack(ItemRegistry.MUSHROOM.get(), 1),
+                    new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
                     5, 16, 0.05F));
 
             trades.get(4).add((entity, random) -> new MerchantOffer(

@@ -531,7 +531,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
             if (savePowerUp) {
                 if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
-                    entityHandler.mv$setMushroom(handler.mv$hasMushroom());
+                    entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
                     entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
                     entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());

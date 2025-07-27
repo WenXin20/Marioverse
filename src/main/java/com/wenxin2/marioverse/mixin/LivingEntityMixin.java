@@ -98,9 +98,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasFireFlower;
     @Unique private boolean mv$hasIceFlower;
     @Unique private boolean mv$hasMegaMushroom;
-    @Unique private boolean mv$hasMushroom;
-    @Unique private boolean mv$hasMushroomBoost;
-    @Unique private boolean mv$hasMushroomOverride;
+    @Unique private boolean mv$hasSuperMushroom;
+    @Unique private boolean mv$hasSuperMushroomBoost;
+    @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
     @Unique private boolean mv$preventWarp;
@@ -138,9 +138,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
         tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
         tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
-        tag.putBoolean("marioverse:has_mushroom", this.mv$hasMushroom());
-        tag.putBoolean("marioverse:has_mushroom_boost", this.mv$hasMushroomBoost());
-        tag.putBoolean("marioverse:has_mushroom_override", this.mv$hasMushroomOverride());
+        tag.putBoolean("marioverse:has_super_mushroom", this.mv$hasSuperMushroom());
+        tag.putBoolean("marioverse:has_mushroom_boost", this.mv$hasSuperMushroomBoost());
+        tag.putBoolean("marioverse:has_mushroom_override", this.mv$hasSuperMushroomOverride());
         tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
         tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
@@ -192,7 +192,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
         this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
-        this.mv$setMushroom(tag.getBoolean("marioverse:has_mushroom"));
+        this.mv$setSuperMushroom(tag.getBoolean("marioverse:has_super_mushroom"));
         this.mv$setMushroomBoost(tag.getBoolean("marioverse:has_mushroom_boost"));
         this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_mushroom_override"));
         this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
@@ -325,7 +325,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
             this.mv$playedStarTheme = false;
 
-        if (this.mv$hasMushroomBoost())
+        if (this.mv$hasSuperMushroomBoost())
             this.mv$boostEntityParticles(entity.getVehicle(), entity);
 
         float f5 = this.mv$getEyeHeightScale();
@@ -363,33 +363,33 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public boolean mv$hasMushroom() {
-        return this.mv$hasMushroom;
+    public boolean mv$hasSuperMushroom() {
+        return this.mv$hasSuperMushroom;
     }
 
     @Override
-    public void mv$setMushroom(boolean hasMushroom) {
-        this.mv$hasMushroom = hasMushroom;
+    public void mv$setSuperMushroom(boolean hasSuperMushroom) {
+        this.mv$hasSuperMushroom = hasSuperMushroom;
     }
 
     @Override
-    public boolean mv$hasMushroomOverride() {
-        return this.mv$hasMushroomOverride;
+    public boolean mv$hasSuperMushroomOverride() {
+        return this.mv$hasSuperMushroomOverride;
     }
 
     @Override
-    public void mv$setMushroomOverride(boolean hasMushroomOverride) {
-        this.mv$hasMushroomOverride = hasMushroomOverride;
+    public void mv$setMushroomOverride(boolean hasSuperMushroomOverride) {
+        this.mv$hasSuperMushroomOverride = hasSuperMushroomOverride;
     }
 
     @Override
-    public boolean mv$hasMushroomBoost() {
-        return this.mv$hasMushroomBoost;
+    public boolean mv$hasSuperMushroomBoost() {
+        return this.mv$hasSuperMushroomBoost;
     }
 
     @Override
-    public void mv$setMushroomBoost(boolean hasMushroomBoost) {
-        this.mv$hasMushroomBoost = hasMushroomBoost;
+    public void mv$setMushroomBoost(boolean hasSuperMushroomBoost) {
+        this.mv$hasSuperMushroomBoost = hasSuperMushroomBoost;
     }
 
     @Override
@@ -1195,23 +1195,23 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMushroom = this.mv$hasMushroom();
+        boolean hasSuperMushroom = this.mv$hasSuperMushroom();
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasMushroom ? 1.0D : 0.5D;
-        double targetHeightScale = hasMushroom ? 1.0D : 0.5D;
-        double targetWidthScale = hasMushroom ? 1.0D : 0.75D;
+        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
+        double targetHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
+        double targetWidthScale = hasSuperMushroom ? 1.0D : 0.75D;
 
         boolean isPlayer = entity instanceof Player;
-        boolean shouldShrink = !hasMushroom
+        boolean shouldShrink = !hasSuperMushroom
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && (isPlayer && this.mv$hasMushroomOverride() || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (!isPlayer && this.mv$hasMushroomOverride() || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
+                && (isPlayer && this.mv$hasSuperMushroomOverride() || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && this.mv$hasSuperMushroomOverride() || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
 
-        boolean shouldReset = hasMushroom
-                && (isPlayer && this.mv$hasMushroomOverride() || isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
-                || (!isPlayer && this.mv$hasMushroomOverride() || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
+        boolean shouldReset = hasSuperMushroom
+                && (isPlayer && this.mv$hasSuperMushroomOverride() || isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get())
+                || (!isPlayer && this.mv$hasSuperMushroomOverride() || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get());
 
         if (shouldShrink && currentEyeHeightScale != targetEyeHeightScale
                 && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
@@ -1222,7 +1222,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             mv$updateScale(heightScale, currentHeightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
             mv$updateScale(widthScale, currentWidthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
 
-            if (!mv$playedDamagedSound && !this.mv$hasMushroomOverride()) {
+            if (!mv$playedDamagedSound && !this.mv$hasSuperMushroomOverride()) {
                 mv$playedDamagedSound = true;
                 SoundSource soundSource = isPlayer ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
@@ -1345,7 +1345,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         mv$hitEntityAbove(pos, world, entity);
 
-        if (this.mv$hasMushroom()) {
+        if (this.mv$hasSuperMushroom()) {
             if (state.getBlock() instanceof SlabBlock) {
                 if (state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE) {
                     world.setBlock(pos, state.setValue(SlabBlock.TYPE, SlabType.TOP), 3);

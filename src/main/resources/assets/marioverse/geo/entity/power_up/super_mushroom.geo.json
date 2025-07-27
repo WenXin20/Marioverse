@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.mushroom",
+				"identifier": "geometry.super_mushroom",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,

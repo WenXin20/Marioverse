@@ -16,7 +16,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "marioverse:mushroom",
+          "name": "marioverse:super_mushroom",
           "weight": 10
         }
       ],

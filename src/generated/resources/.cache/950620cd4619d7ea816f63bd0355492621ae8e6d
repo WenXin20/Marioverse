@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-07T00:05:30.7106897	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-07-26T20:15:18.4712186	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -56,7 +56,7 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/mega_g
 356b72e2f51a90488e678a398239976817b59b46 data/marioverse/tags/entity_type/mini_goomba_can_attach.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/mushroom_cannot_boost.json
 50768e6478d37311dc9295e26ad281a6817574c4 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
-60a987629818c49120e1b13b13c525dd41f740a1 data/marioverse/tags/entity_type/power_ups.json
+500c701bf75fe104b9c6ae696ad04e6856bbf8bc data/marioverse/tags/entity_type/power_ups.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json
 b195fab24da50552e1b21cfbb9f3781c40c7d874 data/marioverse/tags/entity_type/red_koopa_shell_can_instakill.json

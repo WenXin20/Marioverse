@@ -53,7 +53,7 @@ public class ConfigRegistry
 
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_ICE_FLOWER = "ice_flower";
-    public static final String CATEGORY_MUSHROOM = "mushroom";
+    public static final String CATEGORY_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_ONE_UP = "one_up";
     public static final String CATEGORY_SUPER_STAR = "super_star";
 
@@ -109,7 +109,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
-    public static ModConfigSpec.BooleanValue MUSHROOM_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_BUCKET_TWEAKS;
@@ -143,8 +143,8 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
-    public static ModConfigSpec.DoubleValue MUSHROOM_BOOST_STRENGTH;
-    public static ModConfigSpec.DoubleValue MUSHROOM_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue SUPER_MUSHROOM_BOOST_STRENGTH;
+    public static ModConfigSpec.DoubleValue SUPER_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -729,14 +729,14 @@ public class ConfigRegistry
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MUSHROOM);
-                    MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.mushroom_powers_all_mobs")
+                    SUPER_MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.super_mushroom_powers_all_mobs")
                             .comment("Allow Mushrooms to power all mobs.")
                             .comment("§9[Default: false]")
                             .define("mushroom_powers_all_mobs", false);
-                    MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.mushroom_health_healed")
+                    SUPER_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.super_mushroom_health_healed")
                             .comment("Amount of health Mushrooms heals.§b")
                             .defineInRange("mushroom_health_healed", 5.0F, 0.0F, 100.0F);
-                    MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.mushroom_boost_strength")
+                    SUPER_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.super_mushroom_boost_strength")
                             .comment("Strength of Mushroom boost.§b")
                             .defineInRange("mushroom_boost_strength", 4.0F, 1.0F, 50.0F);
                     VEHICLE_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.vehicle_mushroom_boost_strength")

@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-10T19:17:47.3008511	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-07-26T20:15:18.4871285	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -56,7 +56,7 @@ f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.j
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json
 7ae1dcab82f4705b715e9c0111ff0f0191a5ba16 data/marioverse/tags/item/pants/peach.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_food.json
-60a987629818c49120e1b13b13c525dd41f740a1 data/marioverse/tags/item/power_ups.json
+500c701bf75fe104b9c6ae696ad04e6856bbf8bc data/marioverse/tags/item/power_ups.json
 7dbc812f10646702924dac09d8eeaabc93143087 data/marioverse/tags/item/power_up_costumes.json
 b4d3d7dcd0b80ff27194ee3e0684e9bf48113a65 data/marioverse/tags/item/power_up_costumes/luigi.json
 3e76eec74f5b080ee624f712474677b0eb333b85 data/marioverse/tags/item/power_up_costumes/mario.json

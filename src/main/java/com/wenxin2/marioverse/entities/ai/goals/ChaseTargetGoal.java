@@ -37,7 +37,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
         this.target = findNearbyTarget();
 
         if (this.mob instanceof AbilitiesHandler handler) {
-            if (this.target instanceof MushroomEntity && !handler.mv$hasMushroom())
+            if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
                 return true;
             else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
                 return true;
@@ -87,7 +87,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
             this.mob.getNavigation().moveTo(this.target, 1.2);
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
-                if (this.target instanceof MushroomEntity && !handler.mv$hasMushroom())
+                if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
                     handler.applyMushroomPowerUp(world, this.mob);
                 else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
                     handler.applyFireFlowerPowerUp(world, this.mob);

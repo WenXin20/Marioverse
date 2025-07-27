@@ -50,7 +50,7 @@ public class EntityRegistry {
             MobCategory.AMBIENT, 0.6f, 0.6f);
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER = register("ice_flower", IceFlowerEntity::new,
             MobCategory.AMBIENT, 0.6f, 0.6f);
-    public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> MUSHROOM = register("mushroom", MushroomEntity::new,
+    public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> SUPER_MUSHROOM = register("super_mushroom", MushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
             MobCategory.AMBIENT, 0.8f, 0.8f);
@@ -174,7 +174,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
-        event.put(EntityRegistry.MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
 

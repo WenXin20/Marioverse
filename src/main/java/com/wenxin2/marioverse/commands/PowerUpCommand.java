@@ -35,7 +35,7 @@ public class PowerUpCommand {
 
     private static CompletableFuture<Suggestions> suggestPowerUps(SuggestionsBuilder builder) {
         return net.minecraft.commands.SharedSuggestionProvider.suggest(
-                List.of("fire_flower", "ice_flower", "mushroom", "super_star"), builder);
+                List.of("fire_flower", "ice_flower", "super_mushroom", "super_star"), builder);
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -56,8 +56,8 @@ public class PowerUpCommand {
                                                 "ice_flower", BoolArgumentType.getBool(ctx, "enablePowerUp")))
                                 )
                         )
-                        .then(Commands.literal("mushroom")
-                                .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "mushroom"))
+                        .then(Commands.literal("super_mushroom")
+                                .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "super_mushroom"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
                                         .then(Commands.argument("manualOverride", BoolArgumentType.bool())
                                                 .executes(ctx -> applyMushroom(ctx.getSource(),
@@ -157,7 +157,7 @@ public class PowerUpCommand {
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
                 SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
-                handler.mv$setMushroom(enablePowerUp);
+                handler.mv$setSuperMushroom(enablePowerUp);
                 handler.mv$setMushroomOverride(manualOverride);
                 count++;
 
@@ -167,7 +167,7 @@ public class PowerUpCommand {
 
                 if (count == 1)
                     source.sendSuccess(() ->
-                            Component.translatable("commands.marioverse.power_up.mushroom", powerUpBoolean, entity.getDisplayName()), true);
+                            Component.translatable("commands.marioverse.power_up.super_mushroom", powerUpBoolean, entity.getDisplayName()), true);
             } else source.sendSuccess(() ->
                     Component.translatable("commands.marioverse.power_up.fail"), true);
         }
@@ -176,7 +176,7 @@ public class PowerUpCommand {
 
         if (finalCount > 1)
             source.sendSuccess(() ->
-                    Component.translatable("commands.marioverse.power_up.mushroom.count", powerUpBoolean, finalCount), true);
+                    Component.translatable("commands.marioverse.power_up.super_mushroom.count", powerUpBoolean, finalCount), true);
 
         return count;
     }
@@ -196,9 +196,9 @@ public class PowerUpCommand {
                 if (count == 1) {
                     if (entity.getVehicle() != null)
                         source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mushroom_boost", boostStrength, entity.getVehicle().getDisplayName()), true);
+                                Component.translatable("commands.marioverse.power_up.super_mushroom_boost", boostStrength, entity.getVehicle().getDisplayName()), true);
                      else source.sendSuccess(() ->
-                            Component.translatable("commands.marioverse.power_up.mushroom_boost", boostStrength, entity.getDisplayName()), true);
+                            Component.translatable("commands.marioverse.power_up.super_mushroom_boost", boostStrength, entity.getDisplayName()), true);
                 }
             } else if (entity instanceof VehicleEntity) {
                 source.sendSuccess(() ->
@@ -211,7 +211,7 @@ public class PowerUpCommand {
 
         if (finalCount > 1)
             source.sendSuccess(() ->
-                    Component.translatable("commands.marioverse.power_up.mushroom_boost.count", boostStrength, finalCount), true);
+                    Component.translatable("commands.marioverse.power_up.super_mushroom_boost.count", boostStrength, finalCount), true);
 
         return count;
     }
@@ -273,7 +273,7 @@ public class PowerUpCommand {
                 boolean hasPowerUp = switch (powerUpName) {
                     case "fire_flower" -> handler.mv$hasFireFlower();
                     case "ice_flower" -> handler.mv$hasIceFlower();
-                    case "mushroom" -> handler.mv$hasMushroom();
+                    case "super_mushroom" -> handler.mv$hasSuperMushroom();
                     case "super_star" -> handler.mv$hasSuperStar();
                     default -> false;
                 };

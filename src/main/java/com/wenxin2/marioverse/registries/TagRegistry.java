@@ -183,7 +183,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
-    public static final TagKey<EntityType<?>> MUSHROOM_CANNOT_BOOST = entityTypeTags("mushroom_cannot_boost");
+    public static final TagKey<EntityType<?>> SUPER_MUSHROOM_CANNOT_BOOST = entityTypeTags("mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");

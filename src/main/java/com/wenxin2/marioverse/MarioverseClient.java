@@ -149,7 +149,7 @@ public class MarioverseClient {
 
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_FLOWER.get(), IceFlowerRenderer::new);
-        event.registerEntityRenderer(EntityRegistry.MUSHROOM.get(), MushroomRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SUPER_MUSHROOM.get(), MushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ONE_UP_MUSHROOM.get(), OneUpMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SUPER_STAR.get(), SuperStarRenderer::new);
 
