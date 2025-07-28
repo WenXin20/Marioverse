@@ -36,6 +36,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
 
+        tag(TagRegistry.BRITTLE)
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .add(BlockRegistry.STAR_COIN.get());
+
         tag(TagRegistry.COPYCAT_ALLOW)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
@@ -57,11 +61,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS);
 
-        tag(TagRegistry.SINGLE_BLOCK_INVENTORIES)
-                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
-                .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
-                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.QUESTION_BLOCKS);
+        tag(TagRegistry.SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
 
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
