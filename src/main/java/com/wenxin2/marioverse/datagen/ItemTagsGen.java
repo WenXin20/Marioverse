@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
@@ -18,6 +19,8 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagsGen extends ItemTagsProvider {
+    private static ResourceLocation SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
+
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, blockTagProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -118,6 +121,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(TagRegistry.CAN_SELECT_WATER_SPOUTS)
+                .add(Items.DEBUG_STICK)
+                .addOptional(SUPER_GLUE);
+
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
@@ -141,9 +148,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.BONE_MEAL);
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
+                .addTag(Tags.Items.DYES)
                 .addTag(TagRegistry.WARP_PIPE_ITEMS)
                 .add(ItemRegistry.WRENCH.get())
-                .add(ItemRegistry.WARP_DISRUPTOR.get());
+                .add(ItemRegistry.WARP_DISRUPTOR.get())
+                .add(Items.GLOW_INK_SAC)
+                .add(Items.INK_SAC);
 
         tag(TagRegistry.WRENCH_TOOLS)
                 .add(ItemRegistry.WRENCH.get());

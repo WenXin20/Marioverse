@@ -3,6 +3,7 @@
     "#marioverse:checkpoint_flags",
     "#marioverse:invisible_question_blocks",
     "marioverse:coin",
-    "marioverse:star_coin"
+    "marioverse:star_coin",
+    "marioverse:water_spout"
   ]
 }

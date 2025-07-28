@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -63,7 +64,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             if ((player.hasPermissions(1) && player.isCreative() && ConfigRegistry.DEBUG_WATER_SPOUT_SELECTION_BOX.get())
                     || (((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
                         && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
-                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem))) {
+                    || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_WATER_SPOUTS)))) {
                 if (state.getValue(TOP)) {
                     return SPOUT_TOP;
                 } else return SPOUT;

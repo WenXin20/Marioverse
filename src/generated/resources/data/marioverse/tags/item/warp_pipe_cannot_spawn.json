@@ -1,7 +1,10 @@
 {
   "values": [
+    "#c:dyes",
     "#marioverse:warp_pipes",
     "marioverse:wrench",
-    "marioverse:warp_disruptor"
+    "marioverse:warp_disruptor",
+    "minecraft:glow_ink_sac",
+    "minecraft:ink_sac"
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:debug_stick",
+    {
+      "id": "create:super_glue",
+      "required": false
+    }
+  ]
+}

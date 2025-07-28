@@ -49,11 +49,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.COIN.get())
-                .add(BlockRegistry.STAR_COIN.get());
+                .add(BlockRegistry.STAR_COIN.get())
+                .add(BlockRegistry.WATER_SPOUT.get());
 
         tag(TagRegistry.SAFE_NBT)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
-                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS);
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.GOAL_POLE_BLOCKS)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(TagRegistry.SIMPLE_MOUNTED_STORAGE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)

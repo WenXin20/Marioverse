@@ -24,6 +24,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_KOOPA_TROOPA_RARE = biomeTags("has_koopa_troopa_rare");
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
 
+    public static final TagKey<Block> BRITTLE = blockTags("create", "brittle");
     public static final TagKey<Block> COPYCAT_ALLOW = blockTags("create", "copycat_allow");
     public static final TagKey<Block> MOVABLE_EMPTY_COLLIDER = blockTags("create", "movable_empty_collider");
     public static final TagKey<Block> SAFE_NBT = blockTags("create", "safe_nbt");
@@ -77,6 +78,7 @@ public class TagRegistry {
 
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
+    public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
     public static final TagKey<Item> CANNOT_PLACE_IN_CHECKPOINT_FLAGS = itemTags("cannot_place_in_checkpoint_flags");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
