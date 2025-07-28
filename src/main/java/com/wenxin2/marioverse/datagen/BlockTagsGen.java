@@ -36,6 +36,33 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
 
+        tag(TagRegistry.COPYCAT_ALLOW)
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+
+        tag(TagRegistry.MOVABLE_EMPTY_COLLIDER)
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.STAR_COIN.get());
+
+        tag(TagRegistry.SAFE_NBT)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS);
+
+        tag(TagRegistry.SIMPLE_MOUNTED_STORAGE)
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.QUESTION_BLOCKS);
+
+        tag(TagRegistry.SINGLE_BLOCK_INVENTORIES)
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.QUESTION_BLOCKS);
+
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
