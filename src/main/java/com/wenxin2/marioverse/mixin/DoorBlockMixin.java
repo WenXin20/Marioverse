@@ -61,9 +61,6 @@ public class DoorBlockMixin implements EntityBlock {
                     doorBEBelow.setChanged();
                 }
             }
-
-
-
             doorBE.onLoad();
         }
     }

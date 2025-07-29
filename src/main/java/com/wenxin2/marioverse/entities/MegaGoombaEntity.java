@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -82,7 +81,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(4, new GoombaSleepGoal(this, 25, 2400, 6000));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.001F));
+        this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.01F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.MEGA_GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }

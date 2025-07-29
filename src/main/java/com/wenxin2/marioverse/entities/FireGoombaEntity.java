@@ -49,7 +49,7 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(5, new GoombaSleepGoal(this, 12, 2400, 6000));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(8, new GoombaRideGoal(this, 0.001F));
+        this.goalSelector.addGoal(8, new GoombaRideGoal(this, 0.01F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.FIRE_GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }

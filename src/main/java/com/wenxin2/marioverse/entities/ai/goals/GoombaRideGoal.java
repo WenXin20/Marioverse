@@ -33,9 +33,9 @@ public class GoombaRideGoal extends Goal {
                 && !this.goomba.isVehicle() && !this.goomba.isInWaterOrBubble() && this.cooldown == 0 && this.rideCooldown == 0) {
             if (this.goomba.getRandom().nextFloat() < chanceToRide) {
                 Entity targetGoomba = findNearbyGoombaToRide();
-                rideCooldown = 200;
-                return targetGoomba != null && canRide(targetGoomba);
-            }
+                rideCooldown = 1200;
+                return targetGoomba != null && this.canRide(targetGoomba);
+            } else rideCooldown = 1200;
         }
         return false;
     }
@@ -43,7 +43,7 @@ public class GoombaRideGoal extends Goal {
     @Override
     public void start() {
         Entity targetGoomba = findNearbyGoombaToRide();
-        if (targetGoomba != null && canRide(targetGoomba) && !this.goomba.isInWaterOrBubble()) {
+        if (targetGoomba != null && this.canRide(targetGoomba) && !this.goomba.isInWaterOrBubble()) {
             this.goomba.tryToRide();
             this.goomba.startRiding(targetGoomba, true);
             this.rideDuration = 0;
@@ -71,6 +71,7 @@ public class GoombaRideGoal extends Goal {
     @Override
     public void stop() {
         this.cooldown = 200;
+        this.rideCooldown = 1200;
         this.goomba.ride(false);
         this.goomba.stopRiding();
     }
