@@ -576,7 +576,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     ItemStack storedItem = flagBE.getTheItem();
 
                     if (!storedItem.isEmpty()) {
-                        this.spawnFromCheckpointFlag(world, respawnPos, storedItem, entity, true);
+                        CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, entity, true);
                         this.playSounds(world, respawnPos, storedItem);
                         flagBE.splitTheItem(1);
                     }
@@ -659,11 +659,11 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         return (state.isAir() || state.canBeReplaced() || state.is(this));
     }
 
-    public void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos) {
+    public static void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos) {
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
                 
-                this.spawnPowerUps(world, pos, stack, entityHitBlock, powerUpItem, dropItemsAtPos);
+                CheckpointFlagBlock.spawnPowerUps(world, pos, stack, entityHitBlock, powerUpItem, dropItemsAtPos);
             } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()) {
                 EntityType<?> entityType = pod.getType(stack);
 
@@ -676,7 +676,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     }
 
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()
                     && !(stack.getItem() instanceof BasePowerUpItem)) {
                 EntityType<?> entityType = spawnEgg.getType(stack);
@@ -689,7 +689,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                                 BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
                                 MobSpawnType.SPAWN_EGG, true, false);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof ArmorStandItem) {
                 Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
@@ -699,7 +699,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(armorStand);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof MinecartItem cart) {
                 AbstractMinecart abstractMinecart =
@@ -709,7 +709,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(abstractMinecart);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BoatItem boatItem) {
                 Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D)
@@ -720,7 +720,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     boat.setVariant(boatItem.type);
                     world.addFreshEntity(boat);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
                 PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
@@ -730,7 +730,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.addFreshEntity(primedtnt);
                     stack.copyWithCount(1);
                     serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
                     && entityHitBlock instanceof Player player) {
@@ -751,7 +751,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(windCharge);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof FireChargeItem) {
                 SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
@@ -761,7 +761,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(fireball);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof ThrowablePotionItem) {
                 ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
@@ -771,7 +771,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     potion.setItem(stack);
                     world.addFreshEntity(potion);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof ExperienceBottleItem) {
                 ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
@@ -781,7 +781,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     xpBottle.setItem(stack);
                     world.addFreshEntity(xpBottle);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof EndCrystalItem) {
                 EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
@@ -793,7 +793,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.addFreshEntity(endCrystal);
                     world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof FireworkRocketItem) {
                 FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
@@ -802,7 +802,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     firework.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(firework);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof EggItem) {
                 ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
@@ -812,27 +812,27 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     egg.setItem(stack);
                     world.addFreshEntity(egg);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
                     && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
                 if (bucket.content.isSame(Fluids.WATER)) {
                     if (bucket.emptyContents(null, world, pos, null, stack))
                         bucket.checkExtraContent(null, world, stack, pos);
-                    this.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+                    CheckpointFlagBlock.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (world.getBlockState(pos.above(3)).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(3), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above(3));
-                    this.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
+                    CheckpointFlagBlock.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
                 } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
-                    this.spawnItem(world, pos, stack, dropItemsAtPos);
+                    CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
                 if (world.getBlockState(pos.above(3)).canBeReplaced()) {
                     if (bucket.emptyContents(null, world, pos.above(3), null, stack))
                         bucket.checkExtraContent(null, world, stack, pos.above(3));
-                    this.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                    CheckpointFlagBlock.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
                 Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
@@ -841,7 +841,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
                 Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
@@ -854,7 +854,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                             world.random.triangle(0.0, 0.3)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
@@ -867,7 +867,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                             world.random.triangle(0.0, 0.2)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
@@ -882,7 +882,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     entity.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
                 Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
@@ -897,7 +897,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     entity.setDeltaMovement(new Vec3(0, -0.5, 0));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
                 Creeper entity = EntityType.CREEPER.create(serverWorld);
@@ -925,13 +925,13 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
-                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
-            } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+            } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
         }
     }
 
-    public void spawnItem(Level world, BlockPos pos, ItemStack stack, boolean dropItemsAtPos) {
+    public static void spawnItem(Level world, BlockPos pos, ItemStack stack, boolean dropItemsAtPos) {
         if (dropItemsAtPos) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
             world.addFreshEntity(itemEntity);
@@ -945,7 +945,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
     }
 
-    public void spawnPowerUps(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, BasePowerUpItem powerUpItem, boolean dropItemsAtPos) {
+    public static void spawnPowerUps(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, BasePowerUpItem powerUpItem, boolean dropItemsAtPos) {
         EntityType<?> entityType = powerUpItem.getType(stack);
 
         if (world instanceof ServerLevel serverWorld) {
@@ -969,7 +969,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     }
                 }
                 stack.copyWithCount(1);
-            } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+            } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
         }
     }
 
