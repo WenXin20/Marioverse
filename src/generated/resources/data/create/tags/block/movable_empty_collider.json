@@ -2,6 +2,7 @@
   "values": [
     "#marioverse:checkpoint_flags",
     "#marioverse:invisible_question_blocks",
+    "marioverse:clear_warp_pipe",
     "marioverse:coin",
     "marioverse:star_coin",
     "marioverse:water_spout"

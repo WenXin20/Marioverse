@@ -1,7 +1,7 @@
-// 1.21.1	2025-07-27T23:56:10.0834172	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-07-29T19:36:15.1896026	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
-67bb73f0ba2cd5e0c22fbb99648efbc603221e12 data/create/tags/block/movable_empty_collider.json
+36e6ce2c8a7d58ca987c4571e0f8ed63ab7275e0 data/create/tags/block/movable_empty_collider.json
 00bb39c3198e6bd8dd33609a66e9709e352ed95c data/create/tags/block/safe_nbt.json
 ecfeee518c416bd32efc627b1048c1423205f086 data/create/tags/block/simple_mounted_storage.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/create/tags/block/single_block_inventories.json

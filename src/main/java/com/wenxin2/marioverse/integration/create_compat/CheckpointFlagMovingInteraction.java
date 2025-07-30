@@ -24,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
+// Crashes on player collision with trains. Disabled for now
 public class CheckpointFlagMovingInteraction extends MovingInteractionBehaviour {
     @Override
     public void handleEntityCollision(Entity entity, BlockPos pos, AbstractContraptionEntity contraptionEntity) {
