@@ -380,7 +380,6 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         super.neighborChanged(state, world, pos, block, posNeighbor, b);
     }
 
-
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
@@ -399,44 +398,38 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         boolean facingWest = state.getValue(FACING) == Direction.WEST;
 
         if (facingUp) {
-            if (blockAbove == this) {
+            if (blockAbove == this)
                 return state.setValue(ENTRANCE, Boolean.FALSE);
-            }
             else return state.setValue(ENTRANCE, Boolean.TRUE);
         }
 
         if (facingDown) {
-            if (blockBelow == this) {
+            if (blockBelow == this)
                 return state.setValue(ENTRANCE, Boolean.FALSE);
-            }
             else return state.setValue(ENTRANCE, Boolean.TRUE);
         }
 
         if (facingNorth) {
-            if (blockNorth == this) {
+            if (blockNorth == this)
                 return state.setValue(ENTRANCE, Boolean.FALSE);
-            }
             else return state.setValue(ENTRANCE, Boolean.TRUE);
         }
 
         if (facingSouth) {
-            if (blockSouth == this) {
+            if (blockSouth == this)
                 return state.setValue(ENTRANCE, Boolean.FALSE);
-            }
             else return state.setValue(ENTRANCE, Boolean.TRUE);
         }
 
         if (facingEast) {
-            if (blockEast == this) {
+            if (blockEast == this)
                 return state.setValue(ENTRANCE, Boolean.FALSE);
-            }
             else return state.setValue(ENTRANCE, Boolean.TRUE);
         }
 
         if (facingWest) {
-            if (blockWest == this) {
+            if (blockWest == this)
                 return state.setValue(ENTRANCE, Boolean.FALSE);
-            }
             else return state.setValue(ENTRANCE, Boolean.TRUE);
         }
         return state.setValue(ENTRANCE, Boolean.FALSE);
@@ -444,39 +437,39 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
-        WarpPipeBlockEntity pipeBlockEntity = (WarpPipeBlockEntity) serverWorld.getBlockEntity(pos);
 
-        if (!serverWorld.isClientSide && pipeBlockEntity != null && pipeBlockEntity.getUUID() == null) {
-            UUID uuid = UUID.randomUUID();
-            pipeBlockEntity.setUUID(uuid);
-            pipeBlockEntity.setChanged();
-            BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
-        }
+        if (serverWorld.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE) {
+            if (!serverWorld.isClientSide && pipeBE.getUUID() == null) {
+                UUID uuid = UUID.randomUUID();
+                pipeBE.setUUID(uuid);
+                pipeBE.setChanged();
+                BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
+            }
 
-        if (state.getValue(WATER_SPOUT) && state.getValue(FACING) == Direction.UP && pipeBlockEntity != null
-                && serverWorld.dimension() != Level.NETHER) {
-            WaterSpoutBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBlockEntity.spoutHeight);
-            serverWorld.scheduleTick(pos, this, 3);
-        }
+            if (state.getValue(WATER_SPOUT) && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {
+                WaterSpoutBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.spoutHeight);
+                serverWorld.scheduleTick(pos, this, 3);
+            }
 
-        if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.UP && pipeBlockEntity != null) {
-            PipeBubblesBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBlockEntity.bubblesDistance);
-            serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.DOWN && pipeBlockEntity != null) {
-            PipeBubblesBlock.repeatColumnDown(serverWorld, pos.below(), state, pipeBlockEntity.bubblesDistance);
-            serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.NORTH && pipeBlockEntity != null) {
-            PipeBubblesBlock.repeatColumnNorth(serverWorld, pos.north(), state, pipeBlockEntity.bubblesDistance);
-            serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.SOUTH && pipeBlockEntity != null) {
-            PipeBubblesBlock.repeatColumnSouth(serverWorld, pos.south(), state, pipeBlockEntity.bubblesDistance);
-            serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.EAST && pipeBlockEntity != null) {
-            PipeBubblesBlock.repeatColumnEast(serverWorld, pos.east(), state, pipeBlockEntity.bubblesDistance);
-            serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.WEST && pipeBlockEntity != null) {
-            PipeBubblesBlock.repeatColumnWest(serverWorld, pos.west(), state, pipeBlockEntity.bubblesDistance);
-            serverWorld.scheduleTick(pos, this, 3);
+            if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.UP) {
+                PipeBubblesBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.bubblesDistance);
+                serverWorld.scheduleTick(pos, this, 3);
+            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.DOWN) {
+                PipeBubblesBlock.repeatColumnDown(serverWorld, pos.below(), state, pipeBE.bubblesDistance);
+                serverWorld.scheduleTick(pos, this, 3);
+            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.NORTH) {
+                PipeBubblesBlock.repeatColumnNorth(serverWorld, pos.north(), state, pipeBE.bubblesDistance);
+                serverWorld.scheduleTick(pos, this, 3);
+            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.SOUTH) {
+                PipeBubblesBlock.repeatColumnSouth(serverWorld, pos.south(), state, pipeBE.bubblesDistance);
+                serverWorld.scheduleTick(pos, this, 3);
+            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.EAST) {
+                PipeBubblesBlock.repeatColumnEast(serverWorld, pos.east(), state, pipeBE.bubblesDistance);
+                serverWorld.scheduleTick(pos, this, 3);
+            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.WEST) {
+                PipeBubblesBlock.repeatColumnWest(serverWorld, pos.west(), state, pipeBE.bubblesDistance);
+                serverWorld.scheduleTick(pos, this, 3);
+            }
         }
     }
 
@@ -490,79 +483,58 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         Block blockEast = world.getBlockState(pos.east()).getBlock();
         Block blockWest = world.getBlockState(pos.west()).getBlock();
 
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        BlockPos destinationPos = null;
-
-        if (!state.getValue(CLOSED) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE
-                && warpPipeBE.destinationPos != null) {
-            destinationPos = warpPipeBE.destinationPos;
-            world.scheduleTick(pos, this, 3);
-        }
-
         if (state.getValue(FACING) == Direction.UP) {
-            if (blockAbove == this) {
-                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE), 3);
-            }
-            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE), 3);
+            if (blockAbove == this)
+                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE),3);
+            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE),3);
 
-            if (blockAbove == Blocks.WATER) {
+            if (blockAbove == Blocks.WATER)
                 world.scheduleTick(pos, this, 3);
-            }
         }
 
         if (state.getValue(FACING) == Direction.DOWN) {
-            if (blockBelow == this) {
-                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE), 3);
-            }
-            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE), 3);
+            if (blockBelow == this)
+                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE),3);
+            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE),3);
 
-            if (blockBelow == Blocks.WATER) {
+            if (blockBelow == Blocks.WATER)
                 world.scheduleTick(pos, this, 3);
-            }
         }
 
         if (state.getValue(FACING) == Direction.NORTH) {
-            if (blockNorth == this) {
-                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE), 3);
-            }
-            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE), 3);
+            if (blockNorth == this)
+                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE),3);
+            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE),3);
 
-            if (blockNorth == Blocks.WATER) {
+            if (blockNorth == Blocks.WATER)
                 world.scheduleTick(pos, this, 3);
-            }
         }
 
         if (state.getValue(FACING) == Direction.SOUTH) {
-            if (blockSouth == this) {
-                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE), 3);
-            }
-            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE), 3);
+            if (blockSouth == this)
+                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE),3);
+            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE),3);
 
-            if (blockSouth == Blocks.WATER) {
+            if (blockSouth == Blocks.WATER)
                 world.scheduleTick(pos, this, 3);
-            }
         }
 
         if (state.getValue(FACING) == Direction.EAST) {
-            if (blockEast == this) {
-                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE), 3);
-            }
-            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE), 3);
+            if (blockEast == this)
+                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE),3);
+            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE),3);
 
-            if (blockEast == Blocks.WATER) {
+            if (blockEast == Blocks.WATER)
                 world.scheduleTick(pos, this, 3);
-            }
         }
 
         if (state.getValue(FACING) == Direction.WEST) {
-            if (blockWest == this) {
-                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE), 3);
-            }
-            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE), 3);
+            if (blockWest == this)
+                world.setBlock(pos, state.setValue(ENTRANCE, Boolean.FALSE),3);
+            else world.setBlock(pos, state.setValue(ENTRANCE, Boolean.TRUE),3);
 
-            if (blockWest == Blocks.WATER) {
+            if (blockWest == Blocks.WATER)
                 world.scheduleTick(pos, this, 3);
-            }
         }
     }
 

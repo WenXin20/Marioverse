@@ -40,7 +40,6 @@ import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -200,9 +199,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (!this.spawnItemStack.isEmpty())
             tag.put("SpawnItem", this.spawnItemStack.save(provider));
 
-        PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeText).resultOrPartial(LOGGER::error).ifPresent(pipeName -> {
-            tag.put(PIPE_NAME, pipeName);
-        });
+        PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeText).resultOrPartial(LOGGER::error)
+                .ifPresent(pipeName -> tag.put(PIPE_NAME, pipeName));
     }
 
     @Override
@@ -231,9 +229,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         else this.spawnItemStack = ItemStack.EMPTY;
 
         if (tag.contains(PIPE_NAME)) {
-            PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error).ifPresent(text -> {
-                this.pipeText = this.loadLines(text);
-            });
+            PipeText.DIRECT_CODEC.parse(NbtOps.INSTANCE, tag.getCompound(PIPE_NAME)).resultOrPartial(LOGGER::error)
+                    .ifPresent(text -> this.pipeText = this.loadLines(text));
         }
     }
 
@@ -269,7 +266,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     @Nullable
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new WarpPipeMenu(id, inventory, ContainerLevelAccess.create(this.level, this.getBlockPos()));
+        if (this.level != null)
+            return new WarpPipeMenu(id, inventory, ContainerLevelAccess.create(this.level, this.getBlockPos()));
+        else return null;
     }
 
     @Override
@@ -647,11 +646,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 this.playSound(this.level, menuPos, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 1.0F, 0.5F);
             }
         }
-    }    // Method to mark an entity as teleported
+    }
+
+    // Method to mark an entity as teleported
     public static void markEntityTeleported(Entity entity) {
-        if (entity != null) {
+        if (entity != null)
             teleportedEntities.put(entity.getId(), true);
-        }
     }
 
     public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state) {
@@ -782,10 +782,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         markEntityTeleported(entity);
         world.gameEvent(GameEvent.TELEPORT, warpPos, GameEvent.Context.of(entity));
         world.playSound(null, warpPos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
-    }
-
-    public void playSound(Level world, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
-        world.playSound(null, pos, soundEvent, source, volume, pitch);
     }
 
     public void sendData() {
