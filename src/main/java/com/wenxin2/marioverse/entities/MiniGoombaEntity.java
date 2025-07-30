@@ -194,6 +194,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
             for (Entity entity : entities) {
                 if (entity instanceof LivingEntity livingEntity && !this.isNoAi()
                         && !livingEntity.isSpectator()
+                        && (!this.isPassenger() && !(this.getVehicle() instanceof MiniGoombaEntity))
                         && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                         || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get())) {
                     if (this.stuckTo == null && this.isAlive())
