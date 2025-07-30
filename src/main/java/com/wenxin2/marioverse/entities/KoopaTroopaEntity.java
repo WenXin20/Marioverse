@@ -29,6 +29,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -57,6 +58,8 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -65,7 +68,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -386,31 +391,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-//        return checkAnyLightMonsterSpawnRules(entityType, serverWorld, spawnType, pos, random)
-//                && (MobSpawnType.isSpawner(spawnType) || serverWorld.canSeeSky(pos));
-//        boolean flag = MobSpawnType.ignoresLightRequirements(spawnType) || serverWorld.getRawBrightness(pos, 0) >= 0;
         return serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER /*&& flag*/;
-    } // TODO: Fix day spawning
-
-    protected static boolean isBrightEnoughToSpawn(BlockAndTintGetter tintGetter, BlockPos pos) {
-        return tintGetter.getRawBrightness(pos, 0) >= 0
-                || tintGetter.getBrightness(LightLayer.BLOCK, pos) >= 0
-                || tintGetter.getBrightness(LightLayer.SKY, pos) >= 0;
-    }
-
-    public static boolean isDarkEnoughToSpawn(ServerLevelAccessor serverWorld, BlockPos pos, RandomSource random) {
-        if (serverWorld.getBrightness(LightLayer.SKY, pos) > random.nextInt(32)) {
-            return false;
-        } else {
-            DimensionType dimensiontype = serverWorld.dimensionType();
-            int i = dimensiontype.monsterSpawnBlockLightLimit();
-            if (i < 15 && serverWorld.getBrightness(LightLayer.BLOCK, pos) > i) {
-                return false;
-            } else {
-                int j = serverWorld.getLevel().isThundering() ? serverWorld.getMaxLocalRawBrightness(pos, 10) : serverWorld.getMaxLocalRawBrightness(pos);
-                return j <= dimensiontype.monsterSpawnLightTest().sample(random);
-            }
-        }
     }
 
     @NotNull
