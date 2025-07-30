@@ -6,14 +6,14 @@ import net.minecraft.world.entity.ai.goal.Goal;
 
 public class GoombaSitGoal extends Goal {
     private final GoombaEntity goomba;
-    private final int chanceToSit;
+    private final float chanceToSit;
     private final int ticksBeforeSittingAgain;
     private final int ticksBeforeSleeping;
-    private final int ticksSitting;
+    private int ticksSitting;
     private int cooldown;
     private int sittingTime;
 
-    public GoombaSitGoal(GoombaEntity goomba, int chanceToSit, int ticksSitting, int ticksBeforeSittingAgain, int ticksBeforeSleeping) {
+    public GoombaSitGoal(GoombaEntity goomba, float chanceToSit, int ticksSitting, int ticksBeforeSittingAgain, int ticksBeforeSleeping) {
         this.goomba = goomba;
         this.chanceToSit = chanceToSit;
         this.ticksSitting = ticksSitting;
@@ -25,7 +25,10 @@ public class GoombaSitGoal extends Goal {
     @Override
     public boolean canUse() {
         if (this.cooldown == 0 && !this.goomba.isInWater() && !this.goomba.isSitting()) {
-            return this.goomba.getRandom().nextInt(this.chanceToSit) == 0;
+            if (this.goomba.getRandom().nextInt() < chanceToSit) {
+                this.cooldown = ticksBeforeSittingAgain;
+                return true;
+            } else this.cooldown = ticksBeforeSittingAgain / 2;
         }
         return false;
     }
@@ -39,26 +42,31 @@ public class GoombaSitGoal extends Goal {
     public void start() {
         this.goomba.tryToSit();
         this.sittingTime = 0;
-        this.cooldown = ticksBeforeSittingAgain;
     }
 
     @Override
     public void stop() {
-        this.goomba.sit(false);
-        this.cooldown = this.ticksBeforeSittingAgain;
+        if (this.ticksSitting == 0)
+            this.goomba.sit(false);
     }
 
     @Override
     public void tick() {
+        if (this.cooldown > 0) {
+            this.cooldown--;
+            this.goomba.getNavigation().stop();
+            this.goomba.setXxa(0.0F);
+            this.goomba.setSpeed(0.0F);
+        }
+
         if (this.sittingTime >= this.ticksSitting) {
             this.goomba.sit(false);
             this.goomba.sleep(false);
+            this.ticksSitting = 0;
         } else {
-//            this.goomba.checkForCollisionsAndWakeUp();
             this.sittingTime++;
-            if (this.sittingTime >= this.ticksBeforeSleeping) {
+            if (this.sittingTime >= this.ticksBeforeSleeping)
                 this.goomba.sleep(true);
-            }
         }
     }
 

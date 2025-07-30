@@ -225,10 +225,10 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.MINI_GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_KNOCKBACK, 0.0F)
-                .add(Attributes.ATTACK_SPEED, 0.0F)
-                .add(Attributes.FOLLOW_RANGE, 4.0F)
+                .add(Attributes.ATTACK_SPEED, 0.5F)
+                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.MOVEMENT_SPEED, 0.2F)
+                .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 12.0F).build());
     }
 

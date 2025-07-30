@@ -77,8 +77,8 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new GoombaSitGoal(this, 100, 1200, 3000, 300));
-        this.goalSelector.addGoal(4, new GoombaSleepGoal(this, 25, 2400, 6000));
+        this.goalSelector.addGoal(3, new GoombaSitGoal(this, 0.7F, 1200, 3000, 300));
+        this.goalSelector.addGoal(4, new GoombaSleepGoal(this, 0.25F, 2400, 6000));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.01F));

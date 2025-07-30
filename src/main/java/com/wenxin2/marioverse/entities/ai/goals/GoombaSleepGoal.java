@@ -6,12 +6,13 @@ import net.minecraft.world.entity.ai.goal.Goal;
 
 public class GoombaSleepGoal extends Goal {
     private final GoombaEntity goomba;
-    private final int chanceToSleep;
+    private final float chanceToSleep;
     private final int ticksBeforeSleepingAgain;
-    private final int ticksSleeping;
+    private int ticksSleeping;
     private int cooldown;
+    private int sleepingTime;
 
-    public GoombaSleepGoal(GoombaEntity goomba, int chanceToSleep, int ticksSleeping, int ticksBeforeSleepingAgain) {
+    public GoombaSleepGoal(GoombaEntity goomba, float chanceToSleep, int ticksSleeping, int ticksBeforeSleepingAgain) {
         this.goomba = goomba;
         this.ticksBeforeSleepingAgain = ticksBeforeSleepingAgain;
         this.ticksSleeping = ticksSleeping;
@@ -22,7 +23,10 @@ public class GoombaSleepGoal extends Goal {
     @Override
     public boolean canUse() {
         if (this.cooldown == 0 && !this.goomba.isInWater()) {
-            return this.goomba.getRandom().nextInt(this.chanceToSleep) == 0;
+            if (this.goomba.getRandom().nextInt() < this.chanceToSleep) {
+                this.cooldown = ticksBeforeSleepingAgain;
+                return true;
+            } else this.cooldown = ticksBeforeSleepingAgain / 2;
         }
         return false;
     }
@@ -36,20 +40,32 @@ public class GoombaSleepGoal extends Goal {
 
     @Override
     public void tick() {
+        if (this.cooldown > 0) {
+            this.cooldown--;
+            this.goomba.getNavigation().stop();
+            this.goomba.setXxa(0.0F);
+            this.goomba.setSpeed(0.0F);
+        }
+
         if (!this.goomba.isSleeping())
             this.goomba.tryToSleep();
         else this.goomba.checkForCollisionsAndWakeUp();
+
+        if (this.sleepingTime >= this.ticksSleeping) {
+            this.goomba.sit(false);
+            this.goomba.sleep(false);
+            this.ticksSleeping = 0;
+        } else this.sleepingTime++;
     }
 
     @Override
     public void start() {
         this.goomba.tryToSleep();
-        this.cooldown = this.goomba.getRandom().nextInt(ticksSleeping) + 100;
     }
 
     @Override
     public void stop() {
-        this.cooldown = this.goomba.getRandom().nextInt(ticksBeforeSleepingAgain);
-        this.goomba.sleep(false);
+        if (this.ticksSleeping == 0)
+            this.goomba.sleep(false);
     }
 }

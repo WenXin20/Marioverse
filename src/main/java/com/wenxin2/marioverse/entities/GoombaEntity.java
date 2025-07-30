@@ -174,8 +174,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new GoombaSitGoal(this, 100, 1200, 3000, 300));
-        this.goalSelector.addGoal(4, new GoombaSleepGoal(this, 25, 2400, 6000));
+        this.goalSelector.addGoal(3, new GoombaSitGoal(this, 0.7F, 1200, 3000, 300));
+        this.goalSelector.addGoal(4, new GoombaSleepGoal(this, 0.25F, 2400, 6000));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.01F));
@@ -197,7 +197,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if ((this.isSitting() || this.isPassenger()) && !this.isScared()) {
+        if ((this.isSitting() || (this.isPassenger() && !(this.getVehicle() instanceof LivingEntity))) && !this.isScared()) {
             event.setAndContinue(SIT_ANIM);
             return PlayState.CONTINUE;
         }
@@ -576,9 +576,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity collidingEntity : nearbyEntities) {
-                if ((!this.isSleeping() && !this.isSitting()) || collidingEntity instanceof GoombaEntity
+                if ((!this.isSleeping() && !this.isSitting())
                         || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
-                        || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0))
+                        || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0.1))
                     return;
 
                 if (collidingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
