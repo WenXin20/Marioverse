@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#minecraft:axes",
+    "#minecraft:hoes",
+    "#minecraft:pickaxes",
+    "#minecraft:shovels",
+    "marioverse:wrench",
+    "minecraft:debug_stick",
+    {
+      "id": "create:super_glue",
+      "required": false
+    }
+  ]
+}

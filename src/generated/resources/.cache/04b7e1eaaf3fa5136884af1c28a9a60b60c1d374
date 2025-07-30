@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-28T00:02:20.3654717	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-07-29T23:54:58.9848028	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -27,6 +27,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/item/stones.json
 71f02c52b2a85ffa699351a16ae466e2d870adc2 data/marioverse/tags/item/brick_pedestals.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_checkpoint_flags.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_question_blocks.json
+868d325aa0b04ec86490a14fe2681490d40bc02b data/marioverse/tags/item/can_select_clear_warp_pipes.json
 097ebe883ec7c85a67e8f927f2e5887c42dc4f31 data/marioverse/tags/item/can_select_water_spouts.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_flags.json
 88aca8ae7878dd2160595e5f9e1b2effe22b2ed1 data/marioverse/tags/item/costumes.json

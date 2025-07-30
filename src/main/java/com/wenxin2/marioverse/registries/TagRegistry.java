@@ -78,6 +78,7 @@ public class TagRegistry {
 
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
+    public static final TagKey<Item> CAN_SELECT_CLEAR_WARP_PIPES = itemTags("can_select_clear_warp_pipes");
     public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
     public static final TagKey<Item> CANNOT_PLACE_IN_CHECKPOINT_FLAGS = itemTags("cannot_place_in_checkpoint_flags");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");

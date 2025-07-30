@@ -198,9 +198,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
                     if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                             || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                            || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof LinkerItem
-                            || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
+                            || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
                             || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
                         shape = Shapes.or(shape, PIPE_ALL);
                     }
@@ -212,9 +211,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
                 if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                         || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                        || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof LinkerItem
-                        || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
+                        || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
                         || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
                     shape = Shapes.or(shape, PIPE_ALL);
                 }

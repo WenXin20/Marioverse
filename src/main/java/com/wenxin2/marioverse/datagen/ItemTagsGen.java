@@ -121,6 +121,15 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
+                .addTag(ItemTags.AXES)
+                .addTag(ItemTags.HOES)
+                .addTag(ItemTags.PICKAXES)
+                .addTag(ItemTags.SHOVELS)
+                .add(ItemRegistry.WRENCH.get())
+                .add(Items.DEBUG_STICK)
+                .addOptional(SUPER_GLUE);
+
         tag(TagRegistry.CAN_SELECT_WATER_SPOUTS)
                 .add(Items.DEBUG_STICK)
                 .addOptional(SUPER_GLUE);
