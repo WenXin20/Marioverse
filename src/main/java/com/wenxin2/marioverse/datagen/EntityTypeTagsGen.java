@@ -111,6 +111,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER);
 
+        tag(TagRegistry.CAN_COLLECT_STAR_COINS)
+                .add(EntityType.PIGLIN)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER);
+
         tag(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)

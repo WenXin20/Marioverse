@@ -57,7 +57,7 @@ public class CollectBlockGoal extends Goal {
         if (targetPos != null) {
             this.mob.getNavigation().moveTo(this.targetPos.getX(), this.targetPos.getY(), this.targetPos.getZ(), speedModifier);
 
-            if (mob.blockPosition().closerToCenterThan(Vec3.atCenterOf(targetPos), 1.2)) {
+            if (mob.blockPosition().closerToCenterThan(Vec3.atCenterOf(targetPos), mob.getBbWidth() + 1.2)) {
                 this.collectBlock();
                 targetPos = null;
             }
@@ -88,7 +88,7 @@ public class CollectBlockGoal extends Goal {
             else if (state.getBlock() instanceof CoinBlock)
                 CoinBlock.collectCoin(world, state, targetPos, mob, stack);
             else {
-                world.removeBlock(targetPos, false);
+                world.destroyBlock(targetPos, true);
                 mob.playSound(SoundEvents.ITEM_PICKUP, 0.8f, 1.0f);
 
                 if (mob instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty())

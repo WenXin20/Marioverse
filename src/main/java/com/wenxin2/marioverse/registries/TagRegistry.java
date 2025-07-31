@@ -148,6 +148,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_BONK_BLOCKS = entityTypeTags("can_bonk_blocks");
     public static final TagKey<EntityType<?>> CAN_CLAIM_CHECKPOINT_FLAGS = entityTypeTags("can_claim_checkpoint_flags");
     public static final TagKey<EntityType<?>> CAN_COLLECT_COINS = entityTypeTags("can_collect_coins");
+    public static final TagKey<EntityType<?>> CAN_COLLECT_STAR_COINS = entityTypeTags("can_collect_star_coins");
     public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags("can_consume_fire_flowers");
     public static final TagKey<EntityType<?>> CAN_CONSUME_ICE_FLOWERS = entityTypeTags("can_consume_ice_flowers");
     public static final TagKey<EntityType<?>> CAN_CONSUME_ONE_UPS = entityTypeTags("can_consume_one_ups");
