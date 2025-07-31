@@ -34,7 +34,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
 
     @Override
     public boolean canUse() {
-        this.target = findNearbyTarget();
+        this.target = this.findTarget();
 
         if (this.mob instanceof AbilitiesHandler handler) {
             if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
@@ -108,7 +108,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
         }
     }
 
-    private T findNearbyTarget() {
+    private T findTarget() {
         Level world = this.mob.level();
         AABB searchBox = this.mob.getBoundingBox().inflate(8.0);
 

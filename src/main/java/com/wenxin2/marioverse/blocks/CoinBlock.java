@@ -127,6 +127,9 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
         } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
             livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
             itemAdded = true;
+        } else if (entity instanceof LivingEntity livingEntity && livingEntity.getOffhandItem().isEmpty()) {
+            livingEntity.setItemInHand(InteractionHand.OFF_HAND, coinItem);
+            itemAdded = true;
         } else if (entity instanceof InventoryCarrier carrier) {
             SimpleContainer inventory = carrier.getInventory();
             for (int i = 0; i < inventory.getContainerSize(); i++) {

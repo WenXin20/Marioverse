@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
+import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
@@ -131,6 +132,11 @@ public class MarioverseEventHandlers {
 
             if (mob.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS))
                 mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
+
+            if (mob.getType().is(TagRegistry.CAN_COLLECT_COINS)) {
+                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.6F, state -> state.is(BlockRegistry.COIN)));
+                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.6F, state -> state.is(BlockRegistry.STAR_COIN)));
+            }
 
             if (!(mob instanceof KoopaShellEntity) && mob instanceof AbilitiesHandler) {
                 if (!(mob instanceof FireGoombaEntity)) {
