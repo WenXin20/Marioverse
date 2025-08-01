@@ -144,7 +144,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
-        if (this.getDeltaMovement().horizontalDistance() > 0) {
+        if (this.isSliding()) {
             event.setAndContinue(SPIN);
             return PlayState.CONTINUE;
         } else {
@@ -266,7 +266,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         if (!this.isNoAi()) {
-            if (motion.horizontalDistance() < 0.0001) {
+            if (motion.length() == 0) {
                 this.setSliding(false);
             } else if (!this.isSliding() && motion.horizontalDistance() > 0.0001) {
                 this.setSliding(true);
