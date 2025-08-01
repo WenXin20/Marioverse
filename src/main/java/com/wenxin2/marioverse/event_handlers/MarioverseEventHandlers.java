@@ -134,10 +134,12 @@ public class MarioverseEventHandlers {
                 mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
 
             if (mob.getType().is(TagRegistry.CAN_COLLECT_COINS))
-                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.6F, state -> state.is(BlockRegistry.COIN)));
+                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.6F,
+                        state -> state.is(BlockRegistry.COIN)));
 
             if (mob.getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
-                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.6F, state -> state.is(BlockRegistry.STAR_COIN)));
+                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.6F,
+                        state -> state.is(BlockRegistry.STAR_COIN)));
 
             if (!(mob instanceof KoopaShellEntity) && mob instanceof AbilitiesHandler) {
                 if (!(mob instanceof FireGoombaEntity)) {

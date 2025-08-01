@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
@@ -88,15 +89,19 @@ public class CollectBlockGoal extends Goal {
             else if (state.getBlock() instanceof CoinBlock)
                 CoinBlock.collectCoin(world, state, targetPos, mob, stack);
             else {
-                world.destroyBlock(targetPos, true);
-                mob.playSound(SoundEvents.ITEM_PICKUP, 0.8f, 1.0f);
+                world.destroyBlock(targetPos, false);
+                world.playSound(mob, targetPos, state.getBlock().asItem().getBreakingSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                if (mob instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty())
-                    livingEntity.setItemInHand(InteractionHand.MAIN_HAND, stack);
-                else if (mob instanceof LivingEntity livingEntity && livingEntity.getOffhandItem().isEmpty())
-                    livingEntity.setItemInHand(InteractionHand.OFF_HAND, stack);
-                else if (mob instanceof InventoryCarrier carrier) {
+                if (mob.getMainHandItem().isEmpty()) {
+                    mob.setItemInHand(InteractionHand.MAIN_HAND, stack);
+                    mob.swing(InteractionHand.MAIN_HAND);
+                } else if (mob.getOffhandItem().isEmpty()) {
+                    mob.setItemInHand(InteractionHand.OFF_HAND, stack);
+                    mob.swing(InteractionHand.OFF_HAND);
+                } else if (mob instanceof InventoryCarrier carrier) {
                     SimpleContainer inventory = carrier.getInventory();
+                    mob.swing(InteractionHand.MAIN_HAND);
+
                     for (int i = 0; i < inventory.getContainerSize(); i++) {
                         if (inventory.getItem(i).isEmpty()) {
                             inventory.setItem(i, stack);
@@ -104,6 +109,8 @@ public class CollectBlockGoal extends Goal {
                         }
                     }
                 } else if (mob instanceof Container container) {
+                    mob.swing(InteractionHand.MAIN_HAND);
+
                     for (int i = 0; i < container.getContainerSize(); i++) {
                         if (container.getItem(i).isEmpty()) {
                             container.setItem(i, stack);

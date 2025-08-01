@@ -126,12 +126,18 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
                 PiglinAi.angerNearbyPiglins(player, false);
         } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {
             livingEntity.setItemInHand(InteractionHand.MAIN_HAND, coinItem);
+            livingEntity.swing(InteractionHand.MAIN_HAND);
             itemAdded = true;
         } else if (entity instanceof LivingEntity livingEntity && livingEntity.getOffhandItem().isEmpty()) {
             livingEntity.setItemInHand(InteractionHand.OFF_HAND, coinItem);
+            livingEntity.swing(InteractionHand.OFF_HAND);
             itemAdded = true;
         } else if (entity instanceof InventoryCarrier carrier) {
             SimpleContainer inventory = carrier.getInventory();
+
+            if (entity instanceof LivingEntity livingEntity)
+                livingEntity.swing(InteractionHand.MAIN_HAND);
+
             for (int i = 0; i < inventory.getContainerSize(); i++) {
                 if (inventory.getItem(i).isEmpty()) {
                     inventory.setItem(i, coinItem);
@@ -140,6 +146,9 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
                 }
             }
         } else if (entity instanceof Container container) {
+            if (entity instanceof LivingEntity livingEntity)
+                livingEntity.swing(InteractionHand.MAIN_HAND);
+
             for (int i = 0; i < container.getContainerSize(); i++) {
                 if (container.getItem(i).isEmpty()) {
                     container.setItem(i, coinItem);
