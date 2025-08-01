@@ -6,6 +6,7 @@ import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
@@ -319,7 +320,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 ItemStack stack = warpPipeBE.getTheItem().copyWithCount(1);
 
                 warpPipeBE.spawnFromWarpPipe(world, pos, stack);
-                warpPipeBE.playSounds(world, pos, stack);
+                QuestionBlock.playSounds(world, pos, stack);
                 warpPipeBE.spawnItemDelay = 180;
             }
         }
@@ -1090,49 +1091,5 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         ItemEntity itemEntity = new ItemEntity(world, x, y, z, stack);
         itemEntity.setDeltaMovement(velocity);
         world.addFreshEntity(itemEntity);
-    }
-
-    public void playSounds(Level world, BlockPos pos, ItemStack stack) {
-        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof StarCoinBlock)
-            world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
-            world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock)
-            world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof ArmorStandItem)
-            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof BasePowerUpItem)
-            world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof BoatItem)
-            world.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof EggItem)
-            world.playSound(null, pos, SoundEvents.EGG_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof ExperienceBottleItem)
-            world.playSound(null, pos, SoundEvents.EXPERIENCE_BOTTLE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof FireChargeItem)
-            world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof LingeringPotionItem)
-            world.playSound(null, pos, SoundEvents.LINGERING_POTION_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof MinecartItem)
-            world.playSound(null, pos, SoundEvents.MINECART_RIDING, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof PotionItem)
-            world.playSound(null, pos, SoundEvents.SPLASH_POTION_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof SpawnEggItem)
-            world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof WindChargeItem)
-            world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()
-                || stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()
-                || stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get())
-            world.playSound(null, pos, CompatRegistry.BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
-            world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get())
-            world.playSound(null, pos, CompatRegistry.CONFETTI_POPPER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
-            world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get())
-            world.playSound(null, pos, CompatRegistry.ICE_BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (!stack.isEmpty()) world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

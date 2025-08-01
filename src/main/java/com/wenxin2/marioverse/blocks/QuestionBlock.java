@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -158,7 +159,7 @@ public class QuestionBlock extends BaseEntityBlock {
                     if (!world.isClientSide)
                         this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
-                    this.playSounds(world, pos, storedItem);
+                    QuestionBlock.playSounds(world, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
@@ -245,7 +246,7 @@ public class QuestionBlock extends BaseEntityBlock {
                     if (state.is(BlockTags.GUARDED_BY_PIGLINS))
                         PiglinAi.angerNearbyPiglins(player, false);
 
-                    this.playSounds(world, pos, storedItem);
+                    QuestionBlock.playSounds(world, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
@@ -764,7 +765,7 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    public void playSounds(Level world, BlockPos pos, ItemStack stack) {
+    public static void playSounds(Level world, BlockPos pos, ItemStack stack) {
         if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof StarCoinBlock)
             world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
@@ -773,7 +774,7 @@ public class QuestionBlock extends BaseEntityBlock {
             world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof ArmorStandItem)
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() instanceof BasePowerUpItem)
+        else if (stack.getItem() instanceof BasePowerUpItem || stack.getItem() instanceof DashMushroomItem)
             world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BoatItem)
             world.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, 1.0F);

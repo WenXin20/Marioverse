@@ -5,6 +5,7 @@ import com.simibubi.create.api.registry.SimpleRegistry;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -67,8 +68,8 @@ public class CheckpointFlagMovingInteraction extends MovingInteractionBehaviour 
 
                     if (!storedItem.isEmpty()) {
                         CheckpointFlagBlock.spawnFromCheckpointFlag(entity.level(), otherPos, storedItem, entity, true);
-                        if (state.getBlock() instanceof CheckpointFlagBlock flagBlock)
-                            flagBlock.playSounds(entity.level(), otherPos, storedItem);
+                        if (state.getBlock() instanceof CheckpointFlagBlock)
+                            QuestionBlock.playSounds(entity.level(), otherPos, storedItem);
                         flagBE.splitTheItem(1);
                     }
                 }

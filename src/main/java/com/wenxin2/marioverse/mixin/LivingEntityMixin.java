@@ -1284,7 +1284,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
-                questionBlock.playSounds(world, pos, storedItem);
+                QuestionBlock.playSounds(world, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();
             }

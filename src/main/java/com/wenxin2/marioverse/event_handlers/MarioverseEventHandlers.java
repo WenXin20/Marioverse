@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.event_handlers;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
@@ -609,7 +610,7 @@ public class MarioverseEventHandlers {
 
                     if (!storedItem.isEmpty()) {
                         CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true);
-                        flagBlock.playSounds(world, respawnPos, storedItem);
+                        QuestionBlock.playSounds(world, respawnPos, storedItem);
                         flagBE.splitTheItem(1);
                     }
                 }
