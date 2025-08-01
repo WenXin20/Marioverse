@@ -44,11 +44,11 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(0, new ShootBouncingFireballGoal(this, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
                 2, false));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(2, new GoombaSitGoal(this, 0.5F, 1200, 3000, 300));
-        this.goalSelector.addGoal(3, new GoombaSleepGoal(this, 0.15F, 2400, 6000));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new GoombaSitGoal(this, 0.1F, 1200, 3000, 300));
+        this.goalSelector.addGoal(6, new GoombaSleepGoal(this, 0.05F, 2400, 6000));
         this.goalSelector.addGoal(7, new GoombaRideGoal(this, 0.01F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.FIRE_GOOMBA_CAN_ATTACK, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());

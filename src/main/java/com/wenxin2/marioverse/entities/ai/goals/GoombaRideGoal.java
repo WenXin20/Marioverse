@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class GoombaRideGoal extends Goal {
     private final GoombaEntity goomba;
     private final float chanceToRide;
-    private int cooldown;
     private int rideDuration;
     private int maxRideDuration;
     private int rideCooldown = 0;
@@ -30,7 +29,7 @@ public class GoombaRideGoal extends Goal {
         }
 
         if (!this.goomba.isPassenger() && this.goomba.getPassengers().isEmpty()
-                && !this.goomba.isVehicle() && !this.goomba.isInWaterOrBubble() && this.cooldown == 0 && this.rideCooldown == 0) {
+                && !this.goomba.isVehicle() && !this.goomba.isInWaterOrBubble() && this.rideCooldown == 0) {
             if (this.goomba.getRandom().nextFloat() < chanceToRide) {
                 Entity targetGoomba = findNearbyGoombaToRide();
                 rideCooldown = 1200;
@@ -49,7 +48,6 @@ public class GoombaRideGoal extends Goal {
             this.rideDuration = 0;
             this.maxRideDuration = 1200 + this.goomba.getRandom().nextInt(1200);
         }
-        this.cooldown = 200 + this.goomba.getRandom().nextInt(400);
     }
 
     @Override
@@ -70,7 +68,6 @@ public class GoombaRideGoal extends Goal {
 
     @Override
     public void stop() {
-        this.cooldown = 200;
         this.rideCooldown = 1200;
         this.goomba.ride(false);
         this.goomba.stopRiding();

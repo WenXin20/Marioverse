@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import java.util.EnumSet;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 
 public class GoombaSleepGoal extends Goal {
     private final GoombaEntity goomba;
@@ -22,7 +23,10 @@ public class GoombaSleepGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.cooldown == 0 && !this.goomba.isInWater()) {
+        if (this.cooldown > 0 && !this.goomba.isSleeping())
+            this.cooldown--;
+
+        if (this.cooldown == 0 && !this.goomba.isInWater() && !this.goomba.isSleeping()) {
             if (this.goomba.getRandom().nextInt() < this.chanceToSleep) {
                 this.cooldown = ticksBeforeSleepingAgain;
                 return true;
@@ -33,29 +37,7 @@ public class GoombaSleepGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return !this.goomba.isInWater()
-                && this.goomba.getRandom().nextInt(ticksSleeping / 2) != 1;
-    }
-
-
-    @Override
-    public void tick() {
-        if (this.cooldown > 0) {
-            this.cooldown--;
-            this.goomba.getNavigation().stop();
-            this.goomba.setXxa(0.0F);
-            this.goomba.setSpeed(0.0F);
-        }
-
-        if (!this.goomba.isSleeping())
-            this.goomba.tryToSleep();
-        else this.goomba.checkForCollisionsAndWakeUp();
-
-        if (this.sleepingTime >= this.ticksSleeping) {
-            this.goomba.sit(false);
-            this.goomba.sleep(false);
-            this.ticksSleeping = 0;
-        } else this.sleepingTime++;
+        return !this.goomba.isInWater() && ticksSleeping > 0;
     }
 
     @Override
@@ -65,7 +47,24 @@ public class GoombaSleepGoal extends Goal {
 
     @Override
     public void stop() {
-        if (this.ticksSleeping == 0)
-            this.goomba.sleep(false);
+        this.cooldown = ticksBeforeSleepingAgain;
+        this.goomba.sleep(false);
+    }
+
+    @Override
+    public void tick() {
+        if (this.cooldown > 0) {
+            this.goomba.getNavigation().stop();
+            this.goomba.setXxa(0.0F);
+            this.goomba.setSpeed(0.0F);
+        }
+
+        if (!this.goomba.isSleeping())
+            this.goomba.tryToSleep();
+        else this.goomba.checkForCollisionsAndWakeUp();
+
+        if (this.sleepingTime >= this.ticksSleeping)
+            this.stop();
+        else this.sleepingTime++;
     }
 }

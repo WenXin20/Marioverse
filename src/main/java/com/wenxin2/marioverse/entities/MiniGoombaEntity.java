@@ -95,11 +95,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(1, new GoombaSitGoal(this, 0.7F, 1200, 3000, 300));
-        this.goalSelector.addGoal(2, new GoombaSleepGoal(this, 0.25F, 2400, 6000));
-        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new GoombaSitGoal(this, 0.25F, 1200, 3000, 300));
+        this.goalSelector.addGoal(5, new GoombaSleepGoal(this, 0.1F, 2400, 6000));
         this.goalSelector.addGoal(6, new GoombaRideGoal(this, 0.01F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.MINI_GOOMBA_CAN_ATTACH, true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());

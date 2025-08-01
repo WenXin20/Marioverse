@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import java.util.EnumSet;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 
 public class GoombaSitGoal extends Goal {
     private final GoombaEntity goomba;
@@ -24,6 +25,9 @@ public class GoombaSitGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (this.cooldown > 0 && !this.goomba.isSitting())
+            this.cooldown--;
+
         if (this.cooldown == 0 && !this.goomba.isInWater() && !this.goomba.isSitting()) {
             if (this.goomba.getRandom().nextInt() < chanceToSit) {
                 this.cooldown = ticksBeforeSittingAgain;
@@ -46,27 +50,26 @@ public class GoombaSitGoal extends Goal {
 
     @Override
     public void stop() {
-        if (this.ticksSitting == 0)
-            this.goomba.sit(false);
+        this.cooldown = ticksBeforeSittingAgain;
+        this.goomba.sit(false);
     }
 
     @Override
     public void tick() {
         if (this.cooldown > 0) {
-            this.cooldown--;
             this.goomba.getNavigation().stop();
             this.goomba.setXxa(0.0F);
             this.goomba.setSpeed(0.0F);
         }
 
-        if (this.sittingTime >= this.ticksSitting) {
-            this.goomba.sit(false);
-            this.goomba.sleep(false);
-            this.ticksSitting = 0;
-        } else {
+        if (this.sittingTime >= this.ticksSitting)
+            this.stop();
+        else {
             this.sittingTime++;
-            if (this.sittingTime >= this.ticksBeforeSleeping)
-                this.goomba.sleep(true);
+            if (this.sittingTime >= this.ticksBeforeSleeping) {
+                if (!this.goomba.isSleeping())
+                    this.goomba.tryToSleep();
+            }
         }
     }
 
