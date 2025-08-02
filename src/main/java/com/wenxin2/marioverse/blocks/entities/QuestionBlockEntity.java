@@ -43,7 +43,8 @@ public class QuestionBlockEntity extends BlockEntity implements RandomizableCont
 
     @Override
     public boolean isValidBlockState(BlockState state) {
-        return this.getType().isValid(state) || state.getBlock() instanceof InvisibleQuestionBlock
+        return this.getType().isValid(state) || state.getBlock() instanceof QuestionBlock
+                || state.getBlock() instanceof InvisibleQuestionBlock
                 || state.getBlock() instanceof StorageBrickBlock
                 || state.getBlock() instanceof WeatheringCopperQuestionBlock
                 || state.getBlock() instanceof WeatheringCopperInvisibleQuestionBlock

@@ -21,6 +21,9 @@
   "container.marioverse.checkpoint_flag.more": "and %s more...",
   "container.marioverse.checkpoint_flag.unknownContents": "???????",
 
+  "stone_type:minecraft.amethyst_block": "Amethyst",
+  "block_type.marioverse.question_bricks": "%s Question Bricks",
+
   "block.marioverse.warp_door": " Warp Door",
 
   "block.marioverse.coin": "Coin",

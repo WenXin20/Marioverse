@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.integration.StoneZoneCompat;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
@@ -79,6 +81,8 @@ public class Marioverse {
         AttributesRegistry.init();
         ConfigRegistry.register(container);
 
+        Marioverse.stoneZoneModule();
+
         if (dist.isClient()) {
             ConfigRegistry.registerClient(container);
             bus.addListener(MarioverseClient::clientSetup);
@@ -89,6 +93,18 @@ public class Marioverse {
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(RegistryEventHandlers::gatherData);
+    }
+
+    private static void stoneZoneModule() {
+        try {
+            if (ModList.get().isLoaded("stonezone")) {
+                StoneZoneCompat.init();
+            } else {
+                LOGGER.info("Stone Zone module is not loaded");
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to start Stone Zone module", e);
+        }
     }
 
     public static ResourceLocation id(String id) {
