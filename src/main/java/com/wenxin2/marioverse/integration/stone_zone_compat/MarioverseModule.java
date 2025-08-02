@@ -49,7 +49,6 @@ public class MarioverseModule extends StoneZoneModule {
                         BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
                         stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/invisible_stone_question_bricks"))
-                .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
