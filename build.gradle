@@ -53,7 +53,7 @@ dependencies {
     implementation "curse.maven:polytone-958094:6520025" // Requires Moonlight
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:stone-zone-1154622:6710522" // Requires Moonlight
+    implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight
     implementation "curse.maven:the-twilight-forest-227639:5699076"
     implementation "curse.maven:worldedit-225608:5830452"

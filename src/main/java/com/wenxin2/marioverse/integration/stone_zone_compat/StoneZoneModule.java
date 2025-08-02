@@ -29,6 +29,7 @@ public class StoneZoneModule extends SimpleModule {
         questionBlock = SimpleEntrySet.builder(StoneType.class, "question_bricks",
                         BlockRegistry.STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
                         stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
+                .excludeBlockTypes("minecraft", "amethyst_block")
                 .addTexture(modRes("block/empty_stone_question_bricks"))
                 .addTexture(modRes("block/stone_question_bricks"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
