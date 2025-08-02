@@ -67,7 +67,6 @@ public class MarioverseModule extends StoneZoneModule {
         questionBlock = StoneZoneEntrySet.builder(StoneType.class, "question_bricks",
                         BlockRegistry.STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
                         stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
-                .excludeBlockTypes("minecraft", "amethyst_block")
                 .addTexture(modRes("block/empty_stone_question_bricks"))
                 .addTexture(modRes("block/stone_question_bricks"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
@@ -87,14 +86,14 @@ public class MarioverseModule extends StoneZoneModule {
         this.addEntry(questionBlock);
 
         smashableBricks = StoneZoneEntrySet.builder(StoneType.class, "bricks", "smashable",
-                        BlockRegistry.SMASHABLE_STONE_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
+                        BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> StoneTypeRegistry.getValue("tuff"),
                         stoneType -> new Block(Utils.copyPropertySafe(stoneType.bricksOrStone())))
-                .addTexture(modRes("block/stone_question_bricks_overlay"))
+                .addTexture(modRes("block/smashable_tuff_bricks_overlay"))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCK_ITEMS, Registries.ITEM)
-                .addRecipe(modRes("smashable_stone_bricks_from_stone_stonecutting"))
-                .addRecipe(modRes("smashable_stone_bricks_stonecutting"))
+                .addRecipe(modRes("smashable_tuff_bricks_from_tuff_stonecutting"))
+                .addRecipe(modRes("smashable_tuff_bricks_stonecutting"))
                 .requiresChildren("bricks")
                 .setTabKey(tab)
                 .build();
