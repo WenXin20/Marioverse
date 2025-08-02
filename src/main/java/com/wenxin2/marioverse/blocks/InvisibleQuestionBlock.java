@@ -4,10 +4,13 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -23,6 +26,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -225,81 +229,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (nearestPlayer != null) {
             if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                     || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                if (state.getBlock() == BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_AMETHYST_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_BLACKSTONE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get()
-                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_COPPER_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_DEEPSLATE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_TILES.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_DEEPSLATE_TILE_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_END_STONE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get()
-                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_MOSSY_STONE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_MUD_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_NETHER_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get()
-                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_PRISMARINE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_PRISMARINE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_PURPUR_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_QUARTZ_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_QUARTZ_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_RED_NETHER_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_RED_SANDSTONE_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_RED_SANDSTONE_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_SANDSTONE_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_SANDSTONE_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_STONE_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_TUFF_BRICK_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else if (state.getBlock() == BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get()
-                        || state.getBlock() == BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
-                    world.addParticle(ParticleRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
-                else world.addParticle(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(),
-                            x + 0.5, y + 0.5, z + 0.5, 0.0, 0.0, 0.0);
+                world.addParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(), this.asItem().getDefaultInstance()),
+                        x + 0.5, y + 0.5, z + 0.5, 0, 0, 0);
             }
         }
     }

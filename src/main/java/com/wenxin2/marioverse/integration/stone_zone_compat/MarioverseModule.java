@@ -37,6 +37,8 @@ public class MarioverseModule extends StoneZoneModule {
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
+                .addRecipe(modRes("stone_brick_pedestal_from_stone_stonecutting"))
+                .addRecipe(modRes("stone_brick_pedestal_stonecutting"))
                 .requiresChildren("bricks")
                 .defaultRecipe()
                 .setTabKey(tab)
@@ -92,9 +94,9 @@ public class MarioverseModule extends StoneZoneModule {
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCK_ITEMS, Registries.ITEM)
-                .requiresChildren("bricks")
                 .addRecipe(modRes("smashable_stone_bricks_from_stone_stonecutting"))
                 .addRecipe(modRes("smashable_stone_bricks_stonecutting"))
+                .requiresChildren("bricks")
                 .setTabKey(tab)
                 .build();
         this.addEntry(smashableBricks);

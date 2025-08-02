@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
 import com.wenxin2.marioverse.client.particles.GravityParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
 import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
+import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
@@ -169,6 +170,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpecial(ParticleRegistry.NO_MOVEMENT_ITEM.get(), new NoMovementItemParticle.Provider());
         event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.EXCELLENT.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
@@ -182,30 +184,6 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.ICE_POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.ICE_STAR.get(), GlowingSuspendedTownParticle.GlowingProvider::new);
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_AMETHYST_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_BLACKSTONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEPSLATE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEPSLATE_TILE_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_END_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_FUNGAL_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_MOSSY_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_MUD_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_NETHER_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_PRISMARINE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_PURPUR_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_QUARTZ_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_RED_NETHER_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_RED_SANDSTONE_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_SANDSTONE_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_STONE_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_TUFF_BRICK_QUESTION.get(), NoMovementParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION.get(), NoMovementParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);

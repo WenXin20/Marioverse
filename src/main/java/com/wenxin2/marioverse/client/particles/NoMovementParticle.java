@@ -1,19 +1,22 @@
 package com.wenxin2.marioverse.client.particles;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.BreakingItemParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class NoMovementParticle extends TextureSheetParticle {
-    public NoMovementParticle(ClientLevel level, double x, double y, double z) {
-        super(level, x, y, z);
+    public NoMovementParticle(ClientLevel world, double x, double y, double z) {
+        super(world, x, y, z);
         this.gravity = 0.0F;
         this.lifetime = 80;
         this.hasPhysics = false;
@@ -28,7 +31,7 @@ public class NoMovementParticle extends TextureSheetParticle {
     }
 
     @Override
-    public float getQuadSize(float p_194274_) {
+    public float getQuadSize(float partialTicks) {
         return 0.5F;
     }
 
@@ -41,7 +44,7 @@ public class NoMovementParticle extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z,
-                                       double xd, double yd, double zd) {
+                                       double dx, double dy, double dz) {
             NoMovementParticle particle = new NoMovementParticle(level, x, y, z);
             particle.pickSprite(spriteSet);
             return particle;
