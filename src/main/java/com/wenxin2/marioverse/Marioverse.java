@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
+import com.wenxin2.marioverse.loot.AddItemsModifier;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -16,8 +17,8 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +51,7 @@ public class Marioverse {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<GameEvent> GAME_EVENTS = DeferredRegister.create(Registries.GAME_EVENT, Marioverse.MOD_ID);
-    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_CODECS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Marioverse.MOD_ID);
+    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Marioverse.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
@@ -67,7 +68,7 @@ public class Marioverse {
         PARTICLES.register(bus);
         MENUS.register(bus);
         SOUNDS.register(bus);
-        LOOT_CODECS.register(bus);
+        GLOBAL_LOOT_MODIFIERS.register(bus);
         MarioverseCreativeTabs.TABS.register(bus);
 
         BlockRegistry.init();
