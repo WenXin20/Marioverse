@@ -17,7 +17,7 @@ public class DataMapGen extends DataMapProvider {
     }
 
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
                 .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);
 
