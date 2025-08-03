@@ -87,6 +87,6 @@ side="CLIENT"
 [[dependencies.marioverse]]
 modId="stonezone"
 type="optional"
-versionRange="[2.10.7,)"
+versionRange="[1.21-2.10.7,)"
 ordering="AFTER"
-side="CLIENT"
+side="BOTH"
