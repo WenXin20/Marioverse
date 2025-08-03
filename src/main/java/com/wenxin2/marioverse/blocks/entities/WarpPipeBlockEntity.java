@@ -4,10 +4,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
-import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
-import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -18,7 +16,6 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.world.PipeSpawner;
 import java.util.HashMap;
@@ -79,10 +76,7 @@ import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.LingeringPotionItem;
 import net.minecraft.world.item.MinecartItem;
-import net.minecraft.world.item.PotionItem;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
@@ -166,6 +160,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     public WarpPipeBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(), pos, state);
+    }
+
+    @Override
+    public boolean isValidBlockState(BlockState state) {
+        return this.getType().isValid(state) || state.getBlock() instanceof WarpPipeBlock;
     }
 
     public WarpPipeBlockEntity(final BlockEntityType<?> tileEntity, BlockPos pos, BlockState state) {
