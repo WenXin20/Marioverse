@@ -27,9 +27,8 @@ public abstract class LivingEntityClientMixin extends Entity {
         LivingEntity livingEntity = (LivingEntity)(Object)this;
         if (id == 127) {
             if (this.level().isClientSide) {
-                if (livingEntity instanceof Player player) {
+                if (livingEntity instanceof Player player)
                     Minecraft.getInstance().gameRenderer.displayItemActivation(mv$find1Up(player));
-                }
             }
         } else super.handleEntityEvent(id);
     }
@@ -38,9 +37,8 @@ public abstract class LivingEntityClientMixin extends Entity {
     private static ItemStack mv$find1Up(Player player) {
         for (InteractionHand interactionhand : InteractionHand.values()) {
             ItemStack stack = player.getItemInHand(interactionhand);
-            if (stack.getItem() instanceof OneUpMushroomItem) {
+            if (stack.getItem() instanceof OneUpMushroomItem)
                 return stack;
-            }
         }
 
         return new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get());
