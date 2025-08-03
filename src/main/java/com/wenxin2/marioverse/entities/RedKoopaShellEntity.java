@@ -65,7 +65,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     }
 
     @Override
-    public TagKey<EntityType<?>> getInstakillEntityTag() {
+    public TagKey<EntityType<?>> getInstaKillEntityTag() {
         return TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL;
     }
 

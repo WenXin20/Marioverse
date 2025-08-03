@@ -494,7 +494,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return new KoopaTroopaEntity(EntityRegistry.GREEN_KOOPA_TROOPA.get(), this.level());
     }
 
-    public TagKey<EntityType<?>> getInstakillEntityTag() {
+    public TagKey<EntityType<?>> getInstaKillEntityTag() {
         return TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL;
     }
 
@@ -623,7 +623,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
                     for (Entity rider : vehicle.getPassengers()) {
                         if (rider instanceof LivingEntity livingEntity && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE)) {
-                            float shellDamage = livingEntity.getType().is(this.getInstakillEntityTag())
+                            float shellDamage = livingEntity.getType().is(this.getInstaKillEntityTag())
                                     ? livingEntity.getHealth() * 1.25F : this.getShellDamage();
 
                             if (this.getOwner() != null)
@@ -692,7 +692,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 return;
             }
 
-            float shellDamage = entity.getType().is(this.getInstakillEntityTag())
+            float shellDamage = entity.getType().is(this.getInstaKillEntityTag())
                     ? entity.getHealth() * 1.25F : this.getShellDamage();
 
             if (this.getOwner() != null)
@@ -708,8 +708,10 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
             }
 
-            this.playDeathAnimation(this);
-            this.discard();
+            if (!entity.getType().is(getInstaKillEntityTag())) {
+                this.playDeathAnimation(this);
+                this.discard();
+            }
         }
     }
 

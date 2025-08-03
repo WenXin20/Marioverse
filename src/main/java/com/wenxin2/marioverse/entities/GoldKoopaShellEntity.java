@@ -89,7 +89,7 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     }
 
     @Override
-    public TagKey<EntityType<?>> getInstakillEntityTag() {
+    public TagKey<EntityType<?>> getInstaKillEntityTag() {
         return TagRegistry.GOLD_KOOPA_SHELL_CAN_INSTAKILL;
     }
 
