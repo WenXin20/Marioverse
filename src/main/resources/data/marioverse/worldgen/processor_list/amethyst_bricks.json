@@ -1,0 +1,74 @@
+{
+  "processors": [
+    {
+      "processor_type": "minecraft:rule",
+      "rules": [
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "marioverse:amethyst_bricks",
+            "probability": 0.2
+          },
+          "output_state": {
+            "Name": "marioverse:cracked_amethyst_bricks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecraft:amethyst_block",
+            "probability": 0.1
+          },
+          "output_state": {
+            "Name": "minecraft:budding_amethyst"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecraft:amethyst_block",
+            "probability": 0.1
+          },
+          "output_state": {
+            "Name": "marioverse:polished_amethyst"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecraft:amethyst_block",
+            "probability": 0.1
+          },
+          "output_state": {
+            "Name": "marioverse:amethyst_bricks"
+          }
+        },
+        {
+          "location_predicate": {
+            "predicate_type": "minecraft:always_true"
+          },
+          "input_predicate": {
+            "predicate_type": "minecraft:random_block_match",
+            "block": "minecraft:amethyst_block",
+            "probability": 0.05
+          },
+          "output_state": {
+            "Name": "marioverse:cracked_amethyst_bricks"
+          }
+        }
+      ]
+    }
+  ]
+}
