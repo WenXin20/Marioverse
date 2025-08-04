@@ -31,9 +31,10 @@ public class MudModule extends StoneZoneModule {
         super(modId, shortId);
         ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
 
-        brickPedestal = StoneZoneEntrySet.builder(MudType.class, "brick_pedestal",
-                        BlockRegistry.MUD_BRICK_PEDESTAL, () -> MudTypeRegistry.MUD_TYPE,
+        brickPedestal = StoneZoneEntrySet.of(MudType.class, "brick_pedestal",
+                        BlockRegistry.MUD_BRICK_PEDESTAL, MudTypeRegistry::getMudType,
                         mudType -> new BrickPedestalBlock(Utils.copyPropertySafe(mudType.mud)))
+                .createPaletteFromBricks()
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
@@ -44,9 +45,10 @@ public class MudModule extends StoneZoneModule {
                 .build();
         this.addEntry(brickPedestal);
 
-        invisibleQuestionBlock = StoneZoneEntrySet.builder(MudType.class, "question_bricks", "invisible",
-                        BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+        invisibleQuestionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks", "invisible",
+                        BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, MudTypeRegistry::getMudType,
                         mudType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(mudType.mud)))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/invisible_mud_question_bricks"))
                 .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -62,9 +64,10 @@ public class MudModule extends StoneZoneModule {
                 .build();
         this.addEntry(invisibleQuestionBlock);
 
-        questionBlock = StoneZoneEntrySet.builder(MudType.class, "question_bricks",
-                        BlockRegistry.MUD_QUESTION_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+        questionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks",
+                        BlockRegistry.MUD_QUESTION_BRICKS, MudTypeRegistry::getMudType,
                         mudType -> new QuestionBlock(Utils.copyPropertySafe(mudType.mud)))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/empty_mud_question_bricks"))
                 .addTexture(modRes("block/mud_question_bricks"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
@@ -82,9 +85,10 @@ public class MudModule extends StoneZoneModule {
                 .build();
         this.addEntry(questionBlock);
 
-        smashableBricks = StoneZoneEntrySet.builder(MudType.class, "bricks", "smashable",
-                        BlockRegistry.SMASHABLE_MUD_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+        smashableBricks = StoneZoneEntrySet.of(MudType.class, "bricks", "smashable",
+                        BlockRegistry.SMASHABLE_MUD_BRICKS, MudTypeRegistry::getMudType,
                         mudType -> new Block(Utils.copyPropertySafe(mudType.mud)))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/smashable_mud_bricks_overlay"))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
@@ -95,9 +99,10 @@ public class MudModule extends StoneZoneModule {
                 .build();
         this.addEntry(smashableBricks);
 
-        storageBricks = StoneZoneEntrySet.builder(MudType.class, "bricks", "storage",
-                        BlockRegistry.STORAGE_MUD_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+        storageBricks = StoneZoneEntrySet.of(MudType.class, "bricks", "storage",
+                        BlockRegistry.STORAGE_MUD_BRICKS, MudTypeRegistry::getMudType,
                         mudType -> new StorageBrickBlock(Utils.copyPropertySafe(mudType.mud)))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/mud_question_bricks_overlay"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)

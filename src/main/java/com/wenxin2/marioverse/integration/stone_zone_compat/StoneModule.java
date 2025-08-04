@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
@@ -31,9 +32,10 @@ public class StoneModule extends StoneZoneModule {
         super(modId, shortId);
         ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
 
-        brickPedestal = StoneZoneEntrySet.builder(StoneType.class, "brick_pedestal",
-                        BlockRegistry.STONE_BRICK_PEDESTAL, () -> StoneTypeRegistry.STONE_TYPE,
+        brickPedestal = StoneZoneEntrySet.of(StoneType.class, "brick_pedestal",
+                        BlockRegistry.STONE_BRICK_PEDESTAL, StoneTypeRegistry::getStoneType,
                         stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .createPaletteFromBricks()
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
@@ -45,9 +47,10 @@ public class StoneModule extends StoneZoneModule {
                 .build();
         this.addEntry(brickPedestal);
 
-        invisibleQuestionBlock = StoneZoneEntrySet.builder(StoneType.class, "question_bricks", "invisible",
-                        BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
+        invisibleQuestionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks", "invisible",
+                        BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, StoneTypeRegistry::getStoneType,
                         stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/invisible_stone_question_bricks"))
                 .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -64,9 +67,10 @@ public class StoneModule extends StoneZoneModule {
                 .build();
         this.addEntry(invisibleQuestionBlock);
 
-        questionBlock = StoneZoneEntrySet.builder(StoneType.class, "question_bricks",
-                        BlockRegistry.STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
+        questionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks",
+                        BlockRegistry.STONE_QUESTION_BRICKS, StoneTypeRegistry::getStoneType,
                         stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/empty_stone_question_bricks"))
                 .addTexture(modRes("block/stone_question_bricks"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
@@ -85,9 +89,10 @@ public class StoneModule extends StoneZoneModule {
                 .build();
         this.addEntry(questionBlock);
 
-        smashableBricks = StoneZoneEntrySet.builder(StoneType.class, "bricks", "smashable",
+        smashableBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "smashable",
                         BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> StoneTypeRegistry.getValue("tuff"),
                         stoneType -> new Block(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/smashable_tuff_bricks_overlay"))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
@@ -99,9 +104,10 @@ public class StoneModule extends StoneZoneModule {
                 .build();
         this.addEntry(smashableBricks);
 
-        storageBricks = StoneZoneEntrySet.builder(StoneType.class, "bricks", "storage",
-                        BlockRegistry.STORAGE_STONE_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
+        storageBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "storage",
+                        BlockRegistry.STORAGE_STONE_BRICKS, StoneTypeRegistry::getStoneType,
                         stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .createPaletteFromBricks()
                 .addTexture(modRes("block/stone_question_bricks_overlay"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
