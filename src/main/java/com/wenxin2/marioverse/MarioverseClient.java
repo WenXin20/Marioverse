@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.client.particles.GravityParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
 import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
-import com.wenxin2.marioverse.client.particles.NoMovementParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
 import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;

@@ -12,43 +12,42 @@ import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneModule;
-import net.mehvahdjukaar.stone_zone.api.set.StoneType;
-import net.mehvahdjukaar.stone_zone.api.set.StoneTypeRegistry;
+import net.mehvahdjukaar.stone_zone.api.set.MudType;
+import net.mehvahdjukaar.stone_zone.api.set.MudTypeRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 
-public class MarioverseModule extends StoneZoneModule {
-    public final SimpleEntrySet<StoneType, Block> brickPedestal;
-    public final SimpleEntrySet<StoneType, Block> invisibleQuestionBlock;
-    public final SimpleEntrySet<StoneType, Block> questionBlock;
-    public final SimpleEntrySet<StoneType, Block> smashableBricks;
-    public final SimpleEntrySet<StoneType, Block> storageBricks;
+public class MudModule extends StoneZoneModule {
+    public final SimpleEntrySet<MudType, Block> brickPedestal;
+    public final SimpleEntrySet<MudType, Block> invisibleQuestionBlock;
+    public final SimpleEntrySet<MudType, Block> questionBlock;
+    public final SimpleEntrySet<MudType, Block> smashableBricks;
+    public final SimpleEntrySet<MudType, Block> storageBricks;
 
-    public MarioverseModule(String modId, String shortId) {
+    public MudModule(String modId, String shortId) {
         super(modId, shortId);
         ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
 
-        brickPedestal = StoneZoneEntrySet.builder(StoneType.class, "brick_pedestal",
-                        BlockRegistry.STONE_BRICK_PEDESTAL, () -> StoneTypeRegistry.STONE_TYPE,
-                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+        brickPedestal = StoneZoneEntrySet.builder(MudType.class, "brick_pedestal",
+                        BlockRegistry.MUD_BRICK_PEDESTAL, () -> MudTypeRegistry.MUD_TYPE,
+                        mudType -> new BrickPedestalBlock(Utils.copyPropertySafe(mudType.mud)))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
-                .addRecipe(modRes("stone_brick_pedestal_from_stone_stonecutting"))
-                .addRecipe(modRes("stone_brick_pedestal_stonecutting"))
-                .requiresChildren("bricks")
+                .addRecipe(modRes("mud_brick_pedestal_from_packed_mud_stonecutting"))
+                .addRecipe(modRes("mud_brick_pedestal_stonecutting"))
                 .defaultRecipe()
                 .setTabKey(tab)
                 .build();
         this.addEntry(brickPedestal);
 
-        invisibleQuestionBlock = StoneZoneEntrySet.builder(StoneType.class, "question_bricks", "invisible",
-                        BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
-                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
-                .addTexture(modRes("block/invisible_stone_question_bricks"))
+        invisibleQuestionBlock = StoneZoneEntrySet.builder(MudType.class, "question_bricks", "invisible",
+                        BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+                        mudType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(mudType.mud)))
+                .addTexture(modRes("block/invisible_mud_question_bricks"))
                 .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -59,16 +58,15 @@ public class MarioverseModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(QuestionBlockEntity::new)
-                .requiresChildren("bricks")
                 .setTabKey(tab)
                 .build();
         this.addEntry(invisibleQuestionBlock);
 
-        questionBlock = StoneZoneEntrySet.builder(StoneType.class, "question_bricks",
-                        BlockRegistry.STONE_QUESTION_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
-                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
-                .addTexture(modRes("block/empty_stone_question_bricks"))
-                .addTexture(modRes("block/stone_question_bricks"))
+        questionBlock = StoneZoneEntrySet.builder(MudType.class, "question_bricks",
+                        BlockRegistry.MUD_QUESTION_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+                        mudType -> new QuestionBlock(Utils.copyPropertySafe(mudType.mud)))
+                .addTexture(modRes("block/empty_mud_question_bricks"))
+                .addTexture(modRes("block/mud_question_bricks"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -79,30 +77,28 @@ public class MarioverseModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(QuestionBlockEntity::new)
-                .requiresChildren("bricks")
                 .defaultRecipe()
                 .setTabKey(tab)
                 .build();
         this.addEntry(questionBlock);
 
-        smashableBricks = StoneZoneEntrySet.builder(StoneType.class, "bricks", "smashable",
-                        BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> StoneTypeRegistry.getValue("tuff"),
-                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.bricksOrStone())))
-                .addTexture(modRes("block/smashable_tuff_bricks_overlay"))
+        smashableBricks = StoneZoneEntrySet.builder(MudType.class, "bricks", "smashable",
+                        BlockRegistry.SMASHABLE_MUD_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+                        mudType -> new Block(Utils.copyPropertySafe(mudType.mud)))
+                .addTexture(modRes("block/smashable_mud_bricks_overlay"))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCK_ITEMS, Registries.ITEM)
-                .addRecipe(modRes("smashable_tuff_bricks_from_tuff_stonecutting"))
-                .addRecipe(modRes("smashable_tuff_bricks_stonecutting"))
-                .requiresChildren("bricks")
+                .addRecipe(modRes("smashable_mud_bricks_from_packed_mud_stonecutting"))
+                .addRecipe(modRes("smashable_mud_bricks_stonecutting"))
                 .setTabKey(tab)
                 .build();
         this.addEntry(smashableBricks);
 
-        storageBricks = StoneZoneEntrySet.builder(StoneType.class, "bricks", "storage",
-                        BlockRegistry.STORAGE_STONE_BRICKS, () -> StoneTypeRegistry.STONE_TYPE,
-                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
-                .addTexture(modRes("block/stone_question_bricks_overlay"))
+        storageBricks = StoneZoneEntrySet.builder(MudType.class, "bricks", "storage",
+                        BlockRegistry.STORAGE_MUD_BRICKS, () -> MudTypeRegistry.MUD_TYPE,
+                        mudType -> new StorageBrickBlock(Utils.copyPropertySafe(mudType.mud)))
+                .addTexture(modRes("block/mud_question_bricks_overlay"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -113,7 +109,6 @@ public class MarioverseModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.STORAGE_BRICK_ITEMS, Registries.ITEM)
                 .addTile(QuestionBlockEntity::new)
-                .requiresChildren("bricks")
                 .defaultRecipe()
                 .setTabKey(tab)
                 .build();
