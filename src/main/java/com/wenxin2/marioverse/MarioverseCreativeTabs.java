@@ -34,7 +34,7 @@ public class MarioverseCreativeTabs {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_BLOCKS_TAB = TABS.register("marioverse_blocks_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_blocks"))
-            .icon(() -> new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.GREEN))).build());
+            .icon(() -> new ItemStack(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_ITEMS_TAB = TABS.register("marioverse_items_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_items"))
