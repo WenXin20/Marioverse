@@ -34,7 +34,7 @@ public class StoneModule extends StoneZoneModule {
 
         brickPedestal = StoneZoneEntrySet.of(StoneType.class, "brick_pedestal",
                         BlockRegistry.STONE_BRICK_PEDESTAL, StoneTypeRegistry::getStoneType,
-                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .createPaletteFromBricks()
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
@@ -49,7 +49,7 @@ public class StoneModule extends StoneZoneModule {
 
         invisibleQuestionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks", "invisible",
                         BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, StoneTypeRegistry::getStoneType,
-                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .createPaletteFromBricks()
                 .addTexture(modRes("block/invisible_stone_question_bricks"))
                 .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
@@ -69,7 +69,7 @@ public class StoneModule extends StoneZoneModule {
 
         questionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks",
                         BlockRegistry.STONE_QUESTION_BRICKS, StoneTypeRegistry::getStoneType,
-                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .createPaletteFromBricks()
                 .addTexture(modRes("block/empty_stone_question_bricks"))
                 .addTexture(modRes("block/stone_question_bricks"))
@@ -91,7 +91,7 @@ public class StoneModule extends StoneZoneModule {
 
         smashableBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "smashable",
                         BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> StoneTypeRegistry.getValue("tuff"),
-                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.stone)))
                 .createPaletteFromBricks()
                 .addTexture(modRes("block/smashable_tuff_bricks_overlay"))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -106,7 +106,7 @@ public class StoneModule extends StoneZoneModule {
 
         storageBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "storage",
                         BlockRegistry.STORAGE_STONE_BRICKS, StoneTypeRegistry::getStoneType,
-                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .createPaletteFromBricks()
                 .addTexture(modRes("block/stone_question_bricks_overlay"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
