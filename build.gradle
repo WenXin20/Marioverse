@@ -20,8 +20,11 @@ repositories {
         url "https://cursemaven.com"
         content { includeGroup "curse.maven" }
     }
-    maven { url "https://maven.neoforged.net/releases" }
+    maven { url = "https://maven.neoforged.net/releases" }
     maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    maven { url = "https://maven.wispforest.io/releases"}
+    maven { url = "https://mvnrepository.com/artifact/org.sinytra.forgified-fabric-api/fabric-api-base"}
+    maven { url = "https://maven.su5ed.dev/releases" }
     mavenCentral()
     jcenter()
     flatDir {
@@ -41,14 +44,19 @@ dependencies {
     // Dependencies
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib, Required Dependency
     implementation "curse.maven:ctm-${ctm_version}" // Optional Dependency
+    implementation "curse.maven:every-compat-${every_compat_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:fusion-connected-textures-${fusion_version}" // Optional Dependency
     implementation "curse.maven:geckolib-${geckolib_version}" // Required Dependency
-    implementation "curse.maven:every-compat-${every_compat_version}" // Requires Moonlight, Optional Dependency
-    implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:mmmmmmmmmmmm-${test_dummy_version}" // Requires Moonlight, Optional Dependency
+    implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
+    implementation "io.wispforest:accessories-neoforge:1.1.0-beta.49+1.21.1"
+    implementation "org.sinytra.forgified-fabric-api:fabric-api-base:0.4.42+e0539096d1"
+    implementation "org.sinytra:forgified-fabric-loader:2.5.29+0.16.0+1.21"
 
+    implementation "curse.maven:aether-255308:6389857"
     implementation "curse.maven:create-328085:6641610"
+    implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:embeddium-${embeddium_version}"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:inspectability-1312917:6805145"
@@ -61,6 +69,7 @@ dependencies {
     // Libraries
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
+    implementation "curse.maven:forgified-fabric-api-889079:6639840"
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:selene-${moonlight_version}"
 
@@ -163,6 +172,7 @@ publishing {
         maven {
             url "file://${project.projectDir}/repo"
         }
+
 //        maven {
 //            name = 'GeckoLib'
 //            url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'

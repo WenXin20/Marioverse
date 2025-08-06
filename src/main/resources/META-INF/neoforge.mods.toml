@@ -64,6 +64,13 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.marioverse]]
+modId="owo"
+type="required"
+versionRange="[0.12.15.5-beta.1+1.21,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.marioverse]]
 modId="geckolib"
 type="required"
 versionRange="[4.6,)"
