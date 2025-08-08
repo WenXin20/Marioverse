@@ -20,6 +20,7 @@ import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
 import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
+import net.mehvahdjukaar.stone_zone.StoneZone;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneModule;
 import net.mehvahdjukaar.stone_zone.api.set.StoneType;
@@ -146,7 +147,7 @@ public class StoneModule extends StoneZoneModule {
             storageBricks.blocks.forEach((stoneType, block) -> {
                 try (TextureImage stoneTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.stone));
                      TextureImage bricksTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.bricksOrStone()))) {
-                    ResourceLocation resLocITEM = EveryCompat.res("block/" + this.shortenedId() + "/" + stoneType.getAppendableId() + "_question_bricks_overlay");
+                    ResourceLocation newResLoc = StoneZone.res("block/" + this.shortenedId() + "/" + stoneType.getAppendableId() + "_question_bricks_overlay");
                     Respriter respriterSIDE = Respriter.of(questionOverlay);
                     Respriter respriterTOP = Respriter.of(bricks); // ITEM
 
@@ -156,10 +157,10 @@ public class StoneModule extends StoneZoneModule {
                     // Recoloring ITEM textures
                     TextureImage recoloredITEM = respriterSIDE.recolor(listBricks);
                     TextureImage recoloredTOP = respriterTOP.recolor(listBricks);
-                    recoloredITEM.applyOverlay(recoloredTOP);
+                    recoloredTOP.applyOverlay(recoloredITEM);
 
                     // Item Texture
-                    handler.dynamicPack.addAndCloseTexture(resLocITEM, recoloredITEM);
+                    handler.dynamicPack.addAndCloseTexture(newResLoc, recoloredITEM);
 
                 } catch (IOException e) {
                     handler.getLogger().error("Failed to get Stone Brick Texture for {} : {}", block, e);
