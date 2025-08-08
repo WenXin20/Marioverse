@@ -145,13 +145,11 @@ public class StoneModule extends StoneZoneModule {
         try (TextureImage questionOverlay = TextureImage.open(manager, modRes("block/stone_question_bricks_overlay"));
              TextureImage bricks = TextureImage.open(manager, ResourceLocation.parse("block/stone_bricks"))) {
             storageBricks.blocks.forEach((stoneType, block) -> {
-                try (TextureImage stoneTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.stone));
-                     TextureImage bricksTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.bricksOrStone()))) {
+                try (TextureImage bricksTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.bricksOrStone()))) {
                     ResourceLocation newResLoc = StoneZone.res("block/" + this.shortenedId() + "/" + stoneType.getAppendableId() + "_question_bricks_overlay");
                     Respriter respriterSIDE = Respriter.of(questionOverlay);
                     Respriter respriterTOP = Respriter.of(bricks); // ITEM
 
-                    List<Palette> listStone = Palette.fromAnimatedImage(stoneTexture);
                     List<Palette> listBricks = Palette.fromAnimatedImage(bricksTexture);
 
                     // Recoloring ITEM textures
