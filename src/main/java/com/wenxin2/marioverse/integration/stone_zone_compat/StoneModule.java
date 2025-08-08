@@ -8,27 +8,15 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.io.IOException;
-import java.util.List;
-import net.mehvahdjukaar.every_compat.EveryCompat;
-import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
-import net.mehvahdjukaar.every_compat.dynamicpack.ClientDynamicResourcesHandler;
-import net.mehvahdjukaar.every_compat.misc.SpriteHelper;
-import net.mehvahdjukaar.moonlight.api.resources.RPUtils;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
-import net.mehvahdjukaar.moonlight.api.resources.textures.Respriter;
-import net.mehvahdjukaar.moonlight.api.resources.textures.TextureImage;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
-import net.mehvahdjukaar.stone_zone.StoneZone;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneModule;
 import net.mehvahdjukaar.stone_zone.api.set.StoneType;
 import net.mehvahdjukaar.stone_zone.api.set.StoneTypeRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
@@ -104,7 +92,7 @@ public class StoneModule extends StoneZoneModule {
         smashableBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "smashable",
                         BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> StoneTypeRegistry.getValue("tuff"),
                         stoneType -> new Block(Utils.copyPropertySafe(stoneType.stone)))
-                .createPaletteFromBricks()
+                .createPaletteFromChild(this::smashableBricksPalette, "bricks")
                 .addTexture(modRes("block/smashable_tuff_bricks_overlay"))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
@@ -119,7 +107,7 @@ public class StoneModule extends StoneZoneModule {
         storageBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "storage",
                         BlockRegistry.STORAGE_STONE_BRICKS, StoneTypeRegistry::getStoneType,
                         stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.stone)))
-                .createPaletteFromBricks()
+                .createPaletteFromChild(this::storageBricksPalette, "bricks")
                 .addTexture(modRes("block/stone_question_bricks_overlay"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -138,35 +126,23 @@ public class StoneModule extends StoneZoneModule {
         this.addEntry(storageBricks);
     }
 
-    @Override
-    public void addDynamicClientResources(ClientDynamicResourcesHandler handler, ResourceManager manager) {
-        super.addDynamicClientResources(handler, manager);
+    private void smashableBricksPalette(Palette p) {
+        while(p.size() > 6)
+            p.reduce();
 
-        try (TextureImage questionOverlay = TextureImage.open(manager, modRes("block/stone_question_bricks_overlay"));
-             TextureImage bricks = TextureImage.open(manager, ResourceLocation.parse("block/stone_bricks"))) {
-            storageBricks.blocks.forEach((stoneType, block) -> {
-                try (TextureImage bricksTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.bricksOrStone()))) {
-                    ResourceLocation newResLoc = StoneZone.res("block/" + this.shortenedId() + "/" + stoneType.getAppendableId() + "_question_bricks_overlay");
-                    Respriter respriterSIDE = Respriter.of(questionOverlay);
-                    Respriter respriterTOP = Respriter.of(bricks); // ITEM
+        p.reduceUp();
+        p.reduceUp();
+        p.reduceUp();
+    }
 
-                    List<Palette> listBricks = Palette.fromAnimatedImage(bricksTexture);
+    private void storageBricksPalette(Palette p) {
+        while(p.size() > 2)
+            p.reduce();
 
-                    // Recoloring ITEM textures
-                    TextureImage recoloredITEM = respriterSIDE.recolor(listBricks);
-                    TextureImage recoloredTOP = respriterTOP.recolor(listBricks);
-                    recoloredTOP.applyOverlay(recoloredITEM);
-
-                    // Item Texture
-                    handler.dynamicPack.addAndCloseTexture(newResLoc, recoloredITEM);
-
-                } catch (IOException e) {
-                    handler.getLogger().error("Failed to get Stone Brick Texture for {} : {}", block, e);
-                }
-            });
-        }
-        catch (IOException e) {
-            handler.getLogger().error("Failed to get Storage Brick Item Texture for ", e);
-        }
+        p.increaseDown();
+        p.increaseDown();
+        p.increaseUp();
+        p.increaseUp();
+        p.increaseUp();
     }
 }
