@@ -119,7 +119,7 @@ public class StoneModule extends StoneZoneModule {
                         BlockRegistry.STORAGE_STONE_BRICKS, StoneTypeRegistry::getStoneType,
                         stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .createPaletteFromBricks()
-//                .addTexture(modRes("block/stone_question_bricks_overlay"))
+                .addTexture(modRes("block/stone_question_bricks_overlay"))
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -141,21 +141,21 @@ public class StoneModule extends StoneZoneModule {
     public void addDynamicClientResources(ClientDynamicResourcesHandler handler, ResourceManager manager) {
         super.addDynamicClientResources(handler, manager);
 
-        try (TextureImage questionOverlay = TextureImage.open(manager, EveryCompat.res("block/stone_question_bricks_overlay"));
+        try (TextureImage questionOverlay = TextureImage.open(manager, modRes("block/stone_question_bricks_overlay"));
              TextureImage bricks = TextureImage.open(manager, ResourceLocation.parse("block/stone_bricks"))) {
             storageBricks.blocks.forEach((stoneType, block) -> {
-                try (TextureImage logSide_texture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.stone));
-                     TextureImage logTop_texture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.bricksOrStone()))) {
+                try (TextureImage stoneTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.stone));
+                     TextureImage bricksTexture = TextureImage.open(manager, RPUtils.findFirstBlockTextureLocation(manager, stoneType.bricksOrStone()))) {
                     ResourceLocation resLocITEM = EveryCompat.res("block/" + this.shortenedId() + "/" + stoneType.getAppendableId() + "_question_bricks_overlay");
                     Respriter respriterSIDE = Respriter.of(questionOverlay);
                     Respriter respriterTOP = Respriter.of(bricks); // ITEM
 
-                    List<Palette> list_logSide = Palette.fromAnimatedImage(logSide_texture);
-                    List<Palette> list_logTop = Palette.fromAnimatedImage(logTop_texture);
+                    List<Palette> listStone = Palette.fromAnimatedImage(stoneTexture);
+                    List<Palette> listBricks = Palette.fromAnimatedImage(bricksTexture);
 
                     // Recoloring ITEM textures
-                    TextureImage recoloredITEM = respriterSIDE.recolor(list_logSide);
-                    TextureImage recoloredTOP = respriterTOP.recolor(list_logTop);
+                    TextureImage recoloredITEM = respriterSIDE.recolor(listBricks);
+                    TextureImage recoloredTOP = respriterTOP.recolor(listBricks);
                     recoloredITEM.applyOverlay(recoloredTOP);
 
                     // Item Texture
