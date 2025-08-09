@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
@@ -61,7 +62,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS, Registries.ITEM)
-                .addTile(QuestionBlockEntity::new)
+                .addTile(BlockEntityRegistry.INVISIBLE_QUESTION_BLOCK_ENTITY)
                 .requiresChildren("bricks")
                 .setTabKey(tab)
                 .build();
@@ -82,7 +83,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.QUESTION_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.QUESTION_BLOCK_ITEMS, Registries.ITEM)
-                .addTile(QuestionBlockEntity::new)
+                .addTile(BlockEntityRegistry.QUESTION_BLOCK_ENTITY)
                 .requiresChildren("bricks")
                 .defaultRecipe()
                 .setTabKey(tab)
@@ -118,7 +119,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.STORAGE_BRICK_ITEMS, Registries.ITEM)
-                .addTile(QuestionBlockEntity::new)
+                .addTile(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY)
                 .requiresChildren("bricks")
                 .defaultRecipe()
                 .setTabKey(tab)

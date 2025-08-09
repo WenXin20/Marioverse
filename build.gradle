@@ -45,7 +45,7 @@ dependencies {
     implementation "curse.maven:fusion-connected-textures-${fusion_version}" // Optional Dependency
     implementation "curse.maven:geckolib-${geckolib_version}" // Required Dependency
     implementation "curse.maven:mmmmmmmmmmmm-${test_dummy_version}" // Requires Moonlight, Optional Dependency
-    implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
+    compileOnly "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
 
     implementation "curse.maven:aether-255308:6389857"
