@@ -91,15 +91,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP)
-                .setValue(ENTRANCE, Boolean.TRUE).setValue(CLOSED, Boolean.FALSE).setValue(WATERLOGGED, Boolean.FALSE)
+                .setValue(ENTRANCE, Boolean.TRUE).setValue(CLOSED, Boolean.FALSE).setValue(POWERED, Boolean.FALSE)
+                .setValue(WATERLOGGED, Boolean.FALSE).setValue(WATER_SPOUT, Boolean.FALSE)
                 .setValue(UP, Boolean.FALSE).setValue(NORTH, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE)
-                .setValue(EAST, Boolean.FALSE).setValue(WEST, Boolean.FALSE).setValue(DOWN, Boolean.FALSE)
-                .setValue(WATER_SPOUT, Boolean.FALSE));
+                .setValue(EAST, Boolean.FALSE).setValue(WEST, Boolean.FALSE).setValue(DOWN, Boolean.FALSE));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, WATER_SPOUT, WATERLOGGED, UP, DOWN, NORTH, SOUTH, EAST, WEST);
+        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, POWERED, WATER_SPOUT, WATERLOGGED, UP, DOWN, NORTH, SOUTH, EAST, WEST);
     }
 
     public VoxelShape voxelShape(BlockState state) {
@@ -270,7 +270,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 .setValue(SOUTH, this.connectsTo(stateSouth))
                 .setValue(EAST, this.connectsTo(stateEast))
                 .setValue(WEST, this.connectsTo(stateWest))
-                .setValue(CLOSED, placeContext.getLevel().hasNeighborSignal(placeContext.getClickedPos()))
                 .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
     }
 

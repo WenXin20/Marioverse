@@ -99,14 +99,13 @@ public class Marioverse {
 
     private static void stoneZoneModule() {
         try {
-            if (ModList.get().isLoaded("stonezone")) {
+            if (ModList.get().isLoaded("stonezone"))
                 StoneZoneCompat.init();
-            } else {
-                LOGGER.info("Stone Zone module is not loaded");
-            }
+            else LOGGER.info("Stone Zone module is not loaded");
         } catch (Exception e) {
             LOGGER.error("Failed to start Stone Zone module", e);
         }
+
     }
 
     public static ResourceLocation id(String id) {

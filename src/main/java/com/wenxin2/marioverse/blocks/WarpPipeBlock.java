@@ -65,6 +65,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
@@ -81,16 +82,18 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
                     .apply(instance, (dyeColor, properties) -> new WarpPipeBlock(dyeColor.orElse(null), properties))
     );
-    public static final BooleanProperty ENTRANCE = BooleanProperty.create("entrance");
-    public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
     public static final BooleanProperty BUBBLES = BooleanProperty.create("bubbles");
+    public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
+    public static final BooleanProperty ENTRANCE = BooleanProperty.create("entrance");
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATER_SPOUT = BooleanProperty.create("water_spout");
     @Nullable private final DyeColor color;
 
     public WarpPipeBlock(@Nullable DyeColor color, BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATER_SPOUT, Boolean.FALSE)
-                .setValue(BUBBLES, Boolean.TRUE).setValue(ENTRANCE, Boolean.TRUE).setValue(CLOSED, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(BUBBLES, Boolean.TRUE)
+                .setValue(CLOSED, Boolean.FALSE).setValue(ENTRANCE, Boolean.TRUE)
+                .setValue(POWERED, Boolean.FALSE).setValue(WATER_SPOUT, Boolean.FALSE));
         this.color = color;
     }
 
@@ -101,7 +104,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, WATER_SPOUT);
+        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, POWERED, WATER_SPOUT);
     }
 
     @Override
@@ -345,7 +348,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         Direction direction = placeContext.getClickedFace();
-        return this.defaultBlockState().setValue(FACING, direction).setValue(CLOSED, placeContext.getLevel().hasNeighborSignal(placeContext.getClickedPos()));
+        return this.defaultBlockState().setValue(FACING, direction);
     }
 
     @Override
@@ -360,21 +363,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos posNeighbor, boolean b) {
-        boolean isClosed = state.getValue(CLOSED);
-        boolean isPowered = world.hasNeighborSignal(pos) || world.hasNeighborSignal(pos.above());
-
-        if (isClosed != isPowered) {
-            if (isClosed) {
-                world.scheduleTick(pos, this, 4);
-                world.setBlock(pos, state.cycle(CLOSED), 2);
-
-            } else {
-                world.setBlock(pos, state.cycle(CLOSED), 2);
-            }
-
-            if (isClosed) {
-                this.playSound(world, pos, SoundRegistry.PIPE_CLOSES.get(), SoundSource.BLOCKS, 1.0F, 0.5F);
-            } else this.playSound(world, pos, SoundRegistry.PIPE_OPENS.get(), SoundSource.BLOCKS, 1.0F, 0.15F);
+        if (world instanceof ServerLevel serverWorld) {
+            this.checkAndFlip(state, serverWorld, pos);
+//            this.flipNeighborPipeState(serverWorld, state, pos, world.getBlockState(posNeighbor));
         }
 
         super.neighborChanged(state, world, pos, block, posNeighbor, b);
@@ -475,13 +466,15 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState neighborState, boolean b) {
-
         Block blockAbove = world.getBlockState(pos.above()).getBlock();
         Block blockBelow = world.getBlockState(pos.below()).getBlock();
         Block blockNorth = world.getBlockState(pos.north()).getBlock();
         Block blockSouth = world.getBlockState(pos.south()).getBlock();
         Block blockEast = world.getBlockState(pos.east()).getBlock();
         Block blockWest = world.getBlockState(pos.west()).getBlock();
+
+        if (neighborState.getBlock() != state.getBlock() && world instanceof ServerLevel serverWorld)
+            this.checkAndFlip(state, serverWorld, pos);
 
         if (state.getValue(FACING) == Direction.UP) {
             if (blockAbove == this)
@@ -634,6 +627,31 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             }
         }
         super.animateTick(state, world, pos, random);
+    }
+
+    public void checkAndFlip(BlockState state, ServerLevel serverWorld, BlockPos pos) {
+        boolean hasNeighborSignal = serverWorld.hasNeighborSignal(pos);
+        BlockState newState = state;
+        if (hasNeighborSignal != state.getValue(POWERED)) {
+            if (!state.getValue(POWERED)) {
+                newState = state.cycle(CLOSED);
+                serverWorld.playSound(null, pos, newState.getValue(CLOSED)
+                        ? SoundRegistry.PIPE_OPENS.get() : SoundRegistry.PIPE_CLOSES.get(), SoundSource.BLOCKS);
+            }
+
+            serverWorld.setBlock(pos, newState.setValue(POWERED, hasNeighborSignal), 3);
+        }
+    }
+
+    private void flipNeighborPipeState(ServerLevel world, BlockState state, BlockPos pos, BlockState stateNeighbor) {
+        // TODO: Fix this
+        Direction facing = stateNeighbor.getValue(FACING);
+        BlockPos checkPos = pos.relative(facing);
+
+        if (state.getBlock() == this &&
+                state.getValue(ENTRANCE) && state.getValue(FACING) == stateNeighbor.getValue(FACING)) {
+            world.setBlock(pos, state.setValue(CLOSED, stateNeighbor.getValue(CLOSED)), 3);
+        }
     }
 
     public void playSound(Level world, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
