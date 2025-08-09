@@ -141,7 +141,8 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerHat != null && !containerHat.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
+            ItemStack stackArmor = !(entity instanceof Player)
+                    ? entity.getItemBySlot(EquipmentSlot.HEAD) : stack;
             ItemStack newStack = !(entity instanceof Player)
                     ? this.getHatItems().get(randomIndex) : stack;
 
@@ -154,10 +155,10 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerShirt != null && !containerShirt.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerShirt.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.BODY);
+            ItemStack stackArmor = !(entity instanceof Player)
+                    ? entity.getItemBySlot(EquipmentSlot.BODY) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? this.getShirtItems().get(randomIndex)
-                    : stack;
+                    ? this.getShirtItems().get(randomIndex) : stack;
 
             for (ItemStack item : this.getShirtItems())
                 newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
@@ -168,10 +169,10 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerPants != null && !containerPants.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerPants.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
+            ItemStack stackArmor = !(entity instanceof Player)
+                    ? entity.getItemBySlot(EquipmentSlot.LEGS) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? this.getPantsItems().get(randomIndex)
-                    : stack;
+                    ? this.getPantsItems().get(randomIndex) : stack;
 
             for (ItemStack item : this.getPantsItems())
                 newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
@@ -182,10 +183,10 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
         if (containerShoes != null && !containerShoes.getAccessories().getItem(0).is(this.getPowerUpCostumeTag())) {
             ItemStack stack = containerShoes.getAccessories().getItem(0);
-            ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
+            ItemStack stackArmor = !(entity instanceof Player)
+                    ? entity.getItemBySlot(EquipmentSlot.FEET) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? this.getShoesItems().get(randomIndex)
-                    : stack;
+                    ? this.getShoesItems().get(randomIndex) : stack;
 
             for (ItemStack item : this.getShoesItems())
                 newStack = this.equipCostumesInAccessorySlots(entity, item, stackArmor, newStack, stack);
