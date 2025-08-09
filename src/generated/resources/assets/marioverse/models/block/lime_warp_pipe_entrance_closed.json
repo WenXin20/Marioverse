@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "marioverse:block/lime_warp_pipe_side",
+    "bottom": "marioverse:block/lime_warp_pipe_bottom",
     "side": "marioverse:block/lime_warp_pipe_entrance_side",
     "top": "marioverse:block/lime_warp_pipe_top_closed"
   }

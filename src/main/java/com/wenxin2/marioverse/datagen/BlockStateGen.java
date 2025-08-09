@@ -91,7 +91,7 @@ public class BlockStateGen extends BlockStateProvider {
             ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
             ResourceLocation topClosedTexture = modLoc("block/" + blockName + "_top_closed");
 
-            this.warpPipeModel(entry.getValue().get(), blockName, entranceTexture, sideTexture, bottomTexture, topTexture, topClosedTexture);
+            this.warpPipeModel(entry.getValue().get(), blockName, entranceTexture, bottomTexture, sideTexture, topTexture, topClosedTexture);
         }
     }
 
