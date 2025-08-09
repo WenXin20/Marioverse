@@ -112,6 +112,23 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         return new WarpPipeBlockEntity(pos, state);
     }
 
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE) {
+            if (state.getValue(WATER_SPOUT))
+                return Math.min(warpPipeBE.getSpoutHeight(), 15);
+            else if (state.getValue(BUBBLES))
+                return Math.min(warpPipeBE.getBubblesDistance(), 15);
+        }
+        return 0;
+    }
+
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
