@@ -212,7 +212,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.tick();
         Vec3 motion = this.getDeltaMovement();
 
-        if (motion.horizontalDistance() > 0.1)
+        if (this.isSliding())
             this.spawnTrailParticles();
 
         if (!this.leftOwner)
@@ -223,7 +223,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.discard();
         }
 
-        if (hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
+        if (hideTicks > 0 && motion.horizontalDistance() == 0)
             hideTicks--;
 
         if (emergeAnimationTicks > 0)
