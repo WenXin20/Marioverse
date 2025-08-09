@@ -28,6 +28,10 @@
     {
       "id": "dummmmmmy:target_dummy",
       "required": false
+    },
+    {
+      "id": "supplementaries:hat_stand",
+      "required": false
     }
   ]
 }

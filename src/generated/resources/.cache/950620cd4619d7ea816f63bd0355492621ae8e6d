@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-30T21:41:14.7504748	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-08-09T14:23:01.8749369	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -11,8 +11,8 @@ dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/cannot
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_claim_checkpoint_flags.json
 d23a92e536b60de5c7c73b6061973a2d76ab3bf0 data/marioverse/tags/entity_type/can_collect_coins.json
 d23a92e536b60de5c7c73b6061973a2d76ab3bf0 data/marioverse/tags/entity_type/can_collect_star_coins.json
-b0bc4f09a8e1c1af10f98af80af0f8ebde6415cc data/marioverse/tags/entity_type/can_consume_fire_flowers.json
-45a704a383b3c019be594d45695746a9c739fda8 data/marioverse/tags/entity_type/can_consume_ice_flowers.json
+682f7eed2414169b90cdfe4ad2a2b5fb07ec686a data/marioverse/tags/entity_type/can_consume_fire_flowers.json
+296745b21dd4bd1f9f334ff50c03bd2ef8f4a515 data/marioverse/tags/entity_type/can_consume_ice_flowers.json
 bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/can_consume_one_ups.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_consume_super_mushrooms.json
 c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_consume_super_stars.json
@@ -22,8 +22,8 @@ f767b171a3b2cd8cba7d396542aea74ff651cef4 data/marioverse/tags/entity_type/can_pi
 8e99e3b29315c8993ceed30a0822c49e2c4fd38d data/marioverse/tags/entity_type/can_shoot_supplementaries_cannon.json
 8e0c862f8a9d5210244cf50c00ae7315824e9b1f data/marioverse/tags/entity_type/can_smash_blocks.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/can_stomp_enemies.json
-edb9c12ba44e2dca1324fdbc3f5697587a2cf803 data/marioverse/tags/entity_type/can_wear_costumes.json
-6f328cd8cd8ec14384e3ca8c73cba3e8457d8c2c data/marioverse/tags/entity_type/can_wear_hats.json
+1cd8e866d8633f7427325849294c69a98e472aff data/marioverse/tags/entity_type/can_wear_costumes.json
+6dd1a11e1ce31f5fb6a47cae98fe529e952d19d1 data/marioverse/tags/entity_type/can_wear_hats.json
 edb9c12ba44e2dca1324fdbc3f5697587a2cf803 data/marioverse/tags/entity_type/can_wear_pants.json
 edb9c12ba44e2dca1324fdbc3f5697587a2cf803 data/marioverse/tags/entity_type/can_wear_shirts.json
 edb9c12ba44e2dca1324fdbc3f5697587a2cf803 data/marioverse/tags/entity_type/can_wear_shoes.json

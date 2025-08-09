@@ -15,6 +15,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class EntityTypeTagsGen extends EntityTypeTagsProvider {
+    private static ResourceLocation HAT_STAND = ResourceLocation.fromNamespaceAndPath("supplementaries", "hat_stand");
     private static ResourceLocation TEST_DUMMY = ResourceLocation.fromNamespaceAndPath("dummmmmmy", "target_dummy");
 
     public EntityTypeTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
@@ -144,7 +145,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIE_VILLAGER)
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
-                .addOptional(TEST_DUMMY);
+                .addOptional(TEST_DUMMY)
+                .addOptional(HAT_STAND);
 
         tag(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
@@ -172,7 +174,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WITCH)
                 .add(EntityType.ZOMBIE)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
-                .addOptional(TEST_DUMMY);
+                .addOptional(TEST_DUMMY)
+                .addOptional(HAT_STAND);
 
         tag(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                 .add(EntityType.PLAYER)
@@ -245,7 +248,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
-                .addOptional(TEST_DUMMY);
+                .addOptional(TEST_DUMMY)
+                .addOptional(HAT_STAND);
 
         tag(TagRegistry.CAN_WEAR_HATS)
                 .addTag(Tags.EntityTypes.BOSSES)
@@ -267,7 +271,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
-                .addOptional(TEST_DUMMY);
+                .addOptional(TEST_DUMMY)
+                .addOptional(HAT_STAND);
 
         tag(TagRegistry.CAN_WEAR_PANTS)
                 .addTag(Tags.EntityTypes.BOSSES)
