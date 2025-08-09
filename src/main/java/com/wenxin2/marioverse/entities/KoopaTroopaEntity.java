@@ -236,7 +236,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected void triggerOnDeathMobEffects(RemovalReason reason) {
         if (this.level() instanceof ServerLevel && this.getRandom().nextFloat() < 0.25f
-                && this.getRemovalReason() == RemovalReason.KILLED)
+                && reason == RemovalReason.KILLED)
             this.spawnKoopaShell(this.getMaxHealth(), -1, -1, false, false);
 
         super.triggerOnDeathMobEffects(reason);
