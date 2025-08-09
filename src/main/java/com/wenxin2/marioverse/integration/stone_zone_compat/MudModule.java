@@ -5,7 +5,6 @@ import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
-import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
