@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -34,10 +35,10 @@ public class FireballShootPacket {
         }
     }
 
-    public void handleFireballShooting(Entity entity) {
-        if (entity instanceof AbilitiesHandler handler) {
+    public void handleFireballShooting(Player player) {
+        if (player instanceof AbilitiesHandler handler) {
             if (handler.mv$getFireballCooldown() == 0 && handler.mv$getFireballCount() < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
-                shootFireball(entity);
+                shootFireball(player);
                 handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
                 handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
             } else if (handler.mv$getFireballCount() >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
@@ -47,17 +48,17 @@ public class FireballShootPacket {
         }
     }
 
-    public static void shootFireball(Entity entity) {
-        Level world = entity.level();
-        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+    public static void shootFireball(Player player) {
+        Level world = player.level();
+        SoundSource soundSource = SoundSource.PLAYERS;
 
         BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
-        fireball.setOwner(entity);
-        fireball.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
-        fireball.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, entity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), soundSource, 1.0F, 1.0F);
+        fireball.setOwner(player);
+        fireball.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
+        fireball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
+        world.playSound(null, player.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), soundSource, 1.0F, 1.0F);
 
-        Vec3 look = entity.getLookAngle();
+        Vec3 look = player.getLookAngle();
         fireball.setDeltaMovement(look.scale(0.5));
 
         // Set the fireball's rotation based on the look direction
@@ -65,8 +66,8 @@ public class FireballShootPacket {
         fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(fireball);
-        world.gameEvent(entity, GameEvent.PROJECTILE_SHOOT, entity.position());
-        if (!world.isClientSide())
-            PacketDistributor.sendToAllPlayers(new SwingHandPayload(Boolean.TRUE));
+        world.gameEvent(player, GameEvent.PROJECTILE_SHOOT, player.position());
+        if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer)
+            PacketDistributor.sendToPlayer(serverPlayer, new SwingHandPayload(Boolean.TRUE));
     }
 }

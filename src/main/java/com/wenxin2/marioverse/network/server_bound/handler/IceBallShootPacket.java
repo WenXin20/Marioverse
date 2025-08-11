@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -34,11 +35,11 @@ public class IceBallShootPacket {
         }
     }
 
-    public void handleIceballShooting(Entity entity) {
-        if (entity instanceof AbilitiesHandler handler) {
+    public void handleIceballShooting(Player player) {
+        if (player instanceof AbilitiesHandler handler) {
             if (handler.mv$getIceBallCooldown() == 0
                     && handler.mv$getIceBallCount() < ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
-                shootIceBall(entity);
+                shootIceBall(player);
                 handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
                 handler.mv$setIceBallCount(handler.mv$getIceBallCount() + 1);
             } else if (handler.mv$getIceBallCount() >= ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
@@ -48,17 +49,17 @@ public class IceBallShootPacket {
         }
     }
 
-    public static void shootIceBall(Entity entity) {
-        Level world = entity.level();
-        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+    public static void shootIceBall(Player player) {
+        Level world = player.level();
+        SoundSource soundSource = SoundSource.PLAYERS;
 
         BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), world);
-        iceBall.setOwner(entity);
-        iceBall.setPos(entity.getX(), entity.getEyeY() - 0.5, entity.getZ());
-        iceBall.shootFromRotation(entity, entity.getXRot(), entity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, entity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), soundSource, 1.0F, 1.0F);
+        iceBall.setOwner(player);
+        iceBall.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
+        iceBall.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
+        world.playSound(null, player.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), soundSource, 1.0F, 1.0F);
 
-        Vec3 look = entity.getLookAngle();
+        Vec3 look = player.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));
 
         // Set the ice ball's rotation based on the look direction
@@ -66,8 +67,8 @@ public class IceBallShootPacket {
         iceBall.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(iceBall);
-        world.gameEvent(entity, GameEvent.PROJECTILE_SHOOT, entity.position());
-        if (!world.isClientSide())
-            PacketDistributor.sendToAllPlayers(new SwingHandPayload(Boolean.TRUE));
+        world.gameEvent(player, GameEvent.PROJECTILE_SHOOT, player.position());
+        if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer)
+            PacketDistributor.sendToPlayer(serverPlayer, new SwingHandPayload(Boolean.TRUE));
     }
 }
