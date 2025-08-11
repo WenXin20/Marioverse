@@ -1014,11 +1014,11 @@ public class BlockRegistry {
     }
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {
-        return new ButtonBlock(blockSetType, ticksPressed, BlockBehaviour.Properties.ofFullCopy(block));
+        return new ButtonBlock(blockSetType, ticksPressed, BlockBehaviour.Properties.ofFullCopy(block).noCollission());
     }
 
     private static Block pressurePlate(Block block, BlockSetType blockSetType) {
-        return new PressurePlateBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(block));
+        return new PressurePlateBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(block).noCollission());
     }
 
     private static Block slab(Block block) {
