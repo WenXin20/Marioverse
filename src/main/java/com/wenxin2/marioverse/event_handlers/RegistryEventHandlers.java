@@ -94,15 +94,32 @@ public class RegistryEventHandlers {
                         15, 16, 0.05F));
             }
 
+            for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
+                trades.get(3).add((entity, random) -> new MerchantOffer(
+                        new ItemCost(Items.EMERALD, 5),
+                        new ItemStack(entry.getValue(), 1),
+                        15, 16, 0.05F));
+            }
+
             trades.get(5).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 5),
                     new ItemStack(BlockRegistry.CLASSIC_GOAL_POLE, 1),
+                    10, 30, 0.05F));
+
+            trades.get(5).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 10),
+                    new ItemStack(BlockRegistry.CLASSIC_CHECKPOINT_FLAG, 1),
                     10, 30, 0.05F));
         }
 
         if (event.getType() == VillagerProfession.CLERIC) {
             trades.get(2).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 5),
+                    new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 1),
+                    5, 16, 0.05F));
+
+            trades.get(2).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 8),
                     new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
                     5, 16, 0.05F));
 
@@ -124,6 +141,11 @@ public class RegistryEventHandlers {
                 1, 16, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 8),
+                new ItemStack(ItemRegistry.ICE_FLOWER.get(), 1),
+                1, 16, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 1),
                 new ItemStack(BlockRegistry.COIN, 9),
                 8, 10, 0.2F));
@@ -136,6 +158,21 @@ public class RegistryEventHandlers {
         rareTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 5),
                 new ItemStack(BlockRegistry.CLASSIC_GOAL_POLE, 1),
+                8, 10, 0.2F));
+
+        rareTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 10),
+                new ItemStack(BlockRegistry.CLASSIC_CHECKPOINT_FLAG, 1),
+                8, 10, 0.2F));
+
+        rareTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 25),
+                new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get(), 1),
+                1, 30, 0.1F));
+
+        rareTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 32),
+                new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
                 8, 10, 0.2F));
     }
 }
