@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -83,7 +84,8 @@ public interface AbilitiesHandler {
     @NotNull
     private static Boolean getDamageShrinksConfig(LivingEntity entity) {
         if (entity instanceof Player)
-            return ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get();
+            return (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                    || entity.level().getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS));
         else return ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get();
     }
 
