@@ -119,7 +119,6 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
-    public static ModConfigSpec.BooleanValue REPAIR_KOOPA_SHELLS;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_IN_CREATIVE;
@@ -574,10 +573,6 @@ public class ConfigRegistry
                                 .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
                     BUILDER.pop();
 
-                    REPAIR_KOOPA_SHELLS = BUILDER.translation("configuration.marioverse.repair_koopa_shells")
-                            .comment("Allow koopa shells to be repaired with items tagged as §6\"repairs_koopa_shells\"§r.")
-                            .comment("§9[Default: true]")
-                            .define("repair_koopa_shells", true);
                     KOOPA_SHELL_DAMAGE_FROM_KILLS = BUILDER.translation("configuration.marioverse.koopa_shell_damage_from_kills")
                             .comment("Damage koopa shells take when insta-killing mobs.§b")
                             .defineInRange("koopa_shell_damage_from_kills", 20, 0, 999);
