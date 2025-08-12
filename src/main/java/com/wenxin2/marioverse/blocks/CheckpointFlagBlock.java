@@ -575,8 +575,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()) {
                     ItemStack storedItem = flagBE.getTheItem();
 
-                    if (!storedItem.isEmpty()) {
-                        CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, entity, true);
+                    if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
+                        CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, livingEntity, true);
                         QuestionBlock.playSounds(world, respawnPos, storedItem);
                         flagBE.splitTheItem(1);
                     }
@@ -659,11 +659,11 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         return (state.isAir() || state.canBeReplaced() || state.is(this));
     }
 
-    public static void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos) {
+    public static void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, LivingEntity livingEntity, boolean dropItemsAtPos) {
         if (world instanceof ServerLevel serverWorld) {
             if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
                 
-                CheckpointFlagBlock.spawnPowerUps(world, pos, stack, powerUpItem, dropItemsAtPos);
+                CheckpointFlagBlock.spawnPowerUps(world, pos, stack, livingEntity, powerUpItem, dropItemsAtPos);
             } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()) {
                 EntityType<?> entityType = pod.getType(stack);
 
@@ -672,7 +672,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                     if (entity instanceof PiranhaPlantEntity piranhaPlant) {
                         piranhaPlant.setAge(-24000);
-                        piranhaPlant.setOwner(entityHitBlock);
+                        piranhaPlant.setOwner(livingEntity);
                     }
 
                     stack.copyWithCount(1);
@@ -733,7 +733,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
-                    && entityHitBlock instanceof Player player) {
+                    && livingEntity instanceof Player player) {
                 boolean itemAdded = player.addItem(stack.copyWithCount(1));
 
                 if (blockItem.getBlock() instanceof StarCoinBlock)
@@ -945,13 +945,14 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
     }
 
-    public static void spawnPowerUps(Level world, BlockPos pos, ItemStack stack, BasePowerUpItem powerUpItem, boolean dropItemsAtPos) {
+    public static void spawnPowerUps(Level world, BlockPos pos, ItemStack stack, LivingEntity entity,
+                                     BasePowerUpItem powerUpItem, boolean dropItemsAtPos) {
         EntityType<?> entityType = powerUpItem.getType(stack);
 
         if (world instanceof ServerLevel serverWorld) {
             if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                 Entity spawnedEntity = entityType.create(serverWorld);
-                if (spawnedEntity instanceof LivingEntity entity && entity instanceof AbilitiesHandler handler) {
+                if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
                     if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()) {
                         handler.applyMushroomPowerUp(world, entity);
                     } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()) {
