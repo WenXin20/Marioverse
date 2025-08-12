@@ -65,7 +65,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (entity.level() instanceof ServerLevel serverWorld) {
                         ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity, 1.0);
                     }
                     this.remove(RemovalReason.KILLED);
                 }
@@ -88,7 +88,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                             SoundSource.NEUTRAL, 1.0F, 1.0F);
                     if (entity.level() instanceof ServerLevel serverWorld) {
                         ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 25);
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity, 1.0);
                     }
                     this.remove(RemovalReason.KILLED);
                 }

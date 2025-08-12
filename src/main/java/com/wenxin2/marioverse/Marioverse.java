@@ -5,7 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
-import com.wenxin2.marioverse.loot.AddItemsModifier;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -17,7 +16,6 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
-import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
@@ -26,6 +24,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
@@ -33,6 +32,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -94,6 +94,7 @@ public class Marioverse {
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
+        bus.addListener(this::commonSetup);
         bus.addListener(RegistryEventHandlers::gatherData);
     }
 
@@ -105,7 +106,15 @@ public class Marioverse {
         } catch (Exception e) {
             LOGGER.error("Failed to start Stone Zone module", e);
         }
+    }
 
+    public static GameRules.Key<GameRules.BooleanValue> STOMP_ALL_MOBS;
+
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            STOMP_ALL_MOBS = GameRules.register("marioverse:stomp_all_mobs",
+                    GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
+        });
     }
 
     public static ResourceLocation id(String id) {

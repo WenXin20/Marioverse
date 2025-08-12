@@ -756,7 +756,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public void consecutiveReward(Entity attackingEntity, LivingEntity damagedEntity) {
-        if (damagedEntity instanceof AbilitiesHandler handler) {
+        if (damagedEntity instanceof AbilitiesHandler handler && damagedEntity.isAlive()) {
             int oneUpsRewarded = handler.mv$getOneUpsRewarded();
             int killCount = this.getKillCount();
             handler.mv$setConsecutiveBounces(killCount + 1);
@@ -764,43 +764,43 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (killCount == 0) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
             } else if (killCount == 1) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
             } else if (killCount == 2) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
             } else if (killCount == 3) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
             } else if (killCount == 4) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
             } else if (killCount == 5) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
             } else if (killCount == 6) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
             } else if (killCount >= 7 && ConfigRegistry.MAX_ONE_UP_SHELL_KILL_REWARD.get() > oneUpsRewarded) {
@@ -808,7 +808,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.oneUpReward(attackingEntity);
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity, 0.0);
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
             }

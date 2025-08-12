@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.network.server_bound.handler;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
@@ -57,7 +58,8 @@ public class SquashEntityPacket {
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                         || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                        || ConfigRegistry.STOMP_ALL_MOBS.get())) {
+                        || ConfigRegistry.STOMP_ALL_MOBS.get()
+                        || stompingPlayer.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS))) {
 
                     if (stompingPlayer instanceof Player player && player.getAbilities().flying)
                         return;
@@ -102,7 +104,8 @@ public class SquashEntityPacket {
                         if (!stompingPlayer.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
                                 damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingPlayer), damagedEntity.getHealth());
-                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()) {
+                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
+                                    || damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
                                 if (damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingPlayer), 0);
@@ -129,43 +132,43 @@ public class SquashEntityPacket {
             if (consecutiveBounces == 0) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
             } else if (consecutiveBounces == 1) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
             } else if (consecutiveBounces == 2) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
             } else if (consecutiveBounces == 3) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
             } else if (consecutiveBounces == 4) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
             } else if (consecutiveBounces == 5) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
             } else if (consecutiveBounces == 6) {
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
             } else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
@@ -173,7 +176,7 @@ public class SquashEntityPacket {
                 this.bounceReward(attackingPlayer);
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity, 1.0);
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
             }

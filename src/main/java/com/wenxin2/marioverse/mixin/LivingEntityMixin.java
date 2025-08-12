@@ -946,7 +946,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
                         if (livingEntity.level() instanceof ServerLevel serverWorld) {
                             ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, livingEntity, 25);
-                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity);
+                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity, 1.0);
                             if (livingEntity instanceof ServerPlayer player)
                                 PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
                         }
@@ -969,7 +969,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
                 if (livingEntity.level() instanceof ServerLevel serverWorld) {
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, livingEntity, 25);
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity, 1.0);
                     if (livingEntity instanceof ServerPlayer player)
                         PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
                 }
@@ -1424,7 +1424,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                            || ConfigRegistry.STOMP_ALL_MOBS.get())) {
+                            || ConfigRegistry.STOMP_ALL_MOBS.get()
+                            || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS))) {
 
                     if (stompingEntity instanceof Player player && player.getAbilities().flying)
                         return;
@@ -1467,7 +1468,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
                                 damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
-                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()) {
+                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
+                                    || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
                                 if (damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), 0);
@@ -1492,49 +1494,49 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (consecutiveBounces == 0) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
         }
         else if (consecutiveBounces == 1) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
         }
         else if (consecutiveBounces == 2) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
         }
         else if (consecutiveBounces == 3) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
         }
         else if (consecutiveBounces == 4) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
         }
         else if (consecutiveBounces == 5) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
         }
         else if (consecutiveBounces == 6) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
         }
@@ -1543,7 +1545,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$bounceReward(attackingEntity);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
         }

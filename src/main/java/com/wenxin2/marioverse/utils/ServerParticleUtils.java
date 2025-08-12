@@ -88,8 +88,8 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnRewardParticle(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {
-        serverWorld.sendParticles(particleOptions, entity.getX(), entity.getY() + entity.getBbHeight() + 1.0, entity.getZ(),
+    public static void spawnRewardParticle(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double yHeight) {
+        serverWorld.sendParticles(particleOptions, entity.getX(), entity.getY() + entity.getBbHeight() + yHeight, entity.getZ(),
                 1, 0.0, 1.0, 0.0, 0.5);
     }
 
