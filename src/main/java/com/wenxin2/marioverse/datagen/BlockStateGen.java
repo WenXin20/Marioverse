@@ -291,6 +291,12 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + blockName);
 
                         this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
+                    } else if (block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(questionBlock)) {
+                        sideTexture = modLoc("block/" + blockName + "_side");
+                        topTexture = modLoc("block/" + blockName + "_top");
+                        emptyTexture = modLoc("block/empty_" + blockName);
+
+                        this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
                     } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
                             || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
                         String removeQuestionBlockName = blockName.replace("_question_block", "");
