@@ -1552,7 +1552,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique
     public void mv$bounceReward(LivingEntity entity) {
         ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
-        if (entity instanceof LivingEntity livingEntity && ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()) {
+        if (entity instanceof LivingEntity livingEntity
+                && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
             AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
             ItemStack offhandStack = livingEntity.getOffhandItem();
 
