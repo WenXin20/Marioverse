@@ -41,7 +41,8 @@ public class SquashEntityPacket {
             context.enqueueWork(() -> {
                 Player player = context.player();
                 if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                        && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                        && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                            || player.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && (player.fallDistance > 0 || player.isInWaterOrBubble()))
                     this.squashEntity(player, payload.isHoldingJump());
             });
@@ -54,7 +55,8 @@ public class SquashEntityPacket {
         if (!nearbyEntities.isEmpty()) {
             for (Entity entity : nearbyEntities) {
                 if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
-                        && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                        && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                            || stompingPlayer.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                         || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)

@@ -326,7 +326,8 @@ public class MarioverseEventHandlers {
         LivingEntity entity = event.getEntity();
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                    || entity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && entity instanceof AbilitiesHandler handler
                 && handler.mv$getOneUpsRewarded() > 0) {
             handler.mv$setOneUpsRewarded(0);
@@ -642,7 +643,8 @@ public class MarioverseEventHandlers {
             }
 
             if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                    && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                    && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                        || player.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                     && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
                 if (Minecraft.getInstance().options.keyJump.isDown())
                     PacketDistributor.sendToServer(new SquashEntityPayload(true));

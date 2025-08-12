@@ -253,14 +253,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$mushroomScale(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                    || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble())
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
             this.mv$squashEntity(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                    || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && (entity.onGround() || entity.isInWaterOrBubble())
                 && this.mv$getConsecutiveBounces() > 0
                 && !this.mv$hasSuperStar())
@@ -1420,7 +1422,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (!nearbyEntities.isEmpty()) {
             for (Entity entity : nearbyEntities) {
                 if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
-                        && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get())
+                        && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                            || stompingEntity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)

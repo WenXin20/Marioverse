@@ -108,10 +108,13 @@ public class Marioverse {
         }
     }
 
+    public static GameRules.Key<GameRules.BooleanValue> ALL_MOBS_CAN_STOMP;
     public static GameRules.Key<GameRules.BooleanValue> STOMP_ALL_MOBS;
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+            ALL_MOBS_CAN_STOMP = GameRules.register("marioverse:all_mobs_can_stomp",
+                    GameRules.Category.MOBS, GameRules.BooleanValue.create(false));
             STOMP_ALL_MOBS = GameRules.register("marioverse:stomp_all_mobs",
                     GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
         });
