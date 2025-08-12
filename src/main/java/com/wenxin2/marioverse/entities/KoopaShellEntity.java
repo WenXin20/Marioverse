@@ -218,7 +218,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
 
-        if (this.getBounceCount() >= ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.get().floatValue()) {
+        if (this.getBounceCount() >= ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.get().floatValue()) {
             this.playDeathAnimation(this);
             this.discard();
         }
@@ -444,7 +444,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public Crackiness.Level getCrackiness() {
-        return Crackiness.WOLF_ARMOR.byFraction(1.0F - ((float) this.getBounceCount() / ConfigRegistry.MAX_KOOPA_SHELL_BOUNCES.getAsInt()));
+        return Crackiness.WOLF_ARMOR.byFraction(1.0F - ((float) this.getBounceCount() / ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.getAsInt()));
     }
 
     public void setSliding(boolean sliding) {
@@ -706,11 +706,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (this.getOwner() != null) {
                 entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
                 if (this.getBounceCount() != -1)
-                    this.setBounceCount(this.getBounceCount() + 20);
+                    this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
             } else {
                 entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
                 if (this.getBounceCount() != -1)
-                    this.setBounceCount(this.getBounceCount() + 20);
+                    this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
             }
 
             if (world instanceof ServerLevel serverWorld)

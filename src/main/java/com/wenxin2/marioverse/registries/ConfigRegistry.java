@@ -169,11 +169,12 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
+    public static ModConfigSpec.IntValue KOOPA_SHELL_DAMAGE_FROM_KILLS;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_TRAIL_COINS;
     public static ModConfigSpec.IntValue MAX_GOOMBA_STACK;
     public static ModConfigSpec.IntValue MAX_ICE_BALL_BOUNCES;
-    public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_BOUNCES;
+    public static ModConfigSpec.IntValue MAX_KOOPA_SHELL_DAMAGE_POINTS;
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_MOB_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
@@ -577,10 +578,13 @@ public class ConfigRegistry
                             .comment("Allow koopa shells to be repaired with items tagged as §6\"repairs_koopa_shells\"§r.")
                             .comment("§9[Default: true]")
                             .define("repair_koopa_shells", true);
-                    MAX_KOOPA_SHELL_BOUNCES = BUILDER.translation("configuration.marioverse.max_koopa_shell_bounces")
-                            .comment("Max amount of bounces a shell can make before shattering.")
+                    KOOPA_SHELL_DAMAGE_FROM_KILLS = BUILDER.translation("configuration.marioverse.koopa_shell_damage_from_kills")
+                            .comment("Damage koopa shells take when insta-killing mobs.§b")
+                            .defineInRange("koopa_shell_damage_from_kills", 20, 0, 999);
+                    MAX_KOOPA_SHELL_DAMAGE_POINTS = BUILDER.translation("configuration.marioverse.max_koopa_shell_damage_points")
+                            .comment("Max amount of damage a shell can take before shattering.")
                             .comment("§6Set to -1 to never break.§b")
-                            .defineInRange("max_koopa_shell_bounces", 200, -1, 999);
+                            .defineInRange("max_koopa_shell_damage_points", 200, -1, 999);
 
                 BUILDER.pop();
 
