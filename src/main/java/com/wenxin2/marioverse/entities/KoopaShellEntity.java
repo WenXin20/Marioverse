@@ -268,12 +268,18 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         if (!this.isNoAi()) {
             if (motion.length() == 0) {
                 this.setSliding(false);
-            } else if (!this.isSliding() && motion.horizontalDistance() > 0.0001) {
+            } else if (!this.isSliding() && this.isAlive() && motion.horizontalDistance() > 0.0001) {
                 this.setSliding(true);
                 this.setDeltaMovement(motion);
                 this.slidingMovement = motion;
                 this.hasImpulse = true;
             }
+        }
+
+        if (this.isDeadOrDying()) {
+            this.setSliding(false);
+            this.setDeltaMovement(Vec3.ZERO);
+            this.slidingMovement = Vec3.ZERO;
         }
     }
 
@@ -613,11 +619,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.1, 0, 0.1);
         List<Entity> entities = this.level().getEntities(this, collisionBox);
-        double speed = this.getDeltaMovement().horizontalDistance();
+        double shellSpeed = this.getDeltaMovement().horizontalDistance();
         Set<UUID> newCollisions = new HashSet<>();
 
         for (Entity entityHit : entities) {
-            if (speed >= 0.1 && !this.hasPassenger(entityHit)) {
+            double entityHitSpeed = entityHit.getDeltaMovement().horizontalDistance();
+
+            if (shellSpeed >= 0.1 && !this.hasPassenger(entityHit)) {
                 if (entityHit instanceof VehicleEntity vehicle) {
                     vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
 
@@ -638,7 +646,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     }
                 }
 
-                if (entityHit instanceof KoopaShellEntity koopaShell) {
+                if (entityHit instanceof KoopaShellEntity koopaShell && entityHitSpeed >= 0.1 && koopaShell.isAlive()) {
                     this.playDeathAnimation(this);
                     this.discard();
                     koopaShell.playDeathAnimation(koopaShell);
