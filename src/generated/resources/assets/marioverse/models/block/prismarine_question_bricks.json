@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "bottom": "marioverse:block/prismarine_question_bricks_top",
-    "side": "marioverse:block/prismarine_question_bricks_side",
+    "side": "marioverse:block/prismarine_question_bricks",
     "top": "marioverse:block/prismarine_question_bricks_top"
   }
 }

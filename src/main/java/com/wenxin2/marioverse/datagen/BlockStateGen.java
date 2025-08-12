@@ -292,7 +292,7 @@ public class BlockStateGen extends BlockStateProvider {
 
                         this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
                     } else if (block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(questionBlock)) {
-                        sideTexture = modLoc("block/" + blockName + "_side");
+                        sideTexture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + blockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
 
