@@ -611,6 +611,19 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
     }
 
+    @Nullable
+    public BlockPos getCheckpointRespawnPos(ServerPlayer player, BlockState state) {
+        BlockPos respawnPos = player.getRespawnPosition();
+
+        if (respawnPos != null) {
+            if (state.getValue(PART) == TripleBlockStates.TOP)
+                return respawnPos.below(2);
+            else if (state.getValue(PART) == TripleBlockStates.MIDDLE)
+                return respawnPos.below();
+            else return respawnPos;
+        } else return null;
+    }
+
     @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
