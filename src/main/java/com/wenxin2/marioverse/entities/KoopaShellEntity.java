@@ -2,10 +2,12 @@ package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -26,6 +28,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -64,6 +67,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
@@ -74,6 +78,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Unique;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -89,6 +94,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     private static final EntityDataAccessor<Boolean> DATA_IS_SLIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Byte> DATA_IS_HIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> DATA_BOUNCE_COUNT = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_KILL_COUNT = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.INT);
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("move.emerge");
     public static final RawAnimation FLIP = RawAnimation.begin().thenPlayAndHold("misc.flip");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
@@ -162,6 +168,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_BOUNCE_COUNT, 0);
+        builder.define(DATA_KILL_COUNT, 0);
         builder.define(DATA_IS_HIDING, (byte) 0);
         builder.define(DATA_IS_SLIDING, false);
     }
@@ -171,6 +178,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         super.addAdditionalSaveData(tag);
         tag.putByte("HideFlags", this.entityData.get(DATA_IS_HIDING));
         tag.putInt("BounceCount", this.entityData.get(DATA_BOUNCE_COUNT));
+        tag.putInt("KillCount", this.entityData.get(DATA_KILL_COUNT));
         tag.putInt("HideTicks", this.hideTicks);
 
         if (this.ownerUUID != null)
@@ -183,6 +191,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.entityData.set(DATA_BOUNCE_COUNT, tag.getInt("BounceCount"));
+        this.entityData.set(DATA_KILL_COUNT, tag.getInt("KillCount"));
         this.entityData.set(DATA_IS_HIDING, tag.getByte("HideFlags"));
         this.leftOwner = tag.getBoolean("LeftOwner");
         this.hideTicks = tag.getInt("HideTicks");
@@ -463,6 +472,14 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return this.entityData.get(DATA_BOUNCE_COUNT);
     }
 
+    public void setKillCount(int killCount) {
+        this.entityData.set(DATA_KILL_COUNT, killCount);
+    }
+
+    public int getKillCount() {
+        return this.entityData.get(DATA_KILL_COUNT);
+    }
+
     @Nullable
     @Override
     public Entity getOwner() {
@@ -638,6 +655,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                                 entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
                             else entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
 
+                            if (rider.getType().is(this.getInstaKillEntityTag()))
+                                this.setKillCount(this.getKillCount() + 1);
+
                             if (!entityHit.isAlive()) {
                                 this.playDeathAnimation(this);
                                 this.discard();
@@ -672,20 +692,20 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         entityCollided.addAll(newCollisions);
     }
 
-    public void damageEntity(LivingEntity entity, Set<UUID> newCollisions) {
+    public void damageEntity(LivingEntity entityHit, Set<UUID> newCollisions) {
         Level world = this.level();
-        ItemStack shield = entity.getUseItem();
-        Vec3 toShell = this.position().subtract(entity.position()).normalize();
-        Vec3 look = entity.getLookAngle().normalize();
+        ItemStack shield = entityHit.getUseItem();
+        Vec3 toShell = this.position().subtract(entityHit.position()).normalize();
+        Vec3 look = entityHit.getLookAngle().normalize();
         double dot = toShell.dot(look);
 
-        UUID id = entity.getUUID();
+        UUID id = entityHit.getUUID();
         newCollisions.add(id);
 
         if (!entityCollided.contains(id)) {
-            if (entity.isBlocking() && dot > 0.25) {
-                this.deflect(entity, this.getOwner(), true);
-                shield.hurtAndBreak(1, entity, LivingEntity.getSlotForHand(entity.getUsedItemHand()));
+            if (entityHit.isBlocking() && dot > 0.25) {
+                this.deflect(entityHit, this.getOwner(), true);
+                shield.hurtAndBreak(1, entityHit, LivingEntity.getSlotForHand(entityHit.getUsedItemHand()));
                 world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
                 world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
@@ -693,39 +713,124 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 return;
             }
 
-            if (entity instanceof Breeze) {
-                this.deflect(entity, this.getOwner(), true);
-                world.playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
-                        entity.getSoundSource(), 1.0F, 1.0F);
+            if (entityHit instanceof Breeze) {
+                this.deflect(entityHit, this.getOwner(), true);
+                world.playSound(null, entityHit.blockPosition(), SoundEvents.BREEZE_DEFLECT,
+                        entityHit.getSoundSource(), 1.0F, 1.0F);
                 return;
             }
 
-            float shellDamage = entity.getType().is(this.getInstaKillEntityTag())
-                    ? entity.getHealth() * 1.25F : this.getShellDamage();
+            float shellDamage = entityHit.getType().is(this.getInstaKillEntityTag())
+                    ? entityHit.getHealth() * 1.25F : this.getShellDamage();
 
-            if (this.getOwner() != null) {
-                entity.hurt(DamageTypeRegistry.spinningShell(entity, this.getOwner()), shellDamage);
-                if (this.getBounceCount() != -1)
-                    this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
-            } else {
-                entity.hurt(DamageTypeRegistry.spinningShell(entity, this), shellDamage);
-                if (this.getBounceCount() != -1)
-                    this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
-            }
+            if (this.getOwner() != null)
+                entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
+            else entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
+            this.getDamageFromKills();
+
+            if (this.getOwner() != null)
+                this.consecutiveReward(this.getOwner(), entityHit);
+
+            if (entityHit.getType().is(this.getInstaKillEntityTag()))
+                this.setKillCount(this.getKillCount() + 1);
 
             if (world instanceof ServerLevel serverWorld)
-                serverWorld.sendParticles(ParticleTypes.CRIT, entity.getX(), entity.getY() + this.getBbHeight() / 2, entity.getZ(),
+                serverWorld.sendParticles(ParticleTypes.CRIT, entityHit.getX(), entityHit.getY() + this.getBbHeight() / 2, entityHit.getZ(),
                         3, 0.1, 0.1, 0.1, 0.0);
 
-            if (entity.isPassenger() && entity.getVehicle() != null) {
-                Entity vehicle = entity.getVehicle();
+            if (entityHit.isPassenger() && entityHit.getVehicle() != null) {
+                Entity vehicle = entityHit.getVehicle();
                 vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
             }
 
-            if (!entity.getType().is(getInstaKillEntityTag())) {
+            if (!entityHit.getType().is(getInstaKillEntityTag())) {
                 this.playDeathAnimation(this);
                 this.discard();
             }
+        }
+    }
+
+    private void getDamageFromKills() {
+        if (this.getBounceCount() != -1)
+            this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
+    }
+
+    public void consecutiveReward(Entity attackingEntity, LivingEntity damagedEntity) {
+        if (damagedEntity instanceof AbilitiesHandler handler) {
+            int oneUpsRewarded = handler.mv$getOneUpsRewarded();
+            int killCount = this.getKillCount();
+            handler.mv$setConsecutiveBounces(killCount + 1);
+
+            if (killCount == 0) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
+            } else if (killCount == 1) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
+            } else if (killCount == 2) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
+            } else if (killCount == 3) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
+            } else if (killCount == 4) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
+            } else if (killCount == 5) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
+            } else if (killCount == 6) {
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
+            } else if (killCount >= 7 && ConfigRegistry.MAX_ONE_UP_SHELL_KILL_REWARD.get() > oneUpsRewarded) {
+                handler.mv$setOneUpsRewarded(oneUpsRewarded + 1);
+                this.oneUpReward(attackingEntity);
+                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
+                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity);
+                } else if (attackingEntity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
+            }
+        }
+    }
+
+    @Unique
+    public void oneUpReward(Entity attackingEntity) {
+        ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
+        if (attackingEntity instanceof LivingEntity livingEntity
+                && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || attackingEntity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
+            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
+            ItemStack offhandStack = livingEntity.getOffhandItem();
+
+            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get()))
+                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            else if (offhandStack.isEmpty())
+                livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
+            else if (offhandStack.getItem() instanceof OneUpMushroomItem)
+                offhandStack.grow(1);
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                    SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 

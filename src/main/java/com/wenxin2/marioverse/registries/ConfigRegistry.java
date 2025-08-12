@@ -177,6 +177,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_MOB_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_MOB_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_ONE_UP_BOUNCE_REWARD;
+    public static ModConfigSpec.IntValue MAX_ONE_UP_SHELL_KILL_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
@@ -468,10 +469,6 @@ public class ConfigRegistry
                         .comment("Disable consecutive bouncing, including the reward.")
                         .comment("§9[Default: false]")
                         .define("disable_consecutive_bouncing", false);
-                MAX_ONE_UP_BOUNCE_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_bounce_reward")
-                        .comment("Max amount of 1-Ups that can be rewarded from consecutive bounces.")
-                        .comment("§9[Default: 2]§b")
-                        .defineInRange("max_one_up_bounce_reward", 2, 0, 64);
                 STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
                         .comment("The approx height mobs will bounce when stomping enemies.")
                         .comment("§9[Default: 1.5]§b")
@@ -485,6 +482,14 @@ public class ConfigRegistry
                         .comment("§6[1 point = 1/2 Heart]")
                         .comment("§9[Default: 4.0]§b")
                         .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
+                MAX_ONE_UP_BOUNCE_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_bounce_reward")
+                        .comment("Max amount of 1-Ups that can be rewarded from consecutive bounces.")
+                        .comment("§9[Default: 2]§b")
+                        .defineInRange("max_one_up_bounce_reward", 2, 0, 64);
+                MAX_ONE_UP_SHELL_KILL_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_shell_kill_reward")
+                        .comment("Max amount of 1-Ups that can be rewarded from shell kills.")
+                        .comment("§9[Default: 1]§b")
+                        .defineInRange("max_one_up_shell_kill_reward", 1, 0, 64);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_HOLIDAY);

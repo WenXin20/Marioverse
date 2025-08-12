@@ -929,6 +929,7 @@
   "configuration.marioverse.max_mob_fireballs": "Max Mob Fireballs",
   "configuration.marioverse.max_mob_ice_balls": "Max Mob Ice Balls",
   "configuration.marioverse.max_one_up_bounce_reward": "Max 1-Up Bounce Reward",
+  "configuration.marioverse.max_one_up_shell_kill_reward": "Max 1-Up Shell Kill Reward",
   "configuration.marioverse.max_player_fireballs": "Max Player Fireballs",
   "configuration.marioverse.max_player_ice_balls": "Max Player Ice Balls",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Attach to All Mobs",
