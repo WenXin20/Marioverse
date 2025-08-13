@@ -33,13 +33,6 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     }
 
     @Override
-    public void push(Entity entity) {
-        if (this.getDeltaMovement().horizontalDistance() == Vec3.ZERO.horizontalDistance())
-            this.setOwner(entity);
-        super.push(entity);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 

@@ -306,6 +306,20 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     @Override
+    public void push(Entity entity) {
+        if (!this.level().isClientSide && this.getOwner() == null)
+            this.setOwner(entity);
+        super.push(entity);
+    }
+
+    @Override
+    protected void doPush(Entity entity) {
+        if (!this.level().isClientSide && this.getOwner() == null)
+            this.setOwner(entity);
+        super.doPush(entity);
+    }
+
+    @Override
     public boolean hurt(DamageSource source, float amount) {
         Level world = this.level();
         BlockPos posBelow = this.blockPosition().below();
