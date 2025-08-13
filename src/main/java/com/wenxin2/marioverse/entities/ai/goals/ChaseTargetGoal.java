@@ -25,10 +25,12 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
     private final Mob mob;
     private T target;
     private int chaseTick;
+    private final double speedModifier;
 
-    public ChaseTargetGoal(Mob mob, Class<T> targetClass) {
+    public ChaseTargetGoal(Mob mob, double speedModifier, Class<T> targetClass) {
         this.mob = mob;
         this.targetClass = targetClass;
+        this.speedModifier = speedModifier;
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
@@ -63,7 +65,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
     @Override
     public void start() {
         if (this.target != null)
-            this.mob.getNavigation().moveTo(this.target, 0.6);
+            this.mob.getNavigation().moveTo(this.target, speedModifier);
     }
 
     @Override
@@ -84,7 +86,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
 
         if (this.target != null) {
             this.mob.getLookControl().setLookAt(this.target.getX(), this.target.getEyeY(), this.target.getZ());
-            this.mob.getNavigation().moveTo(this.target, 1.2);
+            this.mob.getNavigation().moveTo(this.target, speedModifier);
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
                 if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
