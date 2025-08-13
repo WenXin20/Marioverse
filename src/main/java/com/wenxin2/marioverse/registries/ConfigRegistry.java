@@ -572,9 +572,11 @@ public class ConfigRegistry
                                 .defineInRange("red_koopa_shell_damage", 4.0, 0.0, 16.0);
                         RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
                                 .comment("Mob detection radius of red koopa shells.§b")
+                                .comment("§6A radius of 0 will disable the shell tracking.§b")
                                 .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
                         RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_player_detection_radius")
                                 .comment("Player detection radius of red koopa shells.§b")
+                                .comment("§6A radius of 0 will disable the shell tracking.§b")
                                 .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
                     BUILDER.pop();
 
