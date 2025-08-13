@@ -98,7 +98,7 @@
   "entity.damage_taken": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/damage_taken", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.damage_taken" },
 
-  "entity.koopa_shell_bounced": { "category": "neutral", "sounds": [{ "name":"marioverse:block/block_bonk", "stream": false }],
+  "entity.koopa_shell_bounced": { "category": "neutral", "sounds": [{ "name":"marioverse:block/block_bonk", "stream": false, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.koopa_shell_bounced" },
   "entity.koopa_shell_shatter": { "category": "neutral", "sounds": [{ "name": "marioverse:entity/koopa_shell/koopa_shell_shatter", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.koopa_shell_shatter" },
