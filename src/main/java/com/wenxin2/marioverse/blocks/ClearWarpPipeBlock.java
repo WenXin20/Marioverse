@@ -202,6 +202,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                         shape = Shapes.or(shape, PIPE_ALL);
                     }
                 }
+
+                if (player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
+                        || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem())
+                    shape = Shapes.block();
             }
 
             if (!state.getValue(ENTRANCE) && state.getValue(UP) && state.getValue(DOWN) && state.getValue(NORTH)
