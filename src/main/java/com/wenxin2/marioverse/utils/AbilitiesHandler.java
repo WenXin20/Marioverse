@@ -86,7 +86,8 @@ public interface AbilitiesHandler {
         if (entity instanceof Player)
             return (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
                     || entity.level().getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS));
-        else return ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get();
+        else return (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
+                || entity.level().getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS));
     }
 
     @NotNull

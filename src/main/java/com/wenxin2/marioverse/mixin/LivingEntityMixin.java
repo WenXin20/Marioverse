@@ -1201,15 +1201,23 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         boolean shouldShrink = !hasSuperMushroom
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && (isPlayer && this.mv$hasSuperMushroomOverride()
-                    || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
-                || (!isPlayer && this.mv$hasSuperMushroomOverride() || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
+                    || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
+                        && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                            || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
+                || (!isPlayer && this.mv$hasSuperMushroomOverride()
+                    || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
+                    && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
+                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
 
         boolean shouldReset = hasSuperMushroom
                 && (isPlayer && this.mv$hasSuperMushroomOverride()
-                    || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get() && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
-                || (!isPlayer && this.mv$hasSuperMushroomOverride() || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get() && ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()));
+                    || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
+                        && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
+                            || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
+                || (!isPlayer && this.mv$hasSuperMushroomOverride()
+                    || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
+                    && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
+                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
 
         if (shouldShrink && mv$currentEyeHeightScale != targetEyeHeightScale
                 && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
