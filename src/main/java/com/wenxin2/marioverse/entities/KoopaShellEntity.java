@@ -307,15 +307,19 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public void push(Entity entity) {
-        if (!this.level().isClientSide && this.getOwner() == null)
+        if (!this.level().isClientSide && this.getOwner() == null) {
             this.setOwner(entity);
+            this.leftOwner = false;
+        }
         super.push(entity);
     }
 
     @Override
     protected void doPush(Entity entity) {
-        if (!this.level().isClientSide && this.getOwner() == null)
+        if (!this.level().isClientSide && this.getOwner() == null) {
             this.setOwner(entity);
+            this.leftOwner = false;
+        }
         super.doPush(entity);
     }
 
@@ -365,6 +369,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.setSliding(true);
                 this.hasImpulse = true;
                 this.setOwner(source.getEntity());
+                this.leftOwner = false;
             }
         }
         return super.hurt(source, amount);
@@ -562,6 +567,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public void deflect(@Nullable Entity entity, @Nullable Entity ownerEntity, boolean deflect) {
         this.setOwner(entity);
+        this.leftOwner = false;
         this.onDeflection(entity, deflect);
     }
 
@@ -665,9 +671,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                             float shellDamage = livingEntity.getType().is(this.getInstaKillEntityTag())
                                     ? livingEntity.getHealth() * 1.25F : this.getShellDamage();
 
-                            if (this.getOwner() != null)
+                            if (this.getOwner() != null && this.leftOwner)
                                 entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
-                            else entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
+                            else if (this.getOwner() == null) entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
 
                             if (rider.getType().is(this.getInstaKillEntityTag()))
                                 this.setKillCount(this.getKillCount() + 1);
@@ -737,9 +743,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             float shellDamage = entityHit.getType().is(this.getInstaKillEntityTag())
                     ? entityHit.getHealth() * 1.25F : this.getShellDamage();
 
-            if (this.getOwner() != null)
+            if (this.getOwner() != null && this.leftOwner)
                 entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
-            else entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
+            else if (this.getOwner() == null) entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
             this.getDamageFromKills();
 
             if (this.getOwner() != null)
@@ -758,8 +764,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             }
 
             if (!entityHit.getType().is(getInstaKillEntityTag())) {
-                this.playDeathAnimation(this);
-                this.discard();
+                if ((this.getOwner() != null && this.leftOwner)
+                        || this.getOwner() == null) {
+                    this.playDeathAnimation(this);
+                    this.discard();
+                }
             }
         }
     }
