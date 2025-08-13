@@ -307,7 +307,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public void push(Entity entity) {
-        if (!this.level().isClientSide && this.getOwner() == null) {
+        if (this.getOwner() == null) {
             this.setOwner(entity);
             this.leftOwner = false;
         }
@@ -316,7 +316,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     protected void doPush(Entity entity) {
-        if (!this.level().isClientSide && this.getOwner() == null) {
+        if (this.getOwner() == null) {
             this.setOwner(entity);
             this.leftOwner = false;
         }
@@ -779,7 +779,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public void consecutiveReward(Entity attackingEntity, LivingEntity damagedEntity) {
-        if (damagedEntity instanceof AbilitiesHandler handler && damagedEntity.isAlive()) {
+        if (attackingEntity instanceof AbilitiesHandler handler) {
             int oneUpsRewarded = handler.mv$getOneUpsRewarded();
             int killCount = this.getKillCount();
             handler.mv$setConsecutiveBounces(killCount + 1);
