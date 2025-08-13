@@ -63,7 +63,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
     @Override
     public void start() {
         if (this.target != null)
-            this.mob.getNavigation().moveTo(this.target, 1.0);
+            this.mob.getNavigation().moveTo(this.target, 0.6);
     }
 
     @Override
