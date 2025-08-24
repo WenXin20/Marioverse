@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -13,10 +14,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
@@ -28,6 +31,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -465,17 +469,38 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 }
             } else entity.setSwimming(true);
 
-            if (random.nextInt(10) == 0) {
-                if (world instanceof ServerLevel serverWorld)
-                    serverWorld.sendParticles(ParticleTypes.EFFECT, entity.getX(), entity.getY(), entity.getZ(),
-                            1, 0, 0, 0, 0.0);
-            }
+            if (entity instanceof LivingEntity livingEntity)
+                this.spawnTrailParticles(world, livingEntity);
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player);
                 movePlayerInPipe(player, moveDirection);
             } else moveEntityInPipe(entity);
             super.entityInside(state, world, pos, entity);
+        }
+    }
+
+    protected void spawnTrailParticles(Level world, LivingEntity entity) {
+        BlockPos posLegacy = entity.getOnPosLegacy();
+        BlockState state = world.getBlockState(posLegacy);
+        float scale = (float) entity.getAttributeValue(Attributes.SCALE);
+        float widthScale = (float) entity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+
+        if (!state.addRunningEffects(world, posLegacy, entity)) {
+            if (state.getRenderShape() != RenderShape.INVISIBLE) {
+                Vec3 vec3 = entity.getDeltaMovement();
+                BlockPos pos = entity.blockPosition();
+                double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+
+                if (pos.getX() != posLegacy.getX())
+                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
+
+                if (pos.getZ() != posLegacy.getZ())
+                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
+
+                world.addParticle(ParticleTypes.EFFECT, x, entity.getY(), z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
+            }
         }
     }
 
