@@ -14,12 +14,14 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -34,6 +36,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
@@ -244,6 +247,54 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public boolean isPathfindable(BlockState state, PathComputationType pathType) {
         return false;
+    }
+
+    @NotNull
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+        ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
+
+        double entityX = player.getX();
+        double entityY = player.getY();
+        double entityZ = player.getZ();
+        double height =  + player.getBbHeight();
+        int blockX = pos.getX();
+        int blockY = pos.getY();
+        int blockZ = pos.getZ();
+
+        if (state.getValue(ENTRANCE) && heldItem.isEmpty()) {
+            Direction facing = state.getValue(FACING);
+            boolean yPosCheck = entityY + height >= blockY && entityY - height < blockY + 0.75;
+            
+            if (facing == Direction.UP && (entityY + height >= blockY - 1)
+                    && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                return InteractionResult.SUCCESS;
+            } else if (facing == Direction.DOWN && (entityY + height <= blockY)
+                    && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                return InteractionResult.SUCCESS;
+            } else if (facing == Direction.NORTH
+                    && (entityX < blockX + 1 && entityX > blockX) && yPosCheck && (entityZ < blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                return InteractionResult.SUCCESS;
+            } else if (facing == Direction.SOUTH
+                    && (entityX < blockX + 1 && entityX > blockX) && yPosCheck && (entityZ > blockZ + 0.25)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                player.setSwimming(true);
+                return InteractionResult.SUCCESS;
+            } else if (facing == Direction.EAST
+                    && (entityX > blockX) && yPosCheck && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                player.setSwimming(true);
+                return InteractionResult.SUCCESS;
+            } else if (facing == Direction.WEST
+                    && (entityX < blockX) && yPosCheck && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                player.setSwimming(true);
+                return InteractionResult.SUCCESS;
+            } else return super.useWithoutItem(state, world, pos, player, hitResult);
+        } else return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override
