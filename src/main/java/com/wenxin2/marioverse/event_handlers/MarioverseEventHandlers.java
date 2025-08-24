@@ -7,7 +7,9 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
@@ -58,6 +60,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -440,6 +443,34 @@ public class MarioverseEventHandlers {
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
+        }
+
+        if (heldItem.is(TagRegistry.PIRANHA_FOOD) && player.isShiftKeyDown()
+                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity doorBE && doorBE.getWarpFuelCount() < 2) {
+            if (doorBE.getWarpFuelCount() == 0)
+                player.displayClientMessage(Component.translatable("block.marioverse.warp_door.no_fuel"), true);
+            else if (doorBE.getWarpFuelCount() < 2)
+                player.displayClientMessage(Component.translatable("block.marioverse.warp_door.more_fuel"), true);
+            else if (doorBE.getWarpFuelCount() == 2)
+                player.displayClientMessage(Component.translatable("block.marioverse.warp_door.fuel_added"), true);
+            doorBE.setWarpFuelCount(doorBE.getWarpFuelCount() + 1);
+            world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            player.swing(InteractionHand.MAIN_HAND);
+            event.setCanceled(true);
+        }
+
+        if (heldItem.is(TagRegistry.PIRANHA_FOOD) && player.isShiftKeyDown()
+                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < 2) {
+            if (trapDoorBE.getWarpFuelCount() == 0)
+                player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.no_fuel"), true);
+            else if (trapDoorBE.getWarpFuelCount() < 2)
+                player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.more_fuel"), true);
+            else if (trapDoorBE.getWarpFuelCount() == 2)
+                player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.fuel_added"), true);
+            trapDoorBE.setWarpFuelCount(trapDoorBE.getWarpFuelCount() + 1);
+            world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            player.swing(InteractionHand.MAIN_HAND);
+            event.setCanceled(true);
         }
 
         if (world.isClientSide()) {

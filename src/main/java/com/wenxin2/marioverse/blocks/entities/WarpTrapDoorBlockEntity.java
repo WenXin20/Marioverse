@@ -18,7 +18,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
     public static final String BREAK_TRAPDOOR = "BreakTrapdoor";
+    public static final String WARP_FUEL_COUNT = "WarpFuelCount";
     public boolean breakTrapdoor;
+    private int warpFuelCount;
 
     public WarpTrapDoorBlockEntity(final BlockPos pos, final BlockState state) {
         this(BlockEntityRegistry.WARP_TRAPDOOR_BLOCK_ENTITY.get(), pos, state);
@@ -38,16 +40,27 @@ public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
         super.loadAdditional(tag, provider);
         if (tag.contains(BREAK_TRAPDOOR))
             this.breakTrapdoor = tag.getBoolean(BREAK_TRAPDOOR);
+        if (tag.contains(WARP_FUEL_COUNT))
+            this.warpFuelCount = tag.getInt(WARP_FUEL_COUNT);
     }
 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         tag.putBoolean(BREAK_TRAPDOOR, this.breakTrapdoor);
+        tag.putInt(WARP_FUEL_COUNT, this.warpFuelCount);
     }
 
     public void setBreakTrapdoor(boolean breakTrapdoor) {
         this.breakTrapdoor = breakTrapdoor;
+    }
+
+    public int getWarpFuelCount() {
+        return this.warpFuelCount;
+    }
+
+    public void setWarpFuelCount(int warpFuelCount) {
+        this.warpFuelCount = warpFuelCount;
     }
 
     public static void breakTrapdoor(BlockPos warpPos, Level world) {

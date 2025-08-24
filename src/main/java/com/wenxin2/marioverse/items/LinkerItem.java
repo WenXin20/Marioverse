@@ -3,13 +3,14 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -33,8 +34,6 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -74,7 +73,19 @@ public class LinkerItem extends TieredItem {
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
-                    return InteractionResult.sidedSuccess(Boolean.TRUE);
+                    return InteractionResult.sidedSuccess(true);
+                } else if (warpBE instanceof WarpDoorBlockEntity doorBE && doorBE.getWarpFuelCount() < 2) {
+                    if (doorBE.getWarpFuelCount() == 0)
+                        player.displayClientMessage(Component.translatable("block.marioverse.warp_door.no_fuel"), true);
+                    else if (doorBE.getWarpFuelCount() < 2)
+                        player.displayClientMessage(Component.translatable("block.marioverse.warp_door.more_fuel"), true);
+                    return InteractionResult.sidedSuccess(true);
+                } else if (warpBE instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < 2) {
+                    if (trapDoorBE.getWarpFuelCount() == 0)
+                        player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.no_fuel"), true);
+                    else if (trapDoorBE.getWarpFuelCount() < 2)
+                        player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.more_fuel"), true);
+                    return InteractionResult.sidedSuccess(true);
                 } else if (!getIsBound(stack)) {
 
                     if (!world.isClientSide && uuid == null) {
@@ -107,8 +118,8 @@ public class LinkerItem extends TieredItem {
                     String firstDim = getWarpDimension(stack);
 
                   //  if (dimension.equals(getWarpDimension(stack))) {
-                        BlockEntity firstBlockEntity = world.getBlockEntity(firstPos);
-                        if (firstBlockEntity instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
+                        BlockEntity firstBE = world.getBlockEntity(firstPos);
+                        if (firstBE instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
 
                             // Perform the linking logic
                             this.link(stack, firstWarpBlockEntity, warpBE);
