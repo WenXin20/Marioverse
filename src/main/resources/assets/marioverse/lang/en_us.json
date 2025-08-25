@@ -553,9 +553,11 @@
   "item.marioverse.warp_disruptor.message.waxed": "§6Cannot disrupt, §r%1$s §6is waxed",
 
   "item.marioverse.wrench.message.bound": "§aWrench bound to %1$s",
+  "item.marioverse.wrench.message.bound.painting": "§aWrench bound to %1$s %2$s",
   "item.marioverse.wrench.message.dimension_fail_door": "Doors cannot cross dimensions!",
   "item.marioverse.wrench.message.dimension_fail_pipe": "Pipes cannot cross dimensions!",
   "item.marioverse.wrench.message.linked_warp_block": "%1$s §6bound to %2$s",
+  "item.marioverse.wrench.message.linked_warp_painting": "%1$s %2$s §6bound to %3$s %4$s",
   "item.marioverse.wrench.message.requires_creative": "Requires creative to link",
   "item.marioverse.wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
 
@@ -980,9 +982,11 @@
   "configuration.marioverse.warp_cooldown_message_with_ticks": "Warp Cooldown Message with Ticks",
   "configuration.marioverse.warp_disrupting_cooldown": "Warp Disrupting Cooldown Duration",
   "configuration.marioverse.warp_door_cooldown": "Warp Cooldown Duration",
+  "configuration.marioverse.warp_door_fuel_amt": "Fuel Amount",
   "configuration.marioverse.warp_painting_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_pipe_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_trapdoor_cooldown": "Warp Cooldown Duration",
+  "configuration.marioverse.warp_trapdoor_fuel_amt": "Fuel Amount",
   "configuration.marioverse.water_spouts_bucketable": "Bucketable Water Spouts",
   "configuration.marioverse.wax_disables_bubbles": "Wax Disables Pipe Bubbles Button",
   "configuration.marioverse.wax_disables_closing": "Wax Disables Open/Close Button",
