@@ -34,8 +34,10 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class LinkerItem extends TieredItem {
     public LinkerItem(final Properties properties, Tier tier) {
@@ -74,17 +76,17 @@ public class LinkerItem extends TieredItem {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     return InteractionResult.sidedSuccess(true);
-                } else if (warpBE instanceof WarpDoorBlockEntity doorBE && doorBE.getWarpFuelCount() < 2) {
-                    if (doorBE.getWarpFuelCount() == 0)
-                        player.displayClientMessage(Component.translatable("block.marioverse.warp_door.no_fuel"), true);
-                    else if (doorBE.getWarpFuelCount() < 2)
-                        player.displayClientMessage(Component.translatable("block.marioverse.warp_door.more_fuel"), true);
+                } else if (warpBE instanceof WarpDoorBlockEntity doorBE && doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                    if (doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
+                        player.displayClientMessage(Component.translatable("block.marioverse.warp_door.fuel_required",
+                                state.getBlock().getName(), ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt() - doorBE.getWarpFuelCount())
+                                .withStyle(ChatFormatting.RED), true);
                     return InteractionResult.sidedSuccess(true);
-                } else if (warpBE instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < 2) {
-                    if (trapDoorBE.getWarpFuelCount() == 0)
-                        player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.no_fuel"), true);
-                    else if (trapDoorBE.getWarpFuelCount() < 2)
-                        player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.more_fuel"), true);
+                } else if (warpBE instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
+                    if (trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+                        player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.fuel_required",
+                                state.getBlock().getName(), ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt() - trapDoorBE.getWarpFuelCount())
+                                .withStyle(ChatFormatting.RED), true);
                     return InteractionResult.sidedSuccess(true);
                 } else if (!getIsBound(stack)) {
 
@@ -119,10 +121,24 @@ public class LinkerItem extends TieredItem {
 
                   //  if (dimension.equals(getWarpDimension(stack))) {
                         BlockEntity firstBE = world.getBlockEntity(firstPos);
-                        if (firstBE instanceof BaseWarpBlockEntity firstWarpBlockEntity) {
+                        if (firstBE instanceof BaseWarpBlockEntity firstWarpBE) {
 
                             // Perform the linking logic
-                            this.link(stack, firstWarpBlockEntity, warpBE);
+                            this.link(stack, firstWarpBE, warpBE);
+
+                            if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
+                                BlockEntity firstBEAbove = world.getBlockEntity(firstPos.above());
+                                BlockEntity BEAbove = world.getBlockEntity(pos.above());
+                                if (firstBEAbove instanceof WarpDoorBlockEntity firstWarpBEAbove && BEAbove instanceof BaseWarpBlockEntity warpBEAbove)
+                                    this.link(stack, firstWarpBEAbove, warpBEAbove);
+                            }
+
+                            if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
+                                BlockEntity firstBEBelow = world.getBlockEntity(firstPos.below());
+                                BlockEntity BEBelow = world.getBlockEntity(pos.below());
+                                if (firstBEBelow instanceof WarpDoorBlockEntity firstWarpBEAbove && BEBelow instanceof BaseWarpBlockEntity warpBEBelow)
+                                    this.link(stack, firstWarpBEAbove, warpBEBelow);
+                            }
 
                             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
                                             state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);

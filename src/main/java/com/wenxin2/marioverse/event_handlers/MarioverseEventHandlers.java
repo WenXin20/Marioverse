@@ -76,10 +76,12 @@ import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -418,6 +420,8 @@ public class MarioverseEventHandlers {
         Level world = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
+        BlockState stateAbove = world.getBlockState(pos.above());
+        BlockState stateBelow = world.getBlockState(pos.below());
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -445,31 +449,51 @@ public class MarioverseEventHandlers {
             heldItem.consume(1, player);
         }
 
-        if (heldItem.is(TagRegistry.PIRANHA_FOOD) && player.isShiftKeyDown()
-                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity doorBE && doorBE.getWarpFuelCount() < 2) {
-            if (doorBE.getWarpFuelCount() == 0)
-                player.displayClientMessage(Component.translatable("block.marioverse.warp_door.no_fuel"), true);
-            else if (doorBE.getWarpFuelCount() < 2)
-                player.displayClientMessage(Component.translatable("block.marioverse.warp_door.more_fuel"), true);
-            else if (doorBE.getWarpFuelCount() == 2)
-                player.displayClientMessage(Component.translatable("block.marioverse.warp_door.fuel_added"), true);
+        if (heldItem.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
+                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity doorBE
+                && doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
             doorBE.setWarpFuelCount(doorBE.getWarpFuelCount() + 1);
-            world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-            player.swing(InteractionHand.MAIN_HAND);
+            if (doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            else if (doorBE.getWarpFuelCount() == ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos, 16);
+            player.swing(player.getUsedItemHand());
+            heldItem.consume(1, player);
+            event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
+
+            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+                    && world.getBlockEntity(pos.above()) instanceof WarpDoorBlockEntity doorBEAbove
+                    && doorBEAbove.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                doorBEAbove.setWarpFuelCount(doorBEAbove.getWarpFuelCount() + 1);
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos.above(), 16);
+            }
+
+            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
+                    && world.getBlockEntity(pos.below()) instanceof WarpDoorBlockEntity doorBEBelow
+                    && doorBEBelow.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                doorBEBelow.setWarpFuelCount(doorBEBelow.getWarpFuelCount() + 1);
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos.below(), 16);
+            }
         }
 
-        if (heldItem.is(TagRegistry.PIRANHA_FOOD) && player.isShiftKeyDown()
-                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < 2) {
-            if (trapDoorBE.getWarpFuelCount() == 0)
-                player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.no_fuel"), true);
-            else if (trapDoorBE.getWarpFuelCount() < 2)
-                player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.more_fuel"), true);
-            else if (trapDoorBE.getWarpFuelCount() == 2)
-                player.displayClientMessage(Component.translatable("block.marioverse.warp_trapdoor.fuel_added"), true);
+        if (heldItem.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
+                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity trapDoorBE
+                && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
             trapDoorBE.setWarpFuelCount(trapDoorBE.getWarpFuelCount() + 1);
-            world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-            player.swing(InteractionHand.MAIN_HAND);
+            if (trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            else if (trapDoorBE.getWarpFuelCount() == ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos, 16);
+            player.swing(player.getUsedItemHand());
+            heldItem.consume(1, player);
+            event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
         }
 

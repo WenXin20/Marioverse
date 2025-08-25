@@ -134,6 +134,7 @@ public class TagRegistry {
     public static final TagKey<Item> SHOES = itemTags("shoes");
     public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");
     public static final TagKey<Item> STORAGE_BRICK_ITEMS = itemTags("storage_bricks");
+    public static final TagKey<Item> WARP_FUEL = itemTags("warp_fuel");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
 
@@ -202,7 +203,6 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
     public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN = entityTypeTags("warp_pipe_cannot_spawn");
-
 
     private static TagKey<BannerPattern> bannerPatternTags(String name) {
         return TagKey.create(Registries.BANNER_PATTERN, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));

@@ -28,14 +28,10 @@
   "block_type.marioverse.storage_bricks": "Storage %s Bricks",
 
   "block.marioverse.warp_door": "Warp Door",
-  "block.marioverse.warp_door.fuel_added": "Warp Door is ready to link",
-  "block.marioverse.warp_door.more_fuel": "Door requires %1$s more fuel to link",
-  "block.marioverse.warp_door.no_fuel": "Door requires fuel to link",
+  "block.marioverse.warp_door.fuel_required": "§cAdd %2$s more ender pearls to the %1$s to link.",
 
   "block.marioverse.warp_trapdoor": "Warp Trapdoor",
-  "block.marioverse.warp_trapdoor.fuel_added": "Warp Trapdoor is ready to link",
-  "block.marioverse.warp_trapdoor.more_fuel": "Door requires %1$s more fuel to link",
-  "block.marioverse.warp_trapdoor.no_fuel": "Door requires fuel to link",
+  "block.marioverse.warp_trapdoor.fuel_required": "§cAdd %2$s more ender pearls to the %1$s to link.",
 
   "block.marioverse.coin": "Coin",
   "block.marioverse.star_coin": "Star Coin",

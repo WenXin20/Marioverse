@@ -156,6 +156,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(ItemTags.MEAT)
                 .add(Items.BONE_MEAL);
 
+        tag(TagRegistry.WARP_FUEL)
+                .addTag(Tags.Items.ENDER_PEARLS);
+
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(Tags.Items.DYES)
                 .addTag(TagRegistry.WARP_PIPE_ITEMS)
