@@ -80,13 +80,13 @@ public class LinkerItem extends TieredItem {
                     if (doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.fuel_required",
                                 state.getBlock().getName(), ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt() - doorBE.getWarpFuelCount())
-                                .withStyle(ChatFormatting.RED), true);
+                                .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.sidedSuccess(true);
                 } else if (warpBE instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
                     if (trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.fuel_required",
                                 state.getBlock().getName(), ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt() - trapDoorBE.getWarpFuelCount())
-                                .withStyle(ChatFormatting.RED), true);
+                                .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.sidedSuccess(true);
                 } else if (!getIsBound(stack)) {
 

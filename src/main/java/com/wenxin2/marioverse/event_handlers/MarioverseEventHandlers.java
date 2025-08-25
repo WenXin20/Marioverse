@@ -534,10 +534,10 @@ public class MarioverseEventHandlers {
                                     player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
                                             Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                                     target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - linkableEntity.mv$getWarpFuelCount())
-                                            .withStyle(ChatFormatting.RED), true);
+                                            .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                                 else player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.entity_fuel_required",
                                                 target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - linkableEntity.mv$getWarpFuelCount())
-                                        .withStyle(ChatFormatting.RED), true);
+                                        .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                             }
                         } else if (!LinkerItem.getIsBound(stack)) {
                             if (target instanceof Painting painting) {
