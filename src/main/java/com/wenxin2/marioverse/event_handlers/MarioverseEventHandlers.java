@@ -534,9 +534,16 @@ public class MarioverseEventHandlers {
                                 Direction direction = painting.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 LinkerItem.setWarpPos(stack, pos);
+
+                                if (painting.getVariant().getKey() != null)
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound_painting",
+                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                            target.getName()).withStyle(ChatFormatting.GREEN), true);
                             } else {
                                 WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
                                 LinkerItem.setWarpPos(stack, pos);
+                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
+                                        target.getName()).withStyle(ChatFormatting.GREEN), true);
                             }
 
                             LinkerItem.setWarpDimension(stack, target.level().dimension().toString());
@@ -544,9 +551,6 @@ public class MarioverseEventHandlers {
                             LinkerItem.setIsBound(stack, true);
 
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
-
-                            player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
-                                    target.getName()).withStyle(ChatFormatting.GREEN), true);
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128);
                             linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
@@ -564,7 +568,15 @@ public class MarioverseEventHandlers {
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
                                 WarpLinkableEntity.setWarpPos(warpUUID, warpPos, painting.getDirection(), width);
-                            }
+
+                                if (warpEntity instanceof Painting warpPainting && warpPainting.getVariant().getKey() != null
+                                        && painting.getVariant().getKey() != null)
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_painting",
+                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                            target.getName(), Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                            warpPainting.getName()).withStyle(ChatFormatting.GOLD), true);
+                            } else if (warpEntity != null) player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                        target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
 
                             linker.link(stack, warpEntity, target, warpPos);
 
@@ -583,9 +595,6 @@ public class MarioverseEventHandlers {
 //                                }
 //                            }
 
-                            player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
-                                    target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
-
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128); // TODO: fix pos
                             linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
                         //  }
@@ -600,16 +609,29 @@ public class MarioverseEventHandlers {
                     && (!linkableEntity.mv$getPreventWarp() || !linkableEntity.mv$isBreakPainting())) {
                 if (world instanceof ServerLevel serverWorld) {
                     if (linkableEntity.mv$isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-                        player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
+
+                        if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
+                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed_painting",
+                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
                                 target.getName()).withStyle(ChatFormatting.GOLD), true);
                     } else if (linkableEntity.mv$getPreventWarp()) {
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16); // TODO: fix pos
-                        player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16);
+                        if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
+                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
+                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
                                 target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                         linkableEntity.mv$setBreakPainting(Boolean.TRUE);
                     } else {
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16); // TODO: fix pos
-                        player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16);
+                        if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
+                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
+                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_entity_warp",
                                 target.getDisplayName()).withStyle(ChatFormatting.RED), true);
                         linkableEntity.mv$setPreventWarp(Boolean.TRUE);
                     }
