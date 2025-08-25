@@ -190,6 +190,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue WARP_DOOR_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_DOOR_FUEL_AMT;
     public static ModConfigSpec.IntValue WARP_PAINTING_COOLDOWN;
+    public static ModConfigSpec.IntValue WARP_PAINTING_FUEL_AMT;
     public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_TRAPDOOR_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_TRAPDOOR_FUEL_AMT;
@@ -352,7 +353,7 @@ public class ConfigRegistry
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_door_cooldown", 70, 0, 72000);
-                    WARP_DOOR_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_door_cooldown")
+                    WARP_DOOR_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_door_fuel_amt")
                             .comment("Amount of fuel required to create a warp door.§b")
                             .defineInRange("warp_door_fuel_amt", 2, 0, 64);
                 BUILDER.pop();
@@ -367,6 +368,9 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 100]§b")
                             .defineInRange("warp_painting_cooldown", 100, 0, 72000);
+                    WARP_PAINTING_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_painting_fuel_amt")
+                            .comment("Amount of fuel required to create a warp painting.§b")
+                            .defineInRange("warp_painting_fuel_amt", 4, 0, 64);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
@@ -419,7 +423,7 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 70]§b")
                             .defineInRange("warp_trapdoor_cooldown", 70, 0, 72000);
-                    WARP_TRAPDOOR_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_trapdoor_cooldown")
+                    WARP_TRAPDOOR_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_trapdoor_fuel_amt")
                             .comment("Amount of fuel required to create a warp trapdoor.§b")
                             .defineInRange("warp_trapdoor_fuel_amt", 2, 0, 64);
                 BUILDER.pop();

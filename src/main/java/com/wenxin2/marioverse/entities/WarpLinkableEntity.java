@@ -39,6 +39,10 @@ public interface WarpLinkableEntity {
 
     void mv$setDestinationDim(@Nullable ResourceKey<Level> dimension);
 
+    int mv$getWarpFuelCount();
+
+    void mv$setWarpFuelCount(int warpFuelCount);
+
     boolean mv$isBreakPainting();
 
     void mv$setBreakPainting(boolean breakPainting);

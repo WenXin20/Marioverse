@@ -458,7 +458,7 @@ public class MarioverseEventHandlers {
             else if (doorBE.getWarpFuelCount() == ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
                 world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
             if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos, 16);
+                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
             player.swing(player.getUsedItemHand());
             heldItem.consume(1, player);
             event.setCancellationResult(InteractionResult.SUCCESS);
@@ -469,7 +469,7 @@ public class MarioverseEventHandlers {
                     && doorBEAbove.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
                 doorBEAbove.setWarpFuelCount(doorBEAbove.getWarpFuelCount() + 1);
                 if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos.above(), 16);
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.above(), 16);
             }
 
             if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
@@ -477,7 +477,7 @@ public class MarioverseEventHandlers {
                     && doorBEBelow.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
                 doorBEBelow.setWarpFuelCount(doorBEBelow.getWarpFuelCount() + 1);
                 if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos.below(), 16);
+                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.below(), 16);
             }
         }
 
@@ -490,7 +490,7 @@ public class MarioverseEventHandlers {
             else if (trapDoorBE.getWarpFuelCount() == ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
                 world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
             if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, pos, 16);
+                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
             player.swing(player.getUsedItemHand());
             heldItem.consume(1, player);
             event.setCancellationResult(InteractionResult.SUCCESS);
@@ -528,6 +528,17 @@ public class MarioverseEventHandlers {
                                 && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                             player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
                                     target.getName()).withStyle(ChatFormatting.GOLD), true);
+                        } else if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                            if (linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                                if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
+                                    player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
+                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                                    target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - linkableEntity.mv$getWarpFuelCount())
+                                            .withStyle(ChatFormatting.RED), true);
+                                else player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.entity_fuel_required",
+                                                target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - linkableEntity.mv$getWarpFuelCount())
+                                        .withStyle(ChatFormatting.RED), true);
+                            }
                         } else if (!LinkerItem.getIsBound(stack)) {
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
@@ -621,7 +632,7 @@ public class MarioverseEventHandlers {
                         if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
                             player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
                                     Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                                    target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                         else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
                                 target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                         linkableEntity.mv$setBreakPainting(Boolean.TRUE);
@@ -630,7 +641,7 @@ public class MarioverseEventHandlers {
                         if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
                             player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
                                     Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                                    target.getName()).withStyle(ChatFormatting.RED), true);
                         else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_entity_warp",
                                 target.getDisplayName()).withStyle(ChatFormatting.RED), true);
                         linkableEntity.mv$setPreventWarp(Boolean.TRUE);
@@ -641,6 +652,21 @@ public class MarioverseEventHandlers {
                 }
                 player.swing(player.getUsedItemHand());
             }
+        } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
+                && stack.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
+                && target instanceof WarpLinkableEntity warpLinkableEntity
+                && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
+            warpLinkableEntity.mv$setWarpFuelCount(warpLinkableEntity.mv$getWarpFuelCount() + 1);
+            if (warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            else if (warpLinkableEntity.mv$getWarpFuelCount() == ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
+            player.swing(player.getUsedItemHand());
+            stack.consume(1, player);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
         } else if (stack.getItem() instanceof HoneycombItem) {
             if (target instanceof WarpLinkableEntity linkableEntity
                     && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {

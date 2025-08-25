@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ServerParticleUtils {
     public static void spawnParticlesOnBlockFaces(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, IntProvider count) {
@@ -68,10 +69,12 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnThreeLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, int avgAmount) {
+    public static void spawnThreeLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, @Nullable Entity entity, BlockPos pos, int avgAmount) {
         float scaleFactor = 1;
         int numParticles = (int) (scaleFactor * avgAmount);
         double radius = 0.65;
+        if (entity instanceof Painting painting)
+            radius = (double) painting.getVariant().value().width() / 2;
 
         for (int i = 0; i < numParticles; i++) {
             double angle = 2 * Math.PI * i / numParticles;
@@ -88,10 +91,12 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnOneLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, int avgAmount) {
+    public static void spawnOneLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, @Nullable Entity entity, BlockPos pos, int avgAmount) {
         float scaleFactor = 1;
         int numParticles = (int) (scaleFactor * avgAmount);
         double radius = 0.65;
+        if (entity instanceof Painting painting)
+            radius = (double) painting.getVariant().value().width() / 2;
 
         for (int i = 0; i < numParticles; i++) {
             double angle = 2 * Math.PI * i / numParticles;

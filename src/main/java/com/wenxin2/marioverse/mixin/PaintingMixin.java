@@ -27,6 +27,7 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     @Unique private static final String PREVENT_WARP = "PreventWarp";
     @Unique private static final String UUID = "UUID";
     @Unique private static final String WARP_DIMENSION = "Dimension";
+    @Unique private static final String WARP_FUEL_COUNT = "WarpFuelCount";
     @Unique private static final String WARP_POS = "WarpPos";
     @Unique private static final String WARP_UUID = "WarpUUID";
     @Unique public BlockPos mv$destinationPos;
@@ -37,6 +38,7 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
     @Unique public boolean mv$breakPainting = Boolean.FALSE;
     @Unique public boolean mv$isWaxed;
     @Unique public boolean mv$preventWarp = Boolean.FALSE;
+    @Unique private int mv$warpFuelCount;
 
     public PaintingMixin(EntityType<? extends HangingEntity> type, Level world) {
         super(type, world);
@@ -48,6 +50,7 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
         tag.putBoolean(BREAK_PAINTING, this.mv$breakPainting);
         tag.putBoolean(IS_WAXED, this.mv$isWaxed);
         tag.putBoolean(PREVENT_WARP, this.mv$preventWarp);
+        tag.putInt(WARP_FUEL_COUNT, this.mv$warpFuelCount);
 
         if (this.mv$hasDestinationPos() && this.mv$destinationPos != null)
             tag.put(WARP_POS, NbtUtils.writeBlockPos(this.mv$destinationPos));
@@ -84,8 +87,21 @@ public abstract class PaintingMixin extends HangingEntity implements WarpLinkabl
         if (tag.contains(WARP_DIMENSION))
             this.mv$dimensionTag = tag.getString(WARP_DIMENSION);
 
+        if (tag.contains(WARP_FUEL_COUNT))
+            this.mv$warpFuelCount = tag.getInt(WARP_FUEL_COUNT);
+
         if (tag.contains(WARP_UUID))
             this.mv$warpUUID = tag.getUUID(WARP_UUID);
+    }
+
+    @Override
+    public int mv$getWarpFuelCount() {
+        return this.mv$warpFuelCount;
+    }
+
+    @Override
+    public void mv$setWarpFuelCount(int warpFuelCount) {
+        this.mv$warpFuelCount = warpFuelCount;
     }
 
     @Override
