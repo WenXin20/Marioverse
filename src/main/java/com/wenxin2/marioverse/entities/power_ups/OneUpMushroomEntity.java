@@ -28,7 +28,7 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
         ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastCollisionTime < 500) {
-            return; // Skip if called too soon 
+            return; // Skip if called too soon
                     // Prevents item dupe
         }
         lastCollisionTime = currentTime;
