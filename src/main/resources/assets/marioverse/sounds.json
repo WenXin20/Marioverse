@@ -74,7 +74,7 @@
   "block.item_spawns": { "category": "block", "sounds": [{ "name": "random/pop", "stream": false }],
     "subtitle": "subtitles.marioverse.block.item_spawns" },
 
-  "block.warp_fuel.completed": { "category": "block", "sounds": [{ "name": "block/end_portal/endportal", "stream": false, "pitch": 0.5 }],
+  "block.warp_fuel.completed": { "category": "block", "sounds": [{ "name": "block/end_portal/endportal", "stream": false, "pitch": 0.5, "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.block.warp_fuel.completed" },
   "block.warp_fuel.fills": { "category": "block", "sounds": [{ "name": "block/end_portal/eyeplace1", "stream": false },
     { "name": "block/end_portal/eyeplace2", "stream": false },
@@ -219,6 +219,13 @@
       { "name": "marioverse:entity/piranha_plant/piranha_plant_hurt3", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.piranha_plant_hurt" },
 
+  "entity.one_up_collected": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/one_up_collected", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.one_up_collected" },
+  "entity.powers_up": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.powers_up" },
+  "entity.powers_up_super_star": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up_super_star", "stream": false }],
+    "subtitle": "subtitles.marioverse.entity.powers_up_super_star" },
+
   "entity.super_star_bounce": { "category": "neutral", "sounds": [{ "name": "marioverse:power_up/super_star_bounce", "stream": false }],
     "subtitle": "subtitles.marioverse.entity.super_star_bounce" },
   "entity.super_star_theme": { "category": "music", "sounds": [{ "name": "marioverse:power_up/super_star_theme", "stream": false }],
@@ -240,10 +247,6 @@
     "subtitle": "subtitles.marioverse.player.koopa_shell_thrown" },
   "player.koopa_shell_thrown_up": { "category": "player", "sounds": [{ "name": "marioverse:player/koopa_shell_thrown_up", "stream": false }],
     "subtitle": "subtitles.marioverse.player.koopa_shell_thrown_up" },
-  "player.one_up_collected": { "category": "player", "sounds": [{ "name": "marioverse:player/one_up_collected", "stream": false }],
-    "subtitle": "subtitles.marioverse.player.one_up_collected" },
-  "player.player_powers_up": { "category": "player", "sounds": [{ "name": "marioverse:player/player_powers_up", "stream": false }],
-    "subtitle": "subtitles.marioverse.player.player_powers_up" },
 
 
   "projectile.fireball_sizzles": { "category": "ambient", "sounds": [{ "name": "random/fizz", "stream": false, "pitch": 1.0, "volume": 0.5 }],

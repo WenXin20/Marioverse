@@ -82,7 +82,7 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
             this.setHasPowerUp(entity, true);
         }
 
-        this.level().playSound(null, this.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+        this.level().playSound(null, this.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
         this.remove(RemovalReason.KILLED);
 
         this.applyCostumeChange(entity, capability);

@@ -71,7 +71,8 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_CHOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_HURT;
-    public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_POWERS_UP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_SUPER_STAR;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
@@ -229,6 +230,13 @@ public class SoundRegistry {
         PIRANHA_PLANT_HURT = Marioverse.SOUNDS.register("entity.piranha_plant_hurt",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_hurt")));
 
+        ONE_UP_COLLECTED = Marioverse.SOUNDS.register("entity.one_up_collected",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.one_up_collected")));
+        POWERS_UP = Marioverse.SOUNDS.register("entity.powers_up",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up")));
+        POWERS_UP_SUPER_STAR = Marioverse.SOUNDS.register("entity.powers_up_super_star",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up_super_star")));
+
         SUPER_STAR_BOUNCE = Marioverse.SOUNDS.register("entity.super_star_bounce",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_bounce")));
         SUPER_STAR_THEME = Marioverse.SOUNDS.register("entity.super_star_theme",
@@ -245,10 +253,6 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.koopa_shell_thrown")));
         KOOPA_SHELL_THROWN_UP = Marioverse.SOUNDS.register("player.koopa_shell_thrown_up",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.koopa_shell_thrown_up")));
-        ONE_UP_COLLECTED = Marioverse.SOUNDS.register("player.one_up_collected",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.one_up_collected")));
-        PLAYER_POWERS_UP = Marioverse.SOUNDS.register("player.player_powers_up",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.player_powers_up")));
 
         FIREBALL_SIZZLES = Marioverse.SOUNDS.register("projectile.fireball_sizzles",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "projectile.fireball_sizzles")));

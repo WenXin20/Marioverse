@@ -117,7 +117,7 @@ public class PowerUpCommand {
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
 
                 if (count == 1) {
                     switch (powerUpName) {
@@ -158,7 +158,7 @@ public class PowerUpCommand {
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
                 else entity.level().playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
 
                 if (count == 1)
@@ -187,7 +187,7 @@ public class PowerUpCommand {
                 DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
                 count++;
 
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
 
                 if (count == 1) {
                     if (entity.getVehicle() != null)
@@ -224,7 +224,7 @@ public class PowerUpCommand {
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
 
                 if (cooldownTicks >= 0) {
                     handler.mv$setSuperStarCooldown(cooldownTicks);

@@ -692,10 +692,13 @@
   "subtitles.marioverse.entity.mini_goomba_run": "Mini Goomba runs",
   "subtitles.marioverse.entity.mini_goomba_step": "Footsteps",
   "subtitles.marioverse.entity.mini_goomba_stomp": "Mini Goomba stomped",
+  "subtitles.marioverse.entity.one_up_collected": "1-Up collected",
   "subtitles.marioverse.entity.painting_warps": "Painting warps",
   "subtitles.marioverse.entity.piranha_plant_chomp": "Piranha Plant chomps",
-  "subtitles.marioverse.entity.piranha_plant_hurt": "Piranha Plant hurts",
   "subtitles.marioverse.entity.piranha_plant_death": "Piranha Plant dies",
+  "subtitles.marioverse.entity.piranha_plant_hurt": "Piranha Plant hurts",
+  "subtitles.marioverse.entity.powers_up": "Entity powers up",
+  "subtitles.marioverse.entity.powers_up_super_star": "Entity powers up on Super Star",
   "subtitles.marioverse.entity.super_star_bounce": "Super Star bounces",
   "subtitles.marioverse.entity.super_star_theme": "Super Star Theme plays",
 
@@ -705,8 +708,6 @@
   "subtitles.marioverse.player.ice_ball_thrown": "Ice Ball thrown",
   "subtitles.marioverse.player.koopa_shell_thrown": "Koopa Shell thrown",
   "subtitles.marioverse.player.koopa_shell_thrown_up": "Koopa Shell thrown",
-  "subtitles.marioverse.player.one_up_collected": "1-Up collected",
-  "subtitles.marioverse.player.player_powers_up": "Player powers up",
 
   "subtitles.marioverse.projectile.fireball_extinguished": "Fireball extinguished",
   "subtitles.marioverse.projectile.fireball_sizzles": "Fireball sizzles",

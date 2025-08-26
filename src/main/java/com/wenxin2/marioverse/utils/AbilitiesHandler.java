@@ -108,7 +108,7 @@ public interface AbilitiesHandler {
                 if (entity.getHealth() < entity.getMaxHealth())
                     entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
-                    world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+                    world.playSound(null, entity, SoundRegistry.POWERS_UP.get(),
                             entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
                 }
             }
@@ -151,7 +151,7 @@ public interface AbilitiesHandler {
 
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
-            world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+            world.playSound(null, entity, SoundRegistry.POWERS_UP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
         }
     }
@@ -170,7 +170,7 @@ public interface AbilitiesHandler {
             handler.mv$clearAllPowerUps();
             handler.mv$setSuperMushroom(true);
             handler.mv$setFireFlower(true);
-            world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+            world.playSound(null, entity, SoundRegistry.POWERS_UP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
 
             this.applyCostume(entity, capability, ItemRegistry.MARIO_FIRE_HAT.get(), ItemRegistry.MARIO_FIRE_SHIRT.get(),
@@ -192,7 +192,7 @@ public interface AbilitiesHandler {
             handler.mv$clearAllPowerUps();
             handler.mv$setSuperMushroom(true);
             handler.mv$setIceFlower(true);
-            world.playSound(null, entity, SoundRegistry.PLAYER_POWERS_UP.get(),
+            world.playSound(null, entity, SoundRegistry.POWERS_UP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
 
             this.applyCostume(entity, capability, ItemRegistry.MARIO_ICE_HAT.get(), ItemRegistry.MARIO_ICE_SHIRT.get(),

@@ -104,10 +104,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (player.getHealth() < player.getMaxHealth())
                     player.heal(healthHealed);
                 if (mushroom != null) {
-                    world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                    world.playSound(null, mushroom.blockPosition(), SoundRegistry.POWERS_UP.get(),
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     mushroom.remove(RemovalReason.KILLED);
-                } else world.playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                } else world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
         } else if (entity instanceof LivingEntity livingEntity
@@ -123,10 +123,10 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
                 if (livingEntity.getHealth() < livingEntity.getMaxHealth())
                     livingEntity.heal(healthHealed);
                 if (mushroom != null) {
-                    world.playSound(null, mushroom.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                    world.playSound(null, mushroom.blockPosition(), SoundRegistry.POWERS_UP.get(),
                             SoundSource.NEUTRAL, 1.0F, 1.0F);
                     mushroom.remove(RemovalReason.KILLED);
-                } else world.playSound(null, entity.blockPosition(), SoundRegistry.PLAYER_POWERS_UP.get(),
+                } else world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
                         SoundSource.NEUTRAL, 1.0F, 1.0F);
             }
         }
