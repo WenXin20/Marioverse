@@ -1,14 +1,11 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
-import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -55,38 +52,20 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        this.checkForCollisions();
+    public void collideWithEntity(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+            handler.applyFireFlowerPowerUp(this.level(), livingEntity, this);
+            this.remove(RemovalReason.DISCARDED);
+        }
     }
 
     @Override
-    protected boolean canPowerUpPlayer(Player player) {
-        return !player.isSpectator()
-                && !player.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && player.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS);
-    }
-
-    @Override
-    protected boolean canPowerUpMob(LivingEntity entity) {
-        return !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS)
-                || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get());
-    }
-
-    @Override
-    protected void setHasPowerUp(LivingEntity entity, boolean hasPowerUp) {
-        if (entity instanceof AbilitiesHandler handler)
-            handler.mv$setIceFlower(hasPowerUp);
-    }
-
-    @Override
-    protected TagKey<Item> getPowerUpCostumeTag() {
+    public TagKey<Item> getPowerUpCostumeTag() {
         return TagRegistry.ICE_COSTUMES;
     }
 
     @Override
-    protected List<ItemStack> getHatItems() {
+    public List<ItemStack> getHatItems() {
         return List.of(ItemRegistry.MARIO_HAT.toStack(),
                 ItemRegistry.LUIGI_HAT.toStack(),
                 ItemRegistry.PEACH_CROWN.toStack(),
@@ -95,7 +74,7 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     }
 
     @Override
-    protected List<ItemStack> getShirtItems() {
+    public List<ItemStack> getShirtItems() {
         return List.of(ItemRegistry.MARIO_SHIRT.toStack(),
                 ItemRegistry.LUIGI_SHIRT.toStack(),
                 ItemRegistry.PEACH_BODICE.toStack(),
@@ -105,7 +84,7 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     }
 
     @Override
-    protected List<ItemStack> getPantsItems() {
+    public List<ItemStack> getPantsItems() {
         return List.of(ItemRegistry.MARIO_PANTS.toStack(),
                 ItemRegistry.LUIGI_PANTS.toStack(),
                 ItemRegistry.PEACH_DRESS.toStack(),
@@ -115,17 +94,12 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     }
 
     @Override
-    protected List<ItemStack> getShoesItems() {
+    public List<ItemStack> getShoesItems() {
         return List.of(ItemRegistry.MARIO_SHOES.toStack(),
                 ItemRegistry.LUIGI_SHOES.toStack(),
                 ItemRegistry.PEACH_SHOES.toStack(),
                 ItemRegistry.MARIO_ICE_SHOES.toStack(),
                 ItemRegistry.LUIGI_ICE_SHOES.toStack(),
                 ItemRegistry.PEACH_ICE_SHOES.toStack());
-    }
-
-    @Override
-    protected void spawnPowerUpParticles(LivingEntity entity, ServerLevel serverWorld) {
-        ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
     }
 }

@@ -7,11 +7,13 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -21,19 +23,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 
 public class PowerUpCommand {
-
-//    private static final SuggestionProvider<CommandSourceStack> POWERUP_SUGGESTIONS = (context, builder) ->
-//            suggestPowerUps(builder);
-
-//    private static CompletableFuture<Suggestions> suggestPowerUps(SuggestionsBuilder builder) {
-//        return net.minecraft.commands.SharedSuggestionProvider.suggest(
-//                List.of("fire_flower", "ice_flower", "super_mushroom", "super_star"), builder);
-//    }
-
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("powerup")
                 .requires(source -> source.hasPermission(2))
@@ -112,12 +104,11 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 applyPowerUpType(handler, powerUpName, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
 
                 if (count == 1) {
                     switch (powerUpName) {
@@ -152,14 +143,13 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 handler.mv$setSuperMushroom(enablePowerUp);
                 handler.mv$setMushroomOverride(manualOverride);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
-                else entity.level().playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                else entity.level().playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
 
                 if (count == 1)
                     source.sendSuccess(() ->
@@ -182,12 +172,11 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 handler.mv$setDashMushroomBoost(true);
                 DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
                 count++;
 
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
 
                 if (count == 1) {
                     if (entity.getVehicle() != null)
@@ -219,16 +208,19 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
                 handler.mv$setSuperStar(enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), soundSource, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
 
                 if (cooldownTicks >= 0) {
                     handler.mv$setSuperStarCooldown(cooldownTicks);
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, cooldownTicks, 4, true, false));
+                    if (!handler.mv$playedSuperStarTheme())
+                        Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.SUPER_STAR_THEME.get(),
+                                SoundSource.AMBIENT, entity.getRandom(), cooldownTicks, 100));
+                    handler.mv$setPlayedSuperStarTheme(true);
                 } else {
                     handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));

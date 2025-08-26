@@ -40,7 +40,7 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        this.checkForCollisions();
+        this.checkForEntityCollision();
     }
 
     @Override
@@ -122,7 +122,7 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
         return true;
     }
 
-    public void checkForCollisions() {
+    public void checkForEntityCollision() {
         AABB boundingBox = this.getBoundingBox().inflate(0.1);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
@@ -137,6 +137,6 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
     public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK))
-            this.remove(Entity.RemovalReason.KILLED);
+            this.remove(RemovalReason.DISCARDED);
     }
 }

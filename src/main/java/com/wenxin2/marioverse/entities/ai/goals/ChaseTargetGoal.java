@@ -90,11 +90,11 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
                 if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
-                    handler.applyMushroomPowerUp(world, this.mob);
-                else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
-                    handler.applyFireFlowerPowerUp(world, this.mob);
-                else if (this.target instanceof IceFlowerEntity && !handler.mv$hasIceFlower())
-                    handler.applyIceFlowerPowerUp(world, this.mob);
+                    handler.applyMushroomPowerUp(world, this.mob, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                else if (this.target instanceof FireFlowerEntity powerUp && !handler.mv$hasFireFlower())
+                    handler.applyFireFlowerPowerUp(world, this.mob, powerUp);
+                else if (this.target instanceof IceFlowerEntity powerUp && !handler.mv$hasIceFlower())
+                    handler.applyIceFlowerPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof OneUpMushroomEntity
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()))
                     handler.applyOneUpMushroomPowerUp(world, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), this.mob);

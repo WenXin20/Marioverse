@@ -85,8 +85,9 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (!this.level().isClientSide) {
-            powerUp(this.level(), entity, this, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+            handler.applyMushroomPowerUp(this.level(), livingEntity, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 

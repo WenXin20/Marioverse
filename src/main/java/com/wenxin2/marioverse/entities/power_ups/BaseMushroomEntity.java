@@ -155,6 +155,6 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK))
-            this.remove(RemovalReason.KILLED);
+            this.remove(RemovalReason.DISCARDED);
     }
 }
