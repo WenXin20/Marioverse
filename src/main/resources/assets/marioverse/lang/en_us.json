@@ -652,6 +652,8 @@
   "subtitles.marioverse.block.pipes_linked": "Pipes linked",
   "subtitles.marioverse.block.power_up_spawns": "Power Up spawns",
   "subtitles.marioverse.block.star_coin_pickup": "Star Coin collected",
+  "subtitles.marioverse.block.warp_fuel.completed": "Warp completed",
+  "subtitles.marioverse.block.warp_fuel.fills": "Warp fuel fills",
   "subtitles.marioverse.block.water_spout.break": "Water Spout shrinks",
   "subtitles.marioverse.block.water_spout.fall": "Water Spout falls",
   "subtitles.marioverse.block.water_spout.hit": "Water Spout splashes",

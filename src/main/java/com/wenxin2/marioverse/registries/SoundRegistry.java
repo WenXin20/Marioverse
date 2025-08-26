@@ -76,6 +76,8 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARP_COMPLETED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARP_FUEL_FILLS;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_BREAK;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_FALL;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_HIT;
@@ -129,6 +131,11 @@ public class SoundRegistry {
 
         POWER_UP_SPAWNS = Marioverse.SOUNDS.register("block.power_up_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.power_up_spawns")));
+
+        WARP_COMPLETED = Marioverse.SOUNDS.register("block.warp_fuel.completed",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.completed")));
+        WARP_FUEL_FILLS = Marioverse.SOUNDS.register("block.warp_fuel.fills",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.fills")));
 
         WATER_SPOUT_BREAK = Marioverse.SOUNDS.register("block.water_spout.break",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.break")));

@@ -74,6 +74,13 @@
   "block.item_spawns": { "category": "block", "sounds": [{ "name": "random/pop", "stream": false }],
     "subtitle": "subtitles.marioverse.block.item_spawns" },
 
+  "block.warp_fuel.completed": { "category": "block", "sounds": [{ "name": "block/end_portal/endportal", "stream": false, "pitch": 0.5 }],
+    "subtitle": "subtitles.marioverse.block.warp_fuel.completed" },
+  "block.warp_fuel.fills": { "category": "block", "sounds": [{ "name": "block/end_portal/eyeplace1", "stream": false },
+    { "name": "block/end_portal/eyeplace2", "stream": false },
+    { "name": "block/end_portal/eyeplace3", "stream": false }],
+    "subtitle": "subtitles.marioverse.block.warp_fuel.fills" },
+
   "block.water_spout.break": { "category": "block", "sounds": [{ "name": "item/bucket/fill1", "stream": false },
     { "name": "item/bucket/fill2", "stream": false },
     { "name": "item/bucket/fill3", "stream": false }], "subtitle": "subtitles.marioverse.block.water_spout.break" },

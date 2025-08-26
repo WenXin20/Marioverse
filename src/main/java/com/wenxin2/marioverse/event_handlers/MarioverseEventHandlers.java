@@ -454,9 +454,9 @@ public class MarioverseEventHandlers {
                 && doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
             doorBE.setWarpFuelCount(doorBE.getWarpFuelCount() + 1);
             if (doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
             else if (doorBE.getWarpFuelCount() == ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
+                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
             player.swing(player.getUsedItemHand());
@@ -486,9 +486,9 @@ public class MarioverseEventHandlers {
                 && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
             trapDoorBE.setWarpFuelCount(trapDoorBE.getWarpFuelCount() + 1);
             if (trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
             else if (trapDoorBE.getWarpFuelCount() == ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
+                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
             player.swing(player.getUsedItemHand());
@@ -528,8 +528,8 @@ public class MarioverseEventHandlers {
                                 && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                             player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
                                     target.getName()).withStyle(ChatFormatting.GOLD), true);
-                        } else if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
-                            if (linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                        } else if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
+                            if (linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
                                 if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
                                     player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
                                             Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
@@ -658,9 +658,9 @@ public class MarioverseEventHandlers {
                 && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
             warpLinkableEntity.mv$setWarpFuelCount(warpLinkableEntity.mv$getWarpFuelCount() + 1);
             if (warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
             else if (warpLinkableEntity.mv$getWarpFuelCount() == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
+                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
             player.swing(player.getUsedItemHand());
