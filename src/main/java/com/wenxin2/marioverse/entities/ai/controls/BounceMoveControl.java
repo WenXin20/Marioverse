@@ -57,7 +57,8 @@ public class BounceMoveControl extends MoveControl {
                 this.yRot = (this.mob.getYRot() + 180.0F) % 360.0F;
                 stuckTicks = 0;
             }
-        } else stuckTicks = 0;
+        } else if (this.mob.getDeltaMovement().horizontalDistanceSqr() > 1.0E-4)
+            stuckTicks = 0;
 
         if (this.operation != MoveControl.Operation.MOVE_TO) {
             this.mob.setZza(0.0F);
