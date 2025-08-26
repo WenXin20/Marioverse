@@ -653,7 +653,7 @@ public class MarioverseEventHandlers {
                 player.swing(player.getUsedItemHand());
             }
         } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && stack.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
+                && stack.is(TagRegistry.WARP_FUEL)
                 && target instanceof WarpLinkableEntity warpLinkableEntity
                 && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
             warpLinkableEntity.mv$setWarpFuelCount(warpLinkableEntity.mv$getWarpFuelCount() + 1);
