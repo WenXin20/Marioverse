@@ -322,6 +322,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (this.level() instanceof ServerLevel serverWorld) {
             ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
+            if (this.level().getFluidState(this.blockPosition()).is(FluidTags.WATER))
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.BUBBLE, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
         }
         world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
         world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
