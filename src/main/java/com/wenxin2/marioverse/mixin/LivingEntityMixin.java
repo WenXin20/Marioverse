@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -27,6 +28,7 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -88,7 +90,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
 
-    @Shadow public abstract void setSpeed(float p_21320_);
+    @Shadow public abstract void setSpeed(float speed);
+
+    @Shadow public abstract void handleEntityEvent(byte entityEvent);
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique private boolean mv$playedDamagedSound;
@@ -106,6 +110,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
     @Unique private boolean mv$hasSuperStar;
+    @Unique private boolean mv$playedSuperStarTheme;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
@@ -319,16 +324,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (this.mv$getSuperStarCooldown() > 0)
             this.mv$setSuperStarCooldown(this.mv$getSuperStarCooldown() - 1);
 
-        if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar())
+        if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar()) {
             this.mv$setSuperStar(false);
+            this.mv$setPlayedSuperStarTheme(false);
+        }
 
         if (this.mv$hasSuperStar()) {
             this.mv$superStarKillEntity(entity);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
-            this.mv$playSuperStarTheme();
-        } else if (!this.mv$hasSuperStar() && this.mv$playedStarTheme)
-            this.mv$playedStarTheme = false;
+        }
 
         if (this.mv$hasDashMushroomBoost())
             this.mv$boostEntityParticles(entity.getVehicle(), entity);
@@ -435,6 +440,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setSuperStar(boolean hasSuperStar) {
         this.mv$hasSuperStar = hasSuperStar;
+    }
+
+    @Override
+    public boolean mv$playedSuperStarTheme() {
+        return this.mv$playedSuperStarTheme;
+    }
+
+    @Override
+    public void mv$setPlayedSuperStarTheme(boolean playedSuperStarTheme) {
+        this.mv$playedSuperStarTheme = playedSuperStarTheme;
     }
 
     @Override
@@ -1408,22 +1423,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     }
                 }
             }
-        }
-    }
-
-    @Unique
-    private boolean mv$playedStarTheme = false;
-
-    @Unique
-    private void mv$playSuperStarTheme() {
-        LivingEntity entity = (LivingEntity) (Object) this;
-        Level world = entity.level();
-
-        if ((world.getGameTime() % 262L == 0L) || !mv$playedStarTheme) {
-            SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
-
-            world.playSound(null, entity.blockPosition(), SoundRegistry.SUPER_STAR_THEME.get(), soundSource, 1.0F, 1.0f);
-            mv$playedStarTheme = true;
         }
     }
 

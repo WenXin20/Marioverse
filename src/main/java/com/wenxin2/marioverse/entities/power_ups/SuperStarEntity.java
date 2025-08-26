@@ -6,8 +6,10 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -95,7 +97,11 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                 player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
                 this.level().playSound(null, this.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
+                if (!handler.mv$playedSuperStarTheme())
+                    Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(player, SoundRegistry.SUPER_STAR_THEME.get(),
+                            SoundSource.AMBIENT, entity.getRandom(), handler.mv$getSuperStarCooldown(), 100));
+                handler.mv$setPlayedSuperStarTheme(true);
                 this.remove(RemovalReason.KILLED);
 
             } else if (entity instanceof LivingEntity livingEntity
@@ -110,8 +116,12 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
                 this.level().broadcastEntityEvent(livingEntity, (byte) 119); // Super Star Powered Up particle
                 livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
-                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWERS_UP.get(),
-                        SoundSource.NEUTRAL, 1.0F, 1.0F);
+                this.level().playSound(null, this.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(),
+                        SoundSource.AMBIENT, 1.0F, 1.0F);
+                if (!handler.mv$playedSuperStarTheme())
+                    Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.SUPER_STAR_THEME.get(),
+                            SoundSource.AMBIENT, entity.getRandom(), handler.mv$getSuperStarCooldown(), 100));
+                handler.mv$setPlayedSuperStarTheme(true);
                 this.remove(RemovalReason.KILLED);
             }
         }

@@ -46,6 +46,9 @@ public interface AbilitiesHandler {
     boolean mv$hasSuperStar();
     void mv$setSuperStar(boolean hasSuperStar);
 
+    boolean mv$playedSuperStarTheme();
+    void mv$setPlayedSuperStarTheme(boolean playedSuperStarTheme);
+
     boolean mv$hasSmashedBlock();
     void mv$setSmashedBlock(boolean hasSmashedBlock);
 
