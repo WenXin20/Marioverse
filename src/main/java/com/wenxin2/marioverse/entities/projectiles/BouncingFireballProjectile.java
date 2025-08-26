@@ -19,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -87,31 +88,26 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
         this.collideWithEntity();
 
-        if (!this.isInWater()) {
+        if (!this.isInWater())
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
-        } else {
-            this.setDeltaMovement(this.getDeltaMovement().add(motion.x, -0.04D, motion.y)); // Gravity
-        }
+        else this.setDeltaMovement(this.getDeltaMovement().add(motion.x, -0.04D, motion.y)); // Gravity
+
 
         if (motion.length() > 0) {
             this.setYRot((float) Math.toDegrees(Math.atan2(motion.z, motion.x)) + 270);
             this.setXRot((float) Math.toDegrees(Math.atan2(-motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z))));
         }
 
-        if (this.onGround() || this.tickCount > 400) {
-            if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            this.level().gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
-            this.discard(); // Despawn
-        }
+        if (this.onGround() || this.tickCount > 400)
+            this.discardEffects();
 
         for (int i = 0; i < 1; i++) {
             double x = this.getX();
             double y = this.getY() + this.getBbHeight() / 2;
             double z = this.getZ();
             this.level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+            if (this.level().getFluidState(this.blockPosition()).is(FluidTags.WATER))
+                this.level().addParticle(ParticleTypes.BUBBLE, x, y, z, 0, 0, 0);
         }
     }
 
@@ -132,23 +128,12 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         BlockState state = this.level().getBlockState(hitPos);
         BlockState stateAbove = this.level().getBlockState(hitPos.above());
 
-        if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            if (this.level() instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
-            }
-            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.discard(); // Despawn on side hit
-        } else {
+        if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z)
+            this.discardEffectsOnSideHit(world, hitPos);
+        else {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.4, motion.z); // Bounce
-            if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_SIZZLES.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
+            this.bounceEffects(world, hitPos);
         }
 
         if (state.is(Blocks.SNOW)) {
@@ -314,6 +299,33 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             }
         }
         return false;
+    }
+
+    public void bounceEffects(Level world, BlockPos pos) {
+        if (this.level() instanceof ServerLevel serverWorld)
+            ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+        world.playSound(null, pos, SoundRegistry.FIREBALL_SIZZLES.get(),
+                SoundSource.AMBIENT, 1.0F, 1.0F);
+        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, pos);
+    }
+
+    public void discardEffects() {
+        if (this.level() instanceof ServerLevel serverWorld)
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+        this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                SoundSource.AMBIENT, 1.0F, 1.0F);
+        this.level().gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
+        this.remove(RemovalReason.DISCARDED); // Despawn
+    }
+
+    public void discardEffectsOnSideHit(Level world, BlockPos hitPos) {
+        if (this.level() instanceof ServerLevel serverWorld) {
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
+        }
+        world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
+        this.remove(RemovalReason.DISCARDED); // Despawn on side hit
     }
 
     public void collideWithEntity() {

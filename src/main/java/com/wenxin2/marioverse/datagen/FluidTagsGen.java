@@ -17,6 +17,7 @@ public class FluidTagsGen extends FluidTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(TagRegistry.FREEZES_INTO_COBBLESTONE).add(Fluids.FLOWING_LAVA);
         tag(TagRegistry.FREEZES_INTO_FROSTED_ICE).add(Fluids.WATER);
         tag(TagRegistry.FREEZES_INTO_OBSIDIAN).add(Fluids.LAVA);
     }

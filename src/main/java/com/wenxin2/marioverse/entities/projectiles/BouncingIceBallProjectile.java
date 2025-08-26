@@ -48,6 +48,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -104,6 +105,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Vec3 motion = this.getDeltaMovement();
 
         this.collideWithEntity();
+        this.onHitFluid(world, this.blockPosition());
 
         if (!this.isInWater())
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
@@ -114,15 +116,9 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             this.setXRot((float) Math.toDegrees(Math.atan2(-motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z))));
         }
 
-        if (this.onGround() || this.tickCount > 400) {
-            if (!world.isClientSide) {
-                world.broadcastEntityEvent(this, (byte) 60); // Smoke particle
-            }
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
-            this.discard(); // Despawn
-        }
+        if (this.onGround() || this.tickCount > 400)
+            this.discardEffects(world);
+
 
         for (int i = 0; i < 1; i++) {
             double x = this.getX();
@@ -151,48 +147,67 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         this.bounceCount = bounceCount;
     }
 
+    public void bounceEffects(Level world, BlockPos pos) {
+        if (world instanceof ServerLevel serverWorld)
+            ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+        world.playSound(null, pos, SoundRegistry.ICE_BALL_BOUNCED.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, pos);
+    }
+
+    public void discardEffects(Level world) {
+        if (this.level() instanceof ServerLevel serverWorld)
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+        world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
+                SoundSource.AMBIENT, 1.0F, 1.0F);
+        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
+        this.remove(RemovalReason.DISCARDED);
+    }
+
+    public void discardEffectsOnSideHit(Level world, BlockPos hitPos) {
+        if (world instanceof ServerLevel serverWorld)
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+        world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
+                SoundSource.AMBIENT, 1.0F, 1.0F);
+        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
+        this.remove(RemovalReason.DISCARDED); // Despawn on side hit
+    }
+
+    protected void onHitFluid(Level world, BlockPos pos) {
+        FluidState fluidState = world.getFluidState(pos);
+        FluidState fluidStateBelow = world.getFluidState(pos.below());
+        BlockState state = world.getBlockState(pos);
+
+        if (fluidStateBelow.getType().is(TagRegistry.FREEZES_INTO_FROSTED_ICE)) {
+            if (fluidStateBelow.getType() == Fluids.WATER && fluidState.getType() != Fluids.WATER && state.canBeReplaced())
+                world.setBlock(pos.below(), Blocks.FROSTED_ICE.defaultBlockState(), 3);
+        } else if (fluidStateBelow.getType().is(TagRegistry.FREEZES_INTO_OBSIDIAN)) {
+            world.setBlock(pos.below(), Blocks.OBSIDIAN.defaultBlockState(), 3);
+            this.discardEffects(world);
+        } else if (fluidStateBelow.getType().is(TagRegistry.FREEZES_INTO_COBBLESTONE)) {
+            world.setBlock(pos.below(), Blocks.COBBLESTONE.defaultBlockState(), 3);
+            this.discardEffects(world);
+        }
+    }
+
     @Override
     public void onHitBlock(BlockHitResult hit) {
         Level world = this.level();
         BlockPos hitPos = hit.getBlockPos();
         BlockState state = world.getBlockState(hitPos);
-        BlockState stateAbove = world.getBlockState(hitPos.above());
-        FluidState fluidState = world.getFluidState(hitPos.above());
-        FluidState fluidStateAbove = world.getFluidState(hitPos.above(2));
 
-        if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z) {
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.remove(RemovalReason.DISCARDED); // Despawn on side hit
-        } else if (this.getBounceCount() < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
+        if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z)
+            this.discardEffectsOnSideHit(world, hitPos);
+        else if (this.getBounceCount() < ConfigRegistry.MAX_ICE_BALL_BOUNCES.get()) {
             Vec3 motion = this.getDeltaMovement();
             this.setDeltaMovement(motion.x, 0.5, motion.z); // Bounce
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_BOUNCED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            this.bounceEffects(world, hitPos);
 
             this.setBounceCount(this.getBounceCount() + 1);
-        } else {
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.remove(RemovalReason.DISCARDED);
-        }
+        } else this.discardEffectsOnSideHit(world, hitPos);
 
-        if (fluidState.getType().is(TagRegistry.FREEZES_INTO_FROSTED_ICE)) {
-            if (fluidState.getType() == Fluids.WATER && fluidStateAbove.getType() != Fluids.WATER && stateAbove.canBeReplaced())
-                world.setBlock(hitPos.above(), Blocks.FROSTED_ICE.defaultBlockState(), 3);
-            else if (fluidState.getType() != Fluids.WATER)
-                world.setBlock(hitPos.above(), Blocks.ICE.defaultBlockState(), 3);
-        } else if (fluidState.getType().is(TagRegistry.FREEZES_INTO_OBSIDIAN)) {
-            world.setBlock(hitPos.above(), Blocks.OBSIDIAN.defaultBlockState(), 3);
-        } else if (state.is(TagRegistry.FREEZES_INTO_PACKED_ICE))
+        if (state.getBlock() == Blocks.FROSTED_ICE)
+            world.setBlock(hitPos, Blocks.FROSTED_ICE.defaultBlockState(), 3);
+        else if (state.is(TagRegistry.FREEZES_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
@@ -200,37 +215,25 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.remove(RemovalReason.DISCARDED);
+            this.discardEffects(world);
         }
         else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT)) {
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.remove(RemovalReason.DISCARDED);
+            this.discardEffects(world);
         }
         else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT)) {
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.remove(RemovalReason.DISCARDED);
+            this.discardEffects(world);
         }
         else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT)) {
             world.levelEvent(null, 1009, hitPos, 0);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
-            this.remove(RemovalReason.DISCARDED);
+            this.discardEffects(world);
         }
         super.onHitBlock(hit);
     }

@@ -71,6 +71,7 @@ public class TagRegistry {
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
 
+    public static final TagKey<Fluid> FREEZES_INTO_COBBLESTONE = fluidTags("freezes_into_cobblestone");
     public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");
     public static final TagKey<Fluid> FREEZES_INTO_OBSIDIAN = fluidTags("freezes_into_obsidian");
 
