@@ -655,11 +655,11 @@ public class MarioverseEventHandlers {
         } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && stack.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
                 && target instanceof WarpLinkableEntity warpLinkableEntity
-                && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
+                && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
             warpLinkableEntity.mv$setWarpFuelCount(warpLinkableEntity.mv$getWarpFuelCount() + 1);
-            if (warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+            if (warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
                 world.playSound(null, pos, SoundEvents.END_PORTAL_FRAME_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-            else if (warpLinkableEntity.mv$getWarpFuelCount() == ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
+            else if (warpLinkableEntity.mv$getWarpFuelCount() == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
                 world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 0.5F);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
