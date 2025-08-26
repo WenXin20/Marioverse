@@ -19,6 +19,7 @@ public class BounceMoveControl extends MoveControl {
     private boolean isAggressive;
     private final SoundEvent jumpSound;
     protected final RandomSource random = RandomSource.create();
+    private int stuckTicks = 0;
 
     public BounceMoveControl(Mob mob, int mobJumpDelay, SoundEvent jumpSound, float soundPitch, float soundVolume) {
         super(mob);
@@ -49,6 +50,15 @@ public class BounceMoveControl extends MoveControl {
         this.mob.setYRot(this.rotlerp(this.mob.getYRot(), this.yRot, 90.0F));
         this.mob.yHeadRot = this.mob.getYRot();
         this.mob.yBodyRot = this.mob.getYRot();
+
+        if (this.mob.horizontalCollision) {
+            stuckTicks++;
+            if (stuckTicks > 10) {
+                this.yRot = (this.mob.getYRot() + 180.0F) % 360.0F;
+                stuckTicks = 0;
+            }
+        } else stuckTicks = 0;
+
         if (this.operation != MoveControl.Operation.MOVE_TO) {
             this.mob.setZza(0.0F);
         } else {
