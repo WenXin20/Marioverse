@@ -154,7 +154,7 @@ public interface AbilitiesHandler {
 
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
-            world.playSound(null, entity, SoundRegistry.POWERS_UP.get(),
+            world.playSound(null, entity, SoundRegistry.POWERS_UP_SUPER_STAR.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE, 1.0F, 1.0F);
         }
     }
