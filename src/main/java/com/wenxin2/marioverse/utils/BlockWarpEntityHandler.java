@@ -200,6 +200,10 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
             this.updateDoorState(world, pos, state, warpPos, warpState);
+
+            warpBE.setDestinationPos(warpPos);
+            if (world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity destBE)
+                destBE.setDestinationPos(pos);
         }
     }
 
