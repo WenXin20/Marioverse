@@ -1,9 +1,11 @@
 {
   "values": [
     "#c:dyes",
+    "#c:tools/wrench",
     "#marioverse:warp_pipes",
     "marioverse:wrench",
     "marioverse:warp_disruptor",
+    "minecraft:debug_stick",
     "minecraft:glow_ink_sac",
     "minecraft:ink_sac"
   ]

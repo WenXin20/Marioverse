@@ -161,9 +161,11 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(Tags.Items.DYES)
+                .addTag(Tags.Items.TOOLS_WRENCH)
                 .addTag(TagRegistry.WARP_PIPE_ITEMS)
                 .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get())
+                .add(Items.DEBUG_STICK)
                 .add(Items.GLOW_INK_SAC)
                 .add(Items.INK_SAC);
 
