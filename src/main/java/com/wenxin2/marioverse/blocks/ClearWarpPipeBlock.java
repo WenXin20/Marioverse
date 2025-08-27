@@ -348,19 +348,22 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                         .setValue(EAST, state.getValue(WEST))
                         .setValue(SOUTH, state.getValue(NORTH))
                         .setValue(WEST, state.getValue(EAST))
-                        .setValue(FACING, rotation.rotate(state.getValue(FACING)));
+                        .setValue(FACING, rotation.rotate(state.getValue(FACING)))
+                        .setValue(ENTRANCE, false);
             case COUNTERCLOCKWISE_90:
                 return state.setValue(NORTH, state.getValue(EAST))
                         .setValue(EAST, state.getValue(SOUTH))
                         .setValue(SOUTH, state.getValue(WEST))
                         .setValue(WEST, state.getValue(NORTH))
-                        .setValue(FACING, rotation.rotate(state.getValue(FACING)));
+                        .setValue(FACING, rotation.rotate(state.getValue(FACING)))
+                        .setValue(ENTRANCE, false);
             case CLOCKWISE_90:
                 return state.setValue(NORTH, state.getValue(WEST))
                         .setValue(EAST, state.getValue(NORTH))
                         .setValue(SOUTH, state.getValue(EAST))
                         .setValue(WEST, state.getValue(SOUTH))
-                        .setValue(FACING, rotation.rotate(state.getValue(FACING)));
+                        .setValue(FACING, rotation.rotate(state.getValue(FACING)))
+                        .setValue(ENTRANCE, false);
             default:
                 return super.rotate(state, rotation);
         }
@@ -371,10 +374,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         switch (mirror) {
             case LEFT_RIGHT:
                 return state.setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH))
-                        .setValue(FACING, mirror.mirror(state.getValue(FACING)));
+                        .setValue(FACING, mirror.mirror(state.getValue(FACING))).setValue(ENTRANCE, false);
             case FRONT_BACK:
                 return state.setValue(EAST, state.getValue(WEST)).setValue(WEST, state.getValue(EAST))
-                        .setValue(FACING, mirror.mirror(state.getValue(FACING)));
+                        .setValue(FACING, mirror.mirror(state.getValue(FACING))).setValue(ENTRANCE, false);
             default:
                 return super.mirror(state, mirror);
         }
@@ -406,65 +409,18 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
-        Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
-        Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
-        Block blockNorth = worldAccessor.getBlockState(pos.north()).getBlock();
-        Block blockSouth = worldAccessor.getBlockState(pos.south()).getBlock();
-        Block blockEast = worldAccessor.getBlockState(pos.east()).getBlock();
-        Block blockWest = worldAccessor.getBlockState(pos.west()).getBlock();
-
-        boolean facingUp = state.getValue(FACING) == Direction.UP;
-        boolean facingDown = state.getValue(FACING) == Direction.DOWN;
-        boolean facingNorth = state.getValue(FACING) == Direction.NORTH;
-        boolean facingSouth = state.getValue(FACING) == Direction.SOUTH;
-        boolean facingEast = state.getValue(FACING) == Direction.EAST;
-        boolean facingWest = state.getValue(FACING) == Direction.WEST;
-
-        if (state.getValue(WATERLOGGED) && !state.getValue(CLOSED)) {
+        if (state.getValue(WATERLOGGED) && !state.getValue(CLOSED))
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
-        }
 
-        if (facingUp) {
-            if (blockAbove instanceof WarpPipeBlock) {
-                return state.setValue(ENTRANCE, Boolean.FALSE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-            }
-            return state.setValue(ENTRANCE, Boolean.TRUE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-        }
+        return updateEntrance(state, worldAccessor, pos);
+    }
 
-        if (facingDown) {
-            if (blockBelow instanceof WarpPipeBlock) {
-                return state.setValue(ENTRANCE, Boolean.FALSE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-            }
-            return state.setValue(ENTRANCE, Boolean.TRUE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-        }
+    private BlockState updateEntrance(BlockState state, LevelAccessor worldAccessor, BlockPos pos) {
+        Direction facing = state.getValue(FACING);
+        BlockPos posRelative = pos.relative(facing);
+        Block frontBlock = worldAccessor.getBlockState(posRelative).getBlock();
 
-        if (facingNorth) {
-            if (blockNorth instanceof WarpPipeBlock) {
-                return state.setValue(ENTRANCE, Boolean.FALSE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-            }
-            return state.setValue(ENTRANCE, Boolean.TRUE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-        }
-
-        if (facingSouth) {
-            if (blockSouth instanceof WarpPipeBlock) {
-                return state.setValue(ENTRANCE, Boolean.FALSE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-            }
-            return state.setValue(ENTRANCE, Boolean.TRUE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-        }
-
-        if (facingEast) {
-            if (blockEast instanceof WarpPipeBlock) {
-                return state.setValue(ENTRANCE, Boolean.FALSE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-            }
-            return state.setValue(ENTRANCE, Boolean.TRUE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-        }
-
-        if (facingWest) {
-            if (blockWest instanceof WarpPipeBlock) {
-                return state.setValue(ENTRANCE, Boolean.FALSE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
-            }
-        }
-        return state.setValue(ENTRANCE, Boolean.TRUE).setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
+        return state.setValue(ENTRANCE, frontBlock != this);
     }
 
     @Override
