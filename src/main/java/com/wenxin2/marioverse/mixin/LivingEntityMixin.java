@@ -17,7 +17,6 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -28,7 +27,6 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -792,87 +790,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (motion.y < 0)
                 entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
         }
-    }
-
-    @Unique
-    private boolean mv$hasMarioCostume(LivingEntity entity) {
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.MARIO_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.MARIO_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.MARIO_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.MARIO_COSTUMES))
-            return true;
-
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
-        if (capability != null) {
-            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
-
-            if (containerHat != null && containerShirt != null && containerPants != null && containerShoes != null) {
-                ItemStack stackHat = containerHat.getAccessories().getItem(0);
-                ItemStack stackShirt = containerShirt.getAccessories().getItem(0);
-                ItemStack stackPants = containerPants.getAccessories().getItem(0);
-                ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
-                return stackHat.is(TagRegistry.MARIO_COSTUMES) && stackShirt.is(TagRegistry.MARIO_COSTUMES)
-                        && stackPants.is(TagRegistry.MARIO_COSTUMES) && stackShoes.is(TagRegistry.MARIO_COSTUMES);
-            }
-        }
-        return false;
-    }
-
-    @Unique
-    private boolean mv$hasLuigiCostume(LivingEntity entity) {
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.LUIGI_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.LUIGI_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.LUIGI_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.LUIGI_COSTUMES))
-            return true;
-
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
-        if (capability != null) {
-            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
-
-            if (containerHat != null && containerShirt != null && containerPants != null && containerShoes != null) {
-                ItemStack stackHat = containerHat.getAccessories().getItem(0);
-                ItemStack stackShirt = containerShirt.getAccessories().getItem(0);
-                ItemStack stackPants = containerPants.getAccessories().getItem(0);
-                ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
-                return stackHat.is(TagRegistry.LUIGI_COSTUMES) && stackShirt.is(TagRegistry.LUIGI_COSTUMES)
-                        && stackPants.is(TagRegistry.LUIGI_COSTUMES) && stackShoes.is(TagRegistry.LUIGI_COSTUMES);
-            }
-        }
-        return false;
-    }
-
-    @Unique
-    private boolean mv$hasPeachCostume(LivingEntity entity) {
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.PEACH_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.PEACH_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.PEACH_COSTUMES)
-                && entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.PEACH_COSTUMES))
-            return true;
-
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
-        if (capability != null) {
-            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
-
-            if (containerHat != null && containerShirt != null && containerPants != null && containerShoes != null) {
-                ItemStack stackHat = containerHat.getAccessories().getItem(0);
-                ItemStack stackShirt = containerShirt.getAccessories().getItem(0);
-                ItemStack stackPants = containerPants.getAccessories().getItem(0);
-                ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
-                return stackHat.is(TagRegistry.PEACH_COSTUMES) && stackShirt.is(TagRegistry.PEACH_COSTUMES)
-                        && stackPants.is(TagRegistry.PEACH_COSTUMES) && stackShoes.is(TagRegistry.PEACH_COSTUMES);
-            }
-        }
-        return false;
     }
 
     @Inject(method = "getArmorValue", at = @At("RETURN"), cancellable = true)

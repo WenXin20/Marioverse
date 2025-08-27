@@ -10,9 +10,6 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -169,8 +166,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void applyFireFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
-            AccessoriesCapability capability = AccessoriesCapability.get(entity);
-
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.FIRE_POWERED_UP.get(), serverWorld, entity, 10);
 
@@ -181,15 +176,13 @@ public interface AbilitiesHandler extends CostumeHandler {
             this.mv$setFireFlower(true);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
-            this.applyCostumeChange(entity, powerUp, capability);
+            this.applyCostumeChange(entity, powerUp);
         }
     }
 
     default void applyIceFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
-            AccessoriesCapability capability = AccessoriesCapability.get(entity);
-
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
 
@@ -200,7 +193,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             this.mv$setIceFlower(true);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
-            this.applyCostumeChange(entity, powerUp, capability);
+            this.applyCostumeChange(entity, powerUp);
         }
     }
 }
