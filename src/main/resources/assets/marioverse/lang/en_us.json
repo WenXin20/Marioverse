@@ -673,6 +673,7 @@
   "subtitles.marioverse.entity.hefty_goomba_run": "Hefty Goomba runs",
   "subtitles.marioverse.entity.hefty_goomba_step": "Footsteps",
   "subtitles.marioverse.entity.hefty_goomba_stomp": "Hefty Goomba stomped",
+  "subtitles.marioverse.entity.jump": "Mob jumps",
   "subtitles.marioverse.entity.koopa_shell_bounced": "Koopa Shell bounced",
   "subtitles.marioverse.entity.koopa_shell_shatter": "Koopa Shell shattered",
   "subtitles.marioverse.entity.koopa_shell_stomp": "Koopa Shell kicked",
@@ -706,6 +707,7 @@
 
   "subtitles.marioverse.player.fireball_thrown": "Fireball thrown",
   "subtitles.marioverse.player.ice_ball_thrown": "Ice Ball thrown",
+  "subtitles.marioverse.player.jump": "Player jumps",
   "subtitles.marioverse.player.koopa_shell_thrown": "Koopa Shell thrown",
   "subtitles.marioverse.player.koopa_shell_thrown_up": "Koopa Shell thrown",
 

@@ -61,6 +61,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_RUN;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_STOMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> MOB_JUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PAINTING_WARPS;
@@ -71,6 +72,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_CHOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_HURT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_JUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_SUPER_STAR;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
@@ -241,6 +243,11 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_bounce")));
         SUPER_STAR_THEME = Marioverse.SOUNDS.register("entity.super_star_theme",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_theme")));
+
+        MOB_JUMP = Marioverse.SOUNDS.register("entity.jump",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.jump")));
+        PLAYER_JUMP = Marioverse.SOUNDS.register("player.jump",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.jump")));
 
         WRENCH_BOUND = Marioverse.SOUNDS.register("item.wrench_bound",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_bound")));

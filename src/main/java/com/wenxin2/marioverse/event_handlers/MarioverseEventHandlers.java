@@ -56,6 +56,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -93,6 +94,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -777,6 +779,19 @@ public class MarioverseEventHandlers {
                 else if (!(event.getEntityMounting() instanceof Player))
                     event.setCanceled(true);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerJump(LivingEvent.LivingJumpEvent event) {
+        LivingEntity entity = event.getEntity();
+
+        if (entity instanceof AbilitiesHandler handler
+                && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
+                    || handler.mv$hasPeachCostume(entity))) {
+            entity.level().playSound(null, entity.blockPosition(),
+                    entity instanceof Player ? SoundRegistry.PLAYER_JUMP.get() : SoundRegistry.MOB_JUMP.get(),
+                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL);
         }
     }
 
