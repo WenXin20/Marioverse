@@ -31,7 +31,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -334,9 +336,43 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @NotNull
     @Override
-    public FluidState getFluidState(final BlockState state)
-    {
+    public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        switch (rotation) {
+            case CLOCKWISE_180:
+                return state.setValue(NORTH, state.getValue(SOUTH))
+                        .setValue(EAST, state.getValue(WEST))
+                        .setValue(SOUTH, state.getValue(NORTH))
+                        .setValue(WEST, state.getValue(EAST));
+            case COUNTERCLOCKWISE_90:
+                return state.setValue(NORTH, state.getValue(EAST))
+                        .setValue(EAST, state.getValue(SOUTH))
+                        .setValue(SOUTH, state.getValue(WEST))
+                        .setValue(WEST, state.getValue(NORTH));
+            case CLOCKWISE_90:
+                return state.setValue(NORTH, state.getValue(WEST))
+                        .setValue(EAST, state.getValue(NORTH))
+                        .setValue(SOUTH, state.getValue(EAST))
+                        .setValue(WEST, state.getValue(SOUTH));
+            default:
+                return state;
+        }
+    }
+
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        switch (mirror) {
+            case LEFT_RIGHT:
+                return state.setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH));
+            case FRONT_BACK:
+                return state.setValue(EAST, state.getValue(WEST)).setValue(WEST, state.getValue(EAST));
+            default:
+                return super.mirror(state, mirror);
+        }
     }
 
     public boolean connectsTo(BlockState state) {
