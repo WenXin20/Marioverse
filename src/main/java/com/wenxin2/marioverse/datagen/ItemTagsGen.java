@@ -121,6 +121,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(Tags.Items.TOOLS_WRENCH)
+                .add(ItemRegistry.WRENCH.get());
+
         tag(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
                 .addTag(ItemTags.AXES)
                 .addTag(ItemTags.HOES)
@@ -168,9 +171,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.DEBUG_STICK)
                 .add(Items.GLOW_INK_SAC)
                 .add(Items.INK_SAC);
-
-        tag(TagRegistry.WRENCH_TOOLS)
-                .add(ItemRegistry.WRENCH.get());
 
         tag(TagRegistry.KOOPA_SHOES)
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
