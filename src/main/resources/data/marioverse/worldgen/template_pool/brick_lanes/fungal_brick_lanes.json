@@ -259,7 +259,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/8x8_clear_pipe",
+        "location": "marioverse:brick_lanes/fungal_bricks/8x5_clear_pipe",
         "processors": "marioverse:brick_decay"
       }
     },
