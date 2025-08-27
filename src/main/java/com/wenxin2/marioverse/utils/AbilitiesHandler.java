@@ -147,30 +147,28 @@ public interface AbilitiesHandler extends CostumeHandler {
 
     default void applySuperStarPowerUp(Level world, LivingEntity entity) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())
-                && entity instanceof AbilitiesHandler handler) {
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
 
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
 
-            handler.mv$setSuperStar(true);
-            handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
+            this.mv$setSuperStar(true);
+            this.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
-            if (!handler.mv$playedSuperStarTheme())
+            if (!this.mv$playedSuperStarTheme())
                 Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(entity, SoundRegistry.SUPER_STAR_THEME.get(),
-                        SoundSource.AMBIENT, entity.getRandom(), handler.mv$getSuperStarCooldown(), 100));
-            handler.mv$setPlayedSuperStarTheme(true);
+                        SoundSource.AMBIENT, entity.getRandom(), this.mv$getSuperStarCooldown(), 100));
+            this.mv$setPlayedSuperStarTheme(true);
         }
     }
 
     default void applyFireFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())
-                && entity instanceof AbilitiesHandler handler) {
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
             if (world instanceof ServerLevel serverWorld)
@@ -178,9 +176,9 @@ public interface AbilitiesHandler extends CostumeHandler {
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-            handler.mv$clearAllPowerUps();
-            handler.mv$setSuperMushroom(true);
-            handler.mv$setFireFlower(true);
+            this.mv$clearAllPowerUps();
+            this.mv$setSuperMushroom(true);
+            this.mv$setFireFlower(true);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             this.applyCostumeChange(entity, powerUp, capability);
@@ -189,8 +187,7 @@ public interface AbilitiesHandler extends CostumeHandler {
 
     default void applyIceFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())
-                && entity instanceof AbilitiesHandler handler) {
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
             if (world instanceof ServerLevel serverWorld)
@@ -198,9 +195,9 @@ public interface AbilitiesHandler extends CostumeHandler {
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-            handler.mv$clearAllPowerUps();
-            handler.mv$setSuperMushroom(true);
-            handler.mv$setIceFlower(true);
+            this.mv$clearAllPowerUps();
+            this.mv$setSuperMushroom(true);
+            this.mv$setIceFlower(true);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             this.applyCostumeChange(entity, powerUp, capability);

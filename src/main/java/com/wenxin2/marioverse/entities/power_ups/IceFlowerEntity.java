@@ -54,7 +54,7 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     @Override
     public void collideWithEntity(Entity entity) {
         if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-            handler.applyFireFlowerPowerUp(this.level(), livingEntity, this);
+            handler.applyIceFlowerPowerUp(this.level(), livingEntity, this);
             this.remove(RemovalReason.DISCARDED);
         }
     }
