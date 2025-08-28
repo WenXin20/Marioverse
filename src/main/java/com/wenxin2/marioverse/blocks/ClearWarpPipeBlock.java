@@ -409,18 +409,14 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
+        Direction facing = state.getValue(FACING);
+        BlockPos posRelative = pos.relative(facing);
+
         if (state.getValue(WATERLOGGED) && !state.getValue(CLOSED))
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
 
-        return updateEntrance(state, worldAccessor, pos);
-    }
-
-    private BlockState updateEntrance(BlockState state, LevelAccessor worldAccessor, BlockPos pos) {
-        Direction facing = state.getValue(FACING);
-        BlockPos posRelative = pos.relative(facing);
-        Block frontBlock = worldAccessor.getBlockState(posRelative).getBlock();
-
-        return state.setValue(ENTRANCE, frontBlock != this);
+        return state.setValue(ENTRANCE, worldAccessor.getBlockState(posRelative).getBlock() != this)
+                .setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
     }
 
     @Override
