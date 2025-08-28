@@ -979,7 +979,7 @@ public class BlockRegistry {
 
         CLEAR_WARP_PIPE = registerBlock("clear_warp_pipe",
                 () -> new ClearWarpPipeBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
-                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.CHIME)
+                        .sound(SoundRegistry.CLEAR_PIPE).instrument(NoteBlockInstrument.CHIME)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(3.0F, 500.0F).requiresCorrectToolForDrops().noOcclusion()));
 

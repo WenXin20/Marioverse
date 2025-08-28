@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.SoundType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SoundRegistry {
@@ -20,6 +22,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_EXTINGUISHED;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_SIZZLES;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_THROWN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_HIT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_FALL;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOAL_POLE_FINISH;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_AMBIENT;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_BUMP;
@@ -88,6 +93,10 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_BOUND;
 
+
+    public static final SoundType CLEAR_PIPE = new SoundType(1.0F, 1.0F, SoundEvents.GLASS_BREAK,
+            SoundRegistry.GLASS_STEP.get(), SoundEvents.GLASS_PLACE, SoundRegistry.GLASS_HIT.get(), SoundRegistry.GLASS_FALL.get());
+
     static {
         AMETHYST_BUTTON_CLICK_OFF = Marioverse.SOUNDS.register("block.amethyst_button.click_off",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.amethyst_button.click_off")));
@@ -114,6 +123,13 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_pickup")));
         COIN_PLACE = Marioverse.SOUNDS.register("block.coin_place",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.coin_place")));
+
+        GLASS_HIT = Marioverse.SOUNDS.register("block.glass_hit",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.glass_hit")));
+        GLASS_FALL = Marioverse.SOUNDS.register("block.glass_fall",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.glass_fall")));
+        GLASS_STEP = Marioverse.SOUNDS.register("block.glass_step",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.glass_step")));
 
         GOAL_POLE_FINISH = Marioverse.SOUNDS.register("block.goal_pole_finish",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.goal_pole_finish")));
