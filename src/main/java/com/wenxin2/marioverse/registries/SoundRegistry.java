@@ -93,10 +93,6 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_BOUND;
 
-
-    public static final SoundType CLEAR_PIPE = new SoundType(1.0F, 1.0F, SoundEvents.GLASS_BREAK,
-            SoundRegistry.GLASS_STEP.get(), SoundEvents.GLASS_PLACE, SoundRegistry.GLASS_HIT.get(), SoundRegistry.GLASS_FALL.get());
-
     static {
         AMETHYST_BUTTON_CLICK_OFF = Marioverse.SOUNDS.register("block.amethyst_button.click_off",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.amethyst_button.click_off")));
