@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 public class CollectBlockGoal extends Goal {
     private final Mob mob;
@@ -36,7 +37,10 @@ public class CollectBlockGoal extends Goal {
     @Override
     public boolean canUse() {
         targetPos = this.findBlock();
-        return targetPos != null;
+
+        if (!EventHooks.canEntityGrief(this.mob.level(), this.mob)) {
+            return false;
+        } else return targetPos != null;
     }
 
     @Override
