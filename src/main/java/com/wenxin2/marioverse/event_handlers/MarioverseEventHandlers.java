@@ -56,7 +56,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -142,11 +141,11 @@ public class MarioverseEventHandlers {
                 mob.goalSelector.addGoal(0, new PickupAndThrowShellGoal(mob));
 
             if (mob.getType().is(TagRegistry.CAN_COLLECT_COINS))
-                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.4F,
+                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 0.25F, 5, 0.4F,
                         state -> state.is(BlockRegistry.COIN)));
 
             if (mob.getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
-                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 5, 0.4F,
+                mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 0.15F, 5, 0.4F,
                         state -> state.is(BlockRegistry.STAR_COIN)));
 
             if (!(mob instanceof KoopaShellEntity) && mob instanceof AbilitiesHandler) {

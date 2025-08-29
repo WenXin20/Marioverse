@@ -22,14 +22,18 @@ public class CollectBlockGoal extends Goal {
     private final Mob mob;
     private final double speedModifier;
     private final int searchRadius;
+    private final float activationChance; // 0.0F - 1.0F
     private final Predicate<BlockState> targetBlockState;
 
     private BlockPos targetPos;
+    private int nextStartTick = 0;
+    private static final int cooldownTicks = 200;
 
-    public CollectBlockGoal(Mob mob, int searchRadius, double speedModifier, Predicate<BlockState> targetBlockState) {
+    public CollectBlockGoal(Mob mob, float activationChance, int searchRadius, double speedModifier, Predicate<BlockState> targetBlockState) {
         this.mob = mob;
-        this.speedModifier = speedModifier;
+        this.activationChance = activationChance;
         this.searchRadius = searchRadius;
+        this.speedModifier = speedModifier;
         this.targetBlockState = targetBlockState;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
@@ -38,16 +42,26 @@ public class CollectBlockGoal extends Goal {
     public boolean canUse() {
         targetPos = this.findBlock();
 
-        if (!EventHooks.canEntityGrief(this.mob.level(), this.mob)) {
+        if (nextStartTick > 0) {
+            nextStartTick--;
             return false;
-        } else return targetPos != null;
+        }
+
+        if (!EventHooks.canEntityGrief(this.mob.level(), this.mob))
+            return false;
+        else if (mob.getRandom().nextFloat() >= this.activationChance) {
+            nextStartTick = cooldownTicks;
+            return false;
+        } else if (targetPos == null) {
+            nextStartTick = cooldownTicks;
+            return false;
+        } else return true;
     }
 
     @Override
     public void start() {
         if (targetPos != null)
-            this.mob.getNavigation()
-                    .moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, speedModifier);
+            this.mob.getNavigation().moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, speedModifier);
     }
 
     @Override
@@ -63,6 +77,7 @@ public class CollectBlockGoal extends Goal {
             if (mob.blockPosition().closerToCenterThan(Vec3.atCenterOf(targetPos), mob.getBbWidth() + 1.2)) {
                 this.collectBlock();
                 targetPos = null;
+                nextStartTick = cooldownTicks;
             }
         }
     }
