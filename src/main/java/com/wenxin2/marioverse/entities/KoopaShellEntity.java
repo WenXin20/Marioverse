@@ -748,7 +748,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             else if (this.getOwner() == null) entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
             this.getDamageFromKills();
 
-            if (this.getOwner() != null)
+            if (this.getOwner() != null && this.leftOwner)
                 this.consecutiveReward(this.getOwner(), entityHit);
 
             if (entityHit.getType().is(this.getInstaKillEntityTag()))
