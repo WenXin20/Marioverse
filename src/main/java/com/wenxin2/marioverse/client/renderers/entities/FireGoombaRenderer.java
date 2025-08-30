@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
@@ -112,7 +113,7 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
         this.model.getBone("wick").ifPresent(wick -> {
             Vector3d wickPos = wick.getWorldPosition();
             if (animatable.isInWaterOrBubble()) {
-                if (animatable.tickCount % 4 == 0) {
+                if (animatable.tickCount % 8 == 0) {
                     animatable.getCommandSenderWorld().addParticle(ParticleTypes.SMOKE,
                             wickPos.x(), wickPos.y() + 0.2, wickPos.z(),
                             0, 0, 0);
@@ -129,23 +130,27 @@ public class FireGoombaRenderer extends GeoEntityRenderer<FireGoombaEntity> {
             }
         });
 
-        this.model.getBone("left_eyebrow").ifPresent(brow -> {
+        this.model.getBone("left_eyebrow_pivot").ifPresent(brow -> {
             Vector3d browPos = brow.getWorldPosition();
-            if (animatable.tickCount % 4 == 0) {
+            Vec3 forward = animatable.getLookAngle().normalize().scale(0.2);
+
+            if (animatable.tickCount % 8 == 0) {
                 if (animatable.isInWaterOrBubble()) {
                     animatable.getCommandSenderWorld().addParticle(ParticleTypes.SMOKE,
-                            browPos.x(), browPos.y() + 0.2, browPos.z(),
+                            browPos.x() + forward.x, browPos.y() + forward.y, browPos.z() + forward.z,
                             0, 0, 0);
                 }
             }
         });
 
-        this.model.getBone("right_eyebrow").ifPresent(brow -> {
+        this.model.getBone("right_eyebrow_pivot").ifPresent(brow -> {
             Vector3d browPos = brow.getWorldPosition();
-            if (animatable.tickCount % 4 == 0) {
+            Vec3 forward = animatable.getLookAngle().normalize().scale(0.2);
+
+            if (animatable.tickCount % 8 == 0) {
                 if (animatable.isInWaterOrBubble()) {
                     animatable.getCommandSenderWorld().addParticle(ParticleTypes.SMOKE,
-                            browPos.x(), browPos.y() + 0.2, browPos.z(),
+                            browPos.x() + forward.x, browPos.y() + forward.y, browPos.z() + forward.z,
                             0, 0, 0);
                 }
             }
