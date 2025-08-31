@@ -3,9 +3,8 @@ package com.wenxin2.marioverse.client.renderers.entities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.GoombaModel;
-import com.wenxin2.marioverse.client.renderers.entities.layers.AccessoryGeoArmorLayer;
 import com.wenxin2.marioverse.entities.GoombaEntity;
-import net.minecraft.ChatFormatting;
+import java.util.Locale;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -43,8 +42,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
         addRenderLayer(new AutoGlowingGeoLayer<>(this) {
             @Override
             protected @Nullable RenderType getRenderType(GoombaEntity animatable, @Nullable MultiBufferSource bufferSource) {
-                if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
-                        || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
+                if (animatable.getCustomName() != null && animatable.getCustomName().getString().toLowerCase(Locale.ROOT).equals("goombella")) {
                     if (animatable instanceof Entity entity) {
                         boolean invisible = entity.isInvisible();
                         ResourceLocation texture = AutoGlowingTexture.getEmissiveResource(this.getTextureResource(animatable));
@@ -55,9 +53,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                         } else {
                             return invisible ? null : AutoGlowingTexture.getRenderType(this.getTextureResource(animatable));
                         }
-                    } else {
-                        return AutoGlowingTexture.getRenderType(this.getTextureResource(animatable));
-                    }
+                    } else return AutoGlowingTexture.getRenderType(this.getTextureResource(animatable));
                 } else return null;
             }
         });
@@ -109,8 +105,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                                       MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
                 ItemStack armorStack = this.getArmorItemForBone(bone, animatable);
 
-                if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
-                        || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
+                if (animatable.getCustomName() != null && animatable.getCustomName().getString().toLowerCase(Locale.ROOT).equals("goombella")) {
                     if (armorStack != null) {
                         Item var13 = armorStack.getItem();
                         if (var13 instanceof BlockItem) {
@@ -153,8 +148,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
             @Override
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, GoombaEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
-                if (animatable.hasCustomName() && ("Goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString()))
-                        || "goombella".equals(ChatFormatting.stripFormatting(animatable.getName().getString())))) {
+                if (animatable.getCustomName() != null && animatable.getCustomName().getString().toLowerCase(Locale.ROOT).equals("goombella")) {
                     poseStack.scale(0.77F, 0.77F, 0.72F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 } else {
