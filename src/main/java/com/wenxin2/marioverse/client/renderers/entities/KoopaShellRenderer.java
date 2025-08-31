@@ -3,9 +3,9 @@ package com.wenxin2.marioverse.client.renderers.entities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.models.entities.KoopaShellModel;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
+import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import net.minecraft.client.Minecraft;
@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -31,17 +30,11 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
-import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer;
 
-public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntity> {
-    private final ResourceLocation textureLowCracks =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_shell_crackiness_low.png");
-    private final ResourceLocation textureMediumCracks =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_shell_crackiness_low.png");
-    private final ResourceLocation textureHighCracks =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/koopa_troopa/green_koopa_shell_crackiness_low.png");
+public class KoopaShellRenderer extends GeoEntityRenderer<KoopaShellEntity> {
 
     private static final String HELMET = "armorHead";
     private static final String CHEST = "armorBody";
@@ -58,7 +51,6 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
         super(renderManager, new KoopaShellModel());
         this.shadowRadius = 0.5F;
 
-//        addRenderLayer(new CrackedGeoLayer<>(this, textureLowCracks, textureMediumCracks, textureHighCracks));
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
@@ -195,24 +187,21 @@ public class KoopaShellRenderer extends DynamicGeoEntityRenderer<KoopaShellEntit
     @Override
     public void renderFinal(PoseStack poseStack, KoopaShellEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
                             @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
-        poseStack.pushPose();
-            if (animatable instanceof GoldKoopaShellEntity) {
-                this.model.getBone("shell").ifPresent(bone -> {
-                    Vector3d bonePos = bone.getWorldPosition();
+        if (animatable instanceof GoldKoopaShellEntity) {
+            this.model.getBone("shell_particles").ifPresent(bone -> {
+                Vector3d bonePos = bone.getWorldPosition();
 
-                    if (animatable.tickCount % 20 == 0) {
-                        double offsetRange = 0.2;
-                        double randomX = (Math.random() - 0.5) * offsetRange;
-                        double randomY = (Math.random() - 0.5) * offsetRange;
-                        double randomZ = (Math.random() - 0.5) * offsetRange;
+                if (animatable.tickCount % 80 == 0) {
+                    double randomX = (Math.random() - 0.5) * bone.getScaleX();
+                    double randomY = (Math.random() - 0.5) * bone.getScaleY();
+                    double randomZ = (Math.random() - 0.5) * bone.getScaleZ();
 
-                        animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
-                                bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
-                                0, 0, 0);
-                    }
-                });
-            }
-        poseStack.popPose();
+                    animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
+                            bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
+                            0, 0, 0);
+                }
+            });
+        }
         super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, color);
     }
 

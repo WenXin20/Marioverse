@@ -24,11 +24,11 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
-import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer;
 
-public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEntity> {
+public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
     private static final String HELMET = "armorHead";
     private static final String CHEST = "armorBody";
     private static final String LEFT_ARM = "armorLeftArm";
@@ -166,24 +166,21 @@ public class KoopaTroopaRenderer extends DynamicGeoEntityRenderer<KoopaTroopaEnt
     @Override
     public void renderFinal(PoseStack poseStack, KoopaTroopaEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
                             @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
-        poseStack.pushPose();
-            if (animatable instanceof GoldKoopaTroopaEntity) {
-                this.model.getBone("shell_particles").ifPresent(bone -> {
-                    Vector3d bonePos = bone.getWorldPosition();
+        if (animatable instanceof GoldKoopaTroopaEntity) {
+            this.model.getBone("shell_particles").ifPresent(bone -> {
+                Vector3d bonePos = bone.getWorldPosition();
 
-                    if (animatable.tickCount % 20 == 0) {
-                        double offsetRange = 0.2;
-                        double randomX = (Math.random() - 0.5) * bone.getScaleX();
-                        double randomY = (Math.random() - 0.5) * bone.getScaleY();
-                        double randomZ = (Math.random() - 0.5) * bone.getScaleZ();
+                if (animatable.tickCount % 80 == 0) {
+                    double randomX = (Math.random() - 0.5) * bone.getScaleX();
+                    double randomY = (Math.random() - 0.5) * bone.getScaleY();
+                    double randomZ = (Math.random() - 0.5) * bone.getScaleZ();
 
-                        animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
-                                bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
-                                0, 0, 0);
-                    }
-                });
-            }
-        poseStack.popPose();
+                    animatable.getCommandSenderWorld().addParticle(ParticleRegistry.COIN_GLINT.get(),
+                            bonePos.x() + randomX, bonePos.y() + randomY, bonePos.z() + randomZ,
+                            0, 0, 0);
+                }
+            });
+        }
         super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, color);
     }
 }
