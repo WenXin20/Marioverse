@@ -136,12 +136,12 @@ public class BaseMushroomEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public boolean isColliding(BlockPos p_20040_, BlockState p_20041_) {
-        return super.isColliding(p_20040_, p_20041_);
+    public boolean isColliding(BlockPos pos, BlockState state) {
+        return super.isColliding(pos, state);
     }
 
     public void checkForCollisions() {
-        AABB boundingBox = this.getBoundingBox().inflate(0.1);
+        AABB boundingBox = this.getBoundingBox().inflate(0.25);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
         if (!entities.isEmpty()) {

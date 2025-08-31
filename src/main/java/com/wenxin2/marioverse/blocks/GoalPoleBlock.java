@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.List;
