@@ -49,6 +49,7 @@ dependencies {
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
 
     implementation "curse.maven:aether-255308:6389857"
+    implementation "curse.maven:amendments-896746:6332372" // Requires Moonlight
     implementation "curse.maven:create-328085:6641610"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:embeddium-${embeddium_version}"
