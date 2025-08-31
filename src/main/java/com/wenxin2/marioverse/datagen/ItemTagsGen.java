@@ -172,6 +172,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.GLOW_INK_SAC)
                 .add(Items.INK_SAC);
 
+        tag(TagRegistry.WRENCHES)
+                .add(ItemRegistry.WRENCH.get());
+
         tag(TagRegistry.KOOPA_SHOES)
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
