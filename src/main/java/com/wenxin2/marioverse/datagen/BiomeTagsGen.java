@@ -23,9 +23,9 @@ public class BiomeTagsGen extends BiomeTagsProvider {
 
         tag(TagRegistry.HAS_GOOMBA)
                 .addTag(Tags.Biomes.IS_PLAINS)
-                .addTag(Tags.Biomes.IS_SPOOKY)
                 .addTag(Tags.Biomes.IS_SWAMP)
                 .addTag(BiomeTags.IS_FOREST)
+                .add(Biomes.DARK_FOREST)
                 .add(Biomes.PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS);
 

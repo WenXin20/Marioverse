@@ -1,9 +1,9 @@
 {
   "values": [
     "#c:is_plains",
-    "#c:is_spooky",
     "#c:is_swamp",
     "#minecraft:is_forest",
+    "minecraft:dark_forest",
     "minecraft:plains",
     "minecraft:sunflower_plains"
   ]
