@@ -1,9 +1,12 @@
 {
   "replace": false,
-  "validators": [ "accessories:tag" ],
   "icon": "marioverse:gui/slot/empty_hat_slot",
   "operation": "set",
   "drop_rule": "KEEP",
   "amount": 1,
-  "order": 101
+  "order": 800,
+  "validators": [
+    "accessories:component",
+    "accessories:tag"
+  ]
 }

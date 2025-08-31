@@ -1,9 +1,12 @@
 {
   "replace": false,
-  "validators": [ "accessories:tag" ],
   "icon": "marioverse:gui/slot/empty_pants_slot",
   "operation": "set",
   "drop_rule": "KEEP",
   "amount": 1,
-  "order": 103
+  "order": 760,
+  "validators": [
+    "accessories:component",
+    "accessories:tag"
+  ]
 }

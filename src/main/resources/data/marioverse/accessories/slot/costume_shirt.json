@@ -1,9 +1,12 @@
 {
   "replace": false,
-  "validators": [ "accessories:tag" ],
   "icon": "marioverse:gui/slot/empty_shirt_slot",
   "operation": "set",
   "drop_rule": "KEEP",
   "amount": 1,
-  "order": 102
+  "order": 780,
+  "validators": [
+    "accessories:component",
+    "accessories:tag"
+  ]
 }
