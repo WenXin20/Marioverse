@@ -76,8 +76,8 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         if (this.lastModel != bakedModel) {
             GeoModel<CostumeItem> model = this.getGeoModel();
             this.lastModel = bakedModel;
-            this.waist = this.getWaistBone(model);
             this.dress = this.getDressBone(model);
+            this.waist = this.getWaistBone(model);
         }
     }
 
@@ -104,30 +104,33 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
 
     @Override
     protected void applyBoneVisibilityBySlot(EquipmentSlot slot) {
-        super.applyBoneVisibilityBySlot(slot);
+        this.setAllBonesVisible(false);
+        HumanoidModel<?> model = this;
+        Optional<GeoBone> dressBone = this.getGeoModel().getBone("armorDress");
+        Optional<GeoBone> waistBone = this.getGeoModel().getBone("armorWaist");
 
-        this.getGeoModel().getBone("armorDress").ifPresent(bone -> bone.setHidden(true));
-        this.getGeoModel().getBone("armorWaist").ifPresent(bone -> bone.setHidden(true));
+        dressBone.ifPresent(bone -> bone.setHidden(true));
+        waistBone.ifPresent(bone -> bone.setHidden(true));
 
         switch (currentSlot) {
             case HEAD:
-                this.setBoneVisible(this.head, true);
+                this.setBoneVisible(this.head, model.head.visible);
                 break;
             case CHEST:
-                this.setBoneVisible(this.body, true);
-                this.setBoneVisible(this.rightArm, true);
-                this.setBoneVisible(this.leftArm, true);
+                this.setBoneVisible(this.body, model.body.visible);
+                this.setBoneVisible(this.rightArm, model.rightArm.visible);
+                this.setBoneVisible(this.leftArm, model.leftArm.visible);
                 break;
             case LEGS:
-                this.getGeoModel().getBone("armorDress").ifPresent(bone -> bone.setHidden(false));
-                this.getGeoModel().getBone("armorWaist").ifPresent(bone -> bone.setHidden(false));
-                this.setBoneVisible(this.waist, true);
-                this.setBoneVisible(this.rightLeg, true);
-                this.setBoneVisible(this.leftLeg, true);
+                dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, true));
+                waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, true));
+                this.setBoneVisible(this.rightLeg, model.rightLeg.visible);
+                this.setBoneVisible(this.leftLeg, model.leftLeg.visible);
                 break;
             case FEET:
-                this.setBoneVisible(this.rightBoot, true);
-                this.setBoneVisible(this.leftBoot, true);
+                this.setBoneVisible(this.rightBoot, model.rightLeg.visible);
+                this.setBoneVisible(this.leftBoot, model.leftLeg.visible);
+                break;
         }
     }
 

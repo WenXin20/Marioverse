@@ -31,6 +31,8 @@ import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
     private static final String HELMET = "armorHead";
     private static final String CHEST = "armorBody";
+    private static final String DRESS = "armorDress";
+    private static final String WAIST = "armorWaist";
     private static final String LEFT_ARM = "armorLeftArm";
     private static final String RIGHT_ARM = "armorRightArm";
     private static final String LEFT_LEG = "armorLeftLeg";
@@ -51,9 +53,9 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                 return switch (bone.getName()) {
                     case HELMET -> this.helmetStack;
                     case CHEST, LEFT_ARM, RIGHT_ARM -> this.chestplateStack;
-                    case LEFT_LEG, RIGHT_LEG -> this.leggingsStack;
+                    case LEFT_LEG, RIGHT_LEG, DRESS, WAIST -> this.leggingsStack;
                     case LEFT_BOOT, RIGHT_BOOT -> this.bootsStack;
-                    default -> null;
+                    default -> super.getArmorItemForBone(bone, animatable);
                 };
             }
 
@@ -65,7 +67,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                     case CHEST -> EquipmentSlot.CHEST;
                     case RIGHT_ARM -> !animatable.isLeftHanded() ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
                     case LEFT_ARM -> animatable.isLeftHanded() ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-                    case LEFT_LEG, RIGHT_LEG -> EquipmentSlot.LEGS;
+                    case LEFT_LEG, RIGHT_LEG, DRESS, WAIST -> EquipmentSlot.LEGS;
                     case LEFT_BOOT, RIGHT_BOOT -> EquipmentSlot.FEET;
                     default -> super.getEquipmentSlotForBone(bone, stack, animatable);
                 };
@@ -79,7 +81,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                     case CHEST -> baseModel.body;
                     case LEFT_ARM -> baseModel.leftArm;
                     case RIGHT_ARM -> baseModel.rightArm;
-                    case LEFT_LEG, LEFT_BOOT -> baseModel.leftLeg;
+                    case LEFT_LEG, LEFT_BOOT, DRESS, WAIST -> baseModel.leftLeg;
                     case RIGHT_LEG, RIGHT_BOOT -> baseModel.rightLeg;
                     default -> super.getModelPartForBone(bone, slot, stack, animatable, baseModel);
                 };
