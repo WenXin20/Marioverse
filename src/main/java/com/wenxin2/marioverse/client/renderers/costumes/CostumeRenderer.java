@@ -119,8 +119,8 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 this.setBoneVisible(this.leftArm, model.leftArm.visible);
                 break;
             case LEGS:
-                dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.rightLeg.visible));
-                waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.rightLeg.visible));
+                dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.body.visible));
+                waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.body.visible));
                 this.setBoneVisible(this.rightLeg, model.rightLeg.visible);
                 this.setBoneVisible(this.leftLeg, model.leftLeg.visible);
                 break;
