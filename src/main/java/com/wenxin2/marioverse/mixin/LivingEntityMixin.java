@@ -1352,7 +1352,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     public void mv$squashEntity(LivingEntity stompingEntity) {
-        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.2, 0.75, 0.2));
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, stompingEntity.getBoundingBox().inflate(0.5, 1.25, 0.5));
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity entity : nearbyEntities) {
