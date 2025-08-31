@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
@@ -158,22 +159,24 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
     }
 
-    @Inject(method = "isInWaterOrBubble", at = @At("RETURN"), cancellable = true)
-    private void isInWaterOrBubble(CallbackInfoReturnable<Boolean> cir) {
+    @ModifyReturnValue(method = "isInWaterOrBubble", at = @At("RETURN"))
+    private boolean isInWaterOrBubble(boolean original) {
         BlockState state = this.level().getBlockState(this.blockPosition());
-        if (!cir.getReturnValue()) {
+        if (!original) {
             if (state.is(BlockRegistry.PIPE_BUBBLES.get()))
-                cir.setReturnValue(true);
+                return true;
         }
+        return original;
     }
 
-    @Inject(method = "isInWaterRainOrBubble", at = @At("RETURN"), cancellable = true)
-    private void isInWaterRainOrBubble(CallbackInfoReturnable<Boolean> cir) {
+    @ModifyReturnValue(method = "isInWaterRainOrBubble", at = @At("RETURN"))
+    private boolean isInWaterRainOrBubble(boolean original) {
         BlockState state = this.level().getBlockState(this.blockPosition());
-        if (!cir.getReturnValue()) {
+        if (!original) {
             if (state.is(BlockRegistry.PIPE_BUBBLES.get()))
-                cir.setReturnValue(true);
+                return true;
         }
+        return original;
     }
 
     @Override
@@ -221,8 +224,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
     }
 
-    @Inject(method = "getBoundingBox", at = @At("RETURN"), cancellable = true)
-    public void getBoundingBox(CallbackInfoReturnable<AABB> cir) {
+    @ModifyReturnValue(method = "getBoundingBox", at = @At("RETURN"))
+    public AABB getBoundingBox(AABB original) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.getPose() != Pose.SLEEPING) {
@@ -233,9 +236,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                         entity.getX() + width, entity.getY() + height, entity.getZ() + width);
 
                 entity.refreshDimensions();
-                cir.setReturnValue(updatedBox);
+                return updatedBox;
             }
         }
+        return original;
     }
 
     @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)

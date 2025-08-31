@@ -8,8 +8,14 @@
   "resource_pack.marioverse.truly_invisible": "Truly Invisible",
   "resource_pack.marioverse.truly_invisible.description": "Invisible Question Blocks are completely invisible",
 
+  "attribute.marioverse.generic.costume_armor_knockback_resistance": "Costume Armor Knockback Resistance",
+  "attribute.marioverse.generic.costume_armor_toughness": "Costume Armor Toughness",
+  "attribute.marioverse.generic.damaged_scale": "Damaged Scale",
   "attribute.marioverse.generic.eye_height_scale": "Eye Height Scale",
   "attribute.marioverse.generic.height_scale": "Height Scale",
+  "attribute.marioverse.generic.jump_boost": "Jump Boost",
+  "attribute.marioverse.generic.running_jump_boost": "Running Jump Boost",
+  "attribute.marioverse.generic.safe_fall_distance": "Safe Fall Distance",
   "attribute.marioverse.generic.width_scale": "Width Scale",
 
   "menu.marioverse.checkpoint_flag": "Checkpoint Flag",

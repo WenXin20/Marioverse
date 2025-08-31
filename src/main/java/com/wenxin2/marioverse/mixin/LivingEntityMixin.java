@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
@@ -54,6 +55,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -738,8 +740,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (jumpAttribute != null) {
             double normalJumpBoost = 0.4;
             double runningJumpBoost = 0.5;
-            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
-            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
+            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST.getId()) != null;
+            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId()) != null;
             boolean isRunning = entity.isSprinting();
 
             if (this.mv$hasPeachCostume(entity)) {
@@ -757,20 +759,20 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     || this.mv$hasPeachCostume(entity)) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId(), runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
                     if (hasJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
+                        jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST.getId());
                 } else {
                     if (!hasJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.JUMP_BOOST.getId(), normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
                     if (hasRunningJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
+                        jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId());
                 }
             } else {
                 if (hasRunningJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
+                    jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId());
                 if (hasJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
+                    jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST.getId());
             }
         }
 
@@ -778,11 +780,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (this.mv$hasMarioCostume(entity)
                     || this.mv$hasLuigiCostume(entity)
                     || this.mv$hasPeachCostume(entity)) {
-                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE) != null;
+                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE.getId()) != null;
                 if (!hasSafeFallModifier)
-                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
+                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE.getId(), 7, AttributeModifier.Operation.ADD_VALUE));
             }
-            else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE);
+            else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE.getId());
         }
 
         if (this.mv$hasPeachCostume(entity)) {
@@ -792,8 +794,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
     }
 
-    @Inject(method = "getArmorValue", at = @At("RETURN"), cancellable = true)
-    private void getArmorValue(CallbackInfoReturnable<Integer> info) {
+    @ModifyReturnValue(method = "getArmorValue", at = @At("RETURN"))
+    private int getArmorValue(int original) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
@@ -810,7 +812,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             float totalKnockbackResistance = 0.0F;
 
             for (AccessoriesContainer container : accessorySlots) {
-                if (container == null) return;
+                if (container == null) return original;
                 ItemStack stack = container.getAccessories().getItem(0);
                 if (!stack.isEmpty() && stack.getItem() instanceof ArmorItem accessoryArmor) {
                     ArmorMaterial material = accessoryArmor.getMaterial().value();
@@ -822,35 +824,34 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             AttributeInstance toughnessAttribute = entity.getAttribute(Attributes.ARMOR_TOUGHNESS);
             if (toughnessAttribute != null) {
-                boolean hasModifier = toughnessAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS) != null;
+                boolean hasModifier = toughnessAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS.getId()) != null;
                 if (totalToughness > 0) {
-                    AttributeModifier toughnessModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS,
+                    AttributeModifier toughnessModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS.getId(),
                             totalToughness, AttributeModifier.Operation.ADD_VALUE);
 
                     if (!hasModifier)
                         toughnessAttribute.addPermanentModifier(toughnessModifier);
-                } else if (hasModifier) toughnessAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
+                } else if (hasModifier) toughnessAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS.getId());
             }
 
             AttributeInstance knockbackAttribute = entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
             if (knockbackAttribute != null) {
-                boolean hasModifier = knockbackAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE) != null;
+                boolean hasModifier = knockbackAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE.getId()) != null;
                 if (totalKnockbackResistance > 0) {
-                    AttributeModifier knockbackModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE,
+                    AttributeModifier knockbackModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE.getId(),
                             totalKnockbackResistance, AttributeModifier.Operation.ADD_VALUE);
 
                     if (!hasModifier)
                         knockbackAttribute.addPermanentModifier(knockbackModifier);
-                } else if (hasModifier)  knockbackAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE);
+                } else if (hasModifier)  knockbackAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE.getId());
             }
 
-            int newArmorValue = info.getReturnValue() + totalExtraArmor;
-            info.setReturnValue(newArmorValue);
-        }
+            return original + totalExtraArmor;
+        } else return original;
     }
 
-    @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
-    private void checkTotemDeathProtection(DamageSource source, CallbackInfoReturnable<Boolean> info) {
+    @ModifyReturnValue(method = "checkTotemDeathProtection", at = @At("RETURN"))
+    private boolean checkTotemDeathProtection(boolean original, DamageSource source) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         SoundSource soundSource = livingEntity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
@@ -872,7 +873,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 if (containerCharm != null) {
                     ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
                     if (stackCharm.getItem() instanceof OneUpMushroomItem) {
-                        info.setReturnValue(true);
                         this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
                         livingEntity.setHealth(1.0F);
                         livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
@@ -890,12 +890,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                             CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
                             this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                         }
+                        return true;
                     }
                 }
             }
 
             if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
-                info.setReturnValue(true);
                 this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
                 livingEntity.setHealth(1.0F);
                 livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
@@ -913,35 +913,42 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
                     this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                 }
+                return true;
             }
         }
+        return original;
     }
 
-    @Inject(method = "isDamageSourceBlocked", at = @At("HEAD"), cancellable = true)
-    public void isDamageSourceBlocked(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
+    @ModifyReturnValue(method = "isDamageSourceBlocked", at = @At("RETURN"))
+    public boolean isDamageSourceBlocked(boolean original, DamageSource source) {
         LivingEntity livingEntity = (LivingEntity)(Object)this;
 
         if (source.is(TagRegistry.SHIELD_BLOCKS) && livingEntity.isBlocking()) {
             Vec3 vec32 = source.getSourcePosition();
             if (vec32 != null) {
-                cir.setReturnValue(true);
+                return true;
             }
         }
+        return original;
     }
 
-    @Inject(method = "createLivingAttributes", at = @At("RETURN"), cancellable = true)
-    private static void addCustomAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
-        AttributeSupplier.Builder builder = cir.getReturnValue();
+    @ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
+    private static AttributeSupplier.Builder createLivingAttributes(AttributeSupplier.Builder original) {
+        original.add(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
+        original.add(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
+        original.add(AttributesRegistry.DAMAGED_SCALE);
+        original.add(AttributesRegistry.EYE_HEIGHT_SCALE);
+        original.add(AttributesRegistry.HEIGHT_SCALE);
+        original.add(AttributesRegistry.JUMP_BOOST);
+        original.add(AttributesRegistry.RUNNING_JUMP_BOOST);
+        original.add(AttributesRegistry.SAFE_FALL_DISTANCE);
+        original.add(AttributesRegistry.WIDTH_SCALE);
 
-        builder.add(AttributesRegistry.EYE_HEIGHT_SCALE);
-        builder.add(AttributesRegistry.HEIGHT_SCALE);
-        builder.add(AttributesRegistry.WIDTH_SCALE);
-
-        cir.setReturnValue(builder);
+        return original;
     }
 
-    @Inject(method = "getDimensions", at = @At("TAIL"), cancellable = true)
-    private void getDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+    @ModifyReturnValue(method = "getDimensions", at = @At("TAIL"))
+    private EntityDimensions getDimensions(EntityDimensions original, Pose pose) {
         float eyeHeightScale;
         float heightScale;
         float widthScale;
@@ -953,10 +960,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         else heightScale = this.mv$getHeightScale();
 
         if (this.mv$getEyeHeightScale() > 1)
-            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.mv$getEyeHeightScale() / 2;
+            eyeHeightScale = original.eyeHeight() * this.mv$getEyeHeightScale() / 2;
         else if (this.mv$getEyeHeightScale() == 1)
-            eyeHeightScale = cir.getReturnValue().eyeHeight() * this.mv$getEyeHeightScale();
-        else eyeHeightScale = cir.getReturnValue().eyeHeight() * this.mv$getEyeHeightScale();
+            eyeHeightScale = original.eyeHeight() * this.mv$getEyeHeightScale();
+        else eyeHeightScale = original.eyeHeight() * this.mv$getEyeHeightScale();
 
         if (this.mv$getWidthScale() > 1)
             widthScale = this.mv$getWidthScale() / 2;
@@ -965,12 +972,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         else widthScale = this.mv$getWidthScale();
 
         if (pose != Pose.SLEEPING) {
-            EntityDimensions customDimensions = cir.getReturnValue()
-                    .scale(widthScale, heightScale)
-                    .withEyeHeight(eyeHeightScale);
 
-            cir.setReturnValue(customDimensions);
+            return original.scale(widthScale, heightScale)
+                    .withEyeHeight(eyeHeightScale);
         }
+        return original;
     }
 
 //    @Inject(method = "getPassengerRidingPosition", at = @At("TAIL"), cancellable = true)
@@ -984,7 +990,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     private static final ResourceLocation SLOWDOWN_MODIFIER =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
-    private void onJumpFromGround(CallbackInfo ci) {
+    private void jumpFromGround(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         // Remove the speed modifier when the entity jumps
@@ -1181,19 +1187,20 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     private void mv$updateScale(AttributeInstance scaleAttribute, double currentScale, double targetScale, float scalingSpeed, Consumer<Double> setter) {
-        if (scaleAttribute != null) {
-            ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
+        Attribute modifier = AttributesRegistry.DAMAGED_SCALE.get();
+
+        if (scaleAttribute != null && modifier.getBaseId() != null) {
             double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale);
 
             if (Math.abs(currentScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
-                scaleAttribute.removeModifier(modifier);
+            if (scaleAttribute.hasModifier(modifier.getBaseId()) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
+                scaleAttribute.removeModifier(modifier.getBaseId());
 
             if (lerpedScale != targetScale) {
-                scaleAttribute.removeModifier(modifier);
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                scaleAttribute.removeModifier(modifier.getBaseId());
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier.getBaseId(), lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
                 if (Math.abs(currentScale - targetScale) < 0.01)
                     setter.accept(targetScale);
