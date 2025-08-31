@@ -94,13 +94,13 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         else return super.getGeoModel();
     }
 
-    @Override
-    public void renderChildBones(PoseStack poseStack, CostumeItem animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress")) && currentSlot != EquipmentSlot.LEGS) {
-            return;
-        }
-        super.renderChildBones(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
-    }
+//    @Override
+//    public void renderChildBones(PoseStack poseStack, CostumeItem animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
+//        if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress")) && currentSlot != EquipmentSlot.LEGS) {
+//            return;
+//        }
+//        super.renderChildBones(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
+//    }
 
     @Override
     protected void applyBoneVisibilityBySlot(EquipmentSlot slot) {
@@ -108,9 +108,6 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         HumanoidModel<?> model = this;
         Optional<GeoBone> dressBone = this.getGeoModel().getBone("armorDress");
         Optional<GeoBone> waistBone = this.getGeoModel().getBone("armorWaist");
-
-        dressBone.ifPresent(bone -> bone.setHidden(true));
-        waistBone.ifPresent(bone -> bone.setHidden(true));
 
         switch (currentSlot) {
             case HEAD:
@@ -122,8 +119,8 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 this.setBoneVisible(this.leftArm, model.leftArm.visible);
                 break;
             case LEGS:
-                dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, true));
-                waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, true));
+                dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.body.visible));
+                waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.body.visible));
                 this.setBoneVisible(this.rightLeg, model.rightLeg.visible);
                 this.setBoneVisible(this.leftLeg, model.leftLeg.visible);
                 break;
@@ -132,11 +129,6 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
                 this.setBoneVisible(this.leftBoot, model.leftLeg.visible);
                 break;
         }
-    }
-
-    @Override
-    public void applyBoneVisibilityByPart(EquipmentSlot currentSlot, ModelPart currentPart, HumanoidModel<?> model) {
-        super.applyBoneVisibilityByPart(currentSlot, currentPart, model);
     }
 
     @Override

@@ -57,6 +57,7 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
                 } else return null;
             }
         });
+
         addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
