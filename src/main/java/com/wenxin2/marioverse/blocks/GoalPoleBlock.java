@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -215,9 +216,10 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             BlockPos posTop = this.findTopOfGoalPole(world, pos);
             BlockState stateTop = world.getBlockState(posTop);
 
-            if (!world.isClientSide())
+            if (world instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 10);
                 this.updateConnectedFlags(world, pos, false);
-            this.spawnPoofParticles(world, posTop.below(), ParticleTypes.POOF, 10);
+            }
 
             if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
                 goalPoleTopBE.markUpdated();
@@ -270,7 +272,8 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
                 if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
                     goalPoleTopBE.markUpdated();
-                    this.spawnPoofParticles(world, posTop.below(), ParticleTypes.POOF, 10);
+                    if (world instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 10);
 
                     if ((goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
                         goalPoleTopBE.triggerAnim("disappear_controller", "disappear");
@@ -281,7 +284,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
                 if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
                     goalPoleBE.markUpdated();
-                    this.spawnPoofParticles(world, pos.below(), ParticleTypes.POOF, 10);
 
                     if ((goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
                         goalPoleBE.triggerAnim("disappear_controller", "disappear");
@@ -455,27 +457,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 }
             }
             posBelow = posBelow.below();
-        }
-    }
-
-    public void spawnPoofParticles(Level world, BlockPos pos, ParticleOptions particleType, int avgAmount) {
-        float scaleFactor = 1.0F;
-        int numParticles = (int) (scaleFactor * avgAmount);
-        double radius = 0.5D;
-
-        for (int i = 0; i < numParticles; i++) {
-            // Calculate angle for each particle
-            double angle = 2 * Math.PI * i / numParticles;
-            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
-            double offsetX = Math.cos(angle) * radius;
-            double offsetY = 0.5D;
-            double offsetZ = Math.sin(angle) * radius;
-
-            double x = pos.getX() + 0.5 + offsetX;
-            double y = pos.getY() + offsetY;
-            double z = pos.getZ() + 0.5 + offsetZ;
-
-            world.addParticle(particleType, x, y, z, 0, 0, 0);
         }
     }
 }

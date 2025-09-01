@@ -69,6 +69,27 @@ public class ServerParticleUtils {
         }
     }
 
+    public static void spawnParticleRingOnBlock(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, int avgAmount) {
+        float scaleFactor = 1.0F;
+        int numParticles = (int) (scaleFactor * avgAmount);
+        double radius = 0.5D;
+
+        for (int i = 0; i < numParticles; i++) {
+            // Calculate angle for each particle
+            double angle = 2 * Math.PI * i / numParticles;
+            // Calculate the X and Z offset using sine and cosine to spread in an ellipse
+            double offsetX = Math.cos(angle) * radius;
+            double offsetY = 0.5D;
+            double offsetZ = Math.sin(angle) * radius;
+
+            double x = pos.getX() + 0.5 + offsetX;
+            double y = pos.getY() + offsetY;
+            double z = pos.getZ() + 0.5 + offsetZ;
+
+            serverWorld.sendParticles(particleOptions, x, y, z, 1, 0, 0, 0, 0.0);
+        }
+    }
+
     public static void spawnThreeLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, @Nullable Entity entity, BlockPos pos, int avgAmount) {
         float scaleFactor = 1;
         int numParticles = (int) (scaleFactor * avgAmount);
