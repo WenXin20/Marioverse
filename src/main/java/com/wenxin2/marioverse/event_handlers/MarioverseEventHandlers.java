@@ -108,6 +108,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
+    private static final Map<UUID, Boolean> IN_CLEAR_PIPE = new HashMap<>();
     private static final float SCALING_SPEED = 0.1F;
 
     @SubscribeEvent
@@ -183,6 +184,8 @@ public class MarioverseEventHandlers {
         }
     }
 
+    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
+
     @SubscribeEvent
     public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
@@ -197,41 +200,39 @@ public class MarioverseEventHandlers {
         }
     }
 
-    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
-
     @SubscribeEvent
-    public static void onEntityTick(EntityTickEvent.Pre event) {
+    public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level world = entity.level();
-
         BlockPos pos = entity.blockPosition();
         BlockState state = world.getBlockState(pos);
+        UUID uuid = entity.getUUID();
 
         boolean isClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
-        boolean isEntrance = isClearPipe && state.getValue(ClearWarpPipeBlock.ENTRANCE);
-
-        UUID uuid = entity.getUUID();
+        boolean wasInPipe = IN_CLEAR_PIPE.getOrDefault(uuid, false);
         FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.get(uuid);
+
+        if (isClearPipe) {
+            if (!wasInPipe && state.hasProperty(ClearWarpPipeBlock.ENTRANCE)
+                    && state.getValue(ClearWarpPipeBlock.ENTRANCE))
+                entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
+            IN_CLEAR_PIPE.put(uuid, true);
+        } else {
+            if (wasInPipe)
+                entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
+            IN_CLEAR_PIPE.put(uuid, false);
+        }
 
         if (isClearPipe) {
             if (soundInstance == null) {
                 FadeInAndOutSoundInstance insideSound = new FadeInAndOutSoundInstance(entity, SoundRegistry.CLEAR_PIPE_INSIDE.get(),
-                        SoundSource.BLOCKS, Float.MAX_VALUE, 20, 20);
+                        SoundSource.BLOCKS, 20, 10);
 
                 Minecraft.getInstance().getSoundManager().play(insideSound);
-
-                if (isEntrance)
-                    world.playSound(null, pos, SoundRegistry.CLEAR_PIPE_ENTER.get(), SoundSource.BLOCKS);
-                insideSound.wasInEntrance = isEntrance;
-
                 ACTIVE_PIPE_SOUNDS.put(uuid, insideSound);
-            } else soundInstance.wasInEntrance = isEntrance;
+            }
         } else if (soundInstance != null) {
             soundInstance.startFadeOut();
-
-            if (soundInstance.wasInEntrance)
-                world.playSound(null, pos, SoundRegistry.CLEAR_PIPE_EXIT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
             ACTIVE_PIPE_SOUNDS.remove(uuid);
         }
     }

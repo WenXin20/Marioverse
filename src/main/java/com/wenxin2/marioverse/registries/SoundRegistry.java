@@ -3,8 +3,6 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.block.SoundType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SoundRegistry {
