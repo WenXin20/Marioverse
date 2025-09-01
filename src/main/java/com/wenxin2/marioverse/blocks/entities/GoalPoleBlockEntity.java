@@ -4,7 +4,6 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.Locale;
@@ -98,13 +97,13 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                     && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
                 this.setPlayedDisappearAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
-                    this.updateConnectedDisappearFlags(this.getLevel(), this.getBlockPos());
+                    this.updateConnectedDisappearFlags(this.getLevel(), this.getBlockPos(), true);
                 event.setAndContinue(DISAPPEAR);
             } else if (!this.playedAppearAnim()
                     && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
                 this.setPlayedAppearAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
-                    this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos());
+                    this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos(), true);
                 event.setAndContinue(APPEAR);
             }
         }
@@ -225,11 +224,11 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.markUpdated();
     }
 
-    public void updateConnectedAppearFlags(Level world, BlockPos pos) {
+    public void updateConnectedAppearFlags(Level world, BlockPos pos, boolean playedAnimation) {
         BlockPos posAbove = pos.above();
         while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posAbove).getValue(GoalPoleBlock.LOWERED)) {
-            this.setPlayedAppearAnim(Boolean.TRUE);
+            this.setPlayedAppearAnim(playedAnimation);
             this.markUpdated();
             posAbove = posAbove.above();
         }
@@ -237,17 +236,17 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         BlockPos posBelow = pos.below();
         while (world.getBlockState(posBelow).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posBelow).getValue(GoalPoleBlock.LOWERED)) {
-            this.setPlayedAppearAnim(Boolean.TRUE);
+            this.setPlayedAppearAnim(playedAnimation);
             this.markUpdated();
             posBelow = posBelow.below();
         }
     }
 
-    public void updateConnectedDisappearFlags(Level world, BlockPos pos) {
+    public void updateConnectedDisappearFlags(Level world, BlockPos pos, boolean playedAnimation) {
         BlockPos posAbove = pos.above();
         while (world.getBlockState(posAbove).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posAbove).getValue(GoalPoleBlock.LOWERED)) {
-            this.setPlayedDisappearAnim(Boolean.TRUE);
+            this.setPlayedDisappearAnim(playedAnimation);
             this.markUpdated();
             posAbove = posAbove.above();
         }
@@ -255,7 +254,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         BlockPos posBelow = pos.below();
         while (world.getBlockState(posBelow).getBlock() instanceof GoalPoleBlock &&
                 world.getBlockState(posBelow).getValue(GoalPoleBlock.LOWERED)) {
-            this.setPlayedDisappearAnim(Boolean.TRUE);
+            this.setPlayedDisappearAnim(playedAnimation);
             this.markUpdated();
             posBelow = posBelow.below();
         }
