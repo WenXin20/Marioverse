@@ -60,7 +60,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "appear_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("appear", APPEAR));
-        controllers.add(new AnimationController<>(this, "disappear_controller", 5, this::disappearController)
+        controllers.add(new AnimationController<>(this, "disappear_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("disappear", DISAPPEAR));
         controllers.add(new AnimationController<>(this, "switch_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("switch", SWITCH));
@@ -85,28 +85,6 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
         } else event.setAndContinue(WINDY_CALM);
 
-        return PlayState.CONTINUE;
-    }
-
-    protected <E extends GeoAnimatable> PlayState disappearController(final AnimationState<E> event) {
-        BlockState state = this.getBlockState();
-        Block block = this.getBlockState().getBlock();
-
-        if (state.getValue(GoalPoleBlock.LOWERED)) {
-            /*if ((this.isAmericanFlag() || block == BlockRegistry.CLASSIC_GOAL_POLE.get()) && !this.playedDisappearAnim()
-                    && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
-                this.setPlayedDisappearAnim(Boolean.TRUE);
-                if (this.getLevel() != null)
-                    this.updateConnectedDisappearFlags(this.getLevel(), this.getBlockPos(), true);
-                event.setAndContinue(DISAPPEAR);
-            } else if (!this.playedAppearAnim()
-                    && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE) {
-                this.setPlayedAppearAnim(Boolean.TRUE);
-                if (this.getLevel() != null)
-                    this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos(), true);
-                event.setAndContinue(APPEAR);
-            }*/
-        }
         return PlayState.CONTINUE;
     }
 
