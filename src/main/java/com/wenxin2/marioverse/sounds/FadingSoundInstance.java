@@ -46,4 +46,3 @@ public class FadingSoundInstance extends AbstractTickableSoundInstance {
         return this.pitch;
     }
 }
-

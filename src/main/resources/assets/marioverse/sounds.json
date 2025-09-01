@@ -32,13 +32,23 @@
   "block.block_smash_fail": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash_fail" }],
     "subtitle": "subtitles.marioverse.block.block_smash_fail" },
 
-  "block.checkpoint_flag_claimed": { "category": "block", "sounds": [{ "name": "marioverse:block/checkpoint_flag_claimed", "pitch": 1.0, "volume": 1.0 }],
+  "block.checkpoint_flag_claimed": { "category": "block", "sounds": [{ "name": "marioverse:block/checkpoint_flag_claimed" }],
     "subtitle": "subtitles.marioverse.block.checkpoint_flag_claimed" },
 
-  "block.star_coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/star_coin_pickup", "pitch": 1.0, "volume": 1.0 }],
+  "block.clear_pipe_enter": { "category": "block", "sounds": [{ "name": "marioverse:block/clear_pipe_enter" }],
+    "subtitle": "subtitles.marioverse.block.clear_pipe_enter" },
+  "block.clear_pipe_exit": { "category": "block", "sounds": [{ "name": "marioverse:block/clear_pipe_exit" }],
+    "subtitle": "subtitles.marioverse.block.clear_pipe_exit" },
+  "block.clear_pipe_inside": { "category": "block", "sounds": [{ "name": "marioverse:block/clear_pipe_inside1" },
+    { "name": "marioverse:block/clear_pipe_inside2" },
+    { "name": "marioverse:block/clear_pipe_inside3" },
+    { "name": "marioverse:block/clear_pipe_inside4" }],
+    "subtitle": "subtitles.marioverse.block.clear_pipe_inside" },
+
+  "block.star_coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/star_coin_pickup" }],
     "subtitle": "subtitles.marioverse.block.star_coin_pickup" },
 
-  "block.coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "pitch": 1.0, "volume": 0.5 }],
+  "block.coin_pickup": { "category": "block", "sounds": [{ "name": "marioverse:block/coin_pickup", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.block.coin_pickup" },
 
   "block.coin_place": { "category": "block", "sounds": [{ "name": "marioverse:block/coin_place" }],
@@ -71,7 +81,7 @@
     { "name": "block/iron_trapdoor/close3" },
     { "name": "block/iron_trapdoor/close4" }], "subtitle": "subtitles.marioverse.block.pipe_closes" },
 
-  "block.pipe_warps": { "category": "block", "sounds": [{ "name": "marioverse:block/pipe_warps", "pitch": 1.0, "volume": 0.8 }],
+  "block.pipe_warps": { "category": "block", "sounds": [{ "name": "marioverse:block/pipe_warps", "volume": 0.8 }],
     "subtitle": "subtitles.marioverse.block.pipe_warps" },
 
   "block.power_up_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
@@ -159,9 +169,9 @@
     "sounds": [{ "name": "marioverse:entity/goomba/goomba_step1" },
       { "name": "marioverse:entity/goomba/goomba_step2" },
       { "name": "marioverse:entity/goomba/goomba_step3" },
-      { "name": "marioverse:entity/goomba/goomba_step4", "pitch": 1.0, "volume": 0.15 }],
+      { "name": "marioverse:entity/goomba/goomba_step4", "volume": 0.15 }],
     "subtitle": "subtitles.marioverse.entity.goomba_step" },
-  "entity.goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_stomp", "pitch": 1.0, "volume": 0.5 }],
+  "entity.goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_stomp", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.goomba_stomp" },
 
   "entity.hefty_goomba_bump": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_bump" }],
@@ -174,9 +184,9 @@
     "sounds": [{ "name": "marioverse:entity/goomba/goomba_step1" },
       { "name": "marioverse:entity/goomba/goomba_step2" },
       { "name": "marioverse:entity/goomba/goomba_step3" },
-      { "name": "marioverse:entity/goomba/goomba_step4", "pitch": 1.0, "volume": 0.15 }],
+      { "name": "marioverse:entity/goomba/goomba_step4", "volume": 0.15 }],
     "subtitle": "subtitles.marioverse.entity.hefty_goomba_step" },
-  "entity.hefty_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/hefty_goomba_split", "pitch": 1.0, "volume": 0.5 }],
+  "entity.hefty_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/hefty_goomba_split", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.hefty_goomba_stomp" },
 
   "entity.mega_goomba_bump": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_bump" }],
@@ -189,9 +199,9 @@
     "sounds": [{ "name": "marioverse:entity/goomba/goomba_step1" },
       { "name": "marioverse:entity/goomba/goomba_step2" },
       { "name": "marioverse:entity/goomba/goomba_step3" },
-      { "name": "marioverse:entity/goomba/goomba_step4", "pitch": 1.0, "volume": 0.15 }],
+      { "name": "marioverse:entity/goomba/goomba_step4", "volume": 0.15 }],
     "subtitle": "subtitles.marioverse.entity.mega_goomba_step" },
-  "entity.mega_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mega_goomba_split", "pitch": 1.0, "volume": 0.5 }],
+  "entity.mega_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mega_goomba_split", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.mega_goomba_stomp" },
 
   "entity.mini_goomba_attach": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_attach" }],
@@ -208,9 +218,9 @@
     "sounds": [{ "name": "marioverse:entity/goomba/goomba_step1" },
       { "name": "marioverse:entity/goomba/goomba_step2" },
       { "name": "marioverse:entity/goomba/goomba_step3" },
-      { "name": "marioverse:entity/goomba/goomba_step4", "pitch": 1.0, "volume": 0.15 }],
+      { "name": "marioverse:entity/goomba/goomba_step4", "volume": 0.15 }],
     "subtitle": "subtitles.marioverse.entity.mini_goomba_step" },
-  "entity.mini_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_stomp", "pitch": 1.0, "volume": 0.5 }],
+  "entity.mini_goomba_stomp": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/mini_goomba_stomp", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.mini_goomba_stomp" },
 
   "entity.painting_warps": { "category": "neutral", "sounds": [{ "name": "marioverse:entity/painting_warps" }],
@@ -263,14 +273,14 @@
     "subtitle": "subtitles.marioverse.player.koopa_shell_thrown_up" },
 
 
-  "projectile.fireball_sizzles": { "category": "ambient", "sounds": [{ "name": "random/fizz", "pitch": 1.0, "volume": 0.5 }],
+  "projectile.fireball_sizzles": { "category": "ambient", "sounds": [{ "name": "random/fizz", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.projectile.fireball_sizzles" },
   "projectile.fireball_extinguished": { "category": "ambient", "sounds": [{ "name": "random/fizz" }],
     "subtitle": "subtitles.marioverse.projectile.fireball_extinguished" },
   "projectile.ice_ball_bounced": { "category": "ambient",
-    "sounds": [{ "name": "random/glass1", "pitch": 1.2, "volume": 1.0 },
-      { "name": "random/glass2", "pitch": 1.2, "volume": 1.0 },
-      { "name": "random/glass3", "pitch": 1.2, "volume": 1.0 }],
+    "sounds": [{ "name": "random/glass1", "pitch": 1.2 },
+      { "name": "random/glass2", "pitch": 1.2 },
+      { "name": "random/glass3", "pitch": 1.2 }],
     "subtitle": "subtitles.marioverse.projectile.ice_ball_bounced" },
   "projectile.ice_ball_extinguished_fireball": { "category": "ambient", "sounds": [{ "name": "marioverse:projectile/ice_ball_extinguished_fireball" }],
     "subtitle": "subtitles.marioverse.projectile.ice_ball_extinguished_fireball" },

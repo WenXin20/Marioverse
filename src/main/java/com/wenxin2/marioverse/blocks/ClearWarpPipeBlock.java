@@ -6,13 +6,19 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -451,7 +457,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        RandomSource random = world.getRandom();
         Direction facing = state.getValue(FACING);
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {

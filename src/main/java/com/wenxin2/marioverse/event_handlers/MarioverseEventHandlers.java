@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
@@ -40,11 +41,14 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
+import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -180,7 +184,7 @@ public class MarioverseEventHandlers {
     }
 
     @SubscribeEvent
-    public static void entityTick(EntityTickEvent.Post event) {
+    public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
@@ -190,6 +194,45 @@ public class MarioverseEventHandlers {
 
             for (Entity rider : entity.getPassengers())
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
+        }
+    }
+
+    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
+
+    @SubscribeEvent
+    public static void onEntityTick(EntityTickEvent.Pre event) {
+        Entity entity = event.getEntity();
+        Level world = entity.level();
+
+        BlockPos pos = entity.blockPosition();
+        BlockState state = world.getBlockState(pos);
+
+        boolean isClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
+        boolean isEntrance = isClearPipe && state.getValue(ClearWarpPipeBlock.ENTRANCE);
+
+        UUID uuid = entity.getUUID();
+        FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.get(uuid);
+
+        if (isClearPipe) {
+            if (soundInstance == null) {
+                FadeInAndOutSoundInstance insideSound = new FadeInAndOutSoundInstance(entity, SoundRegistry.CLEAR_PIPE_INSIDE.get(),
+                        SoundSource.BLOCKS, Float.MAX_VALUE, 20, 20);
+
+                Minecraft.getInstance().getSoundManager().play(insideSound);
+
+                if (isEntrance)
+                    world.playSound(null, pos, SoundRegistry.CLEAR_PIPE_ENTER.get(), SoundSource.BLOCKS);
+                insideSound.wasInEntrance = isEntrance;
+
+                ACTIVE_PIPE_SOUNDS.put(uuid, insideSound);
+            } else soundInstance.wasInEntrance = isEntrance;
+        } else if (soundInstance != null) {
+            soundInstance.startFadeOut();
+
+            if (soundInstance.wasInEntrance)
+                world.playSound(null, pos, SoundRegistry.CLEAR_PIPE_EXIT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            ACTIVE_PIPE_SOUNDS.remove(uuid);
         }
     }
 

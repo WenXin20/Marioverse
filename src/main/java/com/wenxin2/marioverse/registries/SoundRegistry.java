@@ -16,6 +16,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
     public static final DeferredHolder<SoundEvent, SoundEvent> CHECKPOINT_FLAG_CLAIMED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_ENTER;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_EXIT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_INSIDE;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
@@ -112,6 +115,13 @@ public class SoundRegistry {
 
         CHECKPOINT_FLAG_CLAIMED = Marioverse.SOUNDS.register("block.checkpoint_flag_claimed",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.checkpoint_flag_claimed")));
+
+        CLEAR_PIPE_ENTER = Marioverse.SOUNDS.register("block.clear_pipe_enter",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.clear_pipe_enter")));
+        CLEAR_PIPE_EXIT = Marioverse.SOUNDS.register("block.clear_pipe_exit",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.clear_pipe_exit")));
+        CLEAR_PIPE_INSIDE = Marioverse.SOUNDS.register("block.clear_pipe_inside",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.clear_pipe_inside")));
 
         STAR_COIN_PICKUP = Marioverse.SOUNDS.register("block.star_coin_pickup",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.star_coin_pickup")));
