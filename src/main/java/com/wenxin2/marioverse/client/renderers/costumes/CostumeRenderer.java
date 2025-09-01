@@ -109,6 +109,9 @@ public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
         Optional<GeoBone> dressBone = this.getGeoModel().getBone("armorDress");
         Optional<GeoBone> waistBone = this.getGeoModel().getBone("armorWaist");
 
+        dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, false));
+        waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, false));
+
         switch (currentSlot) {
             case HEAD:
                 this.setBoneVisible(this.head, model.head.visible);
