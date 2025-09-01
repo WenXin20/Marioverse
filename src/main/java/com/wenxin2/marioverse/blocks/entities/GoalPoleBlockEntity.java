@@ -93,7 +93,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         Block block = this.getBlockState().getBlock();
 
         if (state.getValue(GoalPoleBlock.LOWERED)) {
-            if ((this.isAmericanFlag() || block == BlockRegistry.CLASSIC_GOAL_POLE.get()) && !this.playedDisappearAnim()
+            /*if ((this.isAmericanFlag() || block == BlockRegistry.CLASSIC_GOAL_POLE.get()) && !this.playedDisappearAnim()
                     && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
                 this.setPlayedDisappearAnim(Boolean.TRUE);
                 if (this.getLevel() != null)
@@ -105,7 +105,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
                 if (this.getLevel() != null)
                     this.updateConnectedAppearFlags(this.getLevel(), this.getBlockPos(), true);
                 event.setAndContinue(APPEAR);
-            }
+            }*/
         }
         return PlayState.CONTINUE;
     }
