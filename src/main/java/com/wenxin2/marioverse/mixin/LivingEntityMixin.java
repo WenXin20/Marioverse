@@ -740,8 +740,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (jumpAttribute != null) {
             double normalJumpBoost = 0.4;
             double runningJumpBoost = 0.5;
-            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST.getId()) != null;
-            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId()) != null;
+            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
+            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
 
             if (this.mv$hasPeachCostume(entity)) {
@@ -759,20 +759,20 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     || this.mv$hasPeachCostume(entity)) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId(), runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
                     if (hasJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST.getId());
+                        jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
                 } else {
                     if (!hasJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.JUMP_BOOST.getId(), normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
+                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
                     if (hasRunningJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId());
+                        jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
                 }
             } else {
                 if (hasRunningJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST.getId());
+                    jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
                 if (hasJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST.getId());
+                    jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
             }
         }
 
@@ -780,11 +780,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (this.mv$hasMarioCostume(entity)
                     || this.mv$hasLuigiCostume(entity)
                     || this.mv$hasPeachCostume(entity)) {
-                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE.getId()) != null;
+                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE) != null;
                 if (!hasSafeFallModifier)
-                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE.getId(), 7, AttributeModifier.Operation.ADD_VALUE));
+                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
             }
-            else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE.getId());
+            else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE);
         }
 
         if (this.mv$hasPeachCostume(entity)) {
@@ -824,26 +824,26 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             AttributeInstance toughnessAttribute = entity.getAttribute(Attributes.ARMOR_TOUGHNESS);
             if (toughnessAttribute != null) {
-                boolean hasModifier = toughnessAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS.getId()) != null;
+                boolean hasModifier = toughnessAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS) != null;
                 if (totalToughness > 0) {
-                    AttributeModifier toughnessModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS.getId(),
+                    AttributeModifier toughnessModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS,
                             totalToughness, AttributeModifier.Operation.ADD_VALUE);
 
                     if (!hasModifier)
                         toughnessAttribute.addPermanentModifier(toughnessModifier);
-                } else if (hasModifier) toughnessAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS.getId());
+                } else if (hasModifier) toughnessAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
             }
 
             AttributeInstance knockbackAttribute = entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
             if (knockbackAttribute != null) {
-                boolean hasModifier = knockbackAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE.getId()) != null;
+                boolean hasModifier = knockbackAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE) != null;
                 if (totalKnockbackResistance > 0) {
-                    AttributeModifier knockbackModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE.getId(),
+                    AttributeModifier knockbackModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE,
                             totalKnockbackResistance, AttributeModifier.Operation.ADD_VALUE);
 
                     if (!hasModifier)
                         knockbackAttribute.addPermanentModifier(knockbackModifier);
-                } else if (hasModifier)  knockbackAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE.getId());
+                } else if (hasModifier)  knockbackAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE);
             }
 
             return original + totalExtraArmor;
@@ -934,14 +934,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
     private static AttributeSupplier.Builder createLivingAttributes(AttributeSupplier.Builder original) {
-        original.add(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
-        original.add(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
-        original.add(AttributesRegistry.DAMAGED_SCALE);
         original.add(AttributesRegistry.EYE_HEIGHT_SCALE);
         original.add(AttributesRegistry.HEIGHT_SCALE);
-        original.add(AttributesRegistry.JUMP_BOOST);
-        original.add(AttributesRegistry.RUNNING_JUMP_BOOST);
-        original.add(AttributesRegistry.SAFE_FALL_DISTANCE);
         original.add(AttributesRegistry.WIDTH_SCALE);
 
         return original;
@@ -1187,20 +1181,20 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     private void mv$updateScale(AttributeInstance scaleAttribute, double currentScale, double targetScale, float scalingSpeed, Consumer<Double> setter) {
-        Attribute modifier = AttributesRegistry.DAMAGED_SCALE.get();
+        ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
 
-        if (scaleAttribute != null && modifier.getBaseId() != null) {
+        if (scaleAttribute != null) {
             double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale);
 
             if (Math.abs(currentScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier.getBaseId()) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
-                scaleAttribute.removeModifier(modifier.getBaseId());
+            if (scaleAttribute.hasModifier(modifier) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
+                scaleAttribute.removeModifier(modifier);
 
             if (lerpedScale != targetScale) {
-                scaleAttribute.removeModifier(modifier.getBaseId());
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier.getBaseId(), lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                scaleAttribute.removeModifier(modifier);
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
                 if (Math.abs(currentScale - targetScale) < 0.01)
                     setter.accept(targetScale);
