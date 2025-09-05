@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategy;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
+import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.mehvahdjukaar.stone_zone.api.StonePaletteStrategies;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
@@ -55,6 +56,10 @@ public class MudModule extends StoneZoneModule {
         });
     });
 
+    public static final PaletteStrategy questionPalette = PaletteStrategies.registerCached((blockType, resourceManager) -> {
+        return PaletteStrategies.makePaletteFromChild(blockType, resourceManager, VanillaStoneChildKeys.BRICKS, null, Palette::increaseUp);
+    });
+
     public MudModule(String modId, String shortId) {
         super(modId, shortId);
         ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
@@ -96,7 +101,7 @@ public class MudModule extends StoneZoneModule {
                         BlockRegistry.MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,
                         mudType -> new QuestionBlock(Utils.copyPropertySafe(mudType.mud)))
                 .addTexture(modRes("block/empty_mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
-                .addTexture(modRes("block/mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/mud_question_bricks"), questionPalette)
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
