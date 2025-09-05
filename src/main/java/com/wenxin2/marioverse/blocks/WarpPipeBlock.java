@@ -393,56 +393,10 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
-        Block blockAbove = worldAccessor.getBlockState(pos.above()).getBlock();
-        Block blockBelow = worldAccessor.getBlockState(pos.below()).getBlock();
-        Block blockNorth = worldAccessor.getBlockState(pos.north()).getBlock();
-        Block blockSouth = worldAccessor.getBlockState(pos.south()).getBlock();
-        Block blockEast = worldAccessor.getBlockState(pos.east()).getBlock();
-        Block blockWest = worldAccessor.getBlockState(pos.west()).getBlock();
+        Direction facing = state.getValue(FACING);
+        BlockPos posRelative = pos.relative(facing);
 
-        boolean facingUp = state.getValue(FACING) == Direction.UP;
-        boolean facingDown = state.getValue(FACING) == Direction.DOWN;
-        boolean facingNorth = state.getValue(FACING) == Direction.NORTH;
-        boolean facingSouth = state.getValue(FACING) == Direction.SOUTH;
-        boolean facingEast = state.getValue(FACING) == Direction.EAST;
-        boolean facingWest = state.getValue(FACING) == Direction.WEST;
-
-        if (facingUp) {
-            if (blockAbove == this)
-                return state.setValue(ENTRANCE, Boolean.FALSE);
-            else return state.setValue(ENTRANCE, Boolean.TRUE);
-        }
-
-        if (facingDown) {
-            if (blockBelow == this)
-                return state.setValue(ENTRANCE, Boolean.FALSE);
-            else return state.setValue(ENTRANCE, Boolean.TRUE);
-        }
-
-        if (facingNorth) {
-            if (blockNorth == this)
-                return state.setValue(ENTRANCE, Boolean.FALSE);
-            else return state.setValue(ENTRANCE, Boolean.TRUE);
-        }
-
-        if (facingSouth) {
-            if (blockSouth == this)
-                return state.setValue(ENTRANCE, Boolean.FALSE);
-            else return state.setValue(ENTRANCE, Boolean.TRUE);
-        }
-
-        if (facingEast) {
-            if (blockEast == this)
-                return state.setValue(ENTRANCE, Boolean.FALSE);
-            else return state.setValue(ENTRANCE, Boolean.TRUE);
-        }
-
-        if (facingWest) {
-            if (blockWest == this)
-                return state.setValue(ENTRANCE, Boolean.FALSE);
-            else return state.setValue(ENTRANCE, Boolean.TRUE);
-        }
-        return state.setValue(ENTRANCE, Boolean.FALSE);
+        return state.setValue(ENTRANCE, worldAccessor.getBlockState(posRelative).getBlock() != this);
     }
 
     @Override
