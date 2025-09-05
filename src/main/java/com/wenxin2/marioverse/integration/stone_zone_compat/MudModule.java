@@ -8,13 +8,16 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
+import net.mehvahdjukaar.every_compat.api.PaletteStrategy;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
-import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
+import net.mehvahdjukaar.stone_zone.api.StonePaletteStrategies;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneModule;
-import net.mehvahdjukaar.stone_zone.api.set.MudType;
-import net.mehvahdjukaar.stone_zone.api.set.MudTypeRegistry;
+import net.mehvahdjukaar.stone_zone.api.set.mud.MudType;
+import net.mehvahdjukaar.stone_zone.api.set.mud.VanillaMudTypes;
+import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneChildKeys;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
@@ -28,14 +31,37 @@ public class MudModule extends StoneZoneModule {
     public final SimpleEntrySet<MudType, Block> smashableBricks;
     public final SimpleEntrySet<MudType, Block> storageBricks;
 
+    public static final PaletteStrategy darkerPalette = PaletteStrategies.registerCached((blockType, resourceManager) -> {
+        return PaletteStrategies.makePaletteFromChild(blockType, resourceManager, VanillaStoneChildKeys.BRICKS, null, p -> {
+            while (p.size() > 6)
+                p.reduce();
+
+            p.reduceUp();
+            p.reduceUp();
+            p.reduceUp();
+        });
+    });
+
+    public static final PaletteStrategy lighterPalette = PaletteStrategies.registerCached((blockType, resourceManager) -> {
+        return PaletteStrategies.makePaletteFromChild(blockType, resourceManager, VanillaStoneChildKeys.BRICKS, null, p -> {
+            while(p.size() > 2)
+                p.reduce();
+
+            p.increaseDown();
+            p.increaseDown();
+            p.increaseUp();
+            p.increaseUp();
+            p.increaseUp();
+        });
+    });
+
     public MudModule(String modId, String shortId) {
         super(modId, shortId);
         ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
 
         brickPedestal = StoneZoneEntrySet.of(MudType.class, "brick_pedestal",
-                        BlockRegistry.MUD_BRICK_PEDESTAL, MudTypeRegistry::getMudType,
+                        BlockRegistry.MUD_BRICK_PEDESTAL, () -> VanillaMudTypes.MUD,
                         mudType -> new BrickPedestalBlock(Utils.copyPropertySafe(mudType.mud)))
-                .createPaletteFromBricks()
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
@@ -48,10 +74,9 @@ public class MudModule extends StoneZoneModule {
         this.addEntry(brickPedestal);
 
         invisibleQuestionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks", "invisible",
-                        BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, MudTypeRegistry::getMudType,
+                        BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,
                         mudType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(mudType.mud)))
-                .createPaletteFromBricks()
-                .addTexture(modRes("block/invisible_mud_question_bricks"))
+                .addTexture(modRes("block/invisible_mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -68,11 +93,10 @@ public class MudModule extends StoneZoneModule {
         this.addEntry(invisibleQuestionBlock);
 
         questionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks",
-                        BlockRegistry.MUD_QUESTION_BRICKS, MudTypeRegistry::getMudType,
+                        BlockRegistry.MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,
                         mudType -> new QuestionBlock(Utils.copyPropertySafe(mudType.mud)))
-                .createPaletteFromBricks()
-                .addTexture(modRes("block/empty_mud_question_bricks"))
-                .addTexture(modRes("block/mud_question_bricks"))
+                .addTexture(modRes("block/empty_mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -90,10 +114,9 @@ public class MudModule extends StoneZoneModule {
         this.addEntry(questionBlock);
 
         smashableBricks = StoneZoneEntrySet.of(MudType.class, "bricks", "smashable",
-                        BlockRegistry.SMASHABLE_MUD_BRICKS, MudTypeRegistry::getMudType,
+                        BlockRegistry.SMASHABLE_MUD_BRICKS, () -> VanillaMudTypes.MUD,
                         mudType -> new Block(Utils.copyPropertySafe(mudType.mud)))
-                .createPaletteFromChild(this::smashableBricksPalette, "bricks")
-                .addTexture(modRes("block/smashable_mud_bricks_overlay"))
+                .addTexture(modRes("block/smashable_mud_bricks_overlay"), darkerPalette)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCK_ITEMS, Registries.ITEM)
@@ -105,10 +128,9 @@ public class MudModule extends StoneZoneModule {
         this.addEntry(smashableBricks);
 
         storageBricks = StoneZoneEntrySet.of(MudType.class, "bricks", "storage",
-                        BlockRegistry.STORAGE_MUD_BRICKS, MudTypeRegistry::getMudType,
+                        BlockRegistry.STORAGE_MUD_BRICKS, () -> VanillaMudTypes.MUD,
                         mudType -> new StorageBrickBlock(Utils.copyPropertySafe(mudType.mud)))
-                .createPaletteFromChild(this::storageBricksPalette, "bricks")
-                .addTexture(modRes("block/mud_question_bricks_overlay"))
+                .addTexture(modRes("block/mud_question_bricks_overlay"), lighterPalette)
                 .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
@@ -124,25 +146,5 @@ public class MudModule extends StoneZoneModule {
                 .setTabKey(tab)
                 .build();
         this.addEntry(storageBricks);
-    }
-
-    private void smashableBricksPalette(Palette p) {
-        while(p.size() > 6)
-            p.reduce();
-
-        p.reduceUp();
-        p.reduceUp();
-        p.reduceUp();
-    }
-
-    private void storageBricksPalette(Palette p) {
-        while(p.size() > 2)
-            p.reduce();
-
-        p.increaseDown();
-        p.increaseDown();
-        p.increaseUp();
-        p.increaseUp();
-        p.increaseUp();
     }
 }
