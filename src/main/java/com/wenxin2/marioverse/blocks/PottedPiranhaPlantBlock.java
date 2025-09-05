@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -133,6 +134,21 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
             blockEntity.attackCooldown = 20;
             blockEntity.triggerAnim("bite_controller", "bite");
             world.playSound(null, pos, SoundRegistry.PIRANHA_PLANT_CHOMP.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        }
+    }
+
+    @NotNull
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        switch (rotation) {
+            case COUNTERCLOCKWISE_90:
+            case CLOCKWISE_90:
+                return switch (state.getValue(AXIS)) {
+                    case X -> state.setValue(AXIS, Direction.Axis.Z);
+                    case Z -> state.setValue(AXIS, Direction.Axis.X);
+                    default -> state;
+                };
+            default: return state;
         }
     }
 }
