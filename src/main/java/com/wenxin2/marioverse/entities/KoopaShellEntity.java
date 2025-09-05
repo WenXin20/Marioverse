@@ -586,7 +586,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void collideWithWall(Level world) {
         AABB bb = this.getBoundingBox();
         double maxStep = this.maxUpStep();
-        double forwardDistance = 0.5;
+        double forwardDistance = 0.1;
         double stepIncrement = 0.1;
 
         outer:
@@ -621,24 +621,28 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 newZ = -motion.z;
         }
 
-        Vec3 newMotion = new Vec3(newX, motion.y, newZ);
-        this.setDeltaMovement(newMotion);
-        this.slidingMovement = new Vec3(newX, motion.y, newZ);
-        this.hasImpulse = true;
+        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
+        double tolerance = (this.getBbWidth() / 2.0) + 0.1;
 
-        if (newX != motion.x && newZ != motion.z) {
-            double angle = Math.atan2(newZ, newX);
-            angle += (world.random.nextDouble() - 0.5) * 0.2;
-            double speed = new Vec3(newX, 0, newZ).length();
-            newX = Math.cos(angle) * speed;
-            newZ = Math.sin(angle) * speed;
-
-            newMotion = new Vec3(newX, motion.y, newZ);
+        if (this.position().distanceTo(hitPos) <= tolerance) {
+            Vec3 newMotion = new Vec3(newX, this.getDeltaMovement().y, newZ);
             this.setDeltaMovement(newMotion);
-            this.slidingMovement = new Vec3(newX, motion.y, newZ);
+            this.slidingMovement = new Vec3(newX, this.getDeltaMovement().y, newZ);
+            this.hasImpulse = true;
+
+            if (newX != motion.x && newZ != motion.z) {
+                double angle = Math.atan2(newZ, newX);
+                angle += (world.random.nextDouble() - 0.5) * 0.2;
+                double speed = new Vec3(newX, 0, newZ).length();
+                newX = Math.cos(angle) * speed;
+                newZ = Math.sin(angle) * speed;
+
+                newMotion = new Vec3(newX, motion.y, newZ);
+                this.setDeltaMovement(newMotion);
+                this.slidingMovement = new Vec3(newX, motion.y, newZ);
+            }
         }
 
-        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
         if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
             serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
                     3, 0.1, 0.1, 0.1, 0.0);
