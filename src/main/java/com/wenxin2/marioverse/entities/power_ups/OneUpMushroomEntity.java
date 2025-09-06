@@ -34,10 +34,8 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             }
             lastCollisionTime = currentTime;
 
-            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                handler.applyOneUpMushroomPowerUp(this.level(), new ItemStack(item), livingEntity);
-                this.remove(RemovalReason.DISCARDED);
-            }
+            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+                handler.applyOneUpMushroomPowerUp(this.level(), new ItemStack(item), livingEntity, this);
         }
     }
 }

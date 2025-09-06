@@ -5,7 +5,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
-import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
+import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -952,18 +956,21 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                 Entity spawnedEntity = entityType.create(serverWorld);
                 if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
-                    if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()) {
-                        handler.applyMushroomPowerUp(world, entity, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-                    } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()) {
-                        handler.applyOneUpMushroomPowerUp(world, stack, entity);
+                    if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
+                            && spawnedEntity instanceof MushroomEntity powerUp) {
+                        handler.applyMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
+                            && spawnedEntity instanceof OneUpMushroomEntity powerUp) {
+                        handler.applyOneUpMushroomPowerUp(world, stack, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()
-                            && spawnedEntity instanceof AbstractPowerUpEntity powerUp) {
+                            && spawnedEntity instanceof FireFlowerEntity powerUp) {
                         handler.applyFireFlowerPowerUp(world, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.ICE_FLOWER.get()
-                            && spawnedEntity instanceof AbstractPowerUpEntity powerUp) {
+                            && spawnedEntity instanceof IceFlowerEntity powerUp) {
                         handler.applyIceFlowerPowerUp(world, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()) {
-                        handler.applySuperStarPowerUp(world, entity);
+                    } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()
+                            && spawnedEntity instanceof SuperStarEntity powerUp) {
+                        handler.applySuperStarPowerUp(world, entity, powerUp);
                     } else {
                         entityType.spawn(serverWorld, stack, null,
                                 BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),

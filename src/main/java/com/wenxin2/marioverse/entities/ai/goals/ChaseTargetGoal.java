@@ -89,18 +89,18 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
             this.mob.getNavigation().moveTo(this.target, speedModifier);
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
-                if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
-                    handler.applyMushroomPowerUp(world, this.mob, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                if (this.target instanceof MushroomEntity powerUp && !handler.mv$hasSuperMushroom())
+                    handler.applyMushroomPowerUp(world, this.mob, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                 else if (this.target instanceof FireFlowerEntity powerUp && !handler.mv$hasFireFlower())
                     handler.applyFireFlowerPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof IceFlowerEntity powerUp && !handler.mv$hasIceFlower())
                     handler.applyIceFlowerPowerUp(world, this.mob, powerUp);
-                else if (this.target instanceof OneUpMushroomEntity
+                else if (this.target instanceof OneUpMushroomEntity powerUp
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()))
-                    handler.applyOneUpMushroomPowerUp(world, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), this.mob);
-                else if (this.target instanceof SuperStarEntity
+                    handler.applyOneUpMushroomPowerUp(world, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), this.mob, powerUp);
+                else if (this.target instanceof SuperStarEntity powerUp
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
-                    handler.applySuperStarPowerUp(world, this.mob);
+                    handler.applySuperStarPowerUp(world, this.mob, powerUp);
 
                 if (this.target instanceof BasePowerUpEntity || this.target instanceof BaseMushroomEntity) {
                     this.target.discard();

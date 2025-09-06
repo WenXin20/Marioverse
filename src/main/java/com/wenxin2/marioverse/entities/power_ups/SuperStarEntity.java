@@ -76,9 +76,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-            handler.applySuperStarPowerUp(this.level(), livingEntity);
-            this.remove(RemovalReason.DISCARDED);
-        }
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+            handler.applySuperStarPowerUp(this.level(), livingEntity, this);
     }
 }

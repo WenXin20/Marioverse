@@ -55,7 +55,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -256,7 +255,6 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onEntityDamaged(LivingIncomingDamageEvent event) {
-        CompoundTag tag = event.getEntity().getPersistentData();
         Level world = event.getEntity().level();
         DamageSource source = event.getSource();
 

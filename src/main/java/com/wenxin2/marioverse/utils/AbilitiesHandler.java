@@ -2,8 +2,9 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
-import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
-import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -17,12 +18,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface AbilitiesHandler extends CostumeHandler {
     void mv$clearAllPowerUps();
@@ -102,7 +105,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         else return ConfigRegistry.EQUIP_COSTUMES_MOBS.get();
     }
 
-    default void applyMushroomPowerUp(Level world, LivingEntity entity, float healthHealed) {
+    default void applyMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp, float healthHealed) {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
@@ -117,10 +120,12 @@ public interface AbilitiesHandler extends CostumeHandler {
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
                 }
             }
+            if (powerUp != null)
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyOneUpMushroomPowerUp(Level world, ItemStack stack, LivingEntity entity) {
+    default void applyOneUpMushroomPowerUp(Level world, ItemStack stack, LivingEntity entity, OneUpMushroomEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
@@ -141,10 +146,11 @@ public interface AbilitiesHandler extends CostumeHandler {
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
                 ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity, 1.0);
             }
+            powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applySuperStarPowerUp(Level world, LivingEntity entity) {
+    default void applySuperStarPowerUp(Level world, LivingEntity entity, SuperStarEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
 
@@ -162,10 +168,11 @@ public interface AbilitiesHandler extends CostumeHandler {
                 Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(entity, SoundRegistry.SUPER_STAR_THEME.get(),
                         SoundSource.AMBIENT, entity.getRandom(), this.mv$getSuperStarCooldown(), 100));
             this.mv$setPlayedSuperStarTheme(true);
+            powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyFireFlowerPowerUp(Level world, LivingEntity entity, FireFlowerEntity powerUp) {
+    default void applyFireFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
@@ -179,10 +186,11 @@ public interface AbilitiesHandler extends CostumeHandler {
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             this.applyCostumeChange(entity, powerUp);
+            powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyIceFlowerPowerUp(Level world, LivingEntity entity, IceFlowerEntity powerUp) {
+    default void applyIceFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
@@ -196,6 +204,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             this.applyCostumeChange(entity, powerUp);
+            powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 }

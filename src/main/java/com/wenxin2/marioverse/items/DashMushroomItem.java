@@ -58,7 +58,7 @@ public class DashMushroomItem extends Item {
                 Entity vehicle = entity.getVehicle();
                 if (stack != null)
                     stack.consume(1, entity);
-                handler.applyMushroomPowerUp(world, entity, ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                handler.applyMushroomPowerUp(world, entity, null, ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue());
 
                 if (vehicle != null
                         && (!vehicle.getType().is(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST) || isCommand)) {
