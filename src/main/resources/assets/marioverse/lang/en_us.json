@@ -463,6 +463,7 @@
   "item.marioverse.mario_costume.tooltip.line1": "§7Full Set Bonus:",
   "item.marioverse.mario_costume.tooltip.line2": "§9+4 Jump Height §7[+4]",
   "item.marioverse.mario_costume.tooltip.line3": "§9+5 Running Jump Height §7[+5]",
+  "item.marioverse.mario_costume.tooltip.line4": "§9+7 Safe Fall Distance §7[+7]",
 
   "item.marioverse.luigi_hat": "Luigi's Hat",
   "item.marioverse.luigi_pants": "Luigi's Pants",
@@ -479,6 +480,7 @@
   "item.marioverse.luigi_costume.tooltip.line1": "§7Full Set Bonus:",
   "item.marioverse.luigi_costume.tooltip.line2": "§9+5 Jump Height §7[+5]",
   "item.marioverse.luigi_costume.tooltip.line3": "§9+6 Running Jump Height §7[+6]",
+  "item.marioverse.luigi_costume.tooltip.line4": "§9+7 Safe Fall Distance §7[+7]",
 
   "item.marioverse.peach_bodice": "Princess Peach's Bodice",
   "item.marioverse.peach_crown": "Princess Peach's Crown",
@@ -493,7 +495,8 @@
   "item.marioverse.peach_costume.tooltip.line1": "§7Full Set Bonus:",
   "item.marioverse.peach_costume.tooltip.line2": "§9+3 Jump Height §7[+3]",
   "item.marioverse.peach_costume.tooltip.line3": "§9+4 Running Jump Height §7[+4]",
-  "item.marioverse.peach_costume.tooltip.line4": "§970% Slow Fall §7[0.7x]",
+  "item.marioverse.peach_costume.tooltip.line4": "§9+7 Safe Fall Distance §7[+7]",
+  "item.marioverse.peach_costume.tooltip.line5": "§970% Slow Fall §7[0.7x]",
 
   "item.marioverse.smithing_template.leather_armor.applies_to": "Leather Armor",
   "item.marioverse.smithing_template.leather_armor.base_slot_description": "Add leather armor",
