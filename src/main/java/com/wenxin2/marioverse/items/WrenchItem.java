@@ -69,7 +69,7 @@ public class WrenchItem extends LinkerItem {
 
     @Override
     public boolean isValidRepairItem(ItemStack stack, ItemStack repairStack) {
-        return repairStack.is(Tags.Items.INGOTS_COPPER) || super.isValidRepairItem(stack, repairStack);
+        return repairStack.is(Tags.Items.INGOTS_IRON) || super.isValidRepairItem(stack, repairStack);
     }
 
     @Override
