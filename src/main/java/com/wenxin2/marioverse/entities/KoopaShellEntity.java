@@ -308,9 +308,20 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     @Override
     public void push(Entity entity) {
+        Vec3 lookDir = entity.getLookAngle().normalize();
+        Vec3 horizontalDir = new Vec3(lookDir.x, 0, lookDir.z).normalize();
+        Vec3 slideMotion = horizontalDir.scale(1.2);
+
         if (this.getOwner() == null) {
             this.setOwner(entity);
             this.leftOwner = false;
+        }
+
+        if ((this.onGround()) && entity.getDeltaMovement().horizontalDistance() > 0
+                && (this.getOwner() == null || this.getOwner() == entity)) {
+            this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+            this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+            this.hasImpulse = true;
         }
         super.push(entity);
     }
