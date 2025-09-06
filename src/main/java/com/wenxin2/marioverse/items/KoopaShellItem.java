@@ -26,8 +26,9 @@ public class KoopaShellItem extends BasePowerUpItem {
         super(entityType, primaryColor, secondaryColor, properties);
     }
 
+    @NotNull
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         if (context.getPlayer() != null
                 && context.getPlayer().getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS))
             return super.useOn(context);
@@ -48,6 +49,20 @@ public class KoopaShellItem extends BasePowerUpItem {
         }
 
         return InteractionResultHolder.fail(stack);
+    }
+
+    @NotNull
+    @Override
+    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
+        EntityType<?> entityType = this.getType(stack);
+        Entity entity = entityType.create(player.level());
+
+        if (entity instanceof KoopaShellEntity shell
+                && player.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS)) {
+            this.throwShell(player.level(), player, shell, stack);
+            return InteractionResult.SUCCESS;
+        }
+        return super.interactLivingEntity(stack, player, livingEntity, hand);
     }
 
     public void throwShell(Level world, LivingEntity entity, KoopaShellEntity shell, ItemStack stack) {
