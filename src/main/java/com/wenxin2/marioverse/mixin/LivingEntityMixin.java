@@ -78,6 +78,7 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -282,11 +283,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079
                 && !entity.isSpectator()
-                && !this.mv$hasSmashedBlock()) {
+                && !this.mv$hasSmashedBlock()
+                && EventHooks.canEntityGrief(world, entity)) {
             this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
-        this.mv$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
+        if (EventHooks.canEntityGrief(world, entity))
+            this.mv$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
@@ -301,10 +304,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator())
+                && !entity.isSpectator() && EventHooks.canEntityGrief(world, entity))
             this.mv$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
-        this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
+        if (EventHooks.canEntityGrief(world, entity))
+            this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
         if (this.mv$getCheckpointFlagCooldown() > 0)
             this.mv$setCheckpointFlagCooldown(this.mv$getCheckpointFlagCooldown() - 1);
