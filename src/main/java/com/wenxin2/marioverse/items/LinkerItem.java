@@ -76,17 +76,17 @@ public class LinkerItem extends TieredItem {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     return InteractionResult.sidedSuccess(true);
-                } else if (warpBE instanceof WarpDoorBlockEntity doorBE && doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
-                    if (doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.fuel_required",
-                                state.getBlock().getName(), ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt() - doorBE.getWarpFuelCount())
-                                .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+                } else if (!player.isCreative() && warpBE instanceof WarpDoorBlockEntity doorBE
+                        && doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.fuel_required",
+                                    state.getBlock().getName(), ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt() - doorBE.getWarpFuelCount())
+                            .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.sidedSuccess(true);
-                } else if (warpBE instanceof WarpTrapDoorBlockEntity trapDoorBE && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
-                    if (trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.fuel_required",
-                                state.getBlock().getName(), ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt() - trapDoorBE.getWarpFuelCount())
-                                .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+                } else if (!player.isCreative() && warpBE instanceof WarpTrapDoorBlockEntity trapDoorBE
+                        && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.fuel_required",
+                                    state.getBlock().getName(), ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt() - trapDoorBE.getWarpFuelCount())
+                            .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                     return InteractionResult.sidedSuccess(true);
                 } else if (!getIsBound(stack)) {
 
