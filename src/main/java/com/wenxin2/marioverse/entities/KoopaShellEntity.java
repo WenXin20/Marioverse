@@ -247,7 +247,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.emergeAnimationTicks = 60;
         }
 
-        if (this.isAlive()) {
+        if (this.isAlive() && !this.isNoAi()) {
             this.collideWithWall(this.level());
             if (!this.level().isClientSide)
                 this.collideWithEntity();
