@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
+import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -163,7 +165,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applyFireFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyFireFlowerPowerUp(Level world, LivingEntity entity, FireFlowerEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
@@ -180,7 +182,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applyIceFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyIceFlowerPowerUp(Level world, LivingEntity entity, IceFlowerEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
             if (world instanceof ServerLevel serverWorld)
