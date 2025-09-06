@@ -282,13 +282,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator()
-                && !this.mv$hasSmashedBlock()
-                && EventHooks.canEntityGrief(world, entity)) {
+                && !entity.isSpectator() && !this.mv$hasSmashedBlock()
+                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player)
+                && !world.isClientSide) {
             this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
-        if (EventHooks.canEntityGrief(world, entity))
+        if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
@@ -303,11 +303,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator() && EventHooks.canEntityGrief(world, entity))
+                && !entity.onGround() && deltaY > -0.079 && !entity.isSpectator()
+                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player)
+                && !world.isClientSide)
             this.mv$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
-        if (EventHooks.canEntityGrief(world, entity))
+        if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
         if (this.mv$getCheckpointFlagCooldown() > 0)
