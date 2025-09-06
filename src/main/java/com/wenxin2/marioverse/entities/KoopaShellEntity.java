@@ -258,11 +258,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);
             double slideSpeed = (friction > 0.8) ? 0.4 + friction / 1.5 : 1.0;
-            Vec3 slideMotion = this.slidingMovement.normalize().scale(slideSpeed);
+            Vec3 slideMotion = this.slidingMovement;
 
             if (this.getLastDamageSource() != null
+                    && this.getDeltaMovement().horizontalDistance() > 0
                     && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+                        || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 this.setDeltaMovement(Vec3.ZERO);
                 this.slidingMovement = Vec3.ZERO;
             } else if ((this.onGround()) && motion.horizontalDistance() > 0.0001) {
@@ -608,6 +609,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     public void bounceShell(Level world, Direction dir) {
         Crackiness.Level crackinessLevel = this.getCrackiness();
         Vec3 motion = this.slidingMovement;
+        double speed = motion.horizontalDistance();
+        if (speed < 1e-6) return;
         double newX = motion.x;
         double newZ = motion.z;
 
@@ -622,25 +625,14 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
-        double tolerance = (this.getBbWidth() / 2.0) + 0.1;
+        double tolerance = (this.getBbWidth() / 2.0) + 0.075;
 
         if (this.position().distanceTo(hitPos) <= tolerance) {
-            Vec3 newMotion = new Vec3(newX, this.getDeltaMovement().y, newZ);
+            Vec3 newMotion = new Vec3(newX, 0, newZ).normalize().scale(speed);
+            newMotion = newMotion.add(0, this.getDeltaMovement().y, 0);
             this.setDeltaMovement(newMotion);
-            this.slidingMovement = new Vec3(newX, this.getDeltaMovement().y, newZ);
+            this.slidingMovement = newMotion;
             this.hasImpulse = true;
-
-            if (newX != motion.x && newZ != motion.z) {
-                double angle = Math.atan2(newZ, newX);
-                angle += (world.random.nextDouble() - 0.5) * 0.2;
-                double speed = new Vec3(newX, 0, newZ).length();
-                newX = Math.cos(angle) * speed;
-                newZ = Math.sin(angle) * speed;
-
-                newMotion = new Vec3(newX, motion.y, newZ);
-                this.setDeltaMovement(newMotion);
-                this.slidingMovement = new Vec3(newX, motion.y, newZ);
-            }
         }
 
         if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
