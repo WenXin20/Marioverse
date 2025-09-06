@@ -29,11 +29,11 @@ public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements
 
     public abstract TagKey<Item> getPowerUpCostumeTag();
 
-    public abstract List<ItemStack> getHatItems();
+    public abstract List<ItemStack> getPowerUpHatItems();
 
-    public abstract List<ItemStack> getShirtItems();
+    public abstract List<ItemStack> getPowerUpShirtItems();
 
-    public abstract List<ItemStack> getPantsItems();
+    public abstract List<ItemStack> getPowerUpPantsItems();
 
-    public abstract List<ItemStack> getShoesItems();
+    public abstract List<ItemStack> getPowerUpShoesItems();
 }

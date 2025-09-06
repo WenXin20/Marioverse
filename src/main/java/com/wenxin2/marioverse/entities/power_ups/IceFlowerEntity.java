@@ -53,10 +53,8 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applyIceFlowerPowerUp(this.level(), livingEntity, this);
-            this.remove(RemovalReason.DISCARDED);
-        }
     }
 
     @Override
@@ -65,40 +63,29 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     }
 
     @Override
-    public List<ItemStack> getHatItems() {
-        return List.of(ItemRegistry.MARIO_HAT.toStack(),
-                ItemRegistry.LUIGI_HAT.toStack(),
-                ItemRegistry.PEACH_CROWN.toStack(),
-                ItemRegistry.MARIO_ICE_HAT.toStack(),
-                ItemRegistry.LUIGI_ICE_HAT.toStack());
+    public List<ItemStack> getPowerUpHatItems() {
+        return List.of(ItemRegistry.MARIO_ICE_HAT.toStack(),
+                ItemRegistry.LUIGI_ICE_HAT.toStack(),
+                ItemRegistry.PEACH_CROWN.toStack());
     }
 
     @Override
-    public List<ItemStack> getShirtItems() {
-        return List.of(ItemRegistry.MARIO_SHIRT.toStack(),
-                ItemRegistry.LUIGI_SHIRT.toStack(),
-                ItemRegistry.PEACH_BODICE.toStack(),
-                ItemRegistry.MARIO_ICE_SHIRT.toStack(),
+    public List<ItemStack> getPowerUpShirtItems() {
+        return List.of(ItemRegistry.MARIO_ICE_SHIRT.toStack(),
                 ItemRegistry.LUIGI_ICE_SHIRT.toStack(),
                 ItemRegistry.PEACH_ICE_BODICE.toStack());
     }
 
     @Override
-    public List<ItemStack> getPantsItems() {
-        return List.of(ItemRegistry.MARIO_PANTS.toStack(),
-                ItemRegistry.LUIGI_PANTS.toStack(),
-                ItemRegistry.PEACH_DRESS.toStack(),
-                ItemRegistry.MARIO_ICE_PANTS.toStack(),
+    public List<ItemStack> getPowerUpPantsItems() {
+        return List.of(ItemRegistry.MARIO_ICE_PANTS.toStack(),
                 ItemRegistry.LUIGI_ICE_PANTS.toStack(),
                 ItemRegistry.PEACH_ICE_DRESS.toStack());
     }
 
     @Override
-    public List<ItemStack> getShoesItems() {
-        return List.of(ItemRegistry.MARIO_SHOES.toStack(),
-                ItemRegistry.LUIGI_SHOES.toStack(),
-                ItemRegistry.PEACH_SHOES.toStack(),
-                ItemRegistry.MARIO_ICE_SHOES.toStack(),
+    public List<ItemStack> getPowerUpShoesItems() {
+        return List.of(ItemRegistry.MARIO_ICE_SHOES.toStack(),
                 ItemRegistry.LUIGI_ICE_SHOES.toStack(),
                 ItemRegistry.PEACH_ICE_SHOES.toStack());
     }

@@ -108,7 +108,7 @@ public interface CostumeHandler {
         AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
         AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
 
-        int randomIndex = (int) (Math.random() * powerUp.getHatItems().size());
+        int randomIndex = (int) (Math.random() * powerUp.getPowerUpHatItems().size());
 
         if (entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
             for (EquipmentSlot slot : EquipmentSlot.values()) {
@@ -118,27 +118,27 @@ public interface CostumeHandler {
                 switch (slot) {
                     case HEAD -> {
                         ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
-                        ItemStack newStack = powerUp.getHatItems().get(randomIndex);
+                        ItemStack newStack = powerUp.getPowerUpHatItems().get(randomIndex);
                         if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getHatItems(), newStack, currentStack);
+                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpHatItems(), newStack, currentStack);
                     }
                     case CHEST -> {
                         ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.CHEST);
-                        ItemStack newStack = powerUp.getShirtItems().get(randomIndex);
+                        ItemStack newStack = powerUp.getPowerUpShirtItems().get(randomIndex);
                         if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getShirtItems(), newStack, currentStack);
+                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpShirtItems(), newStack, currentStack);
                     }
                     case LEGS -> {
                         ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
-                        ItemStack newStack = powerUp.getPantsItems().get(randomIndex);
+                        ItemStack newStack = powerUp.getPowerUpPantsItems().get(randomIndex);
                         if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPantsItems(), newStack, currentStack);
+                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpPantsItems(), newStack, currentStack);
                     }
                     case FEET -> {
                         ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
-                        ItemStack newStack = powerUp.getShoesItems().get(randomIndex);
+                        ItemStack newStack = powerUp.getPowerUpShoesItems().get(randomIndex);
                         if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getShoesItems(), newStack, currentStack);
+                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpShoesItems(), newStack, currentStack);
                     }
                 }
             }
@@ -149,9 +149,9 @@ public interface CostumeHandler {
             ItemStack stackArmor = !(entity instanceof Player)
                     ? entity.getItemBySlot(EquipmentSlot.HEAD) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getHatItems().get(randomIndex) : stack;
+                    ? powerUp.getPowerUpHatItems().get(randomIndex) : stack;
 
-            for (ItemStack item : powerUp.getHatItems())
+            for (ItemStack item : powerUp.getPowerUpHatItems())
                 newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
@@ -163,9 +163,9 @@ public interface CostumeHandler {
             ItemStack stackArmor = !(entity instanceof Player)
                     ? entity.getItemBySlot(EquipmentSlot.BODY) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getShirtItems().get(randomIndex) : stack;
+                    ? powerUp.getPowerUpShirtItems().get(randomIndex) : stack;
 
-            for (ItemStack item : powerUp.getShirtItems())
+            for (ItemStack item : powerUp.getPowerUpShirtItems())
                 newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
@@ -177,9 +177,9 @@ public interface CostumeHandler {
             ItemStack stackArmor = !(entity instanceof Player)
                     ? entity.getItemBySlot(EquipmentSlot.LEGS) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getPantsItems().get(randomIndex) : stack;
+                    ? powerUp.getPowerUpPantsItems().get(randomIndex) : stack;
 
-            for (ItemStack item : powerUp.getPantsItems())
+            for (ItemStack item : powerUp.getPowerUpPantsItems())
                 newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
@@ -191,9 +191,9 @@ public interface CostumeHandler {
             ItemStack stackArmor = !(entity instanceof Player)
                     ? entity.getItemBySlot(EquipmentSlot.FEET) : stack;
             ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getShoesItems().get(randomIndex) : stack;
+                    ? powerUp.getPowerUpShoesItems().get(randomIndex) : stack;
 
-            for (ItemStack item : powerUp.getShoesItems())
+            for (ItemStack item : powerUp.getPowerUpShoesItems())
                 newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
 
             newStack.applyComponents(stack.getComponents());
