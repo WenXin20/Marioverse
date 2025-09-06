@@ -91,6 +91,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
+    public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
     public static ModConfigSpec.BooleanValue DISABLE_KOOPA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
@@ -198,14 +199,18 @@ public class ConfigRegistry
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
         BUILDER.push(CATEGORY_CLIENT);
+            DISABLE_JUMP_SOUND = BUILDER.translation("configuration.marioverse.disable_jump_sound")
+                    .comment("Disable the jump sound when wearing a costume.")
+                    .comment("§9[Default: false]")
+                    .define("disable_jump_sound", false);
+            DISABLE_REWARD_PARTICLES = BUILDER.translation("configuration.marioverse.disable_reward_particles")
+                    .comment("Disable reward particles when squashing enemies.")
+                    .comment("§9[Default: false]")
+                    .define("disable_reward_particles", false);
             DISABLE_TEXT = BUILDER.translation("configuration.marioverse.disable_text")
                     .comment("Disable text rendering on pipes.")
                     .comment("§9[Default: false]")
                     .define("disable_text", false);
-            DISABLE_REWARD_PARTICLES = BUILDER.translation("configuration.marioverse.disable_reward_particles")
-                    .comment("Enable reward particles when squashing enemies.")
-                    .comment("§9[Default: false]")
-                    .define("disable_reward_particles", false);
             DISPLAY_BUTTON_TOOLTIP = BUILDER.translation("configuration.marioverse.display_button_tooltip")
                     .comment("Display \"ticks to stay pressed\" on button tooltips.")
                     .comment("§9[Default: true]")
