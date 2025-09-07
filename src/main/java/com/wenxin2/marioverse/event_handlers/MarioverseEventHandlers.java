@@ -93,6 +93,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -108,6 +109,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
     private static final Map<UUID, Boolean> IN_CLEAR_PIPE = new HashMap<>();
+    private static final Map<UUID, Boolean> PENDING_ENTER_SOUND = new HashMap<>();
+    private static final Map<UUID, Boolean> PENDING_EXIT_SOUND = new HashMap<>();
+    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
+
     private static final float SCALING_SPEED = 0.1F;
 
     @SubscribeEvent
@@ -183,11 +188,10 @@ public class MarioverseEventHandlers {
         }
     }
 
-    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
-
     @SubscribeEvent
     public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
+        UUID uuid = entity.getUUID();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
         if (entity.isVehicle() && spinningTicks > 0) {
@@ -196,6 +200,14 @@ public class MarioverseEventHandlers {
 
             for (Entity rider : entity.getPassengers())
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
+        }
+
+        if (PENDING_ENTER_SOUND.remove(uuid) != null)
+            entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
+
+        if (PENDING_EXIT_SOUND.remove(uuid) != null) {
+            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
+            ACTIVE_PIPE_SOUNDS.remove(uuid);
         }
     }
 
@@ -211,14 +223,12 @@ public class MarioverseEventHandlers {
         boolean wasInPipe = IN_CLEAR_PIPE.getOrDefault(uuid, false);
         FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.get(uuid);
 
-        if (isClearPipe) {
-            if (!wasInPipe && state.hasProperty(ClearWarpPipeBlock.ENTRANCE)
-                    && state.getValue(ClearWarpPipeBlock.ENTRANCE))
-                entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
+
+        if (isClearPipe && !wasInPipe) {
+            PENDING_ENTER_SOUND.put(uuid, true);
             IN_CLEAR_PIPE.put(uuid, true);
-        } else {
-            if (wasInPipe)
-                entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
+        } else if (!isClearPipe && wasInPipe) {
+            PENDING_EXIT_SOUND.put(uuid, true);
             IN_CLEAR_PIPE.put(uuid, false);
         }
 
@@ -230,10 +240,20 @@ public class MarioverseEventHandlers {
                 Minecraft.getInstance().getSoundManager().play(insideSound);
                 ACTIVE_PIPE_SOUNDS.put(uuid, insideSound);
             }
-        } else if (soundInstance != null) {
-            soundInstance.startFadeOut();
-            ACTIVE_PIPE_SOUNDS.remove(uuid);
+        } else {
+            if (soundInstance != null)
+                soundInstance.startFadeOut();
         }
+    }
+
+    @SubscribeEvent
+    public static void onEntityRemoved(EntityLeaveLevelEvent event) {
+        Entity entity = event.getEntity();
+        UUID uuid = entity.getUUID();
+
+        FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.remove(uuid);
+        if (soundInstance != null)
+            soundInstance.startFadeOut();
     }
 
     @SubscribeEvent
