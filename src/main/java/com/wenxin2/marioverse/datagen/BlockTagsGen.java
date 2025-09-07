@@ -17,6 +17,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 public class BlockTagsGen extends BlockTagsProvider {
     private static ResourceLocation BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
     private static ResourceLocation RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
+    private static ResourceLocation FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
 
     public BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -133,8 +134,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
-                .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get())
-                .replace(false);
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
@@ -142,9 +142,17 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)
+                .addTag(BlockTags.INFINIBURN_END)
                 .addTag(BlockTags.INFINIBURN_NETHER)
                 .addTag(BlockTags.INFINIBURN_OVERWORLD)
-                .addTag(BlockTags.SOUL_FIRE_BASE_BLOCKS);
+                .addTag(BlockTags.SOUL_FIRE_BASE_BLOCKS)
+                .addTag(BlockTags.CANDLES)
+                .addTag(BlockTags.CAMPFIRES)
+                .addTag(BlockTags.CANDLE_CAKES)
+                .addOptionalTag(TagRegistry.BUMBLEZONE_CANDLES)
+                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
+                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_SCONCES)
+                .addOptional(FIRE_PIT);
 
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
                 .add(Blocks.ICE);
@@ -152,6 +160,16 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
+
+        tag(TagRegistry.ICE_BALL_EXTINGUISHES)
+                .addTag(BlockTags.FIRE)
+                .addTag(BlockTags.CANDLES)
+                .addTag(BlockTags.CAMPFIRES)
+                .addTag(BlockTags.CANDLE_CAKES)
+                .addOptionalTag(TagRegistry.BUMBLEZONE_CANDLES)
+                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
+                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_SCONCES)
+                .addOptional(FIRE_PIT);
 
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
@@ -181,8 +199,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
-                .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get())
-                .replace(false);
+                .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get());
 
         tag(TagRegistry.MELTS)
                 .add(Blocks.POWDER_SNOW)
@@ -236,8 +253,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
-                .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get())
-                .replace(false);
+                .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
 
         tag(TagRegistry.SMASHABLE_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
@@ -285,8 +301,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
-                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
-                .replace(false);
+                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get());
 
         tag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get())
@@ -318,8 +333,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get())
-                .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get())
-                .replace(false);
+                .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get());
 
         tag(TagRegistry.WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
@@ -521,7 +535,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.STAR_COIN.get())
-                .replace(false);
+                .add(BlockRegistry.STAR_COIN.get());
     }
 }

@@ -24,6 +24,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -40,6 +41,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -194,6 +196,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Level world = this.level();
         BlockPos hitPos = hit.getBlockPos();
         BlockState state = world.getBlockState(hitPos);
+        BlockState stateAbove = world.getBlockState(hitPos.above());
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z)
             this.discardEffectsOnSideHit(world, hitPos);
@@ -211,28 +214,23 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
-        else if (state.getBlock() instanceof CampfireBlock && state.hasProperty(BlockStateProperties.LIT)) {
-            world.levelEvent(null, 1009, hitPos, 0);
+        else if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)) {
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 5);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
-        }
-        else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT)) {
-            world.levelEvent(null, 1009, hitPos, 0);
-            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
+        } else if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.getBlock() instanceof FireBlock) {
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 5);
+            world.removeBlock(hitPos, true);
             world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
-        }
-        else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT)) {
-            world.levelEvent(null, 1009, hitPos, 0);
-            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
-            world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.discardEffects(world);
-        }
-        else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT)) {
-            world.levelEvent(null, 1009, hitPos, 0);
-            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
-            world.playSound(null, hitPos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        } else if (stateAbove.is(TagRegistry.ICE_BALL_EXTINGUISHES) && stateAbove.getBlock() instanceof FireBlock) {
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos.above(), 5);
+            world.removeBlock(hitPos.above(), true);
+            world.playSound(null, hitPos.above(), SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
         }
         super.onHitBlock(hit);

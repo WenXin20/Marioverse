@@ -25,11 +25,14 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
 
     public static final TagKey<Block> BRITTLE = blockTags("create", "brittle");
+    public static final TagKey<Block> BUMBLEZONE_CANDLES = blockTags("the_bumblezone", "candles");
     public static final TagKey<Block> COPYCAT_ALLOW = blockTags("create", "copycat_allow");
     public static final TagKey<Block> MOVABLE_EMPTY_COLLIDER = blockTags("create", "movable_empty_collider");
     public static final TagKey<Block> SAFE_NBT = blockTags("create", "safe_nbt");
     public static final TagKey<Block> SIMPLE_MOUNTED_STORAGE = blockTags("create", "simple_mounted_storage");
     public static final TagKey<Block> SINGLE_BLOCK_INVENTORIES = blockTags("create", "single_block_inventories");
+    public static final TagKey<Block> SUPPLEMENTARIES_CANDLE_HOLDERS = blockTags("supplementaries", "candle_holders");
+    public static final TagKey<Block> SUPPLEMENTARIES_SCONCES = blockTags("supplementaries", "sconces");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
@@ -41,6 +44,7 @@ public class TagRegistry {
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
+    public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> MELTS = blockTags("melts");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");

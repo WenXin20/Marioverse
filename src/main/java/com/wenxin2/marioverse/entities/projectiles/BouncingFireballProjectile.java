@@ -139,19 +139,23 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         if (state.is(Blocks.SNOW)) {
             ParticleUtils.spawnParticleOnFace(world, hitPos, Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
             world.removeBlock(hitPos, Boolean.FALSE);
-        }
-        else if (state.is(TagRegistry.MELTS))
+        } else if (state.is(TagRegistry.MELTS))
             world.removeBlock(hitPos, Boolean.FALSE);
         else if (stateAbove.is(Blocks.SNOW) || stateAbove.is(Blocks.POWDER_SNOW)) {
             ParticleUtils.spawnParticleOnFace(world, hitPos.above(), Direction.UP, ParticleTypes.WHITE_SMOKE, Vec3.ZERO, 5D);
             world.removeBlock(hitPos.above(), Boolean.FALSE);
-        }
-        else if (state.is(TagRegistry.MELTS_INTO_WATER))
+        } else if (state.is(TagRegistry.MELTS_INTO_WATER))
             world.setBlock(hitPos, Blocks.WATER.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_ICE))
             world.setBlock(hitPos, Blocks.ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
+        else if (state.is(TagRegistry.FIREBALL_SETS_ON_FIRE) && state.getBlock() instanceof TntBlock) {
+            PrimedTnt primedtnt = new PrimedTnt(world, hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5, null);
+            world.removeBlock(hitPos, Boolean.FALSE);
+            world.addFreshEntity(primedtnt);
+        } else if (state.is(TagRegistry.FIREBALL_SETS_ON_FIRE) && state.hasProperty(BlockStateProperties.LIT))
+            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.TRUE), 3);
         else if (state.is(BlockTags.SOUL_FIRE_BASE_BLOCKS) && world.getBlockState(hitPos.above()).isAir())
             world.setBlock(hitPos.above(), Blocks.SOUL_FIRE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.FIREBALL_SETS_ON_FIRE) && world.getBlockState(hitPos.above()).isAir())
@@ -160,18 +164,6 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             world.setBlock(hitPos.above(), Blocks.FIRE.defaultBlockState(), 3);
         else if (state.is(Blocks.WET_SPONGE))
             world.setBlock(hitPos, Blocks.SPONGE.defaultBlockState(), 3);
-        else if (state.getBlock() instanceof CampfireBlock && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(CampfireBlock.LIT, Boolean.TRUE), 3);
-        else if (state.getBlock() instanceof CandleBlock && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(CandleBlock.LIT, Boolean.TRUE), 3);
-        else if (state.getBlock() instanceof CandleCakeBlock && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(CandleCakeBlock.LIT, Boolean.TRUE), 3);
-        else if (state.getBlock() instanceof TntBlock) {
-            PrimedTnt primedtnt = new PrimedTnt(world, hitPos.getX() + 0.5, hitPos.getY(), hitPos.getZ() + 0.5, null);
-            world.removeBlock(hitPos, Boolean.FALSE);
-            world.addFreshEntity(primedtnt);
-        } else if (state.is(CompatRegistry.CANDLE_HOLDERS_BLOCK_TAG) && state.hasProperty(BlockStateProperties.LIT))
-            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.TRUE), 3);
         super.onHitBlock(hit);
     }
 

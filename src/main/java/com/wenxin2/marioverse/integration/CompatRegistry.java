@@ -45,7 +45,6 @@ public class CompatRegistry {
     public static final Supplier<SoundEvent> CONFETTI_POPPER_SOUND = make("supplementaries:item.confetti_popper", BuiltInRegistries.SOUND_EVENT);
     public static final Supplier<SoundEvent> ICE_BOMB_SOUND = make("twilightforest:item.twilightforest.ice_bomb.fired", BuiltInRegistries.SOUND_EVENT);
 
-    public static final TagKey<Block> CANDLE_HOLDERS_BLOCK_TAG = blockTags("supplementaries", "candle_holders");
     public static final TagKey<EntityType<?>> ACCESSORIES_DEFAULT_TARGETS = entityTypeTags("accessories", "defaulted_targets");
     public static final TagKey<EntityType<?>> TWILIGHT_FOREST_BOSSES = entityTypeTags("twilightforest", "bosses");
 
