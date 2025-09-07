@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -217,7 +216,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             BlockState stateTop = world.getBlockState(posTop);
 
             if (world instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 10);
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
                 this.updateConnectedFlags(world, pos, false);
             }
 
@@ -273,7 +272,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
                     goalPoleTopBE.markUpdated();
                     if (world instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 10);
+                        ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
 
                     if ((goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
                         goalPoleTopBE.triggerAnim("disappear_controller", "disappear");

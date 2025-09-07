@@ -69,10 +69,9 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticleRingOnBlock(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, int avgAmount) {
+    public static void spawnParticleRingOnBlock(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, double radius, int avgAmount) {
         float scaleFactor = 1.0F;
         int numParticles = (int) (scaleFactor * avgAmount);
-        double radius = 0.5D;
 
         for (int i = 0; i < numParticles; i++) {
             // Calculate angle for each particle

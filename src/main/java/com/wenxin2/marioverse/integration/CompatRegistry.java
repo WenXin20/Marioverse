@@ -48,7 +48,7 @@ public class CompatRegistry {
 
     public static final TagKey<EntityType<?>> ACCESSORIES_DEFAULT_TARGETS = entityTypeTags("accessories", "defaulted_targets");
     public static final TagKey<EntityType<?>> TWILIGHT_FOREST_BOSSES = entityTypeTags("twilightforest", "bosses");
-    
+
     public static final TagKey<Block> BRITTLE = TagRegistry.blockTags("create", "brittle");
     public static final TagKey<Block> BUMBLEZONE_CANDLES = TagRegistry.blockTags("the_bumblezone", "candles");
     public static final TagKey<Block> COPYCAT_ALLOW = TagRegistry.blockTags("create", "copycat_allow");
