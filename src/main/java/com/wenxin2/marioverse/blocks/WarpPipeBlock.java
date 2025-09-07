@@ -370,14 +370,12 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)))
-                .setValue(ENTRANCE, false);
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
-        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)))
-                .setValue(ENTRANCE, false);
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
     }
 
     @Override

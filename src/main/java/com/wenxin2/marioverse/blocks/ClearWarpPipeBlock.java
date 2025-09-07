@@ -348,22 +348,19 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                         .setValue(EAST, state.getValue(WEST))
                         .setValue(SOUTH, state.getValue(NORTH))
                         .setValue(WEST, state.getValue(EAST))
-                        .setValue(FACING, rotation.rotate(state.getValue(FACING)))
-                        .setValue(ENTRANCE, false);
+                        .setValue(FACING, rotation.rotate(state.getValue(FACING)));
             case COUNTERCLOCKWISE_90:
                 return state.setValue(NORTH, state.getValue(EAST))
                         .setValue(EAST, state.getValue(SOUTH))
                         .setValue(SOUTH, state.getValue(WEST))
                         .setValue(WEST, state.getValue(NORTH))
-                        .setValue(FACING, rotation.rotate(state.getValue(FACING)))
-                        .setValue(ENTRANCE, false);
+                        .setValue(FACING, rotation.rotate(state.getValue(FACING)));
             case CLOCKWISE_90:
                 return state.setValue(NORTH, state.getValue(WEST))
                         .setValue(EAST, state.getValue(NORTH))
                         .setValue(SOUTH, state.getValue(EAST))
                         .setValue(WEST, state.getValue(SOUTH))
-                        .setValue(FACING, rotation.rotate(state.getValue(FACING)))
-                        .setValue(ENTRANCE, false);
+                        .setValue(FACING, rotation.rotate(state.getValue(FACING)));
             default:
                 return super.rotate(state, rotation);
         }
