@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.concurrent.CompletableFuture;
@@ -37,16 +38,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
 
-        tag(TagRegistry.BRITTLE)
+        tag(CompatRegistry.BRITTLE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.STAR_COIN.get());
 
-        tag(TagRegistry.COPYCAT_ALLOW)
+        tag(CompatRegistry.COPYCAT_ALLOW)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
-        tag(TagRegistry.MOVABLE_EMPTY_COLLIDER)
+        tag(CompatRegistry.MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
@@ -54,18 +55,18 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
 
-        tag(TagRegistry.SAFE_NBT)
+        tag(CompatRegistry.SAFE_NBT)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
-        tag(TagRegistry.SIMPLE_MOUNTED_STORAGE)
+        tag(CompatRegistry.SIMPLE_MOUNTED_STORAGE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS);
 
-        tag(TagRegistry.SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
+        tag(CompatRegistry.SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
 
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -149,9 +150,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(BlockTags.CANDLES)
                 .addTag(BlockTags.CAMPFIRES)
                 .addTag(BlockTags.CANDLE_CAKES)
-                .addOptionalTag(TagRegistry.BUMBLEZONE_CANDLES)
-                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
-                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_SCONCES)
+                .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
+                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
+                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
                 .addOptional(FIRE_PIT);
 
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
@@ -166,9 +167,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(BlockTags.CANDLES)
                 .addTag(BlockTags.CAMPFIRES)
                 .addTag(BlockTags.CANDLE_CAKES)
-                .addOptionalTag(TagRegistry.BUMBLEZONE_CANDLES)
-                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
-                .addOptionalTag(TagRegistry.SUPPLEMENTARIES_SCONCES)
+                .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
+                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
+                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
                 .addOptional(FIRE_PIT);
 
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)

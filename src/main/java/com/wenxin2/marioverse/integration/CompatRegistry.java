@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.integration;
 
 import com.google.common.base.Suppliers;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.function.Supplier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
@@ -47,6 +48,16 @@ public class CompatRegistry {
 
     public static final TagKey<EntityType<?>> ACCESSORIES_DEFAULT_TARGETS = entityTypeTags("accessories", "defaulted_targets");
     public static final TagKey<EntityType<?>> TWILIGHT_FOREST_BOSSES = entityTypeTags("twilightforest", "bosses");
+    
+    public static final TagKey<Block> BRITTLE = TagRegistry.blockTags("create", "brittle");
+    public static final TagKey<Block> BUMBLEZONE_CANDLES = TagRegistry.blockTags("the_bumblezone", "candles");
+    public static final TagKey<Block> COPYCAT_ALLOW = TagRegistry.blockTags("create", "copycat_allow");
+    public static final TagKey<Block> MOVABLE_EMPTY_COLLIDER = TagRegistry.blockTags("create", "movable_empty_collider");
+    public static final TagKey<Block> SAFE_NBT = TagRegistry.blockTags("create", "safe_nbt");
+    public static final TagKey<Block> SIMPLE_MOUNTED_STORAGE = TagRegistry.blockTags("create", "simple_mounted_storage");
+    public static final TagKey<Block> SINGLE_BLOCK_INVENTORIES = TagRegistry.blockTags("create", "single_block_inventories");
+    public static final TagKey<Block> SUPPLEMENTARIES_CANDLE_HOLDERS = TagRegistry.blockTags("supplementaries", "candle_holders");
+    public static final TagKey<Block> SUPPLEMENTARIES_SCONCES = TagRegistry.blockTags("supplementaries", "sconces");
 
     private static <T> Supplier<@Nullable T> make(String name, Registry<T> registry) {
         return Suppliers.memoize(() -> registry.getOptional(ResourceLocation.parse(name)).orElse(null));

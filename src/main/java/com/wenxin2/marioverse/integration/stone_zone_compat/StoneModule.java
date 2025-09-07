@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -82,8 +83,8 @@ public class StoneModule extends StoneZoneModule {
                         BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, () -> VanillaStoneTypes.STONE,
                         stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .addTexture(modRes("block/invisible_stone_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
-                .addTag(TagRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
-                .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
+                .addTag(CompatRegistry.MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
+                .addTag(CompatRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(BlockTags.FEATURES_CANNOT_REPLACE, Registries.BLOCK)
                 .addTag(BlockTags.GUARDED_BY_PIGLINS, Registries.BLOCK)
@@ -102,8 +103,8 @@ public class StoneModule extends StoneZoneModule {
                         stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .addTexture(modRes("block/empty_stone_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/stone_question_bricks"), questionPalette)
-                .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
-                .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
+                .addTag(CompatRegistry.COPYCAT_ALLOW, Registries.BLOCK)
+                .addTag(CompatRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(BlockTags.FEATURES_CANNOT_REPLACE, Registries.BLOCK)
                 .addTag(BlockTags.GUARDED_BY_PIGLINS, Registries.BLOCK)
@@ -136,8 +137,8 @@ public class StoneModule extends StoneZoneModule {
                         BlockRegistry.STORAGE_STONE_BRICKS, () -> VanillaStoneTypes.STONE,
                         stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.stone)))
                 .addTexture(modRes("block/stone_question_bricks_overlay"), lighterPalette)
-                .addTag(TagRegistry.COPYCAT_ALLOW, Registries.BLOCK)
-                .addTag(TagRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
+                .addTag(CompatRegistry.COPYCAT_ALLOW, Registries.BLOCK)
+                .addTag(CompatRegistry.SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(BlockTags.FEATURES_CANNOT_REPLACE, Registries.BLOCK)
                 .addTag(BlockTags.GUARDED_BY_PIGLINS, Registries.BLOCK)

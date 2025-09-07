@@ -24,16 +24,6 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_KOOPA_TROOPA_RARE = biomeTags("has_koopa_troopa_rare");
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
 
-    public static final TagKey<Block> BRITTLE = blockTags("create", "brittle");
-    public static final TagKey<Block> BUMBLEZONE_CANDLES = blockTags("the_bumblezone", "candles");
-    public static final TagKey<Block> COPYCAT_ALLOW = blockTags("create", "copycat_allow");
-    public static final TagKey<Block> MOVABLE_EMPTY_COLLIDER = blockTags("create", "movable_empty_collider");
-    public static final TagKey<Block> SAFE_NBT = blockTags("create", "safe_nbt");
-    public static final TagKey<Block> SIMPLE_MOUNTED_STORAGE = blockTags("create", "simple_mounted_storage");
-    public static final TagKey<Block> SINGLE_BLOCK_INVENTORIES = blockTags("create", "single_block_inventories");
-    public static final TagKey<Block> SUPPLEMENTARIES_CANDLE_HOLDERS = blockTags("supplementaries", "candle_holders");
-    public static final TagKey<Block> SUPPLEMENTARIES_SCONCES = blockTags("supplementaries", "sconces");
-
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
