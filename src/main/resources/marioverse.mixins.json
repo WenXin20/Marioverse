@@ -9,6 +9,7 @@
     "BlockMixin",
     "ContainersMixin",
     "DecoratedPotPatternsMixin",
+    "DoorBlockCompatMixin",
     "DoorBlockMixin",
     "EntityMixin",
     "HoneycombItemMixin",

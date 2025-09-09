@@ -19,7 +19,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(DoorBlock.class)
+// High priority to allow overwriting from other mods
+@Mixin(value = DoorBlock.class, priority = 100)
 public class DoorBlockMixin implements EntityBlock {
     @Nullable
     @Override
