@@ -591,8 +591,8 @@ public class MarioverseEventHandlers {
                                 && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                             player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
                                     target.getName()).withStyle(ChatFormatting.GOLD), true);
-                        } else if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
-                            if (linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() && !player.isCreative()) {
+                        } else if (!player.isCreative() && target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
+                            if (linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
                                 if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
                                     player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
                                             Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
