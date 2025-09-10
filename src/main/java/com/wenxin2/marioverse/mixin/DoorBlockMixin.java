@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Intrinsic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 // High priority to allow overwriting from other mods
 @Mixin(value = DoorBlock.class, priority = 100)
 public class DoorBlockMixin implements EntityBlock {
-    @Intrinsic
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
