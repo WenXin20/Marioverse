@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
-import com.wenxin2.marioverse.registries.ConfigRegistry;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -14,6 +13,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Intrinsic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,12 +22,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 // High priority to allow overwriting from other mods
 @Mixin(value = DoorBlock.class, priority = 100)
 public class DoorBlockMixin implements EntityBlock {
+    @Intrinsic
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
-            return new WarpDoorBlockEntity(pos, state);
-        else return null;
+        return null;
     }
 
     @Inject(method = "setPlacedBy", at = @At("TAIL"))
