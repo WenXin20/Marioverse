@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -48,7 +49,7 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!entity.getType().is(TagRegistry.IRON_SPIKE_IMMUNE))
+        if (!entity.getType().is(TagRegistry.IRON_SPIKE_IMMUNE) && !(entity instanceof ItemEntity))
             entity.hurt(DamageTypeRegistry.spiked(entity), ConfigRegistry.IRON_SPIKE_DAMAGE.get().floatValue());
     }
 
