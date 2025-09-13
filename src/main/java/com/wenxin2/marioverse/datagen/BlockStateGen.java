@@ -678,7 +678,6 @@ public class BlockStateGen extends BlockStateProvider {
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
-        simpleBlockItem(block, model);
     }
 
     private void pedestalModel(Block block, ResourceLocation mainTexture) {

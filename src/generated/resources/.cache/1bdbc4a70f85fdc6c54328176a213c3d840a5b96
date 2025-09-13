@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-12T23:04:20.6100975	Block States: marioverse
+// 1.21.1	2025-09-12T23:28:47.552901	Block States: marioverse
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
 07916a68f71d59889c172935856afee8a78b0aa0 assets/marioverse/blockstates/amethyst_brick_pedestal.json
 01efc778a6938f89048d3d1b2ff1e8a4e39ed424 assets/marioverse/blockstates/amethyst_brick_slab.json
@@ -812,7 +812,6 @@ ddb49b172303edd1d3c820660d5539f9de58fd34 assets/marioverse/models/item/fungal_br
 318f1fe306d248442492b9611117953884e829f2 assets/marioverse/models/item/fungal_stone_wall.json
 83d524a8191c2c0e549d30d46e0aba6770f77c96 assets/marioverse/models/item/gray_warp_pipe.json
 86405f3a686566df6f17b3ce63d691234e8f47ac assets/marioverse/models/item/green_warp_pipe.json
-1090750b72307598e691c60b388db75081b6d350 assets/marioverse/models/item/iron_spike.json
 3b4137488167c057e4eebb1562a33608aae05a3a assets/marioverse/models/item/light_blue_warp_pipe.json
 62cb64335e37aa5dcaaa9fe574c5e04fddf8b9be assets/marioverse/models/item/light_gray_warp_pipe.json
 7df0f132ea26082a204dc813aec9a8128209bd5a assets/marioverse/models/item/lime_warp_pipe.json
