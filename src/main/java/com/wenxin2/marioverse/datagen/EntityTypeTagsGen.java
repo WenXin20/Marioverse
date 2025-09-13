@@ -382,6 +382,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WARDEN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
+        tag(TagRegistry.IRON_SPIKE_IMMUNE);
+
         tag(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)

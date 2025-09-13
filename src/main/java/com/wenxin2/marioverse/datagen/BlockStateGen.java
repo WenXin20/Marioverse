@@ -40,19 +40,21 @@ public class BlockStateGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
+        String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
-        this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), classicCheckpointName, modLoc("item/" + classicCheckpointName));
-        this.emptyModel(BlockRegistry.COIN.get(), coinName, modLoc("block/" + coinName));
-        this.emptyModel(BlockRegistry.STAR_COIN.get(), starCoinName, modLoc("block/" + starCoinName));
-        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), deepFungalStoneName, modLoc("block/" + deepFungalStoneName));
-        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), fungalStoneName, modLoc("block/" + fungalStoneName));
+        this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
+        this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
+        this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
+        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
+        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
-        this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), waterSpoutName, modLoc("block/" + waterSpoutName + "_flow"),
+        this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
+        this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
 
@@ -72,7 +74,7 @@ public class BlockStateGen extends BlockStateProvider {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
             ResourceLocation texture = modLoc("item/" + blockName);
 
-            this.emptyModel(entry.getValue().get(), blockName, texture);
+            this.emptyModel(entry.getValue().get(), texture);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
@@ -91,7 +93,7 @@ public class BlockStateGen extends BlockStateProvider {
             ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
             ResourceLocation topClosedTexture = modLoc("block/" + blockName + "_top_closed");
 
-            this.warpPipeModel(entry.getValue().get(), blockName, entranceTexture, bottomTexture, sideTexture, topTexture, topClosedTexture);
+            this.warpPipeModel(entry.getValue().get(), entranceTexture, bottomTexture, sideTexture, topTexture, topClosedTexture);
         }
     }
 
@@ -134,8 +136,8 @@ public class BlockStateGen extends BlockStateProvider {
 
                     if (blockName.startsWith("chiseled_deep_fungal_bricks")
                             || blockName.startsWith("chiseled_fungal_bricks"))
-                        this.cubeBottomTopModel(block, blockName, topTexture, mainTexture, topTexture);
-                    else this.cubeAllModel(block, blockName, mainTexture);
+                        this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
+                    else this.cubeAllModel(block, mainTexture);
                 }
             });
         });
@@ -212,35 +214,35 @@ public class BlockStateGen extends BlockStateProvider {
                             || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(pedestal)) {
                         texture = modLoc("block/" + removePedestalName);
 
-                        this.pedestalModel(block, blockName, texture);
+                        this.pedestalModel(block, texture);
                     } else if (block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
                             || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(pedestal)) {
                         texture = modLoc("block/" + removePedestalName);
 
-                        this.largeBrickPedestalModel(block, blockName, texture);
+                        this.largeBrickPedestalModel(block, texture);
                     } else if (blockName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removePedestalName = unWaxedName.replace("_pedestal", "");
                         texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, blockName, texture);
+                        this.pedestalModel(block, texture);
                     } else if (blockName.endsWith("_copper_pedestal") || blockName.endsWith("_block_pedestal")
                             || blockName.endsWith("_prismarine_pedestal")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removePedestalName = unWaxedName.replace("_pedestal", "");
                         texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, blockName, texture);
+                        this.pedestalModel(block, texture);
                     } else if (blockName.startsWith("blackstone_")) {
                         String blackstoneName = blockName.replace("blackstone_", "polished_blackstone_");
                         removePedestalName = blackstoneName.replace("_pedestal", "s");
                         texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, blockName, texture);
+                        this.pedestalModel(block, texture);
                     } else {
                         texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, blockName, texture);
+                        this.pedestalModel(block, texture);
                     }
                 }
             });
@@ -290,13 +292,13 @@ public class BlockStateGen extends BlockStateProvider {
                         topTexture = modLoc("block/" + blockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
+                        this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
                     } else if (block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(questionBlock)) {
                         sideTexture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + blockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, blockName, sideTexture, topTexture, emptyTexture);
+                        this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
                     } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
                             || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
                         String removeQuestionBlockName = blockName.replace("_question_block", "");
@@ -305,18 +307,18 @@ public class BlockStateGen extends BlockStateProvider {
                         topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
                         emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockSandstoneModel(block, blockName, sideTexture, topTexture, emptyTexture);
+                        this.questionBlockSandstoneModel(block, sideTexture, topTexture, emptyTexture);
                     } else if (blockName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         mainTexture = modLoc("block/" + unWaxedName);
                         emptyTexture = modLoc("block/empty_" + unWaxedName);
 
-                        this.questionBlockModel(block, blockName, mainTexture, emptyTexture);
+                        this.questionBlockModel(block, mainTexture, emptyTexture);
                     } else {
                         mainTexture = modLoc("block/" + blockName);
                         emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, blockName, mainTexture, emptyTexture);
+                        this.questionBlockModel(block, mainTexture, emptyTexture);
                     }
                 }
             });
@@ -345,7 +347,7 @@ public class BlockStateGen extends BlockStateProvider {
                             || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                         texture = modLoc("block/" + blockName);
                         topTexture = modLoc("block/" + removeSlabName);
-                        this.slabDoubleBlock(slabBlock, blockName, texture, topTexture, topTexture);
+                        this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                         this.itemModels().slab(blockName, texture, topTexture, topTexture);
                     } else {
                         texture = modLoc("block/" + removeSlabName);
@@ -376,39 +378,39 @@ public class BlockStateGen extends BlockStateProvider {
                         mainTexture = modLoc("block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
 
-                        this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
+                        this.cubeOverlayModel(block, mainTexture, overlayTexture);
                     } else if (removeSmashableName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeSmashableName = unWaxedName.replace("smashable_", "");
                         mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + unWaxedName + "_overlay");
 
-                        this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
+                        this.cubeOverlayModel(block, mainTexture, overlayTexture);
                     } else if (removeSmashableName.startsWith("blackstone_")) {
                         String crackedBlockName = removeSmashableName.replace("blackstone_", "cracked_polished_blackstone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, blockName, mainTexture);
+                        this.cubeAllModel(block, mainTexture);
                     } else if (removeSmashableName.startsWith("deepslate_tiles")) {
                         String crackedBlockName = removeSmashableName.replace("deepslate_tiles", "cracked_deepslate_tiles");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, blockName, mainTexture);
+                        this.cubeAllModel(block, mainTexture);
                     } else if (removeSmashableName.startsWith("nether_")) {
                         String crackedBlockName = removeSmashableName.replace("nether_", "cracked_nether_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, blockName, mainTexture);
+                        this.cubeAllModel(block, mainTexture);
                     } else if (removeSmashableName.startsWith("stone_")) {
                         String crackedBlockName = removeSmashableName.replace("stone_", "cracked_stone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, blockName, mainTexture);
+                        this.cubeAllModel(block, mainTexture);
                     } else {
                         mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                         overlayTexture = modLoc("block/" + blockName + "_overlay");
 
-                        this.cubeOverlayModel(block, blockName, mainTexture, overlayTexture);
+                        this.cubeOverlayModel(block, mainTexture, overlayTexture);
                     }
                 }
             });
@@ -472,7 +474,7 @@ public class BlockStateGen extends BlockStateProvider {
                         mainTexture = modLoc("block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
+                        this.storageBrickModel(block, mainTexture, emptyTexture);
                     } else if (block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
                             || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
                         String removeBricksName = removeStorageName.replace("_bricks", "");
@@ -483,7 +485,7 @@ public class BlockStateGen extends BlockStateProvider {
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
                         topTexture = mcLoc("block/" + removeBricksName + "_top");
 
-                        this.storageBrickSandstoneModel(block, blockName, mainTexture, topTexture, emptyTexture);
+                        this.storageBrickSandstoneModel(block, mainTexture, topTexture, emptyTexture);
                     } else if (removeStorageName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeStorageName = unWaxedName.replace("storage_", "");
@@ -492,18 +494,18 @@ public class BlockStateGen extends BlockStateProvider {
                         mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
+                        this.storageBrickModel(block, mainTexture, emptyTexture);
                     } else if (questionBlockName.startsWith("blackstone_")) {
                         String crackedBlockName = removeStorageName.replace("blackstone_", "polished_blackstone_");
                         mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
+                        this.storageBrickModel(block, mainTexture, emptyTexture);
                     } else {
                         mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                         emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, blockName, mainTexture, emptyTexture);
+                        this.storageBrickModel(block, mainTexture, emptyTexture);
                     }
                 }
             });
@@ -534,7 +536,9 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void cubeAllModel(Block block, String modelName, ResourceLocation mainTexture) {
+    private void cubeAllModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
                 .texture("all", mainTexture);
@@ -542,8 +546,10 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void cubeBottomTopModel(Block block, String modelName, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+    private void cubeBottomTopModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
                                     ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
                 .texture("bottom", bottomTexture)
@@ -553,7 +559,9 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void cubeOverlayModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+    private void cubeOverlayModel(Block block, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
                 .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
@@ -561,7 +569,9 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void emptyModel(Block block, String modelName, ResourceLocation mainTexture) {
+    private void emptyModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models().getBuilder(modelName).texture("particle", mainTexture).renderType("cutout");
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
@@ -642,10 +652,12 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent(modelName, modLoc("block/template_goal_pole"))
                 .texture("side", mainTexture);
         ModelFile modelNone = models()
-                .withExistingParent(modelName + "_none", modLoc("block/template_goal_pole_none"))
+                .withExistingParent(modelName + "_none",
+                        modLoc("block/template_goal_pole_none"))
                 .texture("side", mainTexture + "_none");
         ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_goal_pole_top"))
+                .withExistingParent(modelName + "_top",
+                        modLoc("block/template_goal_pole_top"))
                 .texture("side", mainTexture + "_top");
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
@@ -655,12 +667,30 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.NONE).addModels(new ConfiguredModel(modelNone));
     }
 
-    private void pedestalModel(Block block, String modelName, ResourceLocation mainTexture) {
+    private void ironSpikeModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_spike"))
+                .texture("spikes", mainTexture)
+                .texture("center", mainTexture + "_center")
+                .renderType("cutout_mipped");
+
+        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        variantBuilder.partialState().addModels(new ConfiguredModel(model));
+        simpleBlockItem(block, model);
+    }
+
+    private void pedestalModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_brick_pedestal_top"))
+                .withExistingParent(modelName + "_top",
+                        modLoc("block/template_brick_pedestal_top"))
                 .texture("bricks", mainTexture);
         ModelFile modelBottom = models()
-                .withExistingParent(modelName, modLoc("block/template_brick_pedestal"))
+                .withExistingParent(modelName,
+                        modLoc("block/template_brick_pedestal"))
                 .texture("bricks", mainTexture);
 
         simpleBlockItem(block, modelTop);
@@ -670,7 +700,9 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
     }
 
-    private void largeBrickPedestalModel(Block block, String modelName, ResourceLocation mainTexture) {
+    private void largeBrickPedestalModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile modelTop = models()
                 .withExistingParent(modelName + "_top", modLoc("block/template_large_brick_pedestal_top"))
                 .texture("bricks", mainTexture);
@@ -693,8 +725,10 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
-    private void questionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
+    private void questionBlockModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture,
                                     ResourceLocation emptyTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", topTexture).texture("side", sideTexture).texture("top", topTexture);
@@ -709,7 +743,9 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void questionBlockModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+    private void questionBlockModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
@@ -724,8 +760,10 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void questionBlockSandstoneModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
+    private void questionBlockSandstoneModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture,
                                              ResourceLocation emptyTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", topTexture).texture("side", sideTexture).texture("top", topTexture);
@@ -740,7 +778,9 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    public void slabDoubleBlock(SlabBlock block, String modelName, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+    public void slabDoubleBlock(SlabBlock block, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         slabBlock(block, models().slab(modelName, side, bottom, top),
                 models().slabTop(modelName + "_top", side, bottom, top),
                 models().withExistingParent(modelName + "_double", mcLoc("block/cube_bottom_top"))
@@ -749,7 +789,9 @@ public class BlockStateGen extends BlockStateProvider {
                         .texture("top", top));
     }
 
-    private void storageBrickModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+    private void storageBrickModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_all"))
                 .texture("all", mainTexture);
@@ -762,7 +804,9 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void storageBrickSandstoneModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation topTexture, ResourceLocation emptyTexture) {
+    private void storageBrickSandstoneModel(Block block, ResourceLocation mainTexture, ResourceLocation topTexture, ResourceLocation emptyTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_all"))
                 .texture("all", mainTexture);
@@ -775,7 +819,9 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void waterSpoutModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
+    private void waterSpoutModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/template_water_spout"))
                 .texture("side", sideTexture);
@@ -788,8 +834,10 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(WaterSpoutBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
     }
 
-    private void warpPipeModel(Block block, String modelName, ResourceLocation entranceTexture, ResourceLocation bottomTexture,
+    private void warpPipeModel(Block block, ResourceLocation entranceTexture, ResourceLocation bottomTexture,
                                ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation topClosedTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
                 .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", bottomTexture);
@@ -829,7 +877,9 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     // Unfinished
-    private void clearWarpPipeModel(Block block, String modelName) {
+    private void clearWarpPipeModel(Block block) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
         ModelFile baseModel = models()
                 .withExistingParent(modelName, modLoc("block/clear_warp_pipe/clear_warp_pipe"));
 

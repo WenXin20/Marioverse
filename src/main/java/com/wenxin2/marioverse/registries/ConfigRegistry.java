@@ -26,6 +26,7 @@ public class ConfigRegistry
     public static final String CATEGORY_CHECKPOINT_FLAGS = "checkpoint_flags";
     public static final String CATEGORY_COINS = "coins";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
+    public static final String CATEGORY_IRON_SPIKES = "iron_spikes";
     public static final String CATEGORY_QUESTION_BLOCK = "question_blocks";
     public static final String CATEGORY_STAR_COINS = "star_coins";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
@@ -146,6 +147,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
+    public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -305,6 +307,13 @@ public class ConfigRegistry
                             .comment("Allow decorated pots to spawn mobs when broken.")
                             .comment("§9[Default: true]")
                             .define("decorated_pot_spawns_mobs", true);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_IRON_SPIKES);
+                    IRON_SPIKE_DAMAGE = BUILDER.translation("configuration.marioverse.iron_spike_damage")
+                            .comment("Amount of damage iron spikes cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("iron_spike_damage", 6.0, 0.0, 16.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCK);

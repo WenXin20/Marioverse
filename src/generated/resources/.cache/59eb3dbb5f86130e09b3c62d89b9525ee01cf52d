@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-13T20:46:57.9746333	Loot Tables
+// 1.21.1	2025-09-12T22:31:05.7219471	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -113,6 +113,7 @@ bf9c97542ad6e43fa5d13a3c698a3b9ee7f35c0a data/marioverse/loot_table/blocks/invis
 540cd64fba65353dac3ae18a41016f69752c288f data/marioverse/loot_table/blocks/invisible_waxed_oxidized_copper_question_block.json
 d5d1fbdb4091604f77371905f38291466fcf467e data/marioverse/loot_table/blocks/invisible_waxed_weathered_copper_question_block.json
 3fd3c05ba7774f6ab18bcc0dd61ded580e6bd06b data/marioverse/loot_table/blocks/invisible_weathered_copper_question_block.json
+643851d187a37f0eb48f984de401dc24c2f49350 data/marioverse/loot_table/blocks/iron_spike.json
 c3c30d509233714ebbf5ef11c2065ea6b98ae100 data/marioverse/loot_table/blocks/light_blue_checkpoint_flag.json
 419b27dbca75c63ec93f992a8d353e2c2c75c88f data/marioverse/loot_table/blocks/light_blue_goal_pole.json
 9973d2e04011eca38fe4e2ae0093b6e70bf251a0 data/marioverse/loot_table/blocks/light_blue_warp_pipe.json

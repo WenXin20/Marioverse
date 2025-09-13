@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
@@ -149,6 +150,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> IRON_SPIKE;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
@@ -291,6 +293,13 @@ public class BlockRegistry {
                         .pushReaction(PushReaction.DESTROY).isSuffocating(BlockRegistry::never)
                         .isViewBlocking(BlockRegistry::never).strength(0.5F, 0.5F)
                         .instabreak().noCollission()));
+
+
+        IRON_SPIKE = registerBlock("iron_spike",
+                () -> new IronSpikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                        .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                        .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                        .strength(50.0F, 1200.0F).requiresCorrectToolForDrops()));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_spike",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "center": "marioverse:block/iron_spike_center",
+    "spikes": "marioverse:block/iron_spike"
+  }
+}

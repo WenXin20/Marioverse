@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:spikes",
+  "key": {
+    "B": {
+      "tag": "c:nuggets/iron"
+    },
+    "C": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:iron_spike"
+  }
+}

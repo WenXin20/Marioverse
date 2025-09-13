@@ -160,6 +160,19 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem));
     }
 
+    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('B', inputItemTag)
+                .define('C', inputItemTag2)
+                .pattern(" B ")
+                .pattern("BCB")
+                .pattern(" B ")
+                .unlockedBy("has_iron_nugget", has(inputItemTag))
+                .unlockedBy("has_iron_ingot", has(inputItemTag2))
+                .group(Marioverse.MOD_ID + ":" + groupName)
+                .save(output);
+    }
+
     public void bootsRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('#', inputItem)
