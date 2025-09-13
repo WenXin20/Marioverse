@@ -313,7 +313,7 @@ public class ConfigRegistry
                     IRON_SPIKE_DAMAGE = BUILDER.translation("configuration.marioverse.iron_spike_damage")
                             .comment("Amount of damage iron spikes cause.")
                             .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("iron_spike_damage", 4.5, 0.0, 16.0);
+                            .defineInRange("iron_spike_damage", 2.0, 0.0, 16.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCK);
