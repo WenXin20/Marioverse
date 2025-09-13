@@ -1,4 +1,4 @@
-// 1.21.1	2025-05-19T20:38:50.9527975	Tags for minecraft:damage_type mod id marioverse
+// 1.21.1	2025-09-13T00:27:52.5453888	Tags for minecraft:damage_type mod id marioverse
 664f58c06681c01c00040be881da7374b6bad6df data/marioverse/tags/damage_type/bypasses_super_star.json
 cd4fbc77a0e05abed25c4e560803d98d5c7c9bb7 data/marioverse/tags/damage_type/flips_koopa_shell.json
 692569cbc82b8f1f15efe3e49780724150461423 data/marioverse/tags/damage_type/hides_koopa_troopa.json
@@ -15,4 +15,4 @@ ce9c860ae5eb372d2f0ff25cf6db665ebd70f01b data/marioverse/tags/damage_type/is_shr
 6548f40b66401da67eb93b026b2bca92c9ccac1b data/marioverse/tags/damage_type/shield_blocks.json
 692569cbc82b8f1f15efe3e49780724150461423 data/marioverse/tags/damage_type/stops_koopa_shell.json
 a8e6821f58c53ed94b2eb3995415501e2111f35d data/minecraft/tags/damage_type/is_fire.json
-61e7ec6d44a7741b68ab80d3c0e643f4cda61168 data/minecraft/tags/damage_type/no_knockback.json
+3f5922a8a6fbc8caa927bf8230df34cf84650afe data/minecraft/tags/damage_type/no_knockback.json
