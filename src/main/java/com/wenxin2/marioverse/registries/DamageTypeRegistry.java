@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -8,11 +10,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageEffects;
 import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
-public class DamageTypeRegistry {
+public class DamageTypeRegistry extends DamageSources {
+
     public static final ResourceKey<DamageType> BONKED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "bonked"));
     public static final ResourceKey<DamageType> PLAYER_BONKED =
@@ -48,6 +53,9 @@ public class DamageTypeRegistry {
     public static final ResourceKey<DamageType> PLAYER_SHRAPNEL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_shrapnel"));
 
+    public static final ResourceKey<DamageType> SPIKED =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spiked"));
+
     public static final ResourceKey<DamageType> SPINNING_SHELL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spinning_shell"));
     public static final ResourceKey<DamageType> PLAYER_SPINNING_SHELL =
@@ -63,6 +71,9 @@ public class DamageTypeRegistry {
     public static final ResourceKey<DamageType> PLAYER_SUPER_STAR =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_super_star"));
 
+    public DamageTypeRegistry(RegistryAccess access) {
+        super(access);
+    }
 
     public static DamageSource bonked(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
         if (damagedEntity != null && attackingEntity != null) {
@@ -109,6 +120,12 @@ public class DamageTypeRegistry {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SHRAPNEL), damagedEntity, attackingEntity);
         } else if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SHRAPNEL), null, attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource spiked(@Nullable Entity damagedEntity) {
+        if (damagedEntity != null) {
+            return new DamageSource(damagedEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SPIKED));
         } else return null;
     }
 
@@ -178,6 +195,9 @@ public class DamageTypeRegistry {
         context.register(SHRAPNEL, new DamageType(Marioverse.MOD_ID + ".shrapnel",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.THORNS));
         context.register(PLAYER_SHRAPNEL, new DamageType(Marioverse.MOD_ID + ".shrapnel.player",
+                DamageScaling.ALWAYS, 0.1f, DamageEffects.THORNS));
+
+        context.register(SPIKED, new DamageType(Marioverse.MOD_ID + ".spiked",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.THORNS));
 
         context.register(STOMP, new DamageType(Marioverse.MOD_ID + ".stomp",
