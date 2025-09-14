@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-12T23:28:47.5822873	Item Models: marioverse
+// 1.21.1	2025-09-13T20:08:55.0019083	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -58,7 +58,7 @@ ed4153cfb333060e013c7a9b156baba36fc0fe87 assets/marioverse/models/item/invisible
 30f23ffa6474059c66f67a0d721a0d4d7227e278 assets/marioverse/models/item/invisible_waxed_oxidized_copper_question_block.json
 dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_waxed_weathered_copper_question_block.json
 dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_weathered_copper_question_block.json
-9904b9583e2cbaacd2b7b2a105f7ff97062a1a67 assets/marioverse/models/item/iron_spike.json
+f25c0e0377eea7dca0d94b82e6ad58322bcfe0a5 assets/marioverse/models/item/iron_spike.json
 b4955d9dd81bd9f6359bd41baa168218037c2563 assets/marioverse/models/item/light_blue_checkpoint_flag.json
 ad1a6b602648946a22a8d02f15ef25bc0e2a8c3b assets/marioverse/models/item/light_blue_goal_pole.json
 6d274e2e7bfc513b80d35a167b8f7fb19b0f760e assets/marioverse/models/item/light_gray_checkpoint_flag.json

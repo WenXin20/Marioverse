@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:item/template_large_dropped_item",
+  "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "marioverse:item/iron_spike"
   }
