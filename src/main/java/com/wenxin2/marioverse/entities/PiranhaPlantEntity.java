@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -867,8 +868,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                         : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 if (this.getOwner() != null)
-                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
-                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
+                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
+                else collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
 
                 if (collidingEntity instanceof NeutralMob neutralMob) {
                     neutralMob.isAngryAt(this);
