@@ -758,9 +758,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 runningJumpBoost = 0.6;
             }
 
-            if (this.mv$hasMarioCostume(entity)
+            if (!entity.isShiftKeyDown() && (this.mv$hasMarioCostume(entity)
                     || this.mv$hasLuigiCostume(entity)
-                    || this.mv$hasPeachCostume(entity)) {
+                    || this.mv$hasPeachCostume(entity))) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
