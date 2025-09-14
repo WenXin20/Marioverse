@@ -47,6 +47,8 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHECKPOINT_FLAGS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
@@ -54,11 +56,6 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICKS;
-    public static final DeferredBlock<Block> GREEN_CALCITE_BRICKS;
-    public static final DeferredBlock<Block> CYAN_CALCITE_BRICKS;
-    public static final DeferredBlock<Block> LIGHT_BLUE_CALCITE_BRICKS;
-    public static final DeferredBlock<Block> BLUE_CALCITE_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -516,17 +513,6 @@ public class BlockRegistry {
         STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
 
-        WHITE_CALCITE_BRICKS = registerBlock("white_calcite_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
-        GREEN_CALCITE_BRICKS = registerBlock("green_calcite_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.LIME)));
-        CYAN_CALCITE_BRICKS = registerBlock("cyan_calcite_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.CYAN)));
-        LIGHT_BLUE_CALCITE_BRICKS = registerBlock("light_blue_calcite_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.LIGHT_BLUE)));
-        BLUE_CALCITE_BRICKS = registerBlock("blue_calcite_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.BLUE)));
-
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE)));
@@ -977,6 +963,10 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICKS.put(color, registerNoItemBlock(color.getName() + "_calcite_bricks",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(color)))));
 
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

@@ -347,12 +347,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_BRICK_WALL);
             add(event, BlockRegistry.CHISELED_AMETHYST_BRICKS);
 
-            add(event, Blocks.CALCITE);
-            add(event, BlockRegistry.WHITE_CALCITE_BRICKS);
-            add(event, BlockRegistry.GREEN_CALCITE_BRICKS);
-            add(event, BlockRegistry.LIGHT_BLUE_CALCITE_BRICKS);
-            add(event, BlockRegistry.CYAN_CALCITE_BRICKS);
-            add(event, BlockRegistry.BLUE_CALCITE_BRICKS);
 
             add(event, Blocks.SANDSTONE);
             add(event, Blocks.CUT_SANDSTONE);
@@ -373,6 +367,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.RED_SANDSTONE_BRICK_SLAB);
             add(event, BlockRegistry.RED_SANDSTONE_BRICK_WALL);
             add(event, BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS);
+
+            add(event, Blocks.CALCITE);
+            addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE_BRICKS, true, true);
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
