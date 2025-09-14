@@ -965,8 +965,9 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
-                CALCITE_BRICKS.put(color, registerNoItemBlock(color.getName() + "_calcite_bricks",
-                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(color)))));
+                CALCITE_BRICKS.put(color, registerBlock(color.getName() + "_calcite_bricks",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/gray"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_goal_pole": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:calcite_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:gray_calcite_bricks_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dye",
+      "has_goal_pole"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:gray_calcite_bricks_from_dye"
+    ]
+  }
+}

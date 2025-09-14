@@ -28,6 +28,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_ITEMS).add(block.get().asItem()));
+
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
@@ -50,6 +52,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         for (DyeColor color : DyeColor.values()) {
             tag(TagRegistry.itemTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CALCITE_BRICKS.get(color).asItem())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).asItem())
                     .add(BlockRegistry.GOAL_POLES.get(color).asItem())
                     .add(BlockRegistry.WARP_PIPES.get(color).asItem());

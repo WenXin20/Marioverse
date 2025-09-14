@@ -27,12 +27,14 @@ public class BlockTagsGen extends BlockTagsProvider {
     @Override
     @SuppressWarnings("unchecked")
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
             tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
@@ -458,6 +460,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)

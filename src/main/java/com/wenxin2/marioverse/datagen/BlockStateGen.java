@@ -141,6 +141,9 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation mainTexture = modLoc("block/" + blockName);
                     ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
 
+                    if (blockName.startsWith("white_calcite_bricks"))
+                        return;
+
                     if (blockName.startsWith("chiseled_deep_fungal_bricks")
                             || blockName.startsWith("chiseled_fungal_bricks"))
                         this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);

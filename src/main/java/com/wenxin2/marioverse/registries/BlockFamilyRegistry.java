@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamilies;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,13 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .slab(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
             .stairs(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
             .wall(BlockRegistry.POLISHED_AMETHYST_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CALCITE = familyBuilder(Blocks.CALCITE)
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
             .getFamily();
 
     public static final BlockFamilyExtended DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.DEEP_FUNGAL_STONE.get())
