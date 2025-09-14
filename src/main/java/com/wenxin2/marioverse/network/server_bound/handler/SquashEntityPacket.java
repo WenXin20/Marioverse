@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -105,13 +105,13 @@ public class SquashEntityPacket {
 
                         if (!stompingPlayer.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
-                                damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingPlayer), damagedEntity.getHealth());
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), damagedEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
                                 if (damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
-                                    damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingPlayer), 0);
-                                else damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingPlayer), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), 0);
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                                 this.consecutiveReward(stompingPlayer, damagedEntity);

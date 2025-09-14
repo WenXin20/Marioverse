@@ -4,7 +4,7 @@ import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -577,8 +577,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                     }
                     if (applyCollisionDamage && !livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)) {
                         if (this.getOwner() != null)
-                            livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
-                        else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, attackingEntity), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                            livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                        else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;
@@ -701,8 +701,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                     }
 
                     if (this.getOwner() != null)
-                        livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
-                    else livingEntity.hurt(DamageTypeRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                        livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                    else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
                 }
             }
 

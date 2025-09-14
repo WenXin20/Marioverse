@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -121,7 +122,7 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
             float attackDamage = 2.0F;
 
             if (blockEntity.getOwner() != null)
-                entity.hurt(DamageTypeRegistry.piranhaChomp(entity, blockEntity.getOwner()), attackDamage);
+                entity.hurt(DamageSourceRegistry.piranhaChomp(entity, blockEntity.getOwner()), attackDamage);
             else entity.hurt(world.damageSources().source(DamageTypeRegistry.PIRANHA_CHOMP), attackDamage);
 
             if (entity instanceof NeutralMob neutralMob

@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -50,7 +49,7 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!entity.getType().is(TagRegistry.IRON_SPIKE_IMMUNE) && !(entity instanceof ItemEntity))
-            entity.hurt(DamageTypeRegistry.spiked(entity), ConfigRegistry.IRON_SPIKE_DAMAGE.get().floatValue());
+            entity.hurt(DamageSourceRegistry.spiked(entity), ConfigRegistry.IRON_SPIKE_DAMAGE.get().floatValue());
     }
 
     @NotNull

@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -691,8 +692,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                                     ? livingEntity.getHealth() * 1.25F : this.getShellDamage();
 
                             if (this.getOwner() != null && this.leftOwner)
-                                entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
-                            else if (this.getOwner() == null) entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
+                                entityHit.hurt(DamageSourceRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
+                            else if (this.getOwner() == null) entityHit.hurt(DamageSourceRegistry.spinningShell(entityHit, this), shellDamage);
 
                             if (rider.getType().is(this.getInstaKillEntityTag()))
                                 this.setKillCount(this.getKillCount() + 1);
@@ -763,8 +764,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     ? entityHit.getHealth() * 1.25F : this.getShellDamage();
 
             if (this.getOwner() != null && this.leftOwner)
-                entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
-            else if (this.getOwner() == null) entityHit.hurt(DamageTypeRegistry.spinningShell(entityHit, this), shellDamage);
+                entityHit.hurt(DamageSourceRegistry.spinningShell(entityHit, this.getOwner()), shellDamage);
+            else if (this.getOwner() == null) entityHit.hurt(DamageSourceRegistry.spinningShell(entityHit, this), shellDamage);
             this.getDamageFromKills();
 
             if (this.getOwner() != null && this.leftOwner)

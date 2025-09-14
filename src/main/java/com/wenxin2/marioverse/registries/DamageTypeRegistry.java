@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -9,12 +8,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageEffects;
 import net.minecraft.world.damagesource.DamageScaling;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
-import org.jetbrains.annotations.Nullable;
 
 public class DamageTypeRegistry extends DamageSources {
 
@@ -73,92 +68,6 @@ public class DamageTypeRegistry extends DamageSources {
 
     public DamageTypeRegistry(RegistryAccess access) {
         super(access);
-    }
-
-    public static DamageSource bonked(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (damagedEntity != null && attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_BONKED), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(BONKED), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource defeated(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (damagedEntity != null && attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_MINI_GOOMBA_DEFEATED), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(MINI_GOOMBA_DEFEATED), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource fireball(@Nullable Entity projectile, @Nullable Entity shooter) {
-        if (shooter != null && projectile != null) {
-            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_FIREBALL), projectile, shooter);
-        } else if (shooter != null) {
-            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(FIREBALL), null, shooter);
-        } else return null;
-    }
-
-    public static DamageSource iceBall(@Nullable Entity projectile, @Nullable Entity shooter) {
-        if (shooter != null && projectile != null) {
-            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_ICE_BALL), projectile, shooter);
-        } else if (shooter != null) {
-            return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ICE_BALL), null, shooter);
-        } else return null;
-    }
-
-    public static DamageSource iceCubeCrushed(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (attackingEntity != null && damagedEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_ICE_CUBE_CRUSHED), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ICE_CUBE_CRUSHED), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource shrapnel(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (damagedEntity != null && attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SHRAPNEL), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SHRAPNEL), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource spiked(@Nullable Entity damagedEntity) {
-        if (damagedEntity != null) {
-            return new DamageSource(damagedEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SPIKED));
-        } else return null;
-    }
-
-    public static DamageSource spinningShell(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (damagedEntity != null && attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SPINNING_SHELL), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SPINNING_SHELL), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource stomp(@Nullable Entity entity, @Nullable Entity stomper) {
-        if (stomper != null && entity != null) {
-            return new DamageSource(stomper.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_STOMP), entity, stomper);
-        } else if (stomper != null) {
-            return new DamageSource(stomper.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(STOMP), null, stomper);
-        } else return null;
-    }
-
-    public static DamageSource superStar(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (attackingEntity != null && damagedEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_SUPER_STAR), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SUPER_STAR), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource piranhaChomp(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (attackingEntity != null && damagedEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PLAYER_PIRANHA_CHOMP), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(PIRANHA_CHOMP), null, attackingEntity);
-        } else return null;
     }
 
     public static void bootstrap(BootstrapContext<DamageType> context) {

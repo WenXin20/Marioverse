@@ -7,7 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
@@ -120,7 +120,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
         if (stuckTo != null && stuckTo.getDeltaMovement().y > 0) {
             this.removeSpeedModifier(stuckTo);
-            this.hurt(DamageTypeRegistry.defeated(this, stuckTo), 1.0F);
+            this.hurt(DamageSourceRegistry.defeated(this, stuckTo), 1.0F);
             stuckTo = null;
         } else if (stuckTo != null && (this.isDeadOrDying() || stuckTo.isSpectator())) {
             this.removeSpeedModifier(stuckTo);

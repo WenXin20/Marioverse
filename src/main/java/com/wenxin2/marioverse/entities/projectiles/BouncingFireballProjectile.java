@@ -3,10 +3,9 @@ package com.wenxin2.marioverse.entities.projectiles;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
@@ -35,9 +34,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.CandleBlock;
-import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -180,7 +176,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     && player.getTeam() == this.getOwner().getTeam())
                 return;
 
-            if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+            if (this.getOwner() != null && player.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
                         || (entity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
@@ -191,9 +187,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
             } else if (this.getOwner() != null) {
                 if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                    player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), player.getHealth() * 1.25F);
+                    player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), player.getHealth() * 1.25F);
                 else
-                    player.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
+                    player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                 player.igniteForSeconds(2.0F);
             }
             world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -209,7 +205,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     && livingEntity.getTeam() == this.getOwner().getTeam()))
                 return;
 
-            if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+            if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
                         || (entity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
@@ -220,9 +216,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
             } else if (this.getOwner() != null) {
                 if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                    livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
+                    livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
                 else
-                    livingEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
+                    livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                 livingEntity.igniteForSeconds(2.0F);
             }
             world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
@@ -233,7 +229,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             ItemStack shield = partEntity.getParent().getUseItem();
 
-            if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.fireball(entity, this.getOwner()))) {
+            if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
                         || (entity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
@@ -244,9 +240,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                 }
             } else if (this.getOwner() != null) {
                 if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
-                    partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
+                    partEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
                 else
-                    partEntity.hurt(DamageTypeRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
+                    partEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                 partEntity.igniteForSeconds(2.0F);
             }
             world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),

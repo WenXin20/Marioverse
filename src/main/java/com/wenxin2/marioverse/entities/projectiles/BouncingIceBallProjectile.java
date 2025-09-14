@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -244,7 +244,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     && player.getTeam() == this.getOwner().getTeam())
                 return;
 
-            if (this.getOwner() != null && player.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
+            if (this.getOwner() != null && player.isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem || handler.mv$hasIceFlower()) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
@@ -255,8 +255,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             } else {
                 if (this.getOwner() != null) {
                     if (player.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                        player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), player.getHealth() * 1.25F);
-                    else player.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
+                        player.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), player.getHealth() * 1.25F);
+                    else player.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                 }
                 player.extinguishFire();
 
@@ -292,7 +292,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     && livingEntity.getTeam() == this.getOwner().getTeam()))
                 return;
 
-            if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
+            if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
                         || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
@@ -303,8 +303,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
             } else if (this.getOwner() != null) {
                 if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                    livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
-                else livingEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
+                    livingEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
+                else livingEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                 livingEntity.extinguishFire();
 
                 if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity
@@ -329,7 +329,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             ItemStack shield = partEntity.getParent().getUseItem();
 
-            if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageTypeRegistry.iceBall(entity, this.getOwner()))) {
+            if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
                         || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
@@ -340,8 +340,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
             } else if (this.getOwner() != null) {
                 if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
-                    partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
-                else partEntity.hurt(DamageTypeRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
+                    partEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
+                else partEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                 partEntity.extinguishFire();
 
                 if (partEntity.isAlive()) {

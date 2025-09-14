@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities.part_entities;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -197,8 +197,8 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                         : (float) this.getParent().getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 if (this.getParent().getOwner() != null)
-                    collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), attackDamage);
-                else collidingEntity.hurt(DamageTypeRegistry.piranhaChomp(null, this), attackDamage);
+                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this.getParent().getOwner()), attackDamage);
+                else collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
 
                 if (collidingEntity instanceof NeutralMob neutralMob) {
                     neutralMob.isAngryAt(this.getParent());
