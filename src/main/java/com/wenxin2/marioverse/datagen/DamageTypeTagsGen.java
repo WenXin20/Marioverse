@@ -18,6 +18,9 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(DamageTypeTags.BYPASSES_ARMOR)
+                .add(DamageTypeRegistry.SPIKED);
+
         tag(DamageTypeTags.IS_FIRE)
                 .add(DamageTypeRegistry.FIREBALL)
                 .add(DamageTypeRegistry.PLAYER_FIREBALL);
