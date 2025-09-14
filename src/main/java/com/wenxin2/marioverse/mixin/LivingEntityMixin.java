@@ -12,7 +12,7 @@ import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -1309,12 +1309,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     entityAbove.setDeltaMovement(entityAbove.getDeltaMovement().add(0, 0.5, 0));
                     if (world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
                         if (livingEntity instanceof KoopaShellEntity)
-                            livingEntity.hurt(DamageTypeRegistry.bonked(livingEntity, attackingEntity), 0.0F);
-                        else livingEntity.hurt(DamageTypeRegistry.bonked(livingEntity, attackingEntity), 4.0F);
+                            livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 0.0F);
+                        else livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 4.0F);
                     } else {
                         if (livingEntity instanceof KoopaShellEntity)
-                            livingEntity.hurt(DamageTypeRegistry.shrapnel(livingEntity, attackingEntity), 0.0F);
-                        else livingEntity.hurt(DamageTypeRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
+                            livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 0.0F);
+                        else livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
                     }
                 }
             }
@@ -1341,7 +1341,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive() && !entity.isInvulnerable())
                             this.mv$consecutiveReward(attackingEntity, entity);
                         entity.setDeltaMovement(knockbackVelocity);
-                        entity.hurt(DamageTypeRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
+                        entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
                     }
                 }
             }
@@ -1403,13 +1403,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
                         if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
-                                damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
                                 if (damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
-                                    damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), 0);
-                                else damagedEntity.hurt(DamageTypeRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
                                 this.mv$consecutiveReward(stompingEntity, damagedEntity);
