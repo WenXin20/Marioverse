@@ -299,7 +299,7 @@ public class BlockRegistry {
                 () -> new IronSpikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .strength(50.0F, 1200.0F).requiresCorrectToolForDrops()));
+                        .strength(25.0F, 1200.0F).requiresCorrectToolForDrops()));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",
