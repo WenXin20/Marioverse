@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-12T22:31:05.7219471	Loot Tables
+// 1.21.1	2025-09-13T23:28:13.4107544	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -82,6 +82,7 @@ bea277f0a93217d7803e01b84e9a53b19e4fae95 data/marioverse/loot_table/blocks/funga
 989117ec1eb7954900bc5bd9e8397096dcb257c9 data/marioverse/loot_table/blocks/gray_checkpoint_flag.json
 8fc1b8ff8f68dae67f54d2b1215c44516143d8ab data/marioverse/loot_table/blocks/gray_goal_pole.json
 a4c191b4a6885c396cac79d0763936fd0eb68387 data/marioverse/loot_table/blocks/gray_warp_pipe.json
+f9d9be3ddeb97ee2adfffcd23855b0ad03802627 data/marioverse/loot_table/blocks/green_calcite_bricks.json
 ba892bfcbaca11a0e709187f2c7cacf71bb90e92 data/marioverse/loot_table/blocks/green_checkpoint_flag.json
 e171a1753a8c62620b5f631cb92c42e4eeb3d447 data/marioverse/loot_table/blocks/green_goal_pole.json
 0e9de879021e2c3e5078ca88b0f50f8fb58da647 data/marioverse/loot_table/blocks/green_warp_pipe.json
@@ -258,6 +259,7 @@ dd96407547ce4830f998bebbd7704f88d79a42c7 data/marioverse/loot_table/blocks/waxed
 3a9a032ff404382a736ba74388fdb30dd2a1d80a data/marioverse/loot_table/blocks/waxed_weathered_cut_copper_pedestal.json
 255b61b4445fa3ccbd317bd7cfb3304d1c112d7a data/marioverse/loot_table/blocks/weathered_copper_question_block.json
 fa58d861480943e4192f1b9a98ac9b9ca868b9d8 data/marioverse/loot_table/blocks/weathered_cut_copper_pedestal.json
+a3faf413540027a32a3dcee6abe0a74e1788a64d data/marioverse/loot_table/blocks/white_calcite_bricks.json
 51ac29da250e02e6ba995e56e3f14cf3490b6260 data/marioverse/loot_table/blocks/white_checkpoint_flag.json
 5e77096df032a9873dbfb96e409b12a1149257ca data/marioverse/loot_table/blocks/white_goal_pole.json
 7f15a4a88ea2c656dc9010d632010db26597dcde data/marioverse/loot_table/blocks/white_warp_pipe.json

@@ -54,6 +54,8 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICKS;
+    public static final DeferredBlock<Block> GREEN_CALCITE_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -510,6 +512,11 @@ public class BlockRegistry {
 
         STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
+
+        WHITE_CALCITE_BRICKS = registerBlock("white_calcite_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
+        GREEN_CALCITE_BRICKS = registerBlock("green_calcite_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.LIME)));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

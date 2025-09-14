@@ -347,6 +347,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_BRICK_WALL);
             add(event, BlockRegistry.CHISELED_AMETHYST_BRICKS);
 
+            add(event, Blocks.CALCITE);
+            add(event, BlockRegistry.WHITE_CALCITE_BRICKS);
+            add(event, BlockRegistry.GREEN_CALCITE_BRICKS);
+
             add(event, Blocks.SANDSTONE);
             add(event, Blocks.CUT_SANDSTONE);
             add(event, Blocks.CHISELED_SANDSTONE);

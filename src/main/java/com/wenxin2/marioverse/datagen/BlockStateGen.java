@@ -42,6 +42,8 @@ public class BlockStateGen extends BlockStateProvider {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
+        String calciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WHITE_CALCITE_BRICKS.get()).getPath();
+        String greenCalciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GREEN_CALCITE_BRICKS.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
@@ -50,6 +52,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
+        this.cubeAllModel(BlockRegistry.WHITE_CALCITE_BRICKS.get(), modLoc("block/" + calciteBricksName));
+        this.cubeAllModel(BlockRegistry.GREEN_CALCITE_BRICKS.get(), modLoc("block/" + greenCalciteBricksName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
