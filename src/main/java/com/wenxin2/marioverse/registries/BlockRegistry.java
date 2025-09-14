@@ -56,6 +56,9 @@ public class BlockRegistry {
 
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICKS;
     public static final DeferredBlock<Block> GREEN_CALCITE_BRICKS;
+    public static final DeferredBlock<Block> CYAN_CALCITE_BRICKS;
+    public static final DeferredBlock<Block> LIGHT_BLUE_CALCITE_BRICKS;
+    public static final DeferredBlock<Block> BLUE_CALCITE_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -517,6 +520,12 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
         GREEN_CALCITE_BRICKS = registerBlock("green_calcite_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.LIME)));
+        CYAN_CALCITE_BRICKS = registerBlock("cyan_calcite_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.CYAN)));
+        LIGHT_BLUE_CALCITE_BRICKS = registerBlock("light_blue_calcite_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.LIGHT_BLUE)));
+        BLUE_CALCITE_BRICKS = registerBlock("blue_calcite_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.BLUE)));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

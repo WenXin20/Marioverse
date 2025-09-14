@@ -44,6 +44,9 @@ public class BlockStateGen extends BlockStateProvider {
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String calciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WHITE_CALCITE_BRICKS.get()).getPath();
         String greenCalciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GREEN_CALCITE_BRICKS.get()).getPath();
+        String cyanCalciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CYAN_CALCITE_BRICKS.get()).getPath();
+        String lightBlueCalciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.LIGHT_BLUE_CALCITE_BRICKS.get()).getPath();
+        String blueCalciteBricksName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_CALCITE_BRICKS.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
@@ -54,6 +57,9 @@ public class BlockStateGen extends BlockStateProvider {
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
         this.cubeAllModel(BlockRegistry.WHITE_CALCITE_BRICKS.get(), modLoc("block/" + calciteBricksName));
         this.cubeAllModel(BlockRegistry.GREEN_CALCITE_BRICKS.get(), modLoc("block/" + greenCalciteBricksName));
+        this.cubeAllModel(BlockRegistry.CYAN_CALCITE_BRICKS.get(), modLoc("block/" + cyanCalciteBricksName));
+        this.cubeAllModel(BlockRegistry.LIGHT_BLUE_CALCITE_BRICKS.get(), modLoc("block/" + lightBlueCalciteBricksName));
+        this.cubeAllModel(BlockRegistry.BLUE_CALCITE_BRICKS.get(), modLoc("block/" + blueCalciteBricksName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));

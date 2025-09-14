@@ -350,6 +350,9 @@ public class MarioverseCreativeTabs {
             add(event, Blocks.CALCITE);
             add(event, BlockRegistry.WHITE_CALCITE_BRICKS);
             add(event, BlockRegistry.GREEN_CALCITE_BRICKS);
+            add(event, BlockRegistry.LIGHT_BLUE_CALCITE_BRICKS);
+            add(event, BlockRegistry.CYAN_CALCITE_BRICKS);
+            add(event, BlockRegistry.BLUE_CALCITE_BRICKS);
 
             add(event, Blocks.SANDSTONE);
             add(event, Blocks.CUT_SANDSTONE);
