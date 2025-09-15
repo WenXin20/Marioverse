@@ -382,7 +382,8 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
-                addDyedBlocks(event, Blocks.PINK_GLAZED_TERRACOTTA, BlockRegistry.CALCITE, true, true);
+                addAfter(event, Blocks.PINK_GLAZED_TERRACOTTA, Blocks.CALCITE);
+                addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
                 addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICKS, true, true);
 
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
