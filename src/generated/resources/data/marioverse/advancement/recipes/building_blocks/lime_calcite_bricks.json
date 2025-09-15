@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lime_calcite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:lime_calcite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:lime_calcite_bricks"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lime_calcite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:lime_calcite_bricks"
+    ]
+  }
+}

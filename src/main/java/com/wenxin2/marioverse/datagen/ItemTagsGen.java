@@ -19,7 +19,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagsGen extends ItemTagsProvider {
-    private static ResourceLocation SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
+    private static final ResourceLocation SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
 
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
@@ -28,10 +28,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
-        BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_ITEMS).add(block.get().asItem()));
-
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
+        copy(TagRegistry.CALCITE_BLOCKS, TagRegistry.CALCITE_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_BLOCKS, TagRegistry.CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
@@ -50,13 +50,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);
         copy(BlockTags.WALLS, ItemTags.WALLS);
 
-        for (DyeColor color : DyeColor.values()) {
-            tag(TagRegistry.itemTags("c", "dyed/" + color))
-                    .add(BlockRegistry.CALCITE_BRICKS.get(color).asItem())
-                    .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).asItem())
-                    .add(BlockRegistry.GOAL_POLES.get(color).asItem())
-                    .add(BlockRegistry.WARP_PIPES.get(color).asItem());
-        }
+        for (DyeColor color : DyeColor.values())
+            copy(TagRegistry.blockTags("c", "dyed/" + color), TagRegistry.itemTags("c", "dyed/" + color));
 
         tag(ItemTags.DECORATED_POT_SHERDS)
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())

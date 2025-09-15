@@ -15,6 +15,10 @@
     "marioverse:brown_calcite_bricks",
     "marioverse:green_calcite_bricks",
     "marioverse:red_calcite_bricks",
-    "marioverse:black_calcite_bricks"
+    "marioverse:black_calcite_bricks",
+    {
+      "id": "create:cut_calcite_bricks",
+      "required": false
+    }
   ]
 }

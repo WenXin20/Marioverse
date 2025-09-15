@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:purple_calcite"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:purple_calcite_bricks"
+  }
+}

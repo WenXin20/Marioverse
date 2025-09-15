@@ -47,6 +47,8 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHECKPOINT_FLAGS =
@@ -963,6 +965,11 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+
+        Arrays.stream(DyeColor.values()).filter(color -> color != DyeColor.WHITE).forEach(color ->
+                CALCITE.put(color, registerBlock(color.getName() + "_calcite",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(color)))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CALCITE_BRICKS.put(color, registerBlock(color.getName() + "_calcite_bricks",

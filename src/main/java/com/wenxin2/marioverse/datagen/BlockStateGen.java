@@ -70,7 +70,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStorageBricks();
         this.genWalls();
 
-        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICKS.entrySet()) {
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
             ResourceLocation texture = modLoc("block/" + blockName);
 
@@ -105,445 +105,420 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void genButtons() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant button = BlockFamilyExtended.Variant.BUTTON;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant button = BlockFamilyExtended.Variant.BUTTON;
 
-                if (variant == button && block instanceof ButtonBlock buttonBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removeButtonName = blockName.replace("_button", "").replace("brick", "bricks");
-                    ResourceLocation texture;
+            if (variant == button && block instanceof ButtonBlock buttonBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeButtonName = blockName.replace("_button", "").replace("brick", "bricks");
+                ResourceLocation texture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST.get(button)) {
-                        texture = mcLoc("block/" + removeButtonName + "_block");
-                        this.buttonBlock(buttonBlock, texture);
-                        this.itemModels().buttonInventory(blockName, texture);
-                    } else {
-                        texture = modLoc("block/" + removeButtonName);
-                        this.buttonBlock(buttonBlock, texture);
-                        this.itemModels().buttonInventory(blockName, texture);
-                    }
+                if (block == BlockFamilyRegistry.AMETHYST.get(button)) {
+                    texture = mcLoc("block/" + removeButtonName + "_block");
+                    this.buttonBlock(buttonBlock, texture);
+                    this.itemModels().buttonInventory(blockName, texture);
+                } else {
+                    texture = modLoc("block/" + removeButtonName);
+                    this.buttonBlock(buttonBlock, texture);
+                    this.itemModels().buttonInventory(blockName, texture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genSimpleBlockWithItem() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
-                BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
-                BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
-                BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
+            BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
+            BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
+            BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
 
-                if (variant == bricks || variant == chiseled || variant == cracked || variant == polished) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation mainTexture = modLoc("block/" + blockName);
-                    ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+            if (variant == bricks || variant == chiseled || variant == cracked || variant == polished) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation mainTexture = modLoc("block/" + blockName);
+                ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
 
-                    if (blockName.startsWith("white_calcite_bricks"))
-                        return;
-
-                    if (blockName.startsWith("chiseled_deep_fungal_bricks")
-                            || blockName.startsWith("chiseled_fungal_bricks"))
-                        this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
-                    else this.cubeAllModel(block, mainTexture);
-                }
-            });
-        });
+                if (blockName.startsWith("chiseled_deep_fungal_bricks")
+                        || blockName.startsWith("chiseled_fungal_bricks"))
+                    this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
+                else this.cubeAllModel(block, mainTexture);
+            }
+        }));
     }
 
     private void genInvisibleQuestionBlocks() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK;
 
-                if (variant == questionBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation emptyTexture;
-                    ResourceLocation mainTexture;
-                    ResourceLocation sideTexture;
-                    ResourceLocation topTexture;
-                    ResourceLocation invisibleTexture;
+            if (variant == questionBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation emptyTexture;
+                ResourceLocation mainTexture;
+                ResourceLocation sideTexture;
+                ResourceLocation topTexture;
+                ResourceLocation invisibleTexture;
 
-                    if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        sideTexture = modLoc("block/" + removeInvisibleName + "_side");
-                        topTexture = modLoc("block/" + removeInvisibleName + "_top");
-                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
+                if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
+                    String removeInvisibleName = blockName.replace("invisible_", "");
+                    sideTexture = modLoc("block/" + removeInvisibleName + "_side");
+                    topTexture = modLoc("block/" + removeInvisibleName + "_top");
+                    emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                    invisibleTexture = modLoc("block/invisible_question_block");
 
-                        this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
-                    } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
-                            || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        String removeQuestionBlockName = removeInvisibleName.replace("_question_block", "");
-                        sideTexture = modLoc("block/" + removeInvisibleName + "_side");
-                        topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
-                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
+                    this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
+                } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
+                        || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
+                    String removeInvisibleName = blockName.replace("invisible_", "");
+                    String removeQuestionBlockName = removeInvisibleName.replace("_question_block", "");
+                    sideTexture = modLoc("block/" + removeInvisibleName + "_side");
+                    topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
+                    emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                    invisibleTexture = modLoc("block/invisible_question_block");
 
-                        this.invisibleQuestionBlockSandstoneModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
-                    } else if (blockName.startsWith("invisible_waxed_")) {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        String removeWaxedName = removeInvisibleName.replace("waxed_", "");
-                        mainTexture = modLoc("block/" + removeWaxedName);
-                        emptyTexture = modLoc("block/empty_" + removeWaxedName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
+                    this.invisibleQuestionBlockSandstoneModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
+                } else if (blockName.startsWith("invisible_waxed_")) {
+                    String removeInvisibleName = blockName.replace("invisible_", "");
+                    String removeWaxedName = removeInvisibleName.replace("waxed_", "");
+                    mainTexture = modLoc("block/" + removeWaxedName);
+                    emptyTexture = modLoc("block/empty_" + removeWaxedName);
+                    invisibleTexture = modLoc("block/invisible_question_block");
 
-                        this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
-                    } else {
-                        String removeInvisibleName = blockName.replace("invisible_", "");
-                        mainTexture = modLoc("block/" + removeInvisibleName);
-                        emptyTexture = modLoc("block/empty_" + removeInvisibleName);
-                        invisibleTexture = modLoc("block/invisible_question_block");
+                    this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
+                } else {
+                    String removeInvisibleName = blockName.replace("invisible_", "");
+                    mainTexture = modLoc("block/" + removeInvisibleName);
+                    emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                    invisibleTexture = modLoc("block/invisible_question_block");
 
-                        this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
-                    }
+                    this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genPedestals() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant pedestal = BlockFamilyExtended.Variant.PEDESTAL;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant pedestal = BlockFamilyExtended.Variant.PEDESTAL;
 
-                if (variant == pedestal) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removePedestalName = blockName.replace("_pedestal", "s");
-                    ResourceLocation texture;
+            if (variant == pedestal) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removePedestalName = blockName.replace("_pedestal", "s");
+                ResourceLocation texture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(pedestal)
-                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)
-                            || block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(pedestal)
-                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(pedestal)) {
-                        texture = modLoc("block/" + removePedestalName);
+                if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(pedestal)) {
+                    texture = modLoc("block/" + removePedestalName);
 
-                        this.pedestalModel(block, texture);
-                    } else if (block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(pedestal)) {
-                        texture = modLoc("block/" + removePedestalName);
+                    this.pedestalModel(block, texture);
+                } else if (block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(pedestal)) {
+                    texture = modLoc("block/" + removePedestalName);
 
-                        this.largeBrickPedestalModel(block, texture);
-                    } else if (blockName.startsWith("waxed_")) {
-                        String unWaxedName = blockName.replace("waxed_", "");
-                        removePedestalName = unWaxedName.replace("_pedestal", "");
-                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                    this.largeBrickPedestalModel(block, texture);
+                } else if (blockName.startsWith("waxed_")) {
+                    String unWaxedName = blockName.replace("waxed_", "");
+                    removePedestalName = unWaxedName.replace("_pedestal", "");
+                    texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, texture);
-                    } else if (blockName.endsWith("_copper_pedestal") || blockName.endsWith("_block_pedestal")
-                            || blockName.endsWith("_prismarine_pedestal")) {
-                        String unWaxedName = blockName.replace("waxed_", "");
-                        removePedestalName = unWaxedName.replace("_pedestal", "");
-                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                    this.pedestalModel(block, texture);
+                } else if (blockName.endsWith("_copper_pedestal") || blockName.endsWith("_block_pedestal")
+                        || blockName.endsWith("_prismarine_pedestal")) {
+                    String unWaxedName = blockName.replace("waxed_", "");
+                    removePedestalName = unWaxedName.replace("_pedestal", "");
+                    texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, texture);
-                    } else if (blockName.startsWith("blackstone_")) {
-                        String blackstoneName = blockName.replace("blackstone_", "polished_blackstone_");
-                        removePedestalName = blackstoneName.replace("_pedestal", "s");
-                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                    this.pedestalModel(block, texture);
+                } else if (blockName.startsWith("blackstone_")) {
+                    String blackstoneName = blockName.replace("blackstone_", "polished_blackstone_");
+                    removePedestalName = blackstoneName.replace("_pedestal", "s");
+                    texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, texture);
-                    } else {
-                        texture = mcLoc("minecraft:block/" + removePedestalName);
+                    this.pedestalModel(block, texture);
+                } else {
+                    texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                        this.pedestalModel(block, texture);
-                    }
+                    this.pedestalModel(block, texture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genPressurePlates() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant pressurePlate = BlockFamilyExtended.Variant.PRESSURE_PLATE;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant pressurePlate = BlockFamilyExtended.Variant.PRESSURE_PLATE;
 
-                if (variant == pressurePlate && block instanceof PressurePlateBlock pressurePlateBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removePressurePlateName = blockName.replace("_pressure_plate", "").replace("brick", "bricks");
-                    ResourceLocation texture;
+            if (variant == pressurePlate && block instanceof PressurePlateBlock pressurePlateBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removePressurePlateName = blockName.replace("_pressure_plate", "").replace("brick", "bricks");
+                ResourceLocation texture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST.get(pressurePlate)) {
-                        texture = mcLoc("block/" + removePressurePlateName + "_block");
-                        this.pressurePlateBlock(pressurePlateBlock, texture);
-                        this.itemModels().pressurePlate(blockName, texture);
-                    } else {
-                        texture = modLoc("block/" + removePressurePlateName);
-                        this.pressurePlateBlock(pressurePlateBlock, texture);
-                        this.itemModels().pressurePlate(blockName, texture);
-                    }
+                if (block == BlockFamilyRegistry.AMETHYST.get(pressurePlate)) {
+                    texture = mcLoc("block/" + removePressurePlateName + "_block");
+                    this.pressurePlateBlock(pressurePlateBlock, texture);
+                    this.itemModels().pressurePlate(blockName, texture);
+                } else {
+                    texture = modLoc("block/" + removePressurePlateName);
+                    this.pressurePlateBlock(pressurePlateBlock, texture);
+                    this.itemModels().pressurePlate(blockName, texture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genQuestionBlocks() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
 
-                if (variant == questionBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation emptyTexture;
-                    ResourceLocation mainTexture;
-                    ResourceLocation sideTexture;
-                    ResourceLocation topTexture;
+            if (variant == questionBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation emptyTexture;
+                ResourceLocation mainTexture;
+                ResourceLocation sideTexture;
+                ResourceLocation topTexture;
 
-                    if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
-                        sideTexture = modLoc("block/" + blockName + "_side");
-                        topTexture = modLoc("block/" + blockName + "_top");
-                        emptyTexture = modLoc("block/empty_" + blockName);
+                if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
+                    sideTexture = modLoc("block/" + blockName + "_side");
+                    topTexture = modLoc("block/" + blockName + "_top");
+                    emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
-                    } else if (block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(questionBlock)) {
-                        sideTexture = modLoc("block/" + blockName);
-                        topTexture = modLoc("block/" + blockName + "_top");
-                        emptyTexture = modLoc("block/empty_" + blockName);
+                    this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
+                } else if (block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(questionBlock)) {
+                    sideTexture = modLoc("block/" + blockName);
+                    topTexture = modLoc("block/" + blockName + "_top");
+                    emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
-                    } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
-                            || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
-                        String removeQuestionBlockName = blockName.replace("_question_block", "");
+                    this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
+                } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
+                        || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
+                    String removeQuestionBlockName = blockName.replace("_question_block", "");
 
-                        sideTexture = modLoc("block/" + blockName + "_side");
-                        topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
-                        emptyTexture = modLoc("block/empty_" + blockName);
+                    sideTexture = modLoc("block/" + blockName + "_side");
+                    topTexture = mcLoc("block/" + removeQuestionBlockName + "_top");
+                    emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockSandstoneModel(block, sideTexture, topTexture, emptyTexture);
-                    } else if (blockName.startsWith("waxed_")) {
-                        String unWaxedName = blockName.replace("waxed_", "");
-                        mainTexture = modLoc("block/" + unWaxedName);
-                        emptyTexture = modLoc("block/empty_" + unWaxedName);
+                    this.questionBlockSandstoneModel(block, sideTexture, topTexture, emptyTexture);
+                } else if (blockName.startsWith("waxed_")) {
+                    String unWaxedName = blockName.replace("waxed_", "");
+                    mainTexture = modLoc("block/" + unWaxedName);
+                    emptyTexture = modLoc("block/empty_" + unWaxedName);
 
-                        this.questionBlockModel(block, mainTexture, emptyTexture);
-                    } else {
-                        mainTexture = modLoc("block/" + blockName);
-                        emptyTexture = modLoc("block/empty_" + blockName);
+                    this.questionBlockModel(block, mainTexture, emptyTexture);
+                } else {
+                    mainTexture = modLoc("block/" + blockName);
+                    emptyTexture = modLoc("block/empty_" + blockName);
 
-                        this.questionBlockModel(block, mainTexture, emptyTexture);
-                    }
+                    this.questionBlockModel(block, mainTexture, emptyTexture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genSlabs() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant slab = BlockFamilyExtended.Variant.SLAB;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant slab = BlockFamilyExtended.Variant.SLAB;
 
-                if (variant == slab && block instanceof SlabBlock slabBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removeSlabName = blockName.replace("_slab", "").replace("brick", "bricks");
-                    ResourceLocation texture;
-                    ResourceLocation topTexture;
+            if (variant == slab && block instanceof SlabBlock slabBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeSlabName = blockName.replace("_slab", "").replace("brick", "bricks");
+                ResourceLocation texture;
+                ResourceLocation topTexture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST.get(slab)) {
-                        texture = mcLoc("block/" + removeSlabName + "_block");
-                        this.slabBlock(slabBlock, texture, texture);
-                        this.itemModels().slab(blockName, texture, texture, texture);
-                    } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(slab)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
-                        texture = modLoc("block/" + blockName);
-                        topTexture = modLoc("block/" + removeSlabName);
-                        this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
-                        this.itemModels().slab(blockName, texture, topTexture, topTexture);
-                    } else {
-                        texture = modLoc("block/" + removeSlabName);
-                        this.slabBlock(slabBlock, texture, texture);
-                        this.itemModels().slab(blockName, texture, texture, texture);
-                    }
+                if (block == BlockFamilyRegistry.AMETHYST.get(slab)) {
+                    texture = mcLoc("block/" + removeSlabName + "_block");
+                    this.slabBlock(slabBlock, texture, texture);
+                    this.itemModels().slab(blockName, texture, texture, texture);
+                } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
+                    texture = modLoc("block/" + blockName);
+                    topTexture = modLoc("block/" + removeSlabName);
+                    this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
+                    this.itemModels().slab(blockName, texture, topTexture, topTexture);
+                } else {
+                    texture = modLoc("block/" + removeSlabName);
+                    this.slabBlock(slabBlock, texture, texture);
+                    this.itemModels().slab(blockName, texture, texture, texture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genSmashableBlocks() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant smashableBlock = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant smashableBlock = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
-                if (variant == smashableBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removeSmashableName = blockName.replace("smashable_", "");
-                    ResourceLocation mainTexture;
-                    ResourceLocation overlayTexture;
+            if (variant == smashableBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeSmashableName = blockName.replace("smashable_", "");
+                ResourceLocation mainTexture;
+                ResourceLocation overlayTexture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(smashableBlock)
-                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(smashableBlock)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(smashableBlock)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(smashableBlock)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(smashableBlock)) {
-                        mainTexture = modLoc("block/" + removeSmashableName);
-                        overlayTexture = modLoc("block/" + blockName + "_overlay");
+                if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(smashableBlock)
+                        || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(smashableBlock)
+                        || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(smashableBlock)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(smashableBlock)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(smashableBlock)) {
+                    mainTexture = modLoc("block/" + removeSmashableName);
+                    overlayTexture = modLoc("block/" + blockName + "_overlay");
 
-                        this.cubeOverlayModel(block, mainTexture, overlayTexture);
-                    } else if (removeSmashableName.startsWith("waxed_")) {
-                        String unWaxedName = blockName.replace("waxed_", "");
-                        removeSmashableName = unWaxedName.replace("smashable_", "");
-                        mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
-                        overlayTexture = modLoc("block/" + unWaxedName + "_overlay");
+                    this.cubeOverlayModel(block, mainTexture, overlayTexture);
+                } else if (removeSmashableName.startsWith("waxed_")) {
+                    String unWaxedName = blockName.replace("waxed_", "");
+                    removeSmashableName = unWaxedName.replace("smashable_", "");
+                    mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
+                    overlayTexture = modLoc("block/" + unWaxedName + "_overlay");
 
-                        this.cubeOverlayModel(block, mainTexture, overlayTexture);
-                    } else if (removeSmashableName.startsWith("blackstone_")) {
-                        String crackedBlockName = removeSmashableName.replace("blackstone_", "cracked_polished_blackstone_");
-                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                    this.cubeOverlayModel(block, mainTexture, overlayTexture);
+                } else if (removeSmashableName.startsWith("blackstone_")) {
+                    String crackedBlockName = removeSmashableName.replace("blackstone_", "cracked_polished_blackstone_");
+                    mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, mainTexture);
-                    } else if (removeSmashableName.startsWith("deepslate_tiles")) {
-                        String crackedBlockName = removeSmashableName.replace("deepslate_tiles", "cracked_deepslate_tiles");
-                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                    this.cubeAllModel(block, mainTexture);
+                } else if (removeSmashableName.startsWith("deepslate_tiles")) {
+                    String crackedBlockName = removeSmashableName.replace("deepslate_tiles", "cracked_deepslate_tiles");
+                    mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, mainTexture);
-                    } else if (removeSmashableName.startsWith("nether_")) {
-                        String crackedBlockName = removeSmashableName.replace("nether_", "cracked_nether_");
-                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                    this.cubeAllModel(block, mainTexture);
+                } else if (removeSmashableName.startsWith("nether_")) {
+                    String crackedBlockName = removeSmashableName.replace("nether_", "cracked_nether_");
+                    mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, mainTexture);
-                    } else if (removeSmashableName.startsWith("stone_")) {
-                        String crackedBlockName = removeSmashableName.replace("stone_", "cracked_stone_");
-                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                    this.cubeAllModel(block, mainTexture);
+                } else if (removeSmashableName.startsWith("stone_")) {
+                    String crackedBlockName = removeSmashableName.replace("stone_", "cracked_stone_");
+                    mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
 
-                        this.cubeAllModel(block, mainTexture);
-                    } else {
-                        mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
-                        overlayTexture = modLoc("block/" + blockName + "_overlay");
+                    this.cubeAllModel(block, mainTexture);
+                } else {
+                    mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
+                    overlayTexture = modLoc("block/" + blockName + "_overlay");
 
-                        this.cubeOverlayModel(block, mainTexture, overlayTexture);
-                    }
+                    this.cubeOverlayModel(block, mainTexture, overlayTexture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genStairs() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant stairs = BlockFamilyExtended.Variant.STAIRS;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant stairs = BlockFamilyExtended.Variant.STAIRS;
 
-                if (variant == stairs && block instanceof StairBlock stairBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks");
-                    ResourceLocation texture;
+            if (variant == stairs && block instanceof StairBlock stairBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks");
+                ResourceLocation texture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
-                        texture = mcLoc("block/" + removeStairName + "_block");
-                        this.stairsBlock(stairBlock, removeStairName, texture);
-                        this.itemModels().stairs(blockName, texture, texture, texture);
-                    } else {
-                        texture = modLoc("block/" + removeStairName);
-                        this.stairsBlock(stairBlock, removeStairName, texture);
-                        this.itemModels().stairs(blockName, texture, texture, texture);
-                    }
+                if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
+                    texture = mcLoc("block/" + removeStairName + "_block");
+                    this.stairsBlock(stairBlock, removeStairName, texture);
+                    this.itemModels().stairs(blockName, texture, texture, texture);
+                } else {
+                    texture = modLoc("block/" + removeStairName);
+                    this.stairsBlock(stairBlock, removeStairName, texture);
+                    this.itemModels().stairs(blockName, texture, texture, texture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genStorageBricks() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
 
-                if (variant == storageBrick) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removeStorageName = blockName.replace("storage_", "");
-                    String questionBlockName = removeStorageName
-                            .replace("block", "question_block")
-                            .replace("sandstone_bricks", "sandstone_question_block")
-                            .replace("bricks", "question_bricks")
-                            .replace("cut_copper", "copper_question_block")
-                            .replace("dark_prismarine", "dark_prismarine_question_block")
-                            .replace("tiles", "question_tiles");
-                    ResourceLocation mainTexture;
-                    ResourceLocation emptyTexture;
-                    ResourceLocation topTexture;
+            if (variant == storageBrick) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeStorageName = blockName.replace("storage_", "");
+                String questionBlockName = removeStorageName
+                        .replace("block", "question_block")
+                        .replace("sandstone_bricks", "sandstone_question_block")
+                        .replace("bricks", "question_bricks")
+                        .replace("cut_copper", "copper_question_block")
+                        .replace("dark_prismarine", "dark_prismarine_question_block")
+                        .replace("tiles", "question_tiles");
+                ResourceLocation mainTexture;
+                ResourceLocation emptyTexture;
+                ResourceLocation topTexture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(storageBrick)) {
+                if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(storageBrick)) {
+                    questionBlockName = removeStorageName
+                            .replace("bricks", "question_block");
+                    if (questionBlockName.contains("polished_"))
                         questionBlockName = removeStorageName
-                                .replace("bricks", "question_block");
-                        if (questionBlockName.contains("polished_"))
-                            questionBlockName = removeStorageName
-                                    .replace("bricks", "question_block")
-                                    .replace("polished_", "");
-                        mainTexture = modLoc("block/" + removeStorageName);
-                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                                .replace("bricks", "question_block")
+                                .replace("polished_", "");
+                    mainTexture = modLoc("block/" + removeStorageName);
+                    emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, mainTexture, emptyTexture);
-                    } else if (block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
-                        String removeBricksName = removeStorageName.replace("_bricks", "");
-                        questionBlockName = removeStorageName
-                                .replace("bricks", "question_block");
+                    this.storageBrickModel(block, mainTexture, emptyTexture);
+                } else if (block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
+                    String removeBricksName = removeStorageName.replace("_bricks", "");
+                    questionBlockName = removeStorageName
+                            .replace("bricks", "question_block");
 
-                        mainTexture = modLoc("block/" + removeStorageName);
-                        emptyTexture = modLoc("block/empty_" + questionBlockName);
-                        topTexture = mcLoc("block/" + removeBricksName + "_top");
+                    mainTexture = modLoc("block/" + removeStorageName);
+                    emptyTexture = modLoc("block/empty_" + questionBlockName);
+                    topTexture = mcLoc("block/" + removeBricksName + "_top");
 
-                        this.storageBrickSandstoneModel(block, mainTexture, topTexture, emptyTexture);
-                    } else if (removeStorageName.startsWith("waxed_")) {
-                        String unWaxedName = blockName.replace("waxed_", "");
-                        removeStorageName = unWaxedName.replace("storage_", "");
-                        questionBlockName = removeStorageName
-                                .replace("cut_copper", "copper_question_block");
-                        mainTexture = mcLoc("minecraft:block/" + removeStorageName);
-                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                    this.storageBrickSandstoneModel(block, mainTexture, topTexture, emptyTexture);
+                } else if (removeStorageName.startsWith("waxed_")) {
+                    String unWaxedName = blockName.replace("waxed_", "");
+                    removeStorageName = unWaxedName.replace("storage_", "");
+                    questionBlockName = removeStorageName
+                            .replace("cut_copper", "copper_question_block");
+                    mainTexture = mcLoc("minecraft:block/" + removeStorageName);
+                    emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, mainTexture, emptyTexture);
-                    } else if (questionBlockName.startsWith("blackstone_")) {
-                        String crackedBlockName = removeStorageName.replace("blackstone_", "polished_blackstone_");
-                        mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
-                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                    this.storageBrickModel(block, mainTexture, emptyTexture);
+                } else if (questionBlockName.startsWith("blackstone_")) {
+                    String crackedBlockName = removeStorageName.replace("blackstone_", "polished_blackstone_");
+                    mainTexture = mcLoc("minecraft:block/" + crackedBlockName);
+                    emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, mainTexture, emptyTexture);
-                    } else {
-                        mainTexture = mcLoc("minecraft:block/" + removeStorageName);
-                        emptyTexture = modLoc("block/empty_" + questionBlockName);
+                    this.storageBrickModel(block, mainTexture, emptyTexture);
+                } else {
+                    mainTexture = mcLoc("minecraft:block/" + removeStorageName);
+                    emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                        this.storageBrickModel(block, mainTexture, emptyTexture);
-                    }
+                    this.storageBrickModel(block, mainTexture, emptyTexture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void genWalls() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
-            blockFamily.getVariants().forEach((variant, block) -> {
-                BlockFamilyExtended.Variant wall = BlockFamilyExtended.Variant.WALL;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant wall = BlockFamilyExtended.Variant.WALL;
 
-                if (variant == wall && block instanceof WallBlock wallBlock) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks");
-                    ResourceLocation texture;
+            if (variant == wall && block instanceof WallBlock wallBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks");
+                ResourceLocation texture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {
-                        texture = mcLoc("block/" + removeWallName + "_block");
-                        this.wallBlock(wallBlock, removeWallName, texture);
-                        this.itemModels().wallInventory(blockName, texture);
-                    } else {
-                        texture = modLoc("block/" + removeWallName);
-                        this.wallBlock(wallBlock, removeWallName, texture);
-                        this.itemModels().wallInventory(blockName, texture);
-                    }
+                if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {
+                    texture = mcLoc("block/" + removeWallName + "_block");
+                    this.wallBlock(wallBlock, removeWallName, texture);
+                    this.itemModels().wallInventory(blockName, texture);
+                } else {
+                    texture = modLoc("block/" + removeWallName);
+                    this.wallBlock(wallBlock, removeWallName, texture);
+                    this.itemModels().wallInventory(blockName, texture);
                 }
-            });
-        });
+            }
+        }));
     }
 
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {
