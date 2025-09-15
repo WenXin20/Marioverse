@@ -381,11 +381,14 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
+                addDyedBlocks(event, Blocks.PINK_GLAZED_TERRACOTTA, BlockRegistry.CALCITE_BRICKS, true, true);
+
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
                 addAfter(event, Blocks.PINK_BANNER, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
+
                 addAfter(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.PINK), BlockRegistry.CLASSIC_GOAL_POLE);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
             }
