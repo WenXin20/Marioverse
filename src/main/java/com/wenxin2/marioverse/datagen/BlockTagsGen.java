@@ -146,6 +146,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
+        tag(TagRegistry.CALCITE_BLOCKS)
+                .add(Blocks.CALCITE);
+
         tag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addOptional(CALCITE_BRICKS);
 

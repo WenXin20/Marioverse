@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-14T22:55:12.1889107	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-09-14T23:32:09.9355878	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -25,7 +25,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/item/stones.json
 391d783fca840d39745b17abeffb24ba90843808 data/c/tags/item/tools/wrench.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/item/bonkable_blocks.json
 71f02c52b2a85ffa699351a16ae466e2d870adc2 data/marioverse/tags/item/brick_pedestals.json
-5b3cf5ba176e6df8ae9c205f82ded9488997ceeb data/marioverse/tags/item/calcite.json
+cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/item/calcite.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/item/calcite_bricks.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_checkpoint_flags.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_question_blocks.json

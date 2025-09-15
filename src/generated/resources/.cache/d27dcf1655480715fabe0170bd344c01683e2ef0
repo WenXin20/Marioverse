@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-14T22:55:12.1863817	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-09-14T23:32:09.9310557	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 36e6ce2c8a7d58ca987c4571e0f8ed63ab7275e0 data/create/tags/block/movable_empty_collider.json
@@ -25,7 +25,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/block/bonkable_blocks.json
 64f942d5c0d54f783d51cbea3b6aa6e53e6343d0 data/marioverse/tags/block/bouncy_blocks.json
 71f02c52b2a85ffa699351a16ae466e2d870adc2 data/marioverse/tags/block/brick_pedestals.json
-5b3cf5ba176e6df8ae9c205f82ded9488997ceeb data/marioverse/tags/block/calcite.json
+cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/block/calcite_bricks.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/block/checkpoint_flags.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
