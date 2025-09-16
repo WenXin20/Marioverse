@@ -45,6 +45,7 @@ public class TagRegistry {
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
+    public static final TagKey<Block> POLISHED_CALCITE_BLOCKS = blockTags("polished_calcite");
     public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
@@ -73,14 +74,14 @@ public class TagRegistry {
 
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
-    public static final TagKey<Item> CALCITE_ITEMS = itemTags("calcite");
     public static final TagKey<Item> CALCITE_BRICK_ITEMS = itemTags("calcite_bricks");
-    public static final TagKey<Item> CAN_SELECT_CLEAR_WARP_PIPES = itemTags("can_select_clear_warp_pipes");
-    public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
+    public static final TagKey<Item> CALCITE_ITEMS = itemTags("calcite");
     public static final TagKey<Item> CANNOT_PLACE_IN_CHECKPOINT_FLAGS = itemTags("cannot_place_in_checkpoint_flags");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
-    public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
+    public static final TagKey<Item> CAN_SELECT_CLEAR_WARP_PIPES = itemTags("can_select_clear_warp_pipes");
+    public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
     public static final TagKey<Item> CHARMS = itemTags("accessories", "charm");
+    public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
     public static final TagKey<Item> COSTUMES = itemTags("costumes");
     public static final TagKey<Item> COSTUME_HAT = itemTags("accessories", "costume_hat");
     public static final TagKey<Item> COSTUME_PANTS = itemTags("accessories", "costume_pants");
@@ -97,7 +98,6 @@ public class TagRegistry {
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
     public static final TagKey<Item> KOOPA_SHOES = itemTags("koopa_shoes");
     public static final TagKey<Item> KOOPA_TROOPA_SPAWN_EGGS = itemTags("spawn_eggs/koopa_troopa");
-    public static final TagKey<Item> REPAIRS_KOOPA_SHELLS = itemTags("repairs_koopa_shells");
     public static final TagKey<Item> LUIGI_COSTUMES = itemTags("costumes/luigi");;
     public static final TagKey<Item> LUIGI_FIRE_COSTUMES = itemTags("costumes/fire/luigi");
     public static final TagKey<Item> LUIGI_HATS = itemTags("hats/luigi");
@@ -124,9 +124,11 @@ public class TagRegistry {
     public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
     public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
     public static final TagKey<Item> PIRANHA_FOOD = itemTags("piranha_food");
+    public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
+    public static final TagKey<Item> REPAIRS_KOOPA_SHELLS = itemTags("repairs_koopa_shells");
     public static final TagKey<Item> SHIRTS = itemTags("shirts");
     public static final TagKey<Item> SHOES = itemTags("shoes");
     public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");

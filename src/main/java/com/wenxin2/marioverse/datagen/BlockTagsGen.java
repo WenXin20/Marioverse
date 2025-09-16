@@ -17,9 +17,10 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
     private static final ResourceLocation BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
-    private static final ResourceLocation RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
     private static final ResourceLocation CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
     private static final ResourceLocation FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
+    private static final ResourceLocation POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
+    private static final ResourceLocation RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
 
     public BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -32,6 +33,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
@@ -151,6 +153,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addOptional(CALCITE_BRICKS);
+
+        tag(TagRegistry.POLISHED_CALCITE_BLOCKS)
+                .addOptional(POLISHED_CALCITE);
 
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
@@ -478,6 +483,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)

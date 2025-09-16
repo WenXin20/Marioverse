@@ -51,6 +51,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHECKPOINT_FLAGS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
@@ -970,6 +972,11 @@ public class BlockRegistry {
         Arrays.stream(DyeColor.values()).filter(color -> color != DyeColor.WHITE).forEach(color ->
                 CALCITE.put(color, registerBlock(color.getName() + "_calcite",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE.put(color, registerBlock("polished_" + color.getName() + "_calcite",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CALCITE_BRICKS.put(color, registerBlock(color.getName() + "_calcite_bricks",

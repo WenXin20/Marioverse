@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_light_gray_calcite": {
+    "has_polished_light_gray_calcite": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:light_gray_calcite"
+            "items": "marioverse:polished_light_gray_calcite"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_light_gray_calcite"
+      "has_polished_light_gray_calcite"
     ]
   ],
   "rewards": {

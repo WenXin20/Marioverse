@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "marioverse:green_calcite"
+    "item": "marioverse:polished_green_calcite"
   },
   "result": {
     "count": 1,

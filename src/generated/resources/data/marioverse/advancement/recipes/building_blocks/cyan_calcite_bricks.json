@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cyan_calcite": {
+    "has_polished_cyan_calcite": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:cyan_calcite"
+            "items": "marioverse:polished_cyan_calcite"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cyan_calcite"
+      "has_polished_cyan_calcite"
     ]
   ],
   "rewards": {

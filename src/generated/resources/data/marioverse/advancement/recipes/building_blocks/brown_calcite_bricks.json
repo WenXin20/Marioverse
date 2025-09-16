@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_brown_calcite": {
+    "has_polished_brown_calcite": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:brown_calcite"
+            "items": "marioverse:polished_brown_calcite"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_brown_calcite"
+      "has_polished_brown_calcite"
     ]
   ],
   "rewards": {
