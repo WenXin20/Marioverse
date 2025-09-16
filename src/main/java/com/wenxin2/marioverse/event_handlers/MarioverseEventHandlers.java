@@ -847,7 +847,7 @@ public class MarioverseEventHandlers {
     public static void onEntityJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
 
-        if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && entity instanceof AbilitiesHandler handler
+        if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler
                 && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
                     || handler.mv$hasPeachCostume(entity))) {
             entity.level().playSound(null, entity.blockPosition(),
