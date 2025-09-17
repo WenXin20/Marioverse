@@ -535,13 +535,12 @@ public class RecipeUtils extends RecipeProvider {
                 BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
                 if (bifunction != null) {
-                    RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
+                    RecipeBuilder recipeBuilder = bifunction.apply(block, itemlike);
                     family.getRecipeGroupPrefix().ifPresent(
-                            string -> recipebuilder.group(string +
-                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup()))
-                    );
-                    recipebuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
-                    recipebuilder.save(output);
+                            string -> recipeBuilder.group(string +
+                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
+                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
+                    recipeBuilder.save(output);
                 }
 
                 if (variant == BlockFamilyExtended.Variant.CRACKED)

@@ -38,7 +38,7 @@ public class RecipeGen extends RecipeUtils {
 
     @Override
     protected void buildRecipes(RecipeOutput output) {
-        generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
         waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
