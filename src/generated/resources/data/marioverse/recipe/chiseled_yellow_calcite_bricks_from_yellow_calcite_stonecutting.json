@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:yellow_calcite"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:chiseled_yellow_calcite_bricks"
+  }
+}

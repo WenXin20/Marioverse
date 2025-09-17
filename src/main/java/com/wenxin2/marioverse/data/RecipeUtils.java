@@ -553,7 +553,7 @@ public class RecipeUtils extends RecipeProvider {
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
         if (variant == BlockFamilyExtended.Variant.CHISELED) {
             if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
-                throw new IllegalStateException("Slab is not defined for the family.");
+                return family.getBaseBlock();
             else return family.get(BlockFamilyExtended.Variant.SLAB);
         } else return family.getBaseBlock();
     }

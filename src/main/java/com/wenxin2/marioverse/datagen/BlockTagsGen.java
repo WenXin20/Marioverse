@@ -32,6 +32,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CALCITE.values().forEach(block -> tag(TagRegistry.CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
+        BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
@@ -45,6 +46,7 @@ public class BlockTagsGen extends BlockTagsProvider {
             tag(TagRegistry.blockTags("c", "dyed/" + color))
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
+                    .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
@@ -153,6 +155,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addOptional(CALCITE_BRICKS);
+
+        tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS);
 
         tag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addOptional(POLISHED_CALCITE);
@@ -481,6 +485,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pink_calcite_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:pink_calcite_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:chiseled_pink_calcite_bricks"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pink_calcite_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:chiseled_pink_calcite_bricks"
+    ]
+  }
+}

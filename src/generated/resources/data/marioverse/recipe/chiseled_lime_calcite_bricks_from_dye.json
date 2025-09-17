@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:chiseled_calcite_bricks_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/lime"
+    },
+    {
+      "tag": "marioverse:chiseled_calcite_bricks"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:chiseled_lime_calcite_bricks"
+  }
+}
