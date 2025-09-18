@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:polished_white_calcite"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:cracked_white_calcite_bricks"
+  }
+}

@@ -4,7 +4,7 @@
   "cookingtime": 200,
   "experience": 0.1,
   "ingredient": {
-    "item": "marioverse:black_calcite"
+    "item": "marioverse:black_calcite_bricks"
   },
   "result": {
     "count": 1,

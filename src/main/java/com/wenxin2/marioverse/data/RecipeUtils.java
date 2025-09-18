@@ -557,7 +557,7 @@ public class RecipeUtils extends RecipeProvider {
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
         if (variant == BlockFamilyExtended.Variant.CHISELED) {
             if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
-                throw new IllegalStateException("Slab is not defined for the family.");
+                return null;
             else return family.get(BlockFamilyExtended.Variant.SLAB);
         } else return family.getBaseBlock();
     }
@@ -573,7 +573,8 @@ public class RecipeUtils extends RecipeProvider {
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
+                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BUTTON
+                        && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
@@ -593,7 +594,8 @@ public class RecipeUtils extends RecipeProvider {
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
+                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BUTTON
+                        && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK

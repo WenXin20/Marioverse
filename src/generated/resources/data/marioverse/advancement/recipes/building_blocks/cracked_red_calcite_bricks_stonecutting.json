@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_red_calcite": {
+    "has_red_calcite_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:red_calcite"
+            "items": "marioverse:red_calcite_bricks"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_red_calcite"
+      "has_red_calcite_bricks"
     ]
   ],
   "rewards": {

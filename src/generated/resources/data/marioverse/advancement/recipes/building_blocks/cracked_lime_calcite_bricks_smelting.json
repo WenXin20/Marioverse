@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_lime_calcite": {
+    "has_lime_calcite_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:lime_calcite"
+            "items": "marioverse:lime_calcite_bricks"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_lime_calcite"
+      "has_lime_calcite_bricks"
     ]
   ],
   "rewards": {

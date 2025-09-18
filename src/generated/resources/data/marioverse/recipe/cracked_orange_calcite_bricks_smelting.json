@@ -4,7 +4,7 @@
   "cookingtime": 200,
   "experience": 0.1,
   "ingredient": {
-    "item": "marioverse:orange_calcite"
+    "item": "marioverse:orange_calcite_bricks"
   },
   "result": {
     "count": 1,

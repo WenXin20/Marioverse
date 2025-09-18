@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "marioverse:red_calcite"
+    "item": "marioverse:red_calcite_bricks"
   },
   "result": {
     "count": 1,
