@@ -534,12 +534,17 @@ public class RecipeUtils extends RecipeProvider {
             if (block.requiredFeatures().isSubsetOf(set)) {
                 BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
+                if (variant == BlockFamilyExtended.Variant.CHISELED
+                        && !family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
+                    itemlike = family.getBaseBlock();
+
                 if (bifunction != null) {
                     RecipeBuilder recipeBuilder = bifunction.apply(block, itemlike);
                     family.getRecipeGroupPrefix().ifPresent(
                             string -> recipeBuilder.group(string +
                                     (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
-                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
+                    ItemLike finalItemlike = itemlike;
+                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
                     recipeBuilder.save(output);
                 }
 
@@ -552,7 +557,7 @@ public class RecipeUtils extends RecipeProvider {
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
         if (variant == BlockFamilyExtended.Variant.CHISELED) {
             if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
-                return family.getBaseBlock();
+                throw new IllegalStateException("Slab is not defined for the family.");
             else return family.get(BlockFamilyExtended.Variant.SLAB);
         } else return family.getBaseBlock();
     }

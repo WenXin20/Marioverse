@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "minecraft:calcite"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:cracked_white_calcite_bricks"
+  }
+}

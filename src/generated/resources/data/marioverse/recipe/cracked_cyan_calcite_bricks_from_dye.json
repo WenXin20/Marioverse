@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:cracked_calcite_bricks_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/cyan"
+    },
+    {
+      "tag": "marioverse:cracked_calcite_bricks"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:cracked_cyan_calcite_bricks"
+  }
+}
