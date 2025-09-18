@@ -117,6 +117,10 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeButtonName + "_block");
                     this.buttonBlock(buttonBlock, texture);
                     this.itemModels().buttonInventory(blockName, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE.get(button)) {
+                    texture = mcLoc("block/" + removeButtonName);
+                    this.buttonBlock(buttonBlock, texture);
+                    this.itemModels().buttonInventory(blockName, texture);
                 } else {
                     texture = modLoc("block/" + removeButtonName);
                     this.buttonBlock(buttonBlock, texture);
@@ -334,6 +338,10 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeSlabName + "_block");
                     this.slabBlock(slabBlock, texture, texture);
                     this.itemModels().slab(blockName, texture, texture, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE.get(slab)) {
+                    texture = mcLoc("block/" + removeSlabName );
+                    this.slabBlock(slabBlock, texture, texture);
+                    this.itemModels().slab(blockName, texture, texture, texture);
                 } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
@@ -419,6 +427,10 @@ public class BlockStateGen extends BlockStateProvider {
 
                 if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
                     texture = mcLoc("block/" + removeStairName + "_block");
+                    this.stairsBlock(stairBlock, removeStairName, texture);
+                    this.itemModels().stairs(blockName, texture, texture, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE.get(stairs)) {
+                    texture = mcLoc("block/" + removeStairName);
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
                 } else {
@@ -510,6 +522,10 @@ public class BlockStateGen extends BlockStateProvider {
 
                 if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {
                     texture = mcLoc("block/" + removeWallName + "_block");
+                    this.wallBlock(wallBlock, removeWallName, texture);
+                    this.itemModels().wallInventory(blockName, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE.get(wall)) {
+                    texture = mcLoc("block/" + removeWallName);
                     this.wallBlock(wallBlock, removeWallName, texture);
                     this.itemModels().wallInventory(blockName, texture);
                 } else {

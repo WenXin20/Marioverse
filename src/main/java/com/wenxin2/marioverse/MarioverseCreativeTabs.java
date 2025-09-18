@@ -543,6 +543,13 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.MOSSY_STONE_BRICK_WALL, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL);
                 addAfter(event, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS);
 
+                addAfter(event, Blocks.REINFORCED_DEEPSLATE, Blocks.CALCITE);
+                addAfter(event, Blocks.CALCITE, BlockRegistry.CALCITE_STAIRS);
+                addAfter(event, BlockRegistry.CALCITE_STAIRS, BlockRegistry.CALCITE_SLAB);
+                addAfter(event, BlockRegistry.CALCITE_SLAB, BlockRegistry.CALCITE_WALL);
+                addAfter(event, BlockRegistry.CALCITE_WALL, BlockRegistry.CALCITE_PRESSURE_PLATE);
+                addAfter(event, BlockRegistry.CALCITE_PRESSURE_PLATE, BlockRegistry.CALCITE_BUTTON);
+
                 addAfter(event, Blocks.DEEPSLATE_BRICK_WALL, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL);
                 addAfter(event, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS);
                 addAfter(event, Blocks.DEEPSLATE_TILE_WALL, BlockRegistry.DEEPSLATE_TILE_PEDESTAL);

@@ -43,7 +43,12 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended CALCITE = familyBuilder(Blocks.CALCITE)
+            .button(BlockRegistry.CALCITE_BUTTON.get())
             .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get())
+            .pressurePlate(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
+            .slab(BlockRegistry.CALCITE_SLAB.get())
+            .stairs(BlockRegistry.CALCITE_STAIRS.get())
+            .wall(BlockRegistry.CALCITE_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended LIGHT_GRAY_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.LIGHT_GRAY).get())

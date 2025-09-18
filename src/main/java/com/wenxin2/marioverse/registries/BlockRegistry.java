@@ -78,6 +78,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> CALCITE_BUTTON;
+    public static final DeferredBlock<Block> CALCITE_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> CALCITE_SLAB;
+    public static final DeferredBlock<Block> CALCITE_STAIRS;
+    public static final DeferredBlock<Block> CALCITE_WALL;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
@@ -520,6 +525,17 @@ public class BlockRegistry {
 
         STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
+
+
+        CALCITE_BUTTON = registerBlock("calcite_button", () -> button(Blocks.CALCITE, BlockSetType.STONE, 10));
+
+        CALCITE_PRESSURE_PLATE = registerBlock("calcite_pressure_plate", () -> pressurePlate(Blocks.CALCITE, BlockSetType.STONE));
+
+        CALCITE_SLAB = registerBlock("calcite_slab", () -> slab(Blocks.CALCITE));
+
+        CALCITE_STAIRS = registerBlock("calcite_stairs", () -> stair(Blocks.CALCITE));
+
+        CALCITE_WALL = registerBlock("calcite_wall", () -> wall(Blocks.CALCITE));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

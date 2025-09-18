@@ -170,6 +170,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
 
+        tag(TagRegistry.DYED_CALCITE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
+
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)
                 .addTag(BlockTags.INFINIBURN_END)
@@ -433,6 +440,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.SLABS)
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_SLAB.get())
+                .add(BlockRegistry.CALCITE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
@@ -448,6 +456,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.STAIRS)
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
+                .add(BlockRegistry.CALCITE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
@@ -462,17 +471,20 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
+                .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
                 .add(BlockRegistry.FUNGAL_STONE_BUTTON.get());
 
         tag(BlockTags.STONE_PRESSURE_PLATES)
                 .add(BlockRegistry.AMETHYST_PRESSURE_PLATE.get())
+                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
 
         tag(BlockTags.WALLS)
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
@@ -507,6 +519,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.CALCITE_BUTTON.get())
+                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
+                .add(BlockRegistry.CALCITE_SLAB.get())
+                .add(BlockRegistry.CALCITE_STAIRS.get())
+                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())

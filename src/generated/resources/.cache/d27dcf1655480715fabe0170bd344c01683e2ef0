@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-17T19:48:15.3486114	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-09-17T23:13:51.520176	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 36e6ce2c8a7d58ca987c4571e0f8ed63ab7275e0 data/create/tags/block/movable_empty_collider.json
@@ -33,6 +33,7 @@ cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/block/cracked_calc
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
+88e1e4b602cc98117721aa2706c5d85e4c281425 data/marioverse/tags/block/dyed_calcite_blocks.json
 8079bf4b3192621a465f4f333abe04910aa4cd42 data/marioverse/tags/block/fireball_sets_on_fire.json
 619667c1b7332d180fa0737d335fc257a9549000 data/marioverse/tags/block/freezes_into_packed_ice.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
@@ -57,11 +58,11 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_ov
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
-f4082d1bd9b934318d3ac4c58afa8fbc9c7dcf08 data/minecraft/tags/block/mineable/pickaxe.json
+a37c143814f8e3cd82e415edba437de4b4257911 data/minecraft/tags/block/mineable/pickaxe.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
-c381d2b8e4afec3c8030043a90021aefdd597f7c data/minecraft/tags/block/slabs.json
-89068be761555a6270b5373c58a8ee61fcc0ad52 data/minecraft/tags/block/stairs.json
-b26fbb315a12bd2dc06582d452419a7e01b30aba data/minecraft/tags/block/stone_buttons.json
-4dff94aa76ce63e003fe8293180db4bbd42d51ac data/minecraft/tags/block/stone_pressure_plates.json
-df30802ccc3f8fef0b59b582ed981639df3020ee data/minecraft/tags/block/walls.json
+8753cedf7a4f55539500d53a0cfed91293f87736 data/minecraft/tags/block/slabs.json
+5acef8ec4d46d680f3e0c2c25a6f0c52767bf5e3 data/minecraft/tags/block/stairs.json
+5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/block/stone_buttons.json
+da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
+3c8edbaf0589ef1557bd9b91aca2428d5fcb9d19 data/minecraft/tags/block/walls.json

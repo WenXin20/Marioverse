@@ -35,6 +35,7 @@ public class TagRegistry {
     public static final TagKey<Block> DYEABLE_CHECKPOINT_FLAG_BLOCKS = blockTags("dyeable_checkpoint_flags");
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
+    public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("dyed_calcite_blocks");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
@@ -94,6 +95,7 @@ public class TagRegistry {
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
+    public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("dyed_calcite_blocks");
     public static final TagKey<Item> FIRE_COSTUMES = itemTags("costumes/fire");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HATS = itemTags("hats");
