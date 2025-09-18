@@ -265,6 +265,10 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removePressurePlateName + "_block");
                     this.pressurePlateBlock(pressurePlateBlock, texture);
                     this.itemModels().pressurePlate(blockName, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE.get(pressurePlate)) {
+                    texture = mcLoc("block/" + removePressurePlateName);
+                    this.pressurePlateBlock(pressurePlateBlock, texture);
+                    this.itemModels().pressurePlate(blockName, texture);
                 } else {
                     texture = modLoc("block/" + removePressurePlateName);
                     this.pressurePlateBlock(pressurePlateBlock, texture);

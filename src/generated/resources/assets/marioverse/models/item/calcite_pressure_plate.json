@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/pressure_plate_up",
   "textures": {
-    "texture": "marioverse:block/calcite"
+    "texture": "minecraft:block/calcite"
   }
 }

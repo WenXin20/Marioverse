@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-17T23:13:51.4790354	Block States: marioverse
+// 1.21.1	2025-09-17T23:29:37.6651824	Block States: marioverse
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
 07916a68f71d59889c172935856afee8a78b0aa0 assets/marioverse/blockstates/amethyst_brick_pedestal.json
 01efc778a6938f89048d3d1b2ff1e8a4e39ed424 assets/marioverse/blockstates/amethyst_brick_slab.json
@@ -397,8 +397,8 @@ d454806d00045296f5a337a08e50282254414508 assets/marioverse/models/block/brown_wa
 9218e0ded5d0aaae6da4edfc1a709ed08c28908e assets/marioverse/models/block/brown_warp_pipe_entrance_closed.json
 4d8ae01794197ce37ca1597c38ea037562568f09 assets/marioverse/models/block/calcite_button.json
 5b2f5b8ca9cf090e06334e56d2fb9bad71511e3d assets/marioverse/models/block/calcite_button_pressed.json
-af298996ea52348ed53f72014f63bb2c00142b42 assets/marioverse/models/block/calcite_pressure_plate.json
-b63a279783d2add1d7ab0e82c07d94f218e3b19f assets/marioverse/models/block/calcite_pressure_plate_down.json
+3ea39c0eabd1e7b663db289ce6ee4b71d04ec31e assets/marioverse/models/block/calcite_pressure_plate.json
+951641515d5e3f104118e24e49cb77074266bad6 assets/marioverse/models/block/calcite_pressure_plate_down.json
 8fe3b55fe33e787b3417c31d0cce9c1e29f5b7f6 assets/marioverse/models/block/calcite_slab.json
 4f9e683dd39a73f3365b227ef8add8eea05c0858 assets/marioverse/models/block/calcite_slab_top.json
 1db05e208a2833ec50de25530e15c9f2aa6ade34 assets/marioverse/models/block/calcite_stairs.json
@@ -941,7 +941,7 @@ cabee536e082181a09daac9ce450dea6d8223863 assets/marioverse/models/item/brown_cal
 cea09052f868f8ecb5bd2e5bdabe16ed53b2bee2 assets/marioverse/models/item/brown_calcite_bricks.json
 da57646ce23a54777085cf5d025c36faa8e2ce8f assets/marioverse/models/item/brown_warp_pipe.json
 f2af407325acf30a50bf58e70c9bf10a51374ed9 assets/marioverse/models/item/calcite_button.json
-af298996ea52348ed53f72014f63bb2c00142b42 assets/marioverse/models/item/calcite_pressure_plate.json
+3ea39c0eabd1e7b663db289ce6ee4b71d04ec31e assets/marioverse/models/item/calcite_pressure_plate.json
 8fe3b55fe33e787b3417c31d0cce9c1e29f5b7f6 assets/marioverse/models/item/calcite_slab.json
 1db05e208a2833ec50de25530e15c9f2aa6ade34 assets/marioverse/models/item/calcite_stairs.json
 a85f076ec716e06c9dba328f508dbf2fde46ae6d assets/marioverse/models/item/calcite_wall.json
