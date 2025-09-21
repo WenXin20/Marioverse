@@ -11,7 +11,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-
 public class PipeBubblesSoundHandler implements AmbientSoundHandler {
     private final LocalPlayer player;
     private boolean wasInBubbleColumn;

@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.client.sounds.PlayClientSound;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
@@ -31,7 +32,9 @@ import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
+import com.wenxin2.marioverse.network.server_bound.data.ClearPipeSoundPayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
+import com.wenxin2.marioverse.network.client_bound.handler.ClearPipeSoundPacket;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -41,7 +44,6 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
-import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -108,10 +110,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
-    private static final Map<UUID, Boolean> IN_CLEAR_PIPE = new HashMap<>();
-    private static final Map<UUID, Boolean> PENDING_ENTER_SOUND = new HashMap<>();
-    private static final Map<UUID, Boolean> PENDING_EXIT_SOUND = new HashMap<>();
-    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
+    public static final Map<UUID, Boolean> IN_CLEAR_PIPE = new HashMap<>();
+    public static final Map<UUID, Boolean> PENDING_ENTER_SOUND = new HashMap<>();
+    public static final Map<UUID, Boolean> PENDING_EXIT_SOUND = new HashMap<>();
 
     private static final float SCALING_SPEED = 0.1F;
 
@@ -204,11 +205,11 @@ public class MarioverseEventHandlers {
 
         if (PENDING_ENTER_SOUND.remove(uuid) != null)
             entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
-
-        if (PENDING_EXIT_SOUND.remove(uuid) != null) {
+//
+        if (PENDING_EXIT_SOUND.remove(uuid) != null)
             entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
-            ACTIVE_PIPE_SOUNDS.remove(uuid);
-        }
+//            PlayClientSound.ACTIVE_PIPE_SOUNDS.remove(uuid);
+//        }
     }
 
     @SubscribeEvent
@@ -219,42 +220,29 @@ public class MarioverseEventHandlers {
         BlockState state = world.getBlockState(pos);
         UUID uuid = entity.getUUID();
 
-        boolean isClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
+        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
         boolean wasInPipe = IN_CLEAR_PIPE.getOrDefault(uuid, false);
-        FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.get(uuid);
 
-
-        if (isClearPipe && !wasInPipe) {
+        if (inClearPipe && !wasInPipe) {
             PENDING_ENTER_SOUND.put(uuid, true);
             IN_CLEAR_PIPE.put(uuid, true);
-        } else if (!isClearPipe && wasInPipe) {
+        } else if (!inClearPipe && wasInPipe) {
             PENDING_EXIT_SOUND.put(uuid, true);
             IN_CLEAR_PIPE.put(uuid, false);
         }
 
-        if (isClearPipe) {
-            if (soundInstance == null) {
-                FadeInAndOutSoundInstance insideSound = new FadeInAndOutSoundInstance(entity, SoundRegistry.CLEAR_PIPE_INSIDE.get(),
-                        SoundSource.BLOCKS, 20, 10);
-
-                Minecraft.getInstance().getSoundManager().play(insideSound);
-                ACTIVE_PIPE_SOUNDS.put(uuid, insideSound);
-            }
-        } else {
-            if (soundInstance != null)
-                soundInstance.startFadeOut();
-        }
+        if (!world.isClientSide())
+            PacketDistributor.sendToPlayersTrackingEntity(entity, new ClearPipeSoundPayload(20, 10, inClearPipe));
     }
 
-    @SubscribeEvent
-    public static void onEntityRemoved(EntityLeaveLevelEvent event) {
-        Entity entity = event.getEntity();
-        UUID uuid = entity.getUUID();
-
-        FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.remove(uuid);
-        if (soundInstance != null)
-            soundInstance.startFadeOut();
-    }
+//    @SubscribeEvent
+//    public static void onEntityRemoved(EntityLeaveLevelEvent event) {
+//        Entity entity = event.getEntity();
+//        UUID uuid = entity.getUUID();
+//
+//        if (PlayClientSound.ACTIVE_PIPE_SOUNDS.get(uuid) != null)
+//            PlayClientSound.ACTIVE_PIPE_SOUNDS.get(uuid).startFadeOut();
+//    }
 
     @SubscribeEvent
     public static void onEntityHeal(LivingHealEvent event) {
@@ -790,7 +778,7 @@ public class MarioverseEventHandlers {
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
 
-        if (player != null ) {
+        if (player != null) {
             BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
             BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
 

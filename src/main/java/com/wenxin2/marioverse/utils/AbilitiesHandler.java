@@ -6,15 +6,15 @@ import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.network.server_bound.data.SuperStarThemePayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -24,6 +24,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -164,9 +165,11 @@ public interface AbilitiesHandler extends CostumeHandler {
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
-            if (!this.mv$playedSuperStarTheme())
-                Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(entity, SoundRegistry.SUPER_STAR_THEME.get(),
-                        SoundSource.AMBIENT, entity.getRandom(), this.mv$getSuperStarCooldown(), 100));
+            if (!this.mv$playedSuperStarTheme() && !world.isClientSide()) {
+                if (entity instanceof ServerPlayer player)
+                    PacketDistributor.sendToPlayer(player, new SuperStarThemePayload(100, player.getId()));
+                else PacketDistributor.sendToPlayersTrackingEntity(entity, new SuperStarThemePayload(100, entity.getId()));
+            }
             this.mv$setPlayedSuperStarTheme(true);
             powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
