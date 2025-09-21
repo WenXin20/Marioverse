@@ -1,8 +1,11 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import java.awt.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,8 +21,11 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 @Mixin(GeoEntityRenderer.class)
 public abstract class GeoEntityRendererMixin<T extends Entity & GeoAnimatable> {
-    @Inject(method = "preRender(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/Entity;Lsoftware/bernie/geckolib/cache/object/BakedGeoModel;Lnet/minecraft/client/renderer/MultiBufferSource;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZFIII)V", at = @At(value = "HEAD"))
-    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour, CallbackInfo ci) {
+    @Inject(method = "preRender(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/Entity;Lsoftware/bernie/geckolib/cache/object/BakedGeoModel;Lnet/minecraft/client/renderer/MultiBufferSource;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZFIII)V",
+            at = @At(value = "HEAD"))
+    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource,
+                          @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight,
+                          int packedOverlay, int colour, CallbackInfo ci) {
         if (animatable instanceof LivingEntity livingEntity) {
             AttributeMap attributemap = livingEntity.getAttributes();
             float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
@@ -27,5 +33,26 @@ public abstract class GeoEntityRendererMixin<T extends Entity & GeoAnimatable> {
 
             poseStack.scale(widthScale, heightScale, widthScale);
         }
+
+        if (animatable instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
+            float speed = 40.0F;
+            float hue = ((animatable.tickCount + partialTick) % speed) / speed;
+            int rgb = Color.HSBtoRGB(hue, 1.0F, 1.0F);
+
+            float r = ((rgb >> 16) & 0xFF) / 255.0F;
+            float g = ((rgb >> 8)  & 0xFF) / 255.0F;
+            float b = (rgb & 0xFF) / 255.0F;
+            float a = 1.0F;
+
+            RenderSystem.setShaderColor(r, g, b, a);
+        }
+    }
+
+    @Inject(method = "preRender(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/Entity;Lsoftware/bernie/geckolib/cache/object/BakedGeoModel;Lnet/minecraft/client/renderer/MultiBufferSource;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZFIII)V",
+            at = @At(value = "HEAD"))
+    public void onRenderReturn(PoseStack poseStack, T animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource,
+                          @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight,
+                          int packedOverlay, int colour, CallbackInfo ci) {
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

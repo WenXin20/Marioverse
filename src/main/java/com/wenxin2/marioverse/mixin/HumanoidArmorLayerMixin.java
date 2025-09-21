@@ -2,8 +2,10 @@ package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import io.wispforest.accessories.AccessoriesLoaderInternals;
 import io.wispforest.accessories.compat.GeckoLibCompat;
 import net.minecraft.client.model.HumanoidModel;
@@ -58,14 +60,27 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
             baseModel.copyPropertiesTo((A)geckolibModel);
         } else this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot), limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
         this.tempStack = null;
+
+
+        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
+            float speed = 40.0F;
+            float hue = ((livingEntity.tickCount + partialTicks) % speed) / speed;
+            int rgb = java.awt.Color.HSBtoRGB(hue, 1.0F, 1.0F);
+
+            float r = ((rgb >> 16) & 0xFF) / 255.0F;
+            float g = ((rgb >> 8)  & 0xFF) / 255.0F;
+            float b = (rgb & 0xFF) / 255.0F;
+            float a = 1.0F;
+
+            RenderSystem.setShaderColor(r, g, b, a);
+        }
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @WrapOperation(
             method = {"renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;FFFFFF)V"},
-            at = {@At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"
-            )}
+            at = { @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;")}
     )
     private ItemStack getAlternativeStack(LivingEntity instance, EquipmentSlot equipmentSlot, Operation<ItemStack> original) {
         return this.tempStack != null ? this.tempStack : (ItemStack)original.call(instance, equipmentSlot);

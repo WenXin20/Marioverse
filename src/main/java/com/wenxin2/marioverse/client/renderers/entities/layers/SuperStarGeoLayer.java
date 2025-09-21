@@ -26,7 +26,7 @@ public class SuperStarGeoLayer<T extends LivingEntity & GeoAnimatable> extends G
         super.render(poseStack, entity, bakedModel, renderType, bufferSource, buffer, partialTicks, packedLight, packedOverlay);
 
         if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
-            float alpha = 1.0F;
+            float alpha = 0.5F;
             float speed = 40.0F;
             float hue = ((entity.tickCount + partialTicks) % speed) / speed;
             int rgb = java.awt.Color.HSBtoRGB(hue, 1.0F, 1.0F);

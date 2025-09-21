@@ -202,40 +202,40 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
 
-    @SubscribeEvent
-    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
-        List<EntityType<? extends LivingEntity>> entityTypes = ImmutableList.copyOf(
-                BuiltInRegistries.ENTITY_TYPE.stream()
-                        .filter(DefaultAttributes::hasSupplier)
-                        .map(entityType -> (EntityType<LivingEntity>) entityType)
-                        .collect(Collectors.toList()));
-        entityTypes.forEach((entityType -> addLayerIfApplicable(entityType, event)));
+//    @SubscribeEvent
+//    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
+//        List<EntityType<? extends LivingEntity>> entityTypes = ImmutableList.copyOf(
+//                BuiltInRegistries.ENTITY_TYPE.stream()
+//                        .filter(DefaultAttributes::hasSupplier)
+//                        .map(entityType -> (EntityType<LivingEntity>) entityType)
+//                        .collect(Collectors.toList()));
+//        entityTypes.forEach((entityType -> addLayerIfApplicable(entityType, event)));
+//
+//        for (PlayerSkin.Model skinType : event.getSkins()){
+//            var skinRenderer = event.getSkin(skinType);
+//            if (skinRenderer instanceof LivingEntityRenderer<?, ?> entityRenderer)
+//                entityRenderer.addLayer(new SuperStarLayer<>(entityRenderer));
+//        }
+//    }
 
-        for (PlayerSkin.Model skinType : event.getSkins()){
-            var skinRenderer = event.getSkin(skinType);
-            if (skinRenderer instanceof LivingEntityRenderer<?, ?> entityRenderer)
-                entityRenderer.addLayer(new SuperStarLayer<>(entityRenderer));
-        }
-    }
+//    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
+//        if (entityType != EntityType.ENDER_DRAGON) {
+//            EntityRenderer<?> renderer = event.getRenderer(entityType);
+//            if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
+//                entityRenderer.addLayer(new SuperStarLayer<>(entityRenderer));
+//            } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
+//                addGeoSuperStarLayer(geoRendererRaw);
+//            } else if (entityType != EntityType.PLAYER) {
+//                Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
+//                                "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
+//                        BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
+//            }
+//        }
+//    }
 
-    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
-        if (entityType != EntityType.ENDER_DRAGON) {
-            EntityRenderer<?> renderer = event.getRenderer(entityType);
-            if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
-                entityRenderer.addLayer(new SuperStarLayer<>(entityRenderer));
-            } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
-                addGeoSuperStarLayer(geoRendererRaw);
-            } else if (entityType != EntityType.PLAYER) {
-                Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
-                                "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
-                        BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
-            }
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends LivingEntity & GeoAnimatable> void addGeoSuperStarLayer(GeoEntityRenderer<?> geoRendererRaw) {
-        GeoEntityRenderer<T> geoRenderer = (GeoEntityRenderer<T>) geoRendererRaw;
-        geoRenderer.addRenderLayer(new SuperStarGeoLayer<>(geoRenderer));
-    }
+//    @SuppressWarnings("unchecked")
+//    private static <T extends LivingEntity & GeoAnimatable> void addGeoSuperStarLayer(GeoEntityRenderer<?> geoRendererRaw) {
+//        GeoEntityRenderer<T> geoRenderer = (GeoEntityRenderer<T>) geoRendererRaw;
+//        geoRenderer.addRenderLayer(new SuperStarGeoLayer<>(geoRenderer));
+//    }
 }
