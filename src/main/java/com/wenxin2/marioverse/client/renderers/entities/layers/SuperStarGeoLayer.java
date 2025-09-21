@@ -2,16 +2,17 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.wenxin2.marioverse.registries.TextureRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class SuperStarGeoLayer<T extends LivingEntity & GeoAnimatable> extends GeoRenderLayer<T> {
@@ -25,7 +26,6 @@ public class SuperStarGeoLayer<T extends LivingEntity & GeoAnimatable> extends G
         super.render(poseStack, entity, bakedModel, renderType, bufferSource, buffer, partialTicks, packedLight, packedOverlay);
 
         if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
-            float halfHeight = entity.getBbHeight() / 2.0F;
             float alpha = 1.0F;
             float speed = 40.0F;
             float hue = ((entity.tickCount + partialTicks) % speed) / speed;
@@ -33,7 +33,9 @@ public class SuperStarGeoLayer<T extends LivingEntity & GeoAnimatable> extends G
 
             int argb = ((int) (alpha * 255) << 24) | (rgb & 0xFFFFFF);
 
-            VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(TextureRegistry.SUPER_STAR_OVERLAY));
+            GeoRenderer<T> renderer = this.getRenderer();
+            ResourceLocation baseTexture = renderer.getTextureLocation(entity);
+            VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(baseTexture));
 
             poseStack.pushPose();
                 this.getRenderer().actuallyRender(poseStack, entity, bakedModel, renderType, bufferSource, consumer, true, partialTicks, 0xF000F0,
