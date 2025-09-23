@@ -1,5 +1,9 @@
 {
   "textures": [
-    "marioverse:coin_glint"
+    "marioverse:coin_glint_0",
+    "marioverse:coin_glint_1",
+    "marioverse:coin_glint_2",
+    "marioverse:coin_glint_3",
+    "marioverse:coin_glint_4"
   ]
 }
