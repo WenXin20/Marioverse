@@ -62,19 +62,20 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
         this.tempStack = null;
 
 
-        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
-            float speed = 40.0F;
-            float hue = ((livingEntity.tickCount + partialTicks) % speed) / speed;
-            int rgb = java.awt.Color.HSBtoRGB(hue, 1.0F, 1.0F);
-
-            float r = ((rgb >> 16) & 0xFF) / 255.0F;
-            float g = ((rgb >> 8)  & 0xFF) / 255.0F;
-            float b = (rgb & 0xFF) / 255.0F;
-            float a = 1.0F;
-
-            RenderSystem.setShaderColor(r, g, b, a);
-        }
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
+//            float speed = 40.0F;
+//            float hue = ((livingEntity.tickCount + partialTicks) % speed) / speed;
+//            int rgb = java.awt.Color.HSBtoRGB(hue, 1.0F, 1.0F);
+//
+//            float r = ((rgb >> 16) & 0xFF) / 255.0F;
+//            float g = ((rgb >> 8)  & 0xFF) / 255.0F;
+//            float b = (rgb & 0xFF) / 255.0F;
+//            float a = 1.0F;
+//
+//            RenderSystem.setShaderColor(r, g, b, a);
+//        }
+//        if (livingEntity instanceof AbilitiesHandler handler && !handler.mv$hasSuperStar())
+//            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @WrapOperation(
