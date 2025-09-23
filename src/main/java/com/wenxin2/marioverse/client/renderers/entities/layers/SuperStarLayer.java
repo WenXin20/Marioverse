@@ -38,18 +38,9 @@ public class SuperStarLayer<T extends LivingEntity, M extends EntityModel<T>> ex
         ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
         if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
             if (shader != null) {
-                float time = (entity.level().getGameTime() + partialTicks);
+                float time = (entity.level().getGameTime() + partialTicks) * 0.1F;
                 shader.safeGetUniform("Time").set(time);
             }
-
-//            float alpha = 0.5F;
-//            float speed = 40.0F;
-//            float hue = ((entity.tickCount + partialTicks) % speed) / speed;
-//            int rgb = Color.HSBtoRGB(hue, 1.0F, 1.0F);
-//            int argb = ((int) (alpha * 255) << 24) | (rgb & 0xFFFFFF);
-//            float r = ((rgb >> 16) & 0xFF) / 255.0F;
-//            float g = ((rgb >> 8) & 0xFF) / 255.0F;
-//            float b = (rgb & 0xFF) / 255.0F;
 
             ResourceLocation texture = this.getTextureLocation(entity);
             VertexConsumer consumer = bufferSource.getBuffer(SuperStarRenderType.superStar(texture));

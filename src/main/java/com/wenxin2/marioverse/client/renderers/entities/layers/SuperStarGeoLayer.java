@@ -30,7 +30,7 @@ public class SuperStarGeoLayer<T extends LivingEntity & GeoAnimatable> extends G
         ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
         if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
             if (shader != null) {
-                float time = (entity.level().getGameTime() + partialTicks);
+                float time = (entity.level().getGameTime() + partialTicks) * 0.1F;
                 shader.safeGetUniform("Time").set(time);
             }
 
