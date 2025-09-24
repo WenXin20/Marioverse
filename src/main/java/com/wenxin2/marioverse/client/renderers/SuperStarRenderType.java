@@ -1,18 +1,12 @@
 package com.wenxin2.marioverse.client.renderers;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import java.awt.*;
 import java.util.function.Function;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
 
 public class SuperStarRenderType extends RenderType {
     public static ShaderInstance SUPER_STAR_SHADER;
