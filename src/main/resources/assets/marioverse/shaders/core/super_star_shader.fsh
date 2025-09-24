@@ -20,10 +20,17 @@ void main() {
         discard;
     }
 
-    float v = worldPos.y + Time * 0.5;
+    vec2 circleCenter = vec2(
+        sin(Time * 0.05) * 5.0,
+        cos(Time * 0.04) * 5.0
+    );
+
+    vec2 pos = worldPos.xz;
+    float dist = length(pos - circleCenter);
+    float v = dist * 0.9 + Time * 0.5;
     vec3 rainbow = palette(v);
     float alpha = 0.8;
     vec3 finalColor = mix(texColor.rgb, texColor.rgb * rainbow, alpha);
 
-    fragColor = vec4(texColor.rgb * rainbow, texColor.a) * ColorModulator * vertexColor;
+    fragColor = vec4(finalColor, texColor.a) * ColorModulator * vertexColor;
 }
