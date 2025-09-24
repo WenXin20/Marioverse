@@ -154,16 +154,12 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void applySuperStarPowerUp(Level world, LivingEntity entity, SuperStarEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
-
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
-
             this.mv$setSuperStar(true);
             this.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
 
             if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity, 10);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
             if (!this.mv$playedSuperStarTheme() && !world.isClientSide()) {
                 if (entity instanceof ServerPlayer player)
@@ -171,7 +167,8 @@ public interface AbilitiesHandler extends CostumeHandler {
                 else PacketDistributor.sendToPlayersTrackingEntity(entity, new SuperStarThemePayload(100, entity.getId()));
             }
             this.mv$setPlayedSuperStarTheme(true);
-            powerUp.remove(Entity.RemovalReason.DISCARDED);
+            if (!powerUp.level().isClientSide())
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 

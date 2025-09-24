@@ -26,6 +26,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, ParticleType<ItemParticleOption>> NO_MOVEMENT_ITEM;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> POWERED_UP;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ONE_UP;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAINBOW_GLINT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RED_KOOPA_SHELL_SHATTER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUPER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUSPENDED_FIRE;
@@ -47,6 +48,7 @@ public class ParticleRegistry {
         INCREDIBLE = Marioverse.PARTICLES.register("incredible", () -> new SimpleParticleType(false));
         POWERED_UP = Marioverse.PARTICLES.register("powered_up", () -> new SimpleParticleType(false));
         ONE_UP = Marioverse.PARTICLES.register("one_up", () -> new SimpleParticleType(false));
+        RAINBOW_GLINT = Marioverse.PARTICLES.register("rainbow_glint", () -> new SimpleParticleType(false));
         RED_KOOPA_SHELL_SHATTER = Marioverse.PARTICLES.register("red_koopa_shell_shatter", () -> new SimpleParticleType(false));
         SUPER = Marioverse.PARTICLES.register("super", () -> new SimpleParticleType(false));
         SUSPENDED_FIRE = Marioverse.PARTICLES.register("suspended_fire", () -> new SimpleParticleType(false));

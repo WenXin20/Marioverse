@@ -196,6 +196,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
+        event.registerSpriteSet(ParticleRegistry.RAINBOW_GLINT.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUSPENDED_FIRE.get(), GlowingSuspendedTownParticle.FireProvider::new);
@@ -209,20 +210,11 @@ public class MarioverseClient {
                         .filter(DefaultAttributes::hasSupplier)
                         .map(entityType -> (EntityType<LivingEntity>) entityType)
                         .collect(Collectors.toList()));
-        entityTypes.forEach((entityType -> addLayerIfApplicable(entityType, event)));
-
-        for (PlayerSkin.Model skinType : event.getSkins()){
-            var skinRenderer = event.getSkin(skinType);
-            if (skinRenderer instanceof LivingEntityRenderer<?, ?> entityRenderer)
-                entityRenderer.addLayer(new SuperStarLayer<>(entityRenderer));
-        }
-    }
-
-    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
-//        if (entityType != EntityType.ENDER_DRAGON) {
+        entityTypes.forEach((entityType -> {
+//            addLayerIfApplicable(entityType, event);
             EntityRenderer<?> renderer = event.getRenderer(entityType);
             if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
-                entityRenderer.addLayer(new SuperStarLayer<>(entityRenderer));
+                entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
             } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
                 addGeoSuperStarLayer(geoRendererRaw);
             } else if (entityType != EntityType.PLAYER) {
@@ -230,7 +222,26 @@ public class MarioverseClient {
                                 "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
                         BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
             }
-//        }
+        }));
+
+        for (PlayerSkin.Model skinType : event.getSkins()){
+            var skinRenderer = event.getSkin(skinType);
+            if (skinRenderer instanceof LivingEntityRenderer<?, ?> entityRenderer)
+                entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
+        }
+    }
+
+    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
+        EntityRenderer<?> renderer = event.getRenderer(entityType);
+        if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
+            entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
+        } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
+            addGeoSuperStarLayer(geoRendererRaw);
+        } else if (entityType != EntityType.PLAYER) {
+            Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
+                            "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
+                    BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
+        }
     }
 
     @SuppressWarnings("unchecked")
