@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import com.wenxin2.marioverse.network.server_bound.data.SuperStarThemePayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -15,7 +14,6 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -25,7 +23,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,12 +47,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     boolean mv$hasIceFlower();
     void mv$setIceFlower(boolean hasIceFlower);
 
-    boolean mv$hasSuperStar();
-    void mv$setSuperStar(boolean hasSuperStar);
-
-    boolean mv$playedSuperStarTheme();
-    void mv$setPlayedSuperStarTheme(boolean playedSuperStarTheme);
-
     boolean mv$hasSmashedBlock();
     void mv$setSmashedBlock(boolean hasSmashedBlock);
 
@@ -71,9 +62,6 @@ public interface AbilitiesHandler extends CostumeHandler {
 
     int mv$getIceBallCount();
     void mv$setIceBallCount(int iceBallCount);
-
-    int mv$getSuperStarCooldown();
-    void mv$setSuperStarCooldown(int superStarCooldown);
 
 
     int mv$getCheckpointFlagCooldown();
@@ -156,19 +144,13 @@ public interface AbilitiesHandler extends CostumeHandler {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, true);
-            this.mv$setSuperStar(true);
-            this.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
-            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, ConfigRegistry.SUPER_STAR_DURATION.get());
 
+            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity, 10);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
-            if (!this.mv$playedSuperStarTheme() && !world.isClientSide()) {
-                if (entity instanceof ServerPlayer player)
-                    PacketDistributor.sendToPlayer(player, new SuperStarThemePayload(100, player.getId()));
-                else PacketDistributor.sendToPlayersTrackingEntity(entity, new SuperStarThemePayload(100, entity.getId()));
-            }
-            this.mv$setPlayedSuperStarTheme(true);
+
             powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }

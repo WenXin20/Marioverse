@@ -18,7 +18,6 @@ import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesSliderPayload
 import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
-import com.wenxin2.marioverse.network.server_bound.data.SuperStarThemePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.client_bound.handler.ClearPipeSoundPacket;
@@ -31,7 +30,6 @@ import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesSliderPack
 import com.wenxin2.marioverse.network.server_bound.handler.PiranhaPlantHidePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.RenamePipePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.SquashEntityPacket;
-import com.wenxin2.marioverse.network.client_bound.handler.SuperStarThemePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutSliderPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -53,7 +51,6 @@ public class PacketHandler {
         registrar.playToClient(ClearPipeSoundPayload.SOUND_PAYLOAD, ClearPipeSoundPayload.STREAM_CODEC, ClearPipeSoundPacket.get()::handle);
         registrar.playToClient(OneUpPayload.ONE_UP_PAYLOAD, OneUpPayload.STREAM_CODEC, OneUpPacket.get()::handle);
         registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
-        registrar.playToClient(SuperStarThemePayload.SOUND_PAYLOAD, SuperStarThemePayload.STREAM_CODEC, SuperStarThemePacket.get()::handle);
         registrar.playToClient(WonderNamePayload.WONDER_GOAL_POLE_PAYLOAD, WonderNamePayload.STREAM_CODEC, WonderNamePacket.get()::handle);
 
         // Sends to server

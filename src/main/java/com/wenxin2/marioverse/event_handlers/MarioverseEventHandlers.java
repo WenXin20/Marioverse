@@ -37,6 +37,7 @@ import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.network.client_bound.handler.ClearPipeSoundPacket;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -287,7 +288,7 @@ public class MarioverseEventHandlers {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            if (handler.mv$hasSuperStar()) {
+            if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
@@ -333,7 +334,7 @@ public class MarioverseEventHandlers {
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
-            if (handler.mv$hasSuperStar()) {
+            if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }

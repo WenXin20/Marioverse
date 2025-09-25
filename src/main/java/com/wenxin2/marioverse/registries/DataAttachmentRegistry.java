@@ -11,6 +11,13 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> HAS_SUPER_STAR = Marioverse.ATTACHMENT_TYPES.register(
             "has_super_star", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
                     FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> PLAYED_SUPER_STAR_THEME = Marioverse.ATTACHMENT_TYPES.register(
+            "played_super_star_theme", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
+                    FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+
+    public static final Supplier<AttachmentType<Integer>> SUPER_STAR_COOLDOWN = Marioverse.ATTACHMENT_TYPES.register(
+            "super_star_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).sync(StreamCodec.of(             // sync to client
+                    FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
     public static void init() {}
 }

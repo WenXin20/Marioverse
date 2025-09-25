@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -66,10 +67,8 @@ public class SquashEntityPacket {
                     if (stompingPlayer instanceof Player player && player.getAbilities().flying)
                         return;
 
-                    if (stompingPlayer instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
-                        return;
-
-                    if (damagedEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
+                    if (stompingPlayer.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                            || damagedEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
                         return;
 
                     if (stompingPlayer.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()

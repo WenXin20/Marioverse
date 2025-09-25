@@ -40,13 +40,16 @@ import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import dev.architectury.event.events.common.TickEvent;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -140,5 +143,17 @@ public class ClientEventHandlers {
 
         if (PlayClientSound.ACTIVE_PIPE_SOUNDS.get(uuid) != null)
             PlayClientSound.ACTIVE_PIPE_SOUNDS.get(uuid).startFadeOut();
+    }
+
+    @SubscribeEvent
+    public static void preEntityTick(EntityTickEvent.Pre event) {
+        Entity entity = event.getEntity();
+
+        if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                && !entity.getData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME)) {
+            Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.SUPER_STAR_THEME.get(),
+                    SoundSource.AMBIENT, entity.getRandom(), entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN), 100));
+            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, true);
+        }
     }
 }

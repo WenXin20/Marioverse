@@ -27,8 +27,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
-    @Unique private boolean mv$hasSuperStar;
-    @Unique private boolean mv$playedSuperStarTheme;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
@@ -40,7 +38,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private int mv$iceBallCount;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
-    @Unique private int mv$superStarCooldown;
     @Unique private int mv$warpCooldown;
 
     @Override
@@ -137,26 +134,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public boolean mv$hasSuperStar() {
-        return this.mv$hasSuperStar;
-    }
-
-    @Override
-    public void mv$setSuperStar(boolean hasSuperStar) {
-        this.mv$hasSuperStar = hasSuperStar;
-    }
-
-    @Override
-    public boolean mv$playedSuperStarTheme() {
-        return this.mv$playedSuperStarTheme;
-    }
-
-    @Override
-    public void mv$setPlayedSuperStarTheme(boolean playedSuperStarTheme) {
-        this.mv$playedSuperStarTheme = playedSuperStarTheme;
-    }
-
-    @Override
     public boolean mv$hasSmashedBlock() {
         return this.mv$hasSmashedBlock;
     }
@@ -204,16 +181,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setIceBallCount(int iceBallCount) {
         this.mv$iceBallCount = iceBallCount;
-    }
-
-    @Override
-    public int mv$getSuperStarCooldown() {
-        return this.mv$superStarCooldown;
-    }
-
-    @Override
-    public void mv$setSuperStarCooldown(int superStarCooldown) {
-        this.mv$superStarCooldown = superStarCooldown;
     }
 
     @Override

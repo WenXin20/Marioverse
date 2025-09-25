@@ -110,8 +110,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$hasSmashedBlock;
-    @Unique private boolean mv$hasSuperStar;
-    @Unique private boolean mv$playedSuperStarTheme;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
@@ -123,7 +121,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private int mv$iceBallCount;
     @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
-    @Unique private int mv$superStarCooldown;
     @Unique private int mv$warpCooldown;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
@@ -150,13 +147,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
         tag.putBoolean("marioverse:has_super_mushroom", this.mv$hasSuperMushroom());
         tag.putBoolean("marioverse:has_super_mushroom_override", this.mv$hasSuperMushroomOverride());
-        tag.putBoolean("marioverse:has_super_star", this.mv$hasSuperStar());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
         tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-        tag.putInt("marioverse:super_star_cooldown", this.mv$getSuperStarCooldown());
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
@@ -204,8 +199,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
         this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_super_mushroom_override"));
         this.mv$setSuperMushroom(tag.getBoolean("marioverse:has_super_mushroom"));
-        this.mv$setSuperStar(tag.getBoolean("marioverse:has_super_star"));
-        this.mv$setSuperStarCooldown(tag.getInt("marioverse:super_star_cooldown"));
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
@@ -272,7 +265,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && (entity.onGround() || entity.isInWaterOrBubble())
                 && this.mv$getConsecutiveBounces() > 0
-                && !this.mv$hasSuperStar())
+                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
             this.mv$setConsecutiveBounces(0);
 
         if ((entity.onGround() || entity.isInWaterOrBubble())
@@ -327,16 +320,24 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (this.mv$getFrozenCooldown() > 0)
             this.mv$setFrozenCooldown(this.mv$getFrozenCooldown() - 1);
 
-        if (this.mv$getSuperStarCooldown() > 0)
-            this.mv$setSuperStarCooldown(this.mv$getSuperStarCooldown() - 1);
+//        if (this.mv$getSuperStarCooldown() > 0)
+//            this.mv$setSuperStarCooldown(this.mv$getSuperStarCooldown() - 1);
 
-        if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar()) {
-            this.mv$setSuperStar(false);
-            this.mv$setPlayedSuperStarTheme(false);
+        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) > 0)
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) - 1);
+
+//        if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar()) {
+//            this.mv$setSuperStar(false);
+//            this.mv$setPlayedSuperStarTheme(false);
+//        }
+
+        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
+            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
         }
 
-        if (this.mv$hasSuperStar()) {
+        if (/*this.mv$hasSuperStar() ||*/ entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity);
@@ -441,26 +442,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public boolean mv$hasSuperStar() {
-        return this.mv$hasSuperStar;
-    }
-
-    @Override
-    public void mv$setSuperStar(boolean hasSuperStar) {
-        this.mv$hasSuperStar = hasSuperStar;
-    }
-
-    @Override
-    public boolean mv$playedSuperStarTheme() {
-        return this.mv$playedSuperStarTheme;
-    }
-
-    @Override
-    public void mv$setPlayedSuperStarTheme(boolean playedSuperStarTheme) {
-        this.mv$playedSuperStarTheme = playedSuperStarTheme;
-    }
-
-    @Override
     public boolean mv$hasSmashedBlock() {
         return this.mv$hasSmashedBlock;
     }
@@ -508,16 +489,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setIceBallCount(int iceBallCount) {
         this.mv$iceBallCount = iceBallCount;
-    }
-
-    @Override
-    public int mv$getSuperStarCooldown() {
-        return this.mv$superStarCooldown;
-    }
-
-    @Override
-    public void mv$setSuperStarCooldown(int superStarCooldown) {
-        this.mv$superStarCooldown = superStarCooldown;
     }
 
     @Override
@@ -1335,7 +1306,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     if (!entity.getType().is(TagRegistry.SUPER_STAR_IMMUNE)) {
                         if (entity instanceof Player player && player.isCreative() || entity.isSpectator())
                             return;
-                        if (collidedEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
+                        if (collidedEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
                             return;
 
                         Vec3 knockbackDirection = entity.position().subtract(attackingEntity.position()).normalize();
@@ -1370,10 +1341,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     if (stompingEntity instanceof Player player && player.getAbilities().flying)
                         return;
 
-                    if (stompingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
-                        return;
-
-                    if (damagedEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
+                    if (stompingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                            || damagedEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
                         return;
 
                     // Check if the colliding entity is above the current entity and falling

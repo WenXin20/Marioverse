@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -580,7 +581,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                         || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0.1))
                     return;
 
-                if (collidingEntity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar())
+                if (collidingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
                     return;
 
                 // Apply knockback to both the Goomba and the bumping collidingEntity
