@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -332,6 +333,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar()) {
             this.mv$setSuperStar(false);
             this.mv$setPlayedSuperStarTheme(false);
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
         }
 
         if (this.mv$hasSuperStar()) {

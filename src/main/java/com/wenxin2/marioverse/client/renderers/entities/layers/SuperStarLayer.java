@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
@@ -27,7 +28,7 @@ public class SuperStarLayer<T extends LivingEntity, M extends EntityModel<T>> ex
         ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
         M model = this.getParentModel();
 
-        if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
+        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             if (shader != null) {
                 float time = (entity.level().getGameTime() + partialTicks) * 0.2F;
                 shader.safeGetUniform("Time").set(time);

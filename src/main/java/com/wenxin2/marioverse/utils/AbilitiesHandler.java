@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.server_bound.data.SuperStarThemePayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -154,6 +155,7 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void applySuperStarPowerUp(Level world, LivingEntity entity, SuperStarEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, true);
             this.mv$setSuperStar(true);
             this.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
@@ -167,8 +169,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 else PacketDistributor.sendToPlayersTrackingEntity(entity, new SuperStarThemePayload(100, entity.getId()));
             }
             this.mv$setPlayedSuperStarTheme(true);
-            if (!powerUp.level().isClientSide())
-                powerUp.remove(Entity.RemovalReason.DISCARDED);
+            powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 

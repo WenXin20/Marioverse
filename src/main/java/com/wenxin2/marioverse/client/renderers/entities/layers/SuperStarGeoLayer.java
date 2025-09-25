@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -25,7 +26,7 @@ public class SuperStarGeoLayer<T extends LivingEntity & GeoAnimatable> extends G
     public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, @Nullable RenderType renderType, MultiBufferSource bufferSource,
                        @Nullable VertexConsumer buffer, float partialTicks, int packedLight, int packedOverlay) {
         ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
-        if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
+        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             if (shader != null) {
                 float time = (entity.level().getGameTime() + partialTicks) * 0.2F;
                 shader.safeGetUniform("Time").set(time);
