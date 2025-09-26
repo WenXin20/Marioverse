@@ -68,6 +68,7 @@ import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -313,7 +314,19 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
 
         if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
-            player.setItemInHand(hand, new ItemStack(spawnEggItem));
+            ItemStack stack = new ItemStack(spawnEggItem);
+
+            if (player.getItemInHand(hand).isEmpty())
+                player.setItemInHand(hand, stack);
+            else if (player.getItemInHand(hand) == spawnEggItem.getDefaultInstance()
+                    && player.getItemInHand(hand).getCount() < player.getItemInHand(hand).getMaxStackSize())
+                stack.grow(1);
+            else {
+                boolean itemAdded = player.addItem(stack.copyWithCount(1));
+                if (!itemAdded)
+                    player.drop(stack.copyWithCount(1), false);
+            }
+
             player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
             this.discard();
             return InteractionResult.SUCCESS;
