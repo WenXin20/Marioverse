@@ -204,11 +204,11 @@ public class MarioverseEventHandlers {
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
         }
 
-        if (PENDING_ENTER_SOUND.remove(uuid) != null)
-            entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
+//        if (PENDING_ENTER_SOUND.remove(uuid) != null)
+//            entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
 //
-        if (PENDING_EXIT_SOUND.remove(uuid) != null)
-            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
+//        if (PENDING_EXIT_SOUND.remove(uuid) != null)
+//            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
 //            PlayClientSound.ACTIVE_PIPE_SOUNDS.remove(uuid);
 //        }
     }
@@ -221,19 +221,19 @@ public class MarioverseEventHandlers {
         BlockState state = world.getBlockState(pos);
         UUID uuid = entity.getUUID();
 
-        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
-        boolean wasInPipe = IN_CLEAR_PIPE.getOrDefault(uuid, false);
-
-        if (inClearPipe && !wasInPipe) {
-            PENDING_ENTER_SOUND.put(uuid, true);
-            IN_CLEAR_PIPE.put(uuid, true);
-        } else if (!inClearPipe && wasInPipe) {
-            PENDING_EXIT_SOUND.put(uuid, true);
-            IN_CLEAR_PIPE.put(uuid, false);
-        }
-
-        if (!world.isClientSide())
-            PacketDistributor.sendToPlayersTrackingEntity(entity, new ClearPipeSoundPayload(20, 10, inClearPipe));
+//        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
+//        boolean wasInPipe = IN_CLEAR_PIPE.getOrDefault(uuid, false);
+//
+//        if (inClearPipe && !wasInPipe) {
+//            PENDING_ENTER_SOUND.put(uuid, true);
+//            IN_CLEAR_PIPE.put(uuid, true);
+//        } else if (!inClearPipe && wasInPipe) {
+//            PENDING_EXIT_SOUND.put(uuid, true);
+//            IN_CLEAR_PIPE.put(uuid, false);
+//        }
+//
+//        if (!world.isClientSide())
+//            PacketDistributor.sendToPlayersTrackingEntity(entity, new ClearPipeSoundPayload(20, 10, inClearPipe));
     }
 
 //    @SubscribeEvent

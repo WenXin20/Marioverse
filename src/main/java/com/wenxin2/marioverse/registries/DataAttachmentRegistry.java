@@ -15,6 +15,16 @@ public class DataAttachmentRegistry {
             "played_super_star_theme", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
                     FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
+    public static final Supplier<AttachmentType<Boolean>> PLAYED_ENTER_PIPE_SOUND = Marioverse.ATTACHMENT_TYPES.register(
+            "played_enter_pipe_sound", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
+                    FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> PLAYED_EXIT_PIPE_SOUND = Marioverse.ATTACHMENT_TYPES.register(
+            "played_exit_pipe_sound", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
+                    FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> PLAYED_INSIDE_PIPE_SOUND = Marioverse.ATTACHMENT_TYPES.register(
+            "played_inside_pipe_sound", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
+                    FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+
     public static final Supplier<AttachmentType<Integer>> SUPER_STAR_COOLDOWN = Marioverse.ATTACHMENT_TYPES.register(
             "super_star_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).sync(StreamCodec.of(             // sync to client
                     FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
