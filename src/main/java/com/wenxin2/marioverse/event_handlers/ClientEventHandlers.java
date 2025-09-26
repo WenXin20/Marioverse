@@ -41,23 +41,14 @@ public class ClientEventHandlers {
     }
 
     @SubscribeEvent
-    public static void postEntityTick(EntityTickEvent.Post event) {
-        Entity entity = event.getEntity();
-        UUID uuid = entity.getUUID();
-
-        if (MarioverseEventHandlers.PENDING_EXIT_SOUND.remove(uuid) != null) {
-            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
-            ACTIVE_PIPE_SOUNDS.remove(uuid);
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityRemoved(EntityLeaveLevelEvent event) {
         Entity entity = event.getEntity();
         UUID uuid = entity.getUUID();
 
-        if (ACTIVE_PIPE_SOUNDS.get(uuid) != null)
+        if (ACTIVE_PIPE_SOUNDS.get(uuid) != null) {
             ACTIVE_PIPE_SOUNDS.get(uuid).startFadeOut();
+            entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, false);
+        }
     }
 
     @SubscribeEvent
@@ -92,7 +83,7 @@ public class ClientEventHandlers {
             entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
             entity.setData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND, true);
             entity.setData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND, false);
-            entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, fa);
+            entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, false);
             insideSound.startFadeOut();
             if (ACTIVE_PIPE_SOUNDS.get(uuid) != null)
                 ACTIVE_PIPE_SOUNDS.get(uuid).startFadeOut();
