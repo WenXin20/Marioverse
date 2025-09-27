@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -44,6 +45,8 @@ public class ClientEventHandlers {
     public static void onEntityRemoved(EntityLeaveLevelEvent event) {
         Entity entity = event.getEntity();
         UUID uuid = entity.getUUID();
+        if (!(event.getLevel() instanceof ClientLevel))
+            return;
 
         if (ACTIVE_PIPE_SOUNDS.get(uuid) != null) {
             ACTIVE_PIPE_SOUNDS.get(uuid).startFadeOut();
@@ -52,8 +55,9 @@ public class ClientEventHandlers {
     }
 
     @SubscribeEvent
-    public static void preEntityTick(EntityTickEvent.Pre event) {
+    public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
+
         UUID uuid = entity.getUUID();
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
@@ -61,8 +65,8 @@ public class ClientEventHandlers {
         boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
         boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
 
-        FadeInAndOutSoundInstance insideSound = new FadeInAndOutSoundInstance(entity, SoundRegistry.CLEAR_PIPE_INSIDE.get(),
-                SoundSource.BLOCKS, 20, 10);
+        if (!(entity.level() instanceof ClientLevel))
+            return;
 
         if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME)) {
@@ -83,18 +87,26 @@ public class ClientEventHandlers {
             entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
             entity.setData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND, true);
             entity.setData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND, false);
-            entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, false);
-            insideSound.startFadeOut();
-            if (ACTIVE_PIPE_SOUNDS.get(uuid) != null)
-                ACTIVE_PIPE_SOUNDS.get(uuid).startFadeOut();
         }
 
         if (entity.getData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND) && inClearPipe) {
+            FadeInAndOutSoundInstance insideSound = new FadeInAndOutSoundInstance(entity, SoundRegistry.CLEAR_PIPE_INSIDE.get(),
+                    SoundSource.BLOCKS, 20, 10);
+
             ACTIVE_PIPE_SOUNDS.put(uuid, insideSound);
             Minecraft.getInstance().getSoundManager().play(insideSound);
             entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, true);
+        }
+
+        if (entity.getData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND) && !inClearPipe) {
+            FadeInAndOutSoundInstance active = ACTIVE_PIPE_SOUNDS.get(uuid);
+
+            if (active != null)
+                active.startFadeOut();
+            ACTIVE_PIPE_SOUNDS.remove(uuid);
+            entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, false);
         }
     }
 }

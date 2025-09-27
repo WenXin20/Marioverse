@@ -13,7 +13,7 @@ public class FadeInAndOutSoundInstance extends AbstractTickableSoundInstance {
     private final float fadeInDuration;
     private final float fadeOutDuration;
     private boolean fadingOut = false;
-    private float ticksSinceFade = 0f;
+    private float ticksSinceFade = 0F;
 
     public FadeInAndOutSoundInstance(Entity entity, SoundEvent soundEvent, SoundSource soundSource,
                                      float fadeInDuration, float fadeOutDuration) {
