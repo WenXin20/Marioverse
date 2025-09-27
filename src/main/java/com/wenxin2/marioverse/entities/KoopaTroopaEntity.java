@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -508,8 +509,8 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                     entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
                     entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-                    entityHandler.mv$setSuperStar(handler.mv$hasSuperStar());
-                    entityHandler.mv$setSuperStarCooldown(handler.mv$getSuperStarCooldown());
+                    shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+                    shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
                 }
 
                 AccessoriesCapability capability = AccessoriesCapability.get(this);

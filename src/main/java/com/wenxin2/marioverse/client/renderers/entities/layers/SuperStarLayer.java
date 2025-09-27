@@ -2,37 +2,40 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.wenxin2.marioverse.registries.TextureRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
-import net.minecraft.client.Minecraft;
+import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 public class SuperStarLayer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
-    public SuperStarLayer(EntityRenderer<? extends Player> parent) {
-        super((RenderLayerParent<T, M>) parent);
+    public SuperStarLayer(RenderLayerParent<T, M> parentRenderer) {
+        super(parentRenderer);
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity,
+    public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T entity,
                        float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
                        float netHeadYaw, float headPitch) {
-        if (entity instanceof AbilitiesHandler handler && handler.mv$hasSuperStar()) {
-            float alpha = 1F;
+        ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
+        M model = this.getParentModel();
 
-            Minecraft.getInstance().getTextureManager().getTexture(TextureRegistry.SUPER_STAR_OVERLAY);
+        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR) && !entity.isInvisible()) {
+            if (shader != null) {
+                float time = (entity.level().getGameTime() + partialTicks) * 0.2F;
+                shader.safeGetUniform("Time").set(time);
+            }
 
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(TextureRegistry.SUPER_STAR_OVERLAY));
+            ResourceLocation texture = this.getTextureLocation(entity);
+            VertexConsumer consumer = bufferSource.getBuffer(SuperStarRenderType.superStar(texture));
 
             poseStack.pushPose();
-                this.getParentModel().renderToBuffer(poseStack, consumer, packedLight,
+                model.renderToBuffer(poseStack, consumer, 0xF000F0,
                         LivingEntityRenderer.getOverlayCoords(entity, 0.0F));
             poseStack.popPose();
         }

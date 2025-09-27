@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.mixin;
 
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;

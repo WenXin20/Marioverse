@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraft.util.RandomSource;
 import net.neoforged.neoforge.fluids.FluidType;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -60,10 +61,12 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
+        RandomSource rand = RandomSource.create();
 
         if (this.level().getRandom().nextBoolean()) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
+            ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.COIN_GLINT.get(), this, true, 5, rand.nextDouble() * this.getBbHeight(), 0.1);
         }
     }
 

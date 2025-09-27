@@ -272,9 +272,10 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, boolean particlesInAir, int particleAmt) {
+    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, boolean particlesInAir, int particleAmt, double particleHeight) {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
+        RandomSource rand = RandomSource.create();
 
         if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
             Vec3 vec3 = entity.getDeltaMovement();
@@ -307,40 +308,42 @@ public class ServerParticleUtils {
             if (pos.getZ() != posLegacy.getZ())
                 z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
 
-            serverWorld.sendParticles(particleOptions, x, entity.getY() + 0.1, z, particleAmt, offsetX, offsetY, offsetZ, speed);
+            serverWorld.sendParticles(particleOptions, x, entity.getY() + particleHeight, z, particleAmt, offsetX, offsetY, offsetZ, speed);
         }
     }
 
-    public static void spawnClientParticleTrail(ParticleOptions particleOptions, @NotNull Entity entity, boolean particlesInAir, int particleAmt) {
+    public static void spawnClientParticleTrail(ParticleOptions particleOptions, @NotNull Entity entity, boolean particlesInAir, int particleAmt, double particleHeight, double particleAtSpeed) {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
+        Vec3 deltaMovement = entity.getDeltaMovement();
 
-        for (int i = 0; i < particleAmt; i++) {
-            if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
-                Vec3 vec3 = entity.getDeltaMovement();
-                BlockPos pos = entity.blockPosition();
-                double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);
-                double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5);
-                double dOffset = -4.0;
+        if (deltaMovement.horizontalDistance() >= particleAtSpeed) {
+            for (int i = 0; i < particleAmt; i++) {
+                if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
+                    BlockPos pos = entity.blockPosition();
+                    double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);
+                    double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5);
+                    double dOffset = -4.0;
 
-                if (entity instanceof AbstractMinecart)
-                    dOffset = -16.0;
+                    if (entity instanceof AbstractMinecart)
+                        dOffset = -16.0;
 
-                if (entity instanceof LivingEntity livingEntity) {
-                    float scale = (float) livingEntity.getAttributeValue(Attributes.SCALE);
-                    float widthScale = (float) livingEntity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+                    if (entity instanceof LivingEntity livingEntity) {
+                        float scale = (float) livingEntity.getAttributeValue(Attributes.SCALE);
+                        float widthScale = (float) livingEntity.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
 
-                    x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
-                    z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                        x = entity.getX() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                        z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5) * scale * widthScale;
+                    }
+
+                    if (pos.getX() != posLegacy.getX())
+                        x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
+
+                    if (pos.getZ() != posLegacy.getZ())
+                        z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
+
+                    entity.level().addParticle(particleOptions, x, entity.getY() + particleHeight, z, deltaMovement.x * dOffset, 0.5, deltaMovement.z * dOffset);
                 }
-
-                if (pos.getX() != posLegacy.getX())
-                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
-
-                if (pos.getZ() != posLegacy.getZ())
-                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
-
-                entity.level().addParticle(particleOptions, x, entity.getY() + 0.1, z, vec3.x * dOffset, 0.5, vec3.z * dOffset);
             }
         }
     }

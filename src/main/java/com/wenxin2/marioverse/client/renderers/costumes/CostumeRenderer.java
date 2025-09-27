@@ -1,15 +1,11 @@
 package com.wenxin2.marioverse.client.renderers.costumes;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;

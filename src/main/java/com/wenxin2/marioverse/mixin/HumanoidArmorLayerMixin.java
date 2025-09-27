@@ -3,15 +3,20 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import io.wispforest.accessories.AccessoriesLoaderInternals;
 import io.wispforest.accessories.compat.GeckoLibCompat;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -62,10 +67,8 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 
     @WrapOperation(
             method = {"renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;FFFFFF)V"},
-            at = {@At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"
-            )}
+            at = { @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;")}
     )
     private ItemStack getAlternativeStack(LivingEntity instance, EquipmentSlot equipmentSlot, Operation<ItemStack> original) {
         return this.tempStack != null ? this.tempStack : (ItemStack)original.call(instance, equipmentSlot);

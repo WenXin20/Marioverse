@@ -6,14 +6,13 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -24,6 +23,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class PowerUpCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -207,22 +207,18 @@ public class PowerUpCommand {
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                handler.mv$setSuperStar(enablePowerUp);
+            if (entity instanceof LivingEntity livingEntity) {
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
                     entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
 
                 if (cooldownTicks >= 0) {
-                    handler.mv$setSuperStarCooldown(cooldownTicks);
+                    entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, cooldownTicks);
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, cooldownTicks, 4, true, false));
-                    if (!handler.mv$playedSuperStarTheme())
-                        Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.SUPER_STAR_THEME.get(),
-                                SoundSource.AMBIENT, entity.getRandom(), cooldownTicks, 100));
-                    handler.mv$setPlayedSuperStarTheme(true);
                 } else {
-                    handler.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
+                    entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, ConfigRegistry.SUPER_STAR_DURATION.get());
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
                 }
 
@@ -262,7 +258,7 @@ public class PowerUpCommand {
                     case "fire_flower" -> handler.mv$hasFireFlower();
                     case "ice_flower" -> handler.mv$hasIceFlower();
                     case "super_mushroom" -> handler.mv$hasSuperMushroom();
-                    case "super_star" -> handler.mv$hasSuperStar();
+                    case "super_star" -> entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR);
                     default -> false;
                 };
 

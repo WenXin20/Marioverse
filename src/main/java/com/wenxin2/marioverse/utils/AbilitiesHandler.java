@@ -7,13 +7,12 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -48,12 +47,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     boolean mv$hasIceFlower();
     void mv$setIceFlower(boolean hasIceFlower);
 
-    boolean mv$hasSuperStar();
-    void mv$setSuperStar(boolean hasSuperStar);
-
-    boolean mv$playedSuperStarTheme();
-    void mv$setPlayedSuperStarTheme(boolean playedSuperStarTheme);
-
     boolean mv$hasSmashedBlock();
     void mv$setSmashedBlock(boolean hasSmashedBlock);
 
@@ -69,9 +62,6 @@ public interface AbilitiesHandler extends CostumeHandler {
 
     int mv$getIceBallCount();
     void mv$setIceBallCount(int iceBallCount);
-
-    int mv$getSuperStarCooldown();
-    void mv$setSuperStarCooldown(int superStarCooldown);
 
 
     int mv$getCheckpointFlagCooldown();
@@ -153,21 +143,14 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void applySuperStarPowerUp(Level world, LivingEntity entity, SuperStarEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, true);
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, ConfigRegistry.SUPER_STAR_DURATION.get());
 
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
-
-            this.mv$setSuperStar(true);
-            this.mv$setSuperStarCooldown(ConfigRegistry.SUPER_STAR_DURATION.get());
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
-
             if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.COIN_GLINT.get(), serverWorld, entity, 10);
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity, 10);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
-            if (!this.mv$playedSuperStarTheme())
-                Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(entity, SoundRegistry.SUPER_STAR_THEME.get(),
-                        SoundSource.AMBIENT, entity.getRandom(), this.mv$getSuperStarCooldown(), 100));
-            this.mv$setPlayedSuperStarTheme(true);
+
             powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }

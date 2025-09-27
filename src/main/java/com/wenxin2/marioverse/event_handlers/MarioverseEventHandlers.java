@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
-import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
@@ -34,6 +33,7 @@ import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -41,14 +41,11 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
-import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -93,7 +90,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -108,11 +104,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
-    private static final Map<UUID, Boolean> IN_CLEAR_PIPE = new HashMap<>();
-    private static final Map<UUID, Boolean> PENDING_ENTER_SOUND = new HashMap<>();
-    private static final Map<UUID, Boolean> PENDING_EXIT_SOUND = new HashMap<>();
-    private static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
-
     private static final float SCALING_SPEED = 0.1F;
 
     @SubscribeEvent
@@ -201,59 +192,6 @@ public class MarioverseEventHandlers {
             for (Entity rider : entity.getPassengers())
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
         }
-
-        if (PENDING_ENTER_SOUND.remove(uuid) != null)
-            entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
-
-        if (PENDING_EXIT_SOUND.remove(uuid) != null) {
-            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
-            ACTIVE_PIPE_SOUNDS.remove(uuid);
-        }
-    }
-
-    @SubscribeEvent
-    public static void preEntityTick(EntityTickEvent.Pre event) {
-        Entity entity = event.getEntity();
-        Level world = entity.level();
-        BlockPos pos = entity.blockPosition();
-        BlockState state = world.getBlockState(pos);
-        UUID uuid = entity.getUUID();
-
-        boolean isClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
-        boolean wasInPipe = IN_CLEAR_PIPE.getOrDefault(uuid, false);
-        FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.get(uuid);
-
-
-        if (isClearPipe && !wasInPipe) {
-            PENDING_ENTER_SOUND.put(uuid, true);
-            IN_CLEAR_PIPE.put(uuid, true);
-        } else if (!isClearPipe && wasInPipe) {
-            PENDING_EXIT_SOUND.put(uuid, true);
-            IN_CLEAR_PIPE.put(uuid, false);
-        }
-
-        if (isClearPipe) {
-            if (soundInstance == null) {
-                FadeInAndOutSoundInstance insideSound = new FadeInAndOutSoundInstance(entity, SoundRegistry.CLEAR_PIPE_INSIDE.get(),
-                        SoundSource.BLOCKS, 20, 10);
-
-                Minecraft.getInstance().getSoundManager().play(insideSound);
-                ACTIVE_PIPE_SOUNDS.put(uuid, insideSound);
-            }
-        } else {
-            if (soundInstance != null)
-                soundInstance.startFadeOut();
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityRemoved(EntityLeaveLevelEvent event) {
-        Entity entity = event.getEntity();
-        UUID uuid = entity.getUUID();
-
-        FadeInAndOutSoundInstance soundInstance = ACTIVE_PIPE_SOUNDS.remove(uuid);
-        if (soundInstance != null)
-            soundInstance.startFadeOut();
     }
 
     @SubscribeEvent
@@ -299,7 +237,7 @@ public class MarioverseEventHandlers {
                         SoundSource.PLAYERS, 1.0F, 1.0F);
             }
 
-            if (handler.mv$hasSuperStar()) {
+            if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
@@ -345,7 +283,7 @@ public class MarioverseEventHandlers {
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
-            if (handler.mv$hasSuperStar()) {
+            if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
@@ -790,7 +728,7 @@ public class MarioverseEventHandlers {
     public static void onClientTick(ClientTickEvent.Post event) {
         Player player = Minecraft.getInstance().player;
 
-        if (player != null ) {
+        if (player != null) {
             BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
             BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
 

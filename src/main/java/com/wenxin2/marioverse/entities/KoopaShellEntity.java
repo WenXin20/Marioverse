@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -67,6 +68,7 @@ import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
@@ -312,7 +314,19 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
 
         if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
-            player.setItemInHand(hand, new ItemStack(spawnEggItem));
+            ItemStack stack = new ItemStack(spawnEggItem);
+
+            if (player.getItemInHand(hand).isEmpty())
+                player.setItemInHand(hand, stack);
+            else if (player.getItemInHand(hand) == spawnEggItem.getDefaultInstance()
+                    && player.getItemInHand(hand).getCount() < player.getItemInHand(hand).getMaxStackSize())
+                stack.grow(1);
+            else {
+                boolean itemAdded = player.addItem(stack.copyWithCount(1));
+                if (!itemAdded)
+                    player.drop(stack.copyWithCount(1), false);
+            }
+
             player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
             this.discard();
             return InteractionResult.SUCCESS;
@@ -894,8 +908,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
             entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-            entityHandler.mv$setSuperStar(handler.mv$hasSuperStar());
-            entityHandler.mv$setSuperStarCooldown(handler.mv$getSuperStarCooldown());
+            troopa.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+            troopa.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
         }
 
         this.copyAttributeWithModifiers(troopa, Attributes.SAFE_FALL_DISTANCE);
