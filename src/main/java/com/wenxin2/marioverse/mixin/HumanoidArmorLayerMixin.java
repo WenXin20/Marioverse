@@ -63,17 +63,6 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
             baseModel.copyPropertiesTo((A)geckolibModel);
         } else this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot), limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
         this.tempStack = null;
-
-//        if (livingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
-//            M model = this.getParentModel();
-//            ResourceLocation texture = this.getTextureLocation(livingEntity);
-//            VertexConsumer consumer = multiBufferSource.getBuffer(SuperStarRenderType.superStar(texture));
-//
-//            poseStack.pushPose();
-//                model.renderToBuffer(poseStack, consumer, 0xF000F0,
-//                        LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0F));
-//            poseStack.popPose();
-//        }
     }
 
     @WrapOperation(
