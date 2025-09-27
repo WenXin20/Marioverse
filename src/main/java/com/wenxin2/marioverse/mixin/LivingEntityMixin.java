@@ -320,16 +320,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (this.mv$getFrozenCooldown() > 0)
             this.mv$setFrozenCooldown(this.mv$getFrozenCooldown() - 1);
 
-//        if (this.mv$getSuperStarCooldown() > 0)
-//            this.mv$setSuperStarCooldown(this.mv$getSuperStarCooldown() - 1);
-
         if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) - 1);
-
-//        if (this.mv$getSuperStarCooldown() == 0 && this.mv$hasSuperStar()) {
-//            this.mv$setSuperStar(false);
-//            this.mv$setPlayedSuperStarTheme(false);
-//        }
 
         if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
@@ -337,11 +329,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
         }
 
-        if (/*this.mv$hasSuperStar() ||*/ entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
+        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
-            if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity);
-            ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.RAINBOW_GLINT.get(), entity, true, 10, rand.nextDouble() * entity.getBbHeight(), 0.1);
+            if (!entity.isInvisible()) {
+                if (this.level() instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity);
+                ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.RAINBOW_GLINT.get(), entity, true, 10, rand.nextDouble() * entity.getBbHeight(), 0.1);
+            }
         }
 
         if (this.mv$hasDashMushroomBoost())
