@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "marioverse:block/polsihed_white_calcite",
-    "side": "marioverse:block/polsihed_white_calcite",
-    "top": "marioverse:block/polsihed_white_calcite"
-  }
-}

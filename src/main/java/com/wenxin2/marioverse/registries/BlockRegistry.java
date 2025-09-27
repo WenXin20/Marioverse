@@ -540,11 +540,11 @@ public class BlockRegistry {
 
         CALCITE_WALL = registerBlock("calcite_wall", () -> wall(Blocks.CALCITE));
 
-        POLISHED_WHITE_CALCITE_SLAB = registerBlock("polsihed_white_calcite_slab", () -> slab(Blocks.CALCITE));
+        POLISHED_WHITE_CALCITE_SLAB = registerBlock("polished_white_calcite_slab", () -> slab(Blocks.CALCITE));
 
-        POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polsihed_white_calcite_stairs", () -> stair(Blocks.CALCITE));
+        POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polished_white_calcite_stairs", () -> stair(Blocks.CALCITE));
 
-        POLISHED_WHITE_CALCITE_WALL = registerBlock("polsihed_white_calcite_wall", () -> wall(Blocks.CALCITE));
+        POLISHED_WHITE_CALCITE_WALL = registerBlock("polished_white_calcite_wall", () -> wall(Blocks.CALCITE));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "marioverse:block/polsihed_white_calcite",
-    "side": "marioverse:block/polsihed_white_calcite_slab",
-    "top": "marioverse:block/polsihed_white_calcite"
-  }
-}
