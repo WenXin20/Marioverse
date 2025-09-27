@@ -25,7 +25,7 @@ public class SuperStarLayer<T extends LivingEntity, M extends EntityModel<T>> ex
         ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
         M model = this.getParentModel();
 
-        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
+        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR) && !entity.isInvisible()) {
             if (shader != null) {
                 float time = (entity.level().getGameTime() + partialTicks) * 0.2F;
                 shader.safeGetUniform("Time").set(time);
