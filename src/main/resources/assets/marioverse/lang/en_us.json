@@ -1011,6 +1011,7 @@
   "configuration.marioverse.disable_consecutive_bouncing": "Disable Consecutive Bouncing",
   "configuration.marioverse.disable_decorated_pot_tweaks": "Disable All Tweaks",
   "configuration.marioverse.disable_goomba_masks": "Disable Goomba Masks",
+  "configuration.marioverse.disable_jeb_shader": "Disable jeb_ Shader",
   "configuration.marioverse.disable_jump_sound": "Disable Jump Sound",
   "configuration.marioverse.disable_koopa_masks": "Disable Koopa Masks",
   "configuration.marioverse.disable_marioverse_tabs": "Disable Marioverse Creative Tabs",

@@ -92,6 +92,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
+    public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
     public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
     public static ModConfigSpec.BooleanValue DISABLE_KOOPA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
@@ -201,6 +202,10 @@ public class ConfigRegistry
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
         BUILDER.push(CATEGORY_CLIENT);
+            DISABLE_JEB_SHADER = BUILDER.translation("configuration.marioverse.disable_jeb_shader")
+                    .comment("Display the rainbow shader on mobs named \"jeb_\".")
+                    .comment("§9[Default: false]")
+                    .define("disable_jeb_shader", false);
             DISABLE_JUMP_SOUND = BUILDER.translation("configuration.marioverse.disable_jump_sound")
                     .comment("Disable the jump sound when wearing a costume.")
                     .comment("§9[Default: false]")

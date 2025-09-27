@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.client.renderers.entities.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,19 +26,23 @@ public class SuperStarLayer<T extends LivingEntity, M extends EntityModel<T>> ex
         ShaderInstance shader = SuperStarRenderType.SUPER_STAR_SHADER;
         M model = this.getParentModel();
 
-        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR) && !entity.isInvisible()) {
-            if (shader != null) {
-                float time = (entity.level().getGameTime() + partialTicks) * 0.2F;
-                shader.safeGetUniform("Time").set(time);
-            }
+        if (!entity.isInvisible()) {
+            if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                    || (!ConfigRegistry.DISABLE_JEB_SHADER.get() && entity.hasCustomName()
+                            && "jeb_".equals(entity.getName().getString()))) {
+                if (shader != null) {
+                    float time = (entity.level().getGameTime() + partialTicks) * 0.2F;
+                    shader.safeGetUniform("Time").set(time);
+                }
 
-            ResourceLocation texture = this.getTextureLocation(entity);
-            VertexConsumer consumer = bufferSource.getBuffer(SuperStarRenderType.superStar(texture));
+                ResourceLocation texture = this.getTextureLocation(entity);
+                VertexConsumer consumer = bufferSource.getBuffer(SuperStarRenderType.superStar(texture));
 
-            poseStack.pushPose();
+                poseStack.pushPose();
                 model.renderToBuffer(poseStack, consumer, 0xF000F0,
                         LivingEntityRenderer.getOverlayCoords(entity, 0.0F));
-            poseStack.popPose();
+                poseStack.popPose();
+            }
         }
     }
 }
