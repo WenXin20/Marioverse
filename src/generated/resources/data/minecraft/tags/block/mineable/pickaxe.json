@@ -93,6 +93,9 @@
     "marioverse:sandstone_brick_slab",
     "marioverse:sandstone_brick_stairs",
     "marioverse:sandstone_brick_wall",
-    "marioverse:star_coin"
+    "marioverse:star_coin",
+    "marioverse:white_calcite_brick_slab",
+    "marioverse:white_calcite_brick_stairs",
+    "marioverse:white_calcite_brick_wall"
   ]
 }

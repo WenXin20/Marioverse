@@ -452,7 +452,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
 
         tag(BlockTags.STAIRS)
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
@@ -469,7 +470,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
 
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
@@ -498,7 +500,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
@@ -594,6 +597,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.STAR_COIN.get());
+                .add(BlockRegistry.STAR_COIN.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
     }
 }

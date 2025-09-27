@@ -3,15 +3,15 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:chiseled_white_calcite_bricks"
+        "recipe": "marioverse:white_calcite_brick_slab_from_calcite_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_white_calcite_brick_slab": {
+    "has_white_calcite_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:white_calcite_brick_slab"
+            "items": "marioverse:white_calcite_bricks"
           }
         ]
       },
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_white_calcite_brick_slab"
+      "has_white_calcite_bricks"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:chiseled_white_calcite_bricks"
+      "marioverse:white_calcite_brick_slab_from_calcite_stonecutting"
     ]
   }
 }

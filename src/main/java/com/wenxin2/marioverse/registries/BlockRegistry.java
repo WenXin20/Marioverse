@@ -291,6 +291,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
 
     static {
         POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
@@ -545,6 +548,12 @@ public class BlockRegistry {
         POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polished_white_calcite_stairs", () -> stair(Blocks.CALCITE));
 
         POLISHED_WHITE_CALCITE_WALL = registerBlock("polished_white_calcite_wall", () -> wall(Blocks.CALCITE));
+
+        WHITE_CALCITE_BRICK_SLAB = registerBlock("white_calcite_brick_slab", () -> slab(Blocks.CALCITE));
+
+        WHITE_CALCITE_BRICK_STAIRS = registerBlock("white_calcite_brick_stairs", () -> stair(Blocks.CALCITE));
+
+        WHITE_CALCITE_BRICK_WALL = registerBlock("white_calcite_brick_wall", () -> wall(Blocks.CALCITE));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

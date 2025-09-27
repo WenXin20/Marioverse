@@ -181,6 +181,9 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .slab(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
+            .stairs(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
+            .wall(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended LIGHT_GRAY_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())

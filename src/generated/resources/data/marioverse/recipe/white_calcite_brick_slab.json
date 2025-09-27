@@ -3,15 +3,14 @@
   "category": "building",
   "key": {
     "#": {
-      "item": "marioverse:white_calcite_brick_slab"
+      "item": "marioverse:white_calcite_bricks"
     }
   },
   "pattern": [
-    "#",
-    "#"
+    "###"
   ],
   "result": {
-    "count": 1,
-    "id": "marioverse:chiseled_white_calcite_bricks"
+    "count": 6,
+    "id": "marioverse:white_calcite_brick_slab"
   }
 }
