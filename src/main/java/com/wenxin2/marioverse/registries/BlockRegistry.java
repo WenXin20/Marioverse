@@ -197,6 +197,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
@@ -536,6 +539,12 @@ public class BlockRegistry {
         CALCITE_STAIRS = registerBlock("calcite_stairs", () -> stair(Blocks.CALCITE));
 
         CALCITE_WALL = registerBlock("calcite_wall", () -> wall(Blocks.CALCITE));
+
+        POLISHED_WHITE_CALCITE_SLAB = registerBlock("polsihed_white_calcite_slab", () -> slab(Blocks.CALCITE));
+
+        POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polsihed_white_calcite_stairs", () -> stair(Blocks.CALCITE));
+
+        POLISHED_WHITE_CALCITE_WALL = registerBlock("polsihed_white_calcite_wall", () -> wall(Blocks.CALCITE));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

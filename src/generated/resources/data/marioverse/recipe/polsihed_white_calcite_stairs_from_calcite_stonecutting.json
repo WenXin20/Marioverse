@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecraft:calcite"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:polsihed_white_calcite_stairs"
+  }
+}

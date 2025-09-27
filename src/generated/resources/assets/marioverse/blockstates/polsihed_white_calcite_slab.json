@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/polsihed_white_calcite_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/polsihed_white_calcite_slab_double"
+    },
+    "type=top": {
+      "model": "marioverse:block/polsihed_white_calcite_slab_top"
+    }
+  }
+}

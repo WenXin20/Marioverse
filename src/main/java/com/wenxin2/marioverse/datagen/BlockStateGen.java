@@ -347,6 +347,7 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabBlock(slabBlock, texture, texture);
                     this.itemModels().slab(blockName, texture, texture, texture);
                 } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_CALCITE.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(slab)

@@ -450,6 +450,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get());
 
@@ -466,6 +467,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get());
 
@@ -494,6 +496,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get());
 
@@ -580,6 +583,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
