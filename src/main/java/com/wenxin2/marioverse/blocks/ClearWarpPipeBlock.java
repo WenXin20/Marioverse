@@ -239,12 +239,19 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return shape.optimize();
     }
 
-
+    @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
         return this.voxelShape(state);
     }
 
+    @NotNull
+    @Override
+    protected VoxelShape getVisualShape(BlockState p_309057_, BlockGetter p_308936_, BlockPos p_308956_, CollisionContext p_309006_) {
+        return Shapes.empty();
+    }
+
+    @NotNull
     @Override
     public VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         return this.voxelShape(state);
