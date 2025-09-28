@@ -137,6 +137,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK);
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
             add(event, BlockRegistry.AMETHYST_QUESTION_BLOCK);
+            add(event, BlockRegistry.CALCITE_QUESTION_BLOCK);
             add(event, BlockRegistry.STONE_QUESTION_BRICKS);
             add(event, BlockRegistry.MOSSY_STONE_QUESTION_BRICKS);
             add(event, BlockRegistry.DEEPSLATE_QUESTION_BRICKS);
@@ -375,7 +376,6 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CRACKED_CALCITE_BRICKS, true, true);
             addDyedBlocks(event, BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CHISELED_CALCITE_BRICKS, true, true);
             addDyedBlocks(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_PEDESTAL, true, true);
-            add(event, BlockRegistry.CALCITE_QUESTION_BLOCK);
             add(event, BlockRegistry.CALCITE_STAIRS);
             add(event, BlockRegistry.CALCITE_SLAB);
             add(event, BlockRegistry.CALCITE_WALL);
