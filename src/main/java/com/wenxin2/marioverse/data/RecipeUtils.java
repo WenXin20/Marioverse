@@ -605,6 +605,7 @@ public class RecipeUtils extends RecipeProvider {
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
@@ -626,6 +627,7 @@ public class RecipeUtils extends RecipeProvider {
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))

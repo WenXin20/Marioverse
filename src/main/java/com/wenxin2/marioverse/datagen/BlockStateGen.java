@@ -287,8 +287,9 @@ public class BlockStateGen extends BlockStateProvider {
     private void genQuestionBlocks() {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
             BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
+            BlockFamilyExtended.Variant questionBlockTag = BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG;
 
-            if (variant == questionBlock) {
+            if (variant == questionBlock || variant == questionBlockTag) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
                 ResourceLocation emptyTexture;
                 ResourceLocation mainTexture;
@@ -296,9 +297,14 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation topTexture;
 
                 if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
-                        || block == BlockFamilyRegistry.POLISHED_CALCITE.get(questionBlock)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
                         || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
+                    sideTexture = modLoc("block/" + blockName + "_side");
+                    topTexture = modLoc("block/" + blockName + "_top");
+                    emptyTexture = modLoc("block/empty_" + blockName);
+
+                    this.questionBlockModel(block, sideTexture, topTexture, emptyTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_CALCITE.get(questionBlockTag)) {
                     sideTexture = modLoc("block/" + blockName + "_side");
                     topTexture = modLoc("block/" + blockName + "_top");
                     emptyTexture = modLoc("block/empty_" + blockName);
