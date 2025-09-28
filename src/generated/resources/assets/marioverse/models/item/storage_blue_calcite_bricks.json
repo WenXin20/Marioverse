@@ -1,7 +1,8 @@
 {
-  "parent": "marioverse:block/template_storage_bricks",
+  "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "all": "minecraft:block/blue_calcite_bricks",
-    "overlay": "marioverse:block/blue_calcite_question_bricks_overlay"
+    "bottom": "marioverse:block/blue_calcite_bricks",
+    "side": "marioverse:block/storage_blue_calcite_bricks",
+    "top": "marioverse:block/blue_calcite_bricks"
   }
 }
