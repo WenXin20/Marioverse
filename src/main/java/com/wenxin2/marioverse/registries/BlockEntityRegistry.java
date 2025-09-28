@@ -49,6 +49,7 @@ public class BlockEntityRegistry {
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
                         BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get(),
+                        BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get(),

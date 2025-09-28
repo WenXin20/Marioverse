@@ -172,6 +172,14 @@ public class BlockStateGen extends BlockStateProvider {
                     invisibleTexture = modLoc("block/invisible_question_block");
 
                     this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_CALCITE.get(questionBlock)) {
+                    String removeInvisibleName = blockName.replace("invisible_", "");
+                    sideTexture = modLoc("block/" + removeInvisibleName + "_side");
+                    topTexture = modLoc("block/" + removeInvisibleName + "_top");
+                    emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                    invisibleTexture = modLoc("block/invisible_question_block");
+
+                    this.invisibleQuestionBlockModel(block, removeInvisibleName, sideTexture, topTexture, emptyTexture, invisibleTexture);
                 } else if (block == BlockFamilyRegistry.CUT_RED_SANDSTONE.get(questionBlock)
                         || block == BlockFamilyRegistry.CUT_SANDSTONE.get(questionBlock)) {
                     String removeInvisibleName = blockName.replace("invisible_", "");

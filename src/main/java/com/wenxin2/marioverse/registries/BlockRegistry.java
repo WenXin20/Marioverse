@@ -142,6 +142,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_CALCITE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_BRICKS;
@@ -561,6 +562,9 @@ public class BlockRegistry {
 
         CALCITE_QUESTION_BLOCK = registerBlock("calcite_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
+
+        INVISIBLE_CALCITE_QUESTION_BLOCK = registerBlock("invisible_calcite_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

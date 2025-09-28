@@ -217,6 +217,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
+                .add(BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get())

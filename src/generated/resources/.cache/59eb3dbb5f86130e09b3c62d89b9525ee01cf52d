@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T01:03:43.7254344	Loot Tables
+// 1.21.1	2025-09-28T13:41:17.1329509	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -143,6 +143,7 @@ e171a1753a8c62620b5f631cb92c42e4eeb3d447 data/marioverse/loot_table/blocks/green
 0e9de879021e2c3e5078ca88b0f50f8fb58da647 data/marioverse/loot_table/blocks/green_warp_pipe.json
 f64f65015a6f8713d7b9a58c88d1866e7687ee11 data/marioverse/loot_table/blocks/invisible_amethyst_question_block.json
 b4686bb01ce2d852935f95ee76cd69abd37c726e data/marioverse/loot_table/blocks/invisible_blackstone_question_bricks.json
+b30d8d387d3b2c2c9db8d3b44cc566d5c0deaf16 data/marioverse/loot_table/blocks/invisible_calcite_question_block.json
 6002559a66e01c5f8f274b979f332a7058f4992d data/marioverse/loot_table/blocks/invisible_copper_question_block.json
 4b30e210442d7a7d821f2b828ff4bc7452b8d3da data/marioverse/loot_table/blocks/invisible_dark_prismarine_question_block.json
 0adea5f240a8e378f5683cb547f9238c283d23d1 data/marioverse/loot_table/blocks/invisible_deepslate_question_bricks.json

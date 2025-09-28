@@ -167,6 +167,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK);
             add(event, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK);
             add(event, BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK);
+            add(event, BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK);
             add(event, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS);
             add(event, BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS);
             add(event, BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS);

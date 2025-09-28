@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-13T20:08:55.0019083	Item Models: marioverse
+// 1.21.1	2025-09-28T13:41:17.146546	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -32,6 +32,7 @@ db7eddc9d3eedb33abec0b85ea36926e77d1b849 assets/marioverse/models/item/green_koo
 cd8c2425ae41b1aa1d98d750f39a791bc9926a46 assets/marioverse/models/item/ice_flower.json
 f6ef448f7c2bf06a31bfee001af6d5b9bbaba594 assets/marioverse/models/item/invisible_amethyst_question_block.json
 4888b0bbf9167927053ffcd3f3b9ca8e11b920ef assets/marioverse/models/item/invisible_blackstone_question_bricks.json
+efa09fba4a03396158f17ed56d8e3550d24a1e66 assets/marioverse/models/item/invisible_calcite_question_block.json
 6fd6af301b236e3ba3f7d6ea2756d4c043109c1a assets/marioverse/models/item/invisible_copper_question_block.json
 be5dd1ff280418e217fe60a554fa017edf5f1e23 assets/marioverse/models/item/invisible_dark_prismarine_question_block.json
 7422adcce81aaa133cd5d7825a8755179cbd2468 assets/marioverse/models/item/invisible_deepslate_question_bricks.json
