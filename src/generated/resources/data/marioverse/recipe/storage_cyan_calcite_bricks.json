@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:storage_bricks",
+  "key": {
+    "B": {
+      "item": "marioverse:cyan_calcite_bricks"
+    },
+    "C": {
+      "tag": "c:chests/wooden"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:storage_cyan_calcite_bricks"
+  }
+}

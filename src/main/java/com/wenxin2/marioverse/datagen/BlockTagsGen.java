@@ -37,6 +37,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
+        BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
@@ -53,6 +54,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
                     .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
+                    .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
 
@@ -170,6 +172,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addOptional(CREATE_POLISHED_CALCITE);
+
+        tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS);
 
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
@@ -350,6 +354,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get());
 
         tag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.STORAGE_BLACKSTONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_BRICKS.get())

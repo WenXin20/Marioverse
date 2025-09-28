@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "marioverse:block/empty_exposed_copper_question_block"
+    "all": "marioverse:block/empty_exposed_cut_copper"
   }
 }

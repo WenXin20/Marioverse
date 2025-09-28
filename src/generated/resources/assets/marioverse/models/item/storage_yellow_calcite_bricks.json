@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_storage_bricks",
+  "textures": {
+    "all": "minecraft:block/yellow_calcite_bricks",
+    "overlay": "marioverse:block/yellow_calcite_question_bricks_overlay"
+  }
+}

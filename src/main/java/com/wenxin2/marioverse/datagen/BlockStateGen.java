@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import java.util.Arrays;
 import java.util.Map;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -486,18 +487,23 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation emptyTexture;
                 ResourceLocation topTexture;
 
-                if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
-                        || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                        || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
-                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(storageBrick)
-                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(storageBrick)) {
-                    questionBlockName = removeStorageName
-                            .replace("bricks", "question_block");
-                    if (questionBlockName.contains("polished_"))
-                        questionBlockName = removeStorageName
-                                .replace("bricks", "question_block")
-                                .replace("polished_", "");
-                    mainTexture = modLoc("block/" + removeStorageName);
+                if (block == BlockFamilyRegistry.BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.DARK_PRISMARINE.get(storageBrick)
+                        || block == BlockFamilyRegistry.DEEPSLATE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.DEEPSLATE_TILES.get(storageBrick)
+                        || block == BlockFamilyRegistry.END_STONE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.MOSSY_STONE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.MUD_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.NETHER_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.PURPUR_BLOCK.get(storageBrick)
+                        || block == BlockFamilyRegistry.QUARTZ_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.STONE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.TUFF_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)) {
+                    mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                     emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                     this.storageBrickModel(block, mainTexture, emptyTexture);
@@ -527,8 +533,28 @@ public class BlockStateGen extends BlockStateProvider {
                     emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                     this.storageBrickModel(block, mainTexture, emptyTexture);
+                } else if (questionBlockName.contains("calcite_")) {
+                    questionBlockName = removeStorageName
+                            .replace("bricks", "question_block");
+                    for (DyeColor color : DyeColor.values()) {
+                        String colorName = color.getName() + "_";
+                        if (questionBlockName.startsWith(colorName)) {
+                            questionBlockName = questionBlockName.replaceFirst(color.getName() + "_", "");
+                            break;
+                        }
+                    }
+                    mainTexture = modLoc("block/" + removeStorageName);
+                    emptyTexture = modLoc("block/empty_" + questionBlockName);
+
+                    this.storageBrickModel(block, mainTexture, emptyTexture);
                 } else {
-                    mainTexture = mcLoc("minecraft:block/" + removeStorageName);
+                    questionBlockName = removeStorageName
+                            .replace("bricks", "question_block");
+                    if (questionBlockName.contains("polished_"))
+                        questionBlockName = removeStorageName
+                                .replace("bricks", "question_block")
+                                .replace("polished_", "");
+                    mainTexture = modLoc("block/" + removeStorageName);
                     emptyTexture = modLoc("block/empty_" + questionBlockName);
 
                     this.storageBrickModel(block, mainTexture, emptyTexture);
