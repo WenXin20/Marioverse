@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_chest": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:chests/wooden"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_polished_white_calcite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:polished_calcite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:calcite_question_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_chest",
+      "has_polished_white_calcite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:calcite_question_block"
+    ]
+  }
+}

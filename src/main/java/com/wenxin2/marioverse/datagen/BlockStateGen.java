@@ -296,6 +296,7 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation topTexture;
 
                 if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(questionBlock)
+                        || block == BlockFamilyRegistry.POLISHED_CALCITE.get(questionBlock)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(questionBlock)
                         || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(questionBlock)) {
                     sideTexture = modLoc("block/" + blockName + "_side");

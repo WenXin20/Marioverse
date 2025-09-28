@@ -80,6 +80,7 @@ public class BlockEntityRegistry {
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
                         BlockRegistry.AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get(),
+                        BlockRegistry.CALCITE_QUESTION_BLOCK.get(),
                         BlockRegistry.COPPER_QUESTION_BLOCK.get(),
                         BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get(),
                         BlockRegistry.DEEPSLATE_QUESTION_BRICKS.get(),

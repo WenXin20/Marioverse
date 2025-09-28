@@ -113,6 +113,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended POLISHED_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get())
             .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .questionBlockTag(BlockRegistry.CALCITE_QUESTION_BLOCK.get())
             .slab(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())

@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.data;
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
@@ -49,6 +50,11 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.WALL, (outputItem, inputItem) -> wallBuilder(RecipeCategory.DECORATIONS, outputItem, Ingredient.of(inputItem)))
                     .build();
 
+    public static final Map<BlockFamilyExtended.Variant, BiFunction<ItemLike, TagKey<Item>, RecipeBuilder>> SHAPE_TAG_BUILDERS =
+            ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, TagKey<Item>, RecipeBuilder>>builder()
+                    .put(BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG, (outputItem, inputItemTag) -> questionBlockTagBuilder(1, outputItem, inputItemTag))
+                    .build();
+
     public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.of(
             BlockFamilyExtended.Variant.BRICKS, 1,
             BlockFamilyExtended.Variant.CHISELED, 1,
@@ -83,6 +89,14 @@ public class RecipeUtils extends RecipeProvider {
     public static RecipeBuilder questionBlockBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
         return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .requires(inputItem)
+                .requires(Tags.Items.CHESTS_WOODEN)
+                .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
+                .group(Marioverse.MOD_ID + ":question_blocks");
+    }
+
+    public static RecipeBuilder questionBlockTagBuilder(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItemTag)
                 .requires(Tags.Items.CHESTS_WOODEN)
                 .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
                 .group(Marioverse.MOD_ID + ":question_blocks");
@@ -532,19 +546,32 @@ public class RecipeUtils extends RecipeProvider {
                 return;
 
             if (block.requiredFeatures().isSubsetOf(set)) {
-                BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
+                BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
                 if (variant == BlockFamilyExtended.Variant.CHISELED
                         && !family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
                     itemlike = family.getBaseBlock();
 
-                if (bifunction != null) {
-                    RecipeBuilder recipeBuilder = bifunction.apply(block, itemlike);
+                if (recipeFunction != null) {
+                    RecipeBuilder recipeBuilder = recipeFunction.apply(block, itemlike);
                     family.getRecipeGroupPrefix().ifPresent(
                             string -> recipeBuilder.group(string +
                                     (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
                     ItemLike finalItemlike = itemlike;
                     recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
+                    recipeBuilder.save(output);
+                }
+
+                BiFunction<ItemLike, TagKey<Item>, RecipeBuilder> recipeTagFunction = SHAPE_TAG_BUILDERS.get(variant);
+                TagKey<Item> itemTag = TagRegistry.POLISHED_CALCITE_ITEMS;
+
+                if (recipeTagFunction != null) {
+                    RecipeBuilder recipeBuilder = recipeTagFunction.apply(block, itemTag);
+                    family.getRecipeGroupPrefix().ifPresent(
+                            string -> recipeBuilder.group(string +
+                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
+                    ItemLike finalItemlike = itemlike;
+                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemTag));
                     recipeBuilder.save(output);
                 }
 

@@ -82,6 +82,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> CALCITE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CALCITE_SLAB;
     public static final DeferredBlock<Block> CALCITE_STAIRS;
     public static final DeferredBlock<Block> CALCITE_WALL;
@@ -556,6 +557,10 @@ public class BlockRegistry {
         WHITE_CALCITE_BRICK_STAIRS = registerBlock("white_calcite_brick_stairs", () -> stair(Blocks.CALCITE));
 
         WHITE_CALCITE_BRICK_WALL = registerBlock("white_calcite_brick_wall", () -> wall(Blocks.CALCITE));
+
+
+        CALCITE_QUESTION_BLOCK = registerBlock("calcite_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",

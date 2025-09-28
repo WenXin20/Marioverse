@@ -125,6 +125,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder questionBlockTag(Block block) {
+            this.family.variants.put(BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder pedestal(Block block) {
             this.family.variants.put(BlockFamilyExtended.Variant.PEDESTAL, block);
             return this;
@@ -214,6 +219,7 @@ public class BlockFamilyExtended {
         POLISHED("polished"),
         PRESSURE_PLATE("pressure_plate"),
         QUESTION_BLOCK("question_block"),
+        QUESTION_BLOCK_TAG("question_block_tag"),
         SIGN("sign"),
         SLAB("slab"),
         SMASHABLE_BLOCKS("smashable_blocks"),

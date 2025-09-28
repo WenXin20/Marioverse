@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-27T23:25:30.1997921	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-09-28T01:03:43.7596356	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -70,7 +70,7 @@ f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.j
 b4d3d7dcd0b80ff27194ee3e0684e9bf48113a65 data/marioverse/tags/item/power_up_costumes/luigi.json
 3e76eec74f5b080ee624f712474677b0eb333b85 data/marioverse/tags/item/power_up_costumes/mario.json
 efb2ebff6ac2ff84294ecec7c524e94d784f2cec data/marioverse/tags/item/power_up_costumes/peach.json
-5538352c65ac51b2e7ebdc2172a5092a9e7ec96c data/marioverse/tags/item/question_blocks.json
+05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/item/question_blocks.json
 b31954eafe148ab4891ecc27ae84815687e0e9fa data/marioverse/tags/item/repairs_koopa_shells.json
 e5b31b8a26f745500e72dfe9d9b64bd0174ecb2d data/marioverse/tags/item/shirts.json
 c33b72b8f76cd856cb92c99c1457e78c952b1a1c data/marioverse/tags/item/shirts/luigi.json
