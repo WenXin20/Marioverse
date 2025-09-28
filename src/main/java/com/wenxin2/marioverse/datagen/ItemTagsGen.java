@@ -19,7 +19,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagsGen extends ItemTagsProvider {
-    private static final ResourceLocation SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
+    private static final ResourceLocation CREATE_SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
 
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
@@ -32,6 +32,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.CALCITE_BLOCKS, TagRegistry.CALCITE_ITEMS);
         copy(TagRegistry.CALCITE_BRICK_BLOCKS, TagRegistry.CALCITE_BRICK_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS);
@@ -133,11 +134,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(ItemTags.SHOVELS)
                 .add(ItemRegistry.WRENCH.get())
                 .add(Items.DEBUG_STICK)
-                .addOptional(SUPER_GLUE);
+                .addOptional(CREATE_SUPER_GLUE);
 
         tag(TagRegistry.CAN_SELECT_WATER_SPOUTS)
                 .add(Items.DEBUG_STICK)
-                .addOptional(SUPER_GLUE);
+                .addOptional(CREATE_SUPER_GLUE);
 
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:light_blue_calcite_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:light_blue_calcite_brick_pedestal"
+  }
+}

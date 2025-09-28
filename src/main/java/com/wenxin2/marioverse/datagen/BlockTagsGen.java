@@ -16,11 +16,11 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
-    private static final ResourceLocation BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
-    private static final ResourceLocation CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
-    private static final ResourceLocation FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
-    private static final ResourceLocation POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
-    private static final ResourceLocation RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
+    private static final ResourceLocation CREATE_CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
+    private static final ResourceLocation CREATE_POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
+    private static final ResourceLocation DT_BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
+    private static final ResourceLocation DT_RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
+    private static final ResourceLocation SUPP_FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
 
     public BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -31,6 +31,7 @@ public class BlockTagsGen extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         BlockRegistry.CALCITE.values().forEach(block -> tag(TagRegistry.CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_PEDESTAL.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
@@ -46,6 +47,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
             tag(TagRegistry.blockTags("c", "dyed/" + color))
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
@@ -118,10 +120,11 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)
                 .add(Blocks.RED_MUSHROOM_BLOCK)
-                .addOptional(BROWN_MUSHROOM_CAP)
-                .addOptional(RED_MUSHROOM_CAP);
+                .addOptional(DT_BROWN_MUSHROOM_CAP)
+                .addOptional(DT_RED_MUSHROOM_CAP);
 
         tag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.BRICK_PEDESTAL.get())
@@ -157,14 +160,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.CALCITE);
 
         tag(TagRegistry.CALCITE_BRICK_BLOCKS)
-                .addOptional(CALCITE_BRICKS);
+                .addOptional(CREATE_CALCITE_BRICKS);
+
+        tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS);
 
         tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS);
 
         tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS);
 
         tag(TagRegistry.POLISHED_CALCITE_BLOCKS)
-                .addOptional(POLISHED_CALCITE);
+                .addOptional(CREATE_POLISHED_CALCITE);
 
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
@@ -173,6 +178,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.DYED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
@@ -189,7 +195,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
-                .addOptional(FIRE_PIT);
+                .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
                 .add(Blocks.ICE);
@@ -206,7 +212,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
-                .addOptional(FIRE_PIT);
+                .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
@@ -507,6 +513,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)

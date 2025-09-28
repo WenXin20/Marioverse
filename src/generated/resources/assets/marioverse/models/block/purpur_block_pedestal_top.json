@@ -1,6 +1,6 @@
 {
   "parent": "marioverse:block/template_brick_pedestal_top",
   "textures": {
-    "bricks": "minecraft:block/purpur_block"
+    "bricks": "minecraft:block/purpur_blocks"
   }
 }

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:polished_cyan_calcite"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:cyan_calcite_brick_pedestal"
+  }
+}
