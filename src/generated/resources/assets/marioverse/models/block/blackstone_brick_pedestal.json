@@ -1,6 +1,6 @@
 {
   "parent": "marioverse:block/template_brick_pedestal",
   "textures": {
-    "bricks": "minecraft:block/blackstone_bricks"
+    "bricks": "minecraft:block/polished_blackstone_bricks"
   }
 }

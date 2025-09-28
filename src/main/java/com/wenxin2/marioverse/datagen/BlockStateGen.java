@@ -211,9 +211,7 @@ public class BlockStateGen extends BlockStateProvider {
                 String removePedestalName = blockName.replace("_pedestal", "s");
                 ResourceLocation texture;
 
-                if (block == BlockFamilyRegistry.BLACKSTONE_BRICKS.get(pedestal)
-                        || block == BlockFamilyRegistry.BRICKS.get(pedestal)
-                        || block == BlockFamilyRegistry.DARK_PRISMARINE.get(pedestal)
+                if (block == BlockFamilyRegistry.BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.DEEPSLATE_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.DEEPSLATE_TILES.get(pedestal)
                         || block == BlockFamilyRegistry.END_STONE_BRICKS.get(pedestal)
@@ -221,7 +219,6 @@ public class BlockStateGen extends BlockStateProvider {
                         || block == BlockFamilyRegistry.MUD_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.NETHER_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(pedestal)
-                        || block == BlockFamilyRegistry.PURPUR_BLOCK.get(pedestal)
                         || block == BlockFamilyRegistry.QUARTZ_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.STONE_BRICKS.get(pedestal)
