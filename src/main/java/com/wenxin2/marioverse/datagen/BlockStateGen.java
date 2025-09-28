@@ -538,15 +538,17 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (questionBlockName.contains("calcite_")) {
                     questionBlockName = removeStorageName
                             .replace("bricks", "question_block");
+                    String emptyName = removeStorageName;
                     for (DyeColor color : DyeColor.values()) {
                         String colorName = color.getName() + "_";
                         if (questionBlockName.startsWith(colorName)) {
                             questionBlockName = questionBlockName.replaceFirst(color.getName() + "_", "");
                             break;
                         }
+                        emptyName = "polished_" + color + "_calcite";
                     }
                     mainTexture = modLoc("block/" + removeStorageName);
-                    emptyTexture = modLoc("block/empty_" + questionBlockName);
+                    emptyTexture = modLoc("block/" + emptyName);
 
                     this.storageBrickModel(block, mainTexture, emptyTexture);
                 } else {
