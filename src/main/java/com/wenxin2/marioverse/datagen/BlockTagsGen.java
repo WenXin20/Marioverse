@@ -299,6 +299,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
 
         tag(TagRegistry.SMASHABLE_BLOCKS)
+                .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
