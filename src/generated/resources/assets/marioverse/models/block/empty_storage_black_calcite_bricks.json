@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "marioverse:block/polished_red_calcite"
+    "all": "marioverse:block/polished_black_calcite"
   }
 }
