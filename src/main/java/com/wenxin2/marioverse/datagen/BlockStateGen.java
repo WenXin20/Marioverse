@@ -488,21 +488,23 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation topTexture;
 
                 if (block == BlockFamilyRegistry.BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.CUT_COPPER.get(storageBrick)
                         || block == BlockFamilyRegistry.DARK_PRISMARINE.get(storageBrick)
                         || block == BlockFamilyRegistry.DEEPSLATE_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.DEEPSLATE_TILES.get(storageBrick)
                         || block == BlockFamilyRegistry.END_STONE_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.EXPOSED_CUT_COPPER.get(storageBrick)
                         || block == BlockFamilyRegistry.MOSSY_STONE_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.MUD_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.NETHER_BRICKS.get(storageBrick)
+                        || block == BlockFamilyRegistry.OXIDIZED_CUT_COPPER.get(storageBrick)
                         || block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.PURPUR_BLOCK.get(storageBrick)
                         || block == BlockFamilyRegistry.QUARTZ_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.STONE_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.TUFF_BRICKS.get(storageBrick)
-                        || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)
-                        || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)) {
+                        || block == BlockFamilyRegistry.WEATHERED_CUT_COPPER.get(storageBrick)) {
                     mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                     emptyTexture = modLoc("block/empty_" + questionBlockName);
 

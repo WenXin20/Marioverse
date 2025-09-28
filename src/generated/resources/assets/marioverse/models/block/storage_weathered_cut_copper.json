@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "marioverse:block/weathered_cut_copper"
+    "all": "minecraft:block/weathered_cut_copper"
   }
 }
