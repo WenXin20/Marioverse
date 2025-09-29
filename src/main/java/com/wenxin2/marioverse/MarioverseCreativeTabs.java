@@ -742,7 +742,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK, BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS);
-                addAfter(event, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS);
+                addAfter(event, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK);
+                addAfter(event, BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK, BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS);
                 addAfter(event, BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS);
                 addAfter(event, BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS, BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_TILES);
                 addAfter(event, BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_TILES, BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS);
@@ -797,6 +798,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.STORAGE_WAXED_CUT_COPPER, BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER);
                 addAfter(event, BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER, BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER);
                 addAfter(event, BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER);
+                addDyedBlocks(event, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, BlockRegistry.STORAGE_CALCITE_BRICKS, false, false);
 
                 addAfter(event, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, BlockRegistry.FUNGAL_BRICKS);
                 addAfter(event, BlockRegistry.FUNGAL_BRICKS, BlockRegistry.POLISHED_FUNGAL_BRICKS);
@@ -856,6 +858,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL);
                 addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
                 addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
+                addDyedBlocks(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.CALCITE_BRICK_PEDESTAL, false, false);
 
                 addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.IRON_SPIKE);
 
