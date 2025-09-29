@@ -131,6 +131,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
+            add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
@@ -397,6 +398,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
 
                 addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
+
+                addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
@@ -708,6 +711,8 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+                addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
+
                 addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK, BlockRegistry.AMETHYST_QUESTION_BLOCK);

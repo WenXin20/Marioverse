@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T17:20:36.293275	Block States: marioverse
+// 1.21.1	2025-09-28T23:57:49.0648366	Block States: marioverse
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
 07916a68f71d59889c172935856afee8a78b0aa0 assets/marioverse/blockstates/amethyst_brick_pedestal.json
 01efc778a6938f89048d3d1b2ff1e8a4e39ed424 assets/marioverse/blockstates/amethyst_brick_slab.json
@@ -128,6 +128,7 @@ c7463a9d0d31f8579176bd34a2ca74d1061c3668 assets/marioverse/blockstates/fungal_st
 08817dc795ab1d433abd95776069001a402414e9 assets/marioverse/blockstates/fungal_stone_slab.json
 a13fe6b6546af09e37b31310996eaa3f179cf70c assets/marioverse/blockstates/fungal_stone_stairs.json
 8c21f8ab891858e5aae5dc761e57f5f6a816761b assets/marioverse/blockstates/fungal_stone_wall.json
+8b6c8b1521f5bd29264572878fc3eb3ea867a954 assets/marioverse/blockstates/glow_block.json
 92920f61a6aac698c7d73d3833438f9d7fcbcceb assets/marioverse/blockstates/gray_calcite.json
 892dc933df52ec090ef9036f26519b869a0d0326 assets/marioverse/blockstates/gray_calcite_bricks.json
 c6773bf77ff949d020d0aacf5cb92c20f51027d3 assets/marioverse/blockstates/gray_calcite_brick_pedestal.json
@@ -685,6 +686,7 @@ eca63c553c066a51fd4993313af5e327bfe66703 assets/marioverse/models/block/fungal_s
 1de13c4edd1788718ecaa2edcd54a5fb181098aa assets/marioverse/models/block/fungal_stone_wall_post.json
 d98199e7078ab946ae1b5f3a9eca872483ee59d4 assets/marioverse/models/block/fungal_stone_wall_side.json
 b6bf055854e606e3d2fece5c2f8b61fc4695118b assets/marioverse/models/block/fungal_stone_wall_side_tall.json
+419f88c762824f5a18ce45defee60d171845d23e assets/marioverse/models/block/glow_block.json
 e68653f86cc03c70e1916d2c5d211fcc91af08a6 assets/marioverse/models/block/goal_pole.json
 5e993ecfc2c5baa75629f2e2f3cab0ef3eb82446 assets/marioverse/models/block/goal_pole_none.json
 5dc8c675048ed0f71279f55a927b7de0323e79f3 assets/marioverse/models/block/goal_pole_top.json
@@ -1160,6 +1162,7 @@ ddb49b172303edd1d3c820660d5539f9de58fd34 assets/marioverse/models/item/fungal_br
 174ddfe24d9eae76b03884ce2edcb34f8c95dfa8 assets/marioverse/models/item/fungal_stone_slab.json
 3258590bf8c1fc78784684b75771f7ce9fb8a59a assets/marioverse/models/item/fungal_stone_stairs.json
 318f1fe306d248442492b9611117953884e829f2 assets/marioverse/models/item/fungal_stone_wall.json
+9839a46c9a8cc689044cae4ea1f0976e21ac0f38 assets/marioverse/models/item/glow_block.json
 6dfc7351a3eff990585dac003d7627ec8fe095a9 assets/marioverse/models/item/gray_calcite.json
 7ab2fe4ae2cd3e667af46dd6ac04165f59777f7b assets/marioverse/models/item/gray_calcite_bricks.json
 bfc9c8a681f408b38e468ed11e6d24e4a3919108 assets/marioverse/models/item/gray_calcite_brick_pedestal.json

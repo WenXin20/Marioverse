@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:glow_block",
+  "key": {
+    "B": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:glow_block"
+  }
+}

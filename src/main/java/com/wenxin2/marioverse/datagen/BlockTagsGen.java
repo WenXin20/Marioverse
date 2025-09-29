@@ -517,6 +517,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
+        tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(BlockRegistry.GLOW_BLOCK.get());
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)

@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T15:16:55.4560172	Loot Tables
+// 1.21.1	2025-09-28T22:25:39.6646166	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -129,6 +129,7 @@ d647b4282f54c0a8f31df056491dc5550e7c0990 data/marioverse/loot_table/blocks/funga
 d52da63c1128da1f6f310df918473354af0ed7e9 data/marioverse/loot_table/blocks/fungal_stone_slab.json
 4fee31b7ae8252aa0d0b17dacbddc3534115616e data/marioverse/loot_table/blocks/fungal_stone_stairs.json
 bea277f0a93217d7803e01b84e9a53b19e4fae95 data/marioverse/loot_table/blocks/fungal_stone_wall.json
+6588298e92673afeac308fd4cb595b62d3dad598 data/marioverse/loot_table/blocks/glow_block.json
 60d9f394d0955c3843b98bec3d8a8af3f191329f data/marioverse/loot_table/blocks/gray_calcite.json
 759ddaacc3bb629a75fa48829aba683ea9ff5de8 data/marioverse/loot_table/blocks/gray_calcite_bricks.json
 d725852cb9680e55b6390e8daad095436f6f5906 data/marioverse/loot_table/blocks/gray_calcite_brick_pedestal.json

@@ -1,6 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_glowstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:glowstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_ingots/iron": {
       "conditions": {
         "items": [
@@ -11,19 +21,9 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_nuggets/iron": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#c:nuggets/iron"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:iron_spike"
+        "recipe": "marioverse:glow_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -31,13 +31,13 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nuggets/iron",
-      "has_ingots/iron"
+      "has_ingots/iron",
+      "has_glowstone"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:iron_spike"
+      "marioverse:glow_block"
     ]
   }
 }

@@ -7,7 +7,9 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -161,30 +163,23 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
-                .define('B', inputItem)
-                .define('C', inputItem2)
+    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .pattern(" B ")
                 .pattern("BCB")
                 .pattern(" B ")
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .unlockedBy(getHasName(inputItem2), has(inputItem2))
-                .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem));
-    }
+                .group(Marioverse.MOD_ID + ":" + groupName);
 
-    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
-                .define('B', inputItemTag)
-                .define('C', inputItemTag2)
-                .pattern(" B ")
-                .pattern("BCB")
-                .pattern(" B ")
-                .unlockedBy("has_iron_nugget", has(inputItemTag))
-                .unlockedBy("has_iron_ingot", has(inputItemTag2))
-                .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output);
+        defineIngredient(builder, 'B', input1);
+        defineIngredient(builder, 'C', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
     }
 
     public void bootsRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
@@ -653,5 +648,33 @@ public class RecipeUtils extends RecipeProvider {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItemTag), Ingredient.of(inputItem), category, outputItem)
                 .unlocks("has_armor", has(armorItemTag))
                 .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void defineIngredient(ShapedRecipeBuilder builder, char symbol, Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            builder.define(symbol, item);
+        else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
+            builder.define(symbol, (TagKey<Item>) tag);
+        else throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    private String getUnlockName(Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            return getHasName(item);
+        else if (ingredient instanceof TagKey<?> tag)
+            return "has_" + tag.location().getPath();
+        throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Criterion<?> unlockCriterion(Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            return RecipeProvider.has(item);
+        else if (ingredient instanceof TagKey<?> raw && raw.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) raw;
+            return RecipeProvider.has(tag);
+        }
+        throw new IllegalArgumentException("Unsupported ingredient: " + ingredient);
     }
 }

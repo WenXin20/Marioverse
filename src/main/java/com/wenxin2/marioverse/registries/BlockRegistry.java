@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
@@ -142,6 +143,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> GLOW_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_CALCITE_QUESTION_BLOCK;
@@ -327,6 +329,11 @@ public class BlockRegistry {
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(25.0F, 1200.0F).requiresCorrectToolForDrops()));
+
+
+        GLOW_BLOCK = registerBlock("glow_block",
+                () -> new GlowBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .sound(SoundType.FROGLIGHT).lightLevel(light -> 15).strength(0.3F)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

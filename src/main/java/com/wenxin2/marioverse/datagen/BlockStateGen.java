@@ -21,10 +21,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -41,23 +43,26 @@ public class BlockStateGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
-        String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
+        String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
+        String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
+        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
+        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
-        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
-        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
+        this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName),
+                modLoc("block/" + glowBlockName + "_front"), modLoc("block/" + glowBlockName));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
+        this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
-        this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
 
         this.genButtons();
         this.genInvisibleQuestionBlocks();
@@ -624,6 +629,21 @@ public class BlockStateGen extends BlockStateProvider {
 
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
+    }
+
+    private void horizontalModel(Block block, ResourceLocation sideTexture, ResourceLocation frontTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/orientable"))
+                .texture("side", sideTexture).texture("front", frontTexture).texture("top", topTexture);
+
+        simpleBlockItem(block, model);
+        getVariantBuilder(block)
+                .forAllStates(state -> ConfiguredModel.builder()
+                        .modelFile(model)
+                        .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+                        .build());
     }
 
     private void invisibleQuestionBlockModel(Block block, String modelName, ResourceLocation sideTexture, ResourceLocation topTexture,
