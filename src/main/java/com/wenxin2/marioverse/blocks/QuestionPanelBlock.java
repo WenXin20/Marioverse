@@ -8,6 +8,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -144,9 +147,8 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
     @Override
     protected void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
         int power = this.getSignalForState(state);
-        if (power > 0) {
+        if (power > 0)
             this.checkPressed(null, serverWorld, pos, state, power);
-        }
     }
 
     @Override
@@ -192,7 +194,11 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
     }
 
     protected int getSignalStrength(Level world, BlockPos pos) {
-        return 15;
+        return getEntityCount(world, getTouchAABB(world.getBlockState(pos)).move(pos), LivingEntity.class) > 0 ? 15 : 0;
+    }
+
+    protected static int getEntityCount(Level world, AABB aabb, Class<? extends Entity> entityClass) {
+        return world.getEntitiesOfClass(entityClass, aabb, EntitySelector.NO_SPECTATORS.and(entity -> !entity.isIgnoringBlockTriggers())).size();
     }
 
     protected void updateNeighbours(Level world, BlockPos pos) {
@@ -205,10 +211,10 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
         boolean isPowered = power > 0;
         boolean isSignaled = signalStrength > 0;
         if (power != signalStrength) {
-            BlockState blockstate = this.setSignalForState(state, signalStrength);
-            world.setBlock(pos, blockstate, 2);
+            BlockState stateSignal = this.setSignalForState(state, signalStrength);
+            world.setBlock(pos, stateSignal, 2);
             this.updateNeighbours(world, pos);
-            world.setBlocksDirty(pos, state, blockstate);
+            world.setBlocksDirty(pos, state, stateSignal);
         }
 
         if (!isSignaled && isPowered) {
@@ -221,5 +227,25 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
 
         if (isSignaled)
             world.scheduleTick(new BlockPos(pos), this, this.getPressedTime());
+    }
+
+    private static AABB getTouchAABB(BlockState state) {
+        AttachFace face = state.getValue(FACE);
+        Direction facing = state.getValue(FACING);
+
+        switch (face) {
+            case FLOOR:
+                return FLOOR.bounds();
+            case CEILING:
+                return CEILING.bounds();
+            case WALL:
+                switch (facing) {
+                    case NORTH: return NORTH.bounds();
+                    case SOUTH: return SOUTH.bounds();
+                    case WEST:  return WEST.bounds();
+                    case EAST:  return EAST.bounds();
+                }
+        }
+        return FLOOR.bounds();
     }
 }
