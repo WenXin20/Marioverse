@@ -304,6 +304,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
 
+        tag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.FUNGAL_QUESTION_PANEL.get());
+
         tag(TagRegistry.SMASHABLE_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
@@ -499,6 +502,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
 
+        tag(BlockTags.WALL_POST_OVERRIDE)
+                .addTag(TagRegistry.QUESTION_PANEL_BLOCKS);
+
         tag(BlockTags.WALLS)
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
@@ -532,6 +538,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())

@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -69,6 +71,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genPedestals();
         this.genPressurePlates();
         this.genQuestionBlocks();
+        this.genQuestionPanels();
         this.genSimpleBlockWithItem();
         this.genSlabs();
         this.genSmashableBlocks();
@@ -351,6 +354,21 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.questionBlockModel(block, mainTexture, emptyTexture);
                 }
+            }
+        }));
+    }
+
+    private void genQuestionPanels() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant questionPanel = BlockFamilyExtended.Variant.QUESTION_PANEL;
+
+            if (variant == questionPanel) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation bottomTexture = modLoc("block/" + blockName + "_bottom");
+                ResourceLocation offTexture = modLoc("block/" + blockName + "_off");
+                ResourceLocation topTexture = modLoc("block/" + blockName);
+
+                this.questionPanelModel(block, bottomTexture, topTexture, offTexture);
             }
         }));
     }
@@ -843,6 +861,32 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
+    }
+
+    private void questionPanelModel(Block block, ResourceLocation bottomTexture, ResourceLocation topTexture, ResourceLocation offTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_question_panel"))
+                .texture("bottom", bottomTexture).texture("top", topTexture);
+        ModelFile modeloff = models()
+                .withExistingParent(modelName + "_off", modLoc("block/template_question_panel_off"))
+                .texture("bottom", bottomTexture).texture("top", offTexture);
+
+        this.simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(QuestionPanelBlock.FACING);
+            AttachFace face = state.getValue(QuestionPanelBlock.FACE);
+            boolean powered = state.getValue(QuestionPanelBlock.POWERED);
+
+            return ConfiguredModel.builder()
+                    .modelFile(powered ? modeloff : model)
+                    .rotationX(face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180))
+                    .rotationY((int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot())
+                    .uvLock(face == AttachFace.WALL)
+                    .build();
+        });
     }
 
     public void slabDoubleBlock(SlabBlock block, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {

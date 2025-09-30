@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
+import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
@@ -137,6 +138,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> FUNGAL_STONE;
     public static final DeferredBlock<Block> FUNGAL_STONE_BUTTON;
     public static final DeferredBlock<Block> FUNGAL_STONE_PRESSURE_PLATE;
@@ -392,6 +394,11 @@ public class BlockRegistry {
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
                         .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.TERRACOTTA_RED
                                 : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.GOLD)));
+
+        FUNGAL_QUESTION_PANEL = registerBlock("fungal_question_panel",
+                () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.TERRACOTTA_RED : MapColor.GOLD)
+                        .noCollission().forceSolidOn().strength(0.5F)));
 
 
         POLISHED_FUNGAL_BRICKS = registerBlock("polished_fungal_bricks",

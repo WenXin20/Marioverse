@@ -32,7 +32,7 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
 
     public IronSpikeBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
     @Override

@@ -44,6 +44,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.QUESTION_BLOCK, (outputItem, inputItem) -> questionBlockBuilder(1, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.QUESTION_PANEL, (outputItem, inputItem) -> questionPanelBuilder(4, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SIGN, (outputItem, inputItem) -> signBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SLAB, (outputItem, inputItem) -> slabBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STAIRS, (outputItem, inputItem) -> stairBuilder(outputItem, Ingredient.of(inputItem)))
@@ -94,6 +95,14 @@ public class RecipeUtils extends RecipeProvider {
                 .requires(Tags.Items.CHESTS_WOODEN)
                 .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
                 .group(Marioverse.MOD_ID + ":question_blocks");
+    }
+
+    public static RecipeBuilder questionPanelBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItem)
+                .requires(Tags.Items.DUSTS_REDSTONE)
+                .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
+                .group(Marioverse.MOD_ID + ":question_panels");
     }
 
     public static RecipeBuilder questionBlockTagBuilder(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag) {
@@ -601,6 +610,7 @@ public class RecipeUtils extends RecipeProvider {
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
+                        && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
@@ -623,6 +633,7 @@ public class RecipeUtils extends RecipeProvider {
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
+                        && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))

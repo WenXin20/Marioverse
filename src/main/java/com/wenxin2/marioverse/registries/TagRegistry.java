@@ -51,6 +51,7 @@ public class TagRegistry {
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
     public static final TagKey<Block> POLISHED_CALCITE_BLOCKS = blockTags("polished_calcite");
     public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
+    public static final TagKey<Block> QUESTION_PANEL_BLOCKS = blockTags("question_panels");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
@@ -137,6 +138,7 @@ public class TagRegistry {
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
+    public static final TagKey<Item> QUESTION_PANELS_ITEMS = itemTags("question_panels");
     public static final TagKey<Item> REPAIRS_KOOPA_SHELLS = itemTags("repairs_koopa_shells");
     public static final TagKey<Item> SHIRTS = itemTags("shirts");
     public static final TagKey<Item> SHOES = itemTags("shoes");

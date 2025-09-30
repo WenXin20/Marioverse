@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T22:25:39.6646166	Loot Tables
+// 1.21.1	2025-09-29T21:55:16.1691059	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -123,6 +123,7 @@ b16350e1ac8794745478b787e76a243a7b417e97 data/marioverse/loot_table/blocks/funga
 979654f00d76437b21fba84b93cbf89b87dcf399 data/marioverse/loot_table/blocks/fungal_brick_stairs.json
 40a960a5f558969a09ee6485536c278ed4a7daf9 data/marioverse/loot_table/blocks/fungal_brick_wall.json
 9ef9d9f4eccb2438a456b4f07f725ac16d9815a6 data/marioverse/loot_table/blocks/fungal_question_block.json
+0149a8f52ea5343155513ea38d5f996e8783a073 data/marioverse/loot_table/blocks/fungal_question_panel.json
 7c0368f390993e8d7d2d8cae41f8644d0cf8a256 data/marioverse/loot_table/blocks/fungal_stone.json
 d647b4282f54c0a8f31df056491dc5550e7c0990 data/marioverse/loot_table/blocks/fungal_stone_button.json
 3acf659ea3d4d86f7f03e72a71a6a14f05aaabaf data/marioverse/loot_table/blocks/fungal_stone_pressure_plate.json

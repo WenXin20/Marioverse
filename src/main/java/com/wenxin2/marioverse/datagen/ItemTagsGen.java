@@ -44,6 +44,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
+        copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);
         copy(TagRegistry.SMASHABLE_BLOCKS, TagRegistry.SMASHABLE_BLOCK_ITEMS);
         copy(TagRegistry.STORAGE_BRICK_BLOCKS, TagRegistry.STORAGE_BRICK_ITEMS);
         copy(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS, TagRegistry.STORAGE_CALCITE_BRICK_ITEMS);
@@ -83,6 +84,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
+                .add(BlockRegistry.FUNGAL_QUESTION_PANEL.asItem())
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
                 .add(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get())
