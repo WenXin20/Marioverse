@@ -182,7 +182,7 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
     }
 
     protected int getPressedTime() {
-        return 20;
+        return 40;
     }
 
     protected int getSignalForState(BlockState state) {
