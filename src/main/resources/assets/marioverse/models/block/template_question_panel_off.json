@@ -3,9 +3,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/thin_block",
 	"textures": {
-		"particle": "marioverse:block/fungal_question_panel_off",
 		"top": "marioverse:block/fungal_question_panel_off",
-		"bottom": "marioverse:block/fungal_question_panel_bottom"
+		"bottom": "marioverse:block/fungal_question_panel_bottom",
+		"particle": "#top"
 	},
 	"elements": [
 		{
