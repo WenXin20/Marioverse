@@ -305,6 +305,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
 
         tag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL.get())
                 .add(BlockRegistry.FUNGAL_QUESTION_PANEL.get());
 
         tag(TagRegistry.SMASHABLE_BLOCKS)

@@ -319,6 +319,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bricks(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get())
+            .questionPanel(BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())

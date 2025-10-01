@@ -136,6 +136,7 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_PANEL);
+            add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_BLOCK);
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
@@ -488,6 +489,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE, BlockRegistry.AMETHYST_PRESSURE_PLATE);
 
                 addAfter(event, Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE, BlockRegistry.FUNGAL_QUESTION_PANEL);
+                addAfter(event, BlockRegistry.FUNGAL_QUESTION_PANEL, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
 
                 addAfter(event, Items.DECORATED_POT, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK);

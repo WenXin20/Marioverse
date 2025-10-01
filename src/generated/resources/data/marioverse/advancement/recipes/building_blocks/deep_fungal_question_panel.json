@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_deep_fungal_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:polished_deep_fungal_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_redstone_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dusts/redstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:deep_fungal_question_panel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_redstone_dust",
+      "has_polished_deep_fungal_stone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:deep_fungal_question_panel"
+    ]
+  }
+}

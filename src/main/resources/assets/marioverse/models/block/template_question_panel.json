@@ -3,9 +3,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/thin_block",
 	"textures": {
+		"particle": "marioverse:block/fungal_question_panel",
 		"top": "marioverse:block/fungal_question_panel",
-		"bottom": "marioverse:block/fungal_question_panel_bottom",
-		"particle": "#top"
+		"bottom": "marioverse:block/fungal_question_panel_bottom"
 	},
 	"elements": [
 		{
@@ -17,7 +17,7 @@
 				"south": {"uv": [0, 15, 16, 16], "texture": "#top", "cullface": "south"},
 				"west": {"uv": [0, 0, 1, 16], "rotation": 270, "texture": "#top", "cullface": "west"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
-				"down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#bottom", "cullface": "down"}
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down"}
 			}
 		}
 	],
@@ -30,7 +30,7 @@
 			"translation": [0, 13.75, 0]
 		},
 		"fixed": {
-			"rotation": [-90, 180, 0],
+			"rotation": [-90, -180, 0],
 			"translation": [0, 0, -3.25],
 			"scale": [0.5, 0.5, 0.5]
 		}

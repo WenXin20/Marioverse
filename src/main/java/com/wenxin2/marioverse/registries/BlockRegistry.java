@@ -122,6 +122,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_BUTTON;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_PRESSURE_PLATE;
@@ -480,6 +481,11 @@ public class BlockRegistry {
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
                         .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.COLOR_CYAN
                                 : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_GREEN)));
+
+        DEEP_FUNGAL_QUESTION_PANEL = registerBlock("deep_fungal_question_panel",
+                () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)
+                        .noCollission().forceSolidOn().strength(0.5F)));
 
 
         POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("polished_deep_fungal_bricks",
