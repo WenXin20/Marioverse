@@ -1,10 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -218,10 +221,10 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
         }
 
         if (!isSignaled && isPowered) {
-//            world.playSound(null, pos, this.type.pressurePlateClickOff(), SoundSource.BLOCKS);
+            world.playSound(null, pos, SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundSource.BLOCKS);
             world.gameEvent(entity, GameEvent.BLOCK_DEACTIVATE, pos);
         } else if (isSignaled && !isPowered) {
-//            world.playSound(null, pos, this.type.pressurePlateClickOn(), SoundSource.BLOCKS);
+            world.playSound(null, pos, SoundRegistry.QUESTION_PANEL_ACTIVATED.get(), SoundSource.BLOCKS);
             world.gameEvent(entity, GameEvent.BLOCK_ACTIVATE, pos);
         }
 

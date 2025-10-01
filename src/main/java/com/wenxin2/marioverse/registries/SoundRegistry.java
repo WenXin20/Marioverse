@@ -82,6 +82,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_SUPER_STAR;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> QUESTION_PANEL_ACTIVATED;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
@@ -154,6 +155,9 @@ public class SoundRegistry {
 
         POWER_UP_SPAWNS = Marioverse.SOUNDS.register("block.power_up_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.power_up_spawns")));
+
+        QUESTION_PANEL_ACTIVATED = Marioverse.SOUNDS.register("block.question_panel_activated",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.question_panel_activated")));
 
         WARP_COMPLETED = Marioverse.SOUNDS.register("block.warp_fuel.completed",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.completed")));

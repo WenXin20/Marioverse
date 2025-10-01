@@ -87,6 +87,9 @@
   "block.power_up_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
     "subtitle": "subtitles.marioverse.block.power_up_spawns" },
 
+  "block.question_panel_activated": { "category": "block", "sounds": [{ "name": "marioverse:block/question_panel_activated" }],
+    "subtitle": "subtitles.marioverse.block.question_panel_activated" },
+
   "block.mob_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
     "subtitle": "subtitles.marioverse.block.mob_spawns" },
 
