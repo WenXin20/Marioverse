@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-30T22:27:02.458323	Loot Tables
+// 1.21.1	2025-10-01T20:51:43.450489	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -204,6 +204,7 @@ c914523db3faf06e8be3e1766c6d459e3e73a6e5 data/marioverse/loot_table/blocks/mud_b
 08b4c134904b11768e3c90078ed78130580d5484 data/marioverse/loot_table/blocks/mud_question_bricks.json
 c00cfbf5009d08ba5755f2db67201390f688a8ea data/marioverse/loot_table/blocks/nether_brick_pedestal.json
 446e497e8de3c70ebbb6bb85c99ad359c75ad99e data/marioverse/loot_table/blocks/nether_question_bricks.json
+2329aca7ddd20b4f564e70992ad461dd2d4849d4 data/marioverse/loot_table/blocks/oak_log_bridge.json
 aed47b286084d7a14fc83b8b819b943f7c855a24 data/marioverse/loot_table/blocks/orange_calcite.json
 16e5ed13b3e81ebf2e291b6c4d7c20f7ce37f7fb data/marioverse/loot_table/blocks/orange_calcite_bricks.json
 5211685356561cb91bc1a16c38b19bf44a86643f data/marioverse/loot_table/blocks/orange_calcite_brick_pedestal.json
@@ -365,6 +366,7 @@ e3b97deaa16a75bd8d3eec3fa84fa6f60014dcd2 data/marioverse/loot_table/blocks/stora
 5d9bc8225aec9b6b163a62ad5c126fbf6d90548e data/marioverse/loot_table/blocks/storage_weathered_cut_copper.json
 d1bf9fc961425a4e8f30397cef941aba58e60d28 data/marioverse/loot_table/blocks/storage_white_calcite_bricks.json
 87809cc64794e787224fe5a2060d66e02b1fe4ab data/marioverse/loot_table/blocks/storage_yellow_calcite_bricks.json
+723a5b53e491ebafbdb3c4d192c8bdababfb2374 data/marioverse/loot_table/blocks/stripped_oak_log_bridge.json
 3f0c9e24e319a0d42a0101307732b0c27f659718 data/marioverse/loot_table/blocks/tuff_brick_pedestal.json
 21014060257cdda983f0c9c194453c72db0c4b97 data/marioverse/loot_table/blocks/tuff_question_bricks.json
 f2c186632c6603808f1a0c4d98d46251cd8e3bb6 data/marioverse/loot_table/blocks/waxed_copper_question_block.json

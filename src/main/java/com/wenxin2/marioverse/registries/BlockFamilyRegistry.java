@@ -14,6 +14,14 @@ import org.jetbrains.annotations.NotNull;
 public class BlockFamilyRegistry extends BlockFamilies {
     private static final Map<Block, BlockFamilyExtended> MAP = Maps.newHashMap();
 
+    public static final BlockFamilyExtended OAK_LOG = familyBuilder(Blocks.OAK_LOG)
+            .bridge(BlockRegistry.OAK_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_OAK_LOG = familyBuilder(Blocks.STRIPPED_OAK_LOG)
+            .bridge(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)
             .button(BlockRegistry.AMETHYST_BUTTON.get())
             .polished(BlockRegistry.POLISHED_AMETHYST.get())

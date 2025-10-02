@@ -27,6 +27,7 @@ public class TagRegistry {
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
+    public static final TagKey<Block> BRIDGE_BLOCKS = blockTags("bridges");
     public static final TagKey<Block> CALCITE_BLOCKS = blockTags("calcite");
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
@@ -80,6 +81,7 @@ public class TagRegistry {
 
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
+    public static final TagKey<Item> BRIDGE_ITEMS = itemTags("bridges");
     public static final TagKey<Item> CALCITE_BRICK_ITEMS = itemTags("calcite_bricks");
     public static final TagKey<Item> CALCITE_BRICK_PEDESTAL_ITEMS = itemTags("calcite_brick_pedestals");
     public static final TagKey<Item> CALCITE_ITEMS = itemTags("calcite");

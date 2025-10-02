@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
@@ -183,6 +184,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -289,6 +291,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
@@ -337,6 +340,13 @@ public class BlockRegistry {
         GLOW_BLOCK = registerBlock("glow_block",
                 () -> new GlowBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .sound(SoundType.FROGLIGHT).lightLevel(light -> 15).strength(0.3F)));
+
+
+        OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_OAK_LOG_BRIDGE = registerBlock("stripped_oak_log_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

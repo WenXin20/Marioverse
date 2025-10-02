@@ -33,6 +33,7 @@ public class RecipeUtils extends RecipeProvider {
             ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>>builder()
                     .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRICKS, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.BRIDGE, (outputItem, inputItem) -> bridgeBuilder(6, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CHISELED, (outputItem, inputItem) -> chiseledBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CUSTOM_FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CUSTOM_FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
@@ -81,6 +82,15 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("##");
     }
 
+    public static RecipeBuilder bridgeBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.STRINGS)
+                .pattern("#S#")
+                .unlockedBy("has_string", has(Tags.Items.STRINGS))
+                .group(Marioverse.MOD_ID + ":bridges");
+    }
+
     public static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
         return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)
@@ -97,20 +107,20 @@ public class RecipeUtils extends RecipeProvider {
                 .group(Marioverse.MOD_ID + ":question_blocks");
     }
 
-    public static RecipeBuilder questionPanelBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
-        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
-                .requires(inputItem)
-                .requires(Tags.Items.DUSTS_REDSTONE)
-                .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
-                .group(Marioverse.MOD_ID + ":question_panels");
-    }
-
     public static RecipeBuilder questionBlockTagBuilder(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag) {
         return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .requires(inputItemTag)
                 .requires(Tags.Items.CHESTS_WOODEN)
                 .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
                 .group(Marioverse.MOD_ID + ":question_blocks");
+    }
+
+    public static RecipeBuilder questionPanelBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItem)
+                .requires(Tags.Items.DUSTS_REDSTONE)
+                .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
+                .group(Marioverse.MOD_ID + ":question_panels");
     }
 
     public static RecipeBuilder storageBrickBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
@@ -604,7 +614,8 @@ public class RecipeUtils extends RecipeProvider {
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BUTTON
+                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
+                        && variant != BlockFamilyExtended.Variant.BUTTON
                         && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
@@ -627,7 +638,8 @@ public class RecipeUtils extends RecipeProvider {
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BUTTON
+                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
+                        && variant != BlockFamilyExtended.Variant.BUTTON
                         && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE

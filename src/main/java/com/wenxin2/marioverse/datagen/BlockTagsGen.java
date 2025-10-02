@@ -158,6 +158,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
+        tag(TagRegistry.BRIDGE_BLOCKS)
+                .add(BlockRegistry.OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get());
+
         tag(TagRegistry.CALCITE_BLOCKS)
                 .add(Blocks.CALCITE);
 
@@ -523,6 +527,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(BlockRegistry.OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get());
 
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(BlockRegistry.GLOW_BLOCK.get());

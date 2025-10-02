@@ -135,6 +135,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
+            add(event, BlockRegistry.OAK_LOG_BRIDGE);
+            add(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
+
             add(event, BlockRegistry.FUNGAL_QUESTION_PANEL);
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
 
@@ -536,6 +539,9 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+                addAfter(event, Blocks.OAK_SLAB, BlockRegistry.OAK_LOG_BRIDGE);
+                addAfter(event, BlockRegistry.OAK_LOG_BRIDGE, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
+
                 addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SPIKE);
 
                 addAfter(event, Blocks.POLISHED_ANDESITE_SLAB, BlockRegistry.FUNGAL_STONE);

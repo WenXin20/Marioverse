@@ -70,6 +70,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder bridge(Block block) {
+            this.family.variants.put(BlockFamilyExtended.Variant.BRIDGE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder chiseled(Block block) {
             this.family.variants.put(BlockFamilyExtended.Variant.CHISELED, block);
             return this;
@@ -210,6 +215,7 @@ public class BlockFamilyExtended {
     public static enum Variant {
         BUTTON("button"),
         BRICKS("bricks"),
+        BRIDGE("bridge"),
         CHISELED("chiseled"),
         CRACKED("cracked"),
         CUSTOM_FENCE("fence"),

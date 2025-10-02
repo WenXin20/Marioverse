@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-30T22:27:02.4686138	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-10-01T20:51:43.4630576	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 36e6ce2c8a7d58ca987c4571e0f8ed63ab7275e0 data/create/tags/block/movable_empty_collider.json
@@ -25,6 +25,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/block/bonkable_blocks.json
 64f942d5c0d54f783d51cbea3b6aa6e53e6343d0 data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
+7bd1c3e655eff1b294f3bdfbbd83c689698a7abc data/marioverse/tags/block/bridges.json
 cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/block/calcite_bricks.json
 72bdcfe08e01169a99721413f7b3125196d363e9 data/marioverse/tags/block/calcite_brick_pedestals.json
@@ -61,6 +62,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_ov
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
+7bd1c3e655eff1b294f3bdfbbd83c689698a7abc data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 47c048c89e824d9e2aff906dbe488a86fe8d5cda data/minecraft/tags/block/mineable/pickaxe.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json

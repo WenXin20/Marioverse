@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
@@ -10,6 +11,7 @@ import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
+import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -66,6 +68,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
 
+        this.genBridges();
         this.genButtons();
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
@@ -111,6 +114,23 @@ public class BlockStateGen extends BlockStateProvider {
 
             this.warpPipeModel(entry.getValue().get(), entranceTexture, bottomTexture, sideTexture, topTexture, topClosedTexture);
         }
+    }
+
+    private void genBridges() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant bridge = BlockFamilyExtended.Variant.BRIDGE;
+
+            if (variant == bridge) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeBridgeName = blockName.replace("_bridge", "");
+
+                ResourceLocation sideTexture = mcLoc("block/" + removeBridgeName);
+                ResourceLocation topTexture = mcLoc("block/" + removeBridgeName + "_top");
+                ResourceLocation ropeTexture = modLoc("block/bridge_rope");
+
+                this.bridgeModel(block, sideTexture, topTexture, ropeTexture);
+            }
+        }));
     }
 
     private void genButtons() {
@@ -605,6 +625,33 @@ public class BlockStateGen extends BlockStateProvider {
                 }
             }
         }));
+    }
+
+    private void bridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile modelBottom = models()
+                .withExistingParent(modelName, modLoc("block/template_log_bridge"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("rope", ropeTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_log_bridge_top"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("rope", ropeTexture);
+
+        this.simpleBlockItem(block, modelBottom);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction.Axis axis = state.getValue(BridgeBlock.AXIS);
+            HalfBlockStates half = state.getValue(BridgeBlock.HALF);
+            ModelFile model = (half == HalfBlockStates.TOP ? modelTop : modelBottom);
+
+            int yRot = (axis == Direction.Axis.X ? 90 : 0);
+
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .rotationY(yRot)
+                    .uvLock(false)
+                    .build();
+        });
     }
 
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {
