@@ -159,8 +159,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
         tag(TagRegistry.BRIDGE_BLOCKS)
-                .add(BlockRegistry.OAK_LOG_BRIDGE.get())
-                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get());
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
 
         tag(TagRegistry.CALCITE_BLOCKS)
                 .add(Blocks.CALCITE);
@@ -398,6 +397,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
+        tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .add(BlockRegistry.OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get());
+
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
@@ -529,8 +532,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
-                .add(BlockRegistry.OAK_LOG_BRIDGE.get())
-                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get());
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
 
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(BlockRegistry.GLOW_BLOCK.get());

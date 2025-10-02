@@ -57,6 +57,7 @@ public class TagRegistry {
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
+    public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("wooden_bridges");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
     public static final TagKey<DamageType> BYPASSES_SUPER_STAR = damageTypeTags("bypasses_super_star");
@@ -150,6 +151,7 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_FUEL = itemTags("warp_fuel");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
+    public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("wooden_bridges");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
 
     public static final TagKey<EntityType<?>> CANNOT_BOUNCE_ON_BLOCKS = entityTypeTags("cannot_bounce_on_blocks");

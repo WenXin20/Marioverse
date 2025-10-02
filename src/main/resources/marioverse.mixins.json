@@ -5,6 +5,7 @@
   "refmap": "marioverse.refmap.json",
   "minVersion": "0.8",
   "mixins": [
+    "AxeItemAccessor",
     "AxeItemMixin",
     "BlockMixin",
     "ContainersMixin",

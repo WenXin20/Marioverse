@@ -2,10 +2,12 @@ package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.GameEventRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DataMapProvider;
+import net.neoforged.neoforge.registries.datamaps.builtin.FurnaceFuel;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
 import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
@@ -18,6 +20,9 @@ public class DataMapGen extends DataMapProvider {
 
     @Override
     protected void gather(HolderLookup.Provider provider) {
+        builder(NeoForgeDataMaps.FURNACE_FUELS)
+                .add(TagRegistry.BRIDGE_ITEMS, new FurnaceFuel(100), false);
+
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
                 .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);
 
