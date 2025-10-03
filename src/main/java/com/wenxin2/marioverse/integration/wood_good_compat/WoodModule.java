@@ -17,8 +17,7 @@ import net.minecraft.world.level.block.Block;
 
 public class WoodModule extends SimpleModule {
     public final SimpleEntrySet<WoodType, Block> bridge;
-//    public final SimpleEntrySet<WoodType, Block> strippedBridge;
-
+    public final SimpleEntrySet<WoodType, Block> strippedBridge;
 
     public WoodModule(String modId) {
         super(modId, "mv");
@@ -35,15 +34,15 @@ public class WoodModule extends SimpleModule {
                 .build();
         this.addEntry(bridge);
 
-//        strippedBridge = SimpleEntrySet.builder(WoodType.class, "bridge", "stripped",
-//                        BlockRegistry.STRIPPED_OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
-//                        woodType -> new BridgeBlock(Utils.copyPropertySafe(woodType.log)))
-//                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
-//                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS, Registries.BLOCK)
-//                .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
-//                .defaultRecipe()
-//                .setTabKey(tab)
-//                .build();
-//        this.addEntry(strippedBridge);
+        strippedBridge = SimpleEntrySet.builder(WoodType.class, "bridge", "stripped",
+                        BlockRegistry.STRIPPED_OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
+                        woodType -> new BridgeBlock(Utils.copyPropertySafe(woodType.log)))
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
+                .defaultRecipe()
+                .setTabKey(tab)
+                .build();
+        this.addEntry(strippedBridge);
     }
 }

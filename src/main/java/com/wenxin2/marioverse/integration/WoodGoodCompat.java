@@ -6,6 +6,6 @@ import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
 
 public class WoodGoodCompat {
     public static void init() {
-        EveryCompatAPI.registerModule(new WoodModule(Marioverse.MOD_ID, "mv"));
+        EveryCompatAPI.registerModule(new WoodModule(Marioverse.MOD_ID));
     }
 }
