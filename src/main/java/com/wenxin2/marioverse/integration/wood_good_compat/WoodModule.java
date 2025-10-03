@@ -23,7 +23,7 @@ public class WoodModule extends SimpleModule {
         super(modId, "mv");
         ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
 
-        bridge = SimpleEntrySet.builder(WoodType.class, "bridge",
+        bridge = SimpleEntrySet.builder(WoodType.class, "log_bridge",
                         BlockRegistry.OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
                         woodType -> new BridgeBlock(Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
@@ -34,7 +34,7 @@ public class WoodModule extends SimpleModule {
                 .build();
         this.addEntry(bridge);
 
-        strippedBridge = SimpleEntrySet.builder(WoodType.class, "bridge", "stripped",
+        strippedBridge = SimpleEntrySet.builder(WoodType.class, "log_bridge", "stripped",
                         BlockRegistry.STRIPPED_OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
                         woodType -> new BridgeBlock(Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
