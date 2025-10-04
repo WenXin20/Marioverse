@@ -343,10 +343,10 @@ public class BlockRegistry {
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
-                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+                () -> new BridgeBlock(Blocks.OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_OAK_LOG_BRIDGE = registerBlock("stripped_oak_log_bridge",
-                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+                () -> new BridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

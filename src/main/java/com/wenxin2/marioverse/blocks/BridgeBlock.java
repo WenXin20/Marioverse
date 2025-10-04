@@ -3,11 +3,15 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,12 +24,16 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public static final EnumProperty<HalfBlockStates> HALF = EnumProperty.create("half", HalfBlockStates.class);
+    public Block logBlock;
 
     protected static final VoxelShape BOTTOM_AABB_X =
             Shapes.or(Block.box(1, 0, 0, 4, 3, 16),
@@ -47,10 +55,11 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                     Block.box(0, 12, 6, 16, 16, 10),
                     Block.box(0, 13, 12, 16, 16, 15)).optimize();
 
-    public BridgeBlock(Properties properties) {
+    public BridgeBlock(Block logBlock, Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.X)
                 .setValue(HALF, HalfBlockStates.BOTTOM).setValue(WATERLOGGED, false));
+        this.logBlock = logBlock;
     }
 
     @Override
@@ -135,5 +144,28 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                     ? direction == Direction.UP || flag && direction.getAxis().isHorizontal()
                     : direction == Direction.DOWN || !flag && direction.getAxis().isHorizontal();
         } else return true;
+    }
+
+    @Override
+    public @Nullable BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+        if (itemAbility.equals(ItemAbilities.AXE_STRIP)) {
+            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+            String path = id.getPath();
+            String logName = BuiltInRegistries.BLOCK.getKey(logBlock).getPath();
+
+            if (!path.contains("stripped_") && path.contains("_log_bridge")) {
+                String strippedPath = path.replace(logName, "stripped_" + logName);
+                ResourceLocation strippedId = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), strippedPath);
+
+                Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);
+                if (strippedBlock != Blocks.AIR) {
+                    return strippedBlock.defaultBlockState()
+                            .setValue(AXIS, state.getValue(AXIS))
+                            .setValue(HALF, state.getValue(HALF));
+                }
+
+            }
+        }
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 }
