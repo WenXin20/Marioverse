@@ -398,11 +398,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
         tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .add(BlockRegistry.ACACIA_LOG_BRIDGE.get())
                 .add(BlockRegistry.BIRCH_LOG_BRIDGE.get())
+                .add(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
                 .add(BlockRegistry.JUNGLE_LOG_BRIDGE.get())
                 .add(BlockRegistry.OAK_LOG_BRIDGE.get())
                 .add(BlockRegistry.SPRUCE_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get());

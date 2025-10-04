@@ -71,6 +71,7 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -112,6 +113,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
@@ -294,7 +296,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> STRIPPED_ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_BIRCH_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
@@ -371,6 +375,18 @@ public class BlockRegistry {
 
         STRIPPED_JUNGLE_LOG_BRIDGE = registerBlock("stripped_jungle_log_bridge",
                 () -> new BridgeBlock(Blocks.STRIPPED_JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
+
+        ACACIA_LOG_BRIDGE = registerBlock("acacia_log_bridge",
+                () -> new BridgeBlock(Blocks.ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
+
+        STRIPPED_ACACIA_LOG_BRIDGE = registerBlock("stripped_acacia_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
+
+        DARK_OAK_LOG_BRIDGE = registerBlock("dark_oak_log_bridge",
+                () -> new BridgeBlock(Blocks.DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        STRIPPED_DARK_OAK_LOG_BRIDGE = registerBlock("stripped_dark_oak_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

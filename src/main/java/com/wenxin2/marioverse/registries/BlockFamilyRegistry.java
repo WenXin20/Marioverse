@@ -14,12 +14,28 @@ import org.jetbrains.annotations.NotNull;
 public class BlockFamilyRegistry extends BlockFamilies {
     private static final Map<Block, BlockFamilyExtended> MAP = Maps.newHashMap();
 
+    public static final BlockFamilyExtended ACACIA_LOG = familyBuilder(Blocks.ACACIA_LOG)
+            .bridge(BlockRegistry.ACACIA_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_ACACIA_LOG = familyBuilder(Blocks.STRIPPED_ACACIA_LOG)
+            .bridge(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended BIRCH_LOG = familyBuilder(Blocks.BIRCH_LOG)
             .bridge(BlockRegistry.BIRCH_LOG_BRIDGE.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_BIRCH_LOG = familyBuilder(Blocks.STRIPPED_BIRCH_LOG)
             .bridge(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended DARK_OAK_LOG = familyBuilder(Blocks.DARK_OAK_LOG)
+            .bridge(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_DARK_OAK_LOG = familyBuilder(Blocks.STRIPPED_DARK_OAK_LOG)
+            .bridge(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE.get())
             .getFamily();
 
     public static final BlockFamilyExtended JUNGLE_LOG = familyBuilder(Blocks.JUNGLE_LOG)
