@@ -162,7 +162,8 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                 if (strippedBlock != Blocks.AIR && strippedId.getPath().contains("stripped_")) {
                     return strippedBlock.defaultBlockState()
                             .setValue(AXIS, state.getValue(AXIS))
-                            .setValue(HALF, state.getValue(HALF));
+                            .setValue(HALF, state.getValue(HALF))
+                            .setValue(WATERLOGGED, state.getValue(WATERLOGGED));
                 }
 
             }
