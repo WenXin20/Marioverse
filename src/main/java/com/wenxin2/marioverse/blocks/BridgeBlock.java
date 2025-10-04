@@ -1,12 +1,10 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -57,6 +55,10 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                     Block.box(0, 12, 6, 16, 16, 10),
                     Block.box(0, 13, 12, 16, 16, 15)).optimize();
 
+    protected static final VoxelShape BOTTOM_COLLISION = Block.box(0.0, 1.0, 0.0, 16.0, 8.0, 16.0);
+
+    protected static final VoxelShape TOP_COLLISION = Block.box(0.0, 9.0, 0.0, 16.0, 16.0, 16.0);
+
     public BridgeBlock(Block logBlock, Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.X)
@@ -92,24 +94,16 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
         Direction.Axis axis = state.getValue(AXIS);
         HalfBlockStates stateValue = state.getValue(HALF);
 
-        if (collisionContext instanceof EntityCollisionContext entityCollisionContext) {
+        if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null) {
             if (stateValue == HalfBlockStates.TOP) {
-                if (entityCollisionContext.getEntity() != null
-                        && entityCollisionContext.getEntity().getY() > pos.getY()) {
-                    if (axis == Direction.Axis.X)
-                        return TOP_AABB_X;
-                    else return TOP_AABB_Z;
-                }
+                if (!context.isAbove(BOTTOM_COLLISION, pos, false))
+                    return Shapes.empty();
             } else if (stateValue == HalfBlockStates.BOTTOM) {
-                if (entityCollisionContext.getEntity() != null
-                        && entityCollisionContext.getEntity().getY() > pos.getY() - 0.01) {
-                    if (axis == Direction.Axis.X)
-                        return BOTTOM_AABB_X;
-                    else return BOTTOM_AABB_Z;
-                }
+                if (!context.isAbove(TOP_COLLISION, pos.below(), false))
+                    return Shapes.empty();
             }
         }
-        return Shapes.empty();
+        return super.getCollisionShape(state, blockGetter, pos, collisionContext);
     }
 
     @NotNull
