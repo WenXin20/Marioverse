@@ -139,6 +139,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
             add(event, BlockRegistry.BIRCH_LOG_BRIDGE);
             add(event, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE);
+            add(event, BlockRegistry.SPRUCE_LOG_BRIDGE);
+            add(event, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_PANEL);
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
