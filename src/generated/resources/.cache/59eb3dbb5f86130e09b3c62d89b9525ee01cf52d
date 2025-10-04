@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-04T14:57:02.9044973	Loot Tables
+// 1.21.1	2025-10-04T15:25:48.1330544	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -175,6 +175,7 @@ bf9c97542ad6e43fa5d13a3c698a3b9ee7f35c0a data/marioverse/loot_table/blocks/invis
 d5d1fbdb4091604f77371905f38291466fcf467e data/marioverse/loot_table/blocks/invisible_waxed_weathered_copper_question_block.json
 3fd3c05ba7774f6ab18bcc0dd61ded580e6bd06b data/marioverse/loot_table/blocks/invisible_weathered_copper_question_block.json
 643851d187a37f0eb48f984de401dc24c2f49350 data/marioverse/loot_table/blocks/iron_spike.json
+0146e110966c057774b515c1530b1676c5f94917 data/marioverse/loot_table/blocks/jungle_log_bridge.json
 f3beb829ca635f4abded62852fb8f56fe67f72a3 data/marioverse/loot_table/blocks/light_blue_calcite.json
 38fc262eed92345a318508defc46db515c78c911 data/marioverse/loot_table/blocks/light_blue_calcite_bricks.json
 577fb3f1f391e97cdb59682399f1caa028bd9562 data/marioverse/loot_table/blocks/light_blue_calcite_brick_pedestal.json
@@ -369,6 +370,7 @@ e3b97deaa16a75bd8d3eec3fa84fa6f60014dcd2 data/marioverse/loot_table/blocks/stora
 d1bf9fc961425a4e8f30397cef941aba58e60d28 data/marioverse/loot_table/blocks/storage_white_calcite_bricks.json
 87809cc64794e787224fe5a2060d66e02b1fe4ab data/marioverse/loot_table/blocks/storage_yellow_calcite_bricks.json
 2a0e1c3933e44023038e46f2bf92aa94fe3e9976 data/marioverse/loot_table/blocks/stripped_birch_log_bridge.json
+440da2b02b42c296d1111dee3a8265b9df604b79 data/marioverse/loot_table/blocks/stripped_jungle_log_bridge.json
 723a5b53e491ebafbdb3c4d192c8bdababfb2374 data/marioverse/loot_table/blocks/stripped_oak_log_bridge.json
 44cf6918f71378e53ad9203a82129562818b03a8 data/marioverse/loot_table/blocks/stripped_spruce_log_bridge.json
 3f0c9e24e319a0d42a0101307732b0c27f659718 data/marioverse/loot_table/blocks/tuff_brick_pedestal.json
