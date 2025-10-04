@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -86,6 +88,32 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
 
     @NotNull
     @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        Direction.Axis axis = state.getValue(AXIS);
+        HalfBlockStates stateValue = state.getValue(HALF);
+
+        if (collisionContext instanceof EntityCollisionContext entityCollisionContext) {
+            if (stateValue == HalfBlockStates.TOP) {
+                if (entityCollisionContext.getEntity() != null
+                        && entityCollisionContext.getEntity().getY() > pos.getY()) {
+                    if (axis == Direction.Axis.X)
+                        return TOP_AABB_X;
+                    else return TOP_AABB_Z;
+                }
+            } else if (stateValue == HalfBlockStates.BOTTOM) {
+                if (entityCollisionContext.getEntity() != null
+                        && entityCollisionContext.getEntity().getY() > pos.getY() - 0.01) {
+                    if (axis == Direction.Axis.X)
+                        return BOTTOM_AABB_X;
+                    else return BOTTOM_AABB_Z;
+                }
+            }
+        }
+        return Shapes.empty();
+    }
+
+    @NotNull
+    @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {
         switch (rotation) {
             case COUNTERCLOCKWISE_90:
@@ -127,23 +155,6 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    @Override
-    protected boolean canBeReplaced(BlockState state, BlockPlaceContext placeContext) {
-        ItemStack stack = placeContext.getItemInHand();
-        HalfBlockStates stateValue = state.getValue(HALF);
-
-        if (!stack.is(this.asItem()))
-            return false;
-        else if (placeContext.replacingClickedOnBlock()) {
-            boolean flag = placeContext.getClickLocation().y - (double) placeContext.getClickedPos().getY() > 0.5;
-            Direction direction = placeContext.getClickedFace();
-
-            return stateValue == HalfBlockStates.BOTTOM
-                    ? direction == Direction.UP || flag && direction.getAxis().isHorizontal()
-                    : direction == Direction.DOWN || !flag && direction.getAxis().isHorizontal();
-        } else return true;
     }
 
     @Nullable
