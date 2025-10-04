@@ -127,8 +127,9 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation sideTexture = mcLoc("block/" + removeBridgeName);
                 ResourceLocation topTexture = mcLoc("block/" + removeBridgeName + "_top");
                 ResourceLocation ropeTexture = modLoc("block/bridge_rope");
+                ResourceLocation ropeSideTexture = modLoc("block/bridge_rope_side");
 
-                this.bridgeModel(block, sideTexture, topTexture, ropeTexture);
+                this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
             }
         }));
     }
@@ -627,15 +628,17 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
-    private void bridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture) {
+    private void bridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile modelBottom = models()
                 .withExistingParent(modelName, modLoc("block/template_log_bridge"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("rope", ropeTexture);
+                .texture("side", sideTexture).texture("top", topTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
         ModelFile modelTop = models()
                 .withExistingParent(modelName + "_top", modLoc("block/template_log_bridge_top"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("rope", ropeTexture);
+                .texture("side", sideTexture).texture("top", topTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
 
         this.simpleBlockItem(block, modelBottom);
 

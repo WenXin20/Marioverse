@@ -1,11 +1,13 @@
 {
 	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/slab",
 	"render_type": "cutout_mipped",
 	"textures": {
 		"side": "block/oak_log",
 		"top": "block/oak_log_top",
 		"rope": "marioverse:block/bridge_rope",
+		"rope_side": "marioverse:block/bridge_rope_side",
 		"particle": "#side"
 	},
 	"elements": [
@@ -53,8 +55,8 @@
 			"to": [16.15, 3.15, 4.15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#rope"},
-				"south": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope"},
+				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#rope_side"},
+				"south": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope_side"},
 				"up": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope"},
 				"down": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope"}
 			}
@@ -64,8 +66,8 @@
 			"to": [16.15, 4.15, 10.15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
 			"faces": {
-				"north": {"uv": [6, 0, 10, 16], "rotation": 270, "texture": "#rope"},
-				"south": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope"},
+				"north": {"uv": [6, 0, 10, 16], "rotation": 270, "texture": "#rope_side"},
+				"south": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope_side"},
 				"up": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope"},
 				"down": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope"}
 			}
@@ -75,8 +77,8 @@
 			"to": [16.15, 3.15, 15.15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
 			"faces": {
-				"north": {"uv": [13, 0, 16, 16], "rotation": 270, "texture": "#rope"},
-				"south": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope"},
+				"north": {"uv": [13, 0, 16, 16], "rotation": 270, "texture": "#rope_side"},
+				"south": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope_side"},
 				"up": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope"},
 				"down": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope"}
 			}
