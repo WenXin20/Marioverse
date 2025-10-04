@@ -91,7 +91,6 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        Direction.Axis axis = state.getValue(AXIS);
         HalfBlockStates stateValue = state.getValue(HALF);
 
         if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null) {
