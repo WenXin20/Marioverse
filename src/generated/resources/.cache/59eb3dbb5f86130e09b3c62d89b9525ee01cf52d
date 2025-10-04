@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-01T20:51:43.450489	Loot Tables
+// 1.21.1	2025-10-04T14:31:36.7655618	Loot Tables
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
 4ee6f6e423b59bbdb28fdf2ebc76cdd2319aa4ca data/marioverse/loot_table/blocks/amethyst_brick_slab.json
@@ -10,6 +10,7 @@ bb78bece019b1e947704cea2205ace73ae6e74ec data/marioverse/loot_table/blocks/ameth
 a1b628c965936b7d54785d5d2ec2f756a3d7a65b data/marioverse/loot_table/blocks/amethyst_slab.json
 605a12df30b3a3e0128c3723d9742f0f63c67089 data/marioverse/loot_table/blocks/amethyst_stairs.json
 7863b5fdbe2910cae595b1414037b709bfd391eb data/marioverse/loot_table/blocks/amethyst_wall.json
+25f08b02d3dcd5f45ebc49491bc4f2f3ab50ae56 data/marioverse/loot_table/blocks/birch_log_bridge.json
 8bb14faea4a7e4d51c6785458224d641f9d6dc9b data/marioverse/loot_table/blocks/blackstone_brick_pedestal.json
 ba2e56ff99fc4dcd5d5263dc10d07c5b4f29b2ff data/marioverse/loot_table/blocks/blackstone_question_bricks.json
 d655472aee77d1d5533ad0f75c43cf9e9469b97a data/marioverse/loot_table/blocks/black_calcite.json
@@ -366,6 +367,7 @@ e3b97deaa16a75bd8d3eec3fa84fa6f60014dcd2 data/marioverse/loot_table/blocks/stora
 5d9bc8225aec9b6b163a62ad5c126fbf6d90548e data/marioverse/loot_table/blocks/storage_weathered_cut_copper.json
 d1bf9fc961425a4e8f30397cef941aba58e60d28 data/marioverse/loot_table/blocks/storage_white_calcite_bricks.json
 87809cc64794e787224fe5a2060d66e02b1fe4ab data/marioverse/loot_table/blocks/storage_yellow_calcite_bricks.json
+2a0e1c3933e44023038e46f2bf92aa94fe3e9976 data/marioverse/loot_table/blocks/stripped_birch_log_bridge.json
 723a5b53e491ebafbdb3c4d192c8bdababfb2374 data/marioverse/loot_table/blocks/stripped_oak_log_bridge.json
 3f0c9e24e319a0d42a0101307732b0c27f659718 data/marioverse/loot_table/blocks/tuff_brick_pedestal.json
 21014060257cdda983f0c9c194453c72db0c4b97 data/marioverse/loot_table/blocks/tuff_question_bricks.json

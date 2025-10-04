@@ -1,6 +1,8 @@
 {
   "values": [
+    "marioverse:birch_log_bridge",
     "marioverse:oak_log_bridge",
+    "marioverse:stripped_birch_log_bridge",
     "marioverse:stripped_oak_log_bridge"
   ]
 }

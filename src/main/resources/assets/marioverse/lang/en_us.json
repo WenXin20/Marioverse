@@ -44,7 +44,9 @@
   "block.marioverse.iron_spike": "Iron Spike",
   "block.marioverse.star_coin": "Star Coin",
 
+  "block.marioverse.birch_log_bridge": "Birch Log Bridge",
   "block.marioverse.oak_log_bridge": "Oak Log Bridge",
+  "block.marioverse.stripped_birch_log_bridge": "Stripped Birch Log Bridge",
   "block.marioverse.stripped_oak_log_bridge": "Stripped Oak Log Bridge",
 
   "block.marioverse.amethyst_question_block": "Amethyst Question Block",

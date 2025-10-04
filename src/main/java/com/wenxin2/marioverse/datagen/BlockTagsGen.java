@@ -398,7 +398,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
         tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .add(BlockRegistry.BIRCH_LOG_BRIDGE.get())
                 .add(BlockRegistry.OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get());
 
         tag(TagRegistry.WRENCH_EFFICIENT)
