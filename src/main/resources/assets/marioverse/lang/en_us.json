@@ -34,6 +34,8 @@
   "block_type.marioverse.brick_pedestal": "%s Brick Pedestal",
   "block_type.marioverse.smashable_bricks": "Smashable %s Bricks",
   "block_type.marioverse.storage_bricks": "Storage %s Bricks",
+  "block_type.marioverse.log_bridge": "%s Log Bridge",
+  "block_type.marioverse.stripped_log_bridge": "Stripped %s Log Bridge",
 
   "block.marioverse.coin": "Coin",
   "block.marioverse.deep_fungal_question_panel": "Deep Fungal Question Panel",

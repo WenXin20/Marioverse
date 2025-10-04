@@ -85,6 +85,13 @@ ordering="AFTER"
 side="CLIENT"
 
 [[dependencies.marioverse]]
+modId="everycomp"
+type="optional"
+versionRange="[1.21-2.11.4,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.marioverse]]
 modId="stonezone"
 type="optional"
 versionRange="[1.21-2.11.0,)"
