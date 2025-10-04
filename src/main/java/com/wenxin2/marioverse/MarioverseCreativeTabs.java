@@ -543,6 +543,10 @@ public class MarioverseCreativeTabs {
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
                 addAfter(event, Blocks.OAK_SLAB, BlockRegistry.OAK_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.OAK_LOG_BRIDGE, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
+
+                addAfter(event, Blocks.SPRUCE_SLAB, BlockRegistry.SPRUCE_LOG_BRIDGE);
+                addAfter(event, BlockRegistry.SPRUCE_LOG_BRIDGE, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE);
+
                 addAfter(event, Blocks.BIRCH_SLAB, BlockRegistry.BIRCH_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.BIRCH_LOG_BRIDGE, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE);
 

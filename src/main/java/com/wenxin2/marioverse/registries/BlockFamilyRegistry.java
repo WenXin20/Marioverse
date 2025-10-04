@@ -14,6 +14,14 @@ import org.jetbrains.annotations.NotNull;
 public class BlockFamilyRegistry extends BlockFamilies {
     private static final Map<Block, BlockFamilyExtended> MAP = Maps.newHashMap();
 
+    public static final BlockFamilyExtended BIRCH_LOG = familyBuilder(Blocks.BIRCH_LOG)
+            .bridge(BlockRegistry.BIRCH_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_BIRCH_LOG = familyBuilder(Blocks.STRIPPED_BIRCH_LOG)
+            .bridge(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended OAK_LOG = familyBuilder(Blocks.OAK_LOG)
             .bridge(BlockRegistry.OAK_LOG_BRIDGE.get())
             .getFamily();
@@ -22,12 +30,12 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridge(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
             .getFamily();
 
-    public static final BlockFamilyExtended BIRCH_LOG = familyBuilder(Blocks.BIRCH_LOG)
-            .bridge(BlockRegistry.BIRCH_LOG_BRIDGE.get())
+    public static final BlockFamilyExtended SPRUCE_LOG = familyBuilder(Blocks.SPRUCE_LOG)
+            .bridge(BlockRegistry.SPRUCE_LOG_BRIDGE.get())
             .getFamily();
 
-    public static final BlockFamilyExtended STRIPPED_BIRCH_LOG = familyBuilder(Blocks.STRIPPED_BIRCH_LOG)
-            .bridge(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+    public static final BlockFamilyExtended STRIPPED_SPRUCE_LOG = familyBuilder(Blocks.STRIPPED_SPRUCE_LOG)
+            .bridge(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get())
             .getFamily();
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)

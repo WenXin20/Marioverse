@@ -259,6 +259,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
@@ -294,6 +295,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STRIPPED_BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WATER_SPOUT;
@@ -349,6 +351,12 @@ public class BlockRegistry {
 
         STRIPPED_OAK_LOG_BRIDGE = registerBlock("stripped_oak_log_bridge",
                 () -> new BridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+
+        SPRUCE_LOG_BRIDGE = registerBlock("spruce_log_bridge",
+                () -> new BridgeBlock(Blocks.SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        STRIPPED_SPRUCE_LOG_BRIDGE = registerBlock("stripped_spruce_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
 
         BIRCH_LOG_BRIDGE = registerBlock("birch_log_bridge",
                 () -> new BridgeBlock(Blocks.BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
