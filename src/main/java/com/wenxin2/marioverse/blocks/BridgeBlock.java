@@ -146,8 +146,9 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
         } else return true;
     }
 
+    @Nullable
     @Override
-    public @Nullable BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
         if (itemAbility.equals(ItemAbilities.AXE_STRIP)) {
             ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
             String path = id.getPath();
@@ -158,7 +159,7 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                 ResourceLocation strippedId = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), strippedPath);
 
                 Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);
-                if (strippedBlock != Blocks.AIR) {
+                if (strippedBlock != Blocks.AIR && strippedId.getPath().contains("stripped_")) {
                     return strippedBlock.defaultBlockState()
                             .setValue(AXIS, state.getValue(AXIS))
                             .setValue(HALF, state.getValue(HALF));
@@ -167,5 +168,20 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
             }
         }
         return super.getToolModifiedState(state, context, itemAbility, simulate);
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return true;
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
     }
 }
