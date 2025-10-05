@@ -41,6 +41,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
         copy(TagRegistry.DYED_CALCITE_BLOCKS, TagRegistry.DYED_CALCITE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
@@ -82,6 +83,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_ICE_PANTS.get())
                 .add(ItemRegistry.MARIO_ICE_SHIRT.get())
                 .add(ItemRegistry.MARIO_ICE_SHOES.get());
+
+        tag(ItemTags.NON_FLAMMABLE_WOOD)
+                .add(BlockRegistry.CRIMSON_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem());
 
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())

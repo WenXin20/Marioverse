@@ -39,6 +39,7 @@ public class TagRegistry {
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
     public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("dyed_calcite_blocks");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
+    public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_BLOCKS = blockTags("flammable_wooden_bridges");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
@@ -104,6 +105,7 @@ public class TagRegistry {
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
     public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("dyed_calcite_blocks");
     public static final TagKey<Item> FIRE_COSTUMES = itemTags("costumes/fire");
+    public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_ITEMS = itemTags("flammable_wooden_bridges");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");

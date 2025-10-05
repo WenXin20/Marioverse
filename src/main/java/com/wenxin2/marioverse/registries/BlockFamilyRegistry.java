@@ -46,6 +46,14 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridge(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE.get())
             .getFamily();
 
+    public static final BlockFamilyExtended CRIMSON_STEM = familyBuilder(Blocks.CRIMSON_STEM)
+            .bridge(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_CRIMSON_STEM = familyBuilder(Blocks.STRIPPED_CRIMSON_STEM)
+            .bridge(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended MANGROVE_LOG = familyBuilder(Blocks.MANGROVE_LOG)
             .bridge(BlockRegistry.MANGROVE_LOG_BRIDGE.get())
             .getFamily();
@@ -84,6 +92,14 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended STRIPPED_SPRUCE_LOG = familyBuilder(Blocks.STRIPPED_SPRUCE_LOG)
             .bridge(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WARPED_STEM = familyBuilder(Blocks.WARPED_STEM)
+            .bridge(BlockRegistry.WARPED_STEM_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_WARPED_STEM = familyBuilder(Blocks.STRIPPED_WARPED_STEM)
+            .bridge(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.get())
             .getFamily();
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)

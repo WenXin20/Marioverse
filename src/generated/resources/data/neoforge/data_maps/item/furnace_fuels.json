@@ -1,6 +1,6 @@
 {
   "values": {
-    "#marioverse:wooden_bridges": {
+    "#marioverse:flammable_wooden_bridges": {
       "burn_time": 100
     }
   }

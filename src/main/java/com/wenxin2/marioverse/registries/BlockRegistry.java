@@ -114,6 +114,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRACKED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
@@ -303,13 +304,16 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_BAMBOO_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_CHERRY_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
@@ -411,6 +415,18 @@ public class BlockRegistry {
 
         STRIPPED_BAMBOO_BRIDGE = registerBlock("stripped_bamboo_bridge",
                 () -> new BridgeBlock(Blocks.STRIPPED_BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
+
+        CRIMSON_STEM_BRIDGE = registerBlock("crimson_stem_bridge",
+                () -> new BridgeBlock(Blocks.CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
+
+        STRIPPED_CRIMSON_STEM_BRIDGE = registerBlock("stripped_crimson_stem_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
+
+        WARPED_STEM_BRIDGE = registerBlock("warped_stem_bridge",
+                () -> new BridgeBlock(Blocks.WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
+
+        STRIPPED_WARPED_STEM_BRIDGE = registerBlock("stripped_warped_stem_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

@@ -1,10 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -164,14 +167,12 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                 String strippedPath = path.replace(removeBlockName, "stripped_" + removeBlockName);
                 ResourceLocation strippedId = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), strippedPath);
 
-                Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);
-                if (strippedBlock != Blocks.AIR && strippedId.getPath().contains("stripped_")) {
+                Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);if (strippedBlock != Blocks.AIR && strippedId.getPath().contains("stripped_")) {
                     return strippedBlock.defaultBlockState()
                             .setValue(AXIS, state.getValue(AXIS))
                             .setValue(HALF, state.getValue(HALF))
                             .setValue(WATERLOGGED, state.getValue(WATERLOGGED));
                 }
-
             }
         }
         return super.getToolModifiedState(state, context, itemAbility, simulate);
@@ -179,7 +180,7 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return true;
+        return state.is(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS);
     }
 
     @Override
