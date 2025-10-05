@@ -80,10 +80,12 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended OAK_LOG = familyBuilder(Blocks.OAK_LOG)
             .bridge(BlockRegistry.OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.OAK_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_OAK_LOG = familyBuilder(Blocks.STRIPPED_OAK_LOG)
             .bridge(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended SPRUCE_LOG = familyBuilder(Blocks.SPRUCE_LOG)

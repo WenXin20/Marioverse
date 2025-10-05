@@ -31,6 +31,8 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -69,6 +71,7 @@ public class BlockStateGen extends BlockStateProvider {
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
 
         this.genBridges();
+        this.genBridgeStairs();
         this.genButtons();
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
@@ -137,6 +140,32 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture);
                 } else this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
+            }
+        }));
+    }
+
+    private void genBridgeStairs() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant bridgeStairs = BlockFamilyExtended.Variant.BRIDGE_STAIRS;
+            String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+            String removeBridgeName = blockName.replace("_bridge_stairs", "");
+
+            ResourceLocation sideTexture = mcLoc("block/" + removeBridgeName);
+            ResourceLocation topTexture = mcLoc("block/" + removeBridgeName + "_top");
+            ResourceLocation ropeTexture = modLoc("block/bridge_rope");
+            ResourceLocation ropeSideTexture = modLoc("block/bridge_rope_side");
+            ResourceLocation ropeKnotTexture = modLoc("block/bridge_rope_knot");
+
+            if (variant == bridgeStairs) {
+                if (block == BlockFamilyRegistry.BAMBOO_BLOCK.get(bridgeStairs)
+                        || block == BlockFamilyRegistry.STRIPPED_BAMBOO_BLOCK.get(bridgeStairs)) {
+                    removeBridgeName = blockName.replace("_bridge_stairs", "_block");
+                    sideTexture = mcLoc("block/" + removeBridgeName);
+                    topTexture = mcLoc("block/" + removeBridgeName + "_top");
+                    ResourceLocation sideBridgeTexture = modLoc("block/" + blockName + "_side");
+
+                    this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture); // TODO
+                } else this.bridgeStairsModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
             }
         }));
     }
@@ -683,6 +712,51 @@ public class BlockStateGen extends BlockStateProvider {
 
             return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
         });
+    }
+
+    private void bridgeStairsModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                   ResourceLocation ropeTexture, ResourceLocation ropeSideTexture, ResourceLocation ropeKnotTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_log_bridge_stairs"))
+                .texture("side", sideTexture).texture("top", topTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        ModelFile modelInner = models()
+                .withExistingParent(modelName + "_inner", modLoc("block/template_log_bridge_stairs_inner"))
+                .texture("side", sideTexture).texture("top", topTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
+                .texture("rope_knot", ropeKnotTexture);
+        ModelFile modelOuter = models()
+                .withExistingParent(modelName + "_outer", modLoc("block/template_log_bridge_stairs_outer"))
+                .texture("side", sideTexture).texture("top", topTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
+                .texture("rope_knot", ropeKnotTexture);
+
+        this.simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(state -> {
+                    Direction facing = state.getValue(StairBlock.FACING);
+                    Half half = state.getValue(StairBlock.HALF);
+                    StairsShape shape = state.getValue(StairBlock.SHAPE);
+
+                    int yRot = (int) facing.getClockWise().toYRot(); // Stairs model is rotated 90 degrees clockwise for some reason
+                    if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+                        yRot += 270; // Left facing model are rotated 90 degrees clockwise
+                    if (shape != StairsShape.STRAIGHT && half == Half.TOP)
+                        yRot += 90; // Top model are rotated 90 degrees clockwise
+                    yRot %= 360;
+
+                    boolean uvlock = false;
+                    return ConfiguredModel.builder()
+                            .modelFile(shape == StairsShape.STRAIGHT
+                                    ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
+                            .rotationX(half == Half.BOTTOM ? 0 : 180)
+                            .rotationY(yRot)
+                            .uvLock(uvlock)
+                            .build();
+                }, StairBlock.WATERLOGGED);
     }
 
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {

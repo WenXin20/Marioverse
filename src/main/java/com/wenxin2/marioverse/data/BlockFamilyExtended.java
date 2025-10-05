@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 
 public class BlockFamilyExtended {
     private final Block baseBlock;
-    final Map<BlockFamilyExtended.Variant, Block> variants = Maps.newHashMap();
+    final Map<Variant, Block> variants = Maps.newHashMap();
     boolean generateModel = true;
     boolean generateRecipe = true;
     @Nullable
@@ -25,11 +25,11 @@ public class BlockFamilyExtended {
         return this.baseBlock;
     }
 
-    public Map<BlockFamilyExtended.Variant, Block> getVariants() {
+    public Map<Variant, Block> getVariants() {
         return this.variants;
     }
 
-    public Block get(BlockFamilyExtended.Variant variant) {
+    public Block get(Variant variant) {
         return this.variants.get(variant);
     }
 
@@ -61,133 +61,138 @@ public class BlockFamilyExtended {
         }
 
         public BlockFamilyExtended.Builder button(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.BUTTON, block);
+            this.family.variants.put(Variant.BUTTON, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder bricks(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.BRICKS, block);
+            this.family.variants.put(Variant.BRICKS, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder bridge(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.BRIDGE, block);
+            this.family.variants.put(Variant.BRIDGE, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder bridgeStairs(Block block) {
+            this.family.variants.put(Variant.BRIDGE_STAIRS, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder chiseled(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.CHISELED, block);
+            this.family.variants.put(Variant.CHISELED, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder cracked(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.CRACKED, block);
+            this.family.variants.put(Variant.CRACKED, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder customFence(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.CUSTOM_FENCE, block);
+            this.family.variants.put(Variant.CUSTOM_FENCE, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder customFenceGate(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.CUSTOM_FENCE_GATE, block);
+            this.family.variants.put(Variant.CUSTOM_FENCE_GATE, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder cut(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.CUT, block);
+            this.family.variants.put(Variant.CUT, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder door(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.DOOR, block);
+            this.family.variants.put(Variant.DOOR, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder fence(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.FENCE, block);
+            this.family.variants.put(Variant.FENCE, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder fenceGate(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.FENCE_GATE, block);
+            this.family.variants.put(Variant.FENCE_GATE, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder invisibleQuestionBlock(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK, block);
+            this.family.variants.put(Variant.INVISIBLE_QUESTION_BLOCK, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder mosaic(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.MOSAIC, block);
+            this.family.variants.put(Variant.MOSAIC, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder questionBlock(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.QUESTION_BLOCK, block);
+            this.family.variants.put(Variant.QUESTION_BLOCK, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder questionBlockTag(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG, block);
+            this.family.variants.put(Variant.QUESTION_BLOCK_TAG, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder questionPanel(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.QUESTION_PANEL, block);
+            this.family.variants.put(Variant.QUESTION_PANEL, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder pedestal(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.PEDESTAL, block);
+            this.family.variants.put(Variant.PEDESTAL, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder polished(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.POLISHED, block);
+            this.family.variants.put(Variant.POLISHED, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder pressurePlate(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.PRESSURE_PLATE, block);
+            this.family.variants.put(Variant.PRESSURE_PLATE, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder sign(Block block, Block blockWall) {
-            this.family.variants.put(BlockFamilyExtended.Variant.SIGN, block);
-            this.family.variants.put(BlockFamilyExtended.Variant.WALL_SIGN, blockWall);
+            this.family.variants.put(Variant.SIGN, block);
+            this.family.variants.put(Variant.WALL_SIGN, blockWall);
             return this;
         }
 
         public BlockFamilyExtended.Builder slab(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.SLAB, block);
+            this.family.variants.put(Variant.SLAB, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder smashableBlock(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.SMASHABLE_BLOCKS, block);
+            this.family.variants.put(Variant.SMASHABLE_BLOCKS, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder stairs(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.STAIRS, block);
+            this.family.variants.put(Variant.STAIRS, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder storageBricks(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.STORAGE_BRICKS, block);
+            this.family.variants.put(Variant.STORAGE_BRICKS, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder trapdoor(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.TRAPDOOR, block);
+            this.family.variants.put(Variant.TRAPDOOR, block);
             return this;
         }
 
         public BlockFamilyExtended.Builder wall(Block block) {
-            this.family.variants.put(BlockFamilyExtended.Variant.WALL, block);
+            this.family.variants.put(Variant.WALL, block);
             return this;
         }
 
@@ -216,6 +221,7 @@ public class BlockFamilyExtended {
         BUTTON("button"),
         BRICKS("bricks"),
         BRIDGE("bridge"),
+        BRIDGE_STAIRS("bridge_stairs"),
         CHISELED("chiseled"),
         CRACKED("cracked"),
         CUSTOM_FENCE("fence"),

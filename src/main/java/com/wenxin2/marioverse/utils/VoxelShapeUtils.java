@@ -1,10 +1,31 @@
 package com.wenxin2.marioverse.utils;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class VoxelShapeUtils {
+    public static VoxelShape rotateShape(VoxelShape shape, Direction facing) {
+        switch (facing) {
+            case NORTH -> {
+                return rotateShapeAxis(shape, Direction.Axis.Y, 270);
+            }
+            case SOUTH -> {
+                return rotateShapeAxis(shape, Direction.Axis.Y, 90);
+            }
+            case EAST -> {
+                return rotateShapeAxis(shape, Direction.Axis.Y, 0);
+            }
+            case WEST -> {
+                return rotateShapeAxis(shape, Direction.Axis.Y, 180);
+            }
+            default -> {
+                return shape;
+            }
+        }
+    }
+
     public static VoxelShape rotateShape(VoxelShape shape, Direction fromDirection, Direction toDirection) {
         VoxelShape[] buffer = new VoxelShape[]{ shape, Shapes.empty() };
 
@@ -21,23 +42,22 @@ public class VoxelShapeUtils {
         return buffer[0];
     }
 
-    public static VoxelShape rotateShapeAxis(VoxelShape shape, Direction.Axis rotationAxis, int numRotations) {
+    public static VoxelShape rotateShapeAxis(VoxelShape shape, Direction.Axis axis, int degrees) {
         VoxelShape[] buffer = new VoxelShape[]{shape, Shapes.empty()};
 
-        // Calculate the number of 90-degree rotations needed around the specified axis
-        int times = numRotations % 4;
+        int times = (degrees / 90) % 4;
         if (times < 0) times += 4; // Ensure positive value for times
 
-        for (int i = 0; i < numRotations; i++) {
+        for (int i = 0; i < times; i++) {
             buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
                 // Rotate the VoxelShape around the specified axis
-                if (rotationAxis == Direction.Axis.X) {
+                if (axis == Direction.Axis.X) {
                     // Rotate around the X-axis
                     buffer[1] = Shapes.or(buffer[1], Shapes.create(minX, 1 - maxY, minZ, maxX, 1 - minY, maxZ));
-                } else if (rotationAxis == Direction.Axis.Y) {
+                } else if (axis == Direction.Axis.Y) {
                     // Rotate around the Y-axis
                     buffer[1] = Shapes.or(buffer[1], Shapes.create(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX));
-                } else if (rotationAxis == Direction.Axis.Z) {
+                } else if (axis == Direction.Axis.Z) {
                     // Rotate around the Z-axis
                     buffer[1] = Shapes.or(buffer[1], Shapes.create(minY, 1 - maxX, minZ, maxY, 1 - minX, maxZ));
                 }

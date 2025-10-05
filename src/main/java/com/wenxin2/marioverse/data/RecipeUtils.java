@@ -34,6 +34,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRICKS, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRIDGE, (outputItem, inputItem) -> bridgeBuilder(6, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.BRIDGE_STAIRS, (outputItem, inputItem) -> bridgeStairBuilder(6, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CHISELED, (outputItem, inputItem) -> chiseledBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CUSTOM_FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CUSTOM_FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
@@ -89,6 +90,17 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("#S#")
                 .unlockedBy("has_string", has(Tags.Items.STRINGS))
                 .group(Marioverse.MOD_ID + ":bridges");
+    }
+
+    public static RecipeBuilder bridgeStairBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.STRINGS)
+                .pattern("  #")
+                .pattern(" S ")
+                .pattern("#  ")
+                .unlockedBy("has_string", has(Tags.Items.STRINGS))
+                .group(Marioverse.MOD_ID + ":bridge_stairs");
     }
 
     public static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {

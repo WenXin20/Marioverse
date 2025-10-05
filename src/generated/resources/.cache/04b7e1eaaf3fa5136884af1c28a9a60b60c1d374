@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-05T12:57:19.7223337	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-10-05T14:22:25.041204	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -26,6 +26,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/item/stones.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/item/bonkable_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/item/brick_pedestals.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/marioverse/tags/item/bridges.json
+3a569791b5b1656007b0f1d7fceea0ec7e7c299b data/marioverse/tags/item/bridge_stairs.json
 cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/item/calcite.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/item/calcite_bricks.json
 72bdcfe08e01169a99721413f7b3125196d363e9 data/marioverse/tags/item/calcite_brick_pedestals.json
@@ -53,6 +54,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
 43731a9f33d83c94e082d4772183380c855f499b data/marioverse/tags/item/dyed_calcite_blocks.json
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/item/flammable_wooden_bridges.json
+c7135522019de5ee34ee43eda3fbf52589025b2b data/marioverse/tags/item/flammable_wooden_bridge_stairs.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 7636af603caacf0f0609bbca29ceea078db00eb7 data/marioverse/tags/item/hats.json
 5c353cb3a21e801dc03368da81093986e2299024 data/marioverse/tags/item/hats/luigi.json
@@ -92,6 +94,7 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 877b5dd96a0301f4a842e38c3076464e0edec968 data/marioverse/tags/item/warp_pipe_cannot_spawn.json
 5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/item/wooden_bridges.json
+880f49832b88f14e1a6619c2c22d144b5ecaaf16 data/marioverse/tags/item/wooden_bridge_stairs.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 946c16ee7955fc0f2bbbb7eab8d619b38200c108 data/minecraft/tags/item/enchantable/durability.json

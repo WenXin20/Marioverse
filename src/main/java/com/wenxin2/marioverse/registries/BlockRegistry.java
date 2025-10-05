@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
+import com.wenxin2.marioverse.blocks.BridgeStairBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
@@ -193,6 +194,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -309,6 +311,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
@@ -427,6 +430,13 @@ public class BlockRegistry {
 
         STRIPPED_WARPED_STEM_BRIDGE = registerBlock("stripped_warped_stem_bridge",
                 () -> new BridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
+
+
+        OAK_LOG_BRIDGE_STAIRS = registerBlock("oak_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_OAK_LOG_BRIDGE_STAIRS = registerBlock("stripped_oak_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",

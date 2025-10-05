@@ -28,6 +28,7 @@ public class TagRegistry {
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
     public static final TagKey<Block> BRIDGE_BLOCKS = blockTags("bridges");
+    public static final TagKey<Block> BRIDGE_STAIR_BLOCKS = blockTags("bridge_stairs");
     public static final TagKey<Block> CALCITE_BLOCKS = blockTags("calcite");
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
@@ -40,6 +41,7 @@ public class TagRegistry {
     public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("dyed_calcite_blocks");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_BLOCKS = blockTags("flammable_wooden_bridges");
+    public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("flammable_wooden_bridge_stairs");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
@@ -59,6 +61,7 @@ public class TagRegistry {
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("wooden_bridges");
+    public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("wooden_bridge_stairs");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
     public static final TagKey<DamageType> BYPASSES_SUPER_STAR = damageTypeTags("bypasses_super_star");
@@ -84,6 +87,7 @@ public class TagRegistry {
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
     public static final TagKey<Item> BRIDGE_ITEMS = itemTags("bridges");
+    public static final TagKey<Item> BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs");
     public static final TagKey<Item> CALCITE_BRICK_ITEMS = itemTags("calcite_bricks");
     public static final TagKey<Item> CALCITE_BRICK_PEDESTAL_ITEMS = itemTags("calcite_brick_pedestals");
     public static final TagKey<Item> CALCITE_ITEMS = itemTags("calcite");
@@ -106,6 +110,7 @@ public class TagRegistry {
     public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("dyed_calcite_blocks");
     public static final TagKey<Item> FIRE_COSTUMES = itemTags("costumes/fire");
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_ITEMS = itemTags("flammable_wooden_bridges");
+    public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");
@@ -154,6 +159,7 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
     public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("wooden_bridges");
+    public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("wooden_bridge_stairs");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
 
     public static final TagKey<EntityType<?>> CANNOT_BOUNCE_ON_BLOCKS = entityTypeTags("cannot_bounce_on_blocks");
