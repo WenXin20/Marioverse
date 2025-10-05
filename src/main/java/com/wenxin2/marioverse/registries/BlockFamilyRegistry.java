@@ -30,6 +30,22 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridge(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
             .getFamily();
 
+    public static final BlockFamilyExtended CHERRY_LOG = familyBuilder(Blocks.CHERRY_LOG)
+            .bridge(BlockRegistry.CHERRY_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_CHERRY_LOG = familyBuilder(Blocks.STRIPPED_CHERRY_LOG)
+            .bridge(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MANGROVE_LOG = familyBuilder(Blocks.MANGROVE_LOG)
+            .bridge(BlockRegistry.MANGROVE_LOG_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_MANGROVE_LOG = familyBuilder(Blocks.STRIPPED_MANGROVE_LOG)
+            .bridge(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended DARK_OAK_LOG = familyBuilder(Blocks.DARK_OAK_LOG)
             .bridge(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
             .getFamily();

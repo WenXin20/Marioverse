@@ -93,6 +93,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CALCITE_SLAB;
     public static final DeferredBlock<Block> CALCITE_STAIRS;
     public static final DeferredBlock<Block> CALCITE_WALL;
+    public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
@@ -182,6 +183,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> IRON_SPIKE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
@@ -298,8 +300,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STRIPPED_ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_BIRCH_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_CHERRY_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
@@ -387,6 +391,18 @@ public class BlockRegistry {
 
         STRIPPED_DARK_OAK_LOG_BRIDGE = registerBlock("stripped_dark_oak_log_bridge",
                 () -> new BridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        MANGROVE_LOG_BRIDGE = registerBlock("mangrove_log_bridge",
+                () -> new BridgeBlock(Blocks.MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MANGROVE_LOG_BRIDGE = registerBlock("stripped_mangrove_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
+
+        CHERRY_LOG_BRIDGE = registerBlock("cherry_log_bridge",
+                () -> new BridgeBlock(Blocks.CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
+
+        STRIPPED_CHERRY_LOG_BRIDGE = registerBlock("stripped_cherry_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",
