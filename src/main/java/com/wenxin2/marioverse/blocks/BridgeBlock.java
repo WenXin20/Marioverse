@@ -160,7 +160,8 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
 
             if (!path.contains("stripped_")
                     && (path.contains("bamboo_bridge") || path.contains("log_bridge") || path.contains("stem_bridge"))) {
-                String strippedPath = path.replace(logName, "stripped_" + logName);
+                String removeBlockName = logName.replace("_block", "");
+                String strippedPath = path.replace(removeBlockName, "stripped_" + removeBlockName);
                 ResourceLocation strippedId = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), strippedPath);
 
                 Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);
