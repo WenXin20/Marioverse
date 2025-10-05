@@ -22,6 +22,14 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridge(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE.get())
             .getFamily();
 
+    public static final BlockFamilyExtended BAMBOO_BLOCK = familyBuilder(Blocks.BAMBOO_BLOCK)
+            .bridge(BlockRegistry.BAMBOO_BRIDGE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_BAMBOO_BLOCK = familyBuilder(Blocks.STRIPPED_BAMBOO_BLOCK)
+            .bridge(BlockRegistry.STRIPPED_BAMBOO_BRIDGE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended BIRCH_LOG = familyBuilder(Blocks.BIRCH_LOG)
             .bridge(BlockRegistry.BIRCH_LOG_BRIDGE.get())
             .getFamily();

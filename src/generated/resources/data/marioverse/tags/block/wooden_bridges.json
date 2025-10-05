@@ -1,6 +1,7 @@
 {
   "values": [
     "marioverse:acacia_log_bridge",
+    "marioverse:bamboo_bridge",
     "marioverse:birch_log_bridge",
     "marioverse:cherry_log_bridge",
     "marioverse:dark_oak_log_bridge",
@@ -9,6 +10,7 @@
     "marioverse:oak_log_bridge",
     "marioverse:spruce_log_bridge",
     "marioverse:stripped_acacia_log_bridge",
+    "marioverse:stripped_bamboo_bridge",
     "marioverse:stripped_birch_log_bridge",
     "marioverse:stripped_cherry_log_bridge",
     "marioverse:stripped_dark_oak_log_bridge",

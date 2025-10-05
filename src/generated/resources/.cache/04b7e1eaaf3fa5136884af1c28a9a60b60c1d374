@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-04T23:02:27.8144884	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-10-05T00:53:45.9262439	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -90,7 +90,7 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 79c86b7629e2a26714ed5d5558bac597397dfcb6 data/marioverse/tags/item/warp_fuel.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 877b5dd96a0301f4a842e38c3076464e0edec968 data/marioverse/tags/item/warp_pipe_cannot_spawn.json
-92b2eeedc01ba6ae081dd8b2cb967a75994cfac3 data/marioverse/tags/item/wooden_bridges.json
+4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/item/wooden_bridges.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 946c16ee7955fc0f2bbbb7eab8d619b38200c108 data/minecraft/tags/item/enchantable/durability.json

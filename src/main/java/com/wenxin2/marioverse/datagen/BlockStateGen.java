@@ -119,17 +119,24 @@ public class BlockStateGen extends BlockStateProvider {
     private void genBridges() {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
             BlockFamilyExtended.Variant bridge = BlockFamilyExtended.Variant.BRIDGE;
+            String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+            String removeBridgeName = blockName.replace("_bridge", "");
+
+            ResourceLocation sideTexture = mcLoc("block/" + removeBridgeName);
+            ResourceLocation topTexture = mcLoc("block/" + removeBridgeName + "_top");
+            ResourceLocation ropeTexture = modLoc("block/bridge_rope");
+            ResourceLocation ropeSideTexture = modLoc("block/bridge_rope_side");
 
             if (variant == bridge) {
-                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeBridgeName = blockName.replace("_bridge", "");
+                if (block == BlockFamilyRegistry.BAMBOO_BLOCK.get(bridge)
+                        || block == BlockFamilyRegistry.STRIPPED_BAMBOO_BLOCK.get(bridge)) {
+                    removeBridgeName = blockName.replace("_bridge", "_block");
+                    sideTexture = mcLoc("block/" + removeBridgeName);
+                    topTexture = mcLoc("block/" + removeBridgeName + "_top");
+                    ResourceLocation sideBridgeTexture = modLoc("block/" + blockName + "_side");
 
-                ResourceLocation sideTexture = mcLoc("block/" + removeBridgeName);
-                ResourceLocation topTexture = mcLoc("block/" + removeBridgeName + "_top");
-                ResourceLocation ropeTexture = modLoc("block/bridge_rope");
-                ResourceLocation ropeSideTexture = modLoc("block/bridge_rope_side");
-
-                this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
+                    this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture);
+                } else this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
             }
         }));
     }
@@ -628,6 +635,31 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
+    private void bambooBridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation sideBridgeTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile modelBottom = models()
+                .withExistingParent(modelName, modLoc("block/template_bamboo_bridge"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_bamboo_bridge_top"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+
+        this.simpleBlockItem(block, modelBottom);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction.Axis axis = state.getValue(BridgeBlock.AXIS);
+            HalfBlockStates half = state.getValue(BridgeBlock.HALF);
+            ModelFile model = (half == HalfBlockStates.TOP ? modelTop : modelBottom);
+
+            int yRot = (axis == Direction.Axis.X ? 90 : 0);
+
+            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
+        });
+    }
+
     private void bridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -649,11 +681,7 @@ public class BlockStateGen extends BlockStateProvider {
 
             int yRot = (axis == Direction.Axis.X ? 90 : 0);
 
-            return ConfiguredModel.builder()
-                    .modelFile(model)
-                    .rotationY(yRot)
-                    .uvLock(false)
-                    .build();
+            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
         });
     }
 

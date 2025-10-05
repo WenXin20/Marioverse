@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-04T23:02:27.7569033	Loot Tables
+// 1.21.1	2025-10-05T00:53:45.9044123	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
 22f1989818e6667b53ce00b7ed4da703e0140bb9 data/marioverse/loot_table/blocks/amethyst_brick_pedestal.json
@@ -11,6 +11,7 @@ bb78bece019b1e947704cea2205ace73ae6e74ec data/marioverse/loot_table/blocks/ameth
 a1b628c965936b7d54785d5d2ec2f756a3d7a65b data/marioverse/loot_table/blocks/amethyst_slab.json
 605a12df30b3a3e0128c3723d9742f0f63c67089 data/marioverse/loot_table/blocks/amethyst_stairs.json
 7863b5fdbe2910cae595b1414037b709bfd391eb data/marioverse/loot_table/blocks/amethyst_wall.json
+76ce5ec8f272e64285e6b3a218de5a7824877026 data/marioverse/loot_table/blocks/bamboo_bridge.json
 25f08b02d3dcd5f45ebc49491bc4f2f3ab50ae56 data/marioverse/loot_table/blocks/birch_log_bridge.json
 8bb14faea4a7e4d51c6785458224d641f9d6dc9b data/marioverse/loot_table/blocks/blackstone_brick_pedestal.json
 ba2e56ff99fc4dcd5d5263dc10d07c5b4f29b2ff data/marioverse/loot_table/blocks/blackstone_question_bricks.json
@@ -374,6 +375,7 @@ e3b97deaa16a75bd8d3eec3fa84fa6f60014dcd2 data/marioverse/loot_table/blocks/stora
 d1bf9fc961425a4e8f30397cef941aba58e60d28 data/marioverse/loot_table/blocks/storage_white_calcite_bricks.json
 87809cc64794e787224fe5a2060d66e02b1fe4ab data/marioverse/loot_table/blocks/storage_yellow_calcite_bricks.json
 5b2beeec807dcfa42747666d1cd13c211c8f8d5f data/marioverse/loot_table/blocks/stripped_acacia_log_bridge.json
+e54589223992b148ab14123ad3eb98237ca4d080 data/marioverse/loot_table/blocks/stripped_bamboo_bridge.json
 2a0e1c3933e44023038e46f2bf92aa94fe3e9976 data/marioverse/loot_table/blocks/stripped_birch_log_bridge.json
 9f29176d8576bb54429dcf66a569333a74ae08b5 data/marioverse/loot_table/blocks/stripped_cherry_log_bridge.json
 22f7550280b9c5c0af52486c7bc62e3742d55cc6 data/marioverse/loot_table/blocks/stripped_dark_oak_log_bridge.json

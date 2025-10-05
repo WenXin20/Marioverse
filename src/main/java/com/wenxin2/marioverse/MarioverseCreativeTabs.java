@@ -577,6 +577,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.CHERRY_SLAB, BlockRegistry.CHERRY_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.CHERRY_LOG_BRIDGE, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE);
 
+                addAfter(event, Blocks.BAMBOO_MOSAIC_SLAB, BlockRegistry.BAMBOO_BRIDGE);
+                addAfter(event, BlockRegistry.BAMBOO_BRIDGE, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
+
                 addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SPIKE);
 
                 addAfter(event, Blocks.POLISHED_ANDESITE_SLAB, BlockRegistry.FUNGAL_STONE);
