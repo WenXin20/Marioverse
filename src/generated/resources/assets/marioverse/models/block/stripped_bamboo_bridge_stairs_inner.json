@@ -1,7 +1,7 @@
 {
   "parent": "marioverse:block/template_bamboo_bridge_stairs_inner",
   "textures": {
-    "bridge_side": "marioverse:block/stripped_bamboo_block_stairs_side",
+    "bridge_side": "marioverse:block/stripped_bamboo_stairs_side",
     "rope": "marioverse:block/bridge_rope",
     "rope_knot": "marioverse:block/bridge_rope_knot",
     "rope_side": "marioverse:block/bridge_rope_side",
