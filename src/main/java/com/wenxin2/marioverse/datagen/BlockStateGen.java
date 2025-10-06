@@ -741,21 +741,17 @@ public class BlockStateGen extends BlockStateProvider {
                     Half half = state.getValue(StairBlock.HALF);
                     StairsShape shape = state.getValue(StairBlock.SHAPE);
 
-                    int yRot = (int) facing.getClockWise().toYRot(); // Stairs model is rotated 90 degrees clockwise for some reason
+                    int yRot = (int) facing.getClockWise().toYRot();
                     if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
-                        yRot += 270; // Left facing model are rotated 90 degrees clockwise
+                        yRot += 270;
                     if (shape != StairsShape.STRAIGHT && half == Half.TOP)
-                        yRot += 90; // Top model are rotated 90 degrees clockwise
+                        yRot += 90;
                     yRot %= 360;
 
-                    boolean uvlock = false;
                     return ConfiguredModel.builder()
                             .modelFile(shape == StairsShape.STRAIGHT
                                     ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
-                            .rotationX(half == Half.BOTTOM ? 0 : 180)
-                            .rotationY(yRot)
-                            .uvLock(uvlock)
-                            .build();
+                            .rotationX(half == Half.BOTTOM ? 0 : 180).rotationY(yRot).uvLock(false).build();
                 }, StairBlock.WATERLOGGED);
     }
 

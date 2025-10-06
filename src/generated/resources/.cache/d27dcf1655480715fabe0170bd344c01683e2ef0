@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-05T14:22:25.0366036	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-10-05T23:08:51.3845776	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 36e6ce2c8a7d58ca987c4571e0f8ed63ab7275e0 data/create/tags/block/movable_empty_collider.json
@@ -78,3 +78,4 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
 f3f64e961b2d2e6402a71e2fd8af6bd49a2e0c7f data/minecraft/tags/block/walls.json
 7b9b7fdffefd031bad743deeebfeb87527160f04 data/minecraft/tags/block/wall_post_override.json
+b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json
