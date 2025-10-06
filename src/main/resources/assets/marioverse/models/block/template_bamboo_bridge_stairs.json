@@ -4,12 +4,12 @@
 	"parent": "block/stairs",
 	"render_type": "cutout_mipped",
 	"textures": {
-		"particle": "block/bamboo_block",
 		"side": "block/bamboo_block",
 		"top": "block/bamboo_block_top",
 		"bridge_side": "marioverse:block/bamboo_bridge_side",
 		"rope": "marioverse:block/bridge_rope",
-		"rope_side": "marioverse:block/bridge_rope_side"
+		"rope_side": "marioverse:block/bridge_rope_side",
+		"particle": "#side"
 	},
 	"elements": [
 		{
