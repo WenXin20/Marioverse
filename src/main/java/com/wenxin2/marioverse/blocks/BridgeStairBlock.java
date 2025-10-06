@@ -102,6 +102,8 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
             rotSteps = (rotSteps + 4) % 4;
         else if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
             rotSteps = (rotSteps + 3) % 4;
+        if (half == Half.TOP && (shape != StairsShape.STRAIGHT))
+            rotSteps = (rotSteps + 1) % 4;
 
         int degrees = rotSteps * 90;
         return VoxelShapeUtils.rotateShapeAxis(base, Direction.Axis.Y, degrees).optimize();
