@@ -160,7 +160,7 @@ public class BlockStateGen extends BlockStateProvider {
                 if (block == BlockFamilyRegistry.BAMBOO_BLOCK.get(bridgeStairs)
                         || block == BlockFamilyRegistry.STRIPPED_BAMBOO_BLOCK.get(bridgeStairs)) {
                     removeBridgeName = blockName.replace("_bridge_stairs", "_block");
-                    String removeStairsName = blockName.replace("_bridge", "");
+                    String removeStairsName = blockName.replace("_stairs", "");
                     sideTexture = mcLoc("block/" + removeBridgeName);
                     topTexture = mcLoc("block/" + removeBridgeName + "_top");
                     ResourceLocation sideBridgeTexture = modLoc("block/" + removeStairsName + "_side");
