@@ -31,22 +31,39 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
     protected static final VoxelShape TOP_AABB =
             Shapes.or(Block.box(1, 13, 0, 4, 16, 16),
                     Block.box(6, 6, 0, 10, 10, 16),
-                    Block.box(12, 0, 0, 15, 3, 16)).optimize();;
+                    Block.box(12, 0, 0, 15, 3, 16)).optimize();
     protected static final VoxelShape BOTTOM_AABB =
             Shapes.or(Block.box(1, 0, 0, 4, 3, 16),
                     Block.box(6, 6, 0, 10, 10, 16),
                     Block.box(12, 13, 0, 15, 16, 16)).optimize();
-
-    protected static final VoxelShape OCTET_ENN = Block.box(0.0, 0.0, 0.0, 4.0, 3.0, 8.0);
-    protected static final VoxelShape OCTET_ENP = Block.box(0.0, 0.0, 8.0, 4.0, 3.0, 16.0);
-    protected static final VoxelShape OCTET_MNN = Block.box(6.0, 6.0, 0.0, 10.0, 8.0, 8.0);
-    protected static final VoxelShape OCTET_MNP = Block.box(6.0, 6.0, 8.0, 10.0, 8.0, 16.0);
-    protected static final VoxelShape OCTET_WNN = Block.box(12.0, 13.0, 0.0, 15.0, 16.0, 8.0);
-    protected static final VoxelShape OCTET_WNP = Block.box(12.0, 13.0, 8.0, 15.0, 16.0, 16.0);
-    protected static final VoxelShape[] BRIDGE_STAIR_SHAPES = new VoxelShape[] {
-            Shapes.or(OCTET_ENN, OCTET_ENP, OCTET_MNN, OCTET_MNP, OCTET_WNN, OCTET_WNP).optimize()
-    };
-    private static final int[] SHAPE_BY_STATE = new int[]{12, 5, 3, 10, 14, 13, 7, 11, 13, 7, 11, 14, 8, 4, 1, 2, 4, 1, 2, 8};
+    protected static final VoxelShape TOP_INNER_AABB =
+            Shapes.or(Block.box(1, 13, 12, 4, 16, 16),
+                    Block.box(6, 6, 6, 10, 10, 16),
+                    Block.box(12, 0, 1, 15, 3, 16),
+                    Block.box(0, 13, 12, 1, 16, 15),
+                    Block.box(0, 6, 6, 6, 10, 10),
+                    Block.box(0, 0, 1, 12, 3, 4)).optimize();
+    protected static final VoxelShape BOTTOM_INNER_AABB =
+            Shapes.or(Block.box(1, 0, 0, 4, 3, 4),
+                    Block.box(6, 6, 0, 10, 10, 10),
+                    Block.box(12, 13, 0, 15, 16, 15),
+                    Block.box(0, 0, 1, 1, 3, 4),
+                    Block.box(0, 6, 6, 6, 10, 10),
+                    Block.box(0, 13, 12, 12, 16, 15)).optimize();
+    protected static final VoxelShape TOP_OUTER_AABB =
+            Shapes.or(Block.box(1, 13, 0, 4, 16, 15),
+                    Block.box(6, 6, 0, 10, 10, 10),
+                    Block.box(12, 0, 0, 15, 3, 4),
+                    Block.box(4, 13, 12, 16, 16, 15),
+                    Block.box(10, 6, 6, 16, 10, 10),
+                    Block.box(15, 0, 1, 16, 3, 4)).optimize();
+    protected static final VoxelShape BOTTOM_OUTER_AABB =
+            Shapes.or(Block.box(1, 0, 1, 4, 3, 16),
+                    Block.box(6, 6, 6, 10, 10, 16),
+                    Block.box(12, 13, 12, 15, 16, 16),
+                    Block.box(4, 0, 1, 16, 3, 4),
+                    Block.box(10, 6, 6, 16, 10, 10),
+                    Block.box(15, 13, 12, 16, 16, 15)).optimize();
 
     protected static final VoxelShape BOTTOM_COLLISION = Block.box(0.0, 1.0, 0.0, 16.0, 8.0, 16.0);
 
@@ -68,29 +85,26 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
         Half half = state.getValue(HALF);
         StairsShape shape = state.getValue(SHAPE);
 
-        VoxelShape base = (half == Half.TOP) ? TOP_AABB : BOTTOM_AABB;
-        VoxelShape rotated = VoxelShapeUtils.rotateShape(base, facing);
-        return applyShapeVariant(rotated, facing, shape);
-    }
-
-    private static VoxelShape applyShapeVariant(VoxelShape base, Direction facing, StairsShape shape) {
+        VoxelShape base;
         switch (shape) {
-            case INNER_LEFT -> {
-                return Shapes.or(base, VoxelShapeUtils.rotateShape(OCTET_WNN, facing));
-            }
-            case INNER_RIGHT -> {
-                return Shapes.or(base, VoxelShapeUtils.rotateShape(OCTET_MNN, facing));
-            }
-            case OUTER_LEFT -> {
-                return Shapes.or(base, VoxelShapeUtils.rotateShape(OCTET_ENN, facing));
-            }
-            case OUTER_RIGHT -> {
-                return Shapes.or(base, VoxelShapeUtils.rotateShape(OCTET_ENP, facing));
-            }
-            default -> {
-                return base;
-            }
+            case STRAIGHT -> base = (half == Half.TOP) ? TOP_AABB : BOTTOM_AABB;
+            case INNER_LEFT, INNER_RIGHT -> base = (half == Half.TOP) ? TOP_INNER_AABB : BOTTOM_INNER_AABB;
+            case OUTER_LEFT, OUTER_RIGHT -> base = (half == Half.TOP) ? TOP_OUTER_AABB : BOTTOM_OUTER_AABB;
+            default -> base = Shapes.block();
         }
+
+        int baseIdx = Direction.EAST.get2DDataValue();
+        int targetIdx = facing.get2DDataValue();
+        int rotSteps = (targetIdx - baseIdx) % 4;
+        if (rotSteps < 0) rotSteps += 4;
+
+        if (shape == StairsShape.INNER_RIGHT || shape == StairsShape.OUTER_RIGHT)
+            rotSteps = (rotSteps + 4) % 4;
+        else if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+            rotSteps = (rotSteps + 3) % 4;
+
+        int degrees = rotSteps * 90;
+        return VoxelShapeUtils.rotateShapeAxis(base, Direction.Axis.Y, degrees).optimize();
     }
 
     @Nullable
