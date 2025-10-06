@@ -8,20 +8,20 @@
 		"top": "gardens_of_the_dead:block/whistlecane_block_top",
 		"rope": "marioverse:block/bridge_rope",
 		"rope_side": "marioverse:block/bridge_rope_side",
-        "particle": "#side"
-    },
+		"particle": "#side"
+	},
 	"elements": [
 		{
 			"from": [0, 13, 1],
 			"to": [16, 16, 4],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side", "cullface": "up"},
-				"east": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
-				"south": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side", "cullface": "up"},
+				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"},
+				"east": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "east"},
+				"south": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"},
 				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
 				"up": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
-				"down": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side", "cullface": "up"}
+				"down": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"}
 			}
 		},
 		{
@@ -29,12 +29,12 @@
 			"to": [16, 16, 10],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
 			"faces": {
-				"north": {"uv": [4, 0, 8, 16], "rotation": 270, "texture": "#side", "cullface": "up"},
+				"north": {"uv": [4, 0, 8, 16], "rotation": 270, "texture": "#side"},
 				"east": {"uv": [8, 0, 12, 4], "texture": "#top", "cullface": "east"},
-				"south": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
+				"south": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side"},
 				"west": {"uv": [4, 12, 8, 16], "texture": "#top", "cullface": "west"},
 				"up": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
-				"down": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side", "cullface": "up"}
+				"down": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side"}
 			}
 		},
 		{
@@ -42,12 +42,12 @@
 			"to": [16, 16, 15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
 			"faces": {
-				"north": {"uv": [12, 0, 15, 16], "rotation": 270, "texture": "#side", "cullface": "up"},
-				"east": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
-				"south": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
+				"north": {"uv": [12, 0, 15, 16], "rotation": 270, "texture": "#side"},
+				"east": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "east"},
+				"south": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side"},
 				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
 				"up": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
-				"down": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side", "cullface": "up"}
+				"down": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side"}
 			}
 		},
 		{
@@ -57,7 +57,7 @@
 			"faces": {
 				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#rope_side"},
 				"south": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope_side"},
-				"up": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope"},
+				"up": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope", "cullface": "up"},
 				"down": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope"}
 			}
 		},
@@ -68,7 +68,7 @@
 			"faces": {
 				"north": {"uv": [6, 0, 10, 16], "rotation": 270, "texture": "#rope_side"},
 				"south": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope_side"},
-				"up": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope"},
+				"up": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope", "cullface": "up"},
 				"down": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope"}
 			}
 		},
@@ -79,7 +79,7 @@
 			"faces": {
 				"north": {"uv": [13, 0, 16, 16], "rotation": 270, "texture": "#rope_side"},
 				"south": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope_side"},
-				"up": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope"},
+				"up": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope", "cullface": "up"},
 				"down": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope"}
 			}
 		},
