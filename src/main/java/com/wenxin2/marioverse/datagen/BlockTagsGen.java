@@ -228,8 +228,24 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get());
 
         tag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.BAMBOO_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.OAK_LOG_BRIDGE_STAIRS.get())
-                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get());
+                .add(BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
                 .add(Blocks.ICE);
@@ -432,7 +448,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.get());
 
         tag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
-                .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS);
+                .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.WARPED_STEM_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);

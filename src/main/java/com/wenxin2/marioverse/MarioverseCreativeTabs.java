@@ -155,8 +155,27 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE);
             add(event, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE);
+
             add(event, BlockRegistry.OAK_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
+            add(event, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS);
 
             add(event, BlockRegistry.FUNGAL_QUESTION_PANEL);
             add(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
@@ -564,34 +583,54 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS, BlockRegistry.OAK_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.OAK_LOG_BRIDGE, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
 
-                addAfter(event, Blocks.SPRUCE_SLAB, BlockRegistry.SPRUCE_LOG_BRIDGE);
+                addAfter(event, Blocks.SPRUCE_SLAB, BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS, BlockRegistry.SPRUCE_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.SPRUCE_LOG_BRIDGE, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE);
 
-                addAfter(event, Blocks.BIRCH_SLAB, BlockRegistry.BIRCH_LOG_BRIDGE);
+                addAfter(event, Blocks.BIRCH_SLAB, BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS, BlockRegistry.BIRCH_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.BIRCH_LOG_BRIDGE, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE);
 
-                addAfter(event, Blocks.JUNGLE_SLAB, BlockRegistry.JUNGLE_LOG_BRIDGE);
+                addAfter(event, Blocks.JUNGLE_SLAB, BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS, BlockRegistry.JUNGLE_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.JUNGLE_LOG_BRIDGE, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE);
 
-                addAfter(event, Blocks.ACACIA_SLAB, BlockRegistry.ACACIA_LOG_BRIDGE);
+                addAfter(event, Blocks.ACACIA_SLAB, BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS, BlockRegistry.ACACIA_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.ACACIA_LOG_BRIDGE, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE);
 
-                addAfter(event, Blocks.DARK_OAK_SLAB, BlockRegistry.DARK_OAK_LOG_BRIDGE);
+                addAfter(event, Blocks.DARK_OAK_SLAB, BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS, BlockRegistry.DARK_OAK_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.DARK_OAK_LOG_BRIDGE, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE);
 
-                addAfter(event, Blocks.MANGROVE_SLAB, BlockRegistry.MANGROVE_LOG_BRIDGE);
+                addAfter(event, Blocks.MANGROVE_SLAB, BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS, BlockRegistry.MANGROVE_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.MANGROVE_LOG_BRIDGE, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE);
 
-                addAfter(event, Blocks.CHERRY_SLAB, BlockRegistry.CHERRY_LOG_BRIDGE);
+                addAfter(event, Blocks.CHERRY_SLAB, BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS, BlockRegistry.CHERRY_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.CHERRY_LOG_BRIDGE, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE);
 
-                addAfter(event, Blocks.BAMBOO_MOSAIC_SLAB, BlockRegistry.BAMBOO_BRIDGE);
+                addAfter(event, Blocks.BAMBOO_MOSAIC_SLAB, BlockRegistry.BAMBOO_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.BAMBOO_BRIDGE_STAIRS, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS, BlockRegistry.BAMBOO_BRIDGE);
                 addAfter(event, BlockRegistry.BAMBOO_BRIDGE, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
 
-                addAfter(event, Blocks.CRIMSON_SLAB, BlockRegistry.CRIMSON_STEM_BRIDGE);
+                addAfter(event, Blocks.CRIMSON_SLAB, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.CRIMSON_STEM_BRIDGE);
                 addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE);
 
-                addAfter(event, Blocks.WARPED_SLAB, BlockRegistry.WARPED_STEM_BRIDGE);
+                addAfter(event, Blocks.WARPED_SLAB, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS, BlockRegistry.WARPED_STEM_BRIDGE);
                 addAfter(event, BlockRegistry.WARPED_STEM_BRIDGE, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE);
 
                 addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SPIKE);

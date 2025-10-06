@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:bridge_stairs",
+  "key": {
+    "#": {
+      "item": "minecraft:crimson_stem"
+    },
+    "S": {
+      "tag": "c:strings"
+    }
+  },
+  "pattern": [
+    "  #",
+    " S ",
+    "#  "
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:crimson_stem_bridge_stairs"
+  }
+}

@@ -164,7 +164,7 @@ public class BlockStateGen extends BlockStateProvider {
                     topTexture = mcLoc("block/" + removeBridgeName + "_top");
                     ResourceLocation sideBridgeTexture = modLoc("block/" + blockName + "_side");
 
-                    this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture); // TODO
+                    this.bambooBridgeStairsModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
                 } else this.bridgeStairsModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
             }
         }));
@@ -664,7 +664,8 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
-    private void bambooBridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation sideBridgeTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
+    private void bambooBridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation sideBridgeTexture,
+                                   ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile modelBottom = models()
@@ -712,6 +713,47 @@ public class BlockStateGen extends BlockStateProvider {
 
             return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
         });
+    }
+
+    private void bambooBridgeStairsModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation sideBridgeTexture,
+                                         ResourceLocation ropeTexture, ResourceLocation ropeSideTexture, ResourceLocation ropeKnotTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_bamboo_bridge_stairs"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        ModelFile modelInner = models()
+                .withExistingParent(modelName + "_inner", modLoc("block/template_bamboo_bridge_stairs_inner"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
+                .texture("rope_knot", ropeKnotTexture);
+        ModelFile modelOuter = models()
+                .withExistingParent(modelName + "_outer", modLoc("block/template_bamboo_bridge_stairs_outer"))
+                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
+                .texture("rope_knot", ropeKnotTexture);
+
+        this.simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(state -> {
+                    Direction facing = state.getValue(StairBlock.FACING);
+                    Half half = state.getValue(StairBlock.HALF);
+                    StairsShape shape = state.getValue(StairBlock.SHAPE);
+
+                    int yRot = (int) facing.getClockWise().toYRot();
+                    if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+                        yRot += 270;
+                    if (shape != StairsShape.STRAIGHT && half == Half.TOP)
+                        yRot += 90;
+                    yRot %= 360;
+
+                    return ConfiguredModel.builder()
+                            .modelFile(shape == StairsShape.STRAIGHT
+                                    ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
+                            .rotationX(half == Half.BOTTOM ? 0 : 180).rotationY(yRot).uvLock(false).build();
+                }, StairBlock.WATERLOGGED);
     }
 
     private void bridgeStairsModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture,

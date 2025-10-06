@@ -16,66 +16,82 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended ACACIA_LOG = familyBuilder(Blocks.ACACIA_LOG)
             .bridge(BlockRegistry.ACACIA_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_ACACIA_LOG = familyBuilder(Blocks.STRIPPED_ACACIA_LOG)
             .bridge(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended BAMBOO_BLOCK = familyBuilder(Blocks.BAMBOO_BLOCK)
             .bridge(BlockRegistry.BAMBOO_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.BAMBOO_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_BAMBOO_BLOCK = familyBuilder(Blocks.STRIPPED_BAMBOO_BLOCK)
             .bridge(BlockRegistry.STRIPPED_BAMBOO_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended BIRCH_LOG = familyBuilder(Blocks.BIRCH_LOG)
             .bridge(BlockRegistry.BIRCH_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_BIRCH_LOG = familyBuilder(Blocks.STRIPPED_BIRCH_LOG)
             .bridge(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended CHERRY_LOG = familyBuilder(Blocks.CHERRY_LOG)
             .bridge(BlockRegistry.CHERRY_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_CHERRY_LOG = familyBuilder(Blocks.STRIPPED_CHERRY_LOG)
             .bridge(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended CRIMSON_STEM = familyBuilder(Blocks.CRIMSON_STEM)
             .bridge(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_CRIMSON_STEM = familyBuilder(Blocks.STRIPPED_CRIMSON_STEM)
             .bridge(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended MANGROVE_LOG = familyBuilder(Blocks.MANGROVE_LOG)
             .bridge(BlockRegistry.MANGROVE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_MANGROVE_LOG = familyBuilder(Blocks.STRIPPED_MANGROVE_LOG)
             .bridge(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended DARK_OAK_LOG = familyBuilder(Blocks.DARK_OAK_LOG)
             .bridge(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_DARK_OAK_LOG = familyBuilder(Blocks.STRIPPED_DARK_OAK_LOG)
             .bridge(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended JUNGLE_LOG = familyBuilder(Blocks.JUNGLE_LOG)
             .bridge(BlockRegistry.JUNGLE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_JUNGLE_LOG = familyBuilder(Blocks.STRIPPED_JUNGLE_LOG)
             .bridge(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended OAK_LOG = familyBuilder(Blocks.OAK_LOG)
@@ -90,18 +106,22 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended SPRUCE_LOG = familyBuilder(Blocks.SPRUCE_LOG)
             .bridge(BlockRegistry.SPRUCE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_SPRUCE_LOG = familyBuilder(Blocks.STRIPPED_SPRUCE_LOG)
             .bridge(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended WARPED_STEM = familyBuilder(Blocks.WARPED_STEM)
             .bridge(BlockRegistry.WARPED_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.WARPED_STEM_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_WARPED_STEM = familyBuilder(Blocks.STRIPPED_WARPED_STEM)
             .bridge(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get())
             .getFamily();
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)

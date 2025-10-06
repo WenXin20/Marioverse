@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_log_bridge_stairs",
+  "textures": {
+    "rope": "marioverse:block/bridge_rope",
+    "rope_side": "marioverse:block/bridge_rope_side",
+    "side": "minecraft:block/jungle_log",
+    "top": "minecraft:block/jungle_log_top"
+  }
+}
