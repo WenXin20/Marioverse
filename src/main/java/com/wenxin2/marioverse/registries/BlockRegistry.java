@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
+import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
@@ -276,6 +277,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> SPIKE_PANEL;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STAR_COIN;
@@ -378,6 +380,11 @@ public class BlockRegistry {
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(25.0F, 1200.0F).requiresCorrectToolForDrops()));
+        SPIKE_PANEL = registerBlock("spike_panel",
+                () -> new SpikePanelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                        .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                        .strength(25.0F, 1200.0F).noCollission().forceSolidOn()
+                        .requiresCorrectToolForDrops()));
 
 
         GLOW_BLOCK = registerBlock("glow_block",

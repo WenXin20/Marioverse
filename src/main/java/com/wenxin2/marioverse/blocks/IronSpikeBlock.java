@@ -78,4 +78,9 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
     protected boolean isPathfindable(BlockState state, PathComputationType computationType) {
         return false;
     }
+
+    @Override
+    public boolean isPossibleToRespawnInThis(BlockState state) {
+        return false;
+    }
 }

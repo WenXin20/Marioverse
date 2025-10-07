@@ -102,6 +102,7 @@ public class RecipeGen extends RecipeUtils {
         plusRecipe(1, "spikes", BlockRegistry.IRON_SPIKE, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, false, output);
         plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, true, output);
         plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.INGOTS_IRON, Blocks.GLOWSTONE, false, output);
+        spikePanelRecipe(1, "spike_panels", BlockRegistry.SPIKE_PANEL, Tags.Items.NUGGETS_IRON, BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLUE), false, output);
         threeByThreePacker(output, RecipeCategory.MISC, BlockRegistry.STAR_COIN, BlockRegistry.COIN);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);

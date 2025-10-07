@@ -36,14 +36,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class QuestionPanelBlock extends PanelBlock implements SimpleWaterloggedBlock {
-    protected static final VoxelShape FLOOR = Block.box(0.0, 0.0, 0.0, 16.0, 1.0, 16.0);
-    protected static final VoxelShape CEILING = Block.box(0.0, 15.0, 0.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape NORTH = Block.box(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
-    protected static final VoxelShape SOUTH = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 1.0);
-    protected static final VoxelShape EAST = Block.box(0.0, 0.0, 0.0, 1.0, 16.0, 16.0);
-    protected static final VoxelShape WEST = Block.box(15.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     public static final MapCodec<QuestionPanelBlock> CODEC = simpleCodec(QuestionPanelBlock::new);
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     @NotNull

@@ -6,8 +6,10 @@ import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
+import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
@@ -15,7 +17,6 @@ import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
-import java.util.Arrays;
 import java.util.Map;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,7 +25,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
@@ -54,6 +54,7 @@ public class BlockStateGen extends BlockStateProvider {
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
+        String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
@@ -66,6 +67,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName),
                 modLoc("block/" + glowBlockName + "_front"), modLoc("block/" + glowBlockName));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
+        this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
@@ -1089,6 +1091,37 @@ public class BlockStateGen extends BlockStateProvider {
                         .texture("side", side)
                         .texture("bottom", bottom)
                         .texture("top", top));
+    }
+
+    private void spikePanelModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_panel"))
+                .texture("top", mainTexture)
+                .texture("bottom", mainTexture + "_bottom")
+                .renderType("solid");
+        ModelFile modelSpikes = models()
+                .withExistingParent(modelName + "_spikes", modLoc("block/template_spike_panel"))
+                .texture("top", mainTexture)
+                .texture("bottom", mainTexture + "_bottom")
+                .texture("spikes", mainTexture + "_spikes")
+                .renderType("cutout_mipped");
+
+        this.simpleBlockItem(block, modelSpikes);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(PanelBlock.FACING);
+            AttachFace face = state.getValue(PanelBlock.FACE);
+            boolean spikes = state.getValue(SpikePanelBlock.SPIKES);
+
+            return ConfiguredModel.builder()
+                    .modelFile(spikes ? modelSpikes : model)
+                    .rotationX(face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180))
+                    .rotationY((int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot())
+                    .uvLock(false)
+                    .build();
+        });
     }
 
     private void storageBrickModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture) {

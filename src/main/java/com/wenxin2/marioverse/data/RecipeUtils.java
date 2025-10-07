@@ -372,6 +372,24 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void spikePanelRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern("III")
+                .pattern("PPP")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'I', input1);
+        defineIngredient(builder, 'P', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
     public void smithingTemplateRecipe(int outputAmt, ItemLike outputItem, ItemLike templateItem, ItemLike inputItem, TagKey<Item> inputItemTag, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('T', templateItem)

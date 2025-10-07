@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:spike_panels",
+  "key": {
+    "I": {
+      "tag": "c:nuggets/iron"
+    },
+    "P": {
+      "item": "marioverse:polished_blue_calcite"
+    }
+  },
+  "pattern": [
+    "III",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:spike_panel"
+  }
+}

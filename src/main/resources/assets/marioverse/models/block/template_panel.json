@@ -1,0 +1,39 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/thin_block",
+	"render_type": "solid",
+	"textures": {
+		"top": "marioverse:block/spike_panel",
+		"bottom": "marioverse:block/spike_panel_bottom",
+		"particle": "#top"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 1, 16],
+			"faces": {
+				"north": {"uv": [0, 15, 16, 16], "texture": "#bottom", "cullface": "north"},
+				"east": {"uv": [0, 15, 16, 16], "texture": "#bottom", "cullface": "east"},
+				"south": {"uv": [0, 15, 16, 16], "texture": "#bottom", "cullface": "south"},
+				"west": {"uv": [0, 15, 16, 16], "texture": "#bottom", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down"}
+			}
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [30, 45, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"head": {
+			"translation": [0, 13.75, 0]
+		},
+		"fixed": {
+			"rotation": [-90, -180, 0],
+			"translation": [0, 0, -3.25],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

@@ -690,6 +690,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
