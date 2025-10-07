@@ -1,17 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.context.UseOnContext;
@@ -19,13 +13,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -122,60 +114,21 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        VoxelShape original = this.getShape(state, blockGetter, pos, collisionContext);
+        VoxelShape shape = this.getShape(state, blockGetter, pos, collisionContext);
 
-        if (!(collisionContext instanceof EntityCollisionContext context) || context.getEntity() == null)
-            return Shapes.empty();
+        if (collisionContext instanceof EntityCollisionContext context && context.getEntity() instanceof LivingEntity livingEntity) {
+            double stepHeight = livingEntity.getAttributeValue(Attributes.STEP_HEIGHT);
+            double feetY = livingEntity.getBoundingBox().minY;
 
-        Entity entity = context.getEntity();
-        double stepHeight = 0.6D;
-        if (entity instanceof LivingEntity living)
-            stepHeight = living.getAttributeValue(Attributes.STEP_HEIGHT);
+            for (AABB box : shape.toAabbs()) {
+                double boxTopWorld = pos.getY() + box.maxY;
+                double boxHeight = box.maxY - box.minY;
 
-        double feetY = entity.getBoundingBox().minY;
-
-        List<AABB> tallBoxes = new ArrayList<>();
-        List<AABB> lowBoxes  = new ArrayList<>();
-        for (AABB aabb : original.toAabbs()) {
-            double h = aabb.maxY - aabb.minY;
-            if (h > stepHeight + 1e-5) tallBoxes.add(aabb);
-            else lowBoxes.add(aabb);
-        }
-
-        VoxelShape result = Shapes.empty();
-
-        // For each low box: include it only if entity can step on / is standing on it,
-        // and subtract any horizontal overlap with tall boxes so the low box loses side faces that cause sticking.
-        for (AABB low : lowBoxes) {
-            double lowMinY = low.minY;
-            double lowMaxY = low.maxY;
-            double lowBottomWorld = pos.getY() + lowMinY;
-            double lowTopWorld = pos.getY() + lowMaxY;
-
-            // entity must be able to step onto OR already standing on that low box
-            if (!(feetY + stepHeight + 1e-5 >= lowTopWorld || feetY >= lowBottomWorld - 1e-5)) continue;
-
-            VoxelShape lowShape = Shapes.box(low.minX, lowMinY, low.minZ, low.maxX, lowMaxY, low.maxZ);
-
-            // subtract overlapping horizontal footprints from any tall box
-            for (AABB tall : tallBoxes) {
-                double overlapMinX = Math.max(low.minX, tall.minX);
-                double overlapMaxX = Math.min(low.maxX, tall.maxX);
-                double overlapMinZ = Math.max(low.minZ, tall.minZ);
-                double overlapMaxZ = Math.min(low.maxZ, tall.maxZ);
-
-                if (overlapMinX < overlapMaxX && overlapMinZ < overlapMaxZ) {
-                    // overlap shape uses the low box Y-range so we remove only the vertical face portion at that Y
-                    VoxelShape overlap = Shapes.box(overlapMinX, lowMinY, overlapMinZ, overlapMaxX, lowMaxY, overlapMaxZ);
-                    lowShape = Shapes.join(lowShape, overlap, BooleanOp.ONLY_FIRST);
-                    if (lowShape.isEmpty()) break;
-                }
+                if (boxHeight <= stepHeight + 1e-3 && feetY + stepHeight >= boxTopWorld - 1e-3)
+                    return shape;
             }
-
-            if (!lowShape.isEmpty()) result = Shapes.or(result, lowShape);
         }
-
-        return result.optimize();
+        return Shapes.empty();
     }
 
     @Nullable
