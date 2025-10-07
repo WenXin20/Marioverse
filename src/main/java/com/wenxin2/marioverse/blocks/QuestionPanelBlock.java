@@ -35,7 +35,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+public class QuestionPanelBlock extends PanelBlock implements SimpleWaterloggedBlock {
     protected static final VoxelShape FLOOR = Block.box(0.0, 0.0, 0.0, 16.0, 1.0, 16.0);
     protected static final VoxelShape CEILING = Block.box(0.0, 15.0, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape NORTH = Block.box(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
@@ -61,81 +61,6 @@ public class QuestionPanelBlock extends FaceAttachedHorizontalDirectionalBlock i
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(FACE, FACING, POWERED, WATERLOGGED);
-    }
-
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        Direction facing = state.getValue(FACING);
-        AttachFace face = state.getValue(FACE);
-
-        switch (face) {
-            case FLOOR:
-                return FLOOR;
-            case CEILING:
-                return CEILING;
-            case WALL:
-                switch (facing) {
-                    case NORTH:
-                        return NORTH;
-                    case SOUTH:
-                        return SOUTH;
-                    case EAST:
-                        return EAST;
-                    case WEST:
-                        return WEST;
-                }
-                break;
-        }
-        return FLOOR;
-    }
-
-    @Override
-    protected boolean canSurvive(BlockState state, LevelReader worldReader, BlockPos pos) {
-        BlockPos posBelow = pos.below();
-        return canAttach(worldReader, pos, getConnectedDirection(state).getOpposite()) || canSupportCenter(worldReader, posBelow, Direction.UP);
-    }
-
-    @NotNull
-    @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-                                  LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED))
-            worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
-
-        if (getConnectedDirection(state).getOpposite() == direction && !state.canSurvive(worldAccessor, pos))
-            return state.getValue(WATERLOGGED) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
-
-        return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
-    }
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
-        FluidState fluidState = placeContext.getLevel().getFluidState(placeContext.getClickedPos());
-        boolean isWater = fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8;
-
-        for (Direction direction : placeContext.getNearestLookingDirections()) {
-            BlockState state;
-            if (direction.getAxis() == Direction.Axis.Y) {
-                state = this.defaultBlockState()
-                        .setValue(FACE, direction == Direction.UP ? AttachFace.CEILING : AttachFace.FLOOR)
-                        .setValue(FACING, placeContext.getHorizontalDirection())
-                        .setValue(WATERLOGGED, isWater);
-            } else state = this.defaultBlockState().setValue(FACE, AttachFace.WALL)
-                    .setValue(FACING, direction.getOpposite())
-                    .setValue(WATERLOGGED, isWater);
-
-            if (state.canSurvive(placeContext.getLevel(), placeContext.getClickedPos()))
-                return state.setValue(WATERLOGGED, isWater);
-        }
-
-        return this.defaultBlockState().setValue(WATERLOGGED, isWater);
-    }
-
-    @NotNull
-    @Override
-    public FluidState getFluidState(final BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
