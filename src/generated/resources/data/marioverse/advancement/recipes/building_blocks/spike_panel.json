@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_polished_blue_calcite": {
+    "has_polished_deepslate_slab": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:polished_blue_calcite"
+            "items": "minecraft:polished_deepslate_slab"
           }
         ]
       },
@@ -32,7 +32,7 @@
     [
       "has_the_recipe",
       "has_nuggets/iron",
-      "has_polished_blue_calcite"
+      "has_polished_deepslate_slab"
     ]
   ],
   "rewards": {

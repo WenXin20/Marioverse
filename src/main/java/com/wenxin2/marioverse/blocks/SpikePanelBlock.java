@@ -48,8 +48,8 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!world.isClientSide && state.getValue(SPIKES)) {
-            if (!entity.getType().is(TagRegistry.IRON_SPIKE_IMMUNE) && !(entity instanceof ItemEntity)) // TODO
-                entity.hurt(DamageSourceRegistry.spiked(entity), ConfigRegistry.IRON_SPIKE_DAMAGE.get().floatValue());
+            if (!entity.getType().is(TagRegistry.SPIKE_PANEL_IMMUNE) && !(entity instanceof ItemEntity))
+                entity.hurt(DamageSourceRegistry.spiked(entity), ConfigRegistry.SPIKE_PANEL_DAMAGE.get().floatValue());
         }
     }
 
