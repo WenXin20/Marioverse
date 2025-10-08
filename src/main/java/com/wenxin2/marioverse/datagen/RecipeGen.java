@@ -184,6 +184,8 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.AMETHYST_BRICKS, Blocks.AMETHYST_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_AMETHYST, Blocks.AMETHYST_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CALCITE_CHECKERED_TILES, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingRecipes(output, BlockFamilyRegistry.LIGHT_GRAY_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingRecipes(output, BlockFamilyRegistry.GRAY_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
