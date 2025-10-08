@@ -8,11 +8,11 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FaceAttachedHorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -60,6 +60,11 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
             this.checkAndFlip(state, serverWorld, pos);
 
         super.neighborChanged(state, world, pos, block, posNeighbor, b);
+    }
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader worldReader, BlockPos pos) {
+        return true;
     }
 
     @Override
