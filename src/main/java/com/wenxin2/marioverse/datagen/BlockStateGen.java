@@ -1108,8 +1108,6 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("spikes", mainTexture + "_spikes")
                 .renderType("cutout_mipped");
 
-        this.simpleBlockItem(block, modelSpikes);
-
         this.getVariantBuilder(block).forAllStates(state -> {
             Direction facing = state.getValue(PanelBlock.FACING);
             AttachFace face = state.getValue(PanelBlock.FACE);
