@@ -87,9 +87,9 @@
   "block.power_up_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
     "subtitle": "subtitles.marioverse.block.power_up_spawns" },
 
-  "block.question_panel_activated": { "category": "block", "sounds": [{ "name": "random/click", "pitch": 0.65, "volume": 0.3 }],
+  "block.question_panel_activated": { "category": "block", "sounds": [{ "name": "marioverse:block/question_panel_activated" }],
     "subtitle": "subtitles.marioverse.block.question_panel_activated" },
-  "block.question_panel_deactivated": { "category": "block", "sounds": [{ "name": "marioverse:block/question_panel_deactivated" }],
+  "block.question_panel_deactivated": { "category": "block", "sounds": [{ "name": "random/click", "pitch": 0.65, "volume": 0.3 }],
     "subtitle": "subtitles.marioverse.block.question_panel_deactivated" },
 
   "block.spikes_extend": { "category": "block", "sounds": [{ "name": "marioverse:block/spikes_extend", "volume": 0.8 }],
