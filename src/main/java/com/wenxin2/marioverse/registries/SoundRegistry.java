@@ -83,6 +83,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_SUPER_STAR;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> QUESTION_PANEL_ACTIVATED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_EXTEND;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_PEEK;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_RETRACT;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
@@ -158,6 +161,13 @@ public class SoundRegistry {
 
         QUESTION_PANEL_ACTIVATED = Marioverse.SOUNDS.register("block.question_panel_activated",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.question_panel_activated")));
+
+        SPIKES_EXTEND = Marioverse.SOUNDS.register("block.spikes_extend",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_extend")));
+        SPIKES_PEEK = Marioverse.SOUNDS.register("block.spikes_peek",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_peek")));
+        SPIKES_RETRACT = Marioverse.SOUNDS.register("block.spikes_retract",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_retract")));
 
         WARP_COMPLETED = Marioverse.SOUNDS.register("block.warp_fuel.completed",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.completed")));

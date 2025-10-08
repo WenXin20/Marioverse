@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -94,7 +95,7 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
             if (!state.getValue(POWERED)) {
                 newState = state.cycle(SPIKES);
                 serverWorld.playSound(null, pos, newState.getValue(SPIKES)
-                        ? SoundEvents.IRON_TRAPDOOR_OPEN : SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS); //TODO
+                        ? SoundRegistry.SPIKES_EXTEND.get() : SoundRegistry.SPIKES_RETRACT.get(), SoundSource.BLOCKS);
             }
             serverWorld.setBlock(pos, newState.setValue(POWERED, hasNeighborSignal), 3);
         }
