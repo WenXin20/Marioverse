@@ -59,9 +59,9 @@ public class BlockStateGen extends BlockStateProvider {
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
-        this.cubeAllModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
+        this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
@@ -834,6 +834,16 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
                 .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
+
+        simpleBlockWithItem(block, model);
+    }
+
+    private void cubeMirroredNSModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/cube_mirrored_ns"))
+                .texture("all", mainTexture).texture("mirrored", mainTexture + "_mirrored");
 
         simpleBlockWithItem(block, model);
     }

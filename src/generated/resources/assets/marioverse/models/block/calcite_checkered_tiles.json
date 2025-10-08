@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "marioverse:block/cube_mirrored_ns",
   "textures": {
-    "all": "marioverse:block/calcite_checkered_tiles"
+    "all": "marioverse:block/calcite_checkered_tiles",
+    "mirrored": "marioverse:block/calcite_checkered_tiles_mirrored"
   }
 }
