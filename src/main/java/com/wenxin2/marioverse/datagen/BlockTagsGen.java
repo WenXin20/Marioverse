@@ -68,10 +68,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(CompatRegistry.MOVABLE_EMPTY_COLLIDER)
+                .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
 
