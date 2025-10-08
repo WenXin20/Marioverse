@@ -4,6 +4,9 @@
   "group": "marioverse:spike_panels",
   "key": {
     "I": {
+      "tag": "c:ingots/iron"
+    },
+    "N": {
       "tag": "c:nuggets/iron"
     },
     "P": {
@@ -11,7 +14,8 @@
     }
   },
   "pattern": [
-    "III",
+    " N ",
+    "NIN",
     "PPP"
   ],
   "result": {

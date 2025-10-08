@@ -1,6 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_ingots/iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:ingots/iron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_nuggets/iron": {
       "conditions": {
         "items": [
@@ -32,6 +42,7 @@
     [
       "has_the_recipe",
       "has_nuggets/iron",
+      "has_ingots/iron",
       "has_polished_deepslate_slab"
     ]
   ],

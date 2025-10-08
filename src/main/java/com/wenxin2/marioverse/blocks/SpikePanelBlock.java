@@ -96,7 +96,6 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
                 serverWorld.playSound(null, pos, newState.getValue(SPIKES)
                         ? SoundEvents.IRON_TRAPDOOR_OPEN : SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS); //TODO
             }
-
             serverWorld.setBlock(pos, newState.setValue(POWERED, hasNeighborSignal), 3);
         }
     }
