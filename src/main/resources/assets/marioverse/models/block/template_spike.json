@@ -3,9 +3,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"particle": "marioverse:block/iron_spike_center",
 		"center": "marioverse:block/iron_spike_center",
-		"spikes": "marioverse:block/iron_spike"
+		"spikes": "marioverse:block/iron_spike",
+		"particle": "#center"
 	},
 	"elements": [
 		{
