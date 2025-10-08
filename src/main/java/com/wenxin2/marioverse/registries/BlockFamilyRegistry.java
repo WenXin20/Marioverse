@@ -152,6 +152,12 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_AMETHYST_WALL.get())
             .getFamily();
 
+    public static final BlockFamilyExtended CALCITE_CHECKERED_TILES = familyBuilder(BlockRegistry.CALCITE_CHECKERED_TILES.get())
+            .slab(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
+            .stairs(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
+            .wall(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
+            .getFamily();
+
     public static final BlockFamilyExtended CALCITE = familyBuilder(Blocks.CALCITE)
             .button(BlockRegistry.CALCITE_BUTTON.get())
             .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get())

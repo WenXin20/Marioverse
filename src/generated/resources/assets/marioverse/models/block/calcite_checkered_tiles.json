@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "marioverse:block/calcite_checkered_tiles"
+  }
+}

@@ -47,6 +47,7 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        String calciteCheckeredName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CALCITE_CHECKERED_TILES.get()).getPath();
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
@@ -58,6 +59,7 @@ public class BlockStateGen extends BlockStateProvider {
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
+        this.cubeAllModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
@@ -439,7 +441,8 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == slab && block instanceof SlabBlock slabBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeSlabName = blockName.replace("_slab", "").replace("brick", "bricks");
+                String removeSlabName = blockName.replace("_slab", "").replace("brick", "bricks")
+                        .replace("tile", "tiles");
                 ResourceLocation texture;
                 ResourceLocation topTexture;
 
@@ -532,7 +535,8 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == stairs && block instanceof StairBlock stairBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks");
+                String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks")
+                        .replace("tile", "tiles");
                 ResourceLocation texture;
 
                 if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
@@ -647,7 +651,8 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == wall && block instanceof WallBlock wallBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks");
+                String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks")
+                        .replace("tile", "tiles");
                 ResourceLocation texture;
 
                 if (block == BlockFamilyRegistry.AMETHYST.get(wall)) {

@@ -241,6 +241,24 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void checkeredRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern("XY")
+                .pattern("YX")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'X', input1);
+        defineIngredient(builder, 'Y', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
     public void chestplateRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('#', inputItem)

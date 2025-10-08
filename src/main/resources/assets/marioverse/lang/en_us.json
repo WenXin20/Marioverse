@@ -254,6 +254,11 @@
   "block.marioverse.chiseled_amethyst_bricks": "Chiseled Amethyst Bricks",
   "block.marioverse.cracked_amethyst_bricks": "Cracked Amethyst Bricks",
 
+  "block.marioverse.calcite_checkered_tile_slab": "Calcite Checkered Tile Slab",
+  "block.marioverse.calcite_checkered_tile_stairs": "Calcite Checkered Tile Stairs",
+  "block.marioverse.calcite_checkered_tile_wall": "Calcite Checkered Tile Wall",
+  "block.marioverse.calcite_checkered_tiles": "Calcite Checkered Tiles",
+
   "block.marioverse.calcite_button": "Calcite Button",
   "block.marioverse.calcite_pressure_plate": "Calcite Pressure Plate",
   "block.marioverse.calcite_question_block": "Calcite Question Block",

@@ -435,6 +435,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.WHITE_CALCITE_BRICK_STAIRS);
             add(event, BlockRegistry.WHITE_CALCITE_BRICK_SLAB);
             add(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL);
+            add(event, BlockRegistry.CALCITE_CHECKERED_TILES);
+            add(event, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB);
+            add(event, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS);
+            add(event, BlockRegistry.CALCITE_CHECKERED_TILE_WALL);
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
@@ -685,6 +689,11 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_SLAB, BlockRegistry.WHITE_CALCITE_BRICK_WALL);
                 addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE));
                 addAfter(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.WHITE));
+
+                addAfter(event, BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.WHITE), BlockRegistry.CALCITE_CHECKERED_TILES);
+                addAfter(event, BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB);
+                addAfter(event, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS);
+                addAfter(event, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS, BlockRegistry.CALCITE_CHECKERED_TILE_WALL);
 
                 addAfter(event, Blocks.DEEPSLATE_BRICK_WALL, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL);
                 addAfter(event, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS);

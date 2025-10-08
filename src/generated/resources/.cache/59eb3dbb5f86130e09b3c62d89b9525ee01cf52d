@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-06T23:29:18.2486381	Loot Tables
+// 1.21.1	2025-10-07T23:01:30.4792427	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -38,6 +38,10 @@ ca0209fea11233e78691ef137b31f1fc87134df4 data/marioverse/loot_table/blocks/brown
 a649cef081aac183af0ba6a65955bec5a0553cee data/marioverse/loot_table/blocks/brown_goal_pole.json
 e753ac03ac2aadf01ed0040903ec85f6af4804db data/marioverse/loot_table/blocks/brown_warp_pipe.json
 bf6d747dd6626bff6ec9bb1f30a7ef33080b66e3 data/marioverse/loot_table/blocks/calcite_button.json
+0d56eb37d823f2c0096a9fa45cec441c0f636fbb data/marioverse/loot_table/blocks/calcite_checkered_tiles.json
+fe33f2eaab83b943060a94f7069850f76d83ee10 data/marioverse/loot_table/blocks/calcite_checkered_tile_slab.json
+1f19fc728b44ef006b8c00216beeea923b25abe4 data/marioverse/loot_table/blocks/calcite_checkered_tile_stairs.json
+cdc4fa9ab18e52588ec787cb88d7fc5c7e18afed data/marioverse/loot_table/blocks/calcite_checkered_tile_wall.json
 ec966d4a8c4f79e643ae4de064c601b43afe0e6a data/marioverse/loot_table/blocks/calcite_pressure_plate.json
 d5051c6de5a8704a8370e32af4d2e19c1d245f41 data/marioverse/loot_table/blocks/calcite_question_block.json
 51edfdee9e48d2099ddeb2a1ce422b34d8e1e8fe data/marioverse/loot_table/blocks/calcite_slab.json

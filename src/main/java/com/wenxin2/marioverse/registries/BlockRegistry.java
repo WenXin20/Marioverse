@@ -94,6 +94,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_SLAB;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_STAIRS;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_WALL;
     public static final DeferredBlock<Block> CALCITE_PRESSURE_PLATE;
     public static final DeferredBlock<Block> CALCITE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CALCITE_SLAB;
@@ -1226,6 +1230,12 @@ public class BlockRegistry {
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
+
+        CALCITE_CHECKERED_TILES = registerBlock("calcite_checkered_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.BLACK)));
+        CALCITE_CHECKERED_TILE_SLAB = registerBlock("calcite_checkered_tile_slab", () -> slab(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
+        CALCITE_CHECKERED_TILE_STAIRS = registerBlock("calcite_checkered_tile_stairs", () -> stair(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
+        CALCITE_CHECKERED_TILE_WALL = registerBlock("calcite_checkered_tile_wall", () -> wall(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
 
         Arrays.stream(DyeColor.values()).filter(color -> color != DyeColor.WHITE).forEach(color ->
                 CALCITE.put(color, registerBlock(color.getName() + "_calcite",
