@@ -128,7 +128,7 @@ public class QuestionPanelBlock extends PanelBlock implements SimpleWaterloggedB
         }
 
         if (!isSignaled && isPowered) {
-            world.playSound(null, pos, SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundSource.BLOCKS);
+            world.playSound(null, pos, SoundRegistry.QUESTION_PANEL_DEACTIVATED.get(), SoundSource.BLOCKS);
             world.gameEvent(entity, GameEvent.BLOCK_DEACTIVATE, pos);
         } else if (isSignaled && !isPowered) {
             world.playSound(null, pos, SoundRegistry.QUESTION_PANEL_ACTIVATED.get(), SoundSource.BLOCKS);
