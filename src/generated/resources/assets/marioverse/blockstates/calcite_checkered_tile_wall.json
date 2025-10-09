@@ -11,7 +11,6 @@
     {
       "apply": {
         "model": "marioverse:block/calcite_checkered_tile_wall_side",
-        "uvlock": true,
         "y": 90
       },
       "when": {
@@ -21,7 +20,6 @@
     {
       "apply": {
         "model": "marioverse:block/calcite_checkered_tile_wall_side_tall",
-        "uvlock": true,
         "y": 90
       },
       "when": {
@@ -30,8 +28,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/calcite_checkered_tile_wall_side",
-        "uvlock": true
+        "model": "marioverse:block/calcite_checkered_tile_wall_side"
       },
       "when": {
         "north": "low"
@@ -39,8 +36,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/calcite_checkered_tile_wall_side_tall",
-        "uvlock": true
+        "model": "marioverse:block/calcite_checkered_tile_wall_side_tall"
       },
       "when": {
         "north": "tall"
@@ -49,7 +45,6 @@
     {
       "apply": {
         "model": "marioverse:block/calcite_checkered_tile_wall_side",
-        "uvlock": true,
         "y": 180
       },
       "when": {
@@ -59,7 +54,6 @@
     {
       "apply": {
         "model": "marioverse:block/calcite_checkered_tile_wall_side_tall",
-        "uvlock": true,
         "y": 180
       },
       "when": {
@@ -69,7 +63,6 @@
     {
       "apply": {
         "model": "marioverse:block/calcite_checkered_tile_wall_side",
-        "uvlock": true,
         "y": 270
       },
       "when": {
@@ -79,7 +72,6 @@
     {
       "apply": {
         "model": "marioverse:block/calcite_checkered_tile_wall_side_tall",
-        "uvlock": true,
         "y": 270
       },
       "when": {

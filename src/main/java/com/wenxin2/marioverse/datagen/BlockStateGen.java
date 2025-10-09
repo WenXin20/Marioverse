@@ -1202,7 +1202,7 @@ public class BlockStateGen extends BlockStateProvider {
                                     ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
                             .rotationX(half == Half.BOTTOM ? 0 : 180)
                             .rotationY(yRot)
-                            .uvLock(uvlock)
+                            .uvLock(true)
                             .build();
                 }, StairBlock.WATERLOGGED);
     }
@@ -1270,7 +1270,7 @@ public class BlockStateGen extends BlockStateProvider {
         builder.part()
                 .modelFile(model)
                 .rotationY((((int) entry.getKey().toYRot()) + 180) % 360)
-                .uvLock(true)
+                .uvLock(false)
                 .addModel()
                 .condition(entry.getValue(), height);
     }

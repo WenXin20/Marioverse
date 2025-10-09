@@ -6,7 +6,8 @@
       "y": 270
     },
     "facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/calcite_checkered_tile_stairs_inner"
+      "model": "marioverse:block/calcite_checkered_tile_stairs_inner",
+      "uvlock": true
     },
     "facing=east,half=bottom,shape=outer_left": {
       "model": "marioverse:block/calcite_checkered_tile_stairs_outer",
@@ -14,10 +15,12 @@
       "y": 270
     },
     "facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/calcite_checkered_tile_stairs_outer"
+      "model": "marioverse:block/calcite_checkered_tile_stairs_outer",
+      "uvlock": true
     },
     "facing=east,half=bottom,shape=straight": {
-      "model": "marioverse:block/calcite_checkered_tile_stairs"
+      "model": "marioverse:block/calcite_checkered_tile_stairs",
+      "uvlock": true
     },
     "facing=east,half=top,shape=inner_left": {
       "model": "marioverse:block/calcite_checkered_tile_stairs_inner",
@@ -100,7 +103,8 @@
       "y": 270
     },
     "facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/calcite_checkered_tile_stairs_inner"
+      "model": "marioverse:block/calcite_checkered_tile_stairs_inner",
+      "uvlock": true
     },
     "facing=south,half=bottom,shape=inner_right": {
       "model": "marioverse:block/calcite_checkered_tile_stairs_inner",
@@ -108,7 +112,8 @@
       "y": 90
     },
     "facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/calcite_checkered_tile_stairs_outer"
+      "model": "marioverse:block/calcite_checkered_tile_stairs_outer",
+      "uvlock": true
     },
     "facing=south,half=bottom,shape=outer_right": {
       "model": "marioverse:block/calcite_checkered_tile_stairs_outer",

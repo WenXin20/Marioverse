@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/inner_stairs",
 	"textures": {
-        "particle": "#main"
+		"particle": "#main"
 	},
 	"elements": [
 		{
