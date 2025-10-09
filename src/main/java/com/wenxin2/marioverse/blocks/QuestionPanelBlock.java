@@ -49,11 +49,9 @@ public class QuestionPanelBlock extends PanelBlock implements SimpleWaterloggedB
 
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!world.isClientSide) {
-            int power = this.getSignalForState(state);
-            if (power == 0)
-                this.checkPressed(entity, world, pos, state, power);
-        }
+        int power = this.getSignalForState(state);
+        if (power == 0)
+            this.checkPressed(entity, world, pos, state, power);
     }
 
     @Override
