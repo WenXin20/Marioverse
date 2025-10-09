@@ -555,7 +555,7 @@ public class BlockStateGen extends BlockStateProvider {
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(stairs)) {
-                    texture = mcLoc("block/" + removeStairName);
+                    texture = modLoc("block/" + removeStairName);
                     this.stairsMirroredNSModel(stairBlock, texture);
                 } else {
                     texture = modLoc("block/" + removeStairName);
@@ -674,7 +674,7 @@ public class BlockStateGen extends BlockStateProvider {
                     this.wallBlock(wallBlock, removeWallName, texture);
                     this.itemModels().wallInventory(blockName, texture);
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(wall)) {
-                    texture = mcLoc("block/" + removeWallName);
+                    texture = modLoc("block/" + removeWallName);
                     this.wallMirroredNSModel(wallBlock, texture);
                 } else {
                     texture = modLoc("block/" + removeWallName);

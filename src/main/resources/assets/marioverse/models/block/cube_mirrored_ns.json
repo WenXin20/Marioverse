@@ -1,7 +1,7 @@
 {
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/cube_main",
+	"parent": "minecraft:block/cube_all",
 	"render_type": "solid",
 	"textures": {
 		"particle": "#main"
