@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/wall_mirrored_ns_inventory",
+  "textures": {
+    "main": "minecraft:block/calcite_checkered_tiles",
+    "mirrored": "minecraft:block/calcite_checkered_tiles_mirrored"
+  }
+}

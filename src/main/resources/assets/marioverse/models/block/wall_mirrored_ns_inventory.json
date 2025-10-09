@@ -1,0 +1,36 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "block/wall_inventory",
+	"textures": {
+        "particle": "#main"
+	},
+	"elements": [
+		{
+			"name": "Center post",
+			"from": [4, 0, 4],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [4, 0, 12, 16], "texture": "#mirrored"},
+				"east": {"uv": [4, 0, 12, 16], "texture": "#main"},
+				"south": {"uv": [4, 0, 12, 16], "texture": "#mirrored"},
+				"west": {"uv": [4, 0, 12, 16], "texture": "#main"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#main"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#main", "cullface": "down"}
+			}
+		},
+		{
+			"name": "Full wall",
+			"from": [5, 0, 0],
+			"to": [11, 13, 16],
+			"faces": {
+				"north": {"uv": [5, 3, 11, 16], "texture": "#mirrored", "cullface": "north"},
+				"east": {"uv": [0, 3, 16, 16], "texture": "#main"},
+				"south": {"uv": [5, 3, 11, 16], "texture": "#mirrored", "cullface": "south"},
+				"west": {"uv": [0, 3, 16, 16], "texture": "#main"},
+				"up": {"uv": [5, 0, 11, 16], "texture": "#main"},
+				"down": {"uv": [5, 0, 11, 16], "texture": "#main", "cullface": "down"}
+			}
+		}
+	]
+}

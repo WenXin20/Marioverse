@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/outer_stairs_mirrored_ns",
+  "textures": {
+    "main": "minecraft:block/calcite_checkered_tiles",
+    "mirrored": "minecraft:block/calcite_checkered_tiles_mirrored"
+  }
+}

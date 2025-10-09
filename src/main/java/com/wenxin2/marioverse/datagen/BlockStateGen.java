@@ -32,10 +32,14 @@ import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.block.state.properties.WallSide;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -454,6 +458,9 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeSlabName );
                     this.slabBlock(slabBlock, texture, texture);
                     this.itemModels().slab(blockName, texture, texture, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(slab)) {
+                    texture = modLoc("block/" + removeSlabName );
+                    this.slabMirroredNSModel(slabBlock, texture);
                 } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_CALCITE.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
@@ -547,6 +554,9 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeStairName);
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(stairs)) {
+                    texture = mcLoc("block/" + removeStairName);
+                    this.stairsMirroredNSModel(stairBlock, texture);
                 } else {
                     texture = modLoc("block/" + removeStairName);
                     this.stairsBlock(stairBlock, removeStairName, texture);
@@ -663,6 +673,9 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeWallName);
                     this.wallBlock(wallBlock, removeWallName, texture);
                     this.itemModels().wallInventory(blockName, texture);
+                } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(wall)) {
+                    texture = mcLoc("block/" + removeWallName);
+                    this.wallMirroredNSModel(wallBlock, texture);
                 } else {
                     texture = modLoc("block/" + removeWallName);
                     this.wallBlock(wallBlock, removeWallName, texture);
@@ -843,7 +856,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         ModelFile model = models()
                 .withExistingParent(modelName, modLoc("block/cube_mirrored_ns"))
-                .texture("all", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
 
         simpleBlockWithItem(block, model);
     }
@@ -853,7 +866,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         ModelFile model = models().getBuilder(modelName).texture("particle", mainTexture).renderType("cutout");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
@@ -865,7 +878,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("side", sideTexture).texture("front", frontTexture).texture("top", topTexture);
 
         simpleBlockItem(block, model);
-        getVariantBuilder(block)
+        this.getVariantBuilder(block)
                 .forAllStates(state -> ConfiguredModel.builder()
                         .modelFile(model)
                         .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
@@ -884,7 +897,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
                 .texture("all", invisibleTexture).renderType("translucent");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
                 .addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
@@ -907,7 +920,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
                 .texture("all", invisibleTexture).renderType("translucent");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
                 .addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
@@ -930,7 +943,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
                 .texture("all", invisibleTexture).renderType("translucent");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
                 .addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
@@ -954,7 +967,7 @@ public class BlockStateGen extends BlockStateProvider {
                         modLoc("block/template_goal_pole_top"))
                 .texture("side", mainTexture + "_top");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.BOTTOM).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.MIDDLE).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.TOP).addModels(new ConfiguredModel(modelTop));
@@ -970,7 +983,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("center", mainTexture + "_center")
                 .renderType("cutout_mipped");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
@@ -988,7 +1001,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         simpleBlockItem(block, modelTop);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
     }
@@ -1005,7 +1018,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         simpleBlockItem(block, modelTop);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
     }
@@ -1014,7 +1027,7 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile model = models().getExistingFile(ResourceLocation
                 .fromNamespaceAndPath("minecraft", "block/water"));
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
@@ -1031,7 +1044,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         simpleBlockItem(block, model);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
@@ -1048,7 +1061,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         simpleBlockItem(block, model);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
@@ -1066,7 +1079,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         simpleBlockItem(block, model);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
@@ -1108,6 +1121,25 @@ public class BlockStateGen extends BlockStateProvider {
                         .texture("top", top));
     }
 
+    private void slabMirroredNSModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/slab_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/slab_top_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelDouble = models().getExistingFile(mainTexture);
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block)
+                .partialState().with(SlabBlock.TYPE, SlabType.BOTTOM).addModels(new ConfiguredModel(model))
+                .partialState().with(SlabBlock.TYPE, SlabType.TOP).addModels(new ConfiguredModel(modelTop))
+                .partialState().with(SlabBlock.TYPE, SlabType.DOUBLE).addModels(new ConfiguredModel(modelDouble));
+    }
+
     private void spikePanelModel(Block block, ResourceLocation mainTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -1137,6 +1169,44 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
+    private void stairsMirroredNSModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/stairs_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelInner = models()
+                .withExistingParent(modelName + "_inner", modLoc("block/inner_stairs_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelOuter = models()
+                .withExistingParent(modelName + "_outer", modLoc("block/outer_stairs_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(state -> {
+                    Direction facing = state.getValue(StairBlock.FACING);
+                    Half half = state.getValue(StairBlock.HALF);
+                    StairsShape shape = state.getValue(StairBlock.SHAPE);
+                    int yRot = (int) facing.getClockWise().toYRot();
+                    if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+                        yRot += 270;
+                    if (shape != StairsShape.STRAIGHT && half == Half.TOP)
+                        yRot += 90;
+                    yRot %= 360;
+                    boolean uvlock = yRot != 0 || half == Half.TOP;
+
+                    return ConfiguredModel.builder()
+                            .modelFile(shape == StairsShape.STRAIGHT
+                                    ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
+                            .rotationX(half == Half.BOTTOM ? 0 : 180)
+                            .rotationY(yRot)
+                            .uvLock(uvlock)
+                            .build();
+                }, StairBlock.WATERLOGGED);
+    }
+
     private void storageBrickModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -1147,7 +1217,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent("empty_" + modelName, mcLoc("block/cube_all"))
                 .texture("all", emptyTexture);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
@@ -1162,24 +1232,47 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent("empty_" + modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", topTexture).texture("side", emptyTexture).texture("top", topTexture);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(QuestionBlock.EMPTY, true).addModels(new ConfiguredModel(modelEmpty));
     }
 
-    private void waterSpoutModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
+    private void wallMirroredNSModel(Block block, ResourceLocation mainTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/template_water_spout"))
-                .texture("side", sideTexture);
-        ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_water_spout_top"))
-                .texture("splash", splashTexture).texture("side", sideTexture).texture("top", topTexture);
+                .withExistingParent(modelName, modLoc("block/template_wall_post_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelSide = models()
+                .withExistingParent(modelName + "_side", modLoc("block/template_wall_side_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelSideTall = models()
+                .withExistingParent(modelName + "_side_tall", modLoc("block/template_wall_side_tall_mirrored_ns"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+        ModelFile modelInventory = models()
+                .withExistingParent(modelName + "_inventory", modLoc("block/wall_mirrored_ns_inventory"))
+                .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
-        variantBuilder.partialState().with(WaterSpoutBlock.TOP, false).addModels(new ConfiguredModel(model));
-        variantBuilder.partialState().with(WaterSpoutBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
+        simpleBlockItem(block, modelInventory);
+
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block)
+                .part().modelFile(model).addModel()
+                .condition(WallBlock.UP, true).end();
+        WALL_PROPS.entrySet().stream()
+                .filter(e -> e.getKey().getAxis().isHorizontal())
+                .forEach(e -> {
+                    wallSidePart(builder, modelSide, e, WallSide.LOW);
+                    wallSidePart(builder, modelSideTall, e, WallSide.TALL);
+                });
+    }
+
+    private void wallSidePart(MultiPartBlockStateBuilder builder, ModelFile model, Map.Entry<Direction, Property<WallSide>> entry, WallSide height) {
+        builder.part()
+                .modelFile(model)
+                .rotationY((((int) entry.getKey().toYRot()) + 180) % 360)
+                .uvLock(true)
+                .addModel()
+                .condition(entry.getValue(), height);
     }
 
     private void warpPipeModel(Block block, ResourceLocation entranceTexture, ResourceLocation bottomTexture,
@@ -1198,7 +1291,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         simpleBlockItem(block, modelEntrance);
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
 
         for (Direction direction : Direction.values()) {
             int xRot = getXRotation(direction);
@@ -1222,6 +1315,21 @@ public class BlockStateGen extends BlockStateProvider {
                 }
             }
         }
+    }
+
+    private void waterSpoutModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_water_spout"))
+                .texture("side", sideTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_water_spout_top"))
+                .texture("splash", splashTexture).texture("side", sideTexture).texture("top", topTexture);
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(WaterSpoutBlock.TOP, false).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(WaterSpoutBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
     }
 
     // Unfinished
@@ -1264,7 +1372,7 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile nsewModel = models()
                 .withExistingParent(modelName + "_nsew", modLoc("block/clear_warp_pipe/clear_warp_pipe_nsew"));
 
-        VariantBlockStateBuilder variantBuilder = getVariantBuilder(block);
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
 
         // Base Pipe (No entrance or closed)
         variantBuilder.partialState()

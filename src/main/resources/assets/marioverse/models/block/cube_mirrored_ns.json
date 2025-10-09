@@ -1,10 +1,10 @@
 {
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/cube_all",
+	"parent": "minecraft:block/cube_main",
 	"render_type": "solid",
 	"textures": {
-		"particle": "#all"
+		"particle": "#main"
 	},
 	"elements": [
 		{
@@ -13,11 +13,11 @@
 			"to": [16, 16, 16],
 			"faces": {
 				"north": {"uv": [0, 0, 16, 16], "texture": "#mirrored", "cullface": "north"},
-				"east": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "east"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#main", "cullface": "east"},
 				"south": {"uv": [0, 0, 16, 16], "texture": "#mirrored", "cullface": "south"},
-				"west": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "west"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "up"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#all", "cullface": "down"}
+				"west": {"uv": [0, 0, 16, 16], "texture": "#main", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#main", "cullface": "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#main", "cullface": "down"}
 			}
 		}
 	]

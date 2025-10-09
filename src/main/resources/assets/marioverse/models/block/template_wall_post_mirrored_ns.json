@@ -1,0 +1,23 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+    "parent": "block/template_wall_post",
+	"textures": {
+        "particle": "#main"
+	},
+	"elements": [
+		{
+			"name": "Center post",
+			"from": [4, 0, 4],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [4, 0, 12, 16], "texture": "#mirrored"},
+				"east": {"uv": [4, 0, 12, 16], "texture": "#main"},
+				"south": {"uv": [4, 0, 12, 16], "texture": "#mirrored"},
+				"west": {"uv": [4, 0, 12, 16], "texture": "#main"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#main", "cullface": "up"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#main", "cullface": "down"}
+			}
+		}
+	]
+}

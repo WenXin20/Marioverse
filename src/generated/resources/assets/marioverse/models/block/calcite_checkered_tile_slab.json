@@ -1,8 +1,7 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "marioverse:block/slab_mirrored_ns",
   "textures": {
-    "bottom": "marioverse:block/calcite_checkered_tiles",
-    "side": "marioverse:block/calcite_checkered_tiles",
-    "top": "marioverse:block/calcite_checkered_tiles"
+    "main": "marioverse:block/calcite_checkered_tiles",
+    "mirrored": "marioverse:block/calcite_checkered_tiles_mirrored"
   }
 }

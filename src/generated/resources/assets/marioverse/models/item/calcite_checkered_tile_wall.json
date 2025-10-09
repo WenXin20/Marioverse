@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:block/wall_inventory",
-  "textures": {
-    "wall": "marioverse:block/calcite_checkered_tiles"
-  }
+  "parent": "marioverse:block/calcite_checkered_tile_wall_inventory"
 }
