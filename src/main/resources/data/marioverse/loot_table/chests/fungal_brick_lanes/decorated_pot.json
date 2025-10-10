@@ -1,0 +1,56 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/coins",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/power_ups",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/mobs",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/koopa_shells",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/costumes",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/one_up",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/tnt",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/super_star",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 2
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "marioverse:chests/decorated_pot"
+}
