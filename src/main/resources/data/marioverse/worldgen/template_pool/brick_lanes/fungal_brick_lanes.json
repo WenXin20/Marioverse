@@ -23,7 +23,7 @@
     {
       "weight": 40,
       "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_coins",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x1_question_block",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"
@@ -32,7 +32,7 @@
     {
       "weight": 20,
       "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_coins_storage",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x1_storage_brick",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"
@@ -41,7 +41,7 @@
     {
       "weight": 32,
       "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_coins",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_question_block",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"
@@ -50,7 +50,7 @@
     {
       "weight": 16,
       "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_coins_storage",
+        "location": "marioverse:brick_lanes/fungal_bricks/3x1_storage_brick",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"
@@ -63,114 +63,6 @@
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"
-      }
-    },
-    {
-      "weight": 16,
-      "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_power_ups",
-        "element_type": "minecraft:single_pool_element",
-        "processors": "marioverse:brick_decay",
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 16,
-      "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_power_ups_storage",
-        "element_type": "minecraft:single_pool_element",
-        "processors": "marioverse:brick_decay",
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 16,
-      "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_power_ups",
-        "element_type": "minecraft:single_pool_element",
-        "processors": "marioverse:brick_decay",
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 16,
-      "element": {
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_power_ups_storage",
-        "element_type": "minecraft:single_pool_element",
-        "processors": "marioverse:brick_decay",
-        "projection": "rigid"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_mobs",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_mobs_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_koopa_shells",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_koopa_shells_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_mobs",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_mobs_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_koopa_shells",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 12,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_koopa_shells_storage",
-        "processors": "marioverse:brick_decay"
       }
     },
     {
@@ -268,6 +160,33 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x1_decorated_pot",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x1_bowser_decorated_pot",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/5x1_plumber_decorated_pot",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
         "location": "marioverse:brick_lanes/fungal_bricks/5x5_coin_circle",
         "processors": "marioverse:brick_decay"
       }
@@ -309,78 +228,6 @@
       }
     },
     {
-      "weight": 3,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_one_up",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 3,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_one_up_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_super_star",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 3,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/3x1_super_star_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 3,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_one_up",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 5,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_one_up_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 3,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_super_star",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
-      "weight": 5,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/5x1_super_star_storage",
-        "processors": "marioverse:brick_decay"
-      }
-    },
-    {
       "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
@@ -403,7 +250,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/6x3_power_ups",
+        "location": "marioverse:brick_lanes/fungal_bricks/6x3_question_block",
         "processors": "marioverse:brick_decay"
       }
     },
@@ -412,7 +259,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/6x3_power_ups_storage",
+        "location": "marioverse:brick_lanes/fungal_bricks/6x3_storage_bricks",
         "processors": "marioverse:brick_decay"
       }
     },
@@ -430,7 +277,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "marioverse:brick_lanes/fungal_bricks/6x5_power_ups_storage",
+        "location": "marioverse:brick_lanes/fungal_bricks/6x5_storage_bricks",
         "processors": "marioverse:brick_decay"
       }
     },
