@@ -3,9 +3,30 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 3,
+      "weight": 5,
       "element": {
         "location": "marioverse:classic_underground/2x7_pit",
+        "override_liquid_settings": "ignore_waterlogging",
+        "element_type": "minecraft:single_pool_element",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "marioverse:classic_underground/2x7_spike_pit",
+        "override_liquid_settings": "ignore_waterlogging",
+        "element_type": "minecraft:single_pool_element",
+        "processors": "minecraft:empty",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "marioverse:classic_underground/2x7_spike_panel_pit",
+        "override_liquid_settings": "ignore_waterlogging",
         "element_type": "minecraft:single_pool_element",
         "processors": "minecraft:empty",
         "projection": "rigid"
@@ -15,6 +36,7 @@
       "weight": 1,
       "element": {
         "location": "marioverse:classic_underground/2x7_lava_pit",
+        "override_liquid_settings": "ignore_waterlogging",
         "element_type": "minecraft:single_pool_element",
         "processors": "minecraft:empty",
         "projection": "rigid"
