@@ -46,6 +46,7 @@
     "marioverse:smashable_waxed_exposed_cut_copper",
     "marioverse:smashable_waxed_oxidized_cut_copper",
     "marioverse:smashable_waxed_weathered_cut_copper",
-    "marioverse:smashable_weathered_cut_copper"
+    "marioverse:smashable_weathered_cut_copper",
+    "minecraft:decorated_pot"
   ]
 }

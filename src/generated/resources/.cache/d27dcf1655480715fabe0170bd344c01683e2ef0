@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-08T18:45:44.8248355	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-10-11T18:54:34.0915258	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 f1c13174eb66d8e3579ac0d3975e6780bca03d80 data/create/tags/block/movable_empty_collider.json
@@ -54,7 +54,7 @@ f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plan
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/block/polished_calcite.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/block/question_blocks.json
 a7237a913ebc494e95c33837eb152a6c6ebd10a6 data/marioverse/tags/block/question_panels.json
-a1424fc10d6ecfa556199236d55bb999dab942d6 data/marioverse/tags/block/smashable_blocks.json
+562d6608011d5c95e2bdd0f99fdfc3157e691e98 data/marioverse/tags/block/smashable_blocks.json
 129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/block/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json

@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-07T23:01:30.4959162	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-10-11T18:54:34.0970821	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -85,7 +85,7 @@ a05cc29212ae2e2227f13eba12872340d48b1052 data/marioverse/tags/item/shoes.json
 7b599ee038c3fd3bbd1e971d1d1ea49366880e63 data/marioverse/tags/item/shoes/luigi.json
 698bfbe8e60344466fe2ed94b09b5997c325e4c1 data/marioverse/tags/item/shoes/mario.json
 6847a635b87905a9021d4641ea58248ed8367a69 data/marioverse/tags/item/shoes/peach.json
-a1424fc10d6ecfa556199236d55bb999dab942d6 data/marioverse/tags/item/smashable_blocks.json
+562d6608011d5c95e2bdd0f99fdfc3157e691e98 data/marioverse/tags/item/smashable_blocks.json
 3740d7f8ad0113b0b4e688892ce53e39b109636e data/marioverse/tags/item/spawn_eggs/koopa_troopa.json
 129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/item/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calcite_bricks.json
