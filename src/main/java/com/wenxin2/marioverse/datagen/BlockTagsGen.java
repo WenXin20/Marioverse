@@ -403,7 +403,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
-                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get());
+                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
+                .add(Blocks.DECORATED_POT);
 
         tag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS)

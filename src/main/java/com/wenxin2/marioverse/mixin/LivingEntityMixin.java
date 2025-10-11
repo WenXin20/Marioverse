@@ -272,13 +272,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && entity.getDeltaMovement().y <= 0 && this.mv$hasSmashedBlock())
             this.mv$setSmashedBlock(false);
 
-        double deltaY = entity.getDeltaMovement().y;
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator() && !this.mv$hasSmashedBlock()
                 && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player)
-                && !world.isClientSide) {
+                && !entity.onGround() && entity.getY() > entity.yOld
+                && !entity.isSpectator() && !world.isClientSide) {
             this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
@@ -287,8 +285,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator()) {
+                && !entity.onGround() && entity.getY() > entity.yOld
+                && !entity.isSpectator() && !world.isClientSide) {
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -299,9 +297,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && !entity.onGround() && deltaY > -0.079 && !entity.isSpectator()
                 && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player)
-                && !world.isClientSide)
+                && !entity.onGround() && entity.getY() > entity.yOld
+                && !entity.isSpectator() && !world.isClientSide)
             this.mv$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
 
         if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
@@ -711,6 +709,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     private void mv$characterAbilities(LivingEntity entity) {
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
+        Vec3 motion = entity.getDeltaMovement();
 
         if (jumpAttribute != null) {
             double normalJumpBoost = 0.4;
@@ -763,7 +762,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
 
         if (this.mv$hasPeachCostume(entity)) {
-            Vec3 motion = entity.getDeltaMovement();
             if (motion.y < 0)
                 entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
         }
@@ -1206,7 +1204,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
-                this.mv$setSmashedBlock(true);
                 QuestionBlock.playSounds(world, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();
@@ -1232,6 +1229,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     private void mv$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
         BlockState stateAbove = world.getBlockState(pos.above());
         ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
+        Vec3 deltaMovement = entity.getDeltaMovement();
 
         mv$hitEntityAbove(pos, world, entity);
 
@@ -1242,13 +1240,19 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     this.mv$setSmashedBlock(true);
                 } else world.destroyBlock(pos, false);
                 world.levelEvent(2001, pos, Block.getId(state));
-            } else if (state.getBlock() instanceof DecoratedPotBlock) {
-                world.setBlock(pos, state.setValue(DecoratedPotBlock.CRACKED, true), 4);
-                world.destroyBlock(pos, true, entity);
-            } else world.destroyBlock(pos, false);
+            } else {
+                if (state.getBlock() instanceof DecoratedPotBlock) {
+                    world.setBlock(pos, state.setValue(DecoratedPotBlock.CRACKED, true), 4);
+                    world.destroyBlock(pos, true, entity);
+                    entity.setDeltaMovement(deltaMovement.x, Math.min(deltaMovement.y, -0.1), deltaMovement.z);
+                } else {
+                    world.destroyBlock(pos, false);
+                    entity.setDeltaMovement(deltaMovement.x, Math.min(deltaMovement.y, -0.1), deltaMovement.z);
+                }
+            }
 
-            this.mv$setSmashedBlock(true);
             world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
+
 
             if (state.is(BlockTags.CRYSTAL_SOUND_BLOCKS))
                 world.playSound(null, pos, SoundType.AMETHYST.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);

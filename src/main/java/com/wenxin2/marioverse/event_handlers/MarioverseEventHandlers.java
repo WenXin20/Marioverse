@@ -743,7 +743,7 @@ public class MarioverseEventHandlers {
                     && !player.isSuppressingBounce() && !player.isNoGravity()) {
                 if (Minecraft.getInstance().options.keyJump.isDown())
                     PacketDistributor.sendToServer(new BouncePayload(true));
-                else PacketDistributor.sendToServer(new BouncePayload(false));
+                else PacketDistributor.sendToServer(new BouncePayload(false)); // TODO: Add bounce sound
             }
 
             if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
