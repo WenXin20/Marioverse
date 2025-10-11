@@ -288,10 +288,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
                 && !entity.onGround() && deltaY > -0.079
-                && !entity.isSpectator())
+                && !entity.isSpectator()) {
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            this.mv$setSmashedBlock(true);
+        }
 
         this.mv$shellBonkBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
@@ -1204,6 +1206,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
+                this.mv$setSmashedBlock(true);
                 QuestionBlock.playSounds(world, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();
@@ -1216,7 +1219,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
 
-            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
+            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock
+                    && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
                 BlockState currentState = world.getBlockState(pos);
                 world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
                 world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
