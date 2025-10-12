@@ -2,6 +2,9 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -67,48 +70,57 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
                     Block.box(10, 6, 6, 16, 10, 10),
                     Block.box(15, 13, 12, 16, 16, 15)).optimize();
 
-    protected static final VoxelShape BOTTOM_COLLISION = Block.box(0.0, 1.0, 0.0, 16.0, 8.0, 16.0);
+    private static final EnumMap<Direction, EnumMap<Half, EnumMap<StairsShape, VoxelShape>>> SHAPES =
+            new EnumMap<>(Direction.class);
 
-    protected static final VoxelShape TOP_COLLISION = Block.box(0.0, 9.0, 0.0, 16.0, 16.0, 16.0);
+    static {
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            EnumMap<Half, EnumMap<StairsShape, VoxelShape>> halfMap = new EnumMap<>(Half.class);
+            for (Half half : Half.values()) {
+                EnumMap<StairsShape, VoxelShape> shapeMap = new EnumMap<>(StairsShape.class);
+                for (StairsShape stairsShape : StairsShape.values()) {
+                    VoxelShape base = switch (stairsShape) {
+                        case STRAIGHT -> (half == Half.TOP ? TOP_AABB : BOTTOM_AABB);
+                        case INNER_LEFT, INNER_RIGHT -> (half == Half.TOP ? TOP_INNER_AABB : BOTTOM_INNER_AABB);
+                        case OUTER_LEFT, OUTER_RIGHT -> (half == Half.TOP ? TOP_OUTER_AABB : BOTTOM_OUTER_AABB);
+                    };
+
+                    int rotSteps = switch (dir) {
+                        case EAST -> 0;
+                        case SOUTH -> 1;
+                        case WEST -> 2;
+                        default -> 3;
+                    };
+
+                    if (stairsShape == StairsShape.INNER_RIGHT || stairsShape == StairsShape.OUTER_RIGHT)
+                        rotSteps = (rotSteps + 4) % 4;
+                    else if (stairsShape == StairsShape.INNER_LEFT || stairsShape == StairsShape.OUTER_LEFT)
+                        rotSteps = (rotSteps + 3) % 4;
+                    if (half == Half.TOP && stairsShape != StairsShape.STRAIGHT)
+                        rotSteps = (rotSteps + 1) % 4;
+
+                    int rotation = rotSteps * 90;
+
+                    shapeMap.put(stairsShape, VoxelShapeUtils.rotateShapeAxis(base, Direction.Axis.Y, rotation));
+                }
+                halfMap.put(half, shapeMap);
+            }
+            SHAPES.put(dir, halfMap);
+        }
+    }
 
     public BridgeStairBlock(BlockState state, Properties properties) {
         super(state, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
                 .setValue(HALF, Half.BOTTOM).setValue(SHAPE, StairsShape.STRAIGHT)
-                .setValue(WATERLOGGED, Boolean.FALSE)
-        );
+                .setValue(WATERLOGGED, Boolean.FALSE));
         this.logBlock = state.getBlock();
     }
 
     @NotNull
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext ctx) {
-        Direction facing = state.getValue(FACING);
-        Half half = state.getValue(HALF);
-        StairsShape shape = state.getValue(SHAPE);
-
-        VoxelShape base;
-        switch (shape) {
-            case STRAIGHT -> base = (half == Half.TOP) ? TOP_AABB : BOTTOM_AABB;
-            case INNER_LEFT, INNER_RIGHT -> base = (half == Half.TOP) ? TOP_INNER_AABB : BOTTOM_INNER_AABB;
-            case OUTER_LEFT, OUTER_RIGHT -> base = (half == Half.TOP) ? TOP_OUTER_AABB : BOTTOM_OUTER_AABB;
-            default -> base = Shapes.block();
-        }
-
-        int baseIdx = Direction.EAST.get2DDataValue();
-        int targetIdx = facing.get2DDataValue();
-        int rotSteps = (targetIdx - baseIdx) % 4;
-        if (rotSteps < 0) rotSteps += 4;
-
-        if (shape == StairsShape.INNER_RIGHT || shape == StairsShape.OUTER_RIGHT)
-            rotSteps = (rotSteps + 4) % 4;
-        else if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
-            rotSteps = (rotSteps + 3) % 4;
-        if (half == Half.TOP && (shape != StairsShape.STRAIGHT))
-            rotSteps = (rotSteps + 1) % 4;
-
-        int degrees = rotSteps * 90;
-        return VoxelShapeUtils.rotateShapeAxis(base, Direction.Axis.Y, degrees).optimize();
+        return SHAPES.get(state.getValue(FACING)).get(state.getValue(HALF)).get(state.getValue(SHAPE));
     }
 
     @NotNull
