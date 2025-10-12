@@ -160,9 +160,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
         }
 
-        if (entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS))
-            tag.putBoolean("marioverse:has_smashed_block", this.mv$hasSmashedBlock());
-
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
             tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
 
@@ -206,9 +203,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
             this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         }
-
-        if (entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS))
-            this.mv$setSmashedBlock(tag.getBoolean("marioverse:has_smashed_block"));
 
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
             this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
@@ -268,15 +262,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
             this.mv$setConsecutiveBounces(0);
 
+        double deltaY = entity.getDeltaMovement().y;
+
         if ((entity.onGround() || entity.isInWaterOrBubble())
-                && entity.getDeltaMovement().y <= 0 && this.mv$hasSmashedBlock())
-            this.mv$setSmashedBlock(false);
+                && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player)
+                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !world.isClientSide) {
+                && !entity.isSpectator() && !world.isClientSide
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
             this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
 
@@ -290,17 +287,17 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.mv$setSmashedBlock(true);
         }
 
         this.mv$shellBonkBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player)
+                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !world.isClientSide)
-            this.mv$hitQuestionBlock(world, posAboveEntity, questionBlockEntity);
+                && !entity.isSpectator() && !world.isClientSide
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            this.mv$hitQuestionBlock(world, posAboveEntity, entity, questionBlockEntity);
 
         if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
@@ -433,16 +430,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setIceFlower(boolean hasIceFlower) {
         this.mv$hasIceFlower = hasIceFlower;
-    }
-
-    @Override
-    public boolean mv$hasSmashedBlock() {
-        return this.mv$hasSmashedBlock;
-    }
-
-    @Override
-    public void mv$setSmashedBlock(boolean hasSmashedBlock) {
-        this.mv$hasSmashedBlock = hasSmashedBlock;
     }
 
     @Override
@@ -610,8 +597,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !this.mv$hasSmashedBlock()) {
-            mv$smashBlock(world, posNorth, stateNorth, entity);
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+            this.mv$smashBlock(world, posNorth, stateNorth, entity);
             shell.bounceShell(world, Direction.NORTH);
         }
 
@@ -619,8 +606,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !this.mv$hasSmashedBlock()) {
-            mv$smashBlock(world, posSouth, stateSouth, entity);
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+            this.mv$smashBlock(world, posSouth, stateSouth, entity);
             shell.bounceShell(world, Direction.SOUTH);
         }
 
@@ -628,8 +615,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !this.mv$hasSmashedBlock()) {
-            mv$smashBlock(world, posEast, stateEast, entity);
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+            this.mv$smashBlock(world, posEast, stateEast, entity);
             shell.bounceShell(world, Direction.EAST);
         }
 
@@ -637,8 +624,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && entity instanceof KoopaShellEntity shell
                 && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !this.mv$hasSmashedBlock()) {
-            mv$smashBlock(world, posWest, stateWest, entity);
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+            this.mv$smashBlock(world, posWest, stateWest, entity);
             shell.bounceShell(world, Direction.WEST);
         }
     }
@@ -684,25 +671,25 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posNorth, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posNorth, entity, questionBlockEntity);
 
         if (world.getBlockEntity(posSouth) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posSouth, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posSouth, entity, questionBlockEntity);
 
         if (world.getBlockEntity(posEast) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posEast, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posEast, entity, questionBlockEntity);
 
         if (world.getBlockEntity(posWest) instanceof QuestionBlockEntity questionBlockEntity
                 && entity instanceof KoopaShellEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posWest, questionBlockEntity);
+            this.mv$hitQuestionBlock(world, posWest, entity, questionBlockEntity);
     }
 
     @Unique
@@ -1172,128 +1159,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 if (Math.abs(currentScale - targetScale) < 0.01)
                     setter.accept(targetScale);
                 else setter.accept(lerpedScale);
-            }
-        }
-    }
-
-    @Unique
-    public void mv$hitQuestionBlock(Level world, BlockPos pos, QuestionBlockEntity questionBlockEntity) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-
-        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
-            ItemStack storedItem = questionBlockEntity.getTheItem();
-
-            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY))
-                mv$hitEntityAbove(pos, world, entity);
-
-            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                BlockState stateAbove = world.getBlockState(pos.above());
-                ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
-                if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
-                    StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
-                else if (stateAbove.getBlock() instanceof CoinBlock)
-                    CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
-
-                if (!world.isClientSide)
-                    questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
-
-                if (world.getBlockState(pos).is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
-                    PiglinAi.angerNearbyPiglins(player, false);
-
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
-                            UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
-
-                QuestionBlock.playSounds(world, pos, storedItem);
-                questionBlockEntity.splitTheItem(1);
-                questionBlockEntity.setChanged();
-            }
-
-            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                BlockState currentState = world.getBlockState(pos);
-                if (currentState.getBlock() instanceof QuestionBlock)
-                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
-            }
-
-            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock
-                    && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
-                BlockState currentState = world.getBlockState(pos);
-                world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
-                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
-            }
-        }
-    }
-
-    @Unique
-    private void mv$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
-        BlockState stateAbove = world.getBlockState(pos.above());
-        ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
-        Vec3 deltaMovement = entity.getDeltaMovement();
-
-        mv$hitEntityAbove(pos, world, entity);
-
-        if (this.mv$hasSuperMushroom()) {
-            if (state.getBlock() instanceof SlabBlock) {
-                if (state.getValue(SlabBlock.TYPE) == SlabType.DOUBLE) {
-                    world.setBlock(pos, state.setValue(SlabBlock.TYPE, SlabType.TOP), 3);
-                    this.mv$setSmashedBlock(true);
-                } else world.destroyBlock(pos, false);
-                world.levelEvent(2001, pos, Block.getId(state));
-            } else {
-                if (state.getBlock() instanceof DecoratedPotBlock) {
-                    world.setBlock(pos, state.setValue(DecoratedPotBlock.CRACKED, true), 4);
-                    world.destroyBlock(pos, true, entity);
-                    entity.setDeltaMovement(deltaMovement.x, Math.min(deltaMovement.y, -0.1), deltaMovement.z);
-                } else {
-                    world.destroyBlock(pos, false);
-                    entity.setDeltaMovement(deltaMovement.x, Math.min(deltaMovement.y, -0.1), deltaMovement.z);
-                }
-            }
-
-            world.gameEvent(this, GameEvent.BLOCK_CHANGE, pos);
-
-
-            if (state.is(BlockTags.CRYSTAL_SOUND_BLOCKS))
-                world.playSound(null, pos, SoundType.AMETHYST.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else if (state.getBlock() instanceof DecoratedPotBlock)
-                world.playSound(null, pos, SoundType.DECORATED_POT.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, pos, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-            if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
-                StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
-            else if (stateAbove.getBlock() instanceof CoinBlock)
-                CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
-        } else {
-            world.playSound(null, pos, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (!(state.getBlock() instanceof QuestionBlock)) {
-                if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
-                    StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
-                else if (stateAbove.getBlock() instanceof CoinBlock)
-                    CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
-            }
-        }
-    }
-
-    @Unique
-    private static void mv$hitEntityAbove(BlockPos pos, Level world, LivingEntity attackingEntity) {
-        AABB boundingBox = new AABB(pos.above()).inflate(0.01);
-        List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
-
-        if (!entitiesAbove.isEmpty()) {
-            for (Entity entityAbove : entitiesAbove) {
-                if (entityAbove instanceof LivingEntity livingEntity && livingEntity.onGround()) {
-                    entityAbove.setDeltaMovement(entityAbove.getDeltaMovement().add(0, 0.5, 0));
-                    if (world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
-                        if (livingEntity instanceof KoopaShellEntity)
-                            livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 0.0F);
-                        else livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 4.0F);
-                    } else {
-                        if (livingEntity instanceof KoopaShellEntity)
-                            livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 0.0F);
-                        else livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
-                    }
-                }
             }
         }
     }

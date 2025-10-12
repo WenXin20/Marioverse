@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
@@ -89,6 +90,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -784,6 +786,10 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntityJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
+        Level world = entity.level();
+        BlockPos pos = entity.blockPosition();
+        BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
+        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
 
         if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler
                 && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
@@ -791,6 +797,32 @@ public class MarioverseEventHandlers {
             entity.level().playSound(null, entity.blockPosition(),
                     entity instanceof Player ? SoundRegistry.PLAYER_JUMP.get() : SoundRegistry.MOB_JUMP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL);
+        }
+
+        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && (EventHooks.canEntityGrief(world, entity))
+                && !entity.isSpectator() && !world.isClientSide
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
+                && entity instanceof AbilitiesHandler handler) {
+            handler.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
+        }
+
+        if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && (EventHooks.canEntityGrief(world, entity))
+                && !entity.isSpectator() && !world.isClientSide
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
+                && entity instanceof AbilitiesHandler handler) {
+            handler.mv$hitQuestionBlock(world, posAboveEntity, entity, questionBlockEntity);
+        }
+
+        if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                && !entity.isSpectator() && !world.isClientSide) {
+            if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
+                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 
