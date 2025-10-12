@@ -152,6 +152,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE);
             add(event, BlockRegistry.CHERRY_LOG_BRIDGE);
             add(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE);
+            add(event, BlockRegistry.BAMBOO_BRIDGE);
+            add(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
             add(event, BlockRegistry.CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE);
@@ -173,6 +175,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.BAMBOO_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS);
             add(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);
