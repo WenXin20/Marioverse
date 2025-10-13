@@ -1,0 +1,428 @@
+{
+  "variants": {
+    "face=ceiling,facing=east,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=east,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 270
+    },
+    "face=ceiling,facing=north,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=north,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 180
+    },
+    "face=ceiling,facing=south,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180
+    },
+    "face=ceiling,facing=south,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180
+    },
+    "face=ceiling,facing=west,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 90
+    },
+    "face=ceiling,facing=west,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 180,
+      "y": 90
+    },
+    "face=floor,facing=east,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 90
+    },
+    "face=floor,facing=east,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 90
+    },
+    "face=floor,facing=north,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel"
+    },
+    "face=floor,facing=north,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel"
+    },
+    "face=floor,facing=north,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes"
+    },
+    "face=floor,facing=north,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes"
+    },
+    "face=floor,facing=north,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel"
+    },
+    "face=floor,facing=north,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel"
+    },
+    "face=floor,facing=north,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes"
+    },
+    "face=floor,facing=north,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes"
+    },
+    "face=floor,facing=south,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 180
+    },
+    "face=floor,facing=south,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 180
+    },
+    "face=floor,facing=west,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 270
+    },
+    "face=floor,facing=west,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "y": 270
+    },
+    "face=wall,facing=east,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=east,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 90
+    },
+    "face=wall,facing=north,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90
+    },
+    "face=wall,facing=north,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90
+    },
+    "face=wall,facing=south,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=south,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 180
+    },
+    "face=wall,facing=west,powered=false,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=false,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=false,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=false,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=true,spikes=false,waterlogged=false": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=true,spikes=false,waterlogged=true": {
+      "model": "marioverse:block/spike_panel",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=true,spikes=true,waterlogged=false": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=west,powered=true,spikes=true,waterlogged=true": {
+      "model": "marioverse:block/spike_panel_spikes",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

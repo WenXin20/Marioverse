@@ -1,0 +1,24 @@
+{
+  "values": [
+    "marioverse:white_calcite_bricks",
+    "marioverse:orange_calcite_bricks",
+    "marioverse:magenta_calcite_bricks",
+    "marioverse:light_blue_calcite_bricks",
+    "marioverse:yellow_calcite_bricks",
+    "marioverse:lime_calcite_bricks",
+    "marioverse:pink_calcite_bricks",
+    "marioverse:gray_calcite_bricks",
+    "marioverse:light_gray_calcite_bricks",
+    "marioverse:cyan_calcite_bricks",
+    "marioverse:purple_calcite_bricks",
+    "marioverse:blue_calcite_bricks",
+    "marioverse:brown_calcite_bricks",
+    "marioverse:green_calcite_bricks",
+    "marioverse:red_calcite_bricks",
+    "marioverse:black_calcite_bricks",
+    {
+      "id": "create:cut_calcite_bricks",
+      "required": false
+    }
+  ]
+}

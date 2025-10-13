@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "marioverse:block/cracked_light_gray_calcite_bricks"
+  }
+}

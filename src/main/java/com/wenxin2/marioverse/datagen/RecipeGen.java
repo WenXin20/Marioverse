@@ -14,7 +14,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
@@ -38,7 +37,7 @@ public class RecipeGen extends RecipeUtils {
 
     @Override
     protected void buildRecipes(RecipeOutput output) {
-        generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
         waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
@@ -92,15 +91,19 @@ public class RecipeGen extends RecipeUtils {
         costumeSmithing(ItemRegistry.PEACH_ICE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
         costumeSmithing(ItemRegistry.PEACH_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
 
+        checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.SUPER_MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
-        plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, output);
-        plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, output);
-        plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, output);
-        plusRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.SMASHABLE_NETHER_BRICKS, output);
-        plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, output);
-        plusRecipe(1, "spikes", BlockRegistry.IRON_SPIKE, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, output);
+        dyeItemTagRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, output);
+        plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
+        plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
+        plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, true, output);
+        plusRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.SMASHABLE_NETHER_BRICKS, true, output);
+        plusRecipe(1, "spikes", BlockRegistry.IRON_SPIKE, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, false, output);
+        plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, true, output);
+        plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.GLASS_BLOCKS_COLORLESS, Blocks.GLOWSTONE, false, output);
+        spikePanelRecipe(3, "spike_panels", BlockRegistry.SPIKE_PANEL, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, Blocks.POLISHED_DEEPSLATE_SLAB, false, output);
         threeByThreePacker(output, RecipeCategory.MISC, BlockRegistry.STAR_COIN, BlockRegistry.COIN);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
@@ -181,6 +184,110 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.AMETHYST_BRICKS, Blocks.AMETHYST_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_AMETHYST, Blocks.AMETHYST_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CALCITE_CHECKERED_TILES, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.LIGHT_GRAY_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.GRAY_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.BLACK_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.BROWN_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.RED_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ORANGE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.YELLOW_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.LIME_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.GREEN_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CYAN_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.LIGHT_BLUE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.BLUE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.PURPLE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.MAGENTA_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.PINK_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.LIGHT_GRAY_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.GRAY_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.BLACK_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.BROWN_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.RED_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ORANGE_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.YELLOW_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.LIME_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.GREEN_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.CYAN_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.LIGHT_BLUE_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.BLUE_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.PURPLE_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.MAGENTA_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.PINK_CALCITE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_LIGHT_GRAY_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_GRAY_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_BLACK_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_BROWN_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_RED_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_ORANGE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_YELLOW_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_LIME_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_GREEN_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_CYAN_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_LIGHT_BLUE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_BLUE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_PURPLE_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_MAGENTA_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_PINK_CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CALCITE_BRICKS, Blocks.CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.LIGHT_GRAY_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.LIGHT_GRAY), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.GRAY_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.GRAY), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BLACK_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.BLACK), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BROWN_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.BROWN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.RED_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.RED), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ORANGE_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.ORANGE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.YELLOW_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.YELLOW), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.LIME_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.LIME), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.GREEN_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.GREEN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CYAN_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.CYAN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.LIGHT_BLUE_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.LIGHT_BLUE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BLUE_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.BLUE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.PURPLE_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.PURPLE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.MAGENTA_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.MAGENTA), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.PINK_CALCITE_BRICKS, BlockRegistry.CALCITE.get(DyeColor.PINK), FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.LIGHT_GRAY_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIGHT_GRAY), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.GRAY_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.GRAY), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BLACK_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BROWN_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.BROWN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.RED_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.RED), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ORANGE_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.ORANGE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.YELLOW_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.YELLOW), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.LIME_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIME), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.GREEN_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.GREEN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CYAN_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.CYAN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.LIGHT_BLUE_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIGHT_BLUE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.BLUE_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLUE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.PURPLE_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.PURPLE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.MAGENTA_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.MAGENTA), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.PINK_CALCITE_BRICKS, BlockRegistry.POLISHED_CALCITE.get(DyeColor.PINK), FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_CALCITE, Blocks.CALCITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_LIGHT_GRAY_CALCITE, BlockRegistry.CALCITE.get(DyeColor.LIGHT_GRAY), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_GRAY_CALCITE, BlockRegistry.CALCITE.get(DyeColor.GRAY), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_BLACK_CALCITE, BlockRegistry.CALCITE.get(DyeColor.BLACK), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_BROWN_CALCITE, BlockRegistry.CALCITE.get(DyeColor.BROWN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_RED_CALCITE, BlockRegistry.CALCITE.get(DyeColor.RED), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_ORANGE_CALCITE, BlockRegistry.CALCITE.get(DyeColor.ORANGE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_YELLOW_CALCITE, BlockRegistry.CALCITE.get(DyeColor.YELLOW), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_LIME_CALCITE, BlockRegistry.CALCITE.get(DyeColor.LIME), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_GREEN_CALCITE, BlockRegistry.CALCITE.get(DyeColor.GREEN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_CYAN_CALCITE, BlockRegistry.CALCITE.get(DyeColor.CYAN), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_LIGHT_BLUE_CALCITE, BlockRegistry.CALCITE.get(DyeColor.LIGHT_BLUE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_BLUE_CALCITE, BlockRegistry.CALCITE.get(DyeColor.BLUE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_PURPLE_CALCITE, BlockRegistry.CALCITE.get(DyeColor.PURPLE), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_MAGENTA_CALCITE, BlockRegistry.CALCITE.get(DyeColor.MAGENTA), FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_PINK_CALCITE, BlockRegistry.CALCITE.get(DyeColor.PINK), FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
@@ -251,12 +358,47 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.TUFF_BRICKS, Blocks.POLISHED_TUFF, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemTagRecipe(1, "calcite_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_ITEMS, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemTagRecipe(1, "polished_calcite_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_ITEMS, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemTagRecipe(1, "calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_ITEMS, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CRACKED_CALCITE_BRICKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemTagRecipe(1, "cracked_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHISELED_CALCITE_BRICKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemTagRecipe(1, "chiseled_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS, output);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
-            TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
             Item woolItem = BuiltInRegistries.ITEM.stream().filter(item -> {
                 ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
-                return itemId != null && itemId.getPath().endsWith("_wool") && itemId.getPath().startsWith(dyeColor.getName());
+                return itemId.getPath().endsWith("_wool") && itemId.getPath().startsWith(dyeColor.getName());
             }).findFirst().orElse(Items.WHITE_WOOL);
 
             checkpointFlagRecipe(1, entry.getValue(), Tags.Items.INGOTS_GOLD, Tags.Items.INGOTS_IRON, woolItem, Blocks.SMOOTH_STONE_SLAB, output);
@@ -265,7 +407,7 @@ public class RecipeGen extends RecipeUtils {
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
             DyeColor dyeColor = entry.getKey();
-            TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
             Item woolItem = BuiltInRegistries.ITEM.stream().filter(item -> {
                 ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
                 return itemId != null && itemId.getPath().endsWith("_wool") && itemId.getPath().startsWith(dyeColor.getName());
@@ -277,7 +419,7 @@ public class RecipeGen extends RecipeUtils {
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
             DyeColor dyeColor = entry.getKey();
-            TagKey<Item> dyeItemTag = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "dyes/" + dyeColor.getName()));
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
             warpPipeRecipe(4, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
             dyeItemTagRecipe(1, "warp_pipes_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, output);

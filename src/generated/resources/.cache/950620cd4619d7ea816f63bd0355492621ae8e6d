@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-13T11:52:17.1563676	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-10-07T19:00:37.3299197	Tags for minecraft:entity_type mod id marioverse
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
@@ -63,6 +63,7 @@ bc7185815b9ebee8ae8208e3037ea6ea840b1190 data/marioverse/tags/entity_type/mega_g
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json
 b195fab24da50552e1b21cfbb9f3781c40c7d874 data/marioverse/tags/entity_type/red_koopa_shell_can_instakill.json
 4644ac1aa99a39914985eaeff21120a1b614c9c7 data/marioverse/tags/entity_type/red_koopa_troopa_can_attack.json
+bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/spike_panel_immune.json
 a4f847c3081ba18874a22c7344ebfceea66563f6 data/marioverse/tags/entity_type/super_star_immune.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/warp_pipe_cannot_spawn.json
 dcd8839faf3cd52b8bc2badab36d984660ec11c5 data/minecraft/tags/entity_type/can_breathe_under_water.json

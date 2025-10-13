@@ -1,0 +1,24 @@
+{
+  "values": [
+    "marioverse:polished_white_calcite",
+    "marioverse:polished_orange_calcite",
+    "marioverse:polished_magenta_calcite",
+    "marioverse:polished_light_blue_calcite",
+    "marioverse:polished_yellow_calcite",
+    "marioverse:polished_lime_calcite",
+    "marioverse:polished_pink_calcite",
+    "marioverse:polished_gray_calcite",
+    "marioverse:polished_light_gray_calcite",
+    "marioverse:polished_cyan_calcite",
+    "marioverse:polished_purple_calcite",
+    "marioverse:polished_blue_calcite",
+    "marioverse:polished_brown_calcite",
+    "marioverse:polished_green_calcite",
+    "marioverse:polished_red_calcite",
+    "marioverse:polished_black_calcite",
+    {
+      "id": "create:polished_cut_calcite",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "variants": {
+    "axis=x,half=bottom,waterlogged=false": {
+      "model": "marioverse:block/birch_log_bridge",
+      "y": 90
+    },
+    "axis=x,half=bottom,waterlogged=true": {
+      "model": "marioverse:block/birch_log_bridge",
+      "y": 90
+    },
+    "axis=x,half=top,waterlogged=false": {
+      "model": "marioverse:block/birch_log_bridge_top",
+      "y": 90
+    },
+    "axis=x,half=top,waterlogged=true": {
+      "model": "marioverse:block/birch_log_bridge_top",
+      "y": 90
+    },
+    "axis=z,half=bottom,waterlogged=false": {
+      "model": "marioverse:block/birch_log_bridge"
+    },
+    "axis=z,half=bottom,waterlogged=true": {
+      "model": "marioverse:block/birch_log_bridge"
+    },
+    "axis=z,half=top,waterlogged=false": {
+      "model": "marioverse:block/birch_log_bridge_top"
+    },
+    "axis=z,half=top,waterlogged=true": {
+      "model": "marioverse:block/birch_log_bridge_top"
+    }
+  }
+}

@@ -1,4 +1,5 @@
-// 1.21.1	2025-03-15T21:26:50.2714646	Data Maps
+// 1.21.1	2025-10-05T14:22:25.0337029	Data Maps
 d6e06f38c85a1524d934d91943e99ed072a89719 data/neoforge/data_maps/block/oxidizables.json
 fa28e192dec224b59c7b2a26f44dd7f0ac53d510 data/neoforge/data_maps/block/waxables.json
 3965fe85a149be68b62f736de2eeeaeb6ce8a824 data/neoforge/data_maps/game_event/vibration_frequencies.json
+a48c2a0ce63e6f38a59dacd8cf5c623a56fa1d82 data/neoforge/data_maps/item/furnace_fuels.json

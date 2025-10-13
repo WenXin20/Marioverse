@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
@@ -10,8 +11,10 @@ import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import java.util.Arrays;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -49,6 +52,7 @@ public class BlockEntityRegistry {
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
                         BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get(),
+                        BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get(),
@@ -80,6 +84,7 @@ public class BlockEntityRegistry {
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
                         BlockRegistry.AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get(),
+                        BlockRegistry.CALCITE_QUESTION_BLOCK.get(),
                         BlockRegistry.COPPER_QUESTION_BLOCK.get(),
                         BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get(),
                         BlockRegistry.DEEPSLATE_QUESTION_BRICKS.get(),
@@ -109,36 +114,7 @@ public class BlockEntityRegistry {
 
         STORAGE_BRICKS_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("storage_bricks",
                 () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
-                        BlockRegistry.STORAGE_AMETHYST_BRICKS.get(),
-                        BlockRegistry.STORAGE_BLACKSTONE_BRICKS.get(),
-                        BlockRegistry.STORAGE_BRICKS.get(),
-                        BlockRegistry.STORAGE_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_DARK_PRISMARINE.get(),
-                        BlockRegistry.STORAGE_DEEPSLATE_BRICKS.get(),
-                        BlockRegistry.STORAGE_DEEPSLATE_TILES.get(),
-                        BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get(),
-                        BlockRegistry.STORAGE_END_STONE_BRICKS.get(),
-                        BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_FUNGAL_BRICKS.get(),
-                        BlockRegistry.STORAGE_MOSSY_STONE_BRICKS.get(),
-                        BlockRegistry.STORAGE_MUD_BRICKS.get(),
-                        BlockRegistry.STORAGE_NETHER_BRICKS.get(),
-                        BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_POLISHED_DEEP_FUNGAL_BRICKS.get(),
-                        BlockRegistry.STORAGE_POLISHED_FUNGAL_BRICKS.get(),
-                        BlockRegistry.STORAGE_PRISMARINE_BRICKS.get(),
-                        BlockRegistry.STORAGE_PURPUR_BLOCK.get(),
-                        BlockRegistry.STORAGE_QUARTZ_BRICKS.get(),
-                        BlockRegistry.STORAGE_RED_NETHER_BRICKS.get(),
-                        BlockRegistry.STORAGE_RED_SANDSTONE_BRICKS.get(),
-                        BlockRegistry.STORAGE_SANDSTONE_BRICKS.get(),
-                        BlockRegistry.STORAGE_STONE_BRICKS.get(),
-                        BlockRegistry.STORAGE_TUFF_BRICKS.get(),
-                        BlockRegistry.STORAGE_WAXED_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get(),
-                        BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get()).build(null));
+                        BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof StorageBrickBlock).toArray(Block[]::new)).build(null));
 
         CHECKPOINT_FLAG_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("checkpoint_flag",
                 () -> BlockEntityType.Builder.of(CheckpointFlagBlockEntity::new,

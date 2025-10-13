@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_glass_blocks/colorless": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:glass_blocks/colorless"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_glowstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:glowstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:glow_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_glass_blocks/colorless",
+      "has_glowstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:glow_block"
+    ]
+  }
+}

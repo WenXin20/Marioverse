@@ -1,7 +1,14 @@
 {
   "values": [
+    "marioverse:black_calcite",
+    "marioverse:black_calcite_bricks",
+    "marioverse:black_calcite_brick_pedestal",
     "marioverse:black_checkpoint_flag",
+    "marioverse:chiseled_black_calcite_bricks",
+    "marioverse:cracked_black_calcite_bricks",
     "marioverse:black_goal_pole",
+    "marioverse:polished_black_calcite",
+    "marioverse:storage_black_calcite_bricks",
     "marioverse:black_warp_pipe"
   ]
 }

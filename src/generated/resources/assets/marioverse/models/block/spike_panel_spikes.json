@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_spike_panel",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "bottom": "marioverse:block/spike_panel_bottom",
+    "spikes": "marioverse:block/spike_panel_spikes",
+    "top": "marioverse:block/spike_panel"
+  }
+}

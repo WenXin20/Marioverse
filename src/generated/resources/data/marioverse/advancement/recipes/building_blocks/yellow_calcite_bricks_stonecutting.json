@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_yellow_calcite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:polished_yellow_calcite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:yellow_calcite_bricks_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_polished_yellow_calcite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:yellow_calcite_bricks_stonecutting"
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/slab_top",
+	"render_type": "cutout_mipped",
+	"textures": {
+		"side": "gardens_of_the_dead:block/whistlecane_block",
+		"top": "gardens_of_the_dead:block/whistlecane_block_top",
+		"rope": "marioverse:block/bridge_rope",
+		"rope_side": "marioverse:block/bridge_rope_side",
+		"particle": "#side"
+	},
+	"elements": [
+		{
+			"from": [0, 13, 1],
+			"to": [16, 16, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"},
+				"east": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "east"},
+				"south": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"},
+				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
+				"up": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
+				"down": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"}
+			}
+		},
+		{
+			"from": [0, 12, 6],
+			"to": [16, 16, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [4, 0, 8, 16], "rotation": 270, "texture": "#side"},
+				"east": {"uv": [8, 0, 12, 4], "texture": "#top", "cullface": "east"},
+				"south": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side"},
+				"west": {"uv": [4, 12, 8, 16], "texture": "#top", "cullface": "west"},
+				"up": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
+				"down": {"uv": [4, 0, 8, 16], "rotation": 90, "texture": "#side"}
+			}
+		},
+		{
+			"from": [0, 13, 12],
+			"to": [16, 16, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [12, 0, 15, 16], "rotation": 270, "texture": "#side"},
+				"east": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "east"},
+				"south": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side"},
+				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
+				"up": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
+				"down": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side"}
+			}
+		},
+		{
+			"from": [-0.15, 12.85, 0.85],
+			"to": [16.15, 16.15, 4.15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#rope_side"},
+				"south": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope_side"},
+				"up": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope", "cullface": "up"},
+				"down": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#rope"}
+			}
+		},
+		{
+			"from": [-0.15, 11.85, 5.85],
+			"to": [16.15, 16.15, 10.15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [6, 0, 10, 16], "rotation": 270, "texture": "#rope_side"},
+				"south": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope_side"},
+				"up": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope", "cullface": "up"},
+				"down": {"uv": [6, 0, 10, 16], "rotation": 90, "texture": "#rope"}
+			}
+		},
+		{
+			"from": [-0.15, 12.85, 11.85],
+			"to": [16.15, 16.15, 15.15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"north": {"uv": [13, 0, 16, 16], "rotation": 270, "texture": "#rope_side"},
+				"south": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope_side"},
+				"up": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope", "cullface": "up"},
+				"down": {"uv": [13, 0, 16, 16], "rotation": 90, "texture": "#rope"}
+			}
+		},
+		{
+			"from": [0, 14, 0],
+			"to": [16, 14, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 8]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#rope"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#rope"}
+			}
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [30, 45, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"head": {
+			"translation": [0, 13.75, 0]
+		},
+		"fixed": {
+			"rotation": [-90, -180, 0],
+			"translation": [0, 0, -3.25],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
+	"groups": [
+		0,
+		1,
+		2,
+		{
+			"name": "rope",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [3, 4, 5, 6]
+		}
+	]
+}

@@ -16,9 +16,11 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
-    private static ResourceLocation BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
-    private static ResourceLocation RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
-    private static ResourceLocation FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
+    private static final ResourceLocation CREATE_CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
+    private static final ResourceLocation CREATE_POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
+    private static final ResourceLocation DT_BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
+    private static final ResourceLocation DT_RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
+    private static final ResourceLocation SUPP_FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
 
     public BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -27,14 +29,32 @@ public class BlockTagsGen extends BlockTagsProvider {
     @Override
     @SuppressWarnings("unchecked")
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        BlockRegistry.CALCITE.values().forEach(block -> tag(TagRegistry.CALCITE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_PEDESTAL.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
+        BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
+        BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
+        BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
+            if (color == DyeColor.WHITE)
+                tag(TagRegistry.blockTags("c", "dyed/" + color)).add(Blocks.CALCITE);
+            else tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CALCITE.get(color).get());
+
             tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
+                    .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
+                    .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
+                    .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
 
@@ -48,10 +68,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(CompatRegistry.MOVABLE_EMPTY_COLLIDER)
+                .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
 
@@ -102,10 +124,11 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)
                 .add(Blocks.RED_MUSHROOM_BLOCK)
-                .addOptional(BROWN_MUSHROOM_CAP)
-                .addOptional(RED_MUSHROOM_CAP);
+                .addOptional(DT_BROWN_MUSHROOM_CAP)
+                .addOptional(DT_RED_MUSHROOM_CAP);
 
         tag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.BRICK_PEDESTAL.get())
@@ -137,9 +160,40 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
+        tag(TagRegistry.BRIDGE_BLOCKS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
+
+        tag(TagRegistry.BRIDGE_STAIR_BLOCKS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
+
+        tag(TagRegistry.CALCITE_BLOCKS)
+                .add(Blocks.CALCITE);
+
+        tag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addOptional(CREATE_CALCITE_BRICKS);
+
+        tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS);
+
+        tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS);
+
+        tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS);
+
+        tag(TagRegistry.POLISHED_CALCITE_BLOCKS)
+                .addOptional(CREATE_POLISHED_CALCITE);
+
+        tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS);
+
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
+
+        tag(TagRegistry.DYED_CALCITE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
 
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)
@@ -153,7 +207,47 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
-                .addOptional(FIRE_PIT);
+                .addOptional(SUPP_FIRE_PIT);
+
+        tag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS)
+                .add(BlockRegistry.ACACIA_LOG_BRIDGE.get())
+                .add(BlockRegistry.BAMBOO_BRIDGE.get())
+                .add(BlockRegistry.BIRCH_LOG_BRIDGE.get())
+                .add(BlockRegistry.CHERRY_LOG_BRIDGE.get())
+                .add(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.JUNGLE_LOG_BRIDGE.get())
+                .add(BlockRegistry.MANGROVE_LOG_BRIDGE.get())
+                .add(BlockRegistry.OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.SPRUCE_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_BAMBOO_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get());
+
+        tag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.BAMBOO_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
                 .add(Blocks.ICE);
@@ -170,11 +264,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
                 .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
-                .addOptional(FIRE_PIT);
+                .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
+                .add(BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get())
@@ -229,6 +324,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.QUESTION_BLOCKS)
                 .add(BlockRegistry.AMETHYST_QUESTION_BLOCK.get())
                 .add(BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get())
+                .add(BlockRegistry.CALCITE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.DEEPSLATE_QUESTION_BRICKS.get())
@@ -256,7 +352,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
 
+        tag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL.get())
+                .add(BlockRegistry.FUNGAL_QUESTION_PANEL.get());
+
         tag(TagRegistry.SMASHABLE_BLOCKS)
+                .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
@@ -302,9 +403,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
                 .add(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
-                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get());
+                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
+                .add(Blocks.DECORATED_POT);
 
         tag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.STORAGE_BLACKSTONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_BRICKS.get())
@@ -339,6 +442,20 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
+
+        tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS)
+                .add(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
+                .add(BlockRegistry.WARPED_STEM_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.get())
+                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.get());
+
+        tag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.WARPED_STEM_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS.get())
+                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
@@ -404,6 +521,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.SLABS)
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_SLAB.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
+                .add(BlockRegistry.CALCITE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
@@ -413,12 +532,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
 
         tag(BlockTags.STAIRS)
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
+                .add(BlockRegistry.CALCITE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
@@ -428,22 +551,32 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
 
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
+                .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
                 .add(BlockRegistry.FUNGAL_STONE_BUTTON.get());
 
         tag(BlockTags.STONE_PRESSURE_PLATES)
                 .add(BlockRegistry.AMETHYST_PRESSURE_PLATE.get())
+                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
+
+        tag(BlockTags.WALL_POST_OVERRIDE)
+                .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.SPIKE_PANEL.get());
 
         tag(BlockTags.WALLS)
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
+                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
@@ -453,15 +586,34 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+
+        tag(BlockTags.WOODEN_STAIRS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
+
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
+
+        tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(BlockRegistry.GLOW_BLOCK.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
@@ -473,6 +625,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.CALCITE_BUTTON.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
+                .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
+                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
+                .add(BlockRegistry.CALCITE_SLAB.get())
+                .add(BlockRegistry.CALCITE_STAIRS.get())
+                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
@@ -529,6 +690,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
@@ -537,6 +701,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.STAR_COIN.get());
+                .add(BlockRegistry.SPIKE_PANEL.get())
+                .add(BlockRegistry.STAR_COIN.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
+                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
     }
 }

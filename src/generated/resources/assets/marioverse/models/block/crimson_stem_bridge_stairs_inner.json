@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_log_bridge_stairs_inner",
+  "textures": {
+    "rope": "marioverse:block/bridge_rope",
+    "rope_knot": "marioverse:block/bridge_rope_knot",
+    "rope_side": "marioverse:block/bridge_rope_side",
+    "side": "minecraft:block/crimson_stem",
+    "top": "minecraft:block/crimson_stem_top"
+  }
+}

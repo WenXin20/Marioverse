@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/cube_mirrored_ns",
+  "textures": {
+    "main": "marioverse:block/calcite_checkered_tiles",
+    "mirrored": "marioverse:block/calcite_checkered_tiles_mirrored"
+  }
+}

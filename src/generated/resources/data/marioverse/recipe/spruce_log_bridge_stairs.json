@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:bridge_stairs",
+  "key": {
+    "#": {
+      "item": "minecraft:spruce_log"
+    },
+    "S": {
+      "tag": "c:strings"
+    }
+  },
+  "pattern": [
+    "  #",
+    " S ",
+    "#  "
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:spruce_log_bridge_stairs"
+  }
+}

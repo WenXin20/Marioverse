@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:spike_panels",
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "N": {
+      "tag": "c:nuggets/iron"
+    },
+    "P": {
+      "item": "minecraft:polished_deepslate_slab"
+    }
+  },
+  "pattern": [
+    " N ",
+    "NIN",
+    "PPP"
+  ],
+  "result": {
+    "count": 3,
+    "id": "marioverse:spike_panel"
+  }
+}

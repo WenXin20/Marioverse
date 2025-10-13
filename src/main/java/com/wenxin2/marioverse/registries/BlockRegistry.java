@@ -2,13 +2,18 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
+import com.wenxin2.marioverse.blocks.BridgeStairBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
+import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
+import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
@@ -47,13 +52,29 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTAL =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CHISELED_CALCITE_BRICKS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CRACKED_CALCITE_BRICKS =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHECKPOINT_FLAGS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> STORAGE_CALCITE_BRICKS =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
+    public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -65,9 +86,25 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> AMETHYST_SLAB;
     public static final DeferredBlock<Block> AMETHYST_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_WALL;
+    public static final DeferredBlock<Block> BAMBOO_BRIDGE;
+    public static final DeferredBlock<Block> BAMBOO_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE;
+    public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> CALCITE_BUTTON;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_SLAB;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_STAIRS;
+    public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_WALL;
+    public static final DeferredBlock<Block> CALCITE_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> CALCITE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> CALCITE_SLAB;
+    public static final DeferredBlock<Block> CALCITE_STAIRS;
+    public static final DeferredBlock<Block> CALCITE_WALL;
+    public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
+    public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
@@ -87,7 +124,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRACKED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
+    public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
@@ -100,6 +141,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_BUTTON;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_PRESSURE_PLATE;
@@ -116,14 +158,17 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> FUNGAL_STONE;
     public static final DeferredBlock<Block> FUNGAL_STONE_BUTTON;
     public static final DeferredBlock<Block> FUNGAL_STONE_PRESSURE_PLATE;
     public static final DeferredBlock<Block> FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> GLOW_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> INVISIBLE_CALCITE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_DEEPSLATE_QUESTION_BRICKS;
@@ -151,12 +196,18 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> IRON_SPIKE;
+    public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -182,6 +233,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
@@ -227,6 +281,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> SPIKE_PANEL;
+    public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
@@ -260,8 +317,32 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> STRIPPED_ACACIA_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_ACACIA_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_BAMBOO_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_BAMBOO_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_BIRCH_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_BIRCH_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_CHERRY_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_CHERRY_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_CRIMSON_STEM_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_DARK_OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
+    public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
@@ -273,6 +354,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
 
     static {
         POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
@@ -300,6 +384,150 @@ public class BlockRegistry {
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(25.0F, 1200.0F).requiresCorrectToolForDrops()));
+        SPIKE_PANEL = registerBlock("spike_panel",
+                () -> new SpikePanelBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                        .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                        .strength(25.0F, 1200.0F).noCollission().forceSolidOn()
+                        .requiresCorrectToolForDrops()));
+
+
+        GLOW_BLOCK = registerBlock("glow_block",
+                () -> new GlowBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
+                        .sound(SoundType.FROGLIGHT).lightLevel(light -> 15).strength(0.3F)));
+
+
+        OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
+                () -> new BridgeBlock(Blocks.OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_OAK_LOG_BRIDGE = registerBlock("stripped_oak_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+
+        SPRUCE_LOG_BRIDGE = registerBlock("spruce_log_bridge",
+                () -> new BridgeBlock(Blocks.SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        STRIPPED_SPRUCE_LOG_BRIDGE = registerBlock("stripped_spruce_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
+
+        BIRCH_LOG_BRIDGE = registerBlock("birch_log_bridge",
+                () -> new BridgeBlock(Blocks.BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
+
+        STRIPPED_BIRCH_LOG_BRIDGE = registerBlock("stripped_birch_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
+
+        JUNGLE_LOG_BRIDGE = registerBlock("jungle_log_bridge",
+                () -> new BridgeBlock(Blocks.JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_JUNGLE_LOG_BRIDGE = registerBlock("stripped_jungle_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
+
+        ACACIA_LOG_BRIDGE = registerBlock("acacia_log_bridge",
+                () -> new BridgeBlock(Blocks.ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
+
+        STRIPPED_ACACIA_LOG_BRIDGE = registerBlock("stripped_acacia_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
+
+        DARK_OAK_LOG_BRIDGE = registerBlock("dark_oak_log_bridge",
+                () -> new BridgeBlock(Blocks.DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        STRIPPED_DARK_OAK_LOG_BRIDGE = registerBlock("stripped_dark_oak_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        MANGROVE_LOG_BRIDGE = registerBlock("mangrove_log_bridge",
+                () -> new BridgeBlock(Blocks.MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MANGROVE_LOG_BRIDGE = registerBlock("stripped_mangrove_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
+
+        CHERRY_LOG_BRIDGE = registerBlock("cherry_log_bridge",
+                () -> new BridgeBlock(Blocks.CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
+
+        STRIPPED_CHERRY_LOG_BRIDGE = registerBlock("stripped_cherry_log_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
+
+        BAMBOO_BRIDGE = registerBlock("bamboo_bridge",
+                () -> new BridgeBlock(Blocks.BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
+
+        STRIPPED_BAMBOO_BRIDGE = registerBlock("stripped_bamboo_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
+
+        CRIMSON_STEM_BRIDGE = registerBlock("crimson_stem_bridge",
+                () -> new BridgeBlock(Blocks.CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
+
+        STRIPPED_CRIMSON_STEM_BRIDGE = registerBlock("stripped_crimson_stem_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
+
+        WARPED_STEM_BRIDGE = registerBlock("warped_stem_bridge",
+                () -> new BridgeBlock(Blocks.WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
+
+        STRIPPED_WARPED_STEM_BRIDGE = registerBlock("stripped_warped_stem_bridge",
+                () -> new BridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
+
+
+        OAK_LOG_BRIDGE_STAIRS = registerBlock("oak_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_OAK_LOG_BRIDGE_STAIRS = registerBlock("stripped_oak_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+
+        SPRUCE_LOG_BRIDGE_STAIRS = registerBlock("spruce_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.SPRUCE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS = registerBlock("stripped_spruce_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_SPRUCE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
+
+        BIRCH_LOG_BRIDGE_STAIRS = registerBlock("birch_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.BIRCH_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
+
+        STRIPPED_BIRCH_LOG_BRIDGE_STAIRS = registerBlock("stripped_birch_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_BIRCH_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
+
+        JUNGLE_LOG_BRIDGE_STAIRS = registerBlock("jungle_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.JUNGLE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS = registerBlock("stripped_jungle_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_JUNGLE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
+
+        ACACIA_LOG_BRIDGE_STAIRS = registerBlock("acacia_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.ACACIA_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
+
+        STRIPPED_ACACIA_LOG_BRIDGE_STAIRS = registerBlock("stripped_acacia_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_ACACIA_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
+
+        DARK_OAK_LOG_BRIDGE_STAIRS = registerBlock("dark_oak_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.DARK_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS = registerBlock("stripped_dark_oak_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+
+        MANGROVE_LOG_BRIDGE_STAIRS = registerBlock("mangrove_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.MANGROVE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS = registerBlock("stripped_mangrove_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_MANGROVE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
+
+        CHERRY_LOG_BRIDGE_STAIRS = registerBlock("cherry_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.CHERRY_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
+
+        STRIPPED_CHERRY_LOG_BRIDGE_STAIRS = registerBlock("stripped_cherry_log_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_CHERRY_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
+
+        BAMBOO_BRIDGE_STAIRS = registerBlock("bamboo_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.BAMBOO_BLOCK.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
+
+        STRIPPED_BAMBOO_BRIDGE_STAIRS = registerBlock("stripped_bamboo_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_BAMBOO_BLOCK.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
+
+        CRIMSON_STEM_BRIDGE_STAIRS = registerBlock("crimson_stem_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.CRIMSON_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
+
+        STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS = registerBlock("stripped_crimson_stem_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_CRIMSON_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
+
+        WARPED_STEM_BRIDGE_STAIRS = registerBlock("warped_stem_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.WARPED_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
+
+        STRIPPED_WARPED_STEM_BRIDGE_STAIRS = registerBlock("stripped_warped_stem_bridge_stairs",
+                () -> new BridgeStairBlock(Blocks.STRIPPED_WARPED_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",
@@ -358,6 +586,11 @@ public class BlockRegistry {
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
                         .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.TERRACOTTA_RED
                                 : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.GOLD)));
+
+        FUNGAL_QUESTION_PANEL = registerBlock("fungal_question_panel",
+                () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.TERRACOTTA_RED : MapColor.GOLD)
+                        .noCollission().forceSolidOn().strength(0.5F)));
 
 
         POLISHED_FUNGAL_BRICKS = registerBlock("polished_fungal_bricks",
@@ -440,6 +673,11 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.COLOR_CYAN
                                 : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.COLOR_GREEN)));
 
+        DEEP_FUNGAL_QUESTION_PANEL = registerBlock("deep_fungal_question_panel",
+                () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
+                        .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)
+                        .noCollission().forceSolidOn().strength(0.5F)));
+
 
         POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("polished_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
@@ -510,6 +748,36 @@ public class BlockRegistry {
 
         STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
+
+
+        CALCITE_BUTTON = registerBlock("calcite_button", () -> button(Blocks.CALCITE, BlockSetType.STONE, 10));
+
+        CALCITE_PRESSURE_PLATE = registerBlock("calcite_pressure_plate", () -> pressurePlate(Blocks.CALCITE, BlockSetType.STONE));
+
+        CALCITE_SLAB = registerBlock("calcite_slab", () -> slab(Blocks.CALCITE));
+
+        CALCITE_STAIRS = registerBlock("calcite_stairs", () -> stair(Blocks.CALCITE));
+
+        CALCITE_WALL = registerBlock("calcite_wall", () -> wall(Blocks.CALCITE));
+
+        POLISHED_WHITE_CALCITE_SLAB = registerBlock("polished_white_calcite_slab", () -> slab(Blocks.CALCITE));
+
+        POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polished_white_calcite_stairs", () -> stair(Blocks.CALCITE));
+
+        POLISHED_WHITE_CALCITE_WALL = registerBlock("polished_white_calcite_wall", () -> wall(Blocks.CALCITE));
+
+        WHITE_CALCITE_BRICK_SLAB = registerBlock("white_calcite_brick_slab", () -> slab(Blocks.CALCITE));
+
+        WHITE_CALCITE_BRICK_STAIRS = registerBlock("white_calcite_brick_stairs", () -> stair(Blocks.CALCITE));
+
+        WHITE_CALCITE_BRICK_WALL = registerBlock("white_calcite_brick_wall", () -> wall(Blocks.CALCITE));
+
+
+        CALCITE_QUESTION_BLOCK = registerBlock("calcite_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
+
+        INVISIBLE_CALCITE_QUESTION_BLOCK = registerBlock("invisible_calcite_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
 
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
@@ -961,6 +1229,47 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+
+        CALCITE_CHECKERED_TILES = registerBlock("calcite_checkered_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(DyeColor.BLACK)));
+        CALCITE_CHECKERED_TILE_SLAB = registerBlock("calcite_checkered_tile_slab", () -> slab(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
+        CALCITE_CHECKERED_TILE_STAIRS = registerBlock("calcite_checkered_tile_stairs", () -> stair(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
+        CALCITE_CHECKERED_TILE_WALL = registerBlock("calcite_checkered_tile_wall", () -> wall(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
+
+        Arrays.stream(DyeColor.values()).filter(color -> color != DyeColor.WHITE).forEach(color ->
+                CALCITE.put(color, registerBlock(color.getName() + "_calcite",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE.put(color, registerBlock("polished_" + color.getName() + "_calcite",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICKS.put(color, registerBlock(color.getName() + "_calcite_bricks",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CHISELED_CALCITE_BRICKS.put(color, registerBlock("chiseled_" + color.getName() + "_calcite_bricks",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CRACKED_CALCITE_BRICKS.put(color, registerBlock("cracked_" + color.getName() + "_calcite_bricks",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_PEDESTAL.put(color, registerBlock(color.getName() + "_calcite_brick_pedestal",
+                        () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                STORAGE_CALCITE_BRICKS.put(color, registerBlock("storage_" + color.getName() + "_calcite_bricks",
+                        () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                                .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

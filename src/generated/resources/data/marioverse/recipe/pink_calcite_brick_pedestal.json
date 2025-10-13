@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:brick_pedestals",
+  "key": {
+    "#": {
+      "item": "marioverse:pink_calcite_bricks"
+    }
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "count": 5,
+    "id": "marioverse:pink_calcite_brick_pedestal"
+  }
+}

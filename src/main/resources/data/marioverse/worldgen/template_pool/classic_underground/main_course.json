@@ -6,6 +6,7 @@
       "weight": 1,
       "element": {
         "location": "marioverse:classic_underground/main_course",
+        "override_liquid_settings": "ignore_waterlogging",
         "element_type": "minecraft:single_pool_element",
         "processors": "marioverse:brick_decay",
         "projection": "rigid"

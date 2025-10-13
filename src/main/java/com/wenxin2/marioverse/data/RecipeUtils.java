@@ -3,10 +3,13 @@ package com.wenxin2.marioverse.data;
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -30,6 +33,8 @@ public class RecipeUtils extends RecipeProvider {
             ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>>builder()
                     .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRICKS, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.BRIDGE, (outputItem, inputItem) -> bridgeBuilder(6, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.BRIDGE_STAIRS, (outputItem, inputItem) -> bridgeStairBuilder(6, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CHISELED, (outputItem, inputItem) -> chiseledBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CUSTOM_FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CUSTOM_FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
@@ -41,12 +46,18 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.QUESTION_BLOCK, (outputItem, inputItem) -> questionBlockBuilder(1, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.QUESTION_PANEL, (outputItem, inputItem) -> questionPanelBuilder(4, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SIGN, (outputItem, inputItem) -> signBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SLAB, (outputItem, inputItem) -> slabBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STAIRS, (outputItem, inputItem) -> stairBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STORAGE_BRICKS, (outputItem, inputItem) -> storageBrickBuilder(4, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.TRAPDOOR, (outputItem, inputItem) -> trapdoorBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.WALL, (outputItem, inputItem) -> wallBuilder(RecipeCategory.DECORATIONS, outputItem, Ingredient.of(inputItem)))
+                    .build();
+
+    public static final Map<BlockFamilyExtended.Variant, BiFunction<ItemLike, TagKey<Item>, RecipeBuilder>> SHAPE_TAG_BUILDERS =
+            ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, TagKey<Item>, RecipeBuilder>>builder()
+                    .put(BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG, (outputItem, inputItemTag) -> questionBlockTagBuilder(1, outputItem, inputItemTag))
                     .build();
 
     public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.of(
@@ -72,6 +83,26 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("##");
     }
 
+    public static RecipeBuilder bridgeBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.STRINGS)
+                .pattern("#S#")
+                .unlockedBy("has_string", has(Tags.Items.STRINGS))
+                .group(Marioverse.MOD_ID + ":bridges");
+    }
+
+    public static RecipeBuilder bridgeStairBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.STRINGS)
+                .pattern("  #")
+                .pattern(" S ")
+                .pattern("#  ")
+                .unlockedBy("has_string", has(Tags.Items.STRINGS))
+                .group(Marioverse.MOD_ID + ":bridge_stairs");
+    }
+
     public static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
         return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)
@@ -86,6 +117,22 @@ public class RecipeUtils extends RecipeProvider {
                 .requires(Tags.Items.CHESTS_WOODEN)
                 .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
                 .group(Marioverse.MOD_ID + ":question_blocks");
+    }
+
+    public static RecipeBuilder questionBlockTagBuilder(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItemTag)
+                .requires(Tags.Items.CHESTS_WOODEN)
+                .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
+                .group(Marioverse.MOD_ID + ":question_blocks");
+    }
+
+    public static RecipeBuilder questionPanelBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItem)
+                .requires(Tags.Items.DUSTS_REDSTONE)
+                .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
+                .group(Marioverse.MOD_ID + ":question_panels");
     }
 
     public static RecipeBuilder storageBrickBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
@@ -147,30 +194,23 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
-                .define('B', inputItem)
-                .define('C', inputItem2)
+    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .pattern(" B ")
                 .pattern("BCB")
                 .pattern(" B ")
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .unlockedBy(getHasName(inputItem2), has(inputItem2))
-                .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem));
-    }
+                .group(Marioverse.MOD_ID + ":" + groupName);
 
-    public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
-                .define('B', inputItemTag)
-                .define('C', inputItemTag2)
-                .pattern(" B ")
-                .pattern("BCB")
-                .pattern(" B ")
-                .unlockedBy("has_iron_nugget", has(inputItemTag))
-                .unlockedBy("has_iron_ingot", has(inputItemTag2))
-                .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output);
+        defineIngredient(builder, 'B', input1);
+        defineIngredient(builder, 'C', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
     }
 
     public void bootsRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
@@ -199,6 +239,24 @@ public class RecipeUtils extends RecipeProvider {
                 .unlockedBy(getHasName(inputItem2), has(inputItem2))
                 .group(Marioverse.MOD_ID + ":checkpoint_flags")
                 .save(output);
+    }
+
+    public void checkeredRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern("XY")
+                .pattern("YX")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'X', input1);
+        defineIngredient(builder, 'Y', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
     }
 
     public void chestplateRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
@@ -330,6 +388,27 @@ public class RecipeUtils extends RecipeProvider {
                 .unlockedBy(getHasName(inputItem), has(inputItem))
                 .group(Marioverse.MOD_ID + ":brick_pedestals")
                 .save(output);
+    }
+
+    public void spikePanelRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, Object input3, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern(" N ")
+                .pattern("NIN")
+                .pattern("PPP")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'N', input1);
+        defineIngredient(builder, 'I', input2);
+        defineIngredient(builder, 'P', input3);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+        builder.unlockedBy(getUnlockName(input3), unlockCriterion(input3));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
     }
 
     public void smithingTemplateRecipe(int outputAmt, ItemLike outputItem, ItemLike templateItem, ItemLike inputItem, TagKey<Item> inputItemTag, RecipeOutput output) {
@@ -532,16 +611,33 @@ public class RecipeUtils extends RecipeProvider {
                 return;
 
             if (block.requiredFeatures().isSubsetOf(set)) {
-                BiFunction<ItemLike, ItemLike, RecipeBuilder> bifunction = SHAPE_BUILDERS.get(variant);
+                BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
-                if (bifunction != null) {
-                    RecipeBuilder recipebuilder = bifunction.apply(block, itemlike);
+                if (variant == BlockFamilyExtended.Variant.CHISELED
+                        && !family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
+                    itemlike = family.getBaseBlock();
+
+                if (recipeFunction != null) {
+                    RecipeBuilder recipeBuilder = recipeFunction.apply(block, itemlike);
                     family.getRecipeGroupPrefix().ifPresent(
-                            string -> recipebuilder.group(string +
-                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup()))
-                    );
-                    recipebuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(itemlike)), has(itemlike));
-                    recipebuilder.save(output);
+                            string -> recipeBuilder.group(string +
+                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
+                    ItemLike finalItemlike = itemlike;
+                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
+                    recipeBuilder.save(output);
+                }
+
+                BiFunction<ItemLike, TagKey<Item>, RecipeBuilder> recipeTagFunction = SHAPE_TAG_BUILDERS.get(variant);
+                TagKey<Item> itemTag = TagRegistry.POLISHED_CALCITE_ITEMS;
+
+                if (recipeTagFunction != null) {
+                    RecipeBuilder recipeBuilder = recipeTagFunction.apply(block, itemTag);
+                    family.getRecipeGroupPrefix().ifPresent(
+                            string -> recipeBuilder.group(string +
+                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
+                    ItemLike finalItemlike = itemlike;
+                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemTag));
+                    recipeBuilder.save(output);
                 }
 
                 if (variant == BlockFamilyExtended.Variant.CRACKED)
@@ -553,7 +649,7 @@ public class RecipeUtils extends RecipeProvider {
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
         if (variant == BlockFamilyExtended.Variant.CHISELED) {
             if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
-                throw new IllegalStateException("Slab is not defined for the family.");
+                return null;
             else return family.get(BlockFamilyExtended.Variant.SLAB);
         } else return family.getBaseBlock();
     }
@@ -569,10 +665,14 @@ public class RecipeUtils extends RecipeProvider {
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
+                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
+                        && variant != BlockFamilyExtended.Variant.BUTTON
+                        && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
+                        && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
@@ -589,10 +689,14 @@ public class RecipeUtils extends RecipeProvider {
                         ? family.getBaseBlock() : getBaseBlock(family, variant);
                 int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
 
-                if (variant != BlockFamilyExtended.Variant.BUTTON && variant != BlockFamilyExtended.Variant.DOOR
+                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
+                        && variant != BlockFamilyExtended.Variant.BUTTON
+                        && variant != BlockFamilyExtended.Variant.DOOR
                         && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
                         && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
+                        && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
                     SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
                             .unlockedBy(getHasName(baseBlock), has(baseBlock))
@@ -618,5 +722,33 @@ public class RecipeUtils extends RecipeProvider {
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItemTag), Ingredient.of(inputItem), category, outputItem)
                 .unlocks("has_armor", has(armorItemTag))
                 .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void defineIngredient(ShapedRecipeBuilder builder, char symbol, Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            builder.define(symbol, item);
+        else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
+            builder.define(symbol, (TagKey<Item>) tag);
+        else throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    private String getUnlockName(Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            return getHasName(item);
+        else if (ingredient instanceof TagKey<?> tag)
+            return "has_" + tag.location().getPath();
+        throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Criterion<?> unlockCriterion(Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            return RecipeProvider.has(item);
+        else if (ingredient instanceof TagKey<?> raw && raw.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) raw;
+            return RecipeProvider.has(tag);
+        }
+        throw new IllegalArgumentException("Unsupported ingredient: " + ingredient);
     }
 }

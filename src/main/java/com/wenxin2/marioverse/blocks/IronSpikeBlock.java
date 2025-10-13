@@ -32,7 +32,7 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
 
     public IronSpikeBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -75,7 +75,12 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    protected boolean isPathfindable(BlockState p_60475_, PathComputationType p_60478_) {
+    protected boolean isPathfindable(BlockState state, PathComputationType computationType) {
+        return false;
+    }
+
+    @Override
+    public boolean isPossibleToRespawnInThis(BlockState state) {
         return false;
     }
 }

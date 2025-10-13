@@ -2,6 +2,8 @@
   "values": [
     "marioverse:amethyst_brick_wall",
     "marioverse:amethyst_wall",
+    "marioverse:calcite_checkered_tile_wall",
+    "marioverse:calcite_wall",
     "marioverse:deep_fungal_brick_wall",
     "marioverse:deep_fungal_stone_wall",
     "marioverse:fungal_brick_wall",
@@ -11,7 +13,9 @@
     "marioverse:polished_deep_fungal_stone_wall",
     "marioverse:polished_fungal_brick_wall",
     "marioverse:polished_fungal_stone_wall",
+    "marioverse:polished_white_calcite_wall",
     "marioverse:red_sandstone_brick_wall",
-    "marioverse:sandstone_brick_wall"
+    "marioverse:sandstone_brick_wall",
+    "marioverse:white_calcite_brick_wall"
   ]
 }

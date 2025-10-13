@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_panel",
+  "render_type": "minecraft:solid",
+  "textures": {
+    "bottom": "marioverse:block/spike_panel_bottom",
+    "top": "marioverse:block/spike_panel"
+  }
+}

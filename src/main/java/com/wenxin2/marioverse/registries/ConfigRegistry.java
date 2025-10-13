@@ -27,7 +27,8 @@ public class ConfigRegistry
     public static final String CATEGORY_COINS = "coins";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
     public static final String CATEGORY_IRON_SPIKES = "iron_spikes";
-    public static final String CATEGORY_QUESTION_BLOCK = "question_blocks";
+    public static final String CATEGORY_QUESTION_BLOCKS = "question_blocks";
+    public static final String CATEGORY_SPIKE_PANELS = "spike_panels";
     public static final String CATEGORY_STAR_COINS = "star_coins";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PAINTINGS = "warp_paintings";
@@ -92,6 +93,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
+    public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
     public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
     public static ModConfigSpec.BooleanValue DISABLE_KOOPA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
@@ -152,6 +154,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
+    public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
@@ -201,6 +204,10 @@ public class ConfigRegistry
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
         BUILDER.push(CATEGORY_CLIENT);
+            DISABLE_JEB_SHADER = BUILDER.translation("configuration.marioverse.disable_jeb_shader")
+                    .comment("Display the rainbow shader on mobs named \"jeb_\".")
+                    .comment("§9[Default: false]")
+                    .define("disable_jeb_shader", false);
             DISABLE_JUMP_SOUND = BUILDER.translation("configuration.marioverse.disable_jump_sound")
                     .comment("Disable the jump sound when wearing a costume.")
                     .comment("§9[Default: false]")
@@ -316,7 +323,7 @@ public class ConfigRegistry
                             .defineInRange("iron_spike_damage", 2.0, 0.0, 16.0);
                 BUILDER.pop();
 
-                BUILDER.push(CATEGORY_QUESTION_BLOCK);
+                BUILDER.push(CATEGORY_QUESTION_BLOCKS);
                     QUESTION_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.question_bucket_tweaks")
                             .comment("Allow question blocks to place bucket liquids and blocks.")
                             .comment("§9[Default: true]")
@@ -347,15 +354,22 @@ public class ConfigRegistry
                             .define("select_invisible_question", false);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_SPIKE_PANELS);
+                    SPIKE_PANEL_DAMAGE = BUILDER.translation("configuration.marioverse.spike_panel_damage")
+                            .comment("Amount of damage spike panels cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("spike_panel_damage", 2.0, 0.0, 16.0);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_STAR_COINS);
-                STAR_COINS_COLLECTED_ON_COLLISION = BUILDER.translation("configuration.marioverse.star_coins_collected_on_collision")
-                        .comment("Star coins can be collected during collision.")
-                        .comment("§9[Default: true]")
-                        .define("star_coins_collected_on_collision", true);
-                STAR_COINS_COLLECTED_IN_CREATIVE = BUILDER.translation("configuration.marioverse.star_coins_collected_in_creative")
-                        .comment("Star coins can be collected by players in creative.")
-                        .comment("§9[Default: true]")
-                        .define("star_coins_collected_in_creative", true);
+                    STAR_COINS_COLLECTED_ON_COLLISION = BUILDER.translation("configuration.marioverse.star_coins_collected_on_collision")
+                            .comment("Star coins can be collected during collision.")
+                            .comment("§9[Default: true]")
+                            .define("star_coins_collected_on_collision", true);
+                    STAR_COINS_COLLECTED_IN_CREATIVE = BUILDER.translation("configuration.marioverse.star_coins_collected_in_creative")
+                            .comment("Star coins can be collected by players in creative.")
+                            .comment("§9[Default: true]")
+                            .define("star_coins_collected_in_creative", true);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DOORS);

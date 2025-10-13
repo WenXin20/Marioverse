@@ -2,6 +2,8 @@
   "values": [
     "marioverse:amethyst_brick_stairs",
     "marioverse:amethyst_stairs",
+    "marioverse:calcite_checkered_tile_stairs",
+    "marioverse:calcite_stairs",
     "marioverse:deep_fungal_brick_stairs",
     "marioverse:deep_fungal_stone_stairs",
     "marioverse:fungal_brick_stairs",
@@ -11,7 +13,9 @@
     "marioverse:polished_deep_fungal_stone_stairs",
     "marioverse:polished_fungal_brick_stairs",
     "marioverse:polished_fungal_stone_stairs",
+    "marioverse:polished_white_calcite_stairs",
     "marioverse:red_sandstone_brick_stairs",
-    "marioverse:sandstone_brick_stairs"
+    "marioverse:sandstone_brick_stairs",
+    "marioverse:white_calcite_brick_stairs"
   ]
 }

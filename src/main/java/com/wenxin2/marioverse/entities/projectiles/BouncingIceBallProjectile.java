@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -236,7 +237,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Entity entity = hit.getEntity();
 
         if (entity instanceof Player player && player instanceof AbilitiesHandler handler && !player.isSpectator()
-                && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = player.getUseItem();
             float width = player.getBbWidth() * 2.55F;
             float height = player.getBbHeight() * 1.55F;
@@ -284,7 +286,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof LivingEntity livingEntity
-                && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = livingEntity.getUseItem();
             if ((livingEntity instanceof TamableAnimal tamableAnimal
                     && tamableAnimal.getOwner() == this.getOwner())
@@ -326,7 +329,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof PiranhaPlantPart partEntity
-                && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = partEntity.getParent().getUseItem();
 
             if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
@@ -374,10 +378,12 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
         if (world instanceof ServerLevel serverWorld) {
             if (entity instanceof Player player && !player.isSpectator() && player.canFreeze() && player != this.getOwner()
-                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                    && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
-                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
+                    && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                    && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             }
         }

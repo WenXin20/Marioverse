@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
+import com.wenxin2.marioverse.integration.WoodGoodCompat;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -88,6 +89,7 @@ public class Marioverse {
         AttributesRegistry.init();
         ConfigRegistry.register(container);
 
+        Marioverse.everyCompatModule();
         Marioverse.stoneZoneModule();
 
         if (dist.isClient()) {
@@ -101,6 +103,16 @@ public class Marioverse {
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
         bus.addListener(this::commonSetup);
         bus.addListener(RegistryEventHandlers::gatherData);
+    }
+
+    private static void everyCompatModule() {
+        try {
+            if (ModList.get().isLoaded("everycomp"))
+                WoodGoodCompat.init();
+            else LOGGER.info("Every Compat module is not loaded");
+        } catch (Exception e) {
+            LOGGER.error("Failed to start Wood Good module", e);
+        }
     }
 
     private static void stoneZoneModule() {

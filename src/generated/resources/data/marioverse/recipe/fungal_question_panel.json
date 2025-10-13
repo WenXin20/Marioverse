@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:question_panels",
+  "ingredients": [
+    {
+      "item": "marioverse:polished_fungal_stone"
+    },
+    {
+      "tag": "c:dusts/redstone"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:fungal_question_panel"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ingots/iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:ingots/iron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nuggets/iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:nuggets/iron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_polished_deepslate_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:polished_deepslate_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:spike_panel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_nuggets/iron",
+      "has_ingots/iron",
+      "has_polished_deepslate_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:spike_panel"
+    ]
+  }
+}

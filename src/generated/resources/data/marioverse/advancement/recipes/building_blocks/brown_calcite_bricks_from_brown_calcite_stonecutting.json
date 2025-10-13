@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_brown_calcite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:polished_brown_calcite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:brown_calcite_bricks_from_brown_calcite_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_polished_brown_calcite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:brown_calcite_bricks_from_brown_calcite_stonecutting"
+    ]
+  }
+}

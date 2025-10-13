@@ -19,7 +19,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagsGen extends ItemTagsProvider {
-    private static ResourceLocation SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
+    private static final ResourceLocation CREATE_SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
 
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
@@ -30,16 +30,31 @@ public class ItemTagsGen extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
+        copy(TagRegistry.BRIDGE_BLOCKS, TagRegistry.BRIDGE_ITEMS);
+        copy(TagRegistry.BRIDGE_STAIR_BLOCKS, TagRegistry.BRIDGE_STAIR_ITEMS);
+        copy(TagRegistry.CALCITE_BLOCKS, TagRegistry.CALCITE_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_BLOCKS, TagRegistry.CALCITE_BRICK_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
+        copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
+        copy(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
+        copy(TagRegistry.DYED_CALCITE_BLOCKS, TagRegistry.DYED_CALCITE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
+        copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
+        copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);
         copy(TagRegistry.SMASHABLE_BLOCKS, TagRegistry.SMASHABLE_BLOCK_ITEMS);
         copy(TagRegistry.STORAGE_BRICK_BLOCKS, TagRegistry.STORAGE_BRICK_ITEMS);
+        copy(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS, TagRegistry.STORAGE_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.WARP_PIPE_BLOCKS, TagRegistry.WARP_PIPE_ITEMS);
+        copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
+        copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
 
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
 
@@ -47,13 +62,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);
         copy(BlockTags.WALLS, ItemTags.WALLS);
+        copy(BlockTags.WOODEN_STAIRS, ItemTags.WOODEN_STAIRS);
 
-        for (DyeColor color : DyeColor.values()) {
-            tag(TagRegistry.itemTags("c", "dyed/" + color))
-                    .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).asItem())
-                    .add(BlockRegistry.GOAL_POLES.get(color).asItem())
-                    .add(BlockRegistry.WARP_PIPES.get(color).asItem());
-        }
+        for (DyeColor color : DyeColor.values())
+            copy(TagRegistry.blockTags("c", "dyed/" + color), TagRegistry.itemTags("c", "dyed/" + color));
 
         tag(ItemTags.DECORATED_POT_SHERDS)
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
@@ -76,9 +88,16 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_ICE_SHIRT.get())
                 .add(ItemRegistry.MARIO_ICE_SHOES.get());
 
+        tag(ItemTags.NON_FLAMMABLE_WOOD)
+                .add(BlockRegistry.CRIMSON_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem());
+
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
+                .add(BlockRegistry.FUNGAL_QUESTION_PANEL.asItem())
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
                 .add(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get())
@@ -131,11 +150,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(ItemTags.SHOVELS)
                 .add(ItemRegistry.WRENCH.get())
                 .add(Items.DEBUG_STICK)
-                .addOptional(SUPER_GLUE);
+                .addOptional(CREATE_SUPER_GLUE);
 
         tag(TagRegistry.CAN_SELECT_WATER_SPOUTS)
                 .add(Items.DEBUG_STICK)
-                .addOptional(SUPER_GLUE);
+                .addOptional(CREATE_SUPER_GLUE);
 
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 

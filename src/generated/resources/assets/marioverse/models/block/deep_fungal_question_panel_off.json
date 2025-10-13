@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_question_panel_off",
+  "textures": {
+    "bottom": "marioverse:block/deep_fungal_question_panel_bottom",
+    "top": "marioverse:block/deep_fungal_question_panel_off"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "values": {
+    "#marioverse:flammable_wooden_bridge_stairs": {
+      "burn_time": 100
+    },
+    "#marioverse:flammable_wooden_bridges": {
+      "burn_time": 100
+    }
+  }
+}

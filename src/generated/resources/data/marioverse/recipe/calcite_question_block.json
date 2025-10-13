@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:question_blocks",
+  "ingredients": [
+    {
+      "tag": "marioverse:polished_calcite"
+    },
+    {
+      "tag": "c:chests/wooden"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:calcite_question_block"
+  }
+}

@@ -1,7 +1,14 @@
 {
   "values": [
+    "marioverse:pink_calcite",
+    "marioverse:pink_calcite_bricks",
+    "marioverse:pink_calcite_brick_pedestal",
     "marioverse:pink_checkpoint_flag",
+    "marioverse:chiseled_pink_calcite_bricks",
+    "marioverse:cracked_pink_calcite_bricks",
     "marioverse:pink_goal_pole",
+    "marioverse:polished_pink_calcite",
+    "marioverse:storage_pink_calcite_bricks",
     "marioverse:pink_warp_pipe"
   ]
 }

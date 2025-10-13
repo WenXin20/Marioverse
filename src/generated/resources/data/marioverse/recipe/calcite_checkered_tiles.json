@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:spike_panels",
+  "key": {
+    "X": {
+      "item": "marioverse:polished_white_calcite"
+    },
+    "Y": {
+      "item": "marioverse:polished_black_calcite"
+    }
+  },
+  "pattern": [
+    "XY",
+    "YX"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:calcite_checkered_tiles"
+  }
+}

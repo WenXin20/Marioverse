@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/calcite_checkered_tile_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/calcite_checkered_tiles"
+    },
+    "type=top": {
+      "model": "marioverse:block/calcite_checkered_tile_slab_top"
+    }
+  }
+}

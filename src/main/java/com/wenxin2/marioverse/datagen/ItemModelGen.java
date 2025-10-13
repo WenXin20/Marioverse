@@ -31,6 +31,7 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.basicItem(BlockRegistry.COIN.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
+        this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
@@ -184,17 +185,28 @@ public class ItemModelGen extends ItemModelProvider {
                     ResourceLocation topTexture;
                     ResourceLocation overlayTexture;
 
-                    if (block == BlockFamilyRegistry.AMETHYST_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
-                            || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
-                        sideTexture = modLoc("block/" + blockName);
-                        topTexture = modLoc("block/" + removeStorageName);
+                    if (block == BlockFamilyRegistry.BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.CUT_COPPER.get(storageBrick)
+                            || block == BlockFamilyRegistry.DARK_PRISMARINE.get(storageBrick)
+                            || block == BlockFamilyRegistry.DEEPSLATE_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.DEEPSLATE_TILES.get(storageBrick)
+                            || block == BlockFamilyRegistry.END_STONE_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.EXPOSED_CUT_COPPER.get(storageBrick)
+                            || block == BlockFamilyRegistry.MOSSY_STONE_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.MUD_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.NETHER_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.OXIDIZED_CUT_COPPER.get(storageBrick)
+                            || block == BlockFamilyRegistry.PRISMARINE_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.PURPUR_BLOCK.get(storageBrick)
+                            || block == BlockFamilyRegistry.QUARTZ_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.RED_NETHER_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.STONE_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.TUFF_BRICKS.get(storageBrick)
+                            || block == BlockFamilyRegistry.WEATHERED_CUT_COPPER.get(storageBrick)) {
+                        mainTexture = mcLoc("minecraft:block/" + removeStorageName);
+                        overlayTexture = modLoc("block/" + questionBlockName + "_overlay");
 
-                        this.cubeBottomTopModel(blockName, sideTexture, topTexture);
+                        this.storageBrickModel(blockName, mainTexture, overlayTexture);
                     } else if (removeStorageName.startsWith("waxed_")) {
                         String unWaxedName = blockName.replace("waxed_", "");
                         removeStorageName = unWaxedName.replace("storage_", "");
@@ -211,10 +223,10 @@ public class ItemModelGen extends ItemModelProvider {
 
                         this.storageBrickModel(blockName, mainTexture, overlayTexture);
                     } else {
-                        mainTexture = mcLoc("minecraft:block/" + removeStorageName);
-                        overlayTexture = modLoc("block/" + questionBlockName + "_overlay");
+                        sideTexture = modLoc("block/" + blockName);
+                        topTexture = modLoc("block/" + removeStorageName);
 
-                        this.storageBrickModel(blockName, mainTexture, overlayTexture);
+                        this.cubeBottomTopModel(blockName, sideTexture, topTexture);
                     }
                 }
             });

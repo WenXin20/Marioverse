@@ -6,12 +6,123 @@ import java.util.Map;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamilies;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockFamilyRegistry extends BlockFamilies {
     private static final Map<Block, BlockFamilyExtended> MAP = Maps.newHashMap();
+
+    public static final BlockFamilyExtended ACACIA_LOG = familyBuilder(Blocks.ACACIA_LOG)
+            .bridge(BlockRegistry.ACACIA_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_ACACIA_LOG = familyBuilder(Blocks.STRIPPED_ACACIA_LOG)
+            .bridge(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BAMBOO_BLOCK = familyBuilder(Blocks.BAMBOO_BLOCK)
+            .bridge(BlockRegistry.BAMBOO_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.BAMBOO_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_BAMBOO_BLOCK = familyBuilder(Blocks.STRIPPED_BAMBOO_BLOCK)
+            .bridge(BlockRegistry.STRIPPED_BAMBOO_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BIRCH_LOG = familyBuilder(Blocks.BIRCH_LOG)
+            .bridge(BlockRegistry.BIRCH_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_BIRCH_LOG = familyBuilder(Blocks.STRIPPED_BIRCH_LOG)
+            .bridge(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CHERRY_LOG = familyBuilder(Blocks.CHERRY_LOG)
+            .bridge(BlockRegistry.CHERRY_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_CHERRY_LOG = familyBuilder(Blocks.STRIPPED_CHERRY_LOG)
+            .bridge(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CRIMSON_STEM = familyBuilder(Blocks.CRIMSON_STEM)
+            .bridge(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_CRIMSON_STEM = familyBuilder(Blocks.STRIPPED_CRIMSON_STEM)
+            .bridge(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MANGROVE_LOG = familyBuilder(Blocks.MANGROVE_LOG)
+            .bridge(BlockRegistry.MANGROVE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_MANGROVE_LOG = familyBuilder(Blocks.STRIPPED_MANGROVE_LOG)
+            .bridge(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended DARK_OAK_LOG = familyBuilder(Blocks.DARK_OAK_LOG)
+            .bridge(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_DARK_OAK_LOG = familyBuilder(Blocks.STRIPPED_DARK_OAK_LOG)
+            .bridge(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended JUNGLE_LOG = familyBuilder(Blocks.JUNGLE_LOG)
+            .bridge(BlockRegistry.JUNGLE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_JUNGLE_LOG = familyBuilder(Blocks.STRIPPED_JUNGLE_LOG)
+            .bridge(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended OAK_LOG = familyBuilder(Blocks.OAK_LOG)
+            .bridge(BlockRegistry.OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.OAK_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_OAK_LOG = familyBuilder(Blocks.STRIPPED_OAK_LOG)
+            .bridge(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPRUCE_LOG = familyBuilder(Blocks.SPRUCE_LOG)
+            .bridge(BlockRegistry.SPRUCE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_SPRUCE_LOG = familyBuilder(Blocks.STRIPPED_SPRUCE_LOG)
+            .bridge(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WARPED_STEM = familyBuilder(Blocks.WARPED_STEM)
+            .bridge(BlockRegistry.WARPED_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.WARPED_STEM_BRIDGE_STAIRS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_WARPED_STEM = familyBuilder(Blocks.STRIPPED_WARPED_STEM)
+            .bridge(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get())
+            .getFamily();
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)
             .button(BlockRegistry.AMETHYST_BUTTON.get())
@@ -41,6 +152,265 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_AMETHYST_WALL.get())
             .getFamily();
 
+    public static final BlockFamilyExtended CALCITE_CHECKERED_TILES = familyBuilder(BlockRegistry.CALCITE_CHECKERED_TILES.get())
+            .slab(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
+            .stairs(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
+            .wall(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CALCITE = familyBuilder(Blocks.CALCITE)
+            .button(BlockRegistry.CALCITE_BUTTON.get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get())
+            .pressurePlate(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
+            .slab(BlockRegistry.CALCITE_SLAB.get())
+            .stairs(BlockRegistry.CALCITE_STAIRS.get())
+            .wall(BlockRegistry.CALCITE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended LIGHT_GRAY_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.LIGHT_GRAY).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIGHT_GRAY).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended GRAY_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.GRAY).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.GRAY).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BLACK_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.BLACK).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BROWN_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.BROWN).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.BROWN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended RED_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.RED).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.RED).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended ORANGE_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.ORANGE).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.ORANGE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended YELLOW_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.YELLOW).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.YELLOW).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended LIME_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.LIME).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIME).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended GREEN_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.GREEN).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.GREEN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CYAN_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.CYAN).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.CYAN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended LIGHT_BLUE_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.LIGHT_BLUE).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIGHT_BLUE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BLUE_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.BLUE).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLUE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended PURPLE_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.PURPLE).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.PURPLE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MAGENTA_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.MAGENTA).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.MAGENTA).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended PINK_CALCITE = familyBuilder(BlockRegistry.CALCITE.get(DyeColor.PINK).get())
+            .polished(BlockRegistry.POLISHED_CALCITE.get(DyeColor.PINK).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .invisibleQuestionBlock(BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get())
+            .questionBlockTag(BlockRegistry.CALCITE_QUESTION_BLOCK.get())
+            .slab(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
+            .stairs(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
+            .wall(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_LIGHT_GRAY_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIGHT_GRAY).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_GRAY_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.GRAY).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.GRAY).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_BLACK_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BLACK).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_BROWN_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.BROWN).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BROWN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_RED_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.RED).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.RED).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_ORANGE_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.ORANGE).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.ORANGE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_YELLOW_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.YELLOW).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.YELLOW).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_LIME_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIME).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIME).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_GREEN_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.GREEN).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.GREEN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_CYAN_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.CYAN).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.CYAN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_LIGHT_BLUE_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.LIGHT_BLUE).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_BLUE_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLUE).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BLUE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_PURPLE_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.PURPLE).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.PURPLE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_MAGENTA_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.MAGENTA).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended POLISHED_PINK_CALCITE = familyBuilder(BlockRegistry.POLISHED_CALCITE.get(DyeColor.PINK).get())
+            .bricks(BlockRegistry.CALCITE_BRICKS.get(DyeColor.PINK).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.WHITE).get())
+            .slab(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
+            .stairs(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .wall(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended LIGHT_GRAY_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.LIGHT_GRAY).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended GRAY_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.GRAY).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.GRAY).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.GRAY).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.GRAY).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.GRAY).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BLACK_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BLACK).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.BLACK).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.BLACK).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.BLACK).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.BLACK).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BROWN_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BROWN).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.BROWN).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.BROWN).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.BROWN).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.BROWN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended RED_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.RED).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.RED).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.RED).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.RED).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.RED).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended ORANGE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.ORANGE).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.ORANGE).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.ORANGE).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.ORANGE).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.ORANGE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended YELLOW_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.YELLOW).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.YELLOW).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.YELLOW).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.YELLOW).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.YELLOW).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended LIME_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIME).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.LIME).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.LIME).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.LIME).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.LIME).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended GREEN_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.GREEN).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.GREEN).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.GREEN).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.GREEN).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.GREEN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CYAN_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.CYAN).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.CYAN).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.CYAN).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.CYAN).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.CYAN).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended LIGHT_BLUE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.LIGHT_BLUE).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BLUE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BLUE).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.BLUE).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.BLUE).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.BLUE).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.BLUE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended PURPLE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.PURPLE).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PURPLE).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PURPLE).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.PURPLE).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PURPLE).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MAGENTA_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.MAGENTA).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
+            .getFamily();
+
+    public static final BlockFamilyExtended PINK_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.PINK).get())
+            .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK).get())
+            .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK).get())
+            .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(DyeColor.PINK).get())
+            .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PINK).get())
+            .getFamily();
+
     public static final BlockFamilyExtended DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.DEEP_FUNGAL_STONE.get())
             .bricks(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
             .button(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
@@ -65,6 +435,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bricks(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get())
+            .questionPanel(BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
@@ -104,6 +475,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bricks(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())
+            .questionPanel(BlockRegistry.FUNGAL_QUESTION_PANEL.get())
             .slab(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())

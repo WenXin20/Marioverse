@@ -506,6 +506,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
+        tag(TagRegistry.SPIKE_PANEL_IMMUNE)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
         tag(TagRegistry.SUPER_STAR_IMMUNE)
                 .addTag(Tags.EntityTypes.BOATS)
                 .addTag(Tags.EntityTypes.BOSSES)

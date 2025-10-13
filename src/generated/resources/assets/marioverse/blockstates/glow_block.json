@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "marioverse:block/glow_block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "marioverse:block/glow_block"
+    },
+    "facing=south": {
+      "model": "marioverse:block/glow_block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "marioverse:block/glow_block",
+      "y": 270
+    }
+  }
+}

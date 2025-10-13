@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "marioverse:block/polished_white_calcite",
+    "side": "marioverse:block/polished_white_calcite",
+    "top": "marioverse:block/polished_white_calcite"
+  }
+}
