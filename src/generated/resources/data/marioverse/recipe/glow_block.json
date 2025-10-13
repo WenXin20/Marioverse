@@ -4,7 +4,7 @@
   "group": "marioverse:glow_block",
   "key": {
     "B": {
-      "tag": "c:ingots/iron"
+      "tag": "c:glass_blocks/colorless"
     },
     "C": {
       "item": "minecraft:glowstone"

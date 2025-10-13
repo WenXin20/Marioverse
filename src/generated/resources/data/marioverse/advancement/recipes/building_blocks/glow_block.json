@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_glowstone": {
+    "has_glass_blocks/colorless": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:glowstone"
+            "items": "#c:glass_blocks/colorless"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_ingots/iron": {
+    "has_glowstone": {
       "conditions": {
         "items": [
           {
-            "items": "#c:ingots/iron"
+            "items": "minecraft:glowstone"
           }
         ]
       },
@@ -31,7 +31,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_ingots/iron",
+      "has_glass_blocks/colorless",
       "has_glowstone"
     ]
   ],
