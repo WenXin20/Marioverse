@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.SplunkinModel;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
-import java.util.Locale;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -65,11 +64,12 @@ public class SplunkinRenderer extends GeoEntityRenderer<SplunkinEntity> {
             }
 
             @Override
-            public void renderForBone(PoseStack poseStack, SplunkinEntity animatable, GeoBone bone, RenderType renderType,
-                                      MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
+            protected void renderVanillaArmorPiece(PoseStack poseStack, SplunkinEntity animatable, GeoBone bone, EquipmentSlot slot,
+                                                   ItemStack armorStack, ModelPart modelPart, MultiBufferSource bufferSource,
+                                                   float partialTick, int packedLight, int packedOverlay) {
                 poseStack.scale(0.65F, 0.65F, 0.65F);
                 poseStack.translate(0.0F, -1.0F, 0.0F);
-                super.renderForBone(poseStack, animatable, bone, renderType, bufferSource, buffer, partialTick, packedLight, packedOverlay);
+                super.renderVanillaArmorPiece(poseStack, animatable, bone, slot, armorStack, modelPart, bufferSource, partialTick, packedLight, packedOverlay);
             }
 
             @Override
