@@ -91,6 +91,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.SLIME)
                 .add(EntityType.TURTLE)
                 .addOptional(TEST_DUMMY);
@@ -256,6 +257,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -356,7 +358,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.FIREBALL_CAN_INSTAKILL)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
-                .add(EntityRegistry.PIRANHA_PLANT.get());
+                .add(EntityRegistry.PIRANHA_PLANT.get())
+                .add(EntityRegistry.SPLUNKIN.get());
 
         tag(TagRegistry.FIREBALL_IMMUNE)
                 .add(EntityRegistry.FIRE_FLOWER.get());
@@ -508,6 +511,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.SPIKE_PANEL_IMMUNE)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
+
+        tag(TagRegistry.SPLUNKIN_CAN_ATTACK)
+                .add(EntityType.PLAYER);
 
         tag(TagRegistry.SUPER_STAR_IMMUNE)
                 .addTag(Tags.EntityTypes.BOATS)

@@ -380,7 +380,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
-        super.populateDefaultEquipmentSlots(random, difficulty);
+        super.populateDefaultEquipmentSlots(random, difficulty); // TODO: Change to finalizeSpawn() once costume rendering is fixed
         if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);

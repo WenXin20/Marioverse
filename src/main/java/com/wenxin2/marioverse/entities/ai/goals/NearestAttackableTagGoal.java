@@ -52,8 +52,7 @@ public class NearestAttackableTagGoal extends TargetGoal {
             List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
                     LivingEntity.class,
                     this.getTargetSearchArea(this.getFollowDistance()),
-                    entity -> entity.getType().is(this.entityTag)
-            );
+                    entity -> entity.getType().is(this.entityTag));
 
             if (!potentialTargets.isEmpty()) {
                 this.target = this.mob.level().getNearestEntity(potentialTargets, this.targetConditions,

@@ -8,6 +8,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.attachment.AttachmentType;
 
 public class DataAttachmentRegistry {
+    public static final Supplier<AttachmentType<Boolean>> CRACKED = Marioverse.ATTACHMENT_TYPES.register(
+        "cracked", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
+                FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HAS_HIT_BLOCK = Marioverse.ATTACHMENT_TYPES.register(
             "has_hit_block", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).sync(StreamCodec.of(             // sync to client
                     FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());

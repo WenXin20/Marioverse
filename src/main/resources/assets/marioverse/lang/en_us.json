@@ -609,6 +609,7 @@
   "entity.marioverse.piranha_plant": "Piranha Plant",
   "entity.marioverse.red_koopa_shell": "Red Koopa Shell",
   "entity.marioverse.red_koopa_troopa": "Red Koopa Troopa",
+  "entity.marioverse.splunkin": "Splunkin",
 
   "item.marioverse.bowser_banner_pattern": "Banner Pattern",
   "item.marioverse.bowser_banner_pattern.desc": "§cKing Bowser",
@@ -638,6 +639,7 @@
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
   "item.marioverse.piranha_plant_spawn_egg": "Piranha Plant Spawn Egg",
   "item.marioverse.red_koopa_troopa_spawn_egg": "Red Troopa Koopa Spawn Egg",
+  "item.marioverse.splunkin_spawn_egg": "Splunkin Spawn Egg",
 
   "item.marioverse.mario_costume_smithing_template": "Mario's Costume Smithing Template",
   "item.marioverse.luigi_costume_smithing_template": "Luigi's Costume Smithing Template",

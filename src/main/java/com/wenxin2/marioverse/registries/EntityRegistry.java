@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.RedKoopaShellEntity;
 import com.wenxin2.marioverse.entities.RedKoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -72,13 +73,13 @@ public class EntityRegistry {
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("gold_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaTroopaEntity>> GOLD_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("gold_koopa_troopa", () -> EntityType.Builder.of(GoldKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("gold_koopa_troopa"));
+                    .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("gold_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL =
             Marioverse.ENTITIES.register("green_koopa_shell", () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.AMBIENT)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("green_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<GreenKoopaTroopaEntity>> GREEN_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("green_koopa_troopa", () -> EntityType.Builder.of(GreenKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("green_koopa_troopa"));
+                    .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("green_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
             Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
                     .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));
@@ -94,7 +95,10 @@ public class EntityRegistry {
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("red_koopa_troopa", () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("red_koopa_troopa"));
+                    .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("red_koopa_troopa"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
+            Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
+                    .sized(0.875F, 0.8125F).ridingOffset(0.075F).build("splunkin"));
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
@@ -116,6 +120,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GOLD_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.SPLUNKIN.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SplunkinEntity::checkSplunkinSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
 
     @SubscribeEvent
@@ -231,6 +237,14 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 12.0F).build());
+
+        event.put(EntityRegistry.SPLUNKIN.get(), Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 1.2F)
+                .add(Attributes.FOLLOW_RANGE, 8.0F)
+                .add(Attributes.MAX_HEALTH, 8)
+                .add(Attributes.MOVEMENT_SPEED, 0.6F).build());
     }
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity,

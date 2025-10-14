@@ -3,15 +3,8 @@ package com.wenxin2.marioverse.client.models.entities;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.GoombaEntity;
 import java.util.Locale;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec3;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.AnimationState;
-import software.bernie.geckolib.cache.object.GeoBone;
-import software.bernie.geckolib.loading.json.raw.Bone;
 import software.bernie.geckolib.model.GeoModel;
 
 public class GoombaModel extends GeoModel<GoombaEntity> {
