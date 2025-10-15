@@ -555,9 +555,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     protected void handleAirSupply(int airSupplyAmount) {
-        if (this.isAlive() && this.isInWaterOrBubble()) {
+        if (this.isAlive() && this.isInWaterOrBubble())
             this.setAirSupply(airSupplyAmount);
-        }
     }
 
     @Override

@@ -1,16 +1,12 @@
 package com.wenxin2.marioverse.client.renderers.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.SplunkinModel;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -20,7 +16,6 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
@@ -63,15 +58,6 @@ public class SplunkinRenderer extends GeoEntityRenderer<SplunkinEntity> {
                 };
             }
 
-//            @Override
-//            protected void renderVanillaArmorPiece(PoseStack poseStack, SplunkinEntity animatable, GeoBone bone, EquipmentSlot slot,
-//                                                   ItemStack armorStack, ModelPart modelPart, MultiBufferSource bufferSource,
-//                                                   float partialTick, int packedLight, int packedOverlay) {
-//                poseStack.scale(0.75F, 0.75F, 0.75F);
-//                poseStack.translate(0.0F, 0.5F, -0.01F);
-//                super.renderVanillaArmorPiece(poseStack, animatable, bone, slot, armorStack, modelPart, bufferSource, partialTick, packedLight, packedOverlay);
-//            }
-
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
@@ -108,7 +94,7 @@ public class SplunkinRenderer extends GeoEntityRenderer<SplunkinEntity> {
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, SplunkinEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 poseStack.scale(1.0F, 0.9F, 0.95F);
-                poseStack.translate(0.0F, 0.5F, -0.035F);
+                poseStack.translate(0.0F, 0.475F, -0.025F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
