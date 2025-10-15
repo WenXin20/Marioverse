@@ -63,20 +63,20 @@ public class SplunkinRenderer extends GeoEntityRenderer<SplunkinEntity> {
                 };
             }
 
-            @Override
-            protected void renderVanillaArmorPiece(PoseStack poseStack, SplunkinEntity animatable, GeoBone bone, EquipmentSlot slot,
-                                                   ItemStack armorStack, ModelPart modelPart, MultiBufferSource bufferSource,
-                                                   float partialTick, int packedLight, int packedOverlay) {
-                poseStack.scale(0.65F, 0.65F, 0.65F);
-                poseStack.translate(0.0F, -1.0F, 0.0F);
-                super.renderVanillaArmorPiece(poseStack, animatable, bone, slot, armorStack, modelPart, bufferSource, partialTick, packedLight, packedOverlay);
-            }
+//            @Override
+//            protected void renderVanillaArmorPiece(PoseStack poseStack, SplunkinEntity animatable, GeoBone bone, EquipmentSlot slot,
+//                                                   ItemStack armorStack, ModelPart modelPart, MultiBufferSource bufferSource,
+//                                                   float partialTick, int packedLight, int packedOverlay) {
+//                poseStack.scale(0.75F, 0.75F, 0.75F);
+//                poseStack.translate(0.0F, 0.5F, -0.01F);
+//                super.renderVanillaArmorPiece(poseStack, animatable, bone, slot, armorStack, modelPart, bufferSource, partialTick, packedLight, packedOverlay);
+//            }
 
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.4F, 1.4F, 1.25F);
-                poseStack.translate(0.0F, -0.45F, 0.025F);
+                poseStack.scale(1.5F, 1.5F, 1.35F);
+                poseStack.translate(0.0F, -0.5F, -0.03F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -107,22 +107,10 @@ public class SplunkinRenderer extends GeoEntityRenderer<SplunkinEntity> {
             @Override
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, SplunkinEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
-                poseStack.scale(0.9F, 0.9F, 0.85F);
-                poseStack.translate(0.0F, 0.0F, 0.025F);
+                poseStack.scale(0.95F, 0.9F, 0.85F);
+                poseStack.translate(0.0F, 0.0F, -0.03F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
-    }
-
-    @Override
-    protected float getDeathMaxRotation(SplunkinEntity animatable) {
-        return 0.0F;
-    }
-
-    @Override
-    public int getPackedOverlay(SplunkinEntity animatable, float u, float partialTick) {
-        if (!animatable.getData(DataAttachmentRegistry.CRACKED))
-            return OverlayTexture.NO_OVERLAY;
-        else return super.getPackedOverlay(animatable, u, partialTick);
     }
 }

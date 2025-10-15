@@ -98,7 +98,7 @@ public class EntityRegistry {
                     .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("red_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
-                    .sized(0.875F, 0.8125F).ridingOffset(0.075F).build("splunkin"));
+                    .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
