@@ -1,23 +1,15 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
-import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -33,7 +25,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.NeutralMob;
@@ -55,6 +46,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.SkullBlock;
@@ -104,24 +96,7 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return null;
-    }
-
-    @NotNull
-    public SoundEvent getStompSound() {
-        return SoundRegistry.GOOMBA_STOMP.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundRegistry.GOOMBA_AMBIENT.get();
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
-        super.playStepSound(pos, state);
+        return SoundRegistry.GOOMBA_DEATH.get();
     }
 
     @Override
@@ -172,18 +147,6 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
         return cache;
     }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-//        this.setData(DataAttachmentRegistry.CRACKED, tag.getBoolean("cracked"));
-    }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-//        tag.putBoolean("cracked", this.getData(DataAttachmentRegistry.CRACKED));
-    }
-
     public boolean isWalking() {
         return (this.getDeltaMovement().horizontalDistance() >= 0.01
                 && this.getDeltaMovement().horizontalDistance() < 0.5)
@@ -200,8 +163,13 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     public void tick() {
         super.tick();
+
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
+
+        if (this.getRemainingPersistentAngerTime() <= 0
+                && !this.isNoAi() && this.getData(DataAttachmentRegistry.CRACKED))
+            this.setData(DataAttachmentRegistry.CRACKED, false);
     }
 
     @Override
@@ -235,11 +203,6 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
 
     @Override
     public void die(DamageSource source) {
-        if (source.is(DamageTypeRegistry.STOMP)
-                || source.is(DamageTypeRegistry.PLAYER_STOMP))
-            this.playSound(getStompSound());
-        else this.playSound(SoundRegistry.GOOMBA_DEATH.get());
-
         this.playDeathAnimation(this);
         super.die(source);
     }
@@ -336,8 +299,8 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     @NotNull
-    public SimpleParticleType getShatterParticle() {
-        return ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get();
+    public BlockParticleOption getShatterParticle() {
+        return new BlockParticleOption(ParticleTypes.BLOCK, Blocks.JACK_O_LANTERN.defaultBlockState()); // TODO
     }
 
     public void playDeathAnimation(Entity entity) {
