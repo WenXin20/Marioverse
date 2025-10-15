@@ -250,6 +250,13 @@
       { "name": "marioverse:entity/piranha_plant/piranha_plant_hurt3" }],
     "subtitle": "subtitles.marioverse.entity.piranha_plant_hurt" },
 
+  "entity.splunkin_cracks": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/splunkin/splunkin_cracks" }],
+    "subtitle": "subtitles.marioverse.entity.splunkin_cracks" },
+  "entity.splunkin_death": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/splunkin/splunkin_death" }],
+    "subtitle": "subtitles.marioverse.entity.splunkin_death" },
+
   "entity.one_up_collected": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/one_up_collected" }],
     "subtitle": "subtitles.marioverse.entity.one_up_collected" },
   "entity.powers_up": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up" }],

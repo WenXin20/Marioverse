@@ -87,6 +87,8 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_EXTEND;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_PEEK;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_RETRACT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPLUNKIN_CRACKS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPLUNKIN_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
@@ -268,6 +270,11 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_death")));
         PIRANHA_PLANT_HURT = Marioverse.SOUNDS.register("entity.piranha_plant_hurt",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_hurt")));
+
+        SPLUNKIN_CRACKS = Marioverse.SOUNDS.register("entity.splunkin_cracks",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.splunkin_cracks")));
+        SPLUNKIN_DEATH = Marioverse.SOUNDS.register("entity.splunkin_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.splunkin_death")));
 
         ONE_UP_COLLECTED = Marioverse.SOUNDS.register("entity.one_up_collected",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.one_up_collected")));

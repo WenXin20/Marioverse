@@ -88,15 +88,16 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
         return 1 + this.level().random.nextInt(1);
     }
 
-    @Nullable    @Override
+    @Nullable
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.GOOMBA_HURT.get();
+        return SoundRegistry.SPLUNKIN_CRACKS.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.GOOMBA_DEATH.get();
+        return SoundRegistry.SPLUNKIN_DEATH.get();
     }
 
     @Override

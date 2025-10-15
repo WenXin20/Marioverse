@@ -117,7 +117,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return 1 + this.level().random.nextInt(1);
     }
 
-    @Nullable    @Override
+    @Nullable
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundRegistry.GOOMBA_HURT.get();
     }
