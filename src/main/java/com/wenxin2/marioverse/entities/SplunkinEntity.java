@@ -167,10 +167,6 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
-
-        if (this.getRemainingPersistentAngerTime() <= 0
-                && !this.isNoAi() && this.getData(DataAttachmentRegistry.CRACKED))
-            this.setData(DataAttachmentRegistry.CRACKED, false);
     }
 
     @Override
@@ -271,6 +267,13 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     protected void handleAirSupply(int airSupplyAmount) {
         if (this.isAlive() && this.isInWaterOrBubble())
             this.setAirSupply(airSupplyAmount);
+    }
+
+    @Override
+    public void stopBeingAngry() {
+        if (!this.isNoAi())
+            this.setData(DataAttachmentRegistry.CRACKED, false);
+        NeutralMob.super.stopBeingAngry();
     }
 
     @Override
