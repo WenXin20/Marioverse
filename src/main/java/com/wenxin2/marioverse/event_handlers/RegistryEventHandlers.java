@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
 import com.wenxin2.marioverse.datagen.DataMapGen;
@@ -39,6 +40,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -52,6 +54,11 @@ public class RegistryEventHandlers {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         PowerUpCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(DispenserBehaviors::register);
     }
 
     public static void gatherData(GatherDataEvent event) {

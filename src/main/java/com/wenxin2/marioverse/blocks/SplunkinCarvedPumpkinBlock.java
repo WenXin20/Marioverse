@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -51,6 +52,7 @@ public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
         if (player.isCreative() && !state.getValue(CRACKED)) {
             world.setBlock(pos, state.setValue(CRACKED, true), 3);
             world.levelEvent(player, 2001, pos, getId(state));
+            world.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
         }
         return super.useItemOn(stack, state, world, pos, player, hand, hitResult);
     }
@@ -60,6 +62,7 @@ public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
         if (!state.getValue(CRACKED)) {
             world.setBlock(pos, state.setValue(CRACKED, true), 3);
             world.levelEvent(player, 2001, pos, getId(state));
+            world.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
         }
         super.attack(state, world, pos, player);
     }
