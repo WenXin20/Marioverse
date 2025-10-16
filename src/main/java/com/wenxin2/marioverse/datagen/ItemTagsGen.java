@@ -56,6 +56,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
 
+        copy(Tags.Blocks.PUMPKINS_CARVED, Tags.Items.PUMPKINS_CARVED);
+        copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
 
         copy(BlockTags.SLABS, ItemTags.SLABS);
@@ -75,8 +77,20 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
+        tag(ItemTags.EQUIPPABLE_ENCHANTABLE)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
+
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
                 .add(ItemRegistry.WRENCH.get());
+
+        tag(ItemTags.VANISHING_ENCHANTABLE)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
+
+        tag(ItemTags.WEAPON_ENCHANTABLE)
+                .add(ItemRegistry.WRENCH.get());
+
+        tag(Tags.Items.ENCHANTABLES)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .add(ItemRegistry.LUIGI_ICE_HAT.get())
@@ -115,9 +129,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE.asItem());
 
         tag(ItemTags.TRIMMABLE_ARMOR);
-
-        tag(ItemTags.WEAPON_ENCHANTABLE)
-                .add(ItemRegistry.WRENCH.get());
 
         tag(TagRegistry.CHARMS).add(ItemRegistry.ONE_UP_MUSHROOM.get());
 

@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
+import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
@@ -63,6 +64,7 @@ public class BlockStateGen extends BlockStateProvider {
         String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
         String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
+        String splunkinOLanternName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_O_LANTERN.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
@@ -80,6 +82,10 @@ public class BlockStateGen extends BlockStateProvider {
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
+        this.splunkinOLanternModel(BlockRegistry.SPLUNKIN_O_LANTERN.get(), modLoc("block/" + splunkinOLanternName),
+                mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"),
+                modLoc("block/" + splunkinOLanternName + "_cracked"),
+                modLoc("block/" + splunkinOLanternName + "_cracked_side"), modLoc("block/" + splunkinOLanternName + "_cracked_top"));
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
 
@@ -1170,6 +1176,31 @@ public class BlockStateGen extends BlockStateProvider {
                     .rotationX(face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180))
                     .rotationY((int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot())
                     .uvLock(false)
+                    .build();
+        });
+    }
+
+    private void splunkinOLanternModel(Block block, ResourceLocation frontTexture, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                       ResourceLocation frontCrackedTexture, ResourceLocation sideCrackedTexture, ResourceLocation topCrackedTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/orientable"))
+                .texture("side", sideTexture).texture("front", frontTexture).texture("top", topTexture);
+        ModelFile modelCracked = models()
+                .withExistingParent(modelName + "_cracked", mcLoc("block/orientable"))
+                .texture("side", sideCrackedTexture).texture("front", frontCrackedTexture)
+                .texture("top", topCrackedTexture);
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean cracked = state.getValue(SplunkinCarvedPumpkinBlock.CRACKED);
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+
+            return ConfiguredModel.builder()
+                    .modelFile(cracked ? modelCracked : model)
+                    .rotationY(((int) facing.toYRot() + 180) % 360)
                     .build();
         });
     }

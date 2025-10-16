@@ -460,6 +460,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
+        tag(Tags.Blocks.PUMPKINS_CARVED)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
+
+        tag(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS)
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
+
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get());
@@ -493,6 +499,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
+
+        tag(BlockTags.ENDERMAN_HOLDABLE)
+                .add(BlockRegistry.GLOW_BLOCK.get())
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -596,7 +606,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(BlockRegistry.GLOW_BLOCK.get());
@@ -706,5 +718,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+
+        tag(BlockTags.SWORD_EFFICIENT)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
     }
 }

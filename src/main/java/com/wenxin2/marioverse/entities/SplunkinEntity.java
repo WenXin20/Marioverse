@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -301,7 +302,7 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
 
     @NotNull
     public BlockParticleOption getShatterParticle() {
-        return new BlockParticleOption(ParticleTypes.BLOCK, Blocks.JACK_O_LANTERN.defaultBlockState()); // TODO
+        return new BlockParticleOption(ParticleTypes.BLOCK, BlockRegistry.SPLUNKIN_O_LANTERN.get().defaultBlockState());
     }
 
     public void playDeathAnimation(Entity entity) {

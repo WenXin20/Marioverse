@@ -412,7 +412,7 @@
 				},
 				"feet": {
 					"rotation": {
-						"vector": [50, 0, 0]
+						"vector": [-50, 0, 0]
 					},
 					"position": {
 						"vector": [0, 0, -2]

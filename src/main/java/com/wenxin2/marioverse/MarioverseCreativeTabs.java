@@ -135,6 +135,8 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
+            add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
+
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
@@ -455,8 +457,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
 
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
-                
+
                 addAfter(event, Blocks.JACK_O_LANTERN, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
+                addAfter(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, BlockRegistry.SPLUNKIN_O_LANTERN);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {

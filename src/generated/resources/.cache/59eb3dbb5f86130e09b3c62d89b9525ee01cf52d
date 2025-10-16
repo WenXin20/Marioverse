@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-15T21:05:20.8168897	Loot Tables
+// 1.21.1	2025-10-15T22:39:19.0665811	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -340,6 +340,7 @@ f0fb0b3f046a37eafd38a44d066f3dfb1e25f45c data/marioverse/loot_table/blocks/smash
 0536c4677dc3cf6d19c5f13cf96d842e78c28ed1 data/marioverse/loot_table/blocks/smashable_weathered_cut_copper.json
 a272873bcfef28b6d756b6e2fdd1afa0ab94f399 data/marioverse/loot_table/blocks/spike_panel.json
 771106a7503d7e13109645a98593ce2306fbd456 data/marioverse/loot_table/blocks/splunkin_carved_pumpkin.json
+882715253b2389a19c138461127c1178d9ca41f2 data/marioverse/loot_table/blocks/splunkin_o_lantern.json
 1824212c674141ae5da1737aa0a9b4d60bf27ff8 data/marioverse/loot_table/blocks/spruce_log_bridge.json
 05da710da56aaaefe53acfc0712ffcc65dd36049 data/marioverse/loot_table/blocks/spruce_log_bridge_stairs.json
 35d4e58c76c886587df8e3d785e0ef23150c4062 data/marioverse/loot_table/blocks/star_coin.json
