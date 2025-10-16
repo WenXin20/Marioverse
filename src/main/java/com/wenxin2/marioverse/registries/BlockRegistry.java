@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
+import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
@@ -285,6 +286,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SPIKE_PANEL;
     public static final DeferredBlock<Block> SPLUNKIN_CARVED_PUMPKIN;
+    public static final DeferredBlock<Block> SPLUNKIN_O_LANTERN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STAR_COIN;
@@ -399,6 +401,9 @@ public class BlockRegistry {
                         .sound(SoundType.FROGLIGHT).lightLevel(light -> 15).strength(0.3F)));
         SPLUNKIN_CARVED_PUMPKIN = registerBlock("splunkin_carved_pumpkin",
                 () -> new EquipableCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CARVED_PUMPKIN)));
+        SPLUNKIN_O_LANTERN = registerBlock("splunkin_o_lantern",
+                () -> new SplunkinCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JACK_O_LANTERN)
+                        .lightLevel(state -> state.getValue(SplunkinCarvedPumpkinBlock.CRACKED) ? 15 : 10)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
