@@ -24,6 +24,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -52,6 +53,7 @@ public class BlockStateGen extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         String calciteCheckeredName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CALCITE_CHECKERED_TILES.get()).getPath();
+        String carvedPumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.CARVED_PUMPKIN).getPath();
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
@@ -60,6 +62,7 @@ public class BlockStateGen extends BlockStateProvider {
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
         String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
+        String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
@@ -70,8 +73,10 @@ public class BlockStateGen extends BlockStateProvider {
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
-        this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName),
-                modLoc("block/" + glowBlockName + "_front"), modLoc("block/" + glowBlockName));
+        this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName + "_front"),
+                modLoc("block/" + glowBlockName), modLoc("block/" + glowBlockName));
+        this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
+                mcLoc("block/" + carvedPumpkinName), mcLoc("block/" + carvedPumpkinName));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
@@ -870,7 +875,7 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
-    private void horizontalModel(Block block, ResourceLocation sideTexture, ResourceLocation frontTexture, ResourceLocation topTexture) {
+    private void horizontalModel(Block block, ResourceLocation frontTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()

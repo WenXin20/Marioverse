@@ -36,6 +36,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
+import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -282,6 +284,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SPIKE_PANEL;
+    public static final DeferredBlock<Block> SPLUNKIN_CARVED_PUMPKIN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STAR_COIN;
@@ -394,6 +397,8 @@ public class BlockRegistry {
         GLOW_BLOCK = registerBlock("glow_block",
                 () -> new GlowBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .sound(SoundType.FROGLIGHT).lightLevel(light -> 15).strength(0.3F)));
+        SPLUNKIN_CARVED_PUMPKIN = registerBlock("splunkin_carved_pumpkin",
+                () -> new EquipableCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CARVED_PUMPKIN)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",

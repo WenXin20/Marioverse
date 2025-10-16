@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
@@ -12,26 +14,34 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandlers {
     public static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
+    private static final ResourceLocation OVERLAY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
@@ -39,6 +49,18 @@ public class ClientEventHandlers {
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
                 DefaultVertexFormat.POSITION_TEX_COLOR
         ), shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+    }
+
+    @SubscribeEvent
+    public static void onClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions() {
+                               @Override
+                               public void renderHelmetOverlay(ItemStack stack, Player player, GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+                                   renderCustomOverlay(guiGraphics, OVERLAY, 1.0F);
+                               }
+                           },
+                BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get().asItem()
+        );
     }
 
     @SubscribeEvent
@@ -108,5 +130,20 @@ public class ClientEventHandlers {
             ACTIVE_PIPE_SOUNDS.remove(uuid);
             entity.setData(DataAttachmentRegistry.PLAYED_INSIDE_PIPE_SOUND, false);
         }
+    }
+
+    private static void renderCustomOverlay(GuiGraphics guiGraphics, ResourceLocation texture, float alpha) {
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
+        guiGraphics.blit(texture, 0, 0, -90, 0.0F, 0.0F,
+                guiGraphics.guiWidth(), guiGraphics.guiHeight(),
+                guiGraphics.guiWidth(), guiGraphics.guiHeight());
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

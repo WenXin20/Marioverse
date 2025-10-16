@@ -134,6 +134,7 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
             add(event, BlockRegistry.GLOW_BLOCK);
+            add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
