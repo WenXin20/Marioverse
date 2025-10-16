@@ -455,6 +455,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
 
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
+                
+                addAfter(event, Blocks.JACK_O_LANTERN, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
