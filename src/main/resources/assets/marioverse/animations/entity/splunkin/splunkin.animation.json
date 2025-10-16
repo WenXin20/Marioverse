@@ -404,7 +404,7 @@
 			"bones": {
 				"bipedBody": {
 					"rotation": {
-						"vector": [5, 0, 0]
+						"vector": [-5, 0, 0]
 					},
 					"position": {
 						"vector": [0, -2, 0]
