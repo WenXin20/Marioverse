@@ -28,7 +28,7 @@ public class DispenserBehaviors {
                 Level world = source.level();
                 BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
                 CarvedPumpkinBlock carvedPumpkinBlock = (CarvedPumpkinBlock)BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get();
-                if (world.isEmptyBlock(blockpos) && carvedPumpkinBlock.canSpawnGolem(world, blockpos)) {
+                if (world.isEmptyBlock(blockpos)) {
                     if (!world.isClientSide) {
                         world.setBlock(blockpos, carvedPumpkinBlock.defaultBlockState(), 3);
                         world.gameEvent(null, GameEvent.BLOCK_PLACE, blockpos);
