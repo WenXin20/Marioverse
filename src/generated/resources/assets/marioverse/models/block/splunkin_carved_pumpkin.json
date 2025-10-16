@@ -2,7 +2,7 @@
   "parent": "minecraft:block/orientable",
   "textures": {
     "front": "marioverse:block/splunkin_carved_pumpkin",
-    "side": "minecraft:block/carved_pumpkin",
-    "top": "minecraft:block/carved_pumpkin"
+    "side": "minecraft:block/pumpkin_side",
+    "top": "minecraft:block/pumpkin_top"
   }
 }
