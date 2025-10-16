@@ -53,6 +53,7 @@ public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
             world.setBlock(pos, state.setValue(CRACKED, true), 3);
             world.levelEvent(player, 2001, pos, getId(state));
             world.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
+            return ItemInteractionResult.SUCCESS;
         }
         return super.useItemOn(stack, state, world, pos, player, hand, hitResult);
     }
