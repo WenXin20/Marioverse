@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
     public static final BooleanProperty CRACKED = BooleanProperty.create("cracked");
@@ -36,6 +37,7 @@ public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
         return world.getBlockState(pos).getValue(CRACKED) ? 15 : 10;
     }
 
+    @NotNull
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
@@ -44,6 +46,11 @@ public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
             player.getItemInHand(hand).consume(1, player);
             world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS);
             return ItemInteractionResult.SUCCESS;
+        }
+
+        if (player.isCreative() && !state.getValue(CRACKED)) {
+            world.setBlock(pos, state.setValue(CRACKED, true), 3);
+            world.levelEvent(player, 2001, pos, getId(state));
         }
         return super.useItemOn(stack, state, world, pos, player, hand, hitResult);
     }
