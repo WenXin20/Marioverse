@@ -17,8 +17,6 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -38,17 +36,11 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CarvedPumpkinBlock;
-import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -207,22 +199,6 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     public boolean canTakeItem(ItemStack stack) {
         EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
         return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    //TODO: Remove
-    @NotNull
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                && (player.getItemInHand(hand).getItem() instanceof ArmorItem
-                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
-                && (blockItem.getBlock() instanceof SkullBlock
-                || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
-                || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        }
-        return super.mobInteract(player, hand);
     }
 
     @Nullable
