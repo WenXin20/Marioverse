@@ -14,7 +14,7 @@ public class SplunkinModel extends GeoModel<SplunkinEntity> {
 
     @Override
     public RenderType getRenderType(SplunkinEntity animatable, ResourceLocation texture) {
-        return RenderType.entityTranslucent(getTextureResource(animatable));
+        return RenderType.entityCutout(getTextureResource(animatable));
     }
 
     @Override

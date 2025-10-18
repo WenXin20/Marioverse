@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.entities.BooEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
@@ -59,6 +60,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR = Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
             .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO =
+            Marioverse.ENTITIES.register("boo", () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
+                    .sized(0.6875F, 0.6875F).ridingOffset(0.1F).build("boo"));
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
@@ -102,6 +106,8 @@ public class EntityRegistry {
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+        event.register(EntityRegistry.BOO.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
@@ -193,6 +199,14 @@ public class EntityRegistry {
         event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
 
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
+
+        event.put(EntityRegistry.BOO.get(), Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 2.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
+                .add(Attributes.ATTACK_SPEED, 0.8F)
+                .add(Attributes.FOLLOW_RANGE, 8.0F)
+                .add(Attributes.MAX_HEALTH, 10)
+                .add(Attributes.MOVEMENT_SPEED, 0.6F).build());
 
         event.put(EntityRegistry.FIRE_GOOMBA.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)

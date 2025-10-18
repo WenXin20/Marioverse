@@ -35,6 +35,7 @@ public class ItemRegistry {
     public static final EnumMap<DyeColor, DeferredItem<Item>> CHECKPOINT_FLAGS =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
@@ -318,6 +319,8 @@ public class ItemRegistry {
         PLUMBER_POTTERY_SHERD = registerItem("plumber_pottery_sherd",
                 () -> new Item(new Item.Properties()));
 
+        BOO_SPAWN_EGG = registerItem("boo_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.BOO, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         GOLD_KOOPA_TROOPA_SPAWN_EGG = registerItem("gold_koopa_troopa_spawn_egg",

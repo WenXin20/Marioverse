@@ -1,49 +1,75 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.registries.AttributesRegistry;
-import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.mojang.authlib.GameProfile;
+import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
+import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PlayerHeadItem;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
+import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
+import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -57,9 +83,7 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BooEntity extends Monster implements GeoEntity {
-    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-    private int remainingPersistentAngerTime;
-    @Nullable private UUID persistentAngerTarget;
+    @Nullable private BlockPos boundOrigin;
 
     public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("boo.idle");
     public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("boo.idle_swim");
@@ -83,7 +107,7 @@ public class BooEntity extends Monster implements GeoEntity {
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundRegistry.SPLUNKIN_CRACKS.get();
-    } //TODO
+    } // TODO
 
     @Nullable
     @Override
@@ -93,11 +117,14 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new FreezeWhenLookedAt(this, TagRegistry.GOOMBA_CAN_ATTACK));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, false));
+        this.goalSelector.addGoal(8, new RandomMoveGoal(this));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(11, new LookAtPlayerGoal(this, Mob.class, 8.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true)); // TODO
     }
 
     @Override
@@ -152,11 +179,36 @@ public class BooEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("BoundX"))
+            this.boundOrigin = new BlockPos(tag.getInt("BoundX"), tag.getInt("BoundY"), tag.getInt("BoundZ"));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (this.boundOrigin != null) {
+            tag.putInt("BoundX", this.boundOrigin.getX());
+            tag.putInt("BoundY", this.boundOrigin.getY());
+            tag.putInt("BoundZ", this.boundOrigin.getZ());
+        }
+    }
+
+    @Override
     public void tick() {
+        this.noPhysics = true;
         super.tick();
+        this.noPhysics = false;
+        this.setNoGravity(true);
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
+        if (!this.level().isClientSide && !this.isNoAi()
+                && this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8) {
+            this.playDeathAnimation(this);
+            this.discard();
+        }
     }
 
     @Override
@@ -170,6 +222,15 @@ public class BooEntity extends Monster implements GeoEntity {
             this.setSpeed(0.8F);
     }
 
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
     @Override
     public void travel(Vec3 travelVector) {
         if (this.isControlledByLocalInstance() && this.isInWater()) {
@@ -181,11 +242,9 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        boolean wasHurt = super.hurt(source, amount);
-
-        if (wasHurt && !this.isNoAi() && !this.getData(DataAttachmentRegistry.CRACKED))
-            this.setData(DataAttachmentRegistry.CRACKED, true);
-        return wasHurt;
+        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) // TODO: Add bypass boo invul. tag
+            super.hurt(source, amount);
+        return false;
     }
 
     @Override
@@ -194,11 +253,25 @@ public class BooEntity extends Monster implements GeoEntity {
         super.die(source);
     }
 
-
     @Override
     public boolean canTakeItem(ItemStack stack) {
         EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
         return this.getItemBySlot(equipmentslot).isEmpty();
+    }
+
+    @NotNull // TODO: remove
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                && (player.getItemInHand(hand).getItem() instanceof ArmorItem
+                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
+                && (blockItem.getBlock() instanceof SkullBlock
+                || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
+                || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
+            this.equipItemIfPossible(player.getItemInHand(hand));
+            return InteractionResult.SUCCESS;
+        }
+        return super.mobInteract(player, hand);
     }
 
     @Nullable
@@ -212,6 +285,59 @@ public class BooEntity extends Monster implements GeoEntity {
         else if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
 
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            LocalDate localDate = LocalDate.now();
+            int day = localDate.getDayOfMonth();
+            int month = localDate.getMonth().getValue();
+            List<ServerPlayer> players = serverWorld.getLevel().players();
+
+            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_GOOMBA_MASKS.get()) // TODO
+                    || ConfigRegistry.FORCE_GOOMBA_MASKS.get()) {
+                if (random.nextFloat() < 0.25F)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F
+                            ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
+                //TODO: add tag for extra blocks
+
+                if (random.nextFloat() < 0.15F) {
+                    List<ItemStack> skulls = new ArrayList<>();
+
+                    serverWorld.registryAccess().registryOrThrow(Registries.BLOCK).getTagOrEmpty(Tags.Blocks.SKULLS).forEach(holder -> {
+                        Block block = holder.value();
+                        skulls.add(new ItemStack(block));
+                        ItemStack randomSkull = skulls.get(random.nextInt(skulls.size()));
+                        if (randomSkull.getItem() instanceof PlayerHeadItem) {
+                            if (!players.isEmpty()) {
+                                ServerPlayer randomPlayer = players.get(random.nextInt(players.size()));
+                                GameProfile playerProfile = randomPlayer.getGameProfile();
+                                SkullBlockEntity.fetchGameProfile(randomPlayer.getUUID());
+                                ItemStack playerHeadItem = new ItemStack(Items.PLAYER_HEAD);
+
+                                playerHeadItem.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
+
+                                this.setItemSlot(EquipmentSlot.HEAD, playerHeadItem);
+                            }
+                        } else this.setItemSlot(EquipmentSlot.HEAD, randomSkull);
+                    });
+                }
+
+                if (random.nextFloat() < 0.1F) {
+                    if (!players.isEmpty()) {
+                        ServerPlayer randomPlayer = players.get(random.nextInt(players.size()));
+                        GameProfile playerProfile = randomPlayer.getGameProfile();
+                        SkullBlockEntity.fetchGameProfile(randomPlayer.getUUID());
+                        ItemStack playerHeadItem = new ItemStack(Items.PLAYER_HEAD);
+
+                        playerHeadItem.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
+
+                        this.setItemSlot(EquipmentSlot.HEAD, playerHeadItem);
+                    }
+                }
+
+                this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
+            }
+        }
+
         return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
     }
 
@@ -222,20 +348,24 @@ public class BooEntity extends Monster implements GeoEntity {
                 && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
     }
 
-    @NotNull
-    @Override
-    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
-        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
+    @Nullable
+    public BlockPos getBoundOrigin() {
+        return this.boundOrigin;
     }
 
-    @Override
-    public boolean checkSpawnObstruction(LevelReader worldReader) {
-        return worldReader.isUnobstructed(this);
+    public void setBoundOrigin(@Nullable BlockPos pos) {
+        this.boundOrigin = pos;
     }
 
-    @Override
-    public int getAmbientSoundInterval() {
-        return 120;
+    public boolean isLookingAtMe(LivingEntity entity) {
+        Vec3 vec3 = entity.getViewVector(1.0F).normalize();
+        Vec3 vec31 = new Vec3(this.getX() - entity.getX(),
+                this.getEyeY() - entity.getEyeY(), this.getZ() - entity.getZ());
+        double d0 = vec31.length();
+        vec31 = vec31.normalize();
+        double d1 = vec3.dot(vec31);
+
+        return d1 > 1.0 - 0.025 / d0 ? entity.hasLineOfSight(this) : false;
     }
 
     protected void handleAirSupply(int airSupplyAmount) {
@@ -244,12 +374,12 @@ public class BooEntity extends Monster implements GeoEntity {
     }
 
     @NotNull
-    public ParticleOptions getDeatParticle() {
+    public ParticleOptions getDeathParticle() {
         return ParticleTypes.POOF;
     }
 
     public void playDeathAnimation(Entity entity) {
         if (entity.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.POOF, serverWorld, entity, 15);
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getDeathParticle(), serverWorld, entity, 15);
     }
 }

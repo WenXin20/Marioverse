@@ -1,8 +1,9 @@
-// 1.21.1	2025-10-14T00:11:56.2453991	Item Models: marioverse
+// 1.21.1	2025-10-18T02:00:29.3690327	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
 7604aa5c9489fa9cfb52b226b622387902f3f70e assets/marioverse/models/item/blue_goal_pole.json
+19bf93a5b7752e78b5fa8ce30d0af2c2613d7a91 assets/marioverse/models/item/boo_spawn_egg.json
 1e88be9dc1710d4e0ec985de4696fc54df15dd4b assets/marioverse/models/item/bowser_banner_pattern.json
 afffda4529829c1e11ca56b1133f78c0e10f226f assets/marioverse/models/item/bowser_pottery_sherd.json
 a4039ddc2fad9a1de52448498fc66c86accc0c37 assets/marioverse/models/item/brown_checkpoint_flag.json
