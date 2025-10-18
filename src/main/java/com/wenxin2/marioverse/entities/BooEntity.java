@@ -1,0 +1,255 @@
+package com.wenxin2.marioverse.entities;
+
+import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
+import software.bernie.geckolib.util.GeckoLibUtil;
+
+public class BooEntity extends Monster implements GeoEntity {
+    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+    private int remainingPersistentAngerTime;
+    @Nullable private UUID persistentAngerTarget;
+
+    public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("boo.idle");
+    public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("boo.idle_swim");
+    public static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("boo.run");
+    public static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("boo.sit");
+    public static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("boo.swim");
+    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("boo.walk");
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    public BooEntity(EntityType<? extends BooEntity> type, Level world) {
+        super(type, world);
+        this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
+    }
+
+    @Override
+    protected int getBaseExperienceReward() {
+        return 2 + this.level().random.nextInt(1);
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundRegistry.SPLUNKIN_CRACKS.get();
+    } //TODO
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.SPLUNKIN_DEATH.get();
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, false));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
+        controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(DefaultAnimations.genericWalkController(this));
+    }
+
+    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
+        if (this.isPassenger()) {
+            event.setAndContinue(SIT_ANIM);
+            return PlayState.CONTINUE;
+        }
+
+        if (this.isInWaterOrBubble()) {
+            if (!this.isRunning() && !this.isWalking())
+                event.setAndContinue(IDLE_SWIM_ANIM);
+            else event.setAndContinue(SWIM_ANIM);
+            return PlayState.CONTINUE;
+        } else if (this.isRunning()) {
+            event.setAndContinue(RUN_ANIM);
+            return PlayState.CONTINUE;
+        } else if (event.isMoving()) {
+            event.setAndContinue(WALK_ANIM);
+            return PlayState.CONTINUE;
+        } else {
+            event.setAndContinue(IDLE_ANIM);
+            return PlayState.CONTINUE;
+        }
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    public boolean isWalking() {
+        return (this.getDeltaMovement().horizontalDistance() >= 0.01
+                && this.getDeltaMovement().horizontalDistance() < 0.5)
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal
+                || this.walkDist > 0);
+    }
+
+    private boolean isRunning() {
+        return this.isSprinting() || this.getSpeed() >= 0.5 || this.getDeltaMovement().horizontalDistance() >= 0.5
+                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof MeleeAttackGoal)
+                || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.isInWaterOrBubble())
+            this.ejectPassengers();
+    }
+
+    @Override
+    public void baseTick() {
+        int i = this.getAirSupply();
+
+        super.baseTick();
+        this.handleAirSupply(i);
+
+        if (this.getTarget() != null)
+            this.setSpeed(0.8F);
+    }
+
+    @Override
+    public void travel(Vec3 travelVector) {
+        if (this.isControlledByLocalInstance() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), travelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+        } else super.travel(travelVector);
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean wasHurt = super.hurt(source, amount);
+
+        if (wasHurt && !this.isNoAi() && !this.getData(DataAttachmentRegistry.CRACKED))
+            this.setData(DataAttachmentRegistry.CRACKED, true);
+        return wasHurt;
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        this.playDeathAnimation(this);
+        super.die(source);
+    }
+
+
+    @Override
+    public boolean canTakeItem(ItemStack stack) {
+        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
+        return this.getItemBySlot(equipmentslot).isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+        RandomSource random = serverWorld.getRandom();
+
+        if (random.nextFloat() < 0.05F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+        else if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+
+        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+    }
+
+    public static boolean checkBooSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+                                                MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
+                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
+    }
+
+    @NotNull
+    @Override
+    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
+        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
+    }
+
+    @Override
+    public boolean checkSpawnObstruction(LevelReader worldReader) {
+        return worldReader.isUnobstructed(this);
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 120;
+    }
+
+    protected void handleAirSupply(int airSupplyAmount) {
+        if (this.isAlive() && this.isInWaterOrBubble())
+            this.setAirSupply(airSupplyAmount);
+    }
+
+    @NotNull
+    public ParticleOptions getDeatParticle() {
+        return ParticleTypes.POOF;
+    }
+
+    public void playDeathAnimation(Entity entity) {
+        if (entity.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.POOF, serverWorld, entity, 15);
+    }
+}
