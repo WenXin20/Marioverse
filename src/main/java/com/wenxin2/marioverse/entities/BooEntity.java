@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
+import com.wenxin2.marioverse.entities.ai.goals.ChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
@@ -112,12 +113,13 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new FreezeWhenLookedAt(this, TagRegistry.GOOMBA_CAN_ATTACK));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(3, new RandomMoveGoal(this));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+        this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.GOOMBA_CAN_ATTACK));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new ChargeAttackGoal(this));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(4, new RandomMoveGoal(this));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Mob.class, 8.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, false)); // TODO
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
@@ -200,8 +202,11 @@ public class BooEntity extends Monster implements GeoEntity {
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
         if (!this.level().isClientSide && !this.isNoAi()) {
-            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8
-                    || this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay()) {
+            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8) {
+                this.playDeathAnimation(this);
+                this.kill();
+            }
+            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay()) {
                 this.playDeathAnimation(this);
                 this.discard();
             }

@@ -14,7 +14,6 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 public class NearestAttackableTagGoal extends TargetGoal {
-    private static final int DEFAULT_RANDOM_INTERVAL = 10;
     protected final int randomInterval;
     @Nullable
     protected LivingEntity target;
@@ -43,12 +42,22 @@ public class NearestAttackableTagGoal extends TargetGoal {
         }
     }
 
+    @Override
+    public boolean canContinueToUse() {
+        if (this.target == null) return false;
+        if (!this.target.isAlive()) return false;
+        if (!this.target.getType().is(this.entityTag)) return false;
+
+        double distanceSq = this.mob.distanceToSqr(this.target);
+        return distanceSq <= this.getFollowDistance() * this.getFollowDistance();
+    }
+
     protected AABB getTargetSearchArea(double followDistance) {
-        return this.mob.getBoundingBox().inflate(followDistance, 4.0, followDistance);
+        return this.mob.getBoundingBox().inflate(followDistance, 8.0, followDistance);
     }
 
     protected void findTarget() {
-        if (this.target == null || !this.target.isAlive()) {
+        if (this.target == null || !this.target.isAlive() || !this.target.getType().is(this.entityTag)) {
             List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
                     LivingEntity.class,
                     this.getTargetSearchArea(this.getFollowDistance()),
