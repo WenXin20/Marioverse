@@ -174,7 +174,7 @@ public class BooEntity extends Monster implements GeoEntity {
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
-        if (!this.level().isClientSide && !this.isNoAi()) {
+        if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
             if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8) {
                 this.playDeathAnimation(this);
                 this.kill();

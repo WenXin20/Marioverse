@@ -42,6 +42,7 @@ public class BooModel extends GeoModel<BooEntity> {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
             if (entityData != null) {
                 head.setRotX(entityData.headPitch() * 0.017453292F);
+                head.setRotY(entityData.netHeadYaw() * 0.017453292F);
             }
         }
     }
