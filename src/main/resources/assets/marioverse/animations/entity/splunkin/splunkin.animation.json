@@ -364,7 +364,7 @@
 			"bones": {
 				"root": {
 					"rotation": {
-						"vector": [-77.5, 0, 0]
+						"vector": [77.5, 0, 0]
 					},
 					"position": {
 						"vector": [0, 4, 9]
@@ -461,7 +461,7 @@
 							"vector": [0, 0, 0]
 						},
 						"0.125": {
-							"vector": [-25, 0, 0]
+							"vector": [25, 0, 0]
 						},
 						"0.25": {
 							"vector": [0, 0, 0]
