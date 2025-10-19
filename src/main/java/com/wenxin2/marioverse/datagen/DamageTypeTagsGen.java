@@ -30,6 +30,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.STOMP)
                 .add(DamageTypeRegistry.PLAYER_STOMP);
 
+        tag(TagRegistry.BYPASSES_BOO_INVULNERABILITY)
+                .addTag(TagRegistry.IS_SUPER_STAR)
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY);
+
         tag(TagRegistry.BYPASSES_SUPER_STAR)
                 .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .add(DamageTypes.DROWN)

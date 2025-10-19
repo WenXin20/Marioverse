@@ -1,4 +1,5 @@
-// 1.21.1	2025-09-13T21:46:27.6340466	Tags for minecraft:damage_type mod id marioverse
+// 1.21.1	2025-10-18T22:00:29.8816051	Tags for minecraft:damage_type mod id marioverse
+32ba68d892af642ca5183860145216dba61d4346 data/marioverse/tags/damage_type/bypasses_boo_invulnerability.json
 664f58c06681c01c00040be881da7374b6bad6df data/marioverse/tags/damage_type/bypasses_super_star.json
 cd4fbc77a0e05abed25c4e560803d98d5c7c9bb7 data/marioverse/tags/damage_type/flips_koopa_shell.json
 692569cbc82b8f1f15efe3e49780724150461423 data/marioverse/tags/damage_type/hides_koopa_troopa.json

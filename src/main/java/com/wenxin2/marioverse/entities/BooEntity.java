@@ -236,7 +236,7 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) // TODO: Add bypass boo invul. tag
+        if (source.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY))
             super.hurt(source, amount);
         return false;
     }
