@@ -36,10 +36,10 @@
 				{
 					"name": "armorBipedHead",
 					"parent": "bipedHead",
-					"pivot": [0, 2, 0],
+					"pivot": [0, 3, 0],
 					"cubes": [
 						{
-							"origin": [-5.5, 2, -5.5],
+							"origin": [-5.5, 3, -5.5],
 							"size": [11, 11, 11],
 							"inflate": 0.15,
 							"uv": {}

@@ -60,8 +60,8 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.55F, 1.55F, 1.45F);
-                poseStack.translate(0.0F, -0.1F, -0.025F);
+                poseStack.scale(1.2F, 1.2F, 1.2F);
+                poseStack.translate(0.0F, -0.2F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -92,8 +92,8 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
             @Override
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, BooEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
-                poseStack.scale(1.0F, 0.9F, 0.95F);
-                poseStack.translate(0.0F, 0.475F, -0.025F);
+                poseStack.scale(0.75F, 0.75F, 0.75F);
+                poseStack.translate(0.0F, 0.2F, 0.0F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });

@@ -119,12 +119,12 @@ public class BooEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new FreezeWhenLookedAt(this, TagRegistry.GOOMBA_CAN_ATTACK));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(8, new RandomMoveGoal(this));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(11, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(3, new RandomMoveGoal(this));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true)); // TODO
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true)); // TODO
     }
 
     @Override
@@ -204,10 +204,12 @@ public class BooEntity extends Monster implements GeoEntity {
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
-        if (!this.level().isClientSide && !this.isNoAi()
-                && this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8) {
-            this.playDeathAnimation(this);
-            this.discard();
+        if (!this.level().isClientSide && !this.isNoAi()) {
+            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8
+                    || this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay()) {
+                this.playDeathAnimation(this);
+                this.discard();
+            }
         }
     }
 
