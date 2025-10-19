@@ -58,7 +58,7 @@
 				},
 				"tonuge": {
 					"rotation": {
-						"vector": [55, 0, 0]
+						"vector": [-55, 0, 0]
 					},
 					"position": {
 						"vector": [0, 0, 8]
@@ -174,66 +174,36 @@
 			"bones": {
 				"bipedBody": {
 					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.0833": {
-							"vector": [0, 0, -2.5]
-						},
-						"0.1667": {
-							"vector": [0, 0, 0]
-						},
-						"0.25": {
-							"vector": [0, 0, 2.5]
-						}
+						"0.0": [0, 0, 0],
+						"0.0833": [0, 0, -2.5],
+						"0.1667": [0, 0, 0],
+						"0.25": [0, 0, 2.5]
 					}
 				},
 				"tonuge": {
-					"rotation": {
-						"vector": [55, 0, 0]
-					},
-					"position": {
-						"vector": [0, 0, 8]
-					},
-					"scale": {
-						"vector": [0, 0, 0]
-					}
+					"rotation": [-55, 0, 0],
+					"position": [0, 0, 8],
+					"scale": 0
 				},
 				"bipedLeftArm": {
-					"rotation": {
-						"vector": [100, -50, -225]
-					},
-					"position": {
-						"vector": [0, 0, -2]
-					}
+					"rotation": [-100.55546, 52.45993, -225.71226],
+					"position": [0, 0, -2]
 				},
 				"bipedRightArm": {
-					"rotation": {
-						"vector": [100, 50, 225]
-					},
-					"position": {
-						"vector": [0, 0, -2]
-					}
+					"rotation": [-100, -50, 225],
+					"position": [0, 0, -2]
 				},
 				"eyes_normal": {
-					"position": {
-						"vector": [0, 0, 1]
-					}
+					"position": [0, 0, 1]
 				},
 				"eyes_shy": {
-					"position": {
-						"vector": [0, 0, -1]
-					}
+					"position": [0, 0, -1]
 				},
 				"mouth_normal": {
-					"position": {
-						"vector": [0, 0, 1]
-					}
+					"position": [0, 0, 1]
 				},
 				"mouth_shy": {
-					"position": {
-						"vector": [0, 0, -1]
-					}
+					"position": [0, 0, -1]
 				}
 			}
 		}
