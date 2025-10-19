@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -23,7 +24,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -41,11 +41,8 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -78,15 +75,14 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class BooEntity extends Monster implements GeoEntity {
-    @Nullable private BlockPos boundOrigin;
-
-    public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("boo.idle");
-    public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("boo.idle_swim");
-    public static final RawAnimation RUN_ANIM = RawAnimation.begin().thenLoop("boo.run");
-    public static final RawAnimation SIT_ANIM = RawAnimation.begin().thenLoop("boo.sit");
-    public static final RawAnimation SWIM_ANIM = RawAnimation.begin().thenLoop("boo.swim");
-    public static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("boo.walk");
+    public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
+    public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
+    public static final RawAnimation CHARGE = RawAnimation.begin().thenLoop("boo.charge");
+    public static final RawAnimation HIDE = RawAnimation.begin().thenLoop("boo.hide");
+    public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("boo.idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    @Nullable private BlockPos boundOrigin;
 
     public BooEntity(EntityType<? extends BooEntity> type, Level world) {
         super(type, world);
@@ -113,46 +109,37 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.GOOMBA_CAN_ATTACK));
+        this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.BOO_CAN_ATTACK));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new ChargeAttackGoal(this));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0, false));
         this.goalSelector.addGoal(4, new RandomMoveGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Mob.class, 8.0F));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, false)); // TODO
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.BOO_CAN_ATTACK, false));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Run", 5, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Swim", 15, this::walkAnimController));
-        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkAnimController));
-        controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+        controllers.add(new AnimationController<>(this, "Run", 5, this::animController));
+        controllers.add(new AnimationController<>(this, "Swim", 15, this::animController));
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::animController));
+        controllers.add(DefaultAnimations.genericAttackAnimation(this, this.getRandom().nextFloat() < 0.25
+                        ? DefaultAnimations.ATTACK_BITE : this.isLeftHanded() ? ATTACK_SWING_LEFT : ATTACK_SWING_RIGHT).transitionLength(1));
         controllers.add(DefaultAnimations.genericWalkController(this));
     }
 
-    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if (this.isPassenger()) {
-            event.setAndContinue(SIT_ANIM);
+    protected <E extends GeoAnimatable> PlayState animController(final AnimationState<E> event) {
+        if (this.getData(DataAttachmentRegistry.IS_HIDING.get())) {
+            event.setAndContinue(HIDE);
             return PlayState.CONTINUE;
-        }
-
-        if (this.isInWaterOrBubble()) {
-            if (!this.isRunning() && !this.isWalking())
-                event.setAndContinue(IDLE_SWIM_ANIM);
-            else event.setAndContinue(SWIM_ANIM);
-            return PlayState.CONTINUE;
-        } else if (this.isRunning()) {
-            event.setAndContinue(RUN_ANIM);
-            return PlayState.CONTINUE;
-        } else if (event.isMoving()) {
-            event.setAndContinue(WALK_ANIM);
+        } else if (this.getData(DataAttachmentRegistry.IS_CHARGING.get())) {
+            event.setAndContinue(CHARGE);
             return PlayState.CONTINUE;
         } else {
-            event.setAndContinue(IDLE_ANIM);
+            event.setAndContinue(IDLE);
             return PlayState.CONTINUE;
         }
     }
@@ -160,19 +147,6 @@ public class BooEntity extends Monster implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
-    }
-
-    public boolean isWalking() {
-        return (this.getDeltaMovement().horizontalDistance() >= 0.01
-                && this.getDeltaMovement().horizontalDistance() < 0.5)
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof RandomStrollGoal
-                || this.walkDist > 0);
-    }
-
-    private boolean isRunning() {
-        return this.isSprinting() || this.getSpeed() >= 0.5 || this.getDeltaMovement().horizontalDistance() >= 0.5
-                || this.goalSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof MeleeAttackGoal)
-                || this.targetSelector.getAvailableGoals().stream().anyMatch(goal -> goal.isRunning() && goal.getGoal() instanceof NearestAttackableTargetGoal<?>);
     }
 
     @Override

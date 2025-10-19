@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import com.wenxin2.marioverse.entities.BooEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.EnumSet;
 import javax.annotation.Nullable;
 import net.minecraft.tags.TagKey;
@@ -51,6 +53,8 @@ public class FreezeWhenLookedAt extends Goal {
         this.mob.getLookControl().setLookAt(this.mob.getX(), this.mob.getY(), this.mob.getZ());
         this.mob.setYHeadRot(this.mob.getYRot());
         this.mob.yBodyRot = this.mob.getYRot();
+        if (this.mob instanceof BooEntity)
+            this.mob.setData(DataAttachmentRegistry.IS_HIDING.get(), true);
     }
 
     @Override
@@ -62,5 +66,7 @@ public class FreezeWhenLookedAt extends Goal {
     @Override
     public void stop() {
         this.target = null;
+        if (this.mob instanceof BooEntity)
+            this.mob.setData(DataAttachmentRegistry.IS_HIDING.get(), false);
     }
 }

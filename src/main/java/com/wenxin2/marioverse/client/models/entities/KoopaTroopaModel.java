@@ -57,8 +57,10 @@ public class KoopaTroopaModel extends GeoModel<KoopaTroopaEntity> {
         GeoBone head = this.getAnimationProcessor().getBone("bipedHeadBaseRotater");
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-            head.setRotX(entityData.headPitch() * 0.017453292F);
-            head.setRotY(entityData.netHeadYaw() * 0.017453292F);
+            if (entityData != null) {
+                head.setRotX(entityData.headPitch() * 0.017453292F);
+                head.setRotY(entityData.netHeadYaw() * 0.017453292F);
+            }
         }
     }
 }

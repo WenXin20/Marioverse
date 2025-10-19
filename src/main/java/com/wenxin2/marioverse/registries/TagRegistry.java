@@ -164,6 +164,7 @@ public class TagRegistry {
     public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("wooden_bridge_stairs");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
 
+    public static final TagKey<EntityType<?>> BOO_CAN_ATTACK = entityTypeTags("boo_can_attack");
     public static final TagKey<EntityType<?>> CANNOT_BOUNCE_ON_BLOCKS = entityTypeTags("cannot_bounce_on_blocks");
     public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");
     public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags("cannot_drop_coins");

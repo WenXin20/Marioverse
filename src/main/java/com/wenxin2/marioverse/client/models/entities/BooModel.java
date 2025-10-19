@@ -4,7 +4,11 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.BooEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 
 public class BooModel extends GeoModel<BooEntity> {
     public BooModel() {
@@ -29,5 +33,16 @@ public class BooModel extends GeoModel<BooEntity> {
     @Override
     public ResourceLocation getAnimationResource(BooEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/boo/boo.animation.json");
+    }
+
+    @Override
+    public void setCustomAnimations(BooEntity animatable, long instanceId, AnimationState<BooEntity> animationState) {
+        GeoBone head = this.getAnimationProcessor().getBone("bipedHeadBaseRotater");
+        if (head != null) {
+            EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
+            if (entityData != null) {
+                head.setRotX(entityData.headPitch() * 0.017453292F);
+            }
+        }
     }
 }

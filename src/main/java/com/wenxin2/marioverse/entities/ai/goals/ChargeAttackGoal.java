@@ -29,6 +29,7 @@ public class ChargeAttackGoal extends Goal {
     @Override
     public boolean canContinueToUse() {
         return mob.getMoveControl().hasWanted() && mob.getData(DataAttachmentRegistry.IS_CHARGING.get())
+                && !this.mob.getData(DataAttachmentRegistry.IS_HIDING.get())
                 && mob.getTarget() != null && mob.getTarget().isAlive();
     }
 

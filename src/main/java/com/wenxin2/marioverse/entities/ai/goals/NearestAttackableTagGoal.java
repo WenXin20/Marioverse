@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
@@ -34,7 +35,8 @@ public class NearestAttackableTagGoal extends TargetGoal {
 
     @Override
     public boolean canUse() {
-        if (this.randomInterval > 0 && this.mob.getRandom().nextInt(this.randomInterval) != 0) {
+        if (this.randomInterval > 0 && this.mob.getRandom().nextInt(this.randomInterval) != 0
+                || this.mob.getData(DataAttachmentRegistry.IS_HIDING.get())) {
             return false;
         } else {
             this.findTarget();

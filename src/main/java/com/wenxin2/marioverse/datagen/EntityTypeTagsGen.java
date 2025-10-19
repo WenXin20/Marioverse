@@ -57,6 +57,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
+        tag(TagRegistry.BOO_CAN_ATTACK)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
         tag(TagRegistry.CANNOT_CONSUME_POWER_UPS)
