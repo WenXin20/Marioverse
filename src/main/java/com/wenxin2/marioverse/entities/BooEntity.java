@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -114,8 +115,7 @@ public class BooEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(2, new ChargeAttackGoal(this));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0, false));
         this.goalSelector.addGoal(4, new RandomMoveGoal(this));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+        this.goalSelector.addGoal(5, new LookAtTagGoal(this, TagRegistry.BOO_CAN_ATTACK, 16.0F, 1.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.BOO_CAN_ATTACK, false));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
@@ -135,7 +135,8 @@ public class BooEntity extends Monster implements GeoEntity {
         if (this.getData(DataAttachmentRegistry.IS_HIDING.get())) {
             event.setAndContinue(HIDE);
             return PlayState.CONTINUE;
-        } else if (this.getData(DataAttachmentRegistry.IS_CHARGING.get())) {
+        } else if (this.getData(DataAttachmentRegistry.IS_ATTACKING.get())
+                || this.getData(DataAttachmentRegistry.IS_CHARGING.get())) {
             event.setAndContinue(CHARGE);
             return PlayState.CONTINUE;
         } else {

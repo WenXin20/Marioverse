@@ -18,36 +18,36 @@ public class ChargeAttackGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        LivingEntity entity = mob.getTarget();
+        LivingEntity entity = this.mob.getTarget();
         return entity != null
                 && entity.isAlive()
-                && !mob.getMoveControl().hasWanted()
-                && mob.getRandom().nextInt(reducedTickDelay(7)) == 0
-                && mob.distanceToSqr(entity) > 4.0;
+                && !this.mob.getMoveControl().hasWanted()
+                && this.mob.getRandom().nextInt(reducedTickDelay(7)) == 0
+                && this.mob.distanceToSqr(entity) > 4.0;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return mob.getMoveControl().hasWanted() && mob.getData(DataAttachmentRegistry.IS_CHARGING.get())
+        return this.mob.getMoveControl().hasWanted() && this.mob.getData(DataAttachmentRegistry.IS_CHARGING.get())
                 && !this.mob.getData(DataAttachmentRegistry.IS_HIDING.get())
-                && mob.getTarget() != null && mob.getTarget().isAlive();
+                && this.mob.getTarget() != null && this.mob.getTarget().isAlive();
     }
 
     @Override
     public void start() {
-        LivingEntity livingentity = mob.getTarget();
+        LivingEntity livingentity = this.mob.getTarget();
         if (livingentity != null) {
             Vec3 vec3 = livingentity.getEyePosition();
-            mob.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, 1.0);
+            this.mob.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, 1.0);
         }
 
-        mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), true);
-        mob.playSound(SoundEvents.VEX_CHARGE, 1.0F, 1.0F);
+        this.mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), true);
+        this.mob.playSound(SoundEvents.VEX_CHARGE, 1.0F, 1.0F); //TODO
     }
 
     @Override
     public void stop() {
-        mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), false);
+        this.mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), false);
     }
 
     @Override
@@ -57,16 +57,16 @@ public class ChargeAttackGoal extends Goal {
 
     @Override
     public void tick() {
-        LivingEntity livingentity = mob.getTarget();
+        LivingEntity livingentity = this.mob.getTarget();
         if (livingentity != null) {
-            if (mob.getBoundingBox().intersects(livingentity.getBoundingBox())) {
-                mob.doHurtTarget(livingentity);
-                mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), false);
+            if (this.mob.getBoundingBox().intersects(livingentity.getBoundingBox())) {
+                this.mob.doHurtTarget(livingentity);
+                this.mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), false);
             } else {
-                double d0 = mob.distanceToSqr(livingentity);
+                double d0 = this.mob.distanceToSqr(livingentity);
                 if (d0 < 9.0) {
                     Vec3 vec3 = livingentity.getEyePosition();
-                    mob.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, 1.0);
+                    this.mob.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, 1.0);
                 }
             }
         }

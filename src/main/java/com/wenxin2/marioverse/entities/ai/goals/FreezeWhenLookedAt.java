@@ -15,8 +15,8 @@ public class FreezeWhenLookedAt extends Goal {
     private final Mob mob;
     @Nullable private LivingEntity target;
     private final TagKey<EntityType<?>> entityTag;
-    private static final double MAX_DISTANCE_SQR = 512;
-    private static final double FOV_ANGLE = 180.0;
+    private static final double MAX_DISTANCE_SQR = 256;
+    private static final double FOV_ANGLE = 160;
 
     public FreezeWhenLookedAt(Mob mob, TagKey<EntityType<?>> entityTag) {
         this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE));
@@ -30,9 +30,11 @@ public class FreezeWhenLookedAt extends Goal {
         if (this.target == null) {
             return false;
         } else if (this.target.getType().is(entityTag)) {
-            double distance = this.target.distanceToSqr(this.mob);
+            Vec3 posEye = this.target.getEyePosition();
+            Vec3 posMob = this.mob.position();
+            double distance = posEye.distanceToSqr(posMob);
             Vec3 targetView = this.target.getViewVector(1.0F).normalize();
-            Vec3 toMob = this.mob.position().subtract(this.target.position()).normalize();
+            Vec3 toMob = this.mob.position().subtract(posEye).normalize();
             double dot = targetView.dot(toMob);
 
             return dot > Math.cos(Math.toRadians(FOV_ANGLE / 2.0)) && distance <= MAX_DISTANCE_SQR;

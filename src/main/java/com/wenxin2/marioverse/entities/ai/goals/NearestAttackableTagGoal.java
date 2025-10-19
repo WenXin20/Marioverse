@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +38,8 @@ public class NearestAttackableTagGoal extends TargetGoal {
     public boolean canUse() {
         if (this.randomInterval > 0 && this.mob.getRandom().nextInt(this.randomInterval) != 0
                 || this.mob.getData(DataAttachmentRegistry.IS_HIDING.get())) {
+            return false;
+        } else if (this.target instanceof Player player && player.isCreative()) {
             return false;
         } else {
             this.findTarget();
@@ -75,7 +78,13 @@ public class NearestAttackableTagGoal extends TargetGoal {
     @Override
     public void start() {
         this.mob.setTarget(this.target);
+        this.mob.setData(DataAttachmentRegistry.IS_ATTACKING.get(), true);
         super.start();
+    }
+
+    @Override
+    public void stop() {
+        this.mob.setData(DataAttachmentRegistry.IS_ATTACKING.get(), false);
     }
 
     public void setTarget(@Nullable LivingEntity target) {

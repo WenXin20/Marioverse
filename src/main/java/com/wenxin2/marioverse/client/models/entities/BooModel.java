@@ -37,7 +37,7 @@ public class BooModel extends GeoModel<BooEntity> {
 
     @Override
     public void setCustomAnimations(BooEntity animatable, long instanceId, AnimationState<BooEntity> animationState) {
-        GeoBone head = this.getAnimationProcessor().getBone("bipedHead");
+        GeoBone head = this.getAnimationProcessor().getBone("head");
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
             if (entityData != null) {
