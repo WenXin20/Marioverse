@@ -881,7 +881,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 if (this.isBaby()) {
                     this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
                     if (this.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 0.5, 5);
                 }
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);

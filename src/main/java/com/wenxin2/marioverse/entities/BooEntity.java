@@ -1,18 +1,17 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
+import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -25,15 +24,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.TimeUtil;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,7 +40,6 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -58,7 +53,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -96,6 +90,7 @@ public class BooEntity extends Monster implements GeoEntity {
     public BooEntity(EntityType<? extends BooEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
+        this.moveControl = new FloatMoveControl(this);
     }
 
     @Override
@@ -123,7 +118,7 @@ public class BooEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new RandomMoveGoal(this));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Mob.class, 8.0F));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true)); // TODO
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, false)); // TODO
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
@@ -219,9 +214,6 @@ public class BooEntity extends Monster implements GeoEntity {
 
         super.baseTick();
         this.handleAirSupply(i);
-
-        if (this.getTarget() != null)
-            this.setSpeed(0.8F);
     }
 
     public boolean isPushable() {
@@ -382,6 +374,6 @@ public class BooEntity extends Monster implements GeoEntity {
 
     public void playDeathAnimation(Entity entity) {
         if (entity.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getDeathParticle(), serverWorld, entity, 15);
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getDeathParticle(), serverWorld, entity, 0.0, 15);
     }
 }
