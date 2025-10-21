@@ -92,8 +92,12 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
             @Override
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, BooEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
-                poseStack.scale(0.75F, 0.75F, 0.75F);
-                poseStack.translate(0.0F, 0.2F, 0.0F);
+                if (stack.getItem() instanceof BlockItem) {
+                    poseStack.scale(0.875F, 0.875F, 0.875F);
+                    poseStack.translate(0.0F, 0.2F, 0.0F);
+                } else {
+                    poseStack.translate(0.0F, 0.2F, 0.0F);
+                }
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });

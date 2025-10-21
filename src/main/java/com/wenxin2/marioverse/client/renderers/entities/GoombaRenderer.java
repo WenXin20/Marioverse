@@ -150,10 +150,12 @@ public class GoombaRenderer extends GeoEntityRenderer<GoombaEntity> {
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, GoombaEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (animatable.getCustomName() != null && animatable.getCustomName().getString().toLowerCase(Locale.ROOT).equals("goombella")) {
-                    poseStack.scale(0.77F, 0.77F, 0.72F);
+                    poseStack.scale(0.975F, 0.975F, 0.925F);
+                    poseStack.translate(0.0F, 0.5F, 0.0F);
+                } else if (stack.getItem() instanceof BlockItem) {
+                    poseStack.scale(0.775F, 0.775F, 0.725F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 } else {
-                    poseStack.scale(0.6F, 0.6F, 0.55F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 }
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
