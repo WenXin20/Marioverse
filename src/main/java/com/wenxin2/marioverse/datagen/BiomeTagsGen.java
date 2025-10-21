@@ -18,6 +18,9 @@ public class BiomeTagsGen extends BiomeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(TagRegistry.HAS_BOO)
+                .add(Biomes.DARK_FOREST);
+
         tag(TagRegistry.HAS_FIRE_GOOMBA)
                 .addTag(BiomeTags.IS_NETHER);
 

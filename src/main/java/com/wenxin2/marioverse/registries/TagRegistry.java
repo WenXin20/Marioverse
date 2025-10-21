@@ -16,6 +16,7 @@ public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
     public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
+    public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
