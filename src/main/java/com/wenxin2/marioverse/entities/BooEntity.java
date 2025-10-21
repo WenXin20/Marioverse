@@ -195,7 +195,6 @@ public class BooEntity extends Monster implements GeoEntity {
             }
 
             if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8 && this.isAlive()) {
-                this.playDeathAnimation(this);
                 this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
                 this.kill();
             }
