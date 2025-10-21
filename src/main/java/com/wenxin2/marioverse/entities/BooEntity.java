@@ -189,9 +189,11 @@ public class BooEntity extends Monster implements GeoEntity {
             this.ejectPassengers();
         if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
             if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay() && this.isAlive()) {
-                this.playDeathAnimation(this);
-                this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
-                this.discard();
+                if (this.random.nextFloat() < 0.01F) {
+                    this.playDeathAnimation(this);
+                    this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
+                    this.discard();
+                }
             }
 
             if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8 && this.isAlive()) {
