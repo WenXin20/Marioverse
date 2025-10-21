@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -140,7 +141,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.PIRANHA_PLANT_CAN_ATTACK, 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
     }
@@ -881,7 +882,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 if (this.isBaby()) {
                     this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
                     if (this.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 5);
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 0.5, 5);
                 }
 
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);

@@ -16,7 +16,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,6 +27,7 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -260,6 +263,53 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public boolean isPathfindable(BlockState state, PathComputationType pathType) {
         return false;
+    }
+
+    @Override
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        double entityX = player.getX();
+        double entityY = player.getY();
+        double entityZ = player.getZ();
+        double height =  + player.getBbHeight();
+        int blockX = pos.getX();
+        int blockY = pos.getY();
+        int blockZ = pos.getZ();
+
+        if (state.getValue(ENTRANCE) && (!player.isCreative() || player.getItemInHand(hand).is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS))
+                && !player.getItemInHand(hand).is(TagRegistry.WRENCHES)) {
+            Direction facing = state.getValue(FACING);
+            boolean yPosCheck = entityY + height >= blockY && entityY - height < blockY + 0.75;
+
+            if (facing == Direction.UP && (entityY + height >= blockY - 1)
+                    && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                return ItemInteractionResult.SUCCESS;
+            } else if (facing == Direction.DOWN && (entityY + height <= blockY)
+                    && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                return ItemInteractionResult.SUCCESS;
+            } else if (facing == Direction.NORTH
+                    && (entityX < blockX + 1 && entityX > blockX) && yPosCheck && (entityZ < blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                return ItemInteractionResult.SUCCESS;
+            } else if (facing == Direction.SOUTH
+                    && (entityX < blockX + 1 && entityX > blockX) && yPosCheck && (entityZ > blockZ + 0.25)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                player.setSwimming(true);
+                return ItemInteractionResult.SUCCESS;
+            } else if (facing == Direction.EAST
+                    && (entityX > blockX) && yPosCheck && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                player.setSwimming(true);
+                return ItemInteractionResult.SUCCESS;
+            } else if (facing == Direction.WEST
+                    && (entityX < blockX) && yPosCheck && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                player.setSwimming(true);
+                return ItemInteractionResult.SUCCESS;
+            } else return super.useItemOn(stack, state, world, pos, player, hand, hit);
+        }
+        return super.useItemOn(stack, state, world, pos, player, hand, hit);
     }
 
     @NotNull

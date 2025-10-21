@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "marioverse:block/splunkin_carved_pumpkin",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "marioverse:block/splunkin_carved_pumpkin"
+    },
+    "facing=south": {
+      "model": "marioverse:block/splunkin_carved_pumpkin",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "marioverse:block/splunkin_carved_pumpkin",
+      "y": 270
+    }
+  }
+}

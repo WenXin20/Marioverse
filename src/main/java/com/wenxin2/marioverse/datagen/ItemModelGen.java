@@ -34,6 +34,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
+        this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.DASH_MUSHROOM.get());
@@ -97,6 +98,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.RED_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.SPLUNKIN_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
 

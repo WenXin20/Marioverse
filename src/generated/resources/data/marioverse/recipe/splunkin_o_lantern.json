@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:splunkin_o_lantern",
+  "key": {
+    "A": {
+      "item": "marioverse:splunkin_carved_pumpkin"
+    },
+    "B": {
+      "item": "minecraft:torch"
+    }
+  },
+  "pattern": [
+    "A",
+    "B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:splunkin_o_lantern"
+  }
+}

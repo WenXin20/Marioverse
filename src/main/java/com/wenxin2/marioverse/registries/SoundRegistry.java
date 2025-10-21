@@ -13,6 +13,11 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOO_DEATH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOO_HIDE;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOO_HURT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOO_LAUGH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOO_POOF;
     public static final DeferredHolder<SoundEvent, SoundEvent> CHECKPOINT_FLAG_CLAIMED;
     public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_ENTER;
     public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_EXIT;
@@ -87,6 +92,8 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_EXTEND;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_PEEK;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_RETRACT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPLUNKIN_CRACKS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPLUNKIN_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
@@ -191,6 +198,17 @@ public class SoundRegistry {
         DAMAGE_TAKEN = Marioverse.SOUNDS.register("entity.damage_taken",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.damage_taken")));
 
+        BOO_DEATH = Marioverse.SOUNDS.register("entity.boo_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_death")));
+        BOO_HIDE = Marioverse.SOUNDS.register("entity.boo_hide",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_hide")));
+        BOO_HURT = Marioverse.SOUNDS.register("entity.boo_hurt",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_hurt")));
+        BOO_LAUGH = Marioverse.SOUNDS.register("entity.boo_laugh",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_laugh")));
+        BOO_POOF = Marioverse.SOUNDS.register("entity.boo_poof",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_poof")));
+
         KOOPA_SHELL_BOUNCED = Marioverse.SOUNDS.register("entity.koopa_shell_bounced",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.koopa_shell_bounced")));
         KOOPA_SHELL_SHATTER = Marioverse.SOUNDS.register("entity.koopa_shell_shatter",
@@ -268,6 +286,11 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_death")));
         PIRANHA_PLANT_HURT = Marioverse.SOUNDS.register("entity.piranha_plant_hurt",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_hurt")));
+
+        SPLUNKIN_CRACKS = Marioverse.SOUNDS.register("entity.splunkin_cracks",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.splunkin_cracks")));
+        SPLUNKIN_DEATH = Marioverse.SOUNDS.register("entity.splunkin_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.splunkin_death")));
 
         ONE_UP_COLLECTED = Marioverse.SOUNDS.register("entity.one_up_collected",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.one_up_collected")));

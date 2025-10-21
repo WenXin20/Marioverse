@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-11T18:54:34.0915258	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-10-15T22:39:19.0869342	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 f1c13174eb66d8e3579ac0d3975e6780bca03d80 data/create/tags/block/movable_empty_collider.json
@@ -21,6 +21,8 @@ ba38bb2be287e31075c239056c8331767c2eb92a data/c/tags/block/dyed/pink.json
 8fc970fd39c715d40a6ca70563289f103acbae01 data/c/tags/block/dyed/red.json
 4d9f699d9d77b53baeacffe533d43dc7dc6c6ce0 data/c/tags/block/dyed/white.json
 f94c0b6ce1981e49f0c7656ee7cf0559cc5eed94 data/c/tags/block/dyed/yellow.json
+71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/block/pumpkins/carved.json
+990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/block/pumpkins/jack_o_lanterns.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/block/bonkable_blocks.json
 64f942d5c0d54f783d51cbea3b6aa6e53e6343d0 data/marioverse/tags/block/bouncy_blocks.json
@@ -64,10 +66,11 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
+2b735420cb1b262020d7d1554cac6f926a2966d5 data/minecraft/tags/block/enderman_holdable.json
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
-553e4864b7288acc9066cbe2d1419cfc14d14a9e data/minecraft/tags/block/mineable/axe.json
+e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 148e895a03ae63b65d28770e444b5b45fd623bf0 data/minecraft/tags/block/mineable/pickaxe.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
@@ -76,6 +79,7 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 3223c0ac80c228b7211696c27c13272e7e3288a8 data/minecraft/tags/block/stairs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/block/stone_buttons.json
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
+3ff6d12e3568c33331f086da2de27da8a70039d8 data/minecraft/tags/block/sword_efficient.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json

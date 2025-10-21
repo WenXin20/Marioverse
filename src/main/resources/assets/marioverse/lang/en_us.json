@@ -45,6 +45,8 @@
   "block.marioverse.glow_block": "Glow Block",
   "block.marioverse.iron_spike": "Iron Spike",
   "block.marioverse.spike_panel": "Spike Panel",
+  "block.marioverse.splunkin_carved_pumpkin": "Splunkin Carved Pumpkin",
+  "block.marioverse.splunkin_o_lantern": "Splunkin O' Lantern",
   "block.marioverse.star_coin": "Star Coin",
 
   "block.marioverse.acacia_log_bridge": "Acacia Log Bridge",
@@ -596,6 +598,7 @@
   "entity.marioverse.one_up_mushroom": "1-Up Mushroom",
   "entity.marioverse.super_star": "Super Star",
 
+  "entity.marioverse.boo": "Boo",
   "entity.marioverse.fire_goomba": "Fire Goomba",
   "entity.marioverse.goomba": "Goomba",
   "entity.marioverse.gold_koopa_shell": "Gold Koopa Shell",
@@ -609,6 +612,7 @@
   "entity.marioverse.piranha_plant": "Piranha Plant",
   "entity.marioverse.red_koopa_shell": "Red Koopa Shell",
   "entity.marioverse.red_koopa_troopa": "Red Koopa Troopa",
+  "entity.marioverse.splunkin": "Splunkin",
 
   "item.marioverse.bowser_banner_pattern": "Banner Pattern",
   "item.marioverse.bowser_banner_pattern.desc": "§cKing Bowser",
@@ -629,6 +633,7 @@
   "item.marioverse.warp_disruptor": "Warp Disruptor",
   "item.marioverse.wrench": "Wrench",
 
+  "item.marioverse.boo_spawn_egg": "Boo Spawn Egg",
   "item.marioverse.fire_goomba_spawn_egg": "Fire Goomba Spawn Egg",
   "item.marioverse.goomba_spawn_egg": "Goomba Spawn Egg",
   "item.marioverse.gold_koopa_troopa_spawn_egg": "Gold Troopa Koopa Spawn Egg",
@@ -638,6 +643,7 @@
   "item.marioverse.mini_goomba_spawn_egg": "Mini Goomba Spawn Egg",
   "item.marioverse.piranha_plant_spawn_egg": "Piranha Plant Spawn Egg",
   "item.marioverse.red_koopa_troopa_spawn_egg": "Red Troopa Koopa Spawn Egg",
+  "item.marioverse.splunkin_spawn_egg": "Splunkin Spawn Egg",
 
   "item.marioverse.mario_costume_smithing_template": "Mario's Costume Smithing Template",
   "item.marioverse.luigi_costume_smithing_template": "Luigi's Costume Smithing Template",
@@ -884,6 +890,11 @@
   "subtitles.marioverse.block.water_spout.place": "Water Spout grows",
   "subtitles.marioverse.block.water_spout.step": "Footsteps",
 
+  "subtitles.marioverse.entity.boo_death": "Boo dies",
+  "subtitles.marioverse.entity.boo_hides": "Boo hides",
+  "subtitles.marioverse.entity.boo_hurt": "Boo hurts",
+  "subtitles.marioverse.entity.boo_laugh": "Boo laughs",
+  "subtitles.marioverse.entity.boo_poof": "Boo disappears",
   "subtitles.marioverse.entity.damage_taken": "Damage taken",
   "subtitles.marioverse.entity.goomba_ambient": "Goomba squeaks",
   "subtitles.marioverse.entity.goomba_bump": "Goomba bumped",
@@ -924,6 +935,8 @@
   "subtitles.marioverse.entity.piranha_plant_hurt": "Piranha Plant hurts",
   "subtitles.marioverse.entity.powers_up": "Powers up",
   "subtitles.marioverse.entity.powers_up_super_star": "Powers up on Super Star",
+  "subtitles.marioverse.entity.splunkin_death": "Splunkin dies",
+  "subtitles.marioverse.entity.splunkin_cracks": "Splunkin cracks",
   "subtitles.marioverse.entity.super_star_bounce": "Super Star bounces",
   "subtitles.marioverse.entity.super_star_theme": "Super Star Theme plays",
 
@@ -1119,6 +1132,7 @@
   "configuration.marioverse.decorated_pot_bucket_tweaks": "Buckets Place Liquids",
   "configuration.marioverse.decorated_pot_spawns_mobs": "Spawn Mobs",
   "configuration.marioverse.decorated_pot_spawns_power_ups": "Spawn Power Ups",
+  "configuration.marioverse.disable_boo_masks": "Disable Boo Masks",
   "configuration.marioverse.disable_consecutive_bouncing": "Disable Consecutive Bouncing",
   "configuration.marioverse.disable_decorated_pot_tweaks": "Disable All Tweaks",
   "configuration.marioverse.disable_goomba_masks": "Disable Goomba Masks",
@@ -1140,6 +1154,7 @@
   "configuration.marioverse.fire_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.fireball_cooldown": "Fireball Cooldown",
   "configuration.marioverse.fireball_damage": "Fireball Damage",
+  "configuration.marioverse.force_boo_masks": "Force Boo Masks",
   "configuration.marioverse.force_goomba_masks": "Force Goomba Masks",
   "configuration.marioverse.force_koopa_masks": "Force Koopa Masks",
   "configuration.marioverse.gold_koopa_shell_coin_circle_radius": "Coin Circle Radius",

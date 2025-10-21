@@ -116,10 +116,12 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
+            add(event, ItemRegistry.SPLUNKIN_SPAWN_EGG);
             add(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+            add(event, ItemRegistry.BOO_SPAWN_EGG);
         }
 
         if (event.getTabKey() == MARIOVERSE_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
@@ -133,6 +135,9 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
             add(event, BlockRegistry.GLOW_BLOCK);
+            add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
+            add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
+
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
 
@@ -453,6 +458,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
 
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
+
+                addAfter(event, Blocks.JACK_O_LANTERN, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
+                addAfter(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, BlockRegistry.SPLUNKIN_O_LANTERN);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
@@ -580,10 +588,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GOOMBA_SPAWN_EGG, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
-                addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
+                addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG, ItemRegistry.SPLUNKIN_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SPLUNKIN_SPAWN_EGG, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+                addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.BOO_SPAWN_EGG);
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {

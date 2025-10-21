@@ -566,7 +566,7 @@ public class MarioverseEventHandlers {
 
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
-                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128);
+                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128);
                             linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                         } else {
                             BlockPos warpPos = LinkerItem.getWarpPos(stack);
@@ -609,7 +609,7 @@ public class MarioverseEventHandlers {
 //                                }
 //                            }
 
-                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 128); // TODO: fix pos
+                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
                             linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
                         //  }
                             LinkerItem.setIsBound(stack, false);
@@ -676,7 +676,7 @@ public class MarioverseEventHandlers {
                 if (!linkableEntity.mv$isWaxed()) {
                     if (world instanceof ServerLevel serverWorld) {
                         world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 64); // TODO: fix pos
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64); // TODO: fix pos
                         stack.consume(1, player);
                     }
                     linkableEntity.mv$setWaxed(true);

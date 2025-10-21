@@ -157,7 +157,7 @@ public class ServerParticleUtils {
                 1, 0, 0, 0, 1.0);
     }
 
-    public static void spawnParticlesOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, int avgAmount) {
+    public static void spawnParticlesOnEntityRandomly(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double speed, int avgAmount) {
         RandomSource rand = RandomSource.create();
 
         float scaleFactor = entity.getBbWidth() * entity.getBbHeight();
@@ -185,7 +185,7 @@ public class ServerParticleUtils {
             }
 
             serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ,
-                    1, 0, 0, 0, 0.5);
+                    1, 0, 0, 0, speed);
         }
     }
 

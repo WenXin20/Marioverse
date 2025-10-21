@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "cracked=false,facing=east": {
+      "model": "marioverse:block/splunkin_o_lantern",
+      "y": 90
+    },
+    "cracked=false,facing=north": {
+      "model": "marioverse:block/splunkin_o_lantern"
+    },
+    "cracked=false,facing=south": {
+      "model": "marioverse:block/splunkin_o_lantern",
+      "y": 180
+    },
+    "cracked=false,facing=west": {
+      "model": "marioverse:block/splunkin_o_lantern",
+      "y": 270
+    },
+    "cracked=true,facing=east": {
+      "model": "marioverse:block/splunkin_o_lantern_cracked",
+      "y": 90
+    },
+    "cracked=true,facing=north": {
+      "model": "marioverse:block/splunkin_o_lantern_cracked"
+    },
+    "cracked=true,facing=south": {
+      "model": "marioverse:block/splunkin_o_lantern_cracked",
+      "y": 180
+    },
+    "cracked=true,facing=west": {
+      "model": "marioverse:block/splunkin_o_lantern_cracked",
+      "y": 270
+    }
+  }
+}

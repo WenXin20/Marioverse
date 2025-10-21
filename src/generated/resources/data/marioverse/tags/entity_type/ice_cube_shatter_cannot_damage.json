@@ -2,6 +2,7 @@
   "values": [
     "#c:bosses",
     "#marioverse:power_ups",
+    "marioverse:boo",
     {
       "id": "#twilightforest:bosses",
       "required": false

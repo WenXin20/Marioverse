@@ -18,6 +18,9 @@ public class BiomeTagsGen extends BiomeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(TagRegistry.HAS_BOO)
+                .add(Biomes.DARK_FOREST);
+
         tag(TagRegistry.HAS_FIRE_GOOMBA)
                 .addTag(BiomeTags.IS_NETHER);
 
@@ -44,6 +47,11 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         tag(TagRegistry.HAS_PIRANHA_PLANT)
                 .addTag(Tags.Biomes.IS_JUNGLE)
                 .addTag(BiomeTags.IS_JUNGLE);
+
+        tag(TagRegistry.HAS_SPLUNKIN)
+                .addTag(Tags.Biomes.IS_JUNGLE)
+                .addTag(BiomeTags.IS_JUNGLE)
+                .add(Biomes.DARK_FOREST);
 
         tag(TagRegistry.HAS_CLASSIC_UNDERGROUND)
                 .addTag(Tags.Biomes.IS_MUSHROOM)

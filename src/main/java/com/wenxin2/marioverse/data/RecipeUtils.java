@@ -164,14 +164,21 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void twoByOneRecipe(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
-                .define('#', inputItem)
-                .pattern("#")
-                .pattern("#")
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .group(Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem))
-                .save(output);
+    public void twoByOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .pattern("A")
+                .pattern("B")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'A', input1);
+        defineIngredient(builder, 'B', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
     }
 
     public void twoByTwoRecipe(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, RecipeOutput output) {
@@ -195,8 +202,7 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     public void plusRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
-                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .pattern(" B ")
                 .pattern("BCB")
                 .pattern(" B ")

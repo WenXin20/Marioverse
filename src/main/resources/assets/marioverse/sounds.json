@@ -133,6 +133,26 @@
     { "name": "item/bucket/fill3" }], "subtitle": "subtitles.marioverse.block.water_spout.step" },
 
 
+  "entity.boo_death": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/boo/boo_death" }],
+    "subtitle": "subtitles.marioverse.entity.boo_death" },
+  "entity.boo_hide": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/boo/boo_hide" }],
+    "subtitle": "subtitles.marioverse.entity.boo_hide" },
+  "entity.boo_hurt": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/boo/boo_hurt" }],
+    "subtitle": "subtitles.marioverse.entity.boo_hurt" },
+  "entity.boo_laugh": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/boo/boo_laugh1" },
+      { "name": "marioverse:entity/boo/boo_laugh2" },
+      { "name": "marioverse:entity/boo/boo_laugh3" },
+      { "name": "marioverse:entity/boo/boo_laugh4" },
+      { "name": "marioverse:entity/boo/boo_laugh5" }],
+    "subtitle": "subtitles.marioverse.entity.boo_laugh" },
+  "entity.boo_poof": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/boo/boo_poof" }],
+    "subtitle": "subtitles.marioverse.entity.boo_poof" },
+
   "entity.damage_taken": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/damage_taken" }],
     "subtitle": "subtitles.marioverse.entity.damage_taken" },
 
@@ -249,6 +269,13 @@
       { "name": "marioverse:entity/piranha_plant/piranha_plant_hurt2" },
       { "name": "marioverse:entity/piranha_plant/piranha_plant_hurt3" }],
     "subtitle": "subtitles.marioverse.entity.piranha_plant_hurt" },
+
+  "entity.splunkin_cracks": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/splunkin/splunkin_cracks" }],
+    "subtitle": "subtitles.marioverse.entity.splunkin_cracks" },
+  "entity.splunkin_death": { "category": "hostile",
+    "sounds": [{ "name": "marioverse:entity/splunkin/splunkin_death" }],
+    "subtitle": "subtitles.marioverse.entity.splunkin_death" },
 
   "entity.one_up_collected": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/one_up_collected" }],
     "subtitle": "subtitles.marioverse.entity.one_up_collected" },

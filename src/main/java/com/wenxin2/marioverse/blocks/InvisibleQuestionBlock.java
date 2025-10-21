@@ -66,6 +66,11 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         stateBuilder.add(EMPTY, INVISIBLE, WATERLOGGED);
     }
 
+    @Override
+    protected void spawnDestroyParticles(Level world, Player player, BlockPos pos, BlockState state) {
+        world.levelEvent(player, 2001, pos, getId(state));
+    }
+
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {

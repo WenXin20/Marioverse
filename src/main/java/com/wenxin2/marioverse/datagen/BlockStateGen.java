@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
+import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
@@ -24,6 +25,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -59,7 +61,10 @@ public class BlockStateGen extends BlockStateProvider {
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
+        String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
+        String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
+        String splunkinOLanternName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_O_LANTERN.get()).getPath();
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
@@ -70,11 +75,17 @@ public class BlockStateGen extends BlockStateProvider {
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
         this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
-        this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName),
-                modLoc("block/" + glowBlockName + "_front"), modLoc("block/" + glowBlockName));
+        this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName + "_front"),
+                modLoc("block/" + glowBlockName), modLoc("block/" + glowBlockName));
+        this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
+                mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
+        this.splunkinOLanternModel(BlockRegistry.SPLUNKIN_O_LANTERN.get(), modLoc("block/" + splunkinOLanternName),
+                mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"),
+                modLoc("block/" + splunkinOLanternName + "_cracked"),
+                modLoc("block/" + splunkinOLanternName + "_cracked_side"), modLoc("block/" + splunkinOLanternName + "_cracked_top"));
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
 
@@ -870,7 +881,7 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
     }
 
-    private void horizontalModel(Block block, ResourceLocation sideTexture, ResourceLocation frontTexture, ResourceLocation topTexture) {
+    private void horizontalModel(Block block, ResourceLocation frontTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
@@ -1165,6 +1176,31 @@ public class BlockStateGen extends BlockStateProvider {
                     .rotationX(face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180))
                     .rotationY((int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot())
                     .uvLock(false)
+                    .build();
+        });
+    }
+
+    private void splunkinOLanternModel(Block block, ResourceLocation frontTexture, ResourceLocation sideTexture, ResourceLocation topTexture,
+                                       ResourceLocation frontCrackedTexture, ResourceLocation sideCrackedTexture, ResourceLocation topCrackedTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/orientable"))
+                .texture("side", sideTexture).texture("front", frontTexture).texture("top", topTexture);
+        ModelFile modelCracked = models()
+                .withExistingParent(modelName + "_cracked", mcLoc("block/orientable"))
+                .texture("side", sideCrackedTexture).texture("front", frontCrackedTexture)
+                .texture("top", topCrackedTexture);
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean cracked = state.getValue(SplunkinCarvedPumpkinBlock.CRACKED);
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+
+            return ConfiguredModel.builder()
+                    .modelFile(cracked ? modelCracked : model)
+                    .rotationY(((int) facing.toYRot() + 180) % 360)
                     .build();
         });
     }

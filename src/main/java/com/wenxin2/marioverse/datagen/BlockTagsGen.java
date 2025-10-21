@@ -58,16 +58,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
         }
 
-        tag(CompatRegistry.BRITTLE)
+        tag(CompatRegistry.CREATE_BRITTLE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.STAR_COIN.get());
 
-        tag(CompatRegistry.COPYCAT_ALLOW)
+        tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
-        tag(CompatRegistry.MOVABLE_EMPTY_COLLIDER)
+        tag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -77,18 +77,18 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
 
-        tag(CompatRegistry.SAFE_NBT)
+        tag(CompatRegistry.CREATE_SAFE_NBT)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
-        tag(CompatRegistry.SIMPLE_MOUNTED_STORAGE)
+        tag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS);
 
-        tag(CompatRegistry.SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
+        tag(CompatRegistry.CREATE_SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
 
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -205,8 +205,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(BlockTags.CAMPFIRES)
                 .addTag(BlockTags.CANDLE_CAKES)
                 .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
-                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
-                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
+                .addOptionalTag(CompatRegistry.SUPP_CANDLE_HOLDERS)
+                .addOptionalTag(CompatRegistry.SUPP_SCONCES)
                 .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS)
@@ -262,8 +262,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(BlockTags.CAMPFIRES)
                 .addTag(BlockTags.CANDLE_CAKES)
                 .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
-                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_CANDLE_HOLDERS)
-                .addOptionalTag(CompatRegistry.SUPPLEMENTARIES_SCONCES)
+                .addOptionalTag(CompatRegistry.SUPP_CANDLE_HOLDERS)
+                .addOptionalTag(CompatRegistry.SUPP_SCONCES)
                 .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -460,6 +460,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
+        tag(Tags.Blocks.PUMPKINS_CARVED)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
+
+        tag(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS)
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
+
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get());
@@ -493,6 +499,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
+
+        tag(BlockTags.ENDERMAN_HOLDABLE)
+                .add(BlockRegistry.GLOW_BLOCK.get())
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -596,7 +606,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(BlockRegistry.GLOW_BLOCK.get());
@@ -706,5 +718,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+
+        tag(BlockTags.SWORD_EFFICIENT)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
     }
 }

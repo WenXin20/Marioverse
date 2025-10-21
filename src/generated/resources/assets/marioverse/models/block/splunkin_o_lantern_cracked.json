@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "marioverse:block/splunkin_o_lantern_cracked",
+    "side": "marioverse:block/splunkin_o_lantern_cracked_side",
+    "top": "marioverse:block/splunkin_o_lantern_cracked_top"
+  }
+}

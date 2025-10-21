@@ -16,6 +16,7 @@ public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
     public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
+    public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
@@ -23,6 +24,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_KOOPA_TROOPA = biomeTags("has_koopa_troopa");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA_RARE = biomeTags("has_koopa_troopa_rare");
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
+    public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
@@ -64,6 +66,7 @@ public class TagRegistry {
     public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("wooden_bridge_stairs");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
+    public static final TagKey<DamageType> BYPASSES_BOO_INVULNERABILITY = damageTypeTags("bypasses_boo_invulnerability");
     public static final TagKey<DamageType> BYPASSES_SUPER_STAR = damageTypeTags("bypasses_super_star");
     public static final TagKey<DamageType> HIDES_KOOPA_TROOPA = damageTypeTags("hides_koopa_troopa");
     public static final TagKey<DamageType> FLIPS_KOOPA_SHELL = damageTypeTags("flips_koopa_shell");
@@ -113,6 +116,7 @@ public class TagRegistry {
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HATS = itemTags("hats");
+    public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
@@ -149,7 +153,6 @@ public class TagRegistry {
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
     public static final TagKey<Item> QUESTION_PANELS_ITEMS = itemTags("question_panels");
-    public static final TagKey<Item> REPAIRS_KOOPA_SHELLS = itemTags("repairs_koopa_shells");
     public static final TagKey<Item> SHIRTS = itemTags("shirts");
     public static final TagKey<Item> SHOES = itemTags("shoes");
     public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");
@@ -162,6 +165,7 @@ public class TagRegistry {
     public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("wooden_bridge_stairs");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
 
+    public static final TagKey<EntityType<?>> BOO_CAN_ATTACK = entityTypeTags("boo_can_attack");
     public static final TagKey<EntityType<?>> CANNOT_BOUNCE_ON_BLOCKS = entityTypeTags("cannot_bounce_on_blocks");
     public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");
     public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags("cannot_drop_coins");
@@ -227,6 +231,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");
+    public static final TagKey<EntityType<?>> SPLUNKIN_CAN_ATTACK = entityTypeTags("splunkin_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
     public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN = entityTypeTags("warp_pipe_cannot_spawn");
 
