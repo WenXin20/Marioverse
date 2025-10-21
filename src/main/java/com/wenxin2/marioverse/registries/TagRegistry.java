@@ -115,6 +115,7 @@ public class TagRegistry {
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HATS = itemTags("hats");
+    public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");

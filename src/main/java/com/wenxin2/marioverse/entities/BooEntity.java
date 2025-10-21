@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -15,16 +16,20 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -45,6 +50,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
@@ -258,40 +264,50 @@ public class BooEntity extends Monster implements GeoEntity {
         else if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
 
-
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_BOO_MASKS.get())
-                    || ConfigRegistry.FORCE_BOO_MASKS.get()) {
-                if (random.nextFloat() < 0.25F)
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F
-                            ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
-                //TODO: add tag for extra blocks
+            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_BOO_MASKS.get());
+            boolean forceMasks = ConfigRegistry.FORCE_BOO_MASKS.get();
+
+            Optional<Item> randomMask = BuiltInRegistries.ITEM
+                    .getTag(TagRegistry.HALLOWEEN_MASKS)
+                    .flatMap(tag -> tag.getRandomElement(random))
+                    .map(Holder::value);
+
+            if (isHalloween || forceMasks) {
+                boolean appliedMask = false;
+
+                if (random.nextFloat() < 0.25F) {
+                    randomMask.ifPresent(item -> this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(item)));
+                    appliedMask = this.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.HALLOWEEN_MASKS);
+                }
 
                 if (random.nextFloat() < 0.15F) {
                     List<ItemStack> skulls = new ArrayList<>();
+                    serverWorld.registryAccess().registryOrThrow(Registries.ITEM)
+                            .getTagOrEmpty(ItemTags.SKULLS)
+                            .forEach(holder -> {
+                                Item item = holder.value();
+                                skulls.add(new ItemStack(item));
+                            });
 
-                    serverWorld.registryAccess().registryOrThrow(Registries.BLOCK).getTagOrEmpty(Tags.Blocks.SKULLS).forEach(holder -> {
-                        Block block = holder.value();
-                        skulls.add(new ItemStack(block));
+                    if (!skulls.isEmpty()) {
                         ItemStack randomSkull = skulls.get(random.nextInt(skulls.size()));
-                        if (randomSkull.getItem() instanceof PlayerHeadItem) {
-                            if (!players.isEmpty()) {
-                                ServerPlayer randomPlayer = players.get(random.nextInt(players.size()));
-                                GameProfile playerProfile = randomPlayer.getGameProfile();
-                                SkullBlockEntity.fetchGameProfile(randomPlayer.getUUID());
-                                ItemStack playerHeadItem = new ItemStack(Items.PLAYER_HEAD);
-
-                                playerHeadItem.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
-
-                                this.setItemSlot(EquipmentSlot.HEAD, playerHeadItem);
-                            }
-                        } else this.setItemSlot(EquipmentSlot.HEAD, randomSkull);
-                    });
+                        if (randomSkull.getItem() instanceof PlayerHeadItem && !players.isEmpty()) {
+                            ServerPlayer randomPlayer = players.get(random.nextInt(players.size()));
+                            GameProfile playerProfile = randomPlayer.getGameProfile();
+                            ItemStack playerHead = new ItemStack(Items.PLAYER_HEAD);
+                            playerHead.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
+                            this.setItemSlot(EquipmentSlot.HEAD, playerHead);
+                        } else {
+                            this.setItemSlot(EquipmentSlot.HEAD, randomSkull);
+                        }
+                        appliedMask = true;
+                    }
                 }
 
                 if (random.nextFloat() < 0.1F) {
@@ -304,13 +320,27 @@ public class BooEntity extends Monster implements GeoEntity {
                         playerHeadItem.set(DataComponents.PROFILE, new ResolvableProfile(playerProfile));
 
                         this.setItemSlot(EquipmentSlot.HEAD, playerHeadItem);
+                        appliedMask = true;
                     }
                 }
 
-                this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
+                if (random.nextFloat() < 0.05F) {
+                    List<ItemStack> skulls = new ArrayList<>();
+                    serverWorld.registryAccess().registryOrThrow(Registries.BLOCK)
+                            .getTagOrEmpty(CompatRegistry.TF_TROPHIES)
+                            .forEach(holder -> skulls.add(new ItemStack(holder.value())));
+
+                    if (!skulls.isEmpty()) {
+                        ItemStack randomTrophy = skulls.get(random.nextInt(skulls.size()));
+                        this.setItemSlot(EquipmentSlot.HEAD, randomTrophy);
+                        appliedMask = true;
+                    }
+                }
+
+                if (appliedMask)
+                    this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
             }
         }
-
         return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
     }
 

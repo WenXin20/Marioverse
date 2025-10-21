@@ -1,0 +1,20 @@
+{
+  "values": [
+    "#c:pumpkins/carved",
+    "#c:pumpkins/jack_o_lanterns",
+    "marioverse:glow_block",
+    "minecraft:sculk_shrieker",
+    {
+      "id": "create:cardboard_helmet",
+      "required": false
+    },
+    {
+      "id": "supplementaries:deepslate_lamp",
+      "required": false
+    },
+    {
+      "id": "supplementaries:enderman_head",
+      "required": false
+    }
+  ]
+}

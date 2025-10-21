@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -19,7 +20,10 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagsGen extends ItemTagsProvider {
+    private static final ResourceLocation CREATE_CARDBOARD_HELMET = ResourceLocation.fromNamespaceAndPath("create", "cardboard_helmet");
     private static final ResourceLocation CREATE_SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
+    private static final ResourceLocation SUPP_DEEPSLATE_LAMP = ResourceLocation.fromNamespaceAndPath("supplementaries", "deepslate_lamp");
+    private static final ResourceLocation SUPP_ENDERMAN_HEAD = ResourceLocation.fromNamespaceAndPath("supplementaries", "enderman_head");
 
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
@@ -170,6 +174,15 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
+
+        tag(TagRegistry.HALLOWEEN_MASKS)
+                .addTag(Tags.Items.PUMPKINS_CARVED)
+                .addTag(Tags.Items.PUMPKINS_JACK_O_LANTERNS)
+                .add(BlockRegistry.GLOW_BLOCK.asItem())
+                .add(Items.SCULK_SHRIEKER)
+                .addOptional(CREATE_CARDBOARD_HELMET)
+                .addOptional(SUPP_DEEPSLATE_LAMP)
+                .addOptional(SUPP_ENDERMAN_HEAD);
 
         tag(TagRegistry.KOOPA_SHELL_ITEMS)
                 .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
