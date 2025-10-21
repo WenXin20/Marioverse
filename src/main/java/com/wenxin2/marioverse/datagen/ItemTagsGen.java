@@ -171,9 +171,6 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
-        tag(TagRegistry.REPAIRS_KOOPA_SHELLS)
-                .add(Items.TURTLE_SCUTE);
-
         tag(TagRegistry.KOOPA_SHELL_ITEMS)
                 .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHELL.get())
