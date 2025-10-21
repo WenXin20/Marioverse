@@ -52,13 +52,8 @@
 					]
 				},
 				{
-					"name": "bipedHeadBaseRotater",
-					"parent": "bipedBody",
-					"pivot": [0, 13.5, -1.5]
-				},
-				{
 					"name": "bipedHead",
-					"parent": "bipedHeadBaseRotater",
+					"parent": "bipedBody",
 					"pivot": [0, 13.5, -1.5],
 					"cubes": [
 						{"origin": [-4.5, 20, -6], "size": [9, 6, 5], "uv": [0, 0]},
