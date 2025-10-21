@@ -64,6 +64,7 @@ import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
@@ -102,14 +103,20 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Nullable
     @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundRegistry.BOO_LAUGH.get();
+    }
+
+    @Nullable
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.SPLUNKIN_CRACKS.get();
-    } // TODO
+        return SoundRegistry.BOO_HURT.get();
+    }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.SPLUNKIN_DEATH.get();
+        return SoundRegistry.BOO_DEATH.get();
     }
 
     @Override
@@ -181,13 +188,15 @@ public class BooEntity extends Monster implements GeoEntity {
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
         if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
-            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay()) {
+            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay() && this.isAlive()) {
                 this.playDeathAnimation(this);
+                this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
                 this.discard();
             }
 
-            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8) {
+            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8 && this.isAlive()) {
                 this.playDeathAnimation(this);
+                this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
                 this.kill();
             }
         }
@@ -236,21 +245,6 @@ public class BooEntity extends Monster implements GeoEntity {
     public boolean canTakeItem(ItemStack stack) {
         EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
         return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    @NotNull // TODO: remove
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                && (player.getItemInHand(hand).getItem() instanceof ArmorItem
-                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
-                && (blockItem.getBlock() instanceof SkullBlock
-                || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock
-                || blockItem.getBlock() instanceof CarvedPumpkinBlock)))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        }
-        return super.mobInteract(player, hand);
     }
 
     @Nullable

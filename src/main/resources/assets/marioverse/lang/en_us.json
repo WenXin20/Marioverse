@@ -890,6 +890,11 @@
   "subtitles.marioverse.block.water_spout.place": "Water Spout grows",
   "subtitles.marioverse.block.water_spout.step": "Footsteps",
 
+  "subtitles.marioverse.entity.boo_death": "Boo dies",
+  "subtitles.marioverse.entity.boo_hides": "Boo hides",
+  "subtitles.marioverse.entity.boo_hurt": "Boo hurts",
+  "subtitles.marioverse.entity.boo_laugh": "Boo laughs",
+  "subtitles.marioverse.entity.boo_poof": "Boo disappears",
   "subtitles.marioverse.entity.damage_taken": "Damage taken",
   "subtitles.marioverse.entity.goomba_ambient": "Goomba squeaks",
   "subtitles.marioverse.entity.goomba_bump": "Goomba bumped",

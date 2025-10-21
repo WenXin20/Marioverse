@@ -40,9 +40,7 @@ public class ChargeAttackGoal extends Goal {
             Vec3 vec3 = livingentity.getEyePosition();
             this.mob.getMoveControl().setWantedPosition(vec3.x, vec3.y, vec3.z, 1.0);
         }
-
         this.mob.setData(DataAttachmentRegistry.IS_CHARGING.get(), true);
-        this.mob.playSound(SoundEvents.VEX_CHARGE, 1.0F, 1.0F); //TODO
     }
 
     @Override
