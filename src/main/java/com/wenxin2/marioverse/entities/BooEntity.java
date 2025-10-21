@@ -265,8 +265,8 @@ public class BooEntity extends Monster implements GeoEntity {
             int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_GOOMBA_MASKS.get()) // TODO
-                    || ConfigRegistry.FORCE_GOOMBA_MASKS.get()) {
+            if ((month == 10 && day == 31 && !ConfigRegistry.DISABLE_BOO_MASKS.get())
+                    || ConfigRegistry.FORCE_BOO_MASKS.get()) {
                 if (random.nextFloat() < 0.25F)
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(random.nextFloat() < 0.1F
                             ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
