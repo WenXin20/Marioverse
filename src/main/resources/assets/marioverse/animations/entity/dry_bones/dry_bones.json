@@ -47,7 +47,7 @@
 			"loop": "hold_on_last_frame",
 			"animation_length": 0.875,
 			"bones": {
-				"bipedHeadBaseRotater": {
+				"bipedHead": {
 					"position": {
 						"0.0": {
 							"vector": [0, 0, 0]
