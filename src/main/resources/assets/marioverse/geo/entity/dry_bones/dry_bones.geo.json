@@ -13,12 +13,12 @@
 			"bones": [
 				{
 					"name": "root",
-					"pivot": [2, 14, 4]
+					"pivot": [0, 14, 4]
 				},
 				{
 					"name": "bipedBody",
 					"parent": "root",
-					"pivot": [1, 18, 4]
+					"pivot": [0, 18, 4]
 				},
 				{
 					"name": "shell",
