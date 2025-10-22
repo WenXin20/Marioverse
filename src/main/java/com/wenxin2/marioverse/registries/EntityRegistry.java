@@ -68,7 +68,7 @@ public class EntityRegistry {
                     .sized(0.6875F, 0.6875F).ridingOffset(0.1F).fireImmune().build("boo"));
     public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
             Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).fireImmune().build("dry_bones"));
+                    .sized(0.8F, 1.65F).ridingOffset(0.1F).fireImmune().build("dry_bones"));
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
@@ -89,7 +89,7 @@ public class EntityRegistry {
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("green_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<GreenKoopaTroopaEntity>> GREEN_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("green_koopa_troopa", () -> EntityType.Builder.of(GreenKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("green_koopa_troopa"));
+                    .sized(0.8F, 1.65F).eyeHeight(1.4F).build("green_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
             Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
                     .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));

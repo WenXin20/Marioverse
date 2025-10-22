@@ -346,11 +346,6 @@
 						"vector": [0, 2, -2]
 					}
 				},
-				"bipedHead": {
-					"rotation": {
-						"vector": [45, 0, 0]
-					}
-				},
 				"bipedLeftArm": {
 					"rotation": {
 						"0.0": {

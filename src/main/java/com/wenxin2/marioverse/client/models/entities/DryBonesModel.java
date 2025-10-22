@@ -17,7 +17,7 @@ public class DryBonesModel extends GeoModel<DryBonesEntity> {
 
     @Override
     public RenderType getRenderType(DryBonesEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityCutoutNoCull(getTextureResource(animatable));
     }
 
     @Override
