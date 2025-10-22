@@ -131,6 +131,11 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     @Override
+    public int getAmbientSoundInterval() {
+        return 180;
+    }
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_BOUNCE_COUNT, 0);
@@ -251,7 +256,14 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
-        if (this instanceof AbilitiesHandler handler) {
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int i = random.nextInt(3);
+            if (i == 0)
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+            else this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+        }
+
+        if (this instanceof AbilitiesHandler handler) { // TODO: Change to finalizeSpawn() once costume rendering is fixed
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);
                 int randomInt = random.nextInt(1);
@@ -292,11 +304,10 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (groupData instanceof KoopaGroupData koopaGroupData) {
-            this.populateDefaultEquipmentSlots(random, difficulty);
-            this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
-
             if (koopaGroupData.canSpawnJockey) {
                 if (random.nextDouble() < 0.05) {
                     List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
@@ -418,22 +429,6 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER /*&& flag*/;
-    }
-
-    @NotNull
-    @Override
-    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
-        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
-    }
-
-    @Override
-    public boolean checkSpawnObstruction(LevelReader worldReader) {
-        return worldReader.isUnobstructed(this);
-    }
-
-    @Override
-    public int getAmbientSoundInterval() {
-        return 120;
     }
 
     @Override

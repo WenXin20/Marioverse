@@ -147,12 +147,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return SoundRegistry.GOOMBA_STOMP.get();
     }
 
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundRegistry.GOOMBA_AMBIENT.get();
-    }
-
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
@@ -161,6 +155,17 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     protected SoundEvent getBumpSound() {
         return SoundRegistry.GOOMBA_BUMP.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundRegistry.GOOMBA_AMBIENT.get();
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 180;
     }
 
     @Override
@@ -383,6 +388,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty); // TODO: Change to finalizeSpawn() once costume rendering is fixed
+
         if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);
@@ -429,6 +435,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (groupData instanceof GoombaGroupData goombaGroupData) {
             this.populateDefaultEquipmentSlots(random, difficulty);
@@ -464,8 +472,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
                 }
             }
         }
-
-
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
@@ -576,11 +582,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public boolean checkSpawnObstruction(LevelReader worldReader) {
         return worldReader.isUnobstructed(this);
-    }
-
-    @Override
-    public int getAmbientSoundInterval() {
-        return 120;
     }
 
     protected void handleAirSupply(int airSupplyAmount) {

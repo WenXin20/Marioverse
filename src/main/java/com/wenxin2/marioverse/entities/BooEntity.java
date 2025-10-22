@@ -97,6 +97,11 @@ public class BooEntity extends Monster implements GeoEntity {
         this.xpReward = 10;
     }
 
+    @Override
+    public int getAmbientSoundInterval() {
+        return 180;
+    }
+
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
@@ -247,16 +252,23 @@ public class BooEntity extends Monster implements GeoEntity {
         return this.getItemBySlot(equipmentslot).isEmpty();
     }
 
-    @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
-        RandomSource random = serverWorld.getRandom();
+    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+        super.populateDefaultEquipmentSlots(random, difficulty);
 
         if (random.nextFloat() < 0.05F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
         else if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+        RandomSource random = serverWorld.getRandom();
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
