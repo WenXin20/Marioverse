@@ -201,7 +201,7 @@ public class BooEntity extends Monster implements GeoEntity {
                 this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
                 Player nearestPlayer = this.level().getNearestPlayer(this, 8.0);
                 if (nearestPlayer != null)
-                    this.hurt(this.damageSources().playerAttack(nearestPlayer), Float.MAX_VALUE);
+                    this.hurt(this.damageSources().playerAttack(nearestPlayer), Float.MAX_VALUE); //TODO: add damage source
                 else this.kill();
             }
         }
