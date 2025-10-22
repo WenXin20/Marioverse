@@ -57,7 +57,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -72,12 +71,9 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -90,9 +86,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEntity {
-    private static final EntityDataAccessor<Byte> DATA_ID_HIDE_FLAGS = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Integer> DATA_BOUNCE_COUNT = SynchedEntityData.defineId(KoopaTroopaEntity.class, EntityDataSerializers.INT);
+public class DryBonesEntity extends Monster implements GeoEntity {
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
@@ -103,12 +97,10 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
 
-    public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
+    public DryBonesEntity(EntityType<? extends DryBonesEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-        this.setPathfindingMalus(PathType.DANGER_FIRE, 16.0F);
-        this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
-        this.xpReward = 5;
+        this.xpReward = 8;
     }
 
     @Nullable
@@ -127,13 +119,6 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundRegistry.KOOPA_TROOPA_AMBIENT.get();
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_BOUNCE_COUNT, 0);
-        builder.define(DATA_ID_HIDE_FLAGS, (byte)0);
     }
 
     @Override
@@ -237,9 +222,11 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     @Override
     public int getCurrentSwingDuration() {
-        if (MobEffectUtil.hasDigSpeed(this))
+        if (MobEffectUtil.hasDigSpeed(this)) {
             return 10 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
-        else return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
+        } else {
+            return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
+        }
     }
 
     @Override
@@ -445,7 +432,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
         return new BodyRotationControl(this) {
             @Override
             public void clientTick() {
-                if (!KoopaTroopaEntity.this.isHiding()) {
+                if (!DryBonesEntity.this.isHiding()) {
                     super.clientTick();
                 }
             }

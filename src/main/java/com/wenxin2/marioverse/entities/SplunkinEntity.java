@@ -73,11 +73,7 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     public SplunkinEntity(EntityType<? extends SplunkinEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(1);
+        this.xpReward = 4;
     }
 
     @Nullable

@@ -41,11 +41,7 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.WATER, 2.0F);
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(3);
+        this.xpReward = 8;
     }
 
     @Nullable

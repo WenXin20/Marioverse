@@ -94,11 +94,7 @@ public class BooEntity extends Monster implements GeoEntity {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.moveControl = new FloatMoveControl(this);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 2 + this.level().random.nextInt(1);
+        this.xpReward = 10;
     }
 
     @Nullable

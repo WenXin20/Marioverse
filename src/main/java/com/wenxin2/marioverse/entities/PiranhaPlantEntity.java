@@ -114,11 +114,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         this.head = new PiranhaPlantPart(this, "head",
                 1.0F * this.getWidthAttribute() * this.getScaleAttribute(), 1.0F * this.getHeightAttribute() * this.getScaleAttribute());
         this.subEntities = new PiranhaPlantPart[] {this.head};
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(2);
+        this.xpReward = 5;
     }
 
     @Nullable

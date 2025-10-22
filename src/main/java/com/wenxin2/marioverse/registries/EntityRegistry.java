@@ -42,23 +42,25 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class EntityRegistry {
-    public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL = register("bouncing_fireball", BouncingFireballProjectile::new,
-            MobCategory.MISC, 0.3f, 0.3f);
-    public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL = register("bouncing_ice_ball", BouncingIceBallProjectile::new,
-            MobCategory.MISC, 0.5f, 0.5f);
-    public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE = Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new,
-            MobCategory.MISC).sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
+    public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL =
+            register("bouncing_fireball", BouncingFireballProjectile::new, MobCategory.MISC, 0.3f, 0.3f);
+    public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL =
+            register("bouncing_ice_ball", BouncingIceBallProjectile::new, MobCategory.MISC, 0.5f, 0.5f);
+    public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE =
+            Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new, MobCategory.MISC)
+                    .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER = register("fire_flower", FireFlowerEntity::new,
-            MobCategory.AMBIENT, 0.6f, 0.6f);
-    public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER = register("ice_flower", IceFlowerEntity::new,
-            MobCategory.AMBIENT, 0.6f, 0.6f);
-    public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> SUPER_MUSHROOM = register("super_mushroom", MushroomEntity::new,
-            MobCategory.AMBIENT, 0.8f, 0.8f);
-    public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM = register("one_up_mushroom", OneUpMushroomEntity::new,
-            MobCategory.AMBIENT, 0.8f, 0.8f);
-    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR = Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
-            .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
+    public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER =
+            register("fire_flower", FireFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
+    public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
+            register("ice_flower", IceFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
+    public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> SUPER_MUSHROOM =
+            register("super_mushroom", MushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+    public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM =
+            register("one_up_mushroom", OneUpMushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR =
+            Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
+                    .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO =
             Marioverse.ENTITIES.register("boo", () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
@@ -140,10 +142,10 @@ public class EntityRegistry {
         AttributeSupplier.Builder koopaAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
-                .add(Attributes.ATTACK_SPEED, 0.6F)
+                .add(Attributes.ATTACK_SPEED, 0.8F)
                 .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 8)
-                .add(Attributes.MOVEMENT_SPEED, 0.25F)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F);
         AttributeSupplier.Builder koopaShellAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
