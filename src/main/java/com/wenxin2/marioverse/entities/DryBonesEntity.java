@@ -91,11 +91,9 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
+    public static final RawAnimation SIT = RawAnimation.begin().thenLoop("misc.sit");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private boolean isHiding;
-    public int hideTicks = -1;
-    public int hideAnimationTicks = 0;
 
     public DryBonesEntity(EntityType<? extends DryBonesEntity> type, Level world) {
         super(type, world);
@@ -107,7 +105,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundRegistry.KOOPA_TROOPA_HURT.get();
-    }
+    } // TODO
 
     @Nullable
     @Override
@@ -122,9 +120,14 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public int getAmbientSoundInterval() {
+        return 180;
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false)); // TODO: change tags
         this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -142,15 +145,18 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
-        if (!this.isHiding()) {
-            if (event.isMoving() || this.getDeltaMovement().horizontalDistance() >= 0.01) {
-                event.setAndContinue(WALK);
-                return PlayState.CONTINUE;
-            } else {
-                event.setAndContinue(IDLE);
-                return PlayState.CONTINUE;
-            }
-        } else return PlayState.CONTINUE;
+        if ((this.isPassenger() && !(this.getVehicle() instanceof LivingEntity))) {
+            event.setAndContinue(SIT);
+            return PlayState.CONTINUE;
+        }
+
+        if (event.isMoving() || this.getDeltaMovement().horizontalDistance() >= 0.01) {
+            event.setAndContinue(WALK);
+            return PlayState.CONTINUE;
+        } else {
+            event.setAndContinue(IDLE);
+            return PlayState.CONTINUE;
+        }
     }
 
     @Override
@@ -158,66 +164,10 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return cache;
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putByte("HideFlags", this.entityData.get(DATA_ID_HIDE_FLAGS));
-        tag.putInt("BounceCount", this.entityData.get(DATA_BOUNCE_COUNT));
-        tag.putInt("HideTicks", this.hideTicks);
-        tag.putBoolean("IsHiding", this.isHiding());
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_BOUNCE_COUNT, tag.getInt("BounceCount"));
-        this.entityData.set(DATA_ID_HIDE_FLAGS, tag.getByte("HideFlags"));
-        this.hideTicks = tag.getInt("HideTicks");
-        this.hide(tag.getBoolean("IsHiding"));
-    }
 
     @Override
     public void tick() {
         super.tick();
-
-        if (this.hideTicks > 0 && this.getDeltaMovement().horizontalDistance() == 0)
-            this.hideTicks--;
-
-        if (!this.level().isClientSide && this.hideAnimationTicks > 0) {
-            this.hideAnimationTicks--;
-            this.spawnKoopaShell(this.getHealth(), this.getHideDuration(), 0, true, true);
-        }
-    }
-
-    @Override
-    public void aiStep() {
-        if (!this.isHiding())
-            super.aiStep();
-    }
-
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (source.is(TagRegistry.HIDES_KOOPA_TROOPA)) {
-            this.hide(true);
-            this.getNavigation().stop();
-            this.setXxa(0.0F);
-            this.setSpeed(0.0F);
-            this.ejectPassengers();
-            this.hideTicks = this.getHideDuration();
-            this.hideAnimationTicks = 15;
-            this.triggerAnim("hide_controller", "hide");
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.KOOPA_TROOPA_STOMP.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
-        }
-        return super.hurt(source, amount);
-    }
-
-    @Override
-    protected void triggerOnDeathMobEffects(RemovalReason reason) {
-        if (this.level() instanceof ServerLevel && this.getRandom().nextFloat() < 0.25f
-                && reason == RemovalReason.KILLED)
-            this.spawnKoopaShell(this.getMaxHealth(), -1, -1, false, false);
-
-        super.triggerOnDeathMobEffects(reason);
     }
 
     @Override
@@ -229,20 +179,34 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         }
     }
 
+    @NotNull
+    @Override
+    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
+        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
+    }
+
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
-        if (this instanceof AbilitiesHandler handler) {
+
+        if (random.nextFloat() < 0.01F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
+        if (random.nextFloat() < 0.25F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
+            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
+        else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
+            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
+
+        if (this instanceof AbilitiesHandler handler) { // TODO: Change to finalizeSpawn() once costume rendering is fixed
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
-                int i = random.nextInt(6);
-                int randomInt = random.nextInt(1);
-                if (i == 0) {
-                    if (randomInt == 0)
+                int randomPowerUpInt = random.nextInt(6);
+                int randomCharacterInt = random.nextInt(1);
+                if (randomPowerUpInt == 0) {
+                    if (randomCharacterInt == 0)
                         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
                     else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
                     handler.mv$setFireFlower(true);
-                } else if (i == 1) {
-                    if (randomInt == 0)
+                } else if (randomPowerUpInt == 1) {
+                    if (randomCharacterInt == 0)
                         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
                     else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
                     handler.mv$setIceFlower(true);
@@ -253,68 +217,13 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         }
     }
 
-    @Override
-    public boolean canTakeItem(ItemStack stack) {
-        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
-        return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    @NotNull
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.canTakeItem(player.getItemInHand(hand))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        } else return super.mobInteract(player, hand);
-    }
-
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
-
-        if (groupData instanceof KoopaGroupData koopaGroupData) {
-            this.populateDefaultEquipmentSlots(random, difficulty);
-            this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
-
-            if (koopaGroupData.canSpawnJockey) {
-                if (random.nextDouble() < 0.05) {
-                    List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
-                            Mob.class, this.getBoundingBox().inflate(5.0, 3.0, 5.0),
-                            entity -> entity.getType().is(TagRegistry.KOOPA_CAN_RIDE) && !entity.isVehicle()
-                    );
-
-                    if (!nearbyEntities.isEmpty()) {
-                        Mob mob = nearbyEntities.getFirst();
-                        this.startRiding(mob);
-                    }
-                } else if (random.nextDouble() < 0.05) {
-                    Optional<? extends Holder<EntityType<?>>> randomEntityHolder = serverWorld.registryAccess()
-                            .registryOrThrow(Registries.ENTITY_TYPE)
-                            .getTag(TagRegistry.KOOPA_CAN_RIDE)
-                            .flatMap(tag -> tag.getRandomElement(random));
-
-                    if (randomEntityHolder.isPresent()) {
-                        EntityType<?> entityType = randomEntityHolder.get().value();
-                        Mob mob = (Mob) entityType.create(this.level());
-                        if (mob != null) {
-                            mob.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                            mob.finalizeSpawn(serverWorld, difficulty, MobSpawnType.JOCKEY, null);
-                            this.startRiding(mob);
-                            serverWorld.addFreshEntity(mob);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (random.nextFloat() < 0.01F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
-            this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
-        if (random.nextFloat() < 0.25F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
-        else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
@@ -322,7 +231,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_KOOPA_MASKS.get());
+            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_KOOPA_MASKS.get()); // TODO
             boolean forceMasks = ConfigRegistry.FORCE_KOOPA_MASKS.get();
 
             Optional<Item> randomMask = BuiltInRegistries.ITEM
@@ -396,157 +305,72 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
     }
 
-    public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+    public static boolean checkDryBonesSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER /*&& flag*/;
-    }
-
-    @NotNull
-    @Override
-    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
-        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
-    }
-
-    @Override
-    public boolean checkSpawnObstruction(LevelReader worldReader) {
-        return worldReader.isUnobstructed(this);
-    }
-
-    @Override
-    public int getAmbientSoundInterval() {
-        return 120;
-    }
-
-    @Override
-    public boolean canBeLeashed() {
-        return true;
-    }
-
-    @Override
-    public Crackiness.Level getCrackiness() {
-        return Crackiness.WOLF_ARMOR.byFraction(1.0F - ((float) this.getBounceCount() / ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.getAsInt()));
-    }
-
-    @Override
-    protected BodyRotationControl createBodyControl() {
-        return new BodyRotationControl(this) {
-            @Override
-            public void clientTick() {
-                if (!DryBonesEntity.this.isHiding()) {
-                    super.clientTick();
-                }
-            }
-        };
-    }
-
-    public static class KoopaGroupData implements SpawnGroupData {
-        public final boolean canSpawnJockey;
-
-        public KoopaGroupData(boolean canSpawnJockey) {
-            this.canSpawnJockey = canSpawnJockey;
-        }
-    }
-
-    public boolean isHiding() {
-        return this.isHiding;
-    }
-
-    public void hide(boolean isHiding) {
-        this.setHideFlag(8, isHiding);
-        this.isHiding = isHiding;
-    }
-
-    private boolean getHideFlag(int i) {
-        return (this.entityData.get(DATA_ID_HIDE_FLAGS) & i) != 0;
-    }
-
-    private void setHideFlag(int i, boolean b) {
-        byte b0 = this.entityData.get(DATA_ID_HIDE_FLAGS);
-        if (b) {
-            this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 | i));
-        } else {
-            this.entityData.set(DATA_ID_HIDE_FLAGS, (byte)(b0 & ~i));
-        }
-    }
-
-    @NotNull
-    public KoopaShellEntity getKoopaShellEntity() {
-        return new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
+        return serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER;
     }
 
     @NotNull
     public Item getKoopaShoes() {
         return ItemRegistry.GREEN_KOOPA_SHOES.get();
-    }
+    } //TODO
 
-    @NotNull
-    public Integer getHideDuration() {
-        return ConfigRegistry.GREEN_KOOPA_TROOPA_HIDE_DURATION.get();
-    }
-
-    public void setBounceCount(int bounceCount) {
-        this.entityData.set(DATA_BOUNCE_COUNT, bounceCount);
-    }
-
-    public int getBounceCount() {
-        return this.entityData.get(DATA_BOUNCE_COUNT);
-    }
-
-    public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
-        if (hideAnimationTicks == 0) {
-            KoopaShellEntity shell = this.getKoopaShellEntity();
-
-            shell.setBounceCount(this.getBounceCount());
-            shell.setHideTicks(hideTicks);
-            shell.setPos(this.getX(), this.getY(), this.getZ());
-            shell.setYRot(this.getYRot());
-            shell.setXRot(this.getXRot());
-            shell.yBodyRot = this.yBodyRot;
-            shell.setYHeadRot(this.getYHeadRot());
-            shell.setHealth(shellHealth);
-            shell.emergeAnimationTicks = emergeAnimationTicks;
-            shell.setNoAi(this.isNoAi());
-
-            this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
-            this.copyAttributeWithModifiers(shell, Attributes.SCALE);
-            this.copyAttributeWithModifiers(shell, AttributesRegistry.HEIGHT_SCALE);
-            this.copyAttributeWithModifiers(shell, AttributesRegistry.WIDTH_SCALE);
-
-            if (saveArmor) {
-                for (EquipmentSlot slot : EquipmentSlot.values())
-                    shell.setItemSlot(slot, this.getItemBySlot(slot).copy());
-            }
-
-            if (savePowerUp) {
-                if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
-                    entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                    entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
-                    entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-                    entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-                    shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-                    shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
-                }
-
-                AccessoriesCapability capability = AccessoriesCapability.get(this);
-                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-                        && this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                    String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
-                    for (String slotType : slotTypes) {
-                        AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(shell, slotType));
-                        if (container != null) {
-                            ItemStack stack = container.getAccessories().getItem(0);
-                            if (containerEntity != null)
-                                containerEntity.getAccessories().setItem(0, stack);
-                        }
-                    }
-                }
-            }
-
-            this.level().addFreshEntity(shell);
-            this.remove(RemovalReason.DISCARDED);
-        }
-    }
+    //TODO
+//    public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
+//        if (hideAnimationTicks == 0) {
+//            KoopaShellEntity shell = this.getKoopaShellEntity();
+//
+//            shell.setBounceCount(this.getBounceCount());
+//            shell.setHideTicks(hideTicks);
+//            shell.setPos(this.getX(), this.getY(), this.getZ());
+//            shell.setYRot(this.getYRot());
+//            shell.setXRot(this.getXRot());
+//            shell.yBodyRot = this.yBodyRot;
+//            shell.setYHeadRot(this.getYHeadRot());
+//            shell.setHealth(shellHealth);
+//            shell.emergeAnimationTicks = emergeAnimationTicks;
+//            shell.setNoAi(this.isNoAi());
+//
+//            this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
+//            this.copyAttributeWithModifiers(shell, Attributes.SCALE);
+//            this.copyAttributeWithModifiers(shell, AttributesRegistry.HEIGHT_SCALE);
+//            this.copyAttributeWithModifiers(shell, AttributesRegistry.WIDTH_SCALE);
+//
+//            if (saveArmor) {
+//                for (EquipmentSlot slot : EquipmentSlot.values())
+//                    shell.setItemSlot(slot, this.getItemBySlot(slot).copy());
+//            }
+//
+//            if (savePowerUp) {
+//                if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
+//                    entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
+//                    entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
+//                    entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+//                    entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+//                    shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+//                    shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
+//                }
+//
+//                AccessoriesCapability capability = AccessoriesCapability.get(this);
+//                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+//                        && this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+//                    String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+//                    for (String slotType : slotTypes) {
+//                        AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
+//                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(shell, slotType));
+//                        if (container != null) {
+//                            ItemStack stack = container.getAccessories().getItem(0);
+//                            if (containerEntity != null)
+//                                containerEntity.getAccessories().setItem(0, stack);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            this.level().addFreshEntity(shell);
+//            this.remove(RemovalReason.DISCARDED);
+//        }
+//    }
 
     public void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
         AttributeInstance fromAttr = this.getAttribute(attribute);

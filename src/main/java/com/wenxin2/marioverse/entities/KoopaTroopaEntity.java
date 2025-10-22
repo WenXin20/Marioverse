@@ -163,7 +163,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
-        if (this.isPassenger()) {
+        if ((this.isPassenger() && !(this.getVehicle() instanceof LivingEntity))) {
             event.setAndContinue(SIT);
             return PlayState.CONTINUE;
         }
@@ -251,6 +251,12 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
         if (MobEffectUtil.hasDigSpeed(this))
             return 10 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
         else return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
+    }
+
+    @NotNull
+    @Override
+    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
+        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.client.renderers.blocks.PottedPiranhaPlantBlockEnt
 import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.BooRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.DryBonesRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.HeftyGoombaRenderer;
@@ -167,6 +168,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.SUPER_STAR.get(), SuperStarRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.BOO.get(), BooRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES.get(), DryBonesRenderer::new);
         event.registerEntityRenderer(EntityRegistry.FIRE_GOOMBA.get(), FireGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOOMBA.get(), GoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOLD_KOOPA_SHELL.get(), KoopaShellRenderer::new);

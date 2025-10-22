@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.BooEntity;
+import com.wenxin2.marioverse.entities.DryBonesEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
@@ -65,6 +66,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO =
             Marioverse.ENTITIES.register("boo", () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
                     .sized(0.6875F, 0.6875F).ridingOffset(0.1F).fireImmune().build("boo"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
+            Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
+                    .sized(0.8F, 1.65F).fireImmune().build("dry_bones"));
     public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
             Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
                     .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
@@ -143,7 +147,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 0.8F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F);
@@ -153,7 +156,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_SPEED, 1.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.GRAVITY, 0.08F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
@@ -164,7 +166,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
                 .add(Attributes.GRAVITY, 0.08F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
@@ -193,6 +194,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
 
+        event.put(EntityRegistry.DRY_BONES.get(), koopaAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());
@@ -206,7 +208,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 2.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.ATTACK_SPEED, 0.8F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.MOVEMENT_SPEED, 0.6F).build());
 
@@ -214,7 +215,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.ATTACK_SPEED, 0.8F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
@@ -223,7 +223,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 3.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5F)
                 .add(Attributes.ATTACK_SPEED, 0.8F)
-                .add(Attributes.FOLLOW_RANGE, 12.0F)
                 .add(Attributes.MAX_HEALTH, 12)
                 .add(Attributes.MOVEMENT_SPEED, 0.6F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 9.0F).build());
@@ -241,7 +240,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 5.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.2F)
                 .add(Attributes.ATTACK_SPEED, 0.6F)
-                .add(Attributes.FOLLOW_RANGE, 16.0F)
                 .add(Attributes.MAX_HEALTH, 16)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 8.0F).build());
@@ -258,7 +256,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.2F)
-                .add(Attributes.FOLLOW_RANGE, 8.0F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.6F).build());
     }
