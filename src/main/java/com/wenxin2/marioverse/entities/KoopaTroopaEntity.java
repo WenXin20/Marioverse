@@ -97,6 +97,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
+    public static final RawAnimation SIT = RawAnimation.begin().thenLoop("misc.sit");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean isHiding;
@@ -157,6 +158,11 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
+        if (this.isPassenger()) {
+            event.setAndContinue(SIT);
+            return PlayState.CONTINUE;
+        }
+
         if (!this.isHiding()) {
             if (event.isMoving() || this.getDeltaMovement().horizontalDistance() >= 0.01) {
                 event.setAndContinue(WALK);
