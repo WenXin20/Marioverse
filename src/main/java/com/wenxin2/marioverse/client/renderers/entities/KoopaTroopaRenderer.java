@@ -145,7 +145,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                 } else if (stack.getItem() instanceof BlockItem) {
                     poseStack.scale(0.85F, 0.85F, 0.85F);
                     poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-                    poseStack.translate(0.0F, 0.6F, 0.1F);
+                    poseStack.translate(0.0F, 0.575F, 0.1F);
                 } else {
                     poseStack.scale(0.6F, 0.6F, 0.6F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
