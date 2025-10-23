@@ -576,9 +576,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                         livingEntity.hurtMarked = true;
                     }
                     if (applyCollisionDamage && !livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)) {
+                        float damageAmount = livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTER_CAN_INSTAKILL)
+                                ? Float.MAX_VALUE : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
                         if (this.getOwner() != null)
-                            livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
-                        else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                            livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), damageAmount);
+                        else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), damageAmount);
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;

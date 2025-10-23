@@ -30,6 +30,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.BOO.get())
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(EntityTypeTags.FALL_DAMAGE_IMMUNE)
@@ -60,6 +61,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
+        tag(EntityTypeTags.SKELETONS)
+                .add(EntityRegistry.DRY_BONES.get());
+
         tag(TagRegistry.BOO_CAN_ATTACK)
                 .add(EntityType.PLAYER);
 
@@ -88,6 +92,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
         tag(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
                 .add(EntityRegistry.MEGA_GOOMBA.get())
@@ -97,6 +102,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.SLIME)
                 .add(EntityType.TURTLE)
@@ -132,6 +138,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(EntityTypeTags.ILLAGER)
                 .addTag(EntityTypeTags.ILLAGER_FRIENDS)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.CREEPER)
@@ -161,6 +168,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(EntityTypeTags.ILLAGER)
                 .addTag(EntityTypeTags.ILLAGER_FRIENDS)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
                 .add(EntityRegistry.MEGA_GOOMBA.get())
@@ -224,6 +232,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.BOO.get());
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
@@ -241,6 +250,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -265,6 +275,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.BOO.get())
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
@@ -288,6 +299,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -309,6 +321,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -330,6 +343,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -354,6 +368,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.DECORATED_POT_CANNOT_SPAWN);
 
+        tag(TagRegistry.DRY_BONES_CAN_ATTACK)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.FIRE_GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)
                 .add(EntityType.PIGLIN)
@@ -371,6 +388,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.FIREBALL_IMMUNE)
                 .add(EntityRegistry.BOO.get())
+                .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.FIRE_FLOWER.get());
 
         tag(TagRegistry.ICE_BALL_CAN_INSTAKILL);
@@ -385,18 +403,21 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.BOO.get());
 
-        tag(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)
-                .addTag(Tags.EntityTypes.BOSSES)
-                .addTag(TagRegistry.POWER_UP_ENTITIES)
-                .add(EntityRegistry.BOO.get())
-                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
-
         tag(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .add(EntityRegistry.BOO.get())
                 .add(EntityType.ELDER_GUARDIAN)
                 .add(EntityType.WARDEN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
+
+        tag(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.POWER_UP_ENTITIES)
+                .add(EntityRegistry.BOO.get())
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
+
+        tag(TagRegistry.ICE_CUBE_SHATTER_CAN_INSTAKILL)
+                .add(EntityRegistry.DRY_BONES.get());
 
         tag(TagRegistry.IRON_SPIKE_IMMUNE)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
@@ -405,7 +426,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
-                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES);
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get());
 
         tag(TagRegistry.GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)

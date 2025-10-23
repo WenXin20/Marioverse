@@ -19,6 +19,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
+    public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA = biomeTags("has_koopa_troopa");
@@ -198,6 +199,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
+    public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
     public static final TagKey<EntityType<?>> EQUIP_COSTUMES_IN_ARMOR_SLOTS = entityTypeTags("equip_costumes_in_armor_slots");
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");
@@ -217,6 +219,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> ICE_CUBE_COLLISION_CANNOT_DAMAGE = entityTypeTags("ice_cube_collision_cannot_damage");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
+    public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CAN_INSTAKILL = entityTypeTags("ice_cube_shatter_can_instakill");
     public static final TagKey<EntityType<?>> IRON_SPIKE_IMMUNE = entityTypeTags("iron_spike_immune");
     public static final TagKey<EntityType<?>> KOOPA_CAN_RIDE = entityTypeTags("koopa_can_ride");
     public static final TagKey<EntityType<?>> KOOPA_SHELL_CANNOT_DAMAGE = entityTypeTags("koopa_shell_cannot_damage");
