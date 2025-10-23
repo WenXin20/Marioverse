@@ -44,7 +44,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
         super(renderManager, new KoopaTroopaModel());
         this.shadowRadius = 0.5F;
 
-        addRenderLayer(new ItemArmorGeoLayer<>(this) {
+        this.addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
             protected ItemStack getArmorItemForBone(GeoBone bone, KoopaTroopaEntity animatable) {
@@ -90,12 +90,12 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                                               MultiBufferSource bufferSource, int packedLight) {
                 poseStack.scale(1.0F, 1.0F, 1.0F);
                 poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-                poseStack.translate(0.0F, 0.1F, 0.75F);
+                poseStack.translate(0.0F, 0.05F, 0.75F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
 
-        addRenderLayer(new BlockAndItemGeoLayer<>(this) {
+        this.addRenderLayer(new BlockAndItemGeoLayer<>(this) {
             @Nullable
             @Override
             protected ItemStack getStackForBone(GeoBone bone, KoopaTroopaEntity animatable) {
@@ -145,7 +145,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                 } else if (stack.getItem() instanceof BlockItem) {
                     poseStack.scale(0.85F, 0.85F, 0.85F);
                     poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-                    poseStack.translate(0.0F, 0.575F, 0.1F);
+                    poseStack.translate(0.0F, 0.5F, 0.1F);
                 } else {
                     poseStack.scale(0.6F, 0.6F, 0.6F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
