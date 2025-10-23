@@ -1,5 +1,6 @@
-// 1.21.1	2025-10-21T12:48:51.367154	Tags for minecraft:worldgen/biome mod id marioverse
+// 1.21.1	2025-10-23T00:44:07.6520948	Tags for minecraft:worldgen/biome mod id marioverse
 5f176659fa27569cc678ddae4a306c2055a89a16 data/marioverse/tags/worldgen/biome/has_boo.json
+7acd972b7a034b9ad9e174b14c2d0693c3d4481d data/marioverse/tags/worldgen/biome/has_dry_bones.json
 a24545b58f3f91c6c033586e2b2ae12f1e8131b1 data/marioverse/tags/worldgen/biome/has_fire_goomba.json
 49942e862cb4de70df0c81665840dffe0480f19c data/marioverse/tags/worldgen/biome/has_goomba.json
 ffeac0eb2f16f41a9287b9ec7716ce8d288ab6de data/marioverse/tags/worldgen/biome/has_koopa_troopa.json

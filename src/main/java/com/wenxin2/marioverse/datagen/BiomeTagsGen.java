@@ -21,6 +21,10 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         tag(TagRegistry.HAS_BOO)
                 .add(Biomes.DARK_FOREST);
 
+        tag(TagRegistry.HAS_DRY_BONES)
+                .add(Biomes.DARK_FOREST)
+                .add(Biomes.SOUL_SAND_VALLEY);
+
         tag(TagRegistry.HAS_FIRE_GOOMBA)
                 .addTag(BiomeTags.IS_NETHER);
 
