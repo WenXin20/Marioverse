@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
@@ -28,8 +29,9 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
     public BooRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new BooModel());
         this.shadowRadius = 0.6F;
+        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
 
-        addRenderLayer(new ItemArmorGeoLayer<>(this) {
+        this.addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
             @Override
             protected ItemStack getArmorItemForBone(GeoBone bone, BooEntity animatable) {
@@ -66,7 +68,7 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
             }
         });
 
-        addRenderLayer(new BlockAndItemGeoLayer<>(this) {
+        this.addRenderLayer(new BlockAndItemGeoLayer<>(this) {
             @Nullable
             @Override
             protected ItemStack getStackForBone(GeoBone bone, BooEntity animatable) {
