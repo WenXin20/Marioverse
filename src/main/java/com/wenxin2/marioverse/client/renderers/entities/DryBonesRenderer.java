@@ -87,9 +87,9 @@ public class DryBonesRenderer extends GeoEntityRenderer<DryBonesEntity> {
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.5F, 1.5F, 1.5F);
+                poseStack.scale(1.35F, 1.35F, 1.35F);
                 poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-//                poseStack.translate(0.0F, 0.1F, 0.75F);
+                poseStack.translate(0.0F, -0.52F, 0.5F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -142,9 +142,9 @@ public class DryBonesRenderer extends GeoEntityRenderer<DryBonesEntity> {
                         poseStack.mulPose(Axis.YP.rotationDegrees(180));
                     }
                 } else if (stack.getItem() instanceof BlockItem) {
-                    poseStack.scale(1.0F, 1.0F, 1.0F);
+                    poseStack.scale(1.15F, 1.125F, 1.15F);
                     poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-//                    poseStack.translate(0.0F, 0.6F, 0.1F);
+                    poseStack.translate(0.0F, -0.1F, 0.0F);
                 } else {
                     poseStack.scale(0.6F, 0.6F, 0.6F);
                     poseStack.mulPose(Axis.XP.rotationDegrees(-30));

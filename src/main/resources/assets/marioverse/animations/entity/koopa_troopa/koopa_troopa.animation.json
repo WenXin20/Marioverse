@@ -335,81 +335,93 @@
 			"loop": true,
 			"animation_length": 4,
 			"bones": {
-				"bipedBody": {
+				"shell": {
 					"rotation": {
 						"vector": [-45, 0, 0]
 					},
 					"position": {
-						"vector": [0, -9, 2]
+						"vector": [0, -8, -3]
 					}
 				},
 				"tail": {
 					"rotation": {
-						"vector": [-30, 0, 0]
+						"vector": [-75, 0, 0]
 					},
 					"position": {
-						"vector": [0, 2, -2]
+						"vector": [0, -3.5, -7.25]
 					}
 				},
 				"bipedHead": {
-					"rotation": {
-						"vector": [45, 0, 0]
+					"position": {
+						"vector": [0, -3, 4]
 					}
 				},
 				"bipedLeftArm": {
 					"rotation": {
 						"0.0": {
-							"vector": [0, 0, 0]
+							"vector": [-50, 0, -25]
 						},
 						"1.0": {
-							"vector": [-2.5, 0, -3.9],
+							"vector": [-52.5, 0, -29],
 							"easing": "linear"
 						},
 						"2.0": {
-							"vector": [0, 0, -7.5],
+							"vector": [-50, 0, -32.5],
 							"easing": "linear"
 						},
 						"3.0": {
-							"vector": [2.5, 0, -3.9],
+							"vector": [-48.5, 0, -29],
 							"easing": "linear"
 						},
 						"4.0": {
-							"vector": [0, 0, 0],
+							"vector": [-50, 0, -25],
 							"easing": "linear"
 						}
+					},
+					"position": {
+						"vector": [0, -7, -2]
 					}
 				},
 				"bipedRightArm": {
 					"rotation": {
 						"0.0": {
-							"vector": [0, 0, 0]
+							"vector": [-50, 0, 25]
 						},
 						"1.0": {
-							"vector": [2.5, 0, 2.03],
+							"vector": [-48.5, 0, 29],
 							"easing": "linear"
 						},
 						"2.0": {
-							"vector": [0, 0, 7.5],
+							"vector": [-50, 0, 32.5],
 							"easing": "linear"
 						},
 						"3.0": {
-							"vector": [-2.5, 0, 2.03],
+							"vector": [-52.5, 0, 27],
 							"easing": "linear"
 						},
 						"4.0": {
-							"vector": [0, 0, 0],
+							"vector": [-50, 0, 25],
 							"easing": "linear"
 						}
+					},
+					"position": {
+						"vector": [0, -7, -2]
 					}
 				},
 				"bipedLeftLeg": {
 					"rotation": {
-						"vector": [-45, 0, 0]
+						"vector": [-90, 0, 0]
+					},
+					"position": {
+						"vector": [0, -7, -6]
 					}
 				},
 				"bipedRightLeg": {
 					"rotation": {
-						"vector": [-45, 0, 0]
+						"vector": [-90, 0, 0]
+					},
+					"position": {
+						"vector": [0, -7, -6]
 					}
 				}
 			}

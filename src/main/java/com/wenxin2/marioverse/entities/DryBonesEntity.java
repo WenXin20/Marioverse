@@ -128,11 +128,11 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false)); // TODO: change tags
-        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GOOMBA_CAN_ATTACK, true));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
     @Override
@@ -182,7 +182,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
-        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
+        return new Vec3(0.0D, this.getBbHeight() - 0.3D, 0.0D);
     }
 
     @Override
