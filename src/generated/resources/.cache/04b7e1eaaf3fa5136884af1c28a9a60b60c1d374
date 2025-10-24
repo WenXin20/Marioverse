@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-20T21:22:51.5617369	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-10-23T23:57:23.1931684	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -59,7 +59,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/item/flammable_wooden_bridges.json
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_wooden_bridge_stairs.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
-05f361621c61980a5a9a9320d826eaa9ea306050 data/marioverse/tags/item/halloween_masks.json
+8e8620f9d08b6691c8d8ebd6d2024858f829f602 data/marioverse/tags/item/halloween_masks.json
 7636af603caacf0f0609bbca29ceea078db00eb7 data/marioverse/tags/item/hats.json
 5c353cb3a21e801dc03368da81093986e2299024 data/marioverse/tags/item/hats/luigi.json
 696b597d91f6761a77afd6fdbf6d71a401d9598e data/marioverse/tags/item/hats/mario.json

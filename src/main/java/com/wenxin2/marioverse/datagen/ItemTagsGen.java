@@ -24,6 +24,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     private static final ResourceLocation CREATE_SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
     private static final ResourceLocation SUPP_DEEPSLATE_LAMP = ResourceLocation.fromNamespaceAndPath("supplementaries", "deepslate_lamp");
     private static final ResourceLocation SUPP_ENDERMAN_HEAD = ResourceLocation.fromNamespaceAndPath("supplementaries", "enderman_head");
+    private static final ResourceLocation VISTA_TV = ResourceLocation.fromNamespaceAndPath("vista", "television");
 
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                        CompletableFuture<TagsProvider.TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
@@ -182,7 +183,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.SCULK_SHRIEKER)
                 .addOptional(CREATE_CARDBOARD_HELMET)
                 .addOptional(SUPP_DEEPSLATE_LAMP)
-                .addOptional(SUPP_ENDERMAN_HEAD);
+                .addOptional(SUPP_ENDERMAN_HEAD)
+                .addOptional(VISTA_TV);
 
         tag(TagRegistry.KOOPA_SHELL_ITEMS)
                 .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
