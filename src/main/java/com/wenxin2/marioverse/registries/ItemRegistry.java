@@ -106,6 +106,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
+    public static final DeferredItem<Item> WHITE_KOOPA_SHOES;
     public static final DeferredItem<Item> WRENCH;
 
     static {
@@ -162,6 +163,9 @@ public class ItemRegistry {
                 () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         RED_KOOPA_SHOES = registerItem("red_koopa_shoes",
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        WHITE_KOOPA_SHOES = registerItem("white_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 

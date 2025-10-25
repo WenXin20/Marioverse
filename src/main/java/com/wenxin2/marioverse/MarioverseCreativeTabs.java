@@ -105,6 +105,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
             add(event, ItemRegistry.RED_KOOPA_SHOES);
             add(event, ItemRegistry.GOLDEN_KOOPA_SHOES);
+            add(event, ItemRegistry.WHITE_KOOPA_SHOES);
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN);
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN);
@@ -537,6 +538,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.GREEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHOES, ItemRegistry.GOLDEN_KOOPA_SHOES);
+                addAfter(event, ItemRegistry.GOLDEN_KOOPA_SHOES, ItemRegistry.WHITE_KOOPA_SHOES);
             }
 
             if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {

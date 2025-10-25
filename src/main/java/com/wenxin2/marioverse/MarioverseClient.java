@@ -79,9 +79,12 @@ public class MarioverseClient {
 
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
@@ -94,6 +97,7 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
@@ -106,6 +110,7 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_CROWN.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_BODICE.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_DRESS.get(), () -> ArmorRenderingExtension.RENDERER);

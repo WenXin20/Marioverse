@@ -117,6 +117,11 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return 180;
     }
 
+    @NotNull
+    public Item getKoopaShoes() {
+        return ItemRegistry.WHITE_KOOPA_SHOES.get();
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -236,9 +241,9 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
 
-        if (random.nextFloat() < 0.01F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+        if (random.nextFloat() < 0.005F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
-        if (random.nextFloat() < 0.25F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
+        if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
         else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
@@ -357,11 +362,6 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return !serverWorld.getBlockState(pos.below()).is(Blocks.NETHER_WART_BLOCK)
                 && serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER;
     }
-
-    @NotNull
-    public Item getKoopaShoes() {
-        return ItemRegistry.GREEN_KOOPA_SHOES.get();
-    } //TODO
 
     public void spawnDryBonesPart(DryBonesPartEntity entity, DryBonesPartEntity.PartType type, boolean saveArmor, boolean savePowerUp) {
         float randomRotation = this.random.nextFloat() * 360.0F;

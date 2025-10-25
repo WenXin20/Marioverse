@@ -220,7 +220,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.KOOPA_SHOES)
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
-                .add(ItemRegistry.RED_KOOPA_SHOES.get());
+                .add(ItemRegistry.RED_KOOPA_SHOES.get())
+                .add(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
         tag(TagRegistry.COSTUMES)
                 .addTag(TagRegistry.LUIGI_COSTUMES)
