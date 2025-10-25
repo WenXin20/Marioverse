@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.DryBonesPartModel;
 import com.wenxin2.marioverse.entities.DryBonesPartEntity;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
-import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
