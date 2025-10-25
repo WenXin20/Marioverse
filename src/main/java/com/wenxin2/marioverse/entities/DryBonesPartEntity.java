@@ -246,8 +246,9 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
         if (!this.level().isClientSide && !this.noPhysics
                 && !(entity instanceof DryBonesPartEntity)) {
-            this.setYRot(this.getYRot() + 2.0F);
-            this.yRotO = this.getYRot();
+            this.setYRot(this.getYRot() + 8.0F);
+            this.yRotO = this.getYRot() + 8.0F;
+            this.setYHeadRot(this.getYRot() + 8.0F);
         }
     }
 

@@ -90,7 +90,7 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
                                               MultiBufferSource bufferSource, int packedLight) {
                 poseStack.scale(1.0F, 1.0F, 1.0F);
                 poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-                poseStack.translate(0.0F, 0.0F, 0.0F);
+                poseStack.translate(0.0F, 0.0F, 0.25F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
