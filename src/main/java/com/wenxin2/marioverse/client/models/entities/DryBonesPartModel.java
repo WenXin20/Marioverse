@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.DryBonesPartEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -36,6 +37,8 @@ public class DryBonesPartModel extends GeoModel<DryBonesPartEntity> {
 
     @Override
     public ResourceLocation getTextureResource(DryBonesPartEntity animatable) {
+        if (animatable.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN) == 0)
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/dry_bones/dry_bones.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/dry_bones/dry_bones_dead.png");
     }
 

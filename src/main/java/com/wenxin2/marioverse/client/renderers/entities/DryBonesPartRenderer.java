@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
 
@@ -41,6 +42,7 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
     public DryBonesPartRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new DryBonesPartModel());
         this.shadowRadius = 0.15F;
+        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
 
         this.addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
@@ -176,6 +178,6 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
         if (animatable.getPartType() == DryBonesPartEntity.PartType.HEAD
                 || animatable.getPartType() == DryBonesPartEntity.PartType.SHELL)
             return 0.5F;
-        return super.getShadowRadius(animatable);
+        return 0.15F;
     }
 }
