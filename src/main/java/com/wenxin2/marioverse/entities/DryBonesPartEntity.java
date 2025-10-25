@@ -111,7 +111,8 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
             tag.putUUID("Owner", this.ownerUUID);
         if (this.leftOwner)
             tag.putBoolean("LeftOwner", true);
-        tag.putString("Type", this.type);
+        if (this.type != null)
+            tag.putString("Type", this.type);
     }
 
     @Override
@@ -159,11 +160,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
         if (!this.level().isClientSide && reattachmentCountdown == 0) {
             this.noPhysics = true;
-            if (this.getOwner() != null) {
+            if (this.getOwnerUUID() != null) {
                 List<DryBonesPartEntity> parts = this.level().getEntitiesOfClass(DryBonesPartEntity.class,
                         this.getBoundingBox().inflate(32.0D),
-                        partEntity -> partEntity.getOwner() != null
-                                && this.getOwner().getUUID().equals(partEntity.getOwner().getUUID()));
+                        partEntity -> partEntity.getOwnerUUID() != null
+                                && this.getOwnerUUID().equals(partEntity.getOwnerUUID()));
 
                 DryBonesPartEntity shell = null;
                 DryBonesPartEntity head = null;
@@ -177,19 +178,20 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                 }
 
                 if (shell != null && head != null) {
-                    boolean allClose = false;
+                    boolean allClose = true;
 
                     for (DryBonesPartEntity part : parts) {
                         if (part != shell) {
                             Vec3 dir = shell.position().subtract(part.position());
                             double dist = dir.length();
-                            Vec3 motion = dir.normalize().scale(0.25D);
+                            double speed = 0.01D;
+                            Vec3 motion = dir.normalize().scale(speed);
 
                             if (dist > 0.1D)
-                                part.setDeltaMovement(part.getDeltaMovement().add(motion));
+                                part.setDeltaMovement(part.getDeltaMovement().scale(0.9D).add(motion));
 
-                            if (dist <= 1.0D)
-                                allClose = true;
+                            if (dist > 0.15D)
+                                allClose = false;
                         }
                     }
 
@@ -261,6 +263,14 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         }
     }
 
+    public void setOwnerUUID(@Nullable UUID ownerUUID) {
+        this.ownerUUID = ownerUUID;
+    }
+
+    public UUID getOwnerUUID() {
+        return ownerUUID;
+    }
+
     @Override
     public void restoreFrom(Entity entity) {
         super.restoreFrom(entity);
@@ -270,7 +280,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
     @NotNull
     public SimpleParticleType getShatterParticle() {
-        return ParticleTypes.WHITE_ASH;
+        return ParticleTypes.POOF;
     }
 
     protected boolean ownedBy(Entity entity) {
@@ -398,34 +408,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                         entity, height * 1.55F + 0.1F, width * 1.55F);
         }
 
-        if (this.getDeathSound() != null)
-            this.playSound(this.getDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-    }
-
-    protected void spawnTrailParticles() {
-        BlockPos posLegacy = this.getOnPosLegacy();
-        BlockState state = this.level().getBlockState(posLegacy);
-        float scale = (float) this.getAttributeValue(Attributes.SCALE);
-        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
-
-        if (!state.addRunningEffects(this.level(), posLegacy, this)) {
-            if (state.getRenderShape() != RenderShape.INVISIBLE) {
-                Vec3 vec3 = this.getDeltaMovement();
-                BlockPos pos = this.blockPosition();
-                double x = this.getX() + (this.random.nextDouble() - 0.5) * scale * widthScale;
-                double z = this.getZ() + (this.random.nextDouble() - 0.5) * scale * widthScale;
-                if (pos.getX() != posLegacy.getX())
-                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
-
-                if (pos.getZ() != posLegacy.getZ())
-                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
-
-                this.trailParticles(state, posLegacy, x, z, vec3);
-            }
-        }
-    }
-
-    public void trailParticles(BlockState state, BlockPos posLegacy, double x, double z, Vec3 vec3) {
-        this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(posLegacy), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
+        if (this.getAmbientSound() != null) // TODO
+            this.playSound(this.getAmbientSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
     }
 }

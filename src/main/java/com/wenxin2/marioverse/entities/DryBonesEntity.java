@@ -370,8 +370,12 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         float width = this.getDimensions(this.getPose()).width() / 2.0F;
         double xOffset = Math.cos(angle) * width / 2;
         double zOffset = Math.sin(angle) * width / 2;
+        if (type == DryBonesPartEntity.PartType.HEAD) {
+            xOffset = xOffset * 1.5;
+            zOffset = zOffset * 1.5;
+        }
 
-        entity.setOwner(this);
+        entity.setOwnerUUID(this.getUUID());
         entity.setPos(this.getX(), this.getY(), this.getZ());
         entity.setYRot(randomRotation);
         entity.yBodyRot = randomRotation;
@@ -383,7 +387,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         entity.setPartType(type);
 
         entity.moveTo(this.getX() + xOffset, this.getY() + 0.5, this.getZ() + zOffset, randomRotation, 0.0F);
-        entity.setDeltaMovement(xOffset * 0.25, upwardMotion, zOffset * 0.25);
+        entity.setDeltaMovement(xOffset * 0.05, upwardMotion, zOffset * 0.05);
         entity.move(MoverType.SELF, entity.getDeltaMovement());
 
         if (this.isPersistenceRequired())

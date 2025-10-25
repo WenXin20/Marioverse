@@ -600,6 +600,13 @@
 
   "entity.marioverse.boo": "Boo",
   "entity.marioverse.dry_bones": "Dry Bones",
+  "entity.marioverse.dry_bones_head": "Dry Bones' Head",
+  "entity.marioverse.dry_bones_left_arm": "Dry Bones' Left Arm",
+  "entity.marioverse.dry_bones_left_leg": "Dry Bones' Left Leg",
+  "entity.marioverse.dry_bones_right_arm": "Dry Bones' Right Arm",
+  "entity.marioverse.dry_bones_right_leg": "Dry Bones' Right Leg",
+  "entity.marioverse.dry_bones_shell": "Dry Bones' Shell",
+  "entity.marioverse.dry_bones_tail": "Dry Bones' Tail",
   "entity.marioverse.fire_goomba": "Fire Goomba",
   "entity.marioverse.goomba": "Goomba",
   "entity.marioverse.gold_koopa_shell": "Gold Koopa Shell",
