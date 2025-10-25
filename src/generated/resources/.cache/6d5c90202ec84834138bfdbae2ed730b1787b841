@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-18T22:00:29.8816051	Tags for minecraft:damage_type mod id marioverse
+// 1.21.1	2025-10-25T12:16:37.5304285	Tags for minecraft:damage_type mod id marioverse
 32ba68d892af642ca5183860145216dba61d4346 data/marioverse/tags/damage_type/bypasses_boo_invulnerability.json
 664f58c06681c01c00040be881da7374b6bad6df data/marioverse/tags/damage_type/bypasses_super_star.json
 cd4fbc77a0e05abed25c4e560803d98d5c7c9bb7 data/marioverse/tags/damage_type/flips_koopa_shell.json
@@ -13,6 +13,7 @@ ce9c860ae5eb372d2f0ff25cf6db665ebd70f01b data/marioverse/tags/damage_type/is_shr
 150d5bc95f5a4790cd8852754fb7037e7bb9a06d data/marioverse/tags/damage_type/is_spinning_shell.json
 61e7ec6d44a7741b68ab80d3c0e643f4cda61168 data/marioverse/tags/damage_type/is_stomp.json
 57cc73e219d6d846a77b7d763520b0b5d40b9df0 data/marioverse/tags/damage_type/is_super_star.json
+724bb206fb843961ac7d5e952d652124c88f857a data/marioverse/tags/damage_type/prevents_dry_bones_resurrection.json
 6548f40b66401da67eb93b026b2bca92c9ccac1b data/marioverse/tags/damage_type/shield_blocks.json
 692569cbc82b8f1f15efe3e49780724150461423 data/marioverse/tags/damage_type/stops_koopa_shell.json
 a032a35ee8823801448489aa01c072c63d991e0f data/minecraft/tags/damage_type/bypasses_armor.json

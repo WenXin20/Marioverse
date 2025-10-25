@@ -168,7 +168,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         Level world = this.level();
 
         if (!this.level().isClientSide) {
-            if (!source.is(DamageTypeTags.IS_FIRE)) { //TODO
+            if (!source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)) {
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
                         DryBonesPartEntity.PartType.HEAD, true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
@@ -190,14 +190,14 @@ public class DryBonesEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean shouldDropExperience() {
-        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(DamageTypeTags.IS_FIRE))
+        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
             return false;
         return true;
     }
 
     @Override
     protected boolean shouldDropLoot() {
-        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(DamageTypeTags.IS_FIRE))
+        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
             return false;
         return true;
     }

@@ -103,5 +103,14 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .addTag(TagRegistry.IS_ICE_CUBE_CRUSHED)
                 .addTag(TagRegistry.IS_PIRANHA_CHOMP)
                 .addTag(TagRegistry.IS_SPINNING_SHELL);
+
+        tag(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)
+                .addTag(TagRegistry.IS_ICE_CUBE_CRUSHED)
+                .addTag(TagRegistry.IS_SPINNING_SHELL)
+                .addTag(TagRegistry.IS_SUPER_STAR)
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .addTag(DamageTypeTags.IS_EXPLOSION)
+                .addTag(DamageTypeTags.IS_FREEZING)
+                .add(DamageTypes.DROWN);
     }
 }
