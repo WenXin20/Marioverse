@@ -462,6 +462,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             frozenEntityData.putFloat("Scale", scale);
             frozenEntityData.putFloat("HeightScale", heightScale);
             frozenEntityData.putFloat("WidthScale", widthScale);
+            if (entity instanceof TraceableEntity traceable && traceable.getOwner() != null)
+                frozenEntityData.putUUID("OwnerUUID", traceable.getOwner().getUUID());
 
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
@@ -567,6 +569,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             });
 
             if (entity != null) {
+                serverWorld.addFreshEntity(entity);
+
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - livingEntity.getMaxFallDistance());
@@ -589,7 +593,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
-                serverWorld.addFreshEntity(entity);
+                if (entity instanceof DryBonesPartEntity part)
+                    part.setOwnerUUID(frozenEntityData.getUUID("OwnerUUID"));
+                if (entity instanceof KoopaShellEntity koopaShell) {
+                    UUID ownerUUID = frozenEntityData.getUUID("OwnerUUID");
+                    Entity ownerEntity = ((ServerLevel) entity.level()).getEntity(ownerUUID);
+                    koopaShell.setOwner(ownerEntity);
+                }
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());

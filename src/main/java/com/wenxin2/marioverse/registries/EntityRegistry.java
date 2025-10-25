@@ -106,7 +106,7 @@ public class EntityRegistry {
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("gold_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaTroopaEntity>> GOLD_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("gold_koopa_troopa", () -> EntityType.Builder.of(GoldKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("gold_koopa_troopa"));
+                    .sized(0.8F, 1.65F).eyeHeight(1.4F).build("gold_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL =
             Marioverse.ENTITIES.register("green_koopa_shell", () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.AMBIENT)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("green_koopa_shell"));
@@ -128,7 +128,7 @@ public class EntityRegistry {
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("red_koopa_troopa", () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).eyeHeight(1.4F).ridingOffset(-0.3F).build("red_koopa_troopa"));
+                    .sized(0.8F, 1.65F).eyeHeight(1.4F).build("red_koopa_troopa"));
     public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
@@ -173,13 +173,13 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.MAX_HEALTH, 2)
                 .add(Attributes.SAFE_FALL_DISTANCE, 16.0F)
-                .add(Attributes.STEP_HEIGHT, 5.0F);
+                .add(Attributes.STEP_HEIGHT, 2.0F);
         AttributeSupplier.Builder dryBonesHeadAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.SAFE_FALL_DISTANCE, 16.0F)
-                .add(Attributes.STEP_HEIGHT, 5.0F);
+                .add(Attributes.STEP_HEIGHT, 2.0F);
         AttributeSupplier.Builder koopaAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)

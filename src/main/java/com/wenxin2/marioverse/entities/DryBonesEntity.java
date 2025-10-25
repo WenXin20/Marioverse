@@ -209,18 +209,16 @@ public class DryBonesEntity extends Monster implements GeoEntity {
 
     @Override
     public int getCurrentSwingDuration() {
-        if (MobEffectUtil.hasDigSpeed(this)) {
+        if (MobEffectUtil.hasDigSpeed(this))
             return 10 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
-        } else {
-            return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
-        }
+        else return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
     }
 
     @NotNull
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
         if (entity instanceof KoopaTroopaEntity || entity instanceof DryBonesEntity)
-            return new Vec3(0.0D, this.getBbHeight() - 0.3D, 0.0D);
+            return new Vec3(0.0D, this.getBbHeight() - 0.5D, 0.0D);
         return super.getPassengerAttachmentPoint(entity, dimensions, height);
     }
 
@@ -373,8 +371,8 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         double xOffset = Math.cos(angle) * width * 1.15;
         double zOffset = Math.sin(angle) * width * 1.15;
         if (type == DryBonesPartEntity.PartType.HEAD) {
-            xOffset = xOffset * 2.0;
-            zOffset = zOffset * 2.0;
+            xOffset = xOffset * 4.0;
+            zOffset = zOffset * 4.0;
         } else if (type == DryBonesPartEntity.PartType.SHELL) {
             xOffset = 0;
             zOffset = 0;

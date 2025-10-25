@@ -90,10 +90,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     protected void playStepSound(BlockPos pos, BlockState state) {}
 
     @Override
-    protected void registerGoals() {
-    }
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "shake", 5, this::shakeAnimation));
     }
@@ -176,6 +172,8 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                 this.setData(DataAttachmentRegistry.FAIL_TIMER, failTimer + 1);
             if (failTimer >= 300) {
                 this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, -1);
+                this.noPhysics = false;
+                this.setNoGravity(false);
                 return;
             }
 
@@ -190,10 +188,12 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
                 for (DryBonesPartEntity part : parts) {
                     if (part.getPartType() == PartType.SHELL) shell = part;
-                }
-
-                for (DryBonesPartEntity part : parts) {
                     if (part.getPartType() == PartType.HEAD) head = part;
+
+                    if (this.getPartType() != PartType.SHELL) {
+                        this.noPhysics = true;
+                        this.setNoGravity(true);
+                    }
                 }
 
                 if (shell != null && head != null) {
@@ -215,7 +215,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                     }
 
                     if (allClose) {
-                        this.spawnDryBones();
+                        this.spawnDryBones(parts);
                         this.playDeathAnimation(this);
                         for (DryBonesPartEntity part : parts)
                             part.discard();
@@ -306,6 +306,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         this.ownerUUID = ownerUUID;
     }
 
+    @Nullable
     public UUID getOwnerUUID() {
         return ownerUUID;
     }
@@ -362,63 +363,84 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         return PartType.valueOf(this.entityData.get(PART_TYPE).toUpperCase());
     }
 
-    private void spawnDryBones() {
-        DryBonesEntity entity = this.getDryBonesEntity();
+    private void spawnDryBones(List<DryBonesPartEntity> parts) {
+        if (parts.isEmpty()) return;
 
-        entity.setPos(this.getX(), this.getY(), this.getZ());
-        entity.setYRot(this.getYRot());
-        entity.setXRot(this.getXRot());
-        entity.yBodyRot = this.yBodyRot;
-        entity.setYHeadRot(this.getYHeadRot());
-        entity.setNoAi(this.isNoAi());
-        entity.setInvulnerable(this.isInvulnerable());
-        entity.setCustomName(this.getCustomName());
+        DryBonesEntity entity = parts.getFirst().getDryBonesEntity();
+        DryBonesPartEntity partSource = parts.getFirst();
 
-        if (this.isPersistenceRequired())
+        entity.setPos(partSource.getX(), partSource.getY() + 0.15, partSource.getZ());
+        entity.setYRot(partSource.getYRot());
+        entity.setXRot(partSource.getXRot());
+        entity.yBodyRot = partSource.yBodyRot;
+        entity.setYHeadRot(partSource.getYHeadRot());
+        entity.setNoAi(partSource.isNoAi());
+        entity.setInvulnerable(partSource.isInvulnerable());
+        entity.setCustomName(partSource.getCustomName());
+
+        if (partSource.isPersistenceRequired())
             entity.setPersistenceRequired();
 
-        if (this.getOwner() != null)
-            entity.setUUID(this.getOwner().getUUID());
+        if (partSource.getOwner() != null)
+            entity.setUUID(partSource.getOwner().getUUID());
 
-        if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
+        if (partSource instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
             entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
             entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
             entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, partSource.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, partSource.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
         }
 
-        this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
-        this.copyAttributeWithModifiers(entity, Attributes.SCALE);
-        this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
-        this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
+        partSource.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
+        partSource.copyAttributeWithModifiers(entity, Attributes.SCALE);
+        partSource.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
+        partSource.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
 
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            ItemStack existing = entity.getItemBySlot(slot);
-            ItemStack current = this.getItemBySlot(slot);
-
-            if (existing.isEmpty() && !current.isEmpty())
-                entity.setItemSlot(slot, current.copy());
-        }
-
-        AccessoriesCapability capability = AccessoriesCapability.get(this);
-        if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-                && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-            String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
-            for (String slotType : slotTypes) {
-                AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                if (container != null) {
-                    ItemStack stack = container.getAccessories().getItem(0);
-                    if (containerEntity != null)
-                        containerEntity.getAccessories().setItem(0, stack);
+            for (DryBonesPartEntity part : parts) {
+                ItemStack partStack = part.getItemBySlot(slot);
+                if (!partStack.isEmpty()) {
+                    ItemStack existing = entity.getItemBySlot(slot);
+                    if (existing.isEmpty()) {
+                        entity.setItemSlot(slot, partStack.copy());
+                        break;
+                    }
                 }
             }
         }
 
-        this.level().addFreshEntity(entity);
-        this.discard();
+        if (ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                && !partSource.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+            AccessoriesCapability entityCap = AccessoriesCapability.get(entity);
+            if (entityCap != null) {
+                String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+
+                for (String slotType : slotTypes) {
+                    AccessoriesContainer containerEntity = entityCap.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                    if (containerEntity == null) continue;
+
+                    for (DryBonesPartEntity part : parts) {
+                        AccessoriesCapability partCap = AccessoriesCapability.get(part);
+                        if (partCap == null) continue;
+
+                        AccessoriesContainer containerPart = partCap.getContainer(SlotTypeLoader.getSlotType(part, slotType));
+                        if (containerPart == null) continue;
+
+                        ItemStack partStack = containerPart.getAccessories().getItem(0);
+                        ItemStack existing = containerEntity.getAccessories().getItem(0);
+
+                        if (!partStack.isEmpty() && existing.isEmpty()) {
+                            containerEntity.getAccessories().setItem(0, partStack.copy());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        partSource.level().addFreshEntity(entity);
     }
 
     private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {

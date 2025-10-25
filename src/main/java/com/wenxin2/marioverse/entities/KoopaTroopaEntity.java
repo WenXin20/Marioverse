@@ -252,7 +252,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
         if (entity instanceof KoopaTroopaEntity || entity instanceof DryBonesEntity)
-            return new Vec3(0.0D, this.getBbHeight() - 0.3D, 0.0D);
+            return new Vec3(0.0D, this.getBbHeight() - 0.5D, 0.0D);
         return super.getPassengerAttachmentPoint(entity, dimensions, height);
     }
 
