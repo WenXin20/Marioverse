@@ -64,6 +64,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.SKELETONS)
                 .add(EntityRegistry.DRY_BONES.get());
 
+        tag(EntityTypeTags.UNDEAD)
+                .add(EntityRegistry.BOO.get());
+
         tag(TagRegistry.BOO_CAN_ATTACK)
                 .add(EntityType.PLAYER);
 

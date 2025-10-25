@@ -115,11 +115,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public KoopaShellEntity(EntityType<? extends KoopaShellEntity> type, Level world) {
         super(type, world);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(2);
+        this.xpReward = 6;
     }
 
     @Nullable
