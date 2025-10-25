@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.client.renderers.blocks.PottedPiranhaPlantBlockEnt
 import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.BooRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.DryBonesPartRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
@@ -182,6 +183,14 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_SHELL.get(), KoopaShellRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SPLUNKIN.get(), SplunkinRenderer::new);
+
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_HEAD.get(), DryBonesPartRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_LEFT_ARM.get(), DryBonesPartRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_LEFT_LEG.get(), DryBonesPartRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), DryBonesPartRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), DryBonesPartRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_SHELL.get(), DryBonesPartRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DRY_BONES_TAIL.get(), DryBonesPartRenderer::new);
     }
 
     @SubscribeEvent

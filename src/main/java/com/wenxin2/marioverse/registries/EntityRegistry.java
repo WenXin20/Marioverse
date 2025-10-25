@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.BooEntity;
 import com.wenxin2.marioverse.entities.DryBonesEntity;
+import com.wenxin2.marioverse.entities.DryBonesPartEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
@@ -62,6 +63,28 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR =
             Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
                     .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_HEAD =
+            Marioverse.ENTITIES.register("dry_bones_head", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.8125F, 0.5625F).fireImmune().build("dry_bones_head"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_SHELL =
+            Marioverse.ENTITIES.register("dry_bones_shell", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.7F, 0.7F).fireImmune().build("dry_bones_shell"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_TAIL =
+            Marioverse.ENTITIES.register("dry_bones_tail", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.3125F, 0.3125F).fireImmune().build("dry_bones_tail"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_LEFT_ARM =
+            Marioverse.ENTITIES.register("dry_bones_left_arm", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_left_arm"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_RIGHT_ARM =
+            Marioverse.ENTITIES.register("dry_bones_right_arm", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_right_arm"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_LEFT_LEG =
+            Marioverse.ENTITIES.register("dry_bones_left_leg", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_left_leg"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_RIGHT_LEG =
+            Marioverse.ENTITIES.register("dry_bones_right_leg", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_right_leg"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO =
             Marioverse.ENTITIES.register("boo", () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
@@ -145,6 +168,16 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
+        AttributeSupplier.Builder dryBonesPartAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.0F)
+                .add(Attributes.MAX_HEALTH, 2)
+                .add(Attributes.SAFE_FALL_DISTANCE, 16.0F);
+        AttributeSupplier.Builder dryBonesHeadAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.0F)
+                .add(Attributes.MAX_HEALTH, 10)
+                .add(Attributes.SAFE_FALL_DISTANCE, 16.0F);
         AttributeSupplier.Builder koopaAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
@@ -154,7 +187,7 @@ public class EntityRegistry {
         AttributeSupplier.Builder koopaShellAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
-                .add(Attributes.MOVEMENT_SPEED, 0.0F)
+                .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.GRAVITY, 0.08F)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0F)
                 .add(Attributes.MAX_HEALTH, 8)
@@ -193,6 +226,14 @@ public class EntityRegistry {
         event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
+
+        event.put(EntityRegistry.DRY_BONES_HEAD.get(), dryBonesHeadAttributes.build());
+        event.put(EntityRegistry.DRY_BONES_SHELL.get(), dryBonesHeadAttributes.build());
+        event.put(EntityRegistry.DRY_BONES_TAIL.get(), dryBonesPartAttributes.build());
+        event.put(EntityRegistry.DRY_BONES_LEFT_ARM.get(), dryBonesPartAttributes.build());
+        event.put(EntityRegistry.DRY_BONES_LEFT_LEG.get(), dryBonesPartAttributes.build());
+        event.put(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), dryBonesPartAttributes.build());
+        event.put(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), dryBonesPartAttributes.build());
 
         event.put(EntityRegistry.DRY_BONES.get(), koopaAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());

@@ -25,14 +25,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -42,20 +37,18 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Crackiness;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -69,7 +62,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
@@ -169,6 +161,45 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        Level world = this.level();
+
+        if (!this.level().isClientSide) {
+            if (!source.is(DamageTypeTags.IS_FIRE)) { //TODO
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
+                        DryBonesPartEntity.PartType.HEAD, true, true);
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
+                        DryBonesPartEntity.PartType.SHELL, true, true);
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_ARM.get(), world),
+                        DryBonesPartEntity.PartType.LEFT_ARM, true, true);
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_LEG.get(), world),
+                        DryBonesPartEntity.PartType.LEFT_LEG, true, true);
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), world),
+                        DryBonesPartEntity.PartType.RIGHT_ARM, true, true);
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), world),
+                        DryBonesPartEntity.PartType.RIGHT_LEG, true, true);
+                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_TAIL.get(), world),
+                        DryBonesPartEntity.PartType.TAIL, true, true);
+            }
+        }
+        super.die(source);
+    }
+
+    @Override
+    public boolean shouldDropExperience() {
+        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(DamageTypeTags.IS_FIRE))
+            return false;
+        return true;
+    }
+
+    @Override
+    protected boolean shouldDropLoot() {
+        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(DamageTypeTags.IS_FIRE))
+            return false;
+        return true;
     }
 
     @Override
@@ -332,62 +363,68 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return ItemRegistry.GREEN_KOOPA_SHOES.get();
     } //TODO
 
-    //TODO
-//    public void spawnKoopaShell(float shellHealth, int hideTicks, int emergeAnimationTicks, boolean saveArmor, boolean savePowerUp) {
-//        if (hideAnimationTicks == 0) {
-//            KoopaShellEntity shell = this.getKoopaShellEntity();
-//
-//            shell.setBounceCount(this.getBounceCount());
-//            shell.setHideTicks(hideTicks);
-//            shell.setPos(this.getX(), this.getY(), this.getZ());
-//            shell.setYRot(this.getYRot());
-//            shell.setXRot(this.getXRot());
-//            shell.yBodyRot = this.yBodyRot;
-//            shell.setYHeadRot(this.getYHeadRot());
-//            shell.setHealth(shellHealth);
-//            shell.emergeAnimationTicks = emergeAnimationTicks;
-//            shell.setNoAi(this.isNoAi());
-//
-//            this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
-//            this.copyAttributeWithModifiers(shell, Attributes.SCALE);
-//            this.copyAttributeWithModifiers(shell, AttributesRegistry.HEIGHT_SCALE);
-//            this.copyAttributeWithModifiers(shell, AttributesRegistry.WIDTH_SCALE);
-//
-//            if (saveArmor) {
-//                for (EquipmentSlot slot : EquipmentSlot.values())
-//                    shell.setItemSlot(slot, this.getItemBySlot(slot).copy());
-//            }
-//
-//            if (savePowerUp) {
-//                if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
-//                    entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-//                    entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
-//                    entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-//                    entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-//                    shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-//                    shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
-//                }
-//
-//                AccessoriesCapability capability = AccessoriesCapability.get(this);
-//                if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
-//                        && this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-//                    String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
-//                    for (String slotType : slotTypes) {
-//                        AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-//                        AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(shell, slotType));
-//                        if (container != null) {
-//                            ItemStack stack = container.getAccessories().getItem(0);
-//                            if (containerEntity != null)
-//                                containerEntity.getAccessories().setItem(0, stack);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            this.level().addFreshEntity(shell);
-//            this.remove(RemovalReason.DISCARDED);
-//        }
-//    }
+    public void spawnDryBonesPart(DryBonesPartEntity entity, DryBonesPartEntity.PartType type, boolean saveArmor, boolean savePowerUp) {
+        float randomRotation = this.random.nextFloat() * 360.0F;
+        double upwardMotion = 0.1 + this.random.nextDouble() * 0.2;
+        double angle = this.random.nextDouble() * Math.PI * 2;
+        float width = this.getDimensions(this.getPose()).width() / 2.0F;
+        double xOffset = Math.cos(angle) * width / 2;
+        double zOffset = Math.sin(angle) * width / 2;
+
+        entity.setOwner(this);
+        entity.setPos(this.getX(), this.getY(), this.getZ());
+        entity.setYRot(randomRotation);
+        entity.yBodyRot = randomRotation;
+        entity.setYHeadRot(randomRotation);
+        entity.setNoAi(this.isNoAi());
+        entity.setInvulnerable(this.isInvulnerable());
+        entity.setCustomName(this.getCustomName());
+        entity.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN.get(), 300);
+        entity.setPartType(type);
+
+        entity.moveTo(this.getX() + xOffset, this.getY() + 0.5, this.getZ() + zOffset, randomRotation, 0.0F);
+        entity.setDeltaMovement(xOffset * 0.25, upwardMotion, zOffset * 0.25);
+        entity.move(MoverType.SELF, entity.getDeltaMovement());
+
+        if (this.isPersistenceRequired())
+            entity.setPersistenceRequired();
+
+        this.copyAttributeWithModifiers(entity, Attributes.SCALE);
+        this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
+        this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
+
+        if (saveArmor) {
+            for (EquipmentSlot slot : EquipmentSlot.values())
+                entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+        }
+
+        if (savePowerUp) {
+            if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
+                entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
+                entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
+                entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+                entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+                entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
+            }
+
+            AccessoriesCapability capability = AccessoriesCapability.get(this);
+            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                    && this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+                for (String slotType : slotTypes) {
+                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
+                    AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
+                    if (container != null) {
+                        ItemStack stack = container.getAccessories().getItem(0);
+                        if (containerEntity != null)
+                            containerEntity.getAccessories().setItem(0, stack);
+                    }
+                }
+            }
+        }
+        this.level().addFreshEntity(entity);
+    }
 
     public void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
         AttributeInstance fromAttr = this.getAttribute(attribute);
