@@ -394,10 +394,12 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
         this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
 
-        for (EquipmentSlot slot : EquipmentSlot.values()){
-            ItemStack stack = this.getItemBySlot(slot);
-            if (!stack.isEmpty())
-                entity.setItemSlot(slot, stack.copy());
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            ItemStack existing = entity.getItemBySlot(slot);
+            ItemStack current = this.getItemBySlot(slot);
+
+            if (existing.isEmpty() && !current.isEmpty())
+                entity.setItemSlot(slot, current.copy());
         }
 
         AccessoriesCapability capability = AccessoriesCapability.get(this);
