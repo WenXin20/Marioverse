@@ -172,12 +172,14 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.MAX_HEALTH, 2)
-                .add(Attributes.SAFE_FALL_DISTANCE, 16.0F);
+                .add(Attributes.SAFE_FALL_DISTANCE, 16.0F)
+                .add(Attributes.STEP_HEIGHT, 5.0F);
         AttributeSupplier.Builder dryBonesHeadAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.MAX_HEALTH, 10)
-                .add(Attributes.SAFE_FALL_DISTANCE, 16.0F);
+                .add(Attributes.SAFE_FALL_DISTANCE, 16.0F)
+                .add(Attributes.STEP_HEIGHT, 5.0F);
         AttributeSupplier.Builder koopaAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.2F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)

@@ -16,7 +16,6 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +28,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,12 +40,10 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -95,7 +91,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     protected void registerGoals() {
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this).setAlertOthers(KoopaTroopaEntity.class));
     }
 
     @Override
@@ -165,16 +160,23 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public void tick() {
         super.tick();
+        int reattachmentCountdown = this.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN);
+        int failTimer = this.getData(DataAttachmentRegistry.FAIL_TIMER);
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
 
-        int reattachmentCountdown = this.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN);
         if (reattachmentCountdown > 0)
             this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, reattachmentCountdown - 1);
 
-        if (!this.level().isClientSide && reattachmentCountdown == 0) {
-            this.noPhysics = true;
+        if (!this.level().isClientSide && !this.isNoAi() && reattachmentCountdown == 0) {
+            if (failTimer < 300) // TODO: config
+                this.setData(DataAttachmentRegistry.FAIL_TIMER, failTimer + 1);
+            if (failTimer >= 300) {
+                this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, -1);
+                return;
+            }
+
             if (this.getOwnerUUID() != null) {
                 List<DryBonesPartEntity> parts = this.level().getEntitiesOfClass(DryBonesPartEntity.class,
                         this.getBoundingBox().inflate(32.0D),
@@ -199,13 +201,13 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                         if (part != shell) {
                             Vec3 dir = shell.position().subtract(part.position());
                             double dist = dir.length();
-                            double speed = 0.01D;
+                            double speed = 0.02D;
                             Vec3 motion = dir.normalize().scale(speed);
 
                             if (dist > 0.1D)
                                 part.setDeltaMovement(part.getDeltaMovement().scale(0.9D).add(motion));
 
-                            if (dist > 0.15D)
+                            if (dist > 0.25D)
                                 allClose = false;
                         }
                     }
@@ -219,7 +221,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                 }
             }
         }
-        this.noPhysics = false;
     }
 
     @NotNull // TODO: Remove
@@ -240,12 +241,32 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public void push(Entity entity) {
         super.push(entity);
+
+        if (!this.level().isClientSide && !this.noPhysics
+                && !(entity instanceof DryBonesPartEntity)) {
+            this.setYRot(this.getYRot() + 2.0F);
+            this.yRotO = this.getYRot();
+        }
+    }
+
+
+    @Override
+    public void doPush(Entity entity) {
+        if (!(entity instanceof DryBonesPartEntity))
+            super.doPush(entity);
     }
 
     @Override
     public void die(DamageSource source) {
         this.playDeathAnimation(this);
         super.die(source);
+    }
+
+    @Override
+    protected void dropEquipment() {
+        if (this.getPartType() == PartType.LEFT_ARM || this.getPartType() == PartType.LEFT_LEG)
+            return;
+        super.dropEquipment();
     }
 
     @Override
@@ -346,7 +367,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         entity.setXRot(this.getXRot());
         entity.yBodyRot = this.yBodyRot;
         entity.setYHeadRot(this.getYHeadRot());
-        entity.setHealth(this.getHealth());
         entity.setNoAi(this.isNoAi());
         entity.setInvulnerable(this.isInvulnerable());
         entity.setCustomName(this.getCustomName());
@@ -371,8 +391,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
         this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
 
-        for (EquipmentSlot slot : EquipmentSlot.values())
-            entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+        for (EquipmentSlot slot : EquipmentSlot.values()){
+            ItemStack stack = this.getItemBySlot(slot);
+            if (!stack.isEmpty())
+                entity.setItemSlot(slot, stack.copy());
+        }
 
         AccessoriesCapability capability = AccessoriesCapability.get(this);
         if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()

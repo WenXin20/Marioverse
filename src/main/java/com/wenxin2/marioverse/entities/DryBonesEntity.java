@@ -168,7 +168,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         Level world = this.level();
 
         if (!this.level().isClientSide) {
-            if (!source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)) {
+            if (!source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION) && !this.isNoAi()) {
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
                         DryBonesPartEntity.PartType.HEAD, true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
@@ -190,16 +190,16 @@ public class DryBonesEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean shouldDropExperience() {
-        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
-            return false;
-        return true;
+        DamageSource source = this.getLastDamageSource();
+        if (source != null && source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
+            return true;
+        return false;
     }
 
     @Override
-    protected boolean shouldDropLoot() {
-        if (this.getLastDamageSource() != null && !this.getLastDamageSource().is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
-            return false;
-        return true;
+    protected void dropFromLootTable(DamageSource source, boolean hitByPlayer) {
+        if (source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
+            super.dropFromLootTable(source, hitByPlayer);
     }
 
     @Override
@@ -368,11 +368,14 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         double upwardMotion = 0.1 + this.random.nextDouble() * 0.2;
         double angle = this.random.nextDouble() * Math.PI * 2;
         float width = this.getDimensions(this.getPose()).width() / 2.0F;
-        double xOffset = Math.cos(angle) * width / 2;
-        double zOffset = Math.sin(angle) * width / 2;
+        double xOffset = Math.cos(angle) * width * 1.15;
+        double zOffset = Math.sin(angle) * width * 1.15;
         if (type == DryBonesPartEntity.PartType.HEAD) {
-            xOffset = xOffset * 1.5;
-            zOffset = zOffset * 1.5;
+            xOffset = xOffset * 2.0;
+            zOffset = zOffset * 2.0;
+        } else if (type == DryBonesPartEntity.PartType.SHELL) {
+            xOffset = 0;
+            zOffset = 0;
         }
 
         entity.setOwnerUUID(this.getUUID());
@@ -383,7 +386,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         entity.setNoAi(this.isNoAi());
         entity.setInvulnerable(this.isInvulnerable());
         entity.setCustomName(this.getCustomName());
-        entity.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN.get(), 300);
+        entity.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN.get(), 300); // TODO: config
         entity.setPartType(type);
 
         entity.moveTo(this.getX() + xOffset, this.getY() + 0.5, this.getZ() + zOffset, randomRotation, 0.0F);
@@ -398,8 +401,11 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         this.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
 
         if (saveArmor) {
-            for (EquipmentSlot slot : EquipmentSlot.values())
-                entity.setItemSlot(slot, this.getItemBySlot(slot).copy());
+            for (EquipmentSlot slot : EquipmentSlot.values()){
+                ItemStack stack = this.getItemBySlot(slot);
+                if (!stack.isEmpty() && matchesArmorPart(type, slot))
+                    entity.setItemSlot(slot, stack.copy());
+            }
         }
 
         if (savePowerUp) {
@@ -439,5 +445,15 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             for (AttributeModifier modifier : fromAttr.getModifiers())
                 toAttr.addPermanentModifier(modifier);
         }
+    }
+
+    private boolean matchesArmorPart(DryBonesPartEntity.PartType type, EquipmentSlot slot) {
+        return switch (type) {
+            case HEAD -> slot == EquipmentSlot.HEAD;
+            case LEFT_LEG, RIGHT_LEG -> slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET;
+            case LEFT_ARM, RIGHT_ARM -> slot == EquipmentSlot.OFFHAND || slot == EquipmentSlot.MAINHAND
+                    || slot == EquipmentSlot.CHEST || slot == EquipmentSlot.BODY;
+            default -> false;
+        };
     }
 }

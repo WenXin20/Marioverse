@@ -40,7 +40,7 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
 
     public DryBonesPartRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new DryBonesPartModel());
-        this.shadowRadius = 0.1F;
+        this.shadowRadius = 0.15F;
 
         this.addRenderLayer(new ItemArmorGeoLayer<>(this) {
             @Nullable
@@ -88,7 +88,7 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
                                               MultiBufferSource bufferSource, int packedLight) {
                 poseStack.scale(1.0F, 1.0F, 1.0F);
                 poseStack.mulPose(Axis.XP.rotationDegrees(-30));
-                poseStack.translate(0.0F, 0.05F, 0.75F);
+                poseStack.translate(0.0F, 0.0F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -169,5 +169,13 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
     @Override
     public int getPackedOverlay(DryBonesPartEntity animatable, float u, float partialTick) {
         return OverlayTexture.NO_OVERLAY;
+    }
+
+    @Override
+    protected float getShadowRadius(DryBonesPartEntity animatable) {
+        if (animatable.getPartType() == DryBonesPartEntity.PartType.HEAD
+                || animatable.getPartType() == DryBonesPartEntity.PartType.SHELL)
+            return 0.5F;
+        return super.getShadowRadius(animatable);
     }
 }
