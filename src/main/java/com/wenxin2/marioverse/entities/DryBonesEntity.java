@@ -219,7 +219,9 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
-        return new Vec3(0.0D, this.getBbHeight() - 0.3D, 0.0D);
+        if (entity instanceof KoopaTroopaEntity || entity instanceof DryBonesEntity)
+            return new Vec3(0.0D, this.getBbHeight() - 0.3D, 0.0D);
+        return super.getPassengerAttachmentPoint(entity, dimensions, height);
     }
 
     @Override
