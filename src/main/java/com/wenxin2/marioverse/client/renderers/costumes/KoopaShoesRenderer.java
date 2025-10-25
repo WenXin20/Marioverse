@@ -23,6 +23,8 @@ public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> {
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/golden_koopa_shoes.png");
         else if (stack.is(ItemRegistry.RED_KOOPA_SHOES))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/red_koopa_shoes.png");
+        else if (stack.is(ItemRegistry.WHITE_KOOPA_SHOES))
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/white_koopa_shoes.png");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/green_koopa_shoes.png");
     }
 }
