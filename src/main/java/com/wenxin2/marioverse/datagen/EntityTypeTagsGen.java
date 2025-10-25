@@ -25,6 +25,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -34,6 +35,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(EntityTypeTags.FALL_DAMAGE_IMMUNE)
+                .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.BOO.get())
@@ -52,6 +54,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOUNCING_ICE_BALL.get());
 
         tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH)
+                .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(EntityTypeTags.REDIRECTABLE_PROJECTILE)
@@ -73,6 +76,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
         tag(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.CANNOT_DROP_COINS)
@@ -102,6 +106,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.MINI_GOOMBA.get());
 
         tag(TagRegistry.CAN_BE_STOMPED)
+                .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -370,6 +375,15 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.DECORATED_POT_CANNOT_SPAWN);
+
+        tag(TagRegistry.DRY_BONES_BONES)
+                .add(EntityRegistry.DRY_BONES_HEAD.get())
+                .add(EntityRegistry.DRY_BONES_LEFT_ARM.get())
+                .add(EntityRegistry.DRY_BONES_LEFT_LEG.get())
+                .add(EntityRegistry.DRY_BONES_RIGHT_ARM.get())
+                .add(EntityRegistry.DRY_BONES_RIGHT_LEG.get())
+                .add(EntityRegistry.DRY_BONES_SHELL.get())
+                .add(EntityRegistry.DRY_BONES_TAIL.get());
 
         tag(TagRegistry.DRY_BONES_CAN_ATTACK)
                 .add(EntityType.PLAYER);

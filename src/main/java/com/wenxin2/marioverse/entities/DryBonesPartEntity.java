@@ -100,8 +100,10 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
     protected <E extends GeoAnimatable> PlayState shakeAnimation(final AnimationState<E> event) {
         int reattachmentCountdown = this.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN);
+        int failTimer = this.getData(DataAttachmentRegistry.FAIL_TIMER);
 
-        if (!this.isNoAi() && this.getOwnerUUID() != null && reattachmentCountdown <= 1) {
+        if (!this.isNoAi() && this.getOwnerUUID() != null
+                && reattachmentCountdown <= 1 && failTimer < 300) {
             event.setAndContinue(SHAKE);
             return PlayState.CONTINUE;
         }

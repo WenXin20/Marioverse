@@ -200,6 +200,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
+    public static final TagKey<EntityType<?>> DRY_BONES_BONES = entityTypeTags("dry_bones_bones");
     public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
     public static final TagKey<EntityType<?>> EQUIP_COSTUMES_IN_ARMOR_SLOTS = entityTypeTags("equip_costumes_in_armor_slots");
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
