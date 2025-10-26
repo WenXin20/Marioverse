@@ -26,8 +26,6 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -39,7 +37,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -87,6 +84,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public ItemStack getPickResult() {
         return new ItemStack(ItemRegistry.DRY_BONES_SPAWN_EGG.get());
+    }
+
+    @NotNull
+    public SimpleParticleType getShatterParticle() {
+        return ParticleTypes.POOF;
     }
 
     @Override
@@ -232,11 +234,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         super.restoreFrom(entity);
         if (entity instanceof DryBonesPartEntity shell)
             this.cachedOwner = shell.cachedOwner;
-    }
-
-    @NotNull
-    public SimpleParticleType getShatterParticle() {
-        return ParticleTypes.POOF;
     }
 
     protected boolean ownedBy(Entity entity) {

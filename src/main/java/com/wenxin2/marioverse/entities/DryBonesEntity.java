@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -23,16 +24,17 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
@@ -54,7 +56,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -121,6 +122,11 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return ItemRegistry.WHITE_KOOPA_SHOES.get();
     }
 
+    @NotNull
+    public SimpleParticleType getShatterParticle() {
+        return ParticleTypes.POOF;
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -171,25 +177,29 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     public void die(DamageSource source) {
         Level world = this.level();
 
-        if (!this.level().isClientSide) {
-            if (!source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION) && !this.isNoAi()) {
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
-                        "head", true, true);
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
-                        "shell", true, true);
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_ARM.get(), world),
-                        "left_arm", true, true);
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_LEG.get(), world),
-                        "left_leg", true, true);
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), world),
-                        "right_arm", true, true);
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), world),
-                        "right_leg", true, true);
-                this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_TAIL.get(), world),
-                        "tail", true, true);
-            }
-        }
-        super.die(source);
+        if (!this.level().isClientSide && !this.isNoAi()
+                && !source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)) {
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
+                    "head", true, true);
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
+                    "shell", true, true);
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_ARM.get(), world),
+                    "left_arm", true, true);
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_LEG.get(), world),
+                    "left_leg", true, true);
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), world),
+                    "right_arm", true, true);
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), world),
+                    "right_leg", true, true);
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_TAIL.get(), world),
+                    "tail", true, true);
+            if (this.level() instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getShatterParticle(), serverWorld,
+                        this, 0.0, 15);
+            if (this.getDeathSound() != null)
+                this.playSound(this.getDeathSound());
+            this.discard();
+        } else super.die(source);
     }
 
     @Override
