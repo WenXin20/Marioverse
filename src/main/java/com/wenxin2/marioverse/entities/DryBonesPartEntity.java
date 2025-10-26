@@ -136,11 +136,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-    }
-
-    @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity serverEntity) {
         Entity entity = this.getOwner();
         return new ClientboundAddEntityPacket(this, serverEntity, entity == null ? 0 : entity.getId());
@@ -343,7 +338,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                     this.spawnDryBones(parts);
                     if (this.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getShatterParticle(), serverWorld,
-                                this, 0.5, 10);
+                                this, 0.0, 15);
                     this.playSound(SoundRegistry.DRY_BONES_REASSEMBLE.get());
                     for (DryBonesPartEntity part : parts)
                         part.discard();
@@ -440,26 +435,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
             toAttr.setBaseValue(fromAttr.getBaseValue());
             for (AttributeModifier modifier : fromAttr.getModifiers())
                 toAttr.addPermanentModifier(modifier);
-        }
-    }
-
-    public void playDeathAnimation(Entity entity) {
-        float scale = (float) this.getAttributeValue(Attributes.SCALE);
-        float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
-        float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
-
-        if (entity.level() instanceof ServerLevel serverWorld) {
-            float height = this.getBbHeight() * scale * heightScale;
-            float width = this.getBbWidth() * scale * widthScale;
-
-            if (this.getBbHeight() >= this.getBbWidth() * 3)
-                width *= 2.0F;
-
-            float scaleFactor = height * width * 1.2F;
-            int numParticles = (int) (scaleFactor * 15);
-            for (int i = 0; i < numParticles; ++i)
-                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
-                        entity, height * 1.55F + 0.1F, width * 1.55F);
         }
     }
 }
