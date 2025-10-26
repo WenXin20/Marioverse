@@ -38,6 +38,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -51,6 +52,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -188,7 +192,7 @@ public class BooEntity extends Monster implements GeoEntity {
 
             if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8 && this.isAlive()) {
                 this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
-                Player nearestPlayer = this.level().getNearestPlayer(this, 8.0);
+                Player nearestPlayer = this.level().getNearestPlayer(this, 4.0);
                 if (nearestPlayer != null)
                     this.hurt(DamageSourceRegistry.light(this, nearestPlayer), Float.MAX_VALUE);
                 else this.kill();
@@ -224,8 +228,23 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        Entity attacker = source.getEntity();
         if (source.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY))
             super.hurt(source, amount);
+        if (attacker instanceof LivingEntity entity) {
+            ItemStack weapon = entity.getMainHandItem();
+            ItemEnchantments enchantments = weapon.get(DataComponents.ENCHANTMENTS);
+            if (enchantments != null) {
+                for (var entry : enchantments.entrySet()) {
+                    Holder<Enchantment> holder = entry.getKey();
+                    if (holder.is(Enchantments.SMITE)) {
+                        int level = entry.getIntValue();
+                        if (level > 0)
+                            super.hurt(source, amount);
+                    }
+                }
+            }
+        }
         return false;
     }
 
