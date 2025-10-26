@@ -2,10 +2,46 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"attack.swing.left": {
-			"animation_length": 0.36
+			"animation_length": 0.36,
+			"bones": {
+				"bipedLeftArm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.12": {
+							"vector": [-60, 0, 0]
+						},
+						"0.24": {
+							"vector": [-25.31123, 16.66577, 31.23252]
+						},
+						"0.36": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
 		},
 		"attack.swing.right": {
-			"animation_length": 0.4
+			"animation_length": 0.4,
+			"bones": {
+				"bipedRightArm": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.12": {
+							"vector": [-60, 0, 0]
+						},
+						"0.24": {
+							"vector": [-26.69087, -22.3718, -37.12826]
+						},
+						"0.36": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
 		},
 		"move.hide": {
 			"loop": "hold_on_last_frame",
