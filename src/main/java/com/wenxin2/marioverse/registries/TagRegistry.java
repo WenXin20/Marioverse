@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BannerPattern;
@@ -84,6 +85,8 @@ public class TagRegistry {
     public static final TagKey<DamageType> PREVENTS_DRY_BONES_RESURRECTION = damageTypeTags("prevents_dry_bones_resurrection");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
     public static final TagKey<DamageType> STOPS_KOOPA_SHELL = damageTypeTags("stops_koopa_shell");
+
+    public static final TagKey<Enchantment> BYPASSES_BOO_INVULNERABILITY_ENCHANTS = enchantmentTags("bypasses_boo_invulnerability");
 
     public static final TagKey<Fluid> FREEZES_INTO_COBBLESTONE = fluidTags("freezes_into_cobblestone");
     public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");
@@ -258,6 +261,10 @@ public class TagRegistry {
 
     public static TagKey<DamageType> damageTypeTags(String name) {
         return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
+
+    public static TagKey<Enchantment> enchantmentTags(String name) {
+        return TagKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
     public static TagKey<EntityType<?>> entityTypeTags(String name) {

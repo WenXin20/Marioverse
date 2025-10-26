@@ -53,7 +53,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -237,7 +236,7 @@ public class BooEntity extends Monster implements GeoEntity {
             if (enchantments != null) {
                 for (var entry : enchantments.entrySet()) {
                     Holder<Enchantment> holder = entry.getKey();
-                    if (holder.is(Enchantments.SMITE)) {
+                    if (holder.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY_ENCHANTS)) {
                         int level = entry.getIntValue();
                         if (level > 0)
                             super.hurt(source, amount);

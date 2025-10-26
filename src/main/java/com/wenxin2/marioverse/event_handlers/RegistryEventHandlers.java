@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.datagen.DataMapGen;
 import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
 import com.wenxin2.marioverse.datagen.BiomeTagsGen;
 import com.wenxin2.marioverse.datagen.BlockLootTableGen;
+import com.wenxin2.marioverse.datagen.EnchantmentTagsGen;
 import com.wenxin2.marioverse.datagen.RecipeGen;
 import com.wenxin2.marioverse.datagen.BlockStateGen;
 import com.wenxin2.marioverse.datagen.BlockTagsGen;
@@ -78,15 +79,16 @@ public class RegistryEventHandlers {
                 .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap)
                 .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap), Set.of(Marioverse.MOD_ID)));
 
+        generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BlockLootTableGen(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new RecipeGen(output, lookupProvider));
-        generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new FluidTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new EnchantmentTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new FluidTagsGen(output, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new RecipeGen(output, lookupProvider));
     }
 
     @SubscribeEvent
