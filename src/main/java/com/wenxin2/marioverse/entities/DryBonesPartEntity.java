@@ -166,63 +166,8 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         if (reattachmentCountdown > 0)
             this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, reattachmentCountdown - 1);
 
-        if (!this.level().isClientSide && !this.isNoAi() && reattachmentCountdown == 0) {
-            if (failTimer < 300) // TODO: config
-                this.setData(DataAttachmentRegistry.FAIL_TIMER, failTimer + 1);
-            if (failTimer >= 300) {
-                this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, -1);
-                this.noPhysics = false;
-                this.setNoGravity(false);
-                return;
-            }
-
-            if (this.getOwnerUUID() != null) {
-                List<DryBonesPartEntity> parts = this.level().getEntitiesOfClass(DryBonesPartEntity.class,
-                        this.getBoundingBox().inflate(32.0D),
-                        partEntity -> partEntity.getOwnerUUID() != null
-                                && this.getOwnerUUID().equals(partEntity.getOwnerUUID()));
-
-                DryBonesPartEntity shell = null;
-                DryBonesPartEntity head = null;
-
-                for (DryBonesPartEntity part : parts) {
-                    if (part.getPartType().equals("shell")) shell = part;
-                    if (part.getPartType().equals("head")) head = part;
-
-                    if (!this.getPartType().equals("shell")) {
-                        this.noPhysics = true;
-                        this.setNoGravity(true);
-                    }
-                }
-
-                if (shell != null && head != null) {
-                    boolean allClose = true;
-
-                    for (DryBonesPartEntity part : parts) {
-                        if (part != shell) {
-                            Vec3 dir = shell.position().subtract(part.position());
-                            double dist = dir.length();
-                            double speed = 0.02D;
-                            Vec3 motion = dir.normalize().scale(speed);
-
-                            if (dist > 0.1D)
-                                part.setDeltaMovement(part.getDeltaMovement().scale(0.9D).add(motion));
-
-                            if (dist > 0.25D)
-                                allClose = false;
-                        }
-                    }
-
-                    if (allClose) {
-                        this.spawnDryBones(parts);
-                        this.playDeathAnimation(this);
-                        this.playSound(SoundRegistry.DRY_BONES_REASSEMBLE.get());
-                        for (DryBonesPartEntity part : parts)
-                            part.discard();
-                    }
-                }
-            }
-        }
+        if (!this.level().isClientSide && !this.isNoAi() && reattachmentCountdown == 0)
+            this.reassembleParts(failTimer);
     }
 
     @NotNull // TODO: Remove
@@ -257,12 +202,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     public void doPush(Entity entity) {
         if (!(entity instanceof DryBonesPartEntity))
             super.doPush(entity);
-    }
-
-    @Override
-    public void die(DamageSource source) {
-        this.playDeathAnimation(this);
-        super.die(source);
     }
 
     @Override
@@ -345,22 +284,72 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         return new DryBonesEntity(EntityRegistry.DRY_BONES.get(), this.level());
     }
 
-//    public enum PartType {
-//        HEAD,
-//        SHELL,
-//        LEFT_ARM,
-//        LEFT_LEG,
-//        RIGHT_ARM,
-//        RIGHT_LEG,
-//        TAIL
-//    }
-
     public void setPartType(String type) {
         this.setData(DataAttachmentRegistry.TYPE, type.toLowerCase());
     }
 
     public String getPartType() {
         return this.getData(DataAttachmentRegistry.TYPE).toLowerCase();
+    }
+
+    public void reassembleParts(int failTimer) {
+        if (failTimer < 300) // TODO: config
+            this.setData(DataAttachmentRegistry.FAIL_TIMER, failTimer + 1);
+        if (failTimer >= 300) {
+            this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, -1);
+            this.noPhysics = false;
+            this.setNoGravity(false);
+            return;
+        }
+
+        if (this.getOwnerUUID() != null) {
+            List<DryBonesPartEntity> parts = this.level().getEntitiesOfClass(DryBonesPartEntity.class,
+                    this.getBoundingBox().inflate(32.0D),
+                    partEntity -> partEntity.getOwnerUUID() != null
+                            && this.getOwnerUUID().equals(partEntity.getOwnerUUID()));
+
+            DryBonesPartEntity shell = null;
+            DryBonesPartEntity head = null;
+
+            for (DryBonesPartEntity part : parts) {
+                if (part.getPartType().equals("shell")) shell = part;
+                if (part.getPartType().equals("head")) head = part;
+
+                if (!this.getPartType().equals("shell")) {
+                    this.noPhysics = true;
+                    this.setNoGravity(true);
+                }
+            }
+
+            if (shell != null && head != null) {
+                boolean allClose = true;
+
+                for (DryBonesPartEntity part : parts) {
+                    if (part != shell) {
+                        Vec3 dir = shell.position().subtract(part.position());
+                        double dist = dir.length();
+                        double speed = 0.02D;
+                        Vec3 motion = dir.normalize().scale(speed);
+
+                        if (dist > 0.1D)
+                            part.setDeltaMovement(part.getDeltaMovement().scale(0.9D).add(motion));
+
+                        if (dist > 0.25D)
+                            allClose = false;
+                    }
+                }
+
+                if (allClose) {
+                    this.spawnDryBones(parts);
+                    if (this.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getShatterParticle(), serverWorld,
+                                this, 0.5, 10);
+                    this.playSound(SoundRegistry.DRY_BONES_REASSEMBLE.get());
+                    for (DryBonesPartEntity part : parts)
+                        part.discard();
+                }
+            }
+        }
     }
 
     private void spawnDryBones(List<DryBonesPartEntity> parts) {
