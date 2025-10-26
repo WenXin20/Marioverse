@@ -23,9 +23,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -98,11 +95,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     }
 
     protected <E extends GeoAnimatable> PlayState shakeAnimation(final AnimationState<E> event) {
-        int reattachmentCountdown = this.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN);
-        int failTimer = this.getData(DataAttachmentRegistry.FAIL_TIMER);
+        int deathDuration = this.getData(DataAttachmentRegistry.DEATH_DURATION);
+        int reassembleDuration = this.getData(DataAttachmentRegistry.REASSEMBLE_DURATION);
 
         if (!this.isNoAi() && this.getOwnerUUID() != null
-                && reattachmentCountdown <= 1 && failTimer < 300) {
+                && deathDuration <= 1 && reassembleDuration < ConfigRegistry.DRY_BONES_REASSEMBLE_DURATION.get()) {
             event.setAndContinue(SHAKE);
             return PlayState.CONTINUE;
         }
@@ -152,17 +149,17 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public void tick() {
         super.tick();
-        int reattachmentCountdown = this.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN);
-        int failTimer = this.getData(DataAttachmentRegistry.FAIL_TIMER);
+        int deathDuration = this.getData(DataAttachmentRegistry.DEATH_DURATION);
+        int reassembleDuration = this.getData(DataAttachmentRegistry.REASSEMBLE_DURATION);
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
 
-        if (reattachmentCountdown > 0)
-            this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, reattachmentCountdown - 1);
+        if (deathDuration > 0)
+            this.setData(DataAttachmentRegistry.DEATH_DURATION, deathDuration - 1);
 
-        if (!this.level().isClientSide && !this.isNoAi() && reattachmentCountdown == 0)
-            this.reassembleParts(failTimer);
+        if (!this.level().isClientSide && !this.isNoAi() && deathDuration == 0)
+            this.reassembleParts(reassembleDuration);
     }
 
     @NotNull // TODO: Remove
@@ -287,11 +284,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         return this.getData(DataAttachmentRegistry.TYPE).toLowerCase();
     }
 
-    public void reassembleParts(int failTimer) {
-        if (failTimer < 300) // TODO: config
-            this.setData(DataAttachmentRegistry.FAIL_TIMER, failTimer + 1);
-        if (failTimer >= 300) {
-            this.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN, -1);
+    public void reassembleParts(int reassembleDuration) {
+        if (reassembleDuration < ConfigRegistry.DRY_BONES_REASSEMBLE_DURATION.get())
+            this.setData(DataAttachmentRegistry.REASSEMBLE_DURATION, reassembleDuration + 1);
+        if (reassembleDuration >= ConfigRegistry.DRY_BONES_REASSEMBLE_DURATION.get()) {
+            this.setData(DataAttachmentRegistry.DEATH_DURATION, -1);
             this.noPhysics = false;
             this.setNoGravity(false);
             return;

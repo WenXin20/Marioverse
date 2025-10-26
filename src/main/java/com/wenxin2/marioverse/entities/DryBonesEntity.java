@@ -393,7 +393,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         entity.setNoAi(this.isNoAi());
         entity.setInvulnerable(this.isInvulnerable());
         entity.setCustomName(this.getCustomName());
-        entity.setData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN.get(), 300); // TODO: config
+        entity.setData(DataAttachmentRegistry.DEATH_DURATION.get(), ConfigRegistry.DRY_BONES_DEATH_DURATION.get());
         entity.setPartType(type);
 
         entity.moveTo(this.getX(), this.getY() + 0.5, this.getZ(), randomRotation, 0.0F);

@@ -41,11 +41,11 @@ public class DataAttachmentRegistry {
             "played_inside_pipe_sound", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
-    public static final Supplier<AttachmentType<Integer>> FAIL_TIMER = Marioverse.ATTACHMENT_TYPES.register(
-            "fail_timer", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+    public static final Supplier<AttachmentType<Integer>> REASSEMBLE_DURATION = Marioverse.ATTACHMENT_TYPES.register(
+            "reassemble_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
-    public static final Supplier<AttachmentType<Integer>> REATTACHMENT_COUNTDOWN = Marioverse.ATTACHMENT_TYPES.register(
-            "reattachment_countdown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+    public static final Supplier<AttachmentType<Integer>> DEATH_DURATION = Marioverse.ATTACHMENT_TYPES.register(
+            "death_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> SUPER_STAR_COOLDOWN = Marioverse.ATTACHMENT_TYPES.register(
             "super_star_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)

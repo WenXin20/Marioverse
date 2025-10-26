@@ -37,7 +37,7 @@ public class DryBonesPartModel extends GeoModel<DryBonesPartEntity> {
 
     @Override
     public ResourceLocation getTextureResource(DryBonesPartEntity animatable) {
-        if (animatable.getData(DataAttachmentRegistry.REATTACHMENT_COUNTDOWN) == 0)
+        if (animatable.getData(DataAttachmentRegistry.DEATH_DURATION) == 0)
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/dry_bones/dry_bones.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/dry_bones/dry_bones_dead.png");
     }
