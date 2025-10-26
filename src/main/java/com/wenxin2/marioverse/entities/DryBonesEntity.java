@@ -230,21 +230,6 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public boolean canTakeItem(ItemStack stack) {
-        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
-        return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    @NotNull // TODO: Remove
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.canTakeItem(player.getItemInHand(hand))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        } else return super.mobInteract(player, hand);
-    }
-
-    @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
 
@@ -255,7 +240,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
 
-        if (this instanceof AbilitiesHandler handler) { // TODO: Change to finalizeSpawn() once costume rendering is fixed
+        if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int randomPowerUpInt = random.nextInt(6);
                 int randomCharacterInt = random.nextInt(1);
