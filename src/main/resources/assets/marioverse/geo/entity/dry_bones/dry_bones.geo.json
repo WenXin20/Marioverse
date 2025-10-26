@@ -182,7 +182,7 @@
 				{
 					"name": "bipedRightLeg",
 					"parent": "bipedBody",
-					"pivot": [-3.5, 8, 4],
+					"pivot": [-3.9, 8, 4],
 					"cubes": [
 						{"origin": [-4.9, 0, 3], "size": [2, 8, 2], "uv": [70, 3], "mirror": true}
 					]
@@ -190,7 +190,7 @@
 				{
 					"name": "armorRightLeg",
 					"parent": "bipedRightLeg",
-					"pivot": [-3.4, 10, 4],
+					"pivot": [-3.9, 10, 4],
 					"cubes": [
 						{
 							"origin": [-5.9, 0, 2],
