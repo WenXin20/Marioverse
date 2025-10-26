@@ -46,6 +46,14 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
+    public static DamageSource light(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (attackingEntity != null && damagedEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.LIGHT), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.LIGHT), null, attackingEntity);
+        } else return null;
+    }
+
     public static DamageSource shrapnel(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
         if (damagedEntity != null && attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_SHRAPNEL), damagedEntity, attackingEntity);

@@ -19,6 +19,7 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(DamageTypeTags.BYPASSES_ARMOR)
+                .add(DamageTypeRegistry.LIGHT)
                 .add(DamageTypeRegistry.SPIKED);
 
         tag(DamageTypeTags.IS_FIRE)
@@ -32,7 +33,8 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
 
         tag(TagRegistry.BYPASSES_BOO_INVULNERABILITY)
                 .addTag(TagRegistry.IS_SUPER_STAR)
-                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY);
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .add(DamageTypeRegistry.LIGHT);
 
         tag(TagRegistry.BYPASSES_SUPER_STAR)
                 .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)

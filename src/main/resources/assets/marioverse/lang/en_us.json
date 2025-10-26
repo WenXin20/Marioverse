@@ -846,6 +846,7 @@
   "death.attack.marioverse.ice_ball.player.item": "%1$s was frozen to death by %2$s using %3$s",
   "death.attack.marioverse.ice_cube_crushed": "%1$s was crushed by ice cube",
   "death.attack.marioverse.ice_cube_crushed.player": "%2$s crushed %1$s with ice cube",
+  "death.attack.marioverse.light": "%1$s was vaporized by light",
   "death.attack.marioverse.mini_goomba_defeated": "%1$s was flung to death",
   "death.attack.marioverse.mini_goomba_defeated.player": "%1$s was flung to death by %2$s",
   "death.attack.marioverse.piranha_chomp": "%1$s was chomped on by Piranha Plant",

@@ -1,10 +1,11 @@
-// 1.21.1	2025-09-13T00:27:52.5544079	Registries
+// 1.21.1	2025-10-26T13:36:07.3700842	Registries
 61b72938b4d73788d68c5721a35619b143f82eb2 data/marioverse/banner_pattern/bowser.json
 d4a73076526d03c9ff5d2be3525ff57d5d09ecaf data/marioverse/banner_pattern/plumber.json
 8ae0af93edd40ac1cb2f40b406efa8566285ffef data/marioverse/damage_type/bonked.json
 e81856322face9c5f784a3b8d077999ee3fcda91 data/marioverse/damage_type/fireball.json
 36841d17b0819cb332b93481eefc5f774b550dba data/marioverse/damage_type/ice_ball.json
 b947235eac9d6b419a497296ea874fb26111964d data/marioverse/damage_type/ice_cube_crushed.json
+7d0ff2f7c41280cd8405c58551102141321b4473 data/marioverse/damage_type/light.json
 fb1044c6911a16ac130448ada2d46a10a24ca803 data/marioverse/damage_type/mini_goomba_defeated.json
 845ec4e9c0a8f252b320bcada24f96fbb9d191f1 data/marioverse/damage_type/piranha_chomp.json
 9575ebd164ac8e681d80825169f7bc695c375a8e data/marioverse/damage_type/player_bonked.json
