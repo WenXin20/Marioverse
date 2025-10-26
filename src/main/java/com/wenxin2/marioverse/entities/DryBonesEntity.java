@@ -201,6 +201,14 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    protected void dropEquipment() {
+        DamageSource source = this.getLastDamageSource();
+        if (source != null && source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
+            return;
+        super.dropEquipment();
+    }
+
+    @Override
     protected void dropFromLootTable(DamageSource source, boolean hitByPlayer) {
         if (source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION))
             super.dropFromLootTable(source, hitByPlayer);
