@@ -97,11 +97,6 @@ public class BooEntity extends Monster implements GeoEntity {
         this.xpReward = 10;
     }
 
-    @Override
-    public int getAmbientSoundInterval() {
-        return 180;
-    }
-
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
@@ -118,6 +113,11 @@ public class BooEntity extends Monster implements GeoEntity {
     @Override
     protected SoundEvent getDeathSound() {
         return SoundRegistry.BOO_DEATH.get();
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 360;
     }
 
     @Override
@@ -364,17 +364,6 @@ public class BooEntity extends Monster implements GeoEntity {
 
     public void setBoundOrigin(@Nullable BlockPos pos) {
         this.boundOrigin = pos;
-    }
-
-    public boolean isLookingAtMe(LivingEntity entity) {
-        Vec3 vec3 = entity.getViewVector(1.0F).normalize();
-        Vec3 vec31 = new Vec3(this.getX() - entity.getX(),
-                this.getEyeY() - entity.getEyeY(), this.getZ() - entity.getZ());
-        double d0 = vec31.length();
-        vec31 = vec31.normalize();
-        double d1 = vec3.dot(vec31);
-
-        return d1 > 1.0 - 0.025 / d0 ? entity.hasLineOfSight(this) : false;
     }
 
     protected void handleAirSupply(int airSupplyAmount) {

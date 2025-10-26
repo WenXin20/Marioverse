@@ -59,7 +59,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableEntity {
-    public static final RawAnimation SHAKE = RawAnimation.begin().thenLoop("move.shake"); //TODO
+    public static final RawAnimation SHAKE = RawAnimation.begin().thenLoop("move.shake");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private static final EntityDataAccessor<String> PART_TYPE =
             SynchedEntityData.defineId(DryBonesPartEntity.class, EntityDataSerializers.STRING);
@@ -77,13 +77,13 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.KOOPA_SHELL_STOMP.get();
+        return SoundRegistry.DRY_BONES_HURT.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.KOOPA_SHELL_SHATTER.get();
+        return SoundRegistry.DRY_BONES_DEATH.get();
     }
 
     @Override
@@ -217,6 +217,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                     if (allClose) {
                         this.spawnDryBones(parts);
                         this.playDeathAnimation(this);
+                        this.playSound(SoundRegistry.DRY_BONES_REASSEMBLE.get());
                         for (DryBonesPartEntity part : parts)
                             part.discard();
                     }
@@ -472,8 +473,5 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                 ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
                         entity, height * 1.55F + 0.1F, width * 1.55F);
         }
-
-        if (this.getAmbientSound() != null) // TODO
-            this.playSound(this.getAmbientSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
     }
 }

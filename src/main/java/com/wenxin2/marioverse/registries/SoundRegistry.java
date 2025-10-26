@@ -25,6 +25,10 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> COIN_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> DAMAGE_TAKEN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRY_BONES_AMBIENT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRY_BONES_DEATH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRY_BONES_HURT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> DRY_BONES_REASSEMBLE;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_EXTINGUISHED;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_SIZZLES;
     public static final DeferredHolder<SoundEvent, SoundEvent> FIREBALL_THROWN;
@@ -208,6 +212,15 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_laugh")));
         BOO_POOF = Marioverse.SOUNDS.register("entity.boo_poof",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_poof")));
+
+        DRY_BONES_AMBIENT = Marioverse.SOUNDS.register("entity.dry_bones_ambient",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.dry_bones_ambient")));
+        DRY_BONES_DEATH = Marioverse.SOUNDS.register("entity.dry_bones_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.dry_bones_death")));
+        DRY_BONES_HURT = Marioverse.SOUNDS.register("entity.dry_bones_hurt",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.dry_bones_hurt")));
+        DRY_BONES_REASSEMBLE = Marioverse.SOUNDS.register("entity.dry_bones_reassemble",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.dry_bones_reassemble")));
 
         KOOPA_SHELL_BOUNCED = Marioverse.SOUNDS.register("entity.koopa_shell_bounced",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.koopa_shell_bounced")));

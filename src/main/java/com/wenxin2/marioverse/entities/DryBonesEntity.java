@@ -27,7 +27,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -97,24 +96,24 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.KOOPA_TROOPA_HURT.get();
-    } // TODO
+        return SoundRegistry.DRY_BONES_HURT.get();
+    }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.KOOPA_TROOPA_DEATH.get();
+        return SoundRegistry.DRY_BONES_DEATH.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundRegistry.KOOPA_TROOPA_AMBIENT.get();
+        return SoundRegistry.DRY_BONES_AMBIENT.get();
     }
 
     @Override
     public int getAmbientSoundInterval() {
-        return 180;
+        return 360;
     }
 
     @NotNull

@@ -127,7 +127,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     @Override
     public int getAmbientSoundInterval() {
-        return 180;
+        return 360;
     }
 
     @Override
