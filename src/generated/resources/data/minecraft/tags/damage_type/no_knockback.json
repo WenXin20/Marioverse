@@ -1,7 +1,7 @@
 {
   "values": [
-    "marioverse:spiked",
-    "marioverse:stomp",
-    "marioverse:player_stomp"
+    "#marioverse:is_stomp",
+    "marioverse:light",
+    "marioverse:spiked"
   ]
 }

@@ -27,9 +27,9 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.PLAYER_FIREBALL);
 
         tag(DamageTypeTags.NO_KNOCKBACK)
-                .add(DamageTypeRegistry.SPIKED)
-                .add(DamageTypeRegistry.STOMP)
-                .add(DamageTypeRegistry.PLAYER_STOMP);
+                .addTag(TagRegistry.IS_STOMP)
+                .add(DamageTypeRegistry.LIGHT)
+                .add(DamageTypeRegistry.SPIKED);
 
         tag(TagRegistry.BYPASSES_BOO_INVULNERABILITY)
                 .addTag(TagRegistry.IS_SUPER_STAR)
