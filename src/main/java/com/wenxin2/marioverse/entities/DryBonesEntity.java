@@ -290,8 +290,8 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_KOOPA_MASKS.get()); // TODO
-            boolean forceMasks = ConfigRegistry.FORCE_KOOPA_MASKS.get();
+            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_DRY_BONES_MASKS.get());
+            boolean forceMasks = ConfigRegistry.FORCE_DRY_BONES_MASKS.get();
 
             Optional<Item> randomMask = BuiltInRegistries.ITEM
                     .getTag(TagRegistry.HALLOWEEN_MASKS)
