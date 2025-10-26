@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -88,6 +89,12 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {}
+
+    @Nullable
+    @Override
+    public ItemStack getPickResult() {
+        return new ItemStack(ItemRegistry.DRY_BONES_SPAWN_EGG.get());
+    }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
