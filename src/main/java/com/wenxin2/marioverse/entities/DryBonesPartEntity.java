@@ -162,21 +162,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
             this.reassembleParts(reassembleDuration);
     }
 
-    @NotNull // TODO: Remove
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.canTakeItem(player.getItemInHand(hand))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        } else return super.mobInteract(player, hand);
-    }
-
-    @Override
-    public boolean canTakeItem(ItemStack stack) {
-        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
-        return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
     @Override
     public void push(Entity entity) {
         super.push(entity);
