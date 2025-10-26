@@ -51,5 +51,9 @@ public class DataAttachmentRegistry {
             "super_star_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
+    public static final Supplier<AttachmentType<String>> TYPE = Marioverse.ATTACHMENT_TYPES.register(
+            "type", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
+
     public static void init() {}
 }

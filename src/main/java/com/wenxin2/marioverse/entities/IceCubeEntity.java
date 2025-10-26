@@ -117,7 +117,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         if (this.frozenEntityData != null)
             tag.put("FrozenEntityData", this.frozenEntityData);
         if (this.ownerUUID != null)
-            tag.putUUID("Owner", this.ownerUUID);
+            tag.putUUID("OwnerUUID", this.ownerUUID);
         if (this.leftOwner)
             tag.putBoolean("LeftOwner", true);
     }
@@ -144,8 +144,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
             this.frozenEntityData = tag.getCompound("FrozenEntityData");
 
-        if (tag.hasUUID("Owner")) {
-            this.ownerUUID = tag.getUUID("Owner");
+        if (tag.hasUUID("OwnerUUID")) {
+            this.ownerUUID = tag.getUUID("OwnerUUID");
             this.cachedOwner = null;
         }
 
@@ -462,8 +462,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             frozenEntityData.putFloat("Scale", scale);
             frozenEntityData.putFloat("HeightScale", heightScale);
             frozenEntityData.putFloat("WidthScale", widthScale);
-            if (entity instanceof TraceableEntity traceable && traceable.getOwner() != null)
-                frozenEntityData.putUUID("OwnerUUID", traceable.getOwner().getUUID());
 
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
@@ -570,7 +568,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
 
             if (entity != null) {
                 serverWorld.addFreshEntity(entity);
-
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - livingEntity.getMaxFallDistance());
@@ -593,13 +590,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
-                if (entity instanceof DryBonesPartEntity part)
-                    part.setOwnerUUID(frozenEntityData.getUUID("OwnerUUID"));
-                if (entity instanceof KoopaShellEntity koopaShell) {
-                    UUID ownerUUID = frozenEntityData.getUUID("OwnerUUID");
-                    Entity ownerEntity = ((ServerLevel) entity.level()).getEntity(ownerUUID);
-                    koopaShell.setOwner(ownerEntity);
-                }
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());

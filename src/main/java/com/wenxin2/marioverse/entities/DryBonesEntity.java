@@ -174,19 +174,19 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         if (!this.level().isClientSide) {
             if (!source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION) && !this.isNoAi()) {
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
-                        DryBonesPartEntity.PartType.HEAD, true, true);
+                        "head", true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
-                        DryBonesPartEntity.PartType.SHELL, true, true);
+                        "shell", true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_ARM.get(), world),
-                        DryBonesPartEntity.PartType.LEFT_ARM, true, true);
+                        "left_arm", true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_LEG.get(), world),
-                        DryBonesPartEntity.PartType.LEFT_LEG, true, true);
+                        "left_leg", true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), world),
-                        DryBonesPartEntity.PartType.RIGHT_ARM, true, true);
+                        "right_arm", true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), world),
-                        DryBonesPartEntity.PartType.RIGHT_LEG, true, true);
+                        "right_leg", true, true);
                 this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_TAIL.get(), world),
-                        DryBonesPartEntity.PartType.TAIL, true, true);
+                        "tail", true, true);
             }
         }
         super.die(source);
@@ -362,17 +362,17 @@ public class DryBonesEntity extends Monster implements GeoEntity {
                 && serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER;
     }
 
-    public void spawnDryBonesPart(DryBonesPartEntity entity, DryBonesPartEntity.PartType type, boolean saveArmor, boolean savePowerUp) {
+    public void spawnDryBonesPart(DryBonesPartEntity entity, String type, boolean saveArmor, boolean savePowerUp) {
         float randomRotation = this.random.nextFloat() * 360.0F;
         double upwardMotion = 0.1 + this.random.nextDouble() * 0.2;
         double angle = this.random.nextDouble() * Math.PI * 2;
         float width = this.getDimensions(this.getPose()).width() / 2.0F;
-        if (type == DryBonesPartEntity.PartType.HEAD) {
         double xOffset = Math.cos(angle) * width * 0.25;
         double zOffset = Math.sin(angle) * width * 0.25;
+        if (type.equals("head")) {
             xOffset = xOffset * 4.0;
             zOffset = zOffset * 4.0;
-        } else if (type == DryBonesPartEntity.PartType.SHELL) {
+        } else if (type.equals("shell")) {
             xOffset = 0;
             zOffset = 0;
         }
@@ -446,11 +446,11 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         }
     }
 
-    private boolean matchesArmorPart(DryBonesPartEntity.PartType type, EquipmentSlot slot) {
+    private boolean matchesArmorPart(String type, EquipmentSlot slot) {
         return switch (type) {
-            case HEAD -> slot == EquipmentSlot.HEAD;
-            case LEFT_LEG, RIGHT_LEG -> slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET;
-            case LEFT_ARM, RIGHT_ARM -> slot == EquipmentSlot.OFFHAND || slot == EquipmentSlot.MAINHAND
+            case "head" -> slot == EquipmentSlot.HEAD;
+            case "left_leg", "right_leg" -> slot == EquipmentSlot.LEGS || slot == EquipmentSlot.FEET;
+            case "left_arm", "right_arm" -> slot == EquipmentSlot.OFFHAND || slot == EquipmentSlot.MAINHAND
                     || slot == EquipmentSlot.CHEST || slot == EquipmentSlot.BODY;
             default -> false;
         };

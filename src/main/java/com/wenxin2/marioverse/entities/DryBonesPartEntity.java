@@ -62,13 +62,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableEntity {
     public static final RawAnimation SHAKE = RawAnimation.begin().thenLoop("move.shake");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    private static final EntityDataAccessor<String> PART_TYPE =
-            SynchedEntityData.defineId(DryBonesPartEntity.class, EntityDataSerializers.STRING);
-
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
-    private String type;
 
     public DryBonesPartEntity(EntityType<? extends DryBonesPartEntity> type, Level world) {
         super(type, world);
@@ -126,15 +122,12 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
             tag.putUUID("Owner", this.ownerUUID);
         if (this.leftOwner)
             tag.putBoolean("LeftOwner", true);
-        if (this.type != null)
-            tag.putString("Type", this.type);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.leftOwner = tag.getBoolean("LeftOwner");
-        this.type = tag.getString("Type");
 
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
@@ -145,7 +138,6 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(PART_TYPE, "shell");
     }
 
     @Override
@@ -194,10 +186,10 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                 DryBonesPartEntity head = null;
 
                 for (DryBonesPartEntity part : parts) {
-                    if (part.getPartType() == PartType.SHELL) shell = part;
-                    if (part.getPartType() == PartType.HEAD) head = part;
+                    if (part.getPartType().equals("shell")) shell = part;
+                    if (part.getPartType().equals("head")) head = part;
 
-                    if (this.getPartType() != PartType.SHELL) {
+                    if (!this.getPartType().equals("shell")) {
                         this.noPhysics = true;
                         this.setNoGravity(true);
                     }
@@ -275,7 +267,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
     @Override
     protected void dropEquipment() {
-        if (this.getPartType() == PartType.LEFT_ARM || this.getPartType() == PartType.LEFT_LEG)
+        if (this.getPartType().equals("left_arm") || this.getPartType().equals("left_leg"))
             return;
         super.dropEquipment();
     }
@@ -353,22 +345,22 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         return new DryBonesEntity(EntityRegistry.DRY_BONES.get(), this.level());
     }
 
-    public enum PartType {
-        HEAD,
-        SHELL,
-        LEFT_ARM,
-        LEFT_LEG,
-        RIGHT_ARM,
-        RIGHT_LEG,
-        TAIL
+//    public enum PartType {
+//        HEAD,
+//        SHELL,
+//        LEFT_ARM,
+//        LEFT_LEG,
+//        RIGHT_ARM,
+//        RIGHT_LEG,
+//        TAIL
+//    }
+
+    public void setPartType(String type) {
+        this.setData(DataAttachmentRegistry.TYPE, type.toLowerCase());
     }
 
-    public void setPartType(PartType type) {
-        this.entityData.set(PART_TYPE, type.name().toLowerCase());
-    }
-
-    public PartType getPartType() {
-        return PartType.valueOf(this.entityData.get(PART_TYPE).toUpperCase());
+    public String getPartType() {
+        return this.getData(DataAttachmentRegistry.TYPE).toLowerCase();
     }
 
     private void spawnDryBones(List<DryBonesPartEntity> parts) {

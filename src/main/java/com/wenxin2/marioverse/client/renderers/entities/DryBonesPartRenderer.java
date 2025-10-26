@@ -175,8 +175,8 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
 
     @Override
     protected float getShadowRadius(DryBonesPartEntity animatable) {
-        if (animatable.getPartType() == DryBonesPartEntity.PartType.HEAD
-                || animatable.getPartType() == DryBonesPartEntity.PartType.SHELL)
+        if (animatable.getPartType().equals("head")
+                || animatable.getPartType().equals("shell"))
             return 0.5F;
         return 0.15F;
     }
