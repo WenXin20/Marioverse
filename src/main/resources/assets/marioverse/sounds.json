@@ -180,8 +180,8 @@
     "subtitle": "subtitles.marioverse.entity.koopa_shell_stomp" },
 
   "entity.koopa_troopa_ambient": { "category": "hostile",
-    "sounds": [{ "name": "marioverse:entity/koopa_troopa/koopa_troopa_say1" },
-      { "name": "marioverse:entity/koopa_troopa/koopa_troopa_say2" }],
+    "sounds": [{ "name": "marioverse:entity/koopa_troopa/koopa_troopa_say1", "volume": 0.5 },
+      { "name": "marioverse:entity/koopa_troopa/koopa_troopa_say2", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.koopa_troopa_ambient" },
   "entity.koopa_troopa_death": { "category": "hostile",
     "sounds": [{ "name": "marioverse:entity/koopa_troopa/koopa_troopa_death1" },
@@ -196,8 +196,8 @@
     "subtitle": "subtitles.marioverse.entity.koopa_troopa_stomp" },
 
   "entity.goomba_ambient": { "category": "hostile",
-    "sounds": [{ "name": "marioverse:entity/goomba/goomba_say1" },
-      { "name": "marioverse:entity/goomba/goomba_say2" }],
+    "sounds": [{ "name": "marioverse:entity/goomba/goomba_say1", "volume": 0.5 },
+      { "name": "marioverse:entity/goomba/goomba_say2", "volume": 0.5 }],
     "subtitle": "subtitles.marioverse.entity.goomba_ambient" },
   "entity.goomba_bump": { "category": "hostile", "sounds": [{ "name": "marioverse:entity/goomba/goomba_bump" }],
     "subtitle": "subtitles.marioverse.entity.goomba_bump" },

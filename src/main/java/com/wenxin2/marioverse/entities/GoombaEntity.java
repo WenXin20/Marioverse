@@ -49,7 +49,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
@@ -69,16 +68,12 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -165,7 +160,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     public int getAmbientSoundInterval() {
-        return 180;
+        return 360;
     }
 
     @Override
