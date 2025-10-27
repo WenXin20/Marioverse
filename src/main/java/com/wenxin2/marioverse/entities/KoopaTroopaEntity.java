@@ -267,7 +267,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             else this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
         }
 
-        if (this instanceof AbilitiesHandler handler) { // TODO: Change to finalizeSpawn() once costume rendering is fixed
+        if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);
                 int randomInt = random.nextInt(1);
