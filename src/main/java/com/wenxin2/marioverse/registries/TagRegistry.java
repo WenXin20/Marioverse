@@ -87,6 +87,7 @@ public class TagRegistry {
     public static final TagKey<DamageType> STOPS_KOOPA_SHELL = damageTypeTags("stops_koopa_shell");
 
     public static final TagKey<Enchantment> BYPASSES_BOO_INVULNERABILITY_ENCHANTS = enchantmentTags("bypasses_boo_invulnerability");
+    public static final TagKey<Enchantment> PREVENTS_DRY_BONES_RESURRECTION_ENCHANTS = enchantmentTags("prevents_dry_bones_resurrection");
 
     public static final TagKey<Fluid> FREEZES_INTO_COBBLESTONE = fluidTags("freezes_into_cobblestone");
     public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");

@@ -61,6 +61,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -167,15 +169,27 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         return cache;
     }
 
-
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
     @Override
     public void die(DamageSource source) {
         Level world = this.level();
+        Entity attacker = source.getEntity();
+
+        if (attacker instanceof LivingEntity entity) {
+            ItemStack weapon = entity.getMainHandItem();
+            ItemEnchantments enchantments = weapon.get(DataComponents.ENCHANTMENTS);
+            if (enchantments != null) {
+                for (var entry : enchantments.entrySet()) {
+                    Holder<Enchantment> holder = entry.getKey();
+                    if (holder.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY_ENCHANTS)) {
+                        int level = entry.getIntValue();
+                        if (level > 0) {
+                            super.die(source);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
 
         if (!this.level().isClientSide && !this.isNoAi()
                 && !source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)) {
