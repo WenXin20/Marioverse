@@ -29,6 +29,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -91,10 +92,11 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
-        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new LookAtTagGoal(this, TagRegistry.SPLUNKIN_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new LookAtTagGoal(this, TagRegistry.SPLUNKIN_CAN_ATTACK, 8.0F, 1.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
     }
