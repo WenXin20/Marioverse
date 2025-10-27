@@ -434,9 +434,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
         this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (groupData instanceof GoombaGroupData goombaGroupData) {
-            this.populateDefaultEquipmentSlots(random, difficulty);
-            this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
-
             if (goombaGroupData.canSpawnJockey) {
                 if (random.nextDouble() < 0.05) {
                     List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
