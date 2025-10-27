@@ -117,7 +117,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         if (this.frozenEntityData != null)
             tag.put("FrozenEntityData", this.frozenEntityData);
         if (this.ownerUUID != null)
-            tag.putUUID("Owner", this.ownerUUID);
+            tag.putUUID("OwnerUUID", this.ownerUUID);
         if (this.leftOwner)
             tag.putBoolean("LeftOwner", true);
     }
@@ -144,8 +144,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
             this.frozenEntityData = tag.getCompound("FrozenEntityData");
 
-        if (tag.hasUUID("Owner")) {
-            this.ownerUUID = tag.getUUID("Owner");
+        if (tag.hasUUID("OwnerUUID")) {
+            this.ownerUUID = tag.getUUID("OwnerUUID");
             this.cachedOwner = null;
         }
 
@@ -567,6 +567,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             });
 
             if (entity != null) {
+                serverWorld.addFreshEntity(entity);
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - livingEntity.getMaxFallDistance());
@@ -576,9 +577,11 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                         livingEntity.hurtMarked = true;
                     }
                     if (applyCollisionDamage && !livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTER_CANNOT_DAMAGE)) {
+                        float damageAmount = livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTER_CAN_INSTAKILL)
+                                ? Float.MAX_VALUE : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
                         if (this.getOwner() != null)
-                            livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
-                        else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue());
+                            livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), damageAmount);
+                        else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), damageAmount);
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;
@@ -587,7 +590,6 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
                 entity.setIsInPowderSnow(true);
                 if (entity.canFreeze())
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
-                serverWorld.addFreshEntity(entity);
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());

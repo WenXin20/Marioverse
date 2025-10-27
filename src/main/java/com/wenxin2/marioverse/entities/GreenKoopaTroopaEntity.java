@@ -19,6 +19,7 @@ public class GreenKoopaTroopaEntity extends KoopaTroopaEntity implements Neutral
     public GreenKoopaTroopaEntity(EntityType<? extends GreenKoopaTroopaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
+        this.xpReward = 4;
     }
 
     @Override

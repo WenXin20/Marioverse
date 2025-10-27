@@ -1,0 +1,34 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.dry_bones",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 4,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "root",
+					"pivot": [0, 1, 0]
+				},
+				{
+					"name": "bipedBody",
+					"parent": "root",
+					"pivot": [0, 1, 0]
+				},
+				{
+					"name": "tail",
+					"parent": "bipedBody",
+					"pivot": [0, 1, 0],
+					"cubes": [
+						{"origin": [-1, 0, -2.5], "size": [2, 2, 5], "uv": [56, 30]}
+					]
+				}
+			]
+		}
+	]
+}

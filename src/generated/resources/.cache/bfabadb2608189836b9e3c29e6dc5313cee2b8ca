@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-18T02:00:29.3690327	Item Models: marioverse
+// 1.21.1	2025-10-25T14:45:58.4330417	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -14,6 +14,7 @@ fb209281fa76443b140297c0ff36c8fa23f5d6ce assets/marioverse/models/item/coin.json
 92459e261b28a903e4957d56912d9feae13088d9 assets/marioverse/models/item/cyan_checkpoint_flag.json
 7b9eb2cab5d4b45f11a8c37d85a874da8a8a9964 assets/marioverse/models/item/cyan_goal_pole.json
 01e5e298e425b85e8373b06de32e23d6faea054c assets/marioverse/models/item/dash_mushroom.json
+ee376cd5ff494d5458fa9e37b4141c7caade1007 assets/marioverse/models/item/dry_bones_spawn_egg.json
 9706025e48900bd63f97e5beeb8f5d089fa44a66 assets/marioverse/models/item/fire_costume_smithing_template.json
 0a071eda79e87a6dc996e8323c07ed7899626107 assets/marioverse/models/item/fire_flower.json
 88a5f9b9b81dbcb4811c848b3e9ddb1abf2b7d05 assets/marioverse/models/item/fire_goomba_spawn_egg.json
@@ -178,6 +179,7 @@ d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_sta
 0f9434f680b6d9cd424b12b2028e1a82490a8e40 assets/marioverse/models/item/warp_disruptor.json
 0d69738b703b90f6967f801dda1ca0422130a52e assets/marioverse/models/item/white_checkpoint_flag.json
 85d9b20ba38a2ba21b1c7a5ce1b4546dc39646cb assets/marioverse/models/item/white_goal_pole.json
+1a7a4d8d61474530b6d278735a0019260ca1b1aa assets/marioverse/models/item/white_koopa_shoes.json
 7e17d6ee5c3c540570fea83c3c7a2ebe2291ac7e assets/marioverse/models/item/wrench.json
 770527b9e9c9fedd333fc643e02eea312ccaca30 assets/marioverse/models/item/yellow_checkpoint_flag.json
 e748ff64dde654cbeb9222f390a843add3312859 assets/marioverse/models/item/yellow_goal_pole.json

@@ -39,6 +39,7 @@ public class ConfigRegistry
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
     public static final String CATEGORY_WRENCH = "wrench";
 
+    public static final String CATEGORY_DRY_BONES = "dry_bones";
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
     public static final String CATEGORY_GOOMBAS = "goombas";
@@ -90,9 +91,10 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DECORATED_POT_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
+    public static ModConfigSpec.BooleanValue DISABLE_BOO_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
-    public static ModConfigSpec.BooleanValue DISABLE_BOO_MASKS;
+    public static ModConfigSpec.BooleanValue DISABLE_DRY_BONES_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
     public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
@@ -111,6 +113,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue FORCE_BOO_MASKS;
+    public static ModConfigSpec.BooleanValue FORCE_DRY_BONES_MASKS;
     public static ModConfigSpec.BooleanValue FORCE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue FORCE_KOOPA_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
@@ -165,6 +168,8 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue VEHICLE_MUSHROOM_BOOST_STRENGTH;
 
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
+    public static ModConfigSpec.IntValue DRY_BONES_REASSEMBLE_DURATION;
+    public static ModConfigSpec.IntValue DRY_BONES_DEATH_DURATION;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
     public static ModConfigSpec.IntValue GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS;
     public static ModConfigSpec.IntValue GOLD_KOOPA_TROOPA_HIDE_DURATION;
@@ -536,6 +541,22 @@ public class ConfigRegistry
             BUILDER.push(CATEGORY_HOLIDAY);
 
                 BUILDER.push(CATEGORY_HALLOWEEN);
+                    DISABLE_BOO_MASKS = BUILDER.translation("configuration.marioverse.disable_boo_masks")
+                            .comment("Ban Boos from wearing masks on Halloween.")
+                            .comment("§9[Default: false]")
+                            .define("disable_boo_masks", false);
+                    FORCE_BOO_MASKS = BUILDER.translation("configuration.marioverse.force_boo_masks")
+                            .comment("Force Boos to spawn wearing masks at any time.")
+                            .comment("§9[Default: false]")
+                            .define("force_boo_masks", false);
+                    DISABLE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.disable_dry_bones_masks")
+                            .comment("Ban Dry Bones from wearing masks on Halloween.")
+                            .comment("§9[Default: false]")
+                            .define("disable_boo_masks", false);
+                    FORCE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.force_dry_bones_masks")
+                            .comment("Force Dry Bones to spawn wearing masks at any time.")
+                            .comment("§9[Default: false]")
+                            .define("force_boo_masks", false);
                     DISABLE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.disable_goomba_masks")
                             .comment("Ban Goombas from wearing masks on Halloween.")
                             .comment("§9[Default: false]")
@@ -552,14 +573,6 @@ public class ConfigRegistry
                             .comment("Force Koopa Troopas to spawn wearing masks at any time.")
                             .comment("§9[Default: false]")
                             .define("force_koopa_masks", false);
-                    DISABLE_BOO_MASKS = BUILDER.translation("configuration.marioverse.disable_boo_masks")
-                            .comment("Ban Boos from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_boo_masks", false);
-                    FORCE_BOO_MASKS = BUILDER.translation("configuration.marioverse.force_boo_masks")
-                            .comment("Force Boos to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_boo_masks", false);
                 BUILDER.pop();
 
             BUILDER.pop();
@@ -588,6 +601,19 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_MOBS);
+
+                BUILDER.push(CATEGORY_DRY_BONES);
+
+                    DRY_BONES_DEATH_DURATION = BUILDER.translation("configuration.marioverse.dry_bones_death_duration")
+                            .comment("Duration Dry Bones lay dead before reassembling in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("dry_bones_death_duration", 300, 0, 999);
+                    DRY_BONES_REASSEMBLE_DURATION = BUILDER.translation("configuration.marioverse.dry_bones_reassemble_duration")
+                            .comment("Duration Dry Bones spend attempting to reassemble in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("dry_bones_reassemble_duration", 600, 0, 999);
+
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_KOOPA_SHELLS);
 
@@ -711,6 +737,7 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_POWER_UPS);
+
                 RUNNING_ACTIVATES_POWER_UPS = BUILDER.translation("configuration.marioverse.running_activates_power_ups")
                         .comment("Allow running to activate power ups.")
                         .comment("§9[Default: true]")

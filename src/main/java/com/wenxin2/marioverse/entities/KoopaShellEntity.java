@@ -115,11 +115,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public KoopaShellEntity(EntityType<? extends KoopaShellEntity> type, Level world) {
         super(type, world);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(2);
+        this.xpReward = 6;
     }
 
     @Nullable
@@ -260,7 +256,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             BlockPos posBelow = this.blockPosition().below();
             BlockState stateBelow = level().getBlockState(posBelow);
             float friction = stateBelow.getFriction(level(), posBelow, this);
-            double slideFriction = (friction > 0.8) ? 0.4 + friction / 1.5 : 1.0;
+            double slideFriction = /*(friction > 0.8) ? 0.4 + friction / 1.5 :*/ 1.0;
             Vec3 slideMotion = this.slidingMovement.scale(slideFriction);
 
             if (this.getLastDamageSource() != null

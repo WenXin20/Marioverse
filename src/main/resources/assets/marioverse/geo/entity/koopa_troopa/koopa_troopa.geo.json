@@ -13,12 +13,12 @@
 			"bones": [
 				{
 					"name": "root",
-					"pivot": [2, 14, 4]
+					"pivot": [0, 14, 4]
 				},
 				{
 					"name": "bipedBody",
 					"parent": "root",
-					"pivot": [1, 18, 4]
+					"pivot": [0, 18, 4]
 				},
 				{
 					"name": "shell",
@@ -52,13 +52,8 @@
 					]
 				},
 				{
-					"name": "bipedHeadBaseRotater",
-					"parent": "bipedBody",
-					"pivot": [0, 13.5, -1.5]
-				},
-				{
 					"name": "bipedHead",
-					"parent": "bipedHeadBaseRotater",
+					"parent": "bipedBody",
 					"pivot": [0, 13.5, -1.5],
 					"cubes": [
 						{"origin": [-4.5, 20, -6], "size": [9, 6, 5], "uv": [0, 0]},
@@ -69,11 +64,11 @@
 				{
 					"name": "armorHead",
 					"parent": "bipedHead",
-					"pivot": [0, 19, -7],
+					"pivot": [0, 20, -6],
 					"rotation": [-15, 0, 0],
 					"cubes": [
 						{
-							"origin": [-4.5, 19, -10],
+							"origin": [-4.5, 20, -9],
 							"size": [9, 8, 9],
 							"uv": {}
 						}

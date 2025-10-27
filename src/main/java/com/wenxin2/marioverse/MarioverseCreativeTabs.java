@@ -105,6 +105,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
             add(event, ItemRegistry.RED_KOOPA_SHOES);
             add(event, ItemRegistry.GOLDEN_KOOPA_SHOES);
+            add(event, ItemRegistry.WHITE_KOOPA_SHOES);
 
             add(event, ItemRegistry.BOWSER_BANNER_PATTERN);
             add(event, ItemRegistry.PLUMBER_BANNER_PATTERN);
@@ -120,6 +121,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
+            add(event, ItemRegistry.DRY_BONES_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
             add(event, ItemRegistry.BOO_SPAWN_EGG);
         }
@@ -536,6 +538,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.GREEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHOES, ItemRegistry.GOLDEN_KOOPA_SHOES);
+                addAfter(event, ItemRegistry.GOLDEN_KOOPA_SHOES, ItemRegistry.WHITE_KOOPA_SHOES);
             }
 
             if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
@@ -592,7 +595,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.SPLUNKIN_SPAWN_EGG, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
-                addAfter(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+                addAfter(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.DRY_BONES_SPAWN_EGG);
+                addAfter(event, ItemRegistry.DRY_BONES_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
                 addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.BOO_SPAWN_EGG);
             }
 

@@ -19,6 +19,7 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(DamageTypeTags.BYPASSES_ARMOR)
+                .add(DamageTypeRegistry.LIGHT)
                 .add(DamageTypeRegistry.SPIKED);
 
         tag(DamageTypeTags.IS_FIRE)
@@ -26,13 +27,14 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypeRegistry.PLAYER_FIREBALL);
 
         tag(DamageTypeTags.NO_KNOCKBACK)
-                .add(DamageTypeRegistry.SPIKED)
-                .add(DamageTypeRegistry.STOMP)
-                .add(DamageTypeRegistry.PLAYER_STOMP);
+                .addTag(TagRegistry.IS_STOMP)
+                .add(DamageTypeRegistry.LIGHT)
+                .add(DamageTypeRegistry.SPIKED);
 
         tag(TagRegistry.BYPASSES_BOO_INVULNERABILITY)
                 .addTag(TagRegistry.IS_SUPER_STAR)
-                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY);
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .add(DamageTypeRegistry.LIGHT);
 
         tag(TagRegistry.BYPASSES_SUPER_STAR)
                 .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
@@ -103,5 +105,15 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .addTag(TagRegistry.IS_ICE_CUBE_CRUSHED)
                 .addTag(TagRegistry.IS_PIRANHA_CHOMP)
                 .addTag(TagRegistry.IS_SPINNING_SHELL);
+
+        tag(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)
+                .addTag(TagRegistry.IS_ICE_BALL)
+                .addTag(TagRegistry.IS_ICE_CUBE_CRUSHED)
+                .addTag(TagRegistry.IS_SPINNING_SHELL)
+                .addTag(TagRegistry.IS_SUPER_STAR)
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .addTag(DamageTypeTags.IS_EXPLOSION)
+                .addTag(DamageTypeTags.IS_FREEZING)
+                .add(DamageTypes.DROWN);
     }
 }

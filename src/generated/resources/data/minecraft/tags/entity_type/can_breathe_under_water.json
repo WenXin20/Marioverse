@@ -1,10 +1,12 @@
 {
   "values": [
+    "#marioverse:dry_bones_bones",
     "#marioverse:goombas",
     "#marioverse:koopa_shells",
     "#marioverse:koopa_troopas",
     "#marioverse:power_ups",
     "marioverse:boo",
+    "marioverse:dry_bones",
     "marioverse:piranha_plant"
   ]
 }

@@ -55,7 +55,7 @@ public class KoopaShellModel extends GeoModel<KoopaShellEntity> {
     @Override
     public void setCustomAnimations(KoopaShellEntity animatable, long instanceId, AnimationState<KoopaShellEntity> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
-        GeoBone head = this.getAnimationProcessor().getBone("bipedHeadBaseRotater");
+        GeoBone head = this.getAnimationProcessor().getBone("bipedHead");
 
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);

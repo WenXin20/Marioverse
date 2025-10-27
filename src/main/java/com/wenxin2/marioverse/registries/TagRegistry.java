@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BannerPattern;
@@ -19,6 +20,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
+    public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA = biomeTags("has_koopa_troopa");
@@ -68,20 +70,24 @@ public class TagRegistry {
 
     public static final TagKey<DamageType> BYPASSES_BOO_INVULNERABILITY = damageTypeTags("bypasses_boo_invulnerability");
     public static final TagKey<DamageType> BYPASSES_SUPER_STAR = damageTypeTags("bypasses_super_star");
-    public static final TagKey<DamageType> HIDES_KOOPA_TROOPA = damageTypeTags("hides_koopa_troopa");
     public static final TagKey<DamageType> FLIPS_KOOPA_SHELL = damageTypeTags("flips_koopa_shell");
-    public static final TagKey<DamageType> STOPS_KOOPA_SHELL = damageTypeTags("stops_koopa_shell");
+    public static final TagKey<DamageType> HIDES_KOOPA_TROOPA = damageTypeTags("hides_koopa_troopa");
     public static final TagKey<DamageType> IS_BONKED = damageTypeTags("is_bonked");
     public static final TagKey<DamageType> IS_DEFEATED = damageTypeTags("is_defeated");
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
     public static final TagKey<DamageType> IS_ICE_BALL = damageTypeTags("ice_ball");
     public static final TagKey<DamageType> IS_ICE_CUBE_CRUSHED = damageTypeTags("ice_cube_crushed");
     public static final TagKey<DamageType> IS_PIRANHA_CHOMP = damageTypeTags("is_piranha_chomp");
-    public static final TagKey<DamageType> IS_SPINNING_SHELL = damageTypeTags("is_spinning_shell");
     public static final TagKey<DamageType> IS_SHRAPNEL = damageTypeTags("is_shrapnel");
+    public static final TagKey<DamageType> IS_SPINNING_SHELL = damageTypeTags("is_spinning_shell");
     public static final TagKey<DamageType> IS_STOMP = damageTypeTags("is_stomp");
     public static final TagKey<DamageType> IS_SUPER_STAR = damageTypeTags("is_super_star");
+    public static final TagKey<DamageType> PREVENTS_DRY_BONES_RESURRECTION = damageTypeTags("prevents_dry_bones_resurrection");
     public static final TagKey<DamageType> SHIELD_BLOCKS = damageTypeTags("shield_blocks");
+    public static final TagKey<DamageType> STOPS_KOOPA_SHELL = damageTypeTags("stops_koopa_shell");
+
+    public static final TagKey<Enchantment> BYPASSES_BOO_INVULNERABILITY_ENCHANTS = enchantmentTags("bypasses_boo_invulnerability");
+    public static final TagKey<Enchantment> PREVENTS_DRY_BONES_RESURRECTION_ENCHANTS = enchantmentTags("prevents_dry_bones_resurrection");
 
     public static final TagKey<Fluid> FREEZES_INTO_COBBLESTONE = fluidTags("freezes_into_cobblestone");
     public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");
@@ -198,6 +204,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
+    public static final TagKey<EntityType<?>> DRY_BONES_BONES = entityTypeTags("dry_bones_bones");
+    public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
     public static final TagKey<EntityType<?>> EQUIP_COSTUMES_IN_ARMOR_SLOTS = entityTypeTags("equip_costumes_in_armor_slots");
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");
@@ -217,6 +225,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> ICE_CUBE_COLLISION_CANNOT_DAMAGE = entityTypeTags("ice_cube_collision_cannot_damage");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
+    public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CAN_INSTAKILL = entityTypeTags("ice_cube_shatter_can_instakill");
     public static final TagKey<EntityType<?>> IRON_SPIKE_IMMUNE = entityTypeTags("iron_spike_immune");
     public static final TagKey<EntityType<?>> KOOPA_CAN_RIDE = entityTypeTags("koopa_can_ride");
     public static final TagKey<EntityType<?>> KOOPA_SHELL_CANNOT_DAMAGE = entityTypeTags("koopa_shell_cannot_damage");
@@ -253,6 +262,10 @@ public class TagRegistry {
 
     public static TagKey<DamageType> damageTypeTags(String name) {
         return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
+
+    public static TagKey<Enchantment> enchantmentTags(String name) {
+        return TagKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
     public static TagKey<EntityType<?>> entityTypeTags(String name) {

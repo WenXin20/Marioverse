@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#marioverse:ice_ball",
+    "#marioverse:ice_cube_crushed",
+    "#marioverse:is_spinning_shell",
+    "#marioverse:is_super_star",
+    "#minecraft:bypasses_invulnerability",
+    "#minecraft:is_explosion",
+    "#minecraft:is_freezing",
+    "minecraft:drown"
+  ]
+}

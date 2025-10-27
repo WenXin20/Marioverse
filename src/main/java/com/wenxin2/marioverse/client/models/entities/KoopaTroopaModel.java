@@ -54,7 +54,7 @@ public class KoopaTroopaModel extends GeoModel<KoopaTroopaEntity> {
 
     @Override
     public void setCustomAnimations(KoopaTroopaEntity animatable, long instanceId, AnimationState<KoopaTroopaEntity> animationState) {
-        GeoBone head = this.getAnimationProcessor().getBone("bipedHeadBaseRotater");
+        GeoBone head = this.getAnimationProcessor().getBone("bipedHead");
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
             if (entityData != null) {

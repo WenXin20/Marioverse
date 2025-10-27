@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -33,8 +34,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -45,29 +44,23 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CarvedPumpkinBlock;
-import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -94,11 +87,7 @@ public class BooEntity extends Monster implements GeoEntity {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.moveControl = new FloatMoveControl(this);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 2 + this.level().random.nextInt(1);
+        this.xpReward = 10;
     }
 
     @Nullable
@@ -120,8 +109,14 @@ public class BooEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public int getAmbientSoundInterval() {
+        return 360;
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.BOO_CAN_ATTACK));
+        this.goalSelector.addGoal(1, new RestrictSunGoal(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new ChargeAttackGoal(this));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0, false));
@@ -188,7 +183,10 @@ public class BooEntity extends Monster implements GeoEntity {
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
         if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
-            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay() && this.isAlive()) {
+            BlockPos posEye = BlockPos.containing(this.getX(), this.getEyeY(), this.getZ());
+
+            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().canSeeSky(posEye)
+                    && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && this.level().isDay() && this.isAlive()) {
                 if (this.random.nextFloat() < 0.01F) {
                     this.playDeathAnimation(this);
                     this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
@@ -198,7 +196,10 @@ public class BooEntity extends Monster implements GeoEntity {
 
             if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8 && this.isAlive()) {
                 this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
-                this.kill();
+                Player nearestPlayer = this.level().getNearestPlayer(this, 4.0);
+                if (nearestPlayer != null)
+                    this.hurt(DamageSourceRegistry.light(this, nearestPlayer), Float.MAX_VALUE);
+                else this.kill();
             }
         }
     }
@@ -231,8 +232,23 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        Entity attacker = source.getEntity();
         if (source.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY))
             super.hurt(source, amount);
+        if (attacker instanceof LivingEntity entity) {
+            ItemStack weapon = entity.getMainHandItem();
+            ItemEnchantments enchantments = weapon.get(DataComponents.ENCHANTMENTS);
+            if (enchantments != null) {
+                for (var entry : enchantments.entrySet()) {
+                    Holder<Enchantment> holder = entry.getKey();
+                    if (holder.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY_ENCHANTS)) {
+                        int level = entry.getIntValue();
+                        if (level > 0)
+                            super.hurt(source, amount);
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -248,16 +264,30 @@ public class BooEntity extends Monster implements GeoEntity {
         return this.getItemBySlot(equipmentslot).isEmpty();
     }
 
-    @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
-        RandomSource random = serverWorld.getRandom();
+    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+        super.populateDefaultEquipmentSlots(random, difficulty);
+
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int i = random.nextInt(3);
+            if (i == 0)
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+            else this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+        }
 
         if (random.nextFloat() < 0.05F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
         else if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+        RandomSource random = serverWorld.getRandom();
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
@@ -353,17 +383,6 @@ public class BooEntity extends Monster implements GeoEntity {
 
     public void setBoundOrigin(@Nullable BlockPos pos) {
         this.boundOrigin = pos;
-    }
-
-    public boolean isLookingAtMe(LivingEntity entity) {
-        Vec3 vec3 = entity.getViewVector(1.0F).normalize();
-        Vec3 vec31 = new Vec3(this.getX() - entity.getX(),
-                this.getEyeY() - entity.getEyeY(), this.getZ() - entity.getZ());
-        double d0 = vec31.length();
-        vec31 = vec31.normalize();
-        double d1 = vec3.dot(vec31);
-
-        return d1 > 1.0 - 0.025 / d0 ? entity.hasLineOfSight(this) : false;
     }
 
     protected void handleAirSupply(int airSupplyAmount) {

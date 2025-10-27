@@ -57,7 +57,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -70,14 +69,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -97,6 +92,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public static final RawAnimation ATTACK_SWING_RIGHT = RawAnimation.begin().thenPlay("attack.swing.right");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("move.hide");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
+    public static final RawAnimation SIT = RawAnimation.begin().thenLoop("misc.sit");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private boolean isHiding;
@@ -108,11 +104,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.DANGER_FIRE, 16.0F);
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
-    }
-
-    @Override
-    protected int getBaseExperienceReward() {
-        return 1 + this.level().random.nextInt(1);
+        this.xpReward = 5;
     }
 
     @Nullable
@@ -131,6 +123,11 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundRegistry.KOOPA_TROOPA_AMBIENT.get();
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        return 360;
     }
 
     @Override
@@ -161,6 +158,11 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
+        if ((this.isPassenger() && !(this.getVehicle() instanceof LivingEntity))) {
+            event.setAndContinue(SIT);
+            return PlayState.CONTINUE;
+        }
+
         if (!this.isHiding()) {
             if (event.isMoving() || this.getDeltaMovement().horizontalDistance() >= 0.01) {
                 event.setAndContinue(WALK);
@@ -241,16 +243,30 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     @Override
     public int getCurrentSwingDuration() {
-        if (MobEffectUtil.hasDigSpeed(this)) {
+        if (MobEffectUtil.hasDigSpeed(this))
             return 10 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
-        } else {
-            return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
-        }
+        else return this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 10 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 10;
+    }
+
+    @NotNull
+    @Override
+    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
+        if (entity instanceof KoopaTroopaEntity || entity instanceof DryBonesEntity)
+            return new Vec3(0.0D, this.getBbHeight() - 0.5D, 0.0D);
+        return super.getPassengerAttachmentPoint(entity, dimensions, height);
     }
 
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
+
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int i = random.nextInt(3);
+            if (i == 0)
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+            else this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+        }
+
         if (this instanceof AbilitiesHandler handler) {
             if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
                 int i = random.nextInt(6);
@@ -292,11 +308,10 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
 
         if (groupData instanceof KoopaGroupData koopaGroupData) {
-            this.populateDefaultEquipmentSlots(random, difficulty);
-            this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
-
             if (koopaGroupData.canSpawnJockey) {
                 if (random.nextDouble() < 0.05) {
                     List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
@@ -418,22 +433,6 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER /*&& flag*/;
-    }
-
-    @NotNull
-    @Override
-    protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float height) {
-        return new Vec3(0.0D, this.getBbHeight() - 0.1D, 0.0D);
-    }
-
-    @Override
-    public boolean checkSpawnObstruction(LevelReader worldReader) {
-        return worldReader.isUnobstructed(this);
-    }
-
-    @Override
-    public int getAmbientSoundInterval() {
-        return 120;
     }
 
     @Override

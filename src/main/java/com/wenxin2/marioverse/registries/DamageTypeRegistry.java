@@ -33,6 +33,9 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> PLAYER_ICE_CUBE_CRUSHED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_ice_cube_crushed"));
 
+    public static final ResourceKey<DamageType> LIGHT =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "light"));
+
     public static final ResourceKey<DamageType> MINI_GOOMBA_DEFEATED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_defeated"));
     public static final ResourceKey<DamageType> PLAYER_MINI_GOOMBA_DEFEATED =
@@ -76,11 +79,6 @@ public class DamageTypeRegistry extends DamageSources {
         context.register(PLAYER_BONKED, new DamageType(Marioverse.MOD_ID + ".bonked.player",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.HURT));
 
-        context.register(MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.HURT));
-        context.register(PLAYER_MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.HURT));
-
         context.register(FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.BURNING));
         context.register(PLAYER_FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball.player",
@@ -95,6 +93,14 @@ public class DamageTypeRegistry extends DamageSources {
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.FREEZING));
         context.register(PLAYER_ICE_CUBE_CRUSHED, new DamageType(Marioverse.MOD_ID + ".ice_cube_crushed.player",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.FREEZING));
+
+        context.register(LIGHT, new DamageType(Marioverse.MOD_ID + ".light",
+                DamageScaling.ALWAYS, 0.0f, DamageEffects.HURT));
+
+        context.register(MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.HURT));
+        context.register(PLAYER_MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated.player",
+                DamageScaling.ALWAYS, 0.1f, DamageEffects.HURT));
 
         context.register(PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
