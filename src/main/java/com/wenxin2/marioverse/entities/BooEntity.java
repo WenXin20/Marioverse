@@ -44,6 +44,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -115,6 +116,7 @@ public class BooEntity extends Monster implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.BOO_CAN_ATTACK));
+        this.goalSelector.addGoal(1, new RestrictSunGoal(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new ChargeAttackGoal(this));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0, false));
@@ -181,7 +183,10 @@ public class BooEntity extends Monster implements GeoEntity {
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
         if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
-            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().isDay() && this.isAlive()) {
+            BlockPos posEye = BlockPos.containing(this.getX(), this.getEyeY(), this.getZ());
+
+            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().canSeeSky(posEye)
+                    && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && this.level().isDay() && this.isAlive()) {
                 if (this.random.nextFloat() < 0.01F) {
                     this.playDeathAnimation(this);
                     this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
@@ -262,6 +267,13 @@ public class BooEntity extends Monster implements GeoEntity {
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
+
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int i = random.nextInt(3);
+            if (i == 0)
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+            else this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
+        }
 
         if (random.nextFloat() < 0.05F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
