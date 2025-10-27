@@ -34,6 +34,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
@@ -94,7 +95,7 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 0.4));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(4, new LookAtTagGoal(this, TagRegistry.SPLUNKIN_CAN_ATTACK, 8.0F, 1.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -169,15 +170,6 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
 
         if (this.getTarget() != null)
             this.setSpeed(0.8F);
-    }
-
-    @Override
-    public void travel(Vec3 travelVector) {
-        if (this.isControlledByLocalInstance() && this.isInWater()) {
-            this.moveRelative(this.getSpeed(), travelVector);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
-        } else super.travel(travelVector);
     }
 
     @Override
