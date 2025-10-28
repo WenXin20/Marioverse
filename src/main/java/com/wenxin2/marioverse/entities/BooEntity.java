@@ -185,8 +185,9 @@ public class BooEntity extends Monster implements GeoEntity {
         if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
             BlockPos posEye = BlockPos.containing(this.getX(), this.getEyeY(), this.getZ());
 
-            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= 8 && this.level().canSeeSky(posEye)
-                    && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && this.level().isDay() && this.isAlive()) {
+            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_LVL_DEATH.get()
+                    && this.level().canSeeSky(posEye) && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                    && this.level().isDay() && this.isAlive()) {
                 if (this.random.nextFloat() < 0.01F) {
                     this.playDeathAnimation(this);
                     this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
@@ -194,7 +195,8 @@ public class BooEntity extends Monster implements GeoEntity {
                 }
             }
 
-            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= 8 && this.isAlive()) {
+            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_LVL_DEATH.get()
+                    && this.isAlive()) {
                 this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
                 Player nearestPlayer = this.level().getNearestPlayer(this, 4.0);
                 if (nearestPlayer != null)

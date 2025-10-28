@@ -39,6 +39,7 @@ public class ConfigRegistry
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
     public static final String CATEGORY_WRENCH = "wrench";
 
+    public static final String CATEGORY_BOO = "boo";
     public static final String CATEGORY_DRY_BONES = "dry_bones";
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
@@ -167,6 +168,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
     public static ModConfigSpec.DoubleValue VEHICLE_MUSHROOM_BOOST_STRENGTH;
 
+    public static ModConfigSpec.IntValue BOO_LIGHT_LVL_DEATH;
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
     public static ModConfigSpec.IntValue DRY_BONES_REASSEMBLE_DURATION;
     public static ModConfigSpec.IntValue DRY_BONES_DEATH_DURATION;
@@ -601,6 +603,16 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_MOBS);
+
+                BUILDER.push(CATEGORY_BOO);
+
+                    BOO_LIGHT_LVL_DEATH = BUILDER.translation("configuration.marioverse.boo_light_level_death")
+                            .comment("The minimum light level it takes to kill a Boo.")
+                            .comment("§6 A light level of 1 will kill Boos in any light.")
+                            .comment("§6 A light level of 16 will allow Boos to survive any light.")
+                            .defineInRange("boo_light_level_death", 12, 1, 16);
+
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_DRY_BONES);
 

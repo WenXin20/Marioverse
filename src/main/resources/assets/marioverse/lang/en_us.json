@@ -1095,6 +1095,7 @@
   "marioverse.configuration.wrench": "Wrench",
   "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
+  "marioverse.configuration.boo": "Boo",
   "marioverse.configuration.dry_bones": "Dry Bones",
   "marioverse.configuration.gold_koopa_shell": "Gold Koopa Shell",
   "marioverse.configuration.gold_koopa_troopa": "Gold Koopa Troopa",
@@ -1123,6 +1124,7 @@
   "configuration.marioverse.allow_fast_travel": "Allow Fast Travel",
   "configuration.marioverse.allow_warp_unwaxing": "Allow Warp Unwaxing",
   "configuration.marioverse.blindness_effect": "Blindness When Warping",
+  "configuration.marioverse.boo_light_level_death": "Light Level Death",
   "configuration.marioverse.checkpoint_flag_add_items": "Add Items in Survival",
   "configuration.marioverse.checkpoint_flag_applies_power_ups": "Apply Power Ups",
   "configuration.marioverse.checkpoint_flag_bucket_tweaks": "Buckets Place Liquids",
