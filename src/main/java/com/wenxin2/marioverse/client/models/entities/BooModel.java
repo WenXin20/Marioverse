@@ -17,7 +17,7 @@ public class BooModel extends GeoModel<BooEntity> {
 
     @Override
     public RenderType getRenderType(BooEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityTranslucentCull(getTextureResource(animatable));
     }
 
     @Override

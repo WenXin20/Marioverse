@@ -5,10 +5,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.BooModel;
 import com.wenxin2.marioverse.entities.BooEntity;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -16,6 +18,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +29,7 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
+import software.bernie.geckolib.util.Color;
 
 public class BooRenderer extends GeoEntityRenderer<BooEntity> {
     private static final String HELMET = "armorBipedHead";
@@ -146,6 +150,15 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
 
         this.mainHandItem = animatable.getMainHandItem();
         this.offhandItem = animatable.getOffhandItem();
+    }
+
+    @Override
+    public Color getRenderColor(BooEntity animatable, float partialTick, int packedLight) {
+        float blockLight = animatable.level().getBrightness(LightLayer.BLOCK, animatable.blockPosition());
+        float sensitivity = ConfigRegistry.BOO_LIGHT_SENSITIVITY.get();
+        float alpha = Mth.clamp(blockLight / sensitivity, 0.8F, 1.0F);
+
+        return Color.ofRGBA(1.0F, 1.0F, 1.0F, alpha);
     }
 
     @Override
