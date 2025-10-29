@@ -610,7 +610,7 @@ public class ConfigRegistry
                             .comment("The minimum block light level it takes to make a Boo vulnerable to any attacks.")
                             .comment("§61 will make Boos vulnerable while in any light.")
                             .comment("§a16 will make Boos invulnerable to almost all attacks.§b")
-                            .defineInRange("boo_light_sensitivity", 12, 1, 16);
+                            .defineInRange("boo_light_sensitivity", 8, 1, 16);
                     BOO_SUN_EXPOSURE_LIMIT = BUILDER.translation("configuration.marioverse.boo_sun_exposure_limit")
                             .comment("The minimum day light level for a Boo to disappear.")
                             .comment("§61 will kill Boos in any daylight.")
