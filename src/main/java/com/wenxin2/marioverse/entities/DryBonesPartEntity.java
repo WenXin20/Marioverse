@@ -358,6 +358,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
         partSource.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
         partSource.copyAttributeWithModifiers(entity, Attributes.SCALE);
+        partSource.copyAttributeWithModifiers(entity, AttributesRegistry.EYE_HEIGHT_SCALE);
         partSource.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
         partSource.copyAttributeWithModifiers(entity, AttributesRegistry.WIDTH_SCALE);
 

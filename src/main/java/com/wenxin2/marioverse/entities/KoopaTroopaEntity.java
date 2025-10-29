@@ -527,6 +527,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
             this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
             this.copyAttributeWithModifiers(shell, Attributes.SCALE);
+            this.copyAttributeWithModifiers(shell, AttributesRegistry.EYE_HEIGHT_SCALE);
             this.copyAttributeWithModifiers(shell, AttributesRegistry.HEIGHT_SCALE);
             this.copyAttributeWithModifiers(shell, AttributesRegistry.WIDTH_SCALE);
 
