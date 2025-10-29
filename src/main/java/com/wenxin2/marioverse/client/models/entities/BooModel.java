@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.BooEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.animation.AnimationState;
@@ -27,6 +28,8 @@ public class BooModel extends GeoModel<BooEntity> {
 
     @Override
     public ResourceLocation getTextureResource(BooEntity animatable) {
+        if (animatable.getData(DataAttachmentRegistry.IS_HIDING.get()))
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/boo/boo_hide.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/boo/boo.png");
     }
 

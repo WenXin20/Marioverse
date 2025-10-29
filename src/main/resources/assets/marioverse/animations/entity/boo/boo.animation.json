@@ -214,26 +214,6 @@
 					"position": {
 						"vector": [-2, -1, -3]
 					}
-				},
-				"eyes_normal": {
-					"position": {
-						"vector": [0, 0, 1]
-					}
-				},
-				"eyes_shy": {
-					"position": {
-						"vector": [0, 0, -1]
-					}
-				},
-				"mouth_normal": {
-					"position": {
-						"vector": [0, 0, 1]
-					}
-				},
-				"mouth_shy": {
-					"position": {
-						"vector": [0, 0, -1]
-					}
 				}
 			}
 		}

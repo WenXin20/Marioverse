@@ -37,6 +37,7 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
     private static final String RIGHT_ARM = "bipedRightArm";
     protected ItemStack mainHandItem;
     protected ItemStack offhandItem;
+    private float lastAlpha = 1.0F;
 
     public BooRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new BooModel());
@@ -156,9 +157,11 @@ public class BooRenderer extends GeoEntityRenderer<BooEntity> {
     public Color getRenderColor(BooEntity animatable, float partialTick, int packedLight) {
         float blockLight = animatable.level().getBrightness(LightLayer.BLOCK, animatable.blockPosition());
         float sensitivity = ConfigRegistry.BOO_LIGHT_SENSITIVITY.get();
-        float alpha = Mth.clamp(blockLight / sensitivity, 0.8F, 1.0F);
+        float targetAlpha  = Mth.clamp(blockLight / sensitivity, 0.8F, 1.0F);
 
-        return Color.ofRGBA(1.0F, 1.0F, 1.0F, alpha);
+        lastAlpha += (targetAlpha - lastAlpha) * 0.4F;
+
+        return Color.ofRGBA(1.0F, 1.0F, 1.0F, lastAlpha);
     }
 
     @Override
