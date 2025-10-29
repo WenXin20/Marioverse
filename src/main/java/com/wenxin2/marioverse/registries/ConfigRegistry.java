@@ -608,8 +608,8 @@ public class ConfigRegistry
 
                     BOO_LIGHT_LVL_DEATH = BUILDER.translation("configuration.marioverse.boo_light_level_death")
                             .comment("The minimum light level it takes to kill a Boo.")
-                            .comment("§6 A light level of 1 will kill Boos in any light.")
-                            .comment("§6 A light level of 16 will allow Boos to survive any light.")
+                            .comment("§r A light level of 1 will kill Boos in any light.")
+                            .comment("§a A light level of 16 will allow Boos to survive any light.")
                             .defineInRange("boo_light_level_death", 12, 1, 16);
 
                 BUILDER.pop();
