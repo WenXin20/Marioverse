@@ -168,7 +168,8 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
     public static ModConfigSpec.DoubleValue VEHICLE_MUSHROOM_BOOST_STRENGTH;
 
-    public static ModConfigSpec.IntValue BOO_LIGHT_LVL_DEATH;
+    public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
+    public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
     public static ModConfigSpec.IntValue DRY_BONES_REASSEMBLE_DURATION;
     public static ModConfigSpec.IntValue DRY_BONES_DEATH_DURATION;
@@ -605,17 +606,19 @@ public class ConfigRegistry
             BUILDER.push(CATEGORY_MOBS);
 
                 BUILDER.push(CATEGORY_BOO);
-
-                    BOO_LIGHT_LVL_DEATH = BUILDER.translation("configuration.marioverse.boo_light_level_death")
-                            .comment("The minimum light level it takes to kill a Boo.")
-                            .comment("§r A light level of 1 will kill Boos in any light.")
-                            .comment("§a A light level of 16 will allow Boos to survive any light.")
-                            .defineInRange("boo_light_level_death", 12, 1, 16);
-
+                    BOO_LIGHT_SENSITIVITY = BUILDER.translation("configuration.marioverse.boo_light_sensitivity")
+                            .comment("The minimum block light level it takes to make a Boo vulnerable to any attacks.")
+                            .comment("§61 will make Boos vulnerable while in any light.")
+                            .comment("§a16 will make Boos invulnerable to almost all attacks.§b")
+                            .defineInRange("boo_light_sensitivity", 12, 1, 16);
+                    BOO_SUN_EXPOSURE_LIMIT = BUILDER.translation("configuration.marioverse.boo_sun_exposure_limit")
+                            .comment("The minimum day light level for a Boo to disappear.")
+                            .comment("§61 will kill Boos in any daylight.")
+                            .comment("§a16 will allow Boos to survive in daylight.§b")
+                            .defineInRange("boo_sun_exposure_limit", 12, 1, 16);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_DRY_BONES);
-
                     DRY_BONES_DEATH_DURATION = BUILDER.translation("configuration.marioverse.dry_bones_death_duration")
                             .comment("Duration Dry Bones lay dead before reassembling in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
@@ -624,7 +627,6 @@ public class ConfigRegistry
                             .comment("Duration Dry Bones spend attempting to reassemble in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("dry_bones_reassemble_duration", 600, 0, 999);
-
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_KOOPA_SHELLS);

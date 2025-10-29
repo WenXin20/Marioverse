@@ -2,16 +2,13 @@ package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
-import com.wenxin2.marioverse.entities.ai.goals.ChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.LightAvoidingChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LightAvoidingRandomMoveGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
-import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -44,12 +41,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -118,9 +112,9 @@ public class BooEntity extends Monster implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.BOO_CAN_ATTACK));
-        this.goalSelector.addGoal(1, new LightAvoidingChargeAttackGoal(this, ConfigRegistry.BOO_LIGHT_LVL_DEATH.get()));
+        this.goalSelector.addGoal(1, new LightAvoidingChargeAttackGoal(this, ConfigRegistry.BOO_SUN_EXPOSURE_LIMIT.get()));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(3, new LightAvoidingRandomMoveGoal(this, ConfigRegistry.BOO_LIGHT_LVL_DEATH.get()));
+        this.goalSelector.addGoal(3, new LightAvoidingRandomMoveGoal(this, ConfigRegistry.BOO_SUN_EXPOSURE_LIMIT.get()));
         this.goalSelector.addGoal(4, new LookAtTagGoal(this, TagRegistry.BOO_CAN_ATTACK, 16.0F, 1.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.BOO_CAN_ATTACK, false));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -185,7 +179,7 @@ public class BooEntity extends Monster implements GeoEntity {
         if (!this.level().isClientSide && !this.isNoAi() && !this.getData(DataAttachmentRegistry.HAS_SUPER_STAR.get())) {
             BlockPos posEye = BlockPos.containing(this.getX(), this.getEyeY(), this.getZ());
 
-            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_LVL_DEATH.get()
+            if (this.level().getBrightness(LightLayer.SKY, this.blockPosition()) >= ConfigRegistry.BOO_SUN_EXPOSURE_LIMIT.get()
                     && this.level().canSeeSky(posEye) && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                     && this.level().isDay() && this.isAlive()) {
                 if (this.random.nextFloat() < 0.01F) {
@@ -228,7 +222,7 @@ public class BooEntity extends Monster implements GeoEntity {
         Entity attacker = source.getEntity();
         if (source.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY))
             return super.hurt(source, amount);
-        if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_LVL_DEATH.get())
+        if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_SENSITIVITY.get())
             return super.hurt(source, amount);
         if (attacker instanceof LivingEntity entity) {
             ItemStack weapon = entity.getMainHandItem();
