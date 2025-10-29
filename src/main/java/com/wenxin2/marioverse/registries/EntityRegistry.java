@@ -168,6 +168,12 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
+        AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.3F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
+                .add(Attributes.MAX_HEALTH, 12)
+                .add(Attributes.MOVEMENT_SPEED, 0.35F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 8.0F);
         AttributeSupplier.Builder dryBonesPartAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
@@ -235,7 +241,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), dryBonesPartAttributes.build());
         event.put(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), dryBonesPartAttributes.build());
 
-        event.put(EntityRegistry.DRY_BONES.get(), koopaAttributes.build());
+        event.put(EntityRegistry.DRY_BONES.get(), dryBonesAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());
