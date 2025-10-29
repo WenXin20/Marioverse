@@ -194,15 +194,6 @@ public class BooEntity extends Monster implements GeoEntity {
                     this.discard();
                 }
             }
-
-            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_LVL_DEATH.get()
-                    && this.isAlive()) {
-                this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
-                Player nearestPlayer = this.level().getNearestPlayer(this, 4.0);
-                if (nearestPlayer != null)
-                    this.hurt(DamageSourceRegistry.light(this, nearestPlayer), Float.MAX_VALUE);
-                else this.kill();
-            }
         }
     }
 
@@ -236,7 +227,9 @@ public class BooEntity extends Monster implements GeoEntity {
     public boolean hurt(DamageSource source, float amount) {
         Entity attacker = source.getEntity();
         if (source.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY))
-            super.hurt(source, amount);
+            return super.hurt(source, amount);
+        if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_LVL_DEATH.get())
+            return super.hurt(source, amount);
         if (attacker instanceof LivingEntity entity) {
             ItemStack weapon = entity.getMainHandItem();
             ItemEnchantments enchantments = weapon.get(DataComponents.ENCHANTMENTS);
@@ -246,7 +239,7 @@ public class BooEntity extends Monster implements GeoEntity {
                     if (holder.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY_ENCHANTS)) {
                         int level = entry.getIntValue();
                         if (level > 0)
-                            super.hurt(source, amount);
+                            return super.hurt(source, amount);
                     }
                 }
             }
