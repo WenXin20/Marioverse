@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
-import com.wenxin2.marioverse.entities.ai.goals.LightAvoidingChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LightAvoidingRandomMoveGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
@@ -45,6 +44,7 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.projectile.SpectralArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -222,6 +222,8 @@ public class BooEntity extends Monster implements GeoEntity {
     public boolean hurt(DamageSource source, float amount) {
         Entity attacker = source.getEntity();
         if (source.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY))
+            return super.hurt(source, amount);
+        if (source.getDirectEntity() instanceof SpectralArrow)
             return super.hurt(source, amount);
         if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) >= ConfigRegistry.BOO_LIGHT_SENSITIVITY.get())
             return super.hurt(source, amount);
