@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.LightAvoidingRandomMoveGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -115,7 +116,7 @@ public class BooEntity extends Monster implements GeoEntity {
         this.goalSelector.addGoal(0, new FreezeWhenLookedAt(this, TagRegistry.BOO_CAN_ATTACK));
         this.goalSelector.addGoal(1, new ChargeAttackGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(3, new LightAvoidingRandomMoveGoal(this, ConfigRegistry.BOO_LIGHT_SENSITIVITY.get()));
+        this.goalSelector.addGoal(3, new RandomMoveGoal(this));
         this.goalSelector.addGoal(4, new LookAtTagGoal(this, TagRegistry.BOO_CAN_ATTACK, 16.0F, 1.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.BOO_CAN_ATTACK, false));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
