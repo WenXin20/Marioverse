@@ -167,7 +167,9 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
                 String strippedPath = path.replace(removeBlockName, "stripped_" + removeBlockName);
                 ResourceLocation strippedId = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), strippedPath);
 
-                Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);if (strippedBlock != Blocks.AIR && strippedId.getPath().contains("stripped_")) {
+                Block strippedBlock = BuiltInRegistries.BLOCK.get(strippedId);
+
+                if (strippedBlock != Blocks.AIR && strippedId.getPath().contains("stripped_")) {
                     return strippedBlock.defaultBlockState()
                             .setValue(AXIS, state.getValue(AXIS))
                             .setValue(HALF, state.getValue(HALF))
