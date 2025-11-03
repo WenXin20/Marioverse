@@ -922,7 +922,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
             Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
 
-            if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                 entity.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(entity);
                 stack.copyWithCount(1);
@@ -931,7 +931,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
             Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
 
-            if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                 entity.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 entity.setDeltaMovement(new Vec3(
                         world.random.triangle(0.0, 0.3),
@@ -944,7 +944,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
             Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
-            if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                 entity.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 entity.setDeltaMovement(new Vec3(
                         world.random.triangle(0.0, 0.2),
@@ -957,7 +957,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
             Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
-            if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                 CompoundTag nbt = new CompoundTag();
                 entity.save(nbt);
                 nbt.putInt("Type", 1);
@@ -972,7 +972,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
             Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
 
-            if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                 CompoundTag nbt = new CompoundTag();
                 entity.save(nbt);
                 nbt.putInt("Type", 2);
@@ -1006,7 +1006,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
             Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
 
-            if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
                 entity.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(entity);
                 stack.copyWithCount(1);
