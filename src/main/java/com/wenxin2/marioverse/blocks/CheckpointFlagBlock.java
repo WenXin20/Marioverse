@@ -22,6 +22,7 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
@@ -580,7 +581,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                     if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
                         CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, livingEntity, true);
-                        QuestionBlock.playSounds(world, respawnPos, storedItem);
+                        MarioverseSoundTypes.playSounds(world, respawnPos, storedItem);
                         flagBE.splitTheItem(1);
                     }
                 }

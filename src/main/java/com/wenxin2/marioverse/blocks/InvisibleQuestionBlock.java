@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -127,7 +128,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
                         world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
-                    QuestionBlock.playSounds(world, pos, storedItem);
+                    MarioverseSoundTypes.playSounds(world, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
@@ -207,7 +208,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
                         world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
-                    QuestionBlock.playSounds(world, pos, storedItem);
+                    MarioverseSoundTypes.playSounds(world, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }

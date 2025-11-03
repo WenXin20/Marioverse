@@ -42,6 +42,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
+import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -423,8 +424,6 @@ public class MarioverseEventHandlers {
         Level world = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
-        BlockState stateAbove = world.getBlockState(pos.above());
-        BlockState stateBelow = world.getBlockState(pos.below());
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -717,7 +716,7 @@ public class MarioverseEventHandlers {
 
                     if (!storedItem.isEmpty()) {
                         CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true);
-                        QuestionBlock.playSounds(world, respawnPos, storedItem);
+                        MarioverseSoundTypes.playSounds(world, respawnPos, storedItem);
                         flagBE.splitTheItem(1);
                     }
                 }

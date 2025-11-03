@@ -64,7 +64,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         else if (!this.pipeName.isEmpty())
             // Warp Pipe "Name"
             graphics.drawString(this.font, this.pipeName, this.titleLabelX, this.titleLabelY, 4210752, false);
-        // "Warp Pipe"
+            // "Warp Pipe"
         else graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
 
         // Inventory

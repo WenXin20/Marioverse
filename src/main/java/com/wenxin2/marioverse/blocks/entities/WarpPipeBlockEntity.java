@@ -5,7 +5,6 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
-import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -16,6 +15,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
+import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.world.PipeSpawner;
 import java.util.HashMap;
@@ -319,7 +319,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 ItemStack stack = warpPipeBE.getTheItem().copyWithCount(1);
 
                 warpPipeBE.spawnFromWarpPipe(world, pos, stack);
-                QuestionBlock.playSounds(world, pos, stack);
+                MarioverseSoundTypes.playSounds(world, pos, stack);
                 warpPipeBE.spawnItemDelay = 180;
             }
         }

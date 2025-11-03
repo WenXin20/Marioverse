@@ -19,6 +19,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -236,7 +237,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
                 entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), true);
-                QuestionBlock.playSounds(world, pos, storedItem);
+                MarioverseSoundTypes.playSounds(world, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();
             }
