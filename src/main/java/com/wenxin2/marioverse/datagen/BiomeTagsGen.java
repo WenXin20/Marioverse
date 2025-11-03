@@ -58,6 +58,16 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE)
                 .add(Biomes.DARK_FOREST);
 
+        tag(TagRegistry.HAS_BRICK_LANES)
+                .addTag(Tags.Biomes.IS_MUSHROOM)
+                .addTag(Tags.Biomes.IS_PLAINS)
+                .addTag(BiomeTags.IS_SAVANNA)
+                .add(Biomes.MUSHROOM_FIELDS)
+                .add(Biomes.PLAINS)
+                .add(Biomes.SNOWY_PLAINS)
+                .add(Biomes.SUNFLOWER_PLAINS);
+        
+
         tag(TagRegistry.HAS_CLASSIC_UNDERGROUND)
                 .addTag(Tags.Biomes.IS_MUSHROOM)
                 .addTag(Tags.Biomes.IS_PLAINS)
@@ -73,13 +83,10 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .add(Biomes.SNOWY_PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS);
 
-        tag(TagRegistry.HAS_BRICK_LANES)
-                .addTag(Tags.Biomes.IS_MUSHROOM)
-                .addTag(Tags.Biomes.IS_PLAINS)
-                .addTag(BiomeTags.IS_SAVANNA)
-                .add(Biomes.MUSHROOM_FIELDS)
-                .add(Biomes.PLAINS)
-                .add(Biomes.SNOWY_PLAINS)
-                .add(Biomes.SUNFLOWER_PLAINS);
+        tag(TagRegistry.HAS_PIPE_TOWERS)
+                .addTag(Tags.Biomes.IS_MUSHROOM);
+
+        tag(TagRegistry.HAS_SUBMERGED_PIPES)
+                .addTag(BiomeTags.IS_OVERWORLD);
     }
 }

@@ -1259,7 +1259,7 @@
   "configuration.marioverse.warp_pipe_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_trapdoor_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_trapdoor_fuel_amt": "Fuel Amount",
-  "configuration.marioverse.water_spouts_bucketable": "Bucketable Water Spouts",
+  "configuration.marioverse.water_spouts_bucketable": "Bucketable",
   "configuration.marioverse.wax_disables_bubbles": "Wax Disables Pipe Bubbles Button",
   "configuration.marioverse.wax_disables_closing": "Wax Disables Open/Close Button",
   "configuration.marioverse.wax_disables_renaming": "Wax Disables Rename Button",

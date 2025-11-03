@@ -9,11 +9,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandler, EntityWarpPlayerHandler {
-    @Shadow protected abstract float getBlockSpeedFactor();
-
     public PlayerMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
     }
@@ -28,10 +29,8 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
         return ConfigRegistry.TELEPORT_PLAYERS.get();
     }
 
-    @Override
-    public void baseTick() {
-        super.baseTick();
-
+    @Inject(method = "tick", at = @At("TAIL"))
+    public void tick(CallbackInfo ci) {
         int preventWarpCooldown = this.mv$getPreventWarpCooldown();
         if (preventWarpCooldown > 0)
             this.mv$setPreventWarpCooldown(this.mv$getPreventWarpCooldown() - 1);

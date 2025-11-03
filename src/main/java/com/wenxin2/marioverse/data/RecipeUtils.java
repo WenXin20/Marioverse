@@ -516,25 +516,23 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     public void dyeItemRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                              TagKey<Item> inputItemTag, ItemLike inputItem, RecipeOutput output) {
+                              Object input1, Object input2, RecipeOutput output) {
         ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
-                .requires(inputItemTag)
-                .requires(inputItem)
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .unlockedBy("has_goal_pole", has(inputItemTag))
                 .group(Marioverse.MOD_ID + ":" + groupName)
                 .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
-    }
 
-    public void dyeItemTagRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                 TagKey<Item> inputItemTag, TagKey<Item> inputItemTag2, RecipeOutput output) {
-        ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
-                .requires(inputItemTag)
-                .requires(inputItemTag2)
-                .unlockedBy("has_dye", has(inputItemTag))
-                .unlockedBy("has_goal_pole", has(inputItemTag2))
-                .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (input1 instanceof ItemLike itemLike)
+            builder.requires(itemLike);
+        if (input2 instanceof ItemLike itemLike)
+            builder.requires(itemLike);
+
+        builder.save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
     }
 
     public void questionBlockRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, TagKey<Item> itemTag, RecipeOutput output) {

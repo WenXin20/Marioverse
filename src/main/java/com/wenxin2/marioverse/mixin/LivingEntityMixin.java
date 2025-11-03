@@ -225,7 +225,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
     }
 
-    @Inject( method = "tick", at = @At("TAIL"))
+    @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level world = entity.level();
