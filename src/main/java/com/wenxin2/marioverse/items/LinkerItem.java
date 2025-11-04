@@ -319,13 +319,11 @@ public class LinkerItem extends TieredItem {
         if (getIsBound(stack) && getWarpPos(stack) != null) {
             list.add(Component.literal(""));
 
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound",
-                            getWarpPos(stack).getX(), getWarpPos(stack).getY(), getWarpPos(stack).getZ(), /*getWarpDimension(stack),*/ true)
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
                     .withStyle(ChatFormatting.GOLD));
-        } else {
-            list.add(Component.literal(""));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.not_bound", true)
-                    .withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x", getWarpPos(stack).getX(), true));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y", getWarpPos(stack).getY(), true));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z", getWarpPos(stack).getZ(), true));
         }
     }
 }
