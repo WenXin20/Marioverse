@@ -733,9 +733,9 @@
 
   "item.marioverse.wrench.tooltip": "§e§o[Press Shift]",
   "item.marioverse.wrench.tooltip.bound": "§6Bound Location:",
-  "item.marioverse.wrench.tooltip.bound.x": "§7• %1$s",
-  "item.marioverse.wrench.tooltip.bound.y": "§7• %1$s",
-  "item.marioverse.wrench.tooltip.bound.z": "§7• %1$s",
+  "item.marioverse.wrench.tooltip.bound.x": " §7• X: %1$s",
+  "item.marioverse.wrench.tooltip.bound.y": " §7• Y: %1$s",
+  "item.marioverse.wrench.tooltip.bound.z": " §7• Z: %1$s",
   "item.marioverse.wrench.tooltip.right_click": "§2Right-click:",
   "item.marioverse.wrench.tooltip.right_click.gui": " §7• Opens pipe GUI",
   "item.marioverse.wrench.tooltip.shift_right_click": "§6Shift-right-click:",

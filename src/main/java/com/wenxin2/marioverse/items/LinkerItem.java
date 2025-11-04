@@ -321,9 +321,12 @@ public class LinkerItem extends TieredItem {
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
                     .withStyle(ChatFormatting.GOLD));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x", getWarpPos(stack).getX(), true));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y", getWarpPos(stack).getY(), true));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z", getWarpPos(stack).getZ(), true));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
+                    getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y",
+                    getWarpPos(stack).getY(), true).withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
+                    getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
         }
     }
 }
