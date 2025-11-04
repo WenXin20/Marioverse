@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -45,10 +46,15 @@ public interface EntityWarpEntityHandler {
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
         if (!this.mv$doPreventWarp()) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (this.mv$getWarpCooldown() == 0 && !entity.isShiftKeyDown()) {
+                if (!warpLinkableEntity.mv$getPreventWarp() && this.mv$getWarpCooldown() == 0
+                        && !entity.isShiftKeyDown())
                     this.warp(entity, world, warpLinkableEntity);
-                } else if (entity instanceof Player player && warpLinkableEntity.mv$hasDestinationPos())
-                    this.displayCooldownMessage(player, warpEntity);
+                else if (entity instanceof Player player) {
+                    if (warpLinkableEntity.mv$getPreventWarp() && warpLinkableEntity instanceof Painting warpPainting)
+                        this.displayWarpDisruptedMessage(player, warpPainting);
+                    else if (warpLinkableEntity.mv$hasDestinationPos())
+                        this.displayCooldownMessage(player, warpEntity);
+                }
             }
         }
     }
@@ -125,6 +131,14 @@ public interface EntityWarpEntityHandler {
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown"), true);
                 }
             }
+        }
+    }
+
+    default void displayWarpDisruptedMessage(Player player, Painting warpPainting) {
+        if (warpPainting.getVariant().getKey() != null) {
+            player.displayClientMessage(Component.translatable("display.marioverse.painting_warp_disrupted",
+                    Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                    warpPainting.getName()).withStyle(ChatFormatting.RED), true);
         }
     }
 
