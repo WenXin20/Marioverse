@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
@@ -61,6 +62,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -74,9 +77,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -107,8 +112,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
-    private static final float SCALING_SPEED = 0.1F;
-
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
@@ -449,6 +452,52 @@ public class MarioverseEventHandlers {
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
+        }
+
+        if (heldItem.getItem() instanceof HoneycombItem && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
+                && (ConfigRegistry.WAX_DISABLES_BUBBLES.get() || ConfigRegistry.WAX_DISABLES_CLOSING.get()
+                || ConfigRegistry.WAX_DISABLES_RENAMING.get() || ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()
+                || ConfigRegistry.WAX_DISABLES_WARP_LINKING.get())) {
+            if (!warpBE.isWaxed()) {
+                warpBE.setWaxed(true);
+                warpBE.markUpdated();
+                heldItem.consume(1, player);
+
+                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+
+                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+                world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+
+                event.setCancellationResult(InteractionResult.SUCCESS);
+                event.setCanceled(true);
+            }
+        }
+
+        if (heldItem.getItem() instanceof AxeItem && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
+                && ConfigRegistry.ALLOW_WARP_UNWAXING.get()) {
+            if (warpBE.isWaxed()) {
+                warpBE.setWaxed(false);
+                warpBE.markUpdated();
+                heldItem.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+
+                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
+                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+
+                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+                world.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+
+                event.setCancellationResult(InteractionResult.SUCCESS);
+                event.setCanceled(true);
+            }
         }
 
         if (heldItem.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
