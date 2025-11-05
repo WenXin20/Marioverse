@@ -19,7 +19,7 @@ displayName="${mod_name}"
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://github.com/WenXin20/Marioverse" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="marioverse_banner.png"
+logoFile="marioverse_banner_large.png"
 # A text field displayed in the mod UI
 credits="Made by WenXin2"
 # A text field displayed in the mod UI
