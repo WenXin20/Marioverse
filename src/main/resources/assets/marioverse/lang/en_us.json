@@ -1032,6 +1032,7 @@
 
   "display.marioverse.warp_disrupted": "§c%1$s was prevented from warping you!",
   "display.marioverse.painting_warp_disrupted": "§c%1$s %2$s was prevented from warping you!",
+  "display.warp_pipes.warp_disrupted_player": "§cYou were prevented from warping!",
 
   "display.marioverse.warp_pipe_cooldown": "§cPipe warping on cooldown!",
   "display.marioverse.warp_pipe_cooldown.ticks": "§cPipe warping on cooldown for §r%1$s §cticks!",

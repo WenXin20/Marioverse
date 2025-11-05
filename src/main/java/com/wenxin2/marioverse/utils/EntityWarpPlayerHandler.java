@@ -24,6 +24,6 @@ public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
         }
 
         if (this.mv$doPreventWarp())
-            player.displayClientMessage(Component.translatable("display.marioverse.warp_disruptor_prevented_warp"), true);
+            player.displayClientMessage(Component.translatable("display.marioverse.warp_disrupted_player"), true);
     }
 }
