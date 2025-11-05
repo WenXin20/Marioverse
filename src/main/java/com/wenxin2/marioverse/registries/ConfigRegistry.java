@@ -754,8 +754,8 @@ public class ConfigRegistry
 
                 RUNNING_ACTIVATES_POWER_UPS = BUILDER.translation("configuration.marioverse.running_activates_power_ups")
                         .comment("Allow running to activate power ups.")
-                        .comment("§9[Default: true]")
-                        .define("running_activates_power_ups", true);
+                        .comment("§9[Default: false]")
+                        .define("running_activates_power_ups", false);
 
                 BUILDER.push(CATEGORY_FIRE_FLOWER);
                     FIRE_FLOWER_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.fire_flower_powers_all_mobs")
