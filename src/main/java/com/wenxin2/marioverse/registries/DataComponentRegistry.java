@@ -1,15 +1,20 @@
 package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.Marioverse;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.commands.data.BlockDataAccessor;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
@@ -38,6 +43,21 @@ public class DataComponentRegistry {
                     () -> DataComponentType.<Integer>builder().persistent(Codec.INT)
                             .networkSynchronized(ByteBufCodecs.INT).build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_BLOCK =
+            Marioverse.COMPONENTS.register("warp_block",
+                    () -> DataComponentType.<WarpTarget>builder().persistent(WarpTarget.CODEC)
+                            .networkSynchronized(WarpTarget.STREAM_CODEC).build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_ENTITY =
+            Marioverse.COMPONENTS.register("warp_entity",
+                    () -> DataComponentType.<WarpTarget>builder().persistent(WarpTarget.CODEC)
+                            .networkSynchronized(WarpTarget.STREAM_CODEC).build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_PAINTING =
+            Marioverse.COMPONENTS.register("warp_painting",
+                    () -> DataComponentType.<WarpTarget>builder().persistent(WarpTarget.CODEC)
+                            .networkSynchronized(WarpTarget.STREAM_CODEC).build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> WARP_POS =
             Marioverse.COMPONENTS.register("warp_pos",
                     () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
@@ -59,4 +79,18 @@ public class DataComponentRegistry {
                             .networkSynchronized(UUIDUtil.STREAM_CODEC).build());
 
     public static void init() {}
+
+    public record WarpTarget(BlockPos pos, String name) {
+        public static final Codec<WarpTarget> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(BlockPos.CODEC.fieldOf("pos").forGetter(WarpTarget::pos),
+                        Codec.STRING.fieldOf("name").forGetter(WarpTarget::name))
+                        .apply(instance, WarpTarget::new));
+
+        public static final StreamCodec<FriendlyByteBuf, String> STRING_CODEC =
+                StreamCodec.of(FriendlyByteBuf::writeUtf, buf -> buf.readUtf(32767));
+
+        public static final StreamCodec<FriendlyByteBuf, WarpTarget> STREAM_CODEC =
+                StreamCodec.composite(BlockPos.STREAM_CODEC, WarpTarget::pos,
+                        STRING_CODEC, WarpTarget::name, WarpTarget::new);
+    }
 }

@@ -96,10 +96,13 @@ public class LinkerItem extends TieredItem {
                         warpBE.setChanged();
                     }
                     // First interaction: Bind the first block
+                    setWarpBlock(stack, pos, state);
                     setWarpPos(stack, pos);
                     setWarpDimension(stack, dimension);
                     setWarpUUID(stack, uuid);
                     setIsBound(stack, true);  // Mark the item as bound
+                    stack.remove(DataComponentRegistry.WARP_ENTITY.get());
+                    stack.remove(DataComponentRegistry.WARP_PAINTING.get());
 
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
                                     state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
@@ -253,6 +256,35 @@ public class LinkerItem extends TieredItem {
         stack.set(DataComponentRegistry.WARP_POS, warpPos);
     }
 
+    public static DataComponentRegistry.WarpTarget getWarpBlock(ItemStack stack) {
+        return stack.getOrDefault(DataComponentRegistry.WARP_BLOCK, new DataComponentRegistry.WarpTarget(null, null));
+    }
+
+    public static void setWarpBlock(ItemStack stack, BlockPos warpPos, BlockState blockState) {
+        String blockName = blockState.getBlock().getName().getString();
+        stack.set(DataComponentRegistry.WARP_BLOCK.get(), new DataComponentRegistry.WarpTarget(warpPos, blockName));
+    }
+
+    public static DataComponentRegistry.WarpTarget getWarpEntity(ItemStack stack) {
+        return stack.getOrDefault(DataComponentRegistry.WARP_ENTITY, new DataComponentRegistry.WarpTarget(null, null));
+    }
+
+    public static void setWarpEntity(ItemStack stack, Entity entity) {
+        stack.set(DataComponentRegistry.WARP_ENTITY.get(),
+                new DataComponentRegistry.WarpTarget(entity.blockPosition(), entity.getName().getString()));
+    }
+
+    public static DataComponentRegistry.WarpTarget getWarpPainting(ItemStack stack) {
+        return stack.getOrDefault(DataComponentRegistry.WARP_PAINTING, new DataComponentRegistry.WarpTarget(null, null));
+    }
+
+    public static void setWarpPainting(ItemStack stack, Painting painting) {
+        if (painting.getVariant().getKey() != null)
+            stack.set(DataComponentRegistry.WARP_PAINTING.get(),
+                    new DataComponentRegistry.WarpTarget(painting.blockPosition(),
+                            painting.getVariant().getKey().location().toLanguageKey("painting", "title")));
+    }
+
     public static String getWarpDimension(ItemStack stack) {
         return stack.getOrDefault(DataComponentRegistry.WARP_DIMENSION.get(), "");
     }
@@ -316,11 +348,19 @@ public class LinkerItem extends TieredItem {
     @ParametersAreNonnullByDefault
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        if (getIsBound(stack) && getWarpPos(stack) != null) {
+        if (getIsBound(stack)) {
             list.add(Component.literal(""));
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
                     .withStyle(ChatFormatting.GOLD));
+
+            if (stack.has(DataComponentRegistry.WARP_BLOCK.get()))
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.block",
+                        getWarpBlock(stack).name(), true).withStyle(ChatFormatting.GRAY));
+            if (stack.has(DataComponentRegistry.WARP_ENTITY.get()) && stack.has(DataComponentRegistry.WARP_PAINTING.get()))
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.painting",
+                        Component.translatable(getWarpPainting(stack).name()), getWarpEntity(stack).name(), true).withStyle(ChatFormatting.GRAY));
+
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
                     getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y",

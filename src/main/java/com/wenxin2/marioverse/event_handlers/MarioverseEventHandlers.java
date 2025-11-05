@@ -36,6 +36,7 @@ import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -596,11 +597,14 @@ public class MarioverseEventHandlers {
                                 Direction direction = painting.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 LinkerItem.setWarpPos(stack, pos);
+                                LinkerItem.setWarpEntity(stack, painting);
 
-                                if (painting.getVariant().getKey() != null)
+                                if (painting.getVariant().getKey() != null) {
                                     player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound_painting",
                                             Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                             target.getName()).withStyle(ChatFormatting.GREEN), true);
+                                    LinkerItem.setWarpPainting(stack, painting);
+                                }
                             } else {
                                 WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
                                 LinkerItem.setWarpPos(stack, pos);
@@ -611,6 +615,7 @@ public class MarioverseEventHandlers {
                             LinkerItem.setWarpDimension(stack, target.level().dimension().toString());
                             LinkerItem.setWarpUUID(stack, uuid);
                             LinkerItem.setIsBound(stack, true);
+                            stack.remove(DataComponentRegistry.WARP_BLOCK.get());
 
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
