@@ -746,7 +746,7 @@
   "item.marioverse.wrench.tooltip.shift_right_click.painting": "§7, paintings",
 
   "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
-  "item.marioverse.warp_disruptor.tooltip.right_click": "§6Right-click:",
+  "item.marioverse.warp_disruptor.tooltip.right_click": "§2Right-click:",
   "item.marioverse.warp_disruptor.tooltip.right_click.selected": " §7• Prevents selected ",
   "item.marioverse.warp_disruptor.tooltip.right_click.mob": "§7mob",
   "item.marioverse.warp_disruptor.tooltip.right_click.player": "§7, player",
