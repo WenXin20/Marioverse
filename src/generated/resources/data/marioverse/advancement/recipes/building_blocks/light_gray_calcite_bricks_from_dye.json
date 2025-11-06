@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dye": {
+    "has_calcite_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "#c:dyes/light_gray"
+            "items": "#marioverse:calcite_bricks"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_goal_pole": {
+    "has_dyes/light_gray": {
       "conditions": {
         "items": [
           {
-            "items": "#marioverse:calcite_bricks"
+            "items": "#c:dyes/light_gray"
           }
         ]
       },
@@ -31,8 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_dye",
-      "has_goal_pole"
+      "has_dyes/light_gray",
+      "has_calcite_bricks"
     ]
   ],
   "rewards": {

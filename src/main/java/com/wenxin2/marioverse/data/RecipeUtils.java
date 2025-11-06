@@ -517,10 +517,6 @@ public class RecipeUtils extends RecipeProvider {
 
     public void dyeItemRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                               Object input1, Object input2, RecipeOutput output) {
-        ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
-                .group(Marioverse.MOD_ID + ":" + groupName)
-                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
-
         ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
@@ -529,8 +525,17 @@ public class RecipeUtils extends RecipeProvider {
 
         if (input1 instanceof ItemLike itemLike)
             builder.requires(itemLike);
+        else if (input1 instanceof TagKey<?> itemLike && itemLike.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) itemLike;
+            builder.requires(tag);
+        }
+
         if (input2 instanceof ItemLike itemLike)
             builder.requires(itemLike);
+        else if (input2 instanceof TagKey<?> itemLike && itemLike.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) itemLike;
+            builder.requires(tag);
+        }
 
         builder.save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
     }

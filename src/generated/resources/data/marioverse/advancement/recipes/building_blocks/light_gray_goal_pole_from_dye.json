@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dye": {
+    "has_dyeable_goal_poles": {
       "conditions": {
         "items": [
           {
-            "items": "#c:dyes/light_gray"
+            "items": "#marioverse:dyeable_goal_poles"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_goal_pole": {
+    "has_dyes/light_gray": {
       "conditions": {
         "items": [
           {
-            "items": "#marioverse:dyeable_goal_poles"
+            "items": "#c:dyes/light_gray"
           }
         ]
       },
@@ -31,8 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_dye",
-      "has_goal_pole"
+      "has_dyes/light_gray",
+      "has_dyeable_goal_poles"
     ]
   ],
   "rewards": {
