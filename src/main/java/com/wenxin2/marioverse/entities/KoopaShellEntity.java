@@ -510,12 +510,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         return Crackiness.WOLF_ARMOR.byFraction(1.0F - ((float) this.getBounceCount() / ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.getAsInt()));
     }
 
-    public void setSliding(boolean sliding) {
-        this.entityData.set(DATA_IS_SLIDING, sliding);
+    public void setSliding(boolean isSliding) {
+        this.setData(DataAttachmentRegistry.IS_SLIDING.get(), isSliding);
     }
 
     public boolean isSliding() {
-        return this.entityData.get(DATA_IS_SLIDING);
+        return this.getData(DataAttachmentRegistry.IS_SLIDING.get());
     }
 
     public void setBounceCount(int bounceCount) {

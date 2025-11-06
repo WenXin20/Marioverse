@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -40,6 +42,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.SpectralArrow;
@@ -66,10 +69,11 @@ import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class IceCubeEntity extends VehicleEntity implements GeoEntity, TraceableEntity {
+public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     private static final EntityDataAccessor<CompoundTag> FROZEN_DATA =
             SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public Vec3 slidingMovement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     private CompoundTag frozenEntityData;
     private Entity displayEntity;
     @Nullable private UUID ownerUUID;
@@ -89,9 +93,8 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(FROZEN_DATA, new CompoundTag());
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
     }
 
     @Override
@@ -103,8 +106,22 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
         return cache;
     }
 
+    public void setSliding(boolean isSliding) {
+        this.setData(DataAttachmentRegistry.IS_SLIDING.get(), isSliding);
+    }
+
+    public boolean isSliding() {
+        return this.getData(DataAttachmentRegistry.IS_SLIDING.get());
+    }
+
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(FROZEN_DATA, new CompoundTag());
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
         tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
         tag.putFloat("FrozenEntityHeight", this.entityHeight);
         tag.putFloat("FrozenEntityWidth", this.entityWidth);
@@ -123,7 +140,7 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(CompoundTag tag) {
         this.leftOwner = tag.getBoolean("LeftOwner");
         this.frozenCooldown = tag.getInt("FrozenCooldown");
         this.setEntityFrozenCooldown(tag.getInt("EntityFrozenCooldown"));
@@ -193,16 +210,30 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             this.setSize(width, height);
         }
 
-        this.gravityWaterPhysics();
+        if (this.isSliding() && this.isAlive() && !this.isNoAi()) {
+            BlockPos posBelow = this.blockPosition().below();
+            BlockState stateBelow = level().getBlockState(posBelow);
+            float friction = stateBelow.getFriction(level(), posBelow, this);
+            double slideFriction = /*(friction > 0.8) ? 0.4 + friction / 1.5 :*/ 1.0;
+            Vec3 slideMotion = this.slidingMovement.scale(slideFriction);
+
+            if ((this.onGround()) && this.getDeltaMovement().horizontalDistance() > 0.0001) {
+                this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+                this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+                this.hasImpulse = true;
+            }
+        }
+
+//        this.gravityWaterPhysics();
         this.collideWithWall(world, pos);
         this.collideWithEntity();
     }
 
-    @NotNull
-    @Override
-    protected Item getDropItem() {
-        return ItemStack.EMPTY.getItem();
-    }
+//    @NotNull
+//    @Override
+//    protected Item getDropItem() {
+//        return ItemStack.EMPTY.getItem();
+//    }
 
     @Override
     public boolean isPickable() {
@@ -242,38 +273,71 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             this.shatterIceCube(false, false, this);
             return true;
         } else {
-            this.setHurtDir(-this.getHurtDir());
-            this.setHurtTime(10);
-            this.markHurt();
-            this.setDamage(this.getDamage() + damage * 10.0F);
-            this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
-            this.setOwner(source.getEntity());
+//            this.setHurtDir(-this.getHurtDir());
+//            this.setHurtTime(10);
+//            this.markHurt();
+//            this.setDamage(this.getDamage() + damage * 10.0F);
+//            this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
+//            this.setOwner(source.getEntity());
+//
+//            float friction = stateBelow.getFriction(world, posBelow, this);
+//            double slideSpeed;
+//
+//            if (friction > 0.6)
+//                slideSpeed = 0.1 + friction / 1.5;
+//            else slideSpeed = 0.5;
+//
+//            Vec3 slideDirection = Vec3.ZERO;
+//
+//            if (source.getEntity() != null) {
+//                Vec3 attackerPos = source.getEntity().position();
+//                Vec3 hitPos = this.position();
+//                Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
+//                slideDirection = new Vec3(slideDirRaw.x, 0, slideDirRaw.z).normalize();
+//            } else if (source.getDirectEntity() != null) {
+//                slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
+//            }
+//
+//            Vec3 movement = slideDirection.scale(slideSpeed);
+//            if (this.displayEntity instanceof Mob mob && !mob.isNoAi()) {
+//                this.setDeltaMovement(movement);
+//            } else if (!(this.displayEntity instanceof Mob))
+//                this.setDeltaMovement(movement);
 
             float friction = stateBelow.getFriction(world, posBelow, this);
             double slideSpeed;
 
             if (friction > 0.6)
-                slideSpeed = 0.1 + friction / 1.5;
-            else slideSpeed = 0.5;
+                slideSpeed = 0.4 + friction / 1.5;
+            else slideSpeed = 1.0;
 
-            Vec3 slideDirection = Vec3.ZERO;
+            Vec3 slideDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
 
             if (source.getEntity() != null) {
                 Vec3 attackerPos = source.getEntity().position();
                 Vec3 hitPos = this.position();
                 Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
-                slideDirection = new Vec3(slideDirRaw.x, 0, slideDirRaw.z).normalize();
-            } else if (source.getDirectEntity() != null) {
+                slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
+            } else if (source.getDirectEntity() != null)
                 slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
-            }
 
             Vec3 movement = slideDirection.scale(slideSpeed);
-            if (this.displayEntity instanceof Mob mob && !mob.isNoAi()) {
-                this.setDeltaMovement(movement);
-            } else if (!(this.displayEntity instanceof Mob))
-                this.setDeltaMovement(movement);
+
+            if (!isNoAi() && this.displayEntity instanceof Mob mob || !(this.displayEntity instanceof Mob)) {
+                this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
+                this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
+                this.hasImpulse = true;
+                this.setOwner(source.getEntity());
+                this.setSliding(true);
+                this.leftOwner = false;
+            }
             return true;
         }
+    }
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
+        return super.canCollideWith(entity);
     }
 
     @Override
@@ -777,13 +841,13 @@ public class IceCubeEntity extends VehicleEntity implements GeoEntity, Traceable
             previousFallDistance = 0;
         }
 
-        if (this.isInWaterOrBubble() && isAirAbove && !isRising && !isUnderwater) {
+        /*if (this.isInWaterOrBubble() && isAirAbove && !isRising && !isUnderwater) {
             this.setDeltaMovement(velocity.x * waterDrag, 0.01, velocity.z * waterDrag);
         } else if (this.isInWaterOrBubble() && isAirAbove && isRising && isSinking && !isUnderwater) {
             this.setDeltaMovement(velocity.x * waterDrag, -0.01, velocity.z * waterDrag);
         } else if (isUnderwater && !isRising) {
             this.setDeltaMovement(velocity.x * waterDrag, 0.03, velocity.z * waterDrag);
-        } else if (!this.isOnSolidGround() && !this.isInWaterOrBubble() && !this.level().isClientSide()) {
+        } else*/ if (!this.isOnSolidGround() && !this.isInWaterOrBubble() && !this.level().isClientSide()) {
             if (this.getTicksInAir() == 0) {
                 if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
                     this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));

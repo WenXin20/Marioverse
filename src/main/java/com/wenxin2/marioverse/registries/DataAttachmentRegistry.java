@@ -20,6 +20,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> IS_HIDING = Marioverse.ATTACHMENT_TYPES.register(
         "is_hiding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_SLIDING = Marioverse.ATTACHMENT_TYPES.register(
+        "is_sliding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
     public static final Supplier<AttachmentType<Boolean>> HAS_HIT_BLOCK = Marioverse.ATTACHMENT_TYPES.register(
             "has_hit_block", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)

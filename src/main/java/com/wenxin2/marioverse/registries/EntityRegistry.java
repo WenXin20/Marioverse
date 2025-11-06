@@ -28,6 +28,7 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -250,6 +251,9 @@ public class EntityRegistry {
         event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
 
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
+
+        event.put(EntityRegistry.ICE_CUBE.get(), PathfinderMob.createMobAttributes()
+                .add(Attributes.FOLLOW_RANGE, 0.0F).build());
 
         event.put(EntityRegistry.BOO.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 2.0F)
