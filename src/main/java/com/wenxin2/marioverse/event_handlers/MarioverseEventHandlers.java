@@ -787,10 +787,12 @@ public class MarioverseEventHandlers {
             BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
             BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
 
-            if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
-                    || (player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())) {
-                PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
-                PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
+            if (!player.isSpectator()) {
+                if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
+                        || (player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())) {
+                    PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
+                    PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
+                }
             }
 
             if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
