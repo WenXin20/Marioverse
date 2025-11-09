@@ -77,11 +77,11 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
-//    private static final EntityDataAccessor<CompoundTag> FROZEN_DATA =
-//            SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
+    private static final EntityDataAccessor<CompoundTag> FROZEN_DATA =
+            SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public Vec3 slidingMovement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
-//    private CompoundTag frozenEntityData;
+    private CompoundTag frozenEntityData;
     private Entity displayEntity;
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
@@ -124,12 +124,12 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-//        builder.define(FROZEN_DATA, new CompoundTag());
+        builder.define(FROZEN_DATA, new CompoundTag());
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
-//        tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
+        tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
 //        tag.putFloat("FrozenEntityHeight", this.entityHeight);
 //        tag.putFloat("FrozenEntityWidth", this.entityWidth);
 //        tag.putFloat("Height", this.height);
@@ -138,7 +138,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 //        tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
 //        tag.putInt("TicksInAir", this.getTicksInAir());
 //
-//        tag.put("FrozenEntityData", this.frozenEntityData);
+        if (this.getFrozenEntityData() != null)
+            tag.put("FrozenEntityData", this.getFrozenEntityData());
         if (this.ownerUUID != null)
             tag.putUUID("OwnerUUID", this.ownerUUID);
         if (this.leftOwner)
@@ -162,10 +163,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 //            this.height = tag.getFloat("Height");
 //        }
 //
-//        if (tag.contains("FrozenData", Tag.TAG_COMPOUND))
-//            this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
-//        if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
-//            this.frozenEntityData = tag.getCompound("FrozenEntityData");
+        if (tag.contains("FrozenData", Tag.TAG_COMPOUND))
+            this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
+        if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
+            this.setFrozenEntityData(tag);
 
         if (tag.hasUUID("OwnerUUID")) {
             this.ownerUUID = tag.getUUID("OwnerUUID");
@@ -348,13 +349,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     d1 *= d3;
                     d0 *= 0.05F;
                     d1 *= 0.05F;
-                    if (!this.isVehicle() && this.isPushable()) {
-                        this.push(-d0, 0.0, -d1);
-                    }
 
-                    if (!entity.isVehicle() && entity.isPushable()) {
+                    if (!this.isVehicle() && this.isPushable())
+                        this.push(-d0, 0.0, -d1);
+                    if (!entity.isVehicle() && entity.isPushable())
                         entity.push(d0, 0.0, d1);
-                    }
                 }
             }
         }
@@ -427,8 +426,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     public Entity getOwner() {
         if (this.cachedOwner != null && !this.cachedOwner.isRemoved()) {
             return this.cachedOwner;
-        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverlevel) {
-            this.cachedOwner = serverlevel.getEntity(this.ownerUUID);
+        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverWorld) {
+            this.cachedOwner = serverWorld.getEntity(this.ownerUUID);
             return this.cachedOwner;
         } else return null;
     }
@@ -479,6 +478,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             float scale = 1.0F;
             float heightScale = 1.0F;
             float widthScale = 1.0F;
+            frozenEntityData = new CompoundTag();
+            entity.save(frozenEntityData);
 
             if (entity instanceof LivingEntity living) {
                 AttributeInstance scaleAttribute = living.getAttribute(Attributes.SCALE);
@@ -491,20 +492,20 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 if (widthScaleAttribute != null)
                     widthScale = (float) widthScaleAttribute.getValue();
 
-                ListTag equipmentList = new ListTag();
-                HolderLookup.Provider provider = living.level().registryAccess();
-
-                for (EquipmentSlot slot : EquipmentSlot.values()) {
-                    ItemStack stack = living.getItemBySlot(slot);
-                    CompoundTag itemTag = new CompoundTag();
-
-                    if (!stack.isEmpty())
-                        stack.save(provider, itemTag);
-                    itemTag.putString("Slot", slot.getName());
-                    equipmentList.add(itemTag);
-                }
-
-                this.getFrozenEntityData().put("Equipment", equipmentList);
+//                ListTag equipmentList = new ListTag();
+//                HolderLookup.Provider provider = living.level().registryAccess();
+//
+//                for (EquipmentSlot slot : EquipmentSlot.values()) {
+//                    ItemStack stack = living.getItemBySlot(slot);
+//                    CompoundTag itemTag = new CompoundTag();
+//
+//                    if (!stack.isEmpty())
+//                        stack.save(provider, itemTag);
+//                    itemTag.putString("Slot", slot.getName());
+//                    equipmentList.add(itemTag);
+//                }
+//
+//                this.getFrozenEntityData().put("Equipment", equipmentList);
             }
 
             this.getFrozenEntityData().putString("id", EntityType.getKey(entity.getType()).toString());
@@ -525,12 +526,14 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 entity.discard();
 
             this.setEntityFrozenCooldown(ticksFrozen);
+            this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
     }
 
     @Nullable
     public Entity getPlayer(Level world) {
-        if (this.getFrozenEntityData().isEmpty()) {
+        CompoundTag tag = this.entityData.get(FROZEN_DATA);
+        if (tag.isEmpty()) {
             for (Player player : world.players())
                 return player;
         }
@@ -539,7 +542,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Nullable
     public Entity getOrCreateDisplayEntity(Level world) {
-        CompoundTag tag = this.getFrozenEntityData();
+        CompoundTag tag = this.entityData.get(FROZEN_DATA);
         if (tag.isEmpty())
             return null;
         if (this.displayEntity == null) {
@@ -811,11 +814,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     public CompoundTag getFrozenEntityData() {
-        return this.getData(DataAttachmentRegistry.FROZEN_ENTITY_DATA.get());
+        return this.frozenEntityData;
     }
 
     public void setFrozenEntityData(CompoundTag tag) {
-        this.setData(DataAttachmentRegistry.FROZEN_ENTITY_DATA, tag);
+        this.frozenEntityData = tag.getCompound("FrozenEntityData");
     }
 
     public float getFrozenEntityHeight() {

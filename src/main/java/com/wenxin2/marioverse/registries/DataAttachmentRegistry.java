@@ -65,13 +65,6 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<String>> TYPE = Marioverse.ATTACHMENT_TYPES
             .register("type", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
-    
-    public static final Supplier<AttachmentType<CompoundTag>> FROZEN_ENTITY_DATA = Marioverse.ATTACHMENT_TYPES
-            .register("frozen_entity_data", () -> AttachmentType.builder(() -> new CompoundTag()).serialize(CompoundTag.CODEC)
-                    .sync(StreamCodec.of((buf, tag) -> buf.writeNbt(tag),  buf -> {
-                        CompoundTag nbt = buf.readNbt();
-                        return nbt != null ? nbt : new CompoundTag();
-                    })).build());
 
     public static final Supplier<AttachmentType<Float>> FROZEN_ENTITY_HEIGHT = Marioverse.ATTACHMENT_TYPES
             .register("frozen_entity_height", () -> AttachmentType.builder(() -> 0F).serialize(Codec.FLOAT)
