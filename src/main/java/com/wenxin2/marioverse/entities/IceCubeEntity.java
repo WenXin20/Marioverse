@@ -272,6 +272,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         } else if (source.getEntity() instanceof LivingEntity entity && entity.getMainHandItem().is(ItemTags.PICKAXES)) {
             this.shatterIceCube(false, false, this);
             return true;
+        } else if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            this.shatterIceCube(false, false, null);
+            return true;
         } else {
 //            this.setHurtDir(-this.getHurtDir());
 //            this.setHurtTime(10);
@@ -619,7 +622,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         return frozenEntityData;
     }
 
-    public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, Entity attackingEntity) {
+    public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, @Nullable Entity attackingEntity) {
         float scale = 1.0F;
         float heightScale = 1.0F;
         float widthScale = 1.0F;
@@ -645,7 +648,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                                 ? Float.MAX_VALUE : ConfigRegistry.ICE_CUBE_DAMAGE.get().floatValue();
                         if (this.getOwner() != null)
                             livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, this.getOwner()), damageAmount);
-                        else livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), damageAmount);
+                        else if (attackingEntity != null) livingEntity.hurt(DamageSourceRegistry.iceCubeCrushed(livingEntity, attackingEntity), damageAmount);
                         livingEntity.hurtDuration = 10;
                         livingEntity.hurtTime = 10;
                         livingEntity.hurtMarked = true;
