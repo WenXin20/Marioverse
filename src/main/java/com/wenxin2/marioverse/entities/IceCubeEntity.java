@@ -14,10 +14,15 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -30,12 +35,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
@@ -70,20 +77,20 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
-    private static final EntityDataAccessor<CompoundTag> FROZEN_DATA =
-            SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
+//    private static final EntityDataAccessor<CompoundTag> FROZEN_DATA =
+//            SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public Vec3 slidingMovement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
-    private CompoundTag frozenEntityData;
+//    private CompoundTag frozenEntityData;
     private Entity displayEntity;
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
-    private float entityHeight = 1.0F;
-    private float entityWidth = 1.0F;
-    private float height = 1.0F;
+//    private float entityHeight = 1.0F;
+//    private float entityWidth = 1.0F;
+//    private float height = 1.0F;
     private float previousFallDistance = 0;
-    private float width = 1.0F;
+//    private float width = 1.0F;
     public int entityFrozenCooldown;
     public int frozenCooldown;
     public int ticksInAir;
@@ -117,22 +124,21 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(FROZEN_DATA, new CompoundTag());
+//        builder.define(FROZEN_DATA, new CompoundTag());
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
-        tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
-        tag.putFloat("FrozenEntityHeight", this.entityHeight);
-        tag.putFloat("FrozenEntityWidth", this.entityWidth);
-        tag.putFloat("Height", this.height);
-        tag.putFloat("Width", this.width);
-        tag.putInt("FrozenCooldown", this.getFrozenCooldown());
-        tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
-        tag.putInt("TicksInAir", this.getTicksInAir());
-
-        if (this.frozenEntityData != null)
-            tag.put("FrozenEntityData", this.frozenEntityData);
+//        tag.put("FrozenData", this.entityData.get(FROZEN_DATA).copy());
+//        tag.putFloat("FrozenEntityHeight", this.entityHeight);
+//        tag.putFloat("FrozenEntityWidth", this.entityWidth);
+//        tag.putFloat("Height", this.height);
+//        tag.putFloat("Width", this.width);
+//        tag.putInt("FrozenCooldown", this.getFrozenCooldown());
+//        tag.putInt("EntityFrozenCooldown", this.getEntityFrozenCooldown());
+//        tag.putInt("TicksInAir", this.getTicksInAir());
+//
+//        tag.put("FrozenEntityData", this.frozenEntityData);
         if (this.ownerUUID != null)
             tag.putUUID("OwnerUUID", this.ownerUUID);
         if (this.leftOwner)
@@ -142,30 +148,29 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         this.leftOwner = tag.getBoolean("LeftOwner");
-        this.frozenCooldown = tag.getInt("FrozenCooldown");
-        this.setEntityFrozenCooldown(tag.getInt("EntityFrozenCooldown"));
-        this.setTicksInAir(tag.getInt("TicksInAir"));
+//        this.frozenCooldown = tag.getInt("FrozenCooldown");
+//        this.setEntityFrozenCooldown(tag.getInt("EntityFrozenCooldown"));
+//        this.setTicksInAir(tag.getInt("TicksInAir"));
 
-        if (tag.contains("FrozenEntityWidth") && tag.contains("FrozenEntityHeight")) {
-            this.entityWidth = tag.getFloat("FrozenEntityWidth");
-            this.entityHeight = tag.getFloat("FrozenEntityHeight");
-        }
-
-        if (tag.contains("Width") && tag.contains("Height")) {
-            this.width = tag.getFloat("Width");
-            this.height = tag.getFloat("Height");
-        }
-
-        if (tag.contains("FrozenData", Tag.TAG_COMPOUND))
-            this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
-        if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
-            this.frozenEntityData = tag.getCompound("FrozenEntityData");
+//        if (tag.contains("FrozenEntityWidth") && tag.contains("FrozenEntityHeight")) {
+//            this.entityWidth = tag.getFloat("FrozenEntityWidth");
+//            this.entityHeight = tag.getFloat("FrozenEntityHeight");
+//        }
+//
+//        if (tag.contains("Width") && tag.contains("Height")) {
+//            this.width = tag.getFloat("Width");
+//            this.height = tag.getFloat("Height");
+//        }
+//
+//        if (tag.contains("FrozenData", Tag.TAG_COMPOUND))
+//            this.entityData.set(FROZEN_DATA, tag.getCompound("FrozenData"));
+//        if (tag.contains("FrozenEntityData", Tag.TAG_COMPOUND))
+//            this.frozenEntityData = tag.getCompound("FrozenEntityData");
 
         if (tag.hasUUID("OwnerUUID")) {
             this.ownerUUID = tag.getUUID("OwnerUUID");
             this.cachedOwner = null;
         }
-
         this.reapplyPosition();
     }
 
@@ -191,23 +196,31 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
-        if (this.getPersistentData().contains("EntityFrozenCooldown")) {
+
+        if (this.onGround() && this.getDeltaMovement().horizontalDistance() <= 0.005) {
             if (this.getEntityFrozenCooldown() > 0)
                 this.setEntityFrozenCooldown(this.getEntityFrozenCooldown() - 1);
-            if (this.getEntityFrozenCooldown() == 0)
-                this.shatterIceCube(false, false, this);
         }
+        if (this.getEntityFrozenCooldown() == 0)
+            this.shatterIceCube(false, false, this);
 
-        if (this.getTicksInAir() > 0)
+        if (!this.onGround() && this.getTicksInAir() > 0)
             this.setTicksInAir(this.getTicksInAir() - 1);
 
         if (this.getDeltaMovement().horizontalDistance() > 0.1)
             this.spawnSnowParticles();
 
-        if (this.frozenEntityData != null) {
-            float height = this.frozenEntityData.getFloat("Height") * 1.55F;
-            float width = this.frozenEntityData.getFloat("Width") * 1.55F;
+        if (this.getFrozenEntityData() != null) {
+            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
+            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
             this.setSize(width, height);
+        }
+
+        if (!this.isOnSolidGround() && this.fallDistance > this.previousFallDistance)
+            this.previousFallDistance = this.fallDistance;
+        if (this.isOnSolidGround() && this.previousFallDistance > 3) {
+            this.shatterIceCube(true, false, this);
+            this.previousFallDistance = 0;
         }
 
         if (this.isSliding() && this.isAlive() && !this.isNoAi()) {
@@ -224,16 +237,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             }
         }
 
-//        this.gravityWaterPhysics();
         this.collideWithWall(world, pos);
         this.collideWithEntity();
     }
-
-//    @NotNull
-//    @Override
-//    protected Item getDropItem() {
-//        return ItemStack.EMPTY.getItem();
-//    }
 
     @Override
     public boolean isPickable() {
@@ -276,37 +282,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             this.shatterIceCube(false, false, null);
             return true;
         } else {
-//            this.setHurtDir(-this.getHurtDir());
-//            this.setHurtTime(10);
-//            this.markHurt();
-//            this.setDamage(this.getDamage() + damage * 10.0F);
-//            this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
-//            this.setOwner(source.getEntity());
-//
-//            float friction = stateBelow.getFriction(world, posBelow, this);
-//            double slideSpeed;
-//
-//            if (friction > 0.6)
-//                slideSpeed = 0.1 + friction / 1.5;
-//            else slideSpeed = 0.5;
-//
-//            Vec3 slideDirection = Vec3.ZERO;
-//
-//            if (source.getEntity() != null) {
-//                Vec3 attackerPos = source.getEntity().position();
-//                Vec3 hitPos = this.position();
-//                Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
-//                slideDirection = new Vec3(slideDirRaw.x, 0, slideDirRaw.z).normalize();
-//            } else if (source.getDirectEntity() != null) {
-//                slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
-//            }
-//
-//            Vec3 movement = slideDirection.scale(slideSpeed);
-//            if (this.displayEntity instanceof Mob mob && !mob.isNoAi()) {
-//                this.setDeltaMovement(movement);
-//            } else if (!(this.displayEntity instanceof Mob))
-//                this.setDeltaMovement(movement);
-
             float friction = stateBelow.getFriction(world, posBelow, this);
             double slideSpeed;
 
@@ -326,7 +301,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
             Vec3 movement = slideDirection.scale(slideSpeed);
 
-            if (!isNoAi() && this.displayEntity instanceof Mob mob || !(this.displayEntity instanceof Mob)) {
+            if (!isNoAi() && this.displayEntity instanceof Mob || !(this.displayEntity instanceof Mob)) {
                 this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
                 this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
                 this.hasImpulse = true;
@@ -392,7 +367,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Override
     public boolean isNoGravity() {
-        return false;
+        if (this.getTicksInAir() > 0 && !this.onGround()
+                && this.getDeltaMovement().horizontalDistance() == 0)
+            return true;
+        else return super.isNoGravity();
     }
 
     @Override
@@ -430,19 +408,17 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @NotNull
     @Override
     protected AABB makeBoundingBox() {
-        if (this.frozenEntityData != null) {
-            float height = this.frozenEntityData.getFloat("Height") * 1.55F;
-            float width = this.frozenEntityData.getFloat("Width") * 1.55F;
+        if (this.getFrozenEntityData() != null) {
+            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
+            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
             return new AABB(this.position().subtract(width / 2, 0, width / 2), this.position().add(width / 2, height, width / 2));
-        } else {
-            return super.makeBoundingBox();
-        }
+        } else return super.makeBoundingBox();
     }
 
-    public void setOwner(@javax.annotation.Nullable Entity p_37263_) {
-        if (p_37263_ != null) {
-            this.ownerUUID = p_37263_.getUUID();
-            this.cachedOwner = p_37263_;
+    public void setOwner(@Nullable Entity entity) {
+        if (entity != null) {
+            this.ownerUUID = entity.getUUID();
+            this.cachedOwner = entity;
         }
     }
 
@@ -454,9 +430,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverlevel) {
             this.cachedOwner = serverlevel.getEntity(this.ownerUUID);
             return this.cachedOwner;
-        } else {
-            return null;
-        }
+        } else return null;
     }
 
     @Override
@@ -505,8 +479,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             float scale = 1.0F;
             float heightScale = 1.0F;
             float widthScale = 1.0F;
-            frozenEntityData = new CompoundTag();
-            entity.save(frozenEntityData);
 
             if (entity instanceof LivingEntity living) {
                 AttributeInstance scaleAttribute = living.getAttribute(Attributes.SCALE);
@@ -518,17 +490,32 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     heightScale = (float) heightScaleAttribute.getValue();
                 if (widthScaleAttribute != null)
                     widthScale = (float) widthScaleAttribute.getValue();
+
+                ListTag equipmentList = new ListTag();
+                HolderLookup.Provider provider = living.level().registryAccess();
+
+                for (EquipmentSlot slot : EquipmentSlot.values()) {
+                    ItemStack stack = living.getItemBySlot(slot);
+                    CompoundTag itemTag = new CompoundTag();
+
+                    if (!stack.isEmpty())
+                        stack.save(provider, itemTag);
+                    itemTag.putString("Slot", slot.getName());
+                    equipmentList.add(itemTag);
+                }
+
+                this.getFrozenEntityData().put("Equipment", equipmentList);
             }
 
-            frozenEntityData.putString("id", EntityType.getKey(entity.getType()).toString());
-            frozenEntityData.putFloat("BodyRotation", entity.getYRot());
-            frozenEntityData.putFloat("HeadRotation", entity.getYHeadRot());
-            frozenEntityData.putFloat("Pitch", entity.getXRot());
-            frozenEntityData.putFloat("Height", entity.getBbHeight());
-            frozenEntityData.putFloat("Width", entity.getBbWidth());
-            frozenEntityData.putFloat("Scale", scale);
-            frozenEntityData.putFloat("HeightScale", heightScale);
-            frozenEntityData.putFloat("WidthScale", widthScale);
+            this.getFrozenEntityData().putString("id", EntityType.getKey(entity.getType()).toString());
+            this.getFrozenEntityData().putFloat("BodyRotation", entity.getYRot());
+            this.getFrozenEntityData().putFloat("HeadRotation", entity.getYHeadRot());
+            this.getFrozenEntityData().putFloat("Pitch", entity.getXRot());
+            this.getFrozenEntityData().putFloat("Height", entity.getBbHeight());
+            this.getFrozenEntityData().putFloat("Width", entity.getBbWidth());
+            this.getFrozenEntityData().putFloat("Scale", scale);
+            this.getFrozenEntityData().putFloat("HeightScale", heightScale);
+            this.getFrozenEntityData().putFloat("WidthScale", widthScale);
 
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
@@ -538,14 +525,12 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 entity.discard();
 
             this.setEntityFrozenCooldown(ticksFrozen);
-            this.entityData.set(FROZEN_DATA, frozenEntityData);
         }
     }
 
     @Nullable
     public Entity getPlayer(Level world) {
-        CompoundTag tag = this.entityData.get(FROZEN_DATA);
-        if (tag.isEmpty()) {
+        if (this.getFrozenEntityData().isEmpty()) {
             for (Player player : world.players())
                 return player;
         }
@@ -554,7 +539,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Nullable
     public Entity getOrCreateDisplayEntity(Level world) {
-        CompoundTag tag = this.entityData.get(FROZEN_DATA);
+        CompoundTag tag = this.getFrozenEntityData();
         if (tag.isEmpty())
             return null;
         if (this.displayEntity == null) {
@@ -602,24 +587,19 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     public void onAddedToLevel() {
         super.onAddedToLevel();
-        if (this.displayEntity == null) {
+        if (this.displayEntity == null)
             this.displayEntity = this.getOrCreateDisplayEntity(this.level());
-        }
     }
 
     public void setSize(float width, float height) {
-        this.height = height;
-        this.width = width;
+        this.setHeight(height);
+        this.setWidth(width);
         this.setBoundingBox(new AABB(this.getX() - width / 2, this.getY(), this.getZ() - width / 2,
                 this.getX() + width / 2, this.getY() + height, this.getZ() + width / 2));
     }
 
     public Vec2 getSize() {
-        return new Vec2(this.width, this.height);
-    }
-
-    public CompoundTag getFrozenEntityData() {
-        return frozenEntityData;
+        return new Vec2(this.getWidth(), this.getHeight());
     }
 
     public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, @Nullable Entity attackingEntity) {
@@ -627,14 +607,15 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         float heightScale = 1.0F;
         float widthScale = 1.0F;
 
-        if (frozenEntityData != null && this.level() instanceof ServerLevel serverWorld) {
-            Entity entity = EntityType.loadEntityRecursive(frozenEntityData, serverWorld, (e) -> {
+        if (this.getFrozenEntityData() != null && this.level() instanceof ServerLevel serverWorld) {
+            Entity entity = EntityType.loadEntityRecursive(this.getFrozenEntityData(), serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
                 return e;
             });
 
             if (entity != null) {
-                serverWorld.addFreshEntity(entity);
+                if (attackingEntity != null)
+                    serverWorld.addFreshEntity(entity);
                 if (entity instanceof LivingEntity livingEntity) {
                     if (applyFallDamage) {
                         float damageAmount = Math.max(0, this.fallDistance - livingEntity.getMaxFallDistance());
@@ -686,6 +667,12 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.ejectPassengers();
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
+    }
+
+    @Override
+    protected void applyGravity() {
+        if (this.getTicksInAir() == 0)
+            super.applyGravity();
     }
 
     private void collideWithWall(Level world, BlockPos pos) {
@@ -799,69 +786,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         return this.level().getBlockState(posBelow).isSolidRender(this.level(), posBelow);
     }
 
-    private void gravityWaterPhysics() {
-        Vec3 velocity = this.getDeltaMovement();
-        Vec3 vecPos = this.position();
-
-        float entityHeight = this.getBbHeight();
-        if (this.displayEntity != null)
-            entityHeight = this.displayEntity.getBbHeight();
-        AABB aabb = this.getBoundingBox();
-        if (this.displayEntity != null)
-            aabb = this.displayEntity.getBoundingBox();
-        double entityTop = aabb.maxY + entityHeight;
-        boolean isUnderwater = false;
-        double waterLevel = 0.0;
-
-        BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
-        for (int x = Mth.floor(aabb.minX); x < Mth.ceil(aabb.maxX); x++) {
-            for (int y = Mth.floor(aabb.minY); y < Mth.ceil(entityTop); y++) {
-                for (int z = Mth.floor(aabb.minZ); z < Mth.ceil(aabb.maxZ); z++) {
-                    blockPos.set(x, y, z);
-                    FluidState fluidState = this.level().getFluidState(blockPos);
-
-                    if (!fluidState.isEmpty()) {
-                        double fluidHeight = fluidState.getHeight(this.level(), blockPos);
-                        waterLevel = Math.max(waterLevel, blockPos.getY() + fluidHeight);
-                        if (entityTop < waterLevel) {
-                            isUnderwater = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        BlockState stateAbove = this.level().getBlockState(BlockPos.containing(vecPos.x, vecPos.y + entityHeight, vecPos.z));
-        boolean isAirAbove = stateAbove.isAir();
-        double waterDrag = 0.9;
-        boolean isSinking = vecPos.y + entityHeight / 3.0 >= waterLevel;
-        boolean isRising = vecPos.y + entityHeight / 2.0 >= waterLevel;
-
-        if (!this.isOnSolidGround() && this.fallDistance > previousFallDistance)
-            previousFallDistance = this.fallDistance;
-        if (this.isOnSolidGround() && previousFallDistance > 3) {
-            this.shatterIceCube(true, false, this);
-            previousFallDistance = 0;
-        }
-
-        /*if (this.isInWaterOrBubble() && isAirAbove && !isRising && !isUnderwater) {
-            this.setDeltaMovement(velocity.x * waterDrag, 0.01, velocity.z * waterDrag);
-        } else if (this.isInWaterOrBubble() && isAirAbove && isRising && isSinking && !isUnderwater) {
-            this.setDeltaMovement(velocity.x * waterDrag, -0.01, velocity.z * waterDrag);
-        } else if (isUnderwater && !isRising) {
-            this.setDeltaMovement(velocity.x * waterDrag, 0.03, velocity.z * waterDrag);
-        } else*/ if (!this.isOnSolidGround() && !this.isInWaterOrBubble() && !this.level().isClientSide()) {
-            if (this.getTicksInAir() == 0) {
-                if (this.displayEntity instanceof Mob mob && !mob.isNoAi())
-                    this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
-                else if (!(this.displayEntity instanceof Mob))
-                    this.setDeltaMovement(this.getDeltaMovement().add(0.0, -this.getDefaultGravity(), 0.0));
-            }
-            else this.setDeltaMovement(0, 0, 0);
-        }
-        this.move(MoverType.SELF, this.getDeltaMovement());
-    }
-
     protected void spawnSnowParticles() {
         BlockPos posLegacy = this.getOnPosLegacy();
         BlockState state = this.level().getBlockState(posLegacy);
@@ -886,27 +810,67 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         }
     }
 
+    public CompoundTag getFrozenEntityData() {
+        return this.getData(DataAttachmentRegistry.FROZEN_ENTITY_DATA.get());
+    }
+
+    public void setFrozenEntityData(CompoundTag tag) {
+        this.setData(DataAttachmentRegistry.FROZEN_ENTITY_DATA, tag);
+    }
+
+    public float getFrozenEntityHeight() {
+        return this.getData(DataAttachmentRegistry.FROZEN_ENTITY_HEIGHT);
+    }
+
+    public void setFrozenEntityHeight(float height) {
+        this.setData(DataAttachmentRegistry.FROZEN_ENTITY_HEIGHT, height);
+    }
+
+    public float getFrozenEntityWidth() {
+        return this.getData(DataAttachmentRegistry.FROZEN_ENTITY_WIDTH);
+    }
+
+    public void setFrozenEntityWidth(float width) {
+        this.setData(DataAttachmentRegistry.FROZEN_ENTITY_WIDTH, width);
+    }
+
+    public float getHeight() {
+        return this.getData(DataAttachmentRegistry.HEIGHT);
+    }
+
+    public void setHeight(float height) {
+        this.setData(DataAttachmentRegistry.HEIGHT, height);
+    }
+
+    public float getWidth() {
+        return this.getData(DataAttachmentRegistry.WIDTH);
+    }
+
+    public void setWidth(float width) {
+        this.setData(DataAttachmentRegistry.WIDTH, width);
+    }
+
     public int getFrozenCooldown() {
-        return this.frozenCooldown;
+        return this.getData(DataAttachmentRegistry.FROZEN_COOLDOWN);
     }
 
     public void setFrozenCooldown(int frozenCooldown) {
-        this.frozenCooldown = frozenCooldown;
+        this.setData(DataAttachmentRegistry.FROZEN_COOLDOWN, frozenCooldown);
     }
 
     public int getEntityFrozenCooldown() {
-        return this.getPersistentData().getInt("EntityFrozenCooldown");
+        return this.getData(DataAttachmentRegistry.ENTITY_FROZEN_COOLDOWN);
     }
 
-    public void setEntityFrozenCooldown(int entityFrozenCooldown) {
-        this.getPersistentData().putInt("EntityFrozenCooldown", entityFrozenCooldown);
+    public void setEntityFrozenCooldown(int frozenCooldown) {
+        this.setData(DataAttachmentRegistry.ENTITY_FROZEN_COOLDOWN, frozenCooldown);
     }
 
     public int getTicksInAir() {
-        return this.ticksInAir;
+        return this.getData(DataAttachmentRegistry.TICKS_IN_AIR);
     }
 
     public void setTicksInAir(int ticksInAir) {
-        this.ticksInAir = ticksInAir;
+        this.setData(DataAttachmentRegistry.TICKS_IN_AIR, ticksInAir);
     }
 }

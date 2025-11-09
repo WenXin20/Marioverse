@@ -317,8 +317,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                             || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
                         iceCube.setFrozenEntity(livingEntity, 2);
                     else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                    if (!livingEntity.onGround() && !livingEntity.isInWaterOrBubble())
-                        iceCube.setTicksInAir(120);
+                    iceCube.setTicksInAir(120);
                     iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
                     iceCube.setOwner(this.getOwner());
                     livingEntity.level().addFreshEntity(iceCube);
