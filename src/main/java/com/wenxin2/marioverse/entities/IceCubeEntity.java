@@ -5,7 +5,6 @@ import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -14,15 +13,11 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
-import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
-import net.minecraft.ReportedException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -41,19 +36,21 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.SpectralArrow;
-import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
@@ -63,7 +60,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
@@ -211,11 +207,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (this.getDeltaMovement().horizontalDistance() > 0.1)
             this.spawnSnowParticles();
 
-        if (this.getFrozenEntityData() != null) {
-            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
-            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
-            this.setSize(width, height);
-        }
+//        if (this.getFrozenEntityData() != null) {
+//            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
+//            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
+//            this.setSize(width, height);
+//        }
 
         if (!this.isOnSolidGround() && this.fallDistance > this.previousFallDistance)
             this.previousFallDistance = this.fallDistance;
@@ -341,9 +337,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     d0 /= d2;
                     d1 /= d2;
                     double d3 = 1.0 / d2;
-                    if (d3 > 1.0) {
+                    if (d3 > 1.0)
                         d3 = 1.0;
-                    }
 
                     d0 *= d3;
                     d1 *= d3;
@@ -407,11 +402,24 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @NotNull
     @Override
     protected AABB makeBoundingBox() {
-        if (this.getFrozenEntityData() != null) {
-            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
-            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
+        float height = this.getHeight() * this.getScale() * this.getHeightScale() * 1.55F;
+        float width = this.getWidth() * this.getScale() * this.getWidthScale() * 1.55F;
+
+        if (this.getFrozenEntityData() != null)
             return new AABB(this.position().subtract(width / 2, 0, width / 2), this.position().add(width / 2, height, width / 2));
-        } else return super.makeBoundingBox();
+        else return super.makeBoundingBox();
+    }
+
+    @NotNull
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
+        float eyeHeight = this.getEyeHeight() * this.getEyeHeightScale() * 1.55F;
+        float height = this.getHeight() * this.getHeightScale() * 1.55F;
+        float width = this.getWidth() * this.getWidthScale() * 1.55F;
+
+        if (this.getFrozenEntityData() != null)
+            return this.getType().getDimensions().scale(width, height);
+        return super.getDefaultDimensions(pose);
     }
 
     public void setOwner(@Nullable Entity entity) {
@@ -476,52 +484,56 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     public void setFrozenEntity(Entity entity, int ticksFrozen) {
         if (entity != null) {
             float scale = 1.0F;
+            float eyeHeightScale = 1.0F;
             float heightScale = 1.0F;
             float widthScale = 1.0F;
-            frozenEntityData = new CompoundTag();
+            this.frozenEntityData = new CompoundTag();
             entity.save(frozenEntityData);
 
             if (entity instanceof LivingEntity living) {
                 AttributeInstance scaleAttribute = living.getAttribute(Attributes.SCALE);
+                AttributeInstance eyeHeightScaleAttribute = living.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
                 AttributeInstance heightScaleAttribute = living.getAttribute(AttributesRegistry.HEIGHT_SCALE);
                 AttributeInstance widthScaleAttribute = living.getAttribute(AttributesRegistry.WIDTH_SCALE);
                 if (scaleAttribute != null)
                     scale = (float) scaleAttribute.getValue();
+                if (eyeHeightScaleAttribute != null)
+                    eyeHeightScale = (float) eyeHeightScaleAttribute.getValue();
                 if (heightScaleAttribute != null)
                     heightScale = (float) heightScaleAttribute.getValue();
                 if (widthScaleAttribute != null)
                     widthScale = (float) widthScaleAttribute.getValue();
 
-//                ListTag equipmentList = new ListTag();
-//                HolderLookup.Provider provider = living.level().registryAccess();
-//
-//                for (EquipmentSlot slot : EquipmentSlot.values()) {
-//                    ItemStack stack = living.getItemBySlot(slot);
-//                    CompoundTag itemTag = new CompoundTag();
-//
-//                    if (!stack.isEmpty())
-//                        stack.save(provider, itemTag);
-//                    itemTag.putString("Slot", slot.getName());
-//                    equipmentList.add(itemTag);
-//                }
-//
-//                this.getFrozenEntityData().put("Equipment", equipmentList);
+                this.copyAttributeWithModifiers(living, Attributes.SAFE_FALL_DISTANCE);
+                this.copyAttributeWithModifiers(living, Attributes.SCALE);
+                this.copyAttributeWithModifiers(living, AttributesRegistry.EYE_HEIGHT_SCALE);
+                this.copyAttributeWithModifiers(living, AttributesRegistry.HEIGHT_SCALE);
+                this.copyAttributeWithModifiers(living, AttributesRegistry.WIDTH_SCALE);
             }
 
             this.getFrozenEntityData().putString("id", EntityType.getKey(entity.getType()).toString());
             this.getFrozenEntityData().putFloat("BodyRotation", entity.getYRot());
             this.getFrozenEntityData().putFloat("HeadRotation", entity.getYHeadRot());
             this.getFrozenEntityData().putFloat("Pitch", entity.getXRot());
+            this.getFrozenEntityData().putFloat("EyeHeight", entity.getEyeHeight());
             this.getFrozenEntityData().putFloat("Height", entity.getBbHeight());
             this.getFrozenEntityData().putFloat("Width", entity.getBbWidth());
             this.getFrozenEntityData().putFloat("Scale", scale);
+            this.getFrozenEntityData().putFloat("EyeHeightScale", eyeHeightScale);
             this.getFrozenEntityData().putFloat("HeightScale", heightScale);
             this.getFrozenEntityData().putFloat("WidthScale", widthScale);
+
+            this.setHeight(entity.getBbHeight());
+            this.setWidth(entity.getBbWidth());
+            this.setEyeHeightScale(eyeHeightScale);
+            this.setHeightScale(heightScale);
+            this.setWidthScale(widthScale);
+            this.setScale(scale);
 
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
 
-            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
+//            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();
 
@@ -594,22 +606,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             this.displayEntity = this.getOrCreateDisplayEntity(this.level());
     }
 
-    public void setSize(float width, float height) {
-        this.setHeight(height);
-        this.setWidth(width);
-        this.setBoundingBox(new AABB(this.getX() - width / 2, this.getY(), this.getZ() - width / 2,
-                this.getX() + width / 2, this.getY() + height, this.getZ() + width / 2));
-    }
-
-    public Vec2 getSize() {
-        return new Vec2(this.getWidth(), this.getHeight());
-    }
-
     public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, @Nullable Entity attackingEntity) {
-        float scale = 1.0F;
-        float heightScale = 1.0F;
-        float widthScale = 1.0F;
-
         if (this.getFrozenEntityData() != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(this.getFrozenEntityData(), serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -644,25 +641,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());
-
-                if (entity.getPersistentData().contains("Scale"))
-                    scale = entity.getPersistentData().getFloat("Scale");
-                if (entity.getPersistentData().contains("HeightScale"))
-                    heightScale = entity.getPersistentData().getFloat("HeightScale");
-                if (entity.getPersistentData().contains("WidthScale"))
-                    widthScale = entity.getPersistentData().getFloat("WidthScale");
-
-                float height = entity.getBbHeight() * scale * heightScale;
-                float width = entity.getBbWidth() * scale * widthScale;
-
-                if (entity.getBbHeight() >= entity.getBbWidth() * 3)
-                    width *= 2.0F;
-
-                float scaleFactor = height * width * 1.2F;
-                int numParticles = (int) (scaleFactor * 10);
-                for(int i = 0; i < numParticles; ++i) {
-                    ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height * 1.55F, width * 1.55F);
-                }
+                this.spawnShatterParticles(serverWorld, entity);
             }
         }
         if (this.getControllingPassenger() instanceof AbilitiesHandler handler)
@@ -813,6 +792,21 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         }
     }
 
+    private void spawnShatterParticles(ServerLevel serverWorld, Entity entity) {
+        float height = this.getHeight() * this.getScale() * this.getHeightScale() * 1.55F;
+        float width = this.getWidth() * this.getScale() * this.getWidthScale() * 1.55F;
+
+        if (entity.getBbHeight() >= entity.getBbWidth() * 3)
+            width *= 2.0F;
+
+        float scaleFactor = height * width * 1.2F;
+        int numParticles = (int) (scaleFactor * 10);
+
+        for(int i = 0; i < numParticles; ++i) {
+            ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height, width);
+        }
+    }
+
     public CompoundTag getFrozenEntityData() {
         return this.frozenEntityData;
     }
@@ -822,7 +816,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     public float getFrozenEntityHeight() {
-        return this.getData(DataAttachmentRegistry.FROZEN_ENTITY_HEIGHT);
+        return this.getFrozenEntityData().getFloat("Height") * 1.55F;
     }
 
     public void setFrozenEntityHeight(float height) {
@@ -835,6 +829,17 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setFrozenEntityWidth(float width) {
         this.setData(DataAttachmentRegistry.FROZEN_ENTITY_WIDTH, width);
+    }
+
+    public Vec2 getSize() {
+        return new Vec2(this.getWidth(), this.getHeight());
+    }
+
+    public void setSize(float width, float height) {
+        this.setHeight(height);
+        this.setWidth(width);
+//        this.setBoundingBox(new AABB(this.getX() - width * 1.55F / 2, this.getY(), this.getZ() - width * 1.55F / 2,
+//                this.getX() + width * 1.55F / 2, this.getY() + height * 1.55F, this.getZ() + width * 1.55F / 2));
     }
 
     public float getHeight() {
@@ -851,6 +856,53 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setWidth(float width) {
         this.setData(DataAttachmentRegistry.WIDTH, width);
+    }
+
+    public float getDataScale() {
+        return this.getData(DataAttachmentRegistry.SCALE);
+    }
+
+    public void setScale(float scale) {
+        this.setData(DataAttachmentRegistry.SCALE, scale);
+    }
+
+    public float getEyeHeightScale() {
+        AttributeMap attributeMap = this.getAttributes();
+        return attributeMap == null ? 1.0F : this.sanitizeScale((float) attributeMap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
+    }
+
+    public float getDataEyeHeightScale() {
+        return this.getData(DataAttachmentRegistry.EYE_HEIGHT_SCALE);
+    }
+
+    public void setEyeHeightScale(float eyeHeightScale) {
+        this.setData(DataAttachmentRegistry.EYE_HEIGHT_SCALE, eyeHeightScale);
+    }
+
+    public float getHeightScale() {
+        AttributeMap attributeMap = this.getAttributes();
+        return attributeMap == null ? 1.0F : this.sanitizeScale((float) attributeMap.getValue(AttributesRegistry.HEIGHT_SCALE));
+    }
+
+    public float getDataHeightScale() {
+        return this.getData(DataAttachmentRegistry.HEIGHT_SCALE);
+    }
+
+    public void setHeightScale(float heightScale) {
+        this.setData(DataAttachmentRegistry.HEIGHT_SCALE, heightScale);
+    }
+
+    public float getWidthScale() {
+        AttributeMap attributeMap = this.getAttributes();
+        return attributeMap == null ? 1.0F : this.sanitizeScale((float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE));
+    }
+
+    public float getDataWidthScale() {
+        return this.getData(DataAttachmentRegistry.WIDTH_SCALE);
+    }
+
+    public void setWidthScale(float widthScale) {
+        this.setData(DataAttachmentRegistry.WIDTH_SCALE, widthScale);
     }
 
     public int getFrozenCooldown() {
@@ -875,5 +927,16 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setTicksInAir(int ticksInAir) {
         this.setData(DataAttachmentRegistry.TICKS_IN_AIR, ticksInAir);
+    }
+
+    private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
+        AttributeInstance fromAttr = entity.getAttribute(attribute);
+        AttributeInstance toAttr = this.getAttribute(attribute);
+
+        if (fromAttr != null && toAttr != null) {
+            toAttr.setBaseValue(fromAttr.getBaseValue());
+            for (AttributeModifier modifier : fromAttr.getModifiers())
+                toAttr.addPermanentModifier(modifier);
+        }
     }
 }

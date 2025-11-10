@@ -49,7 +49,8 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                 entity.setSize(width, height);
 
                 poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
-                poseStack.scale(scale * widthScale, scale * heightScale, scale * widthScale);
+                poseStack.scale(entity.getDataScale() * entity.getDataWidthScale(),
+                        entity.getDataScale() * entity.getDataHeightScale(), entity.getDataScale() * entity.getDataWidthScale());
 
                 renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
             poseStack.popPose();

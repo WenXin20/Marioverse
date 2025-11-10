@@ -62,6 +62,19 @@ public class DataAttachmentRegistry {
             .register("width", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
 
+    public static final Supplier<AttachmentType<Float>> EYE_HEIGHT_SCALE = Marioverse.ATTACHMENT_TYPES
+            .register("eye_height_scale", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+    public static final Supplier<AttachmentType<Float>> HEIGHT_SCALE = Marioverse.ATTACHMENT_TYPES
+            .register("height_scale", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+    public static final Supplier<AttachmentType<Float>> WIDTH_SCALE = Marioverse.ATTACHMENT_TYPES
+            .register("width_scale", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+    public static final Supplier<AttachmentType<Float>> SCALE = Marioverse.ATTACHMENT_TYPES
+            .register("scale", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+
     public static final Supplier<AttachmentType<String>> TYPE = Marioverse.ATTACHMENT_TYPES
             .register("type", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
