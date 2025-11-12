@@ -38,21 +38,23 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                 if (livingEntity.getPersistentData().contains("WidthScale"))
                     widthScale = livingEntity.getPersistentData().getFloat("WidthScale");
             }
+
             float height = frozenEntity.getBbHeight() * scale * heightScale * 1.55F;
             float width = frozenEntity.getBbWidth() * scale * widthScale * 1.55F;
 
             if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3)
                 width *= 2.0F;
 
+            frozenEntity.setYRot(entity.getBodyRotation());
+
             poseStack.pushPose();
+
                 this.withScale(width, height);
                 entity.setSize(width, height);
-
                 poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
-                poseStack.scale(entity.getDataScale() * entity.getDataWidthScale(),
-                        entity.getDataScale() * entity.getDataHeightScale(), entity.getDataScale() * entity.getDataWidthScale());
-
+                poseStack.scale(scale * widthScale, scale * heightScale, scale * widthScale);
                 renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
+
             poseStack.popPose();
         }
 

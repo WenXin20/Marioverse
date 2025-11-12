@@ -207,11 +207,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (this.getDeltaMovement().horizontalDistance() > 0.1)
             this.spawnSnowParticles();
 
-//        if (this.getFrozenEntityData() != null) {
-//            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
-//            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
-//            this.setSize(width, height);
-//        }
+        if (this.getFrozenEntityData() != null) {
+            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
+            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
+            this.setSize(width, height);
+        }
 
         if (!this.isOnSolidGround() && this.fallDistance > this.previousFallDistance)
             this.previousFallDistance = this.fallDistance;
@@ -402,23 +402,25 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @NotNull
     @Override
     protected AABB makeBoundingBox() {
-        float height = this.getHeight() * this.getScale() * this.getHeightScale() * 1.55F;
-        float width = this.getWidth() * this.getScale() * this.getWidthScale() * 1.55F;
+        if (this.getFrozenEntityData() != null) {
+            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
+            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
 
-        if (this.getFrozenEntityData() != null)
-            return new AABB(this.position().subtract(width / 2, 0, width / 2), this.position().add(width / 2, height, width / 2));
+            return new AABB(this.position().subtract(width / 2, 0, width / 2),
+                    this.position().add(width / 2, height, width / 2));
+        }
         else return super.makeBoundingBox();
     }
 
     @NotNull
     @Override
     protected EntityDimensions getDefaultDimensions(Pose pose) {
-        float eyeHeight = this.getEyeHeight() * this.getEyeHeightScale() * 1.55F;
-        float height = this.getHeight() * this.getHeightScale() * 1.55F;
-        float width = this.getWidth() * this.getWidthScale() * 1.55F;
+        if (this.getFrozenEntityData() != null) {
+            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
+            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
 
-        if (this.getFrozenEntityData() != null)
             return this.getType().getDimensions().scale(width, height);
+        }
         return super.getDefaultDimensions(pose);
     }
 
@@ -505,11 +507,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     widthScale = (float) widthScaleAttribute.getValue();
 
                 this.copyAttributeWithModifiers(living, Attributes.SAFE_FALL_DISTANCE);
-                this.copyAttributeWithModifiers(living, Attributes.SCALE);
-                this.copyAttributeWithModifiers(living, AttributesRegistry.EYE_HEIGHT_SCALE);
-                this.copyAttributeWithModifiers(living, AttributesRegistry.HEIGHT_SCALE);
-                this.copyAttributeWithModifiers(living, AttributesRegistry.WIDTH_SCALE);
+                this.getFrozenEntityData().putFloat("YBodyRot", living.yBodyRot);
             }
+
+            if (entity instanceof Mob mob)
+                this.setNoAi(mob.isNoAi());
 
             this.getFrozenEntityData().putString("id", EntityType.getKey(entity.getType()).toString());
             this.getFrozenEntityData().putFloat("BodyRotation", entity.getYRot());
@@ -533,7 +535,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
 
-//            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
+            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();
 
@@ -838,8 +840,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     public void setSize(float width, float height) {
         this.setHeight(height);
         this.setWidth(width);
-//        this.setBoundingBox(new AABB(this.getX() - width * 1.55F / 2, this.getY(), this.getZ() - width * 1.55F / 2,
-//                this.getX() + width * 1.55F / 2, this.getY() + height * 1.55F, this.getZ() + width * 1.55F / 2));
+        this.setBoundingBox(new AABB(this.getX() - width * 1.55F / 2, this.getY(), this.getZ() - width * 1.55F / 2,
+                this.getX() + width * 1.55F / 2, this.getY() + height * 1.55F, this.getZ() + width * 1.55F / 2));
     }
 
     public float getHeight() {
