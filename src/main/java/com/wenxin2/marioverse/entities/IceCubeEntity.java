@@ -364,7 +364,15 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (this.getTicksInAir() > 0 && !this.onGround()
                 && this.getDeltaMovement().horizontalDistance() == 0)
             return true;
+        else if (this.isNoAi())
+            return true;
         else return super.isNoGravity();
+    }
+
+    @Override
+    protected void applyGravity() {
+        if (this.getTicksInAir() == 0 && !this.isNoAi())
+            super.applyGravity();
     }
 
     @Override
@@ -651,12 +659,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.ejectPassengers();
         this.discard();
         this.setRemoved(RemovalReason.DISCARDED);
-    }
-
-    @Override
-    protected void applyGravity() {
-        if (this.getTicksInAir() == 0)
-            super.applyGravity();
     }
 
     private void collideWithWall(Level world, BlockPos pos) {
