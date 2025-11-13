@@ -55,11 +55,23 @@ public class DataAttachmentRegistry {
             .register("super_star_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
+    public static final Supplier<AttachmentType<Float>> BODY_ROTATION = Marioverse.ATTACHMENT_TYPES
+            .register("body_rotation", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+    public static final Supplier<AttachmentType<Float>> HEAD_ROTATION = Marioverse.ATTACHMENT_TYPES
+            .register("head_rotation", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
     public static final Supplier<AttachmentType<Float>> HEIGHT = Marioverse.ATTACHMENT_TYPES
             .register("height", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
     public static final Supplier<AttachmentType<Float>> WIDTH = Marioverse.ATTACHMENT_TYPES
             .register("width", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+    public static final Supplier<AttachmentType<Float>> PITCH = Marioverse.ATTACHMENT_TYPES
+            .register("pitch", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
+    public static final Supplier<AttachmentType<Float>> Y_BODY_ROT = Marioverse.ATTACHMENT_TYPES
+            .register("y_body_rot", () -> AttachmentType.builder(() -> 1.0F).serialize(Codec.FLOAT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
 
     public static final Supplier<AttachmentType<Float>> EYE_HEIGHT_SCALE = Marioverse.ATTACHMENT_TYPES
