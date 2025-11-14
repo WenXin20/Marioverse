@@ -392,32 +392,14 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         return false;
     }
 
-    @NotNull
     @Override
-    protected AABB makeBoundingBox() {
-        if (this.getFrozenEntityData() != null) {
-            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
-            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
-
-            return new AABB(this.position().subtract(width / 2, 0, width / 2),
-                    this.position().add(width / 2, height, width / 2));
-        }
-        else return super.makeBoundingBox();
     public void turn(double yaw, double pitch) {
     }
 
-    @NotNull
     @Override
-    protected EntityDimensions getDefaultDimensions(Pose pose) {
-        if (this.getFrozenEntityData() != null) {
-            float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
-            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
     public void setYRot(float yaw) {
     }
 
-            return EntityDimensions.fixed(width, height);
-        }
-        return super.getDefaultDimensions(pose);
     @Override
     public void setYHeadRot(float yaw) {
     }
@@ -427,16 +409,19 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose pose) {
     public void setRot(float yaw, float pitch) {
     }
+
+    @NotNull
+    @Override
+    protected EntityDimensions getDefaultDimensions(Pose pose) {
         if (this.getFrozenEntityData() != null) {
             float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
-            float width  = this.getFrozenEntityData().getFloat("Width")  * 1.55F;
+            float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
 
             return EntityDimensions.fixed(width, height);
         }
-        return super.getDimensions(pose);
+        return super.getDefaultDimensions(pose);
     }
 
     public void setOwner(@Nullable Entity entity) {
