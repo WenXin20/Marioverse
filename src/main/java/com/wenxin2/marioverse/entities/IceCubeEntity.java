@@ -223,16 +223,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.collideWithEntity();
     }
 
-    @Override
-    public boolean isPickable() {
-        return true;
-    }
-
-    @Override
-    public boolean canBeLeashed() {
-        return false;
-    }
-
     @Nullable
     @Override
     public ItemStack getPickedResult(@NotNull HitResult target) {
@@ -395,6 +385,21 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     public boolean canControlVehicle() {
         return false;
+    }
+
+    @Override
+    public boolean isPickable() {
+        return true;
+    }
+
+    @Override
+    public boolean canBeLeashed() {
+        return false;
+    }
+
+    @Override
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return this.getFrozenEntityData() == null;
     }
 
     @Override
