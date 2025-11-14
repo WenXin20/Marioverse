@@ -228,6 +228,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         return true;
     }
 
+    @Override
+    public boolean canBeLeashed() {
+        return false;
+    }
+
     @Nullable
     @Override
     public ItemStack getPickedResult(@NotNull HitResult target) {
