@@ -59,6 +59,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
+import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -681,22 +683,30 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     private void collideWithFire(Level world) {
         AABB box = this.getBoundingBox().inflate(0.05);
 
-        for (BlockPos checkPos : BlockPos
+        for (BlockPos hitPos : BlockPos
                 .betweenClosed(Mth.floor(box.minX),
                         Mth.floor(box.minY),
                         Mth.floor(box.minZ),
                         Mth.floor(box.maxX),
                         Mth.floor(box.maxY),
                         Mth.floor(box.maxZ))) {
-            BlockState state = world.getBlockState(checkPos);
+            BlockState state = world.getBlockState(hitPos);
 
             if (state.is(TagRegistry.ICE_CUBE_EXTINGUISHES) || state.getFluidState().is(FluidTags.LAVA)) {
-                if (state.is(BlockTags.FIRE))
-                    world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
+                if (state.is(BlockTags.FIRE)) {
+                    if (this.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
+                    world.setBlock(hitPos, Blocks.AIR.defaultBlockState(), 3);
+                    world.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
 
-                if (state.hasProperty(BlockStateProperties.LIT)
-                        && state.getValue(BlockStateProperties.LIT))
-                    world.setBlock(checkPos, state.setValue(BlockStateProperties.LIT, false), 3);
+                if (state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT)) {
+                    if (this.level() instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
+                    world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, false), 3);
+                    world.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
+                            ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
             }
 
             if (this.isOnFire() || state.getFluidState().is(FluidTags.LAVA)) {
