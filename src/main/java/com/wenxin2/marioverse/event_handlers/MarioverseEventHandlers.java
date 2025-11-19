@@ -81,6 +81,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -565,6 +566,11 @@ public class MarioverseEventHandlers {
         Player player = event.getEntity();
         BlockPos pos = target.blockPosition();
         ItemStack stack = event.getItemStack();
+
+        if (stack.getItem() instanceof NameTagItem && target instanceof IceCubeEntity) {
+            event.setCancellationResult(InteractionResult.PASS);
+            event.setCanceled(true);
+        }
 
         if (stack.getItem() instanceof LinkerItem linker) {
             if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()
