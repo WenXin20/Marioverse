@@ -699,8 +699,18 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     world.setBlock(checkPos, state.setValue(BlockStateProperties.LIT, false), 3);
             }
 
-            if (this.isOnFire() || state.is(TagRegistry.MELTS_ICE_CUBE) || state.getFluidState().is(FluidTags.LAVA))
+            if (this.isOnFire() || state.getFluidState().is(FluidTags.LAVA)) {
                 this.shatterIceCube(this, false, false, true);
+                break;
+            }
+
+            if (state.is(TagRegistry.MELTS_ICE_CUBE) && state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT)) {
+                this.shatterIceCube(this, false, false, true);
+                break;
+            } else if (state.is(TagRegistry.MELTS_ICE_CUBE) && !state.hasProperty(BlockStateProperties.LIT)) {
+                this.shatterIceCube(this, false, false, true);
+                break;
+            }
         }
     }
 
