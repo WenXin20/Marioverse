@@ -222,16 +222,19 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             }
         }
 
-        this.collideWithWall(world, pos);
+        this.collideWithFire(world);
         this.collideWithEntity();
+
+        if (this.horizontalCollision)
+            this.shatterIceCube(false, true, this);
     }
 
     @Override
-    public InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.is(Items.NAME_TAG))
             return InteractionResult.PASS;
-        return super.interactAt(player, vec3, hand);
+        else return super.mobInteract(player, hand);
     }
 
     @Nullable
@@ -673,52 +676,37 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.setRemoved(RemovalReason.DISCARDED);
     }
 
-    private void collideWithWall(Level world, BlockPos pos) {
-        if (!world.isClientSide) {
-            AABB boundingBox = this.getBoundingBox();
+    private void collideWithFire(Level world) {
+        if (this.horizontalCollision || this.verticalCollision) {
+            for (BlockPos checkPos : BlockPos.betweenClosed(
+                    Mth.floor(this.getBoundingBox().minX),
+                    Mth.floor(this.getBoundingBox().minY),
+                    Mth.floor(this.getBoundingBox().minZ),
+                    Mth.floor(this.getBoundingBox().maxX),
+                    Mth.floor(this.getBoundingBox().maxY),
+                    Mth.floor(this.getBoundingBox().maxZ))) {
+                BlockState state = world.getBlockState(checkPos);
 
-            for (Direction direction : Direction.values()) {
-                if (direction.getAxis().isHorizontal() && this.getDeltaMovement().y == 0
-                        && this.getDeltaMovement().horizontalDistance() > 0) {
-                    for (BlockPos hitPos : BlockPos.betweenClosed(
-                            Mth.floor(boundingBox.minX), Mth.floor(boundingBox.minY), Mth.floor(boundingBox.minZ),
-                            Mth.floor(boundingBox.maxX), Mth.floor(boundingBox.maxY), Mth.floor(boundingBox.maxZ))) {
+                boolean fireLike = state.is(BlockTags.FIRE)
+                        || state.getFluidState().is(FluidTags.LAVA)
+                        || (state.is(BlockTags.CAMPFIRES)
+                        && state.hasProperty(BlockStateProperties.LIT)
+                        && state.getValue(BlockStateProperties.LIT));
 
-                        BlockPos checkPos = hitPos.relative(direction);
-                        BlockState hitState = world.getBlockState(checkPos);
+                if (fireLike || this.isOnFire()) {
+                    if (state.is(BlockTags.FIRE)) {
+                        world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
 
-                        if (hitState.isSolid()) {
-                            this.shatterIceCube(false, true, this);
-                            return;
-                        }
+                        if (!world.isClientSide())
+                            world.levelEvent(null, 1009, checkPos, 0);
                     }
+
+                    this.shatterIceCube(false, false, this);
                 }
-            }
 
-            for (Direction direction : Direction.values()) {
-                for (BlockPos hitPos : BlockPos.betweenClosed(
-                        Mth.floor(boundingBox.minX), Mth.floor(boundingBox.minY), Mth.floor(boundingBox.minZ),
-                        Mth.floor(boundingBox.maxX), Mth.floor(boundingBox.maxY), Mth.floor(boundingBox.maxZ))) {
-
-                    BlockPos checkPos = hitPos.relative(direction);
-                    BlockState hitState = world.getBlockState(checkPos);
-
-                    if (hitState.is(BlockTags.FIRE)
-                            || hitState.getFluidState().is(FluidTags.LAVA)
-                            || (hitState.is(BlockTags.CAMPFIRES) && hitState.hasProperty(BlockStateProperties.LIT)
-                            && hitState.getValue(BlockStateProperties.LIT))
-                            || this.isOnFire()) {
-                        if (hitState.is(BlockTags.FIRE)) {
-                            world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
-                            if (!world.isClientSide())
-                                world.levelEvent(null, 1009, checkPos, 0);
-                        }
-                        this.shatterIceCube(false, false, this);
-                    }
-
-                    if (hitState.hasProperty(BlockStateProperties.LIT)
-                            && hitState.getValue(BlockStateProperties.LIT))
-                        hitState.setValue(BlockStateProperties.LIT, false);
+                if (state.hasProperty(BlockStateProperties.LIT)
+                        && state.getValue(BlockStateProperties.LIT)) {
+                    world.setBlock(checkPos, state.setValue(BlockStateProperties.LIT, false), 3);
                 }
             }
         }
