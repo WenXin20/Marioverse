@@ -51,8 +51,10 @@ public class TagRegistry {
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
+    public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> MELTS = blockTags("melts");
+    public static final TagKey<Block> MELTS_ICE_CUBE = blockTags("melts_ice_cube");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");

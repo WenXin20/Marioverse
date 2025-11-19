@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -187,7 +187,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 this.setEntityFrozenCooldown(this.getEntityFrozenCooldown() - 1);
         }
         if (this.getEntityFrozenCooldown() == 0)
-            this.shatterIceCube(false, false, this);
+            this.shatterIceCube(this, false, false, false);
 
         if (!this.onGround() && this.getTicksInAir() > 0)
             this.setTicksInAir(this.getTicksInAir() - 1);
@@ -204,7 +204,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (!this.isOnSolidGround() && this.fallDistance > this.previousFallDistance)
             this.previousFallDistance = this.fallDistance;
         if (this.isOnSolidGround() && this.previousFallDistance > 3) {
-            this.shatterIceCube(true, false, this);
+            this.shatterIceCube(this, true, false, false);
             this.previousFallDistance = 0;
         }
 
@@ -226,7 +226,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.collideWithEntity();
 
         if (this.horizontalCollision)
-            this.shatterIceCube(false, true, this);
+            this.shatterIceCube(this, false, true, false);
     }
 
     @Override
@@ -267,10 +267,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         } else if (source.getDirectEntity() instanceof BouncingIceBallProjectile && this.getType().is(TagRegistry.ICE_BALL_IMMUNE)) {
             return false;
         } else if (source.getEntity() instanceof LivingEntity entity && entity.getMainHandItem().is(ItemTags.PICKAXES)) {
-            this.shatterIceCube(false, false, this);
+            this.shatterIceCube(this, false, false, false);
             return true;
         } else if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            this.shatterIceCube(false, false, null);
+            this.shatterIceCube(null, false, false, false);
             return true;
         } else {
             float friction = stateBelow.getFriction(world, posBelow, this);
@@ -627,7 +627,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             this.displayEntity = this.getOrCreateDisplayEntity(this.level());
     }
 
-    public void shatterIceCube(boolean applyFallDamage, boolean applyCollisionDamage, @Nullable Entity attackingEntity) {
+    public void shatterIceCube(@Nullable Entity attackingEntity, boolean applyFallDamage, boolean applyCollisionDamage, boolean useWaterParticles) {
         if (this.getFrozenEntityData() != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(this.getFrozenEntityData(), serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -666,7 +666,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
                 this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());
-                this.spawnShatterParticles(serverWorld, entity);
+                if (useWaterParticles)
+                    this.spawnShatterParticles(serverWorld, entity, ParticleTypes.SPLASH);
+                else this.spawnShatterParticles(serverWorld, entity, ParticleRegistry.ICE_CUBE_SHATTER.get());
             }
         }
         if (this.getControllingPassenger() instanceof AbilitiesHandler handler)
@@ -677,38 +679,28 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     private void collideWithFire(Level world) {
-        if (this.horizontalCollision || this.verticalCollision) {
-            for (BlockPos checkPos : BlockPos.betweenClosed(
-                    Mth.floor(this.getBoundingBox().minX),
-                    Mth.floor(this.getBoundingBox().minY),
-                    Mth.floor(this.getBoundingBox().minZ),
-                    Mth.floor(this.getBoundingBox().maxX),
-                    Mth.floor(this.getBoundingBox().maxY),
-                    Mth.floor(this.getBoundingBox().maxZ))) {
-                BlockState state = world.getBlockState(checkPos);
+        AABB box = this.getBoundingBox().inflate(0.05);
 
-                boolean fireLike = state.is(BlockTags.FIRE)
-                        || state.getFluidState().is(FluidTags.LAVA)
-                        || (state.is(BlockTags.CAMPFIRES)
-                        && state.hasProperty(BlockStateProperties.LIT)
-                        && state.getValue(BlockStateProperties.LIT));
+        for (BlockPos checkPos : BlockPos
+                .betweenClosed(Mth.floor(box.minX),
+                        Mth.floor(box.minY),
+                        Mth.floor(box.minZ),
+                        Mth.floor(box.maxX),
+                        Mth.floor(box.maxY),
+                        Mth.floor(box.maxZ))) {
+            BlockState state = world.getBlockState(checkPos);
 
-                if (fireLike || this.isOnFire()) {
-                    if (state.is(BlockTags.FIRE)) {
-                        world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
-
-                        if (!world.isClientSide())
-                            world.levelEvent(null, 1009, checkPos, 0);
-                    }
-
-                    this.shatterIceCube(false, false, this);
-                }
+            if (state.is(TagRegistry.ICE_CUBE_EXTINGUISHES) || state.getFluidState().is(FluidTags.LAVA)) {
+                if (state.is(BlockTags.FIRE))
+                    world.setBlock(checkPos, Blocks.AIR.defaultBlockState(), 3);
 
                 if (state.hasProperty(BlockStateProperties.LIT)
-                        && state.getValue(BlockStateProperties.LIT)) {
+                        && state.getValue(BlockStateProperties.LIT))
                     world.setBlock(checkPos, state.setValue(BlockStateProperties.LIT, false), 3);
-                }
             }
+
+            if (this.isOnFire() || state.is(TagRegistry.MELTS_ICE_CUBE) || state.getFluidState().is(FluidTags.LAVA))
+                this.shatterIceCube(this, false, false, true);
         }
     }
 
@@ -723,8 +715,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 if (entity instanceof IceCubeEntity otherIceCube
                         && (this.getDeltaMovement().horizontalDistance() >= 0.2
                         || this.getDeltaMovement().horizontalDistance() <= -0.2)) {
-                    this.shatterIceCube(false, true, this);
-                    otherIceCube.shatterIceCube(false, true, this);
+                    this.shatterIceCube(this, false, true, false);
+                    otherIceCube.shatterIceCube(this, false, true, false);
                 } else if (entity instanceof LivingEntity livingEntity
                         && (this.getDeltaMovement().horizontalDistance() >= 0.5
                         || this.getDeltaMovement().horizontalDistance() <= -0.5)
@@ -749,7 +741,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             }
 
             if (entity instanceof AbstractArrow arrow) {
-                this.shatterIceCube(false, false, this);
+                this.shatterIceCube(this, false, false, false);
                 if (arrow.isOnFire())
                     arrow.extinguishFire();
                 if (arrow instanceof SpectralArrow)
@@ -796,7 +788,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         }
     }
 
-    private void spawnShatterParticles(ServerLevel serverWorld, Entity entity) {
+    private void spawnShatterParticles(ServerLevel serverWorld, Entity entity, ParticleOptions particle) {
         float height = this.getHeight() * this.getScale() * this.getHeightScale() * 1.55F;
         float width = this.getWidth() * this.getScale() * this.getWidthScale() * 1.55F;
 
@@ -807,7 +799,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         int numParticles = (int) (scaleFactor * 10);
 
         for(int i = 0; i < numParticles; ++i) {
-            ServerParticleUtils.spawnEntityBreakParticles(ParticleRegistry.ICE_CUBE_SHATTER.get(), serverWorld, entity, height, width);
+            ServerParticleUtils.spawnEntityBreakParticles(particle, serverWorld, entity, height, width);
         }
     }
 

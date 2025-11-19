@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:fire",
+    "#minecraft:campfires",
+    "minecraft:magma_block",
+    {
+      "id": "supplementaries:fire_pit",
+      "required": false
+    }
+  ]
+}

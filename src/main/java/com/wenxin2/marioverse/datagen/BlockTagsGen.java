@@ -266,6 +266,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.SUPP_SCONCES)
                 .addOptional(SUPP_FIRE_PIT);
 
+        tag(TagRegistry.ICE_CUBE_EXTINGUISHES)
+                .addTag(BlockTags.FIRE)
+                .addTag(BlockTags.CANDLES)
+                .addTag(BlockTags.CAMPFIRES)
+                .addTag(BlockTags.CANDLE_CAKES)
+                .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
+                .addOptionalTag(CompatRegistry.SUPP_CANDLE_HOLDERS)
+                .addOptionalTag(CompatRegistry.SUPP_SCONCES)
+                .addOptional(SUPP_FIRE_PIT);
+
         tag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
@@ -300,6 +310,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.MELTS)
                 .add(Blocks.POWDER_SNOW)
                 .add(Blocks.SNOW);
+
+        tag(TagRegistry.MELTS_ICE_CUBE)
+                .addTag(BlockTags.FIRE)
+                .addTag(BlockTags.CAMPFIRES)
+                .add(Blocks.MAGMA_BLOCK)
+                .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.MELTS_INTO_ICE)
                 .add(Blocks.PACKED_ICE);

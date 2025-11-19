@@ -252,7 +252,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         } else if (entity instanceof MinecartTNT tnt)
             tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
         else if (entity instanceof IceCubeEntity iceCube) {
-            iceCube.shatterIceCube(false, false, this);
+            iceCube.shatterIceCube(this, false, false, false);
             world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             if (this.level() instanceof ServerLevel serverWorld)

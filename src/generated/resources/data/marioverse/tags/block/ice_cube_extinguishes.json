@@ -1,0 +1,24 @@
+{
+  "values": [
+    "#minecraft:fire",
+    "#minecraft:candles",
+    "#minecraft:campfires",
+    "#minecraft:candle_cakes",
+    {
+      "id": "#the_bumblezone:candles",
+      "required": false
+    },
+    {
+      "id": "#supplementaries:candle_holders",
+      "required": false
+    },
+    {
+      "id": "#supplementaries:sconces",
+      "required": false
+    },
+    {
+      "id": "supplementaries:fire_pit",
+      "required": false
+    }
+  ]
+}
