@@ -34,6 +34,8 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -53,6 +55,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.SpectralArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -221,6 +224,14 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
         this.collideWithWall(world, pos);
         this.collideWithEntity();
+    }
+
+    @Override
+    public InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        if (itemstack.is(Items.NAME_TAG))
+            return InteractionResult.PASS;
+        return super.interactAt(player, vec3, hand);
     }
 
     @Nullable

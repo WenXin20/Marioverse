@@ -41,6 +41,7 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
 
             float height = frozenEntity.getBbHeight() * scale * heightScale * 1.55F;
             float width = frozenEntity.getBbWidth() * scale * widthScale * 1.55F;
+            float offset = (height - (height / 1.55F)) / 2;
 
             if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3)
                 width *= 2.0F;
@@ -51,7 +52,8 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
 
                 this.withScale(width, height);
                 entity.setSize(width, height);
-                poseStack.translate(0, (height - (height / 1.55F)) / 2, 0);
+
+                poseStack.translate(0, offset, 0);
                 poseStack.scale(scale * widthScale, scale * heightScale, scale * widthScale);
                 renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
 
@@ -71,14 +73,15 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
-    public static void renderEntityInIceCube(float entityYaw, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity,
+    public static void renderEntityInIceCube(float entityYaw, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity frozenEntity,
                                              EntityRenderDispatcher renderDispatcher) {
         poseStack.pushPose();
             poseStack.pushPose();
                 poseStack.mulPose(Axis.YP.rotationDegrees(entityYaw));
-                poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
+                poseStack.mulPose(Axis.XP.rotationDegrees(frozenEntity.getXRot()));
             poseStack.popPose();
-            renderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0F, entityYaw, poseStack, buffer, packedLight);
+
+            renderDispatcher.render(frozenEntity, 0.0, 0.0, 0.0, 0.0F, entityYaw, poseStack, buffer, packedLight);
         poseStack.popPose();
     }
 }
