@@ -376,7 +376,9 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     public static boolean checkDryBonesSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return !serverWorld.getBlockState(pos.below()).is(Blocks.NETHER_WART_BLOCK)
-                && serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER;
+                && serverWorld.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
+                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
     }
 
     public void spawnDryBonesPart(DryBonesPartEntity entity, String type, boolean saveArmor, boolean savePowerUp) {

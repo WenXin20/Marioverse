@@ -432,7 +432,9 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return serverWorld.getBlockState(pos.below()).isValidSpawn(serverWorld, pos, entityType) || spawnType == MobSpawnType.SPAWNER /*&& flag*/;
+        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
+                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
     }
 
     @Override
