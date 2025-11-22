@@ -21,7 +21,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -222,24 +221,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                         (random.nextDouble() - 0.5D) * 2.0D);
             }
         }
-    }
-
-    @ModifyReturnValue(method = "getBoundingBox", at = @At("RETURN"))
-    public AABB getBoundingBox(AABB original) {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity livingEntity) {
-            if (livingEntity.getPose() != Pose.SLEEPING) {
-                double width = entity.getDimensions(entity.getPose()).width() / 2;
-                double height = entity.getDimensions(entity.getPose()).height();
-
-                AABB updatedBox = new AABB(entity.getX() - width, entity.getY(), entity.getZ() - width,
-                        entity.getX() + width, entity.getY() + height, entity.getZ() + width);
-
-                entity.refreshDimensions();
-                return updatedBox;
-            }
-        }
-        return original;
     }
 
     @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)

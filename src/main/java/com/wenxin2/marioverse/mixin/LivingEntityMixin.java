@@ -2,10 +2,7 @@ package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.CoinBlock;
-import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
-import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
@@ -41,7 +38,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
@@ -61,7 +57,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ArmorItem;
@@ -69,14 +64,9 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DecoratedPotBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -90,9 +80,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
-
     @Shadow public abstract void setSpeed(float speed);
-
     @Shadow public abstract void handleEntityEvent(byte entityEvent);
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
@@ -902,34 +890,26 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @ModifyReturnValue(method = "getDimensions", at = @At("TAIL"))
     private EntityDimensions getDimensions(EntityDimensions original, Pose pose) {
-        float eyeHeightScale;
-        float heightScale;
-        float widthScale;
+        float eyeScale = this.mv$getEyeHeightScale();
+        float heightScale = this.mv$getHeightScale();
+        float widthScale = this.mv$getWidthScale();
 
-        if (this.mv$getHeightScale() > 1)
-            heightScale = this.mv$getHeightScale() / 2;
-        else if (this.mv$getHeightScale() == 1)
-            heightScale = this.mv$getHeightScale();
-        else heightScale = this.mv$getHeightScale();
+        if (heightScale > 1) heightScale /= 2;
+        if (widthScale  > 1) widthScale  /= 2;
+        if (eyeScale    > 1) eyeScale    /= 2;
 
-        if (this.mv$getEyeHeightScale() > 1)
-            eyeHeightScale = original.eyeHeight() * this.mv$getEyeHeightScale() / 2;
-        else if (this.mv$getEyeHeightScale() == 1)
-            eyeHeightScale = original.eyeHeight() * this.mv$getEyeHeightScale();
-        else eyeHeightScale = original.eyeHeight() * this.mv$getEyeHeightScale();
+        float newWidth = original.width() * widthScale;
+        float newHeight = original.height() * heightScale;
+        float newEyeHeight = original.eyeHeight() * eyeScale;
 
-        if (this.mv$getWidthScale() > 1)
-            widthScale = this.mv$getWidthScale() / 2;
-        else if (this.mv$getWidthScale() == 1)
-            widthScale = this.mv$getWidthScale();
-        else widthScale = this.mv$getWidthScale();
+        EntityDimensions resized = original.fixed()
+                ? EntityDimensions.fixed(newWidth, newHeight)
+                : EntityDimensions.scalable(newWidth, newHeight);
 
-        if (pose != Pose.SLEEPING) {
+        if (pose == Pose.SLEEPING)
+            return original;
 
-            return original.scale(widthScale, heightScale)
-                    .withEyeHeight(eyeHeightScale);
-        }
-        return original;
+        return resized.withEyeHeight(newEyeHeight);
     }
 
 //    @Inject(method = "getPassengerRidingPosition", at = @At("TAIL"), cancellable = true)
