@@ -420,6 +420,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        if (!this.getPassengers().isEmpty())
+            return false;
         return this.getFrozenEntityData() == null;
     }
 
@@ -668,11 +670,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 entity.setYHeadRot(this.getHeadRotation());
                 entity.setXRot(this.getPitch());
                 entity.setIsInPowderSnow(true);
+                this.discard();
                 if (entity.canFreeze())
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
 
-                this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());
+                this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 if (useWaterParticles)
                     this.spawnShatterParticles(serverWorld, entity, ParticleTypes.SPLASH);
                 else this.spawnShatterParticles(serverWorld, entity, ParticleRegistry.ICE_CUBE_SHATTER.get());
@@ -681,8 +683,17 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (this.getControllingPassenger() instanceof AbilitiesHandler handler)
             handler.mv$setFreezeImmunityCooldown(20);
         this.ejectPassengers();
-        this.discard();
-        this.setRemoved(RemovalReason.DISCARDED);
+
+        if (this.previousFallDistance > 3 || this.getEntityFrozenCooldown() == 0) {
+            this.discard();
+            this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
+
+            if (this.level() instanceof ServerLevel serverWorld) {
+                if (useWaterParticles)
+                    this.spawnShatterParticles(serverWorld, this, ParticleTypes.SPLASH);
+                else this.spawnShatterParticles(serverWorld, this, ParticleRegistry.ICE_CUBE_SHATTER.get());
+            }
+        }
     }
 
     private void collideWithFire(Level world) {
@@ -893,10 +904,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setWidthScale(float widthScale) {
         this.setData(DataAttachmentRegistry.WIDTH_SCALE, widthScale);
-    }
-
-    public void setFrozenCooldown(int frozenCooldown) {
-        this.setData(DataAttachmentRegistry.FROZEN_COOLDOWN, frozenCooldown);
     }
 
     public int getEntityFrozenCooldown() {

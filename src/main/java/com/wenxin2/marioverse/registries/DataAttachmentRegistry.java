@@ -91,24 +91,12 @@ public class DataAttachmentRegistry {
             .register("type", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
 
-    public static final Supplier<AttachmentType<Float>> FROZEN_ENTITY_HEIGHT = Marioverse.ATTACHMENT_TYPES
-            .register("frozen_entity_height", () -> AttachmentType.builder(() -> 0F).serialize(Codec.FLOAT)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
-
-    public static final Supplier<AttachmentType<Float>> FROZEN_ENTITY_WIDTH = Marioverse.ATTACHMENT_TYPES
-            .register("frozen_entity_width", () -> AttachmentType.builder(() -> 0F).serialize(Codec.FLOAT)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat)).build());
-
-    public static final Supplier<AttachmentType<Integer>> FROZEN_COOLDOWN = Marioverse.ATTACHMENT_TYPES
-            .register("frozen_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
-
     public static final Supplier<AttachmentType<Integer>> ENTITY_FROZEN_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("entity_frozen_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
     public static final Supplier<AttachmentType<Integer>> TICKS_IN_AIR = Marioverse.ATTACHMENT_TYPES
-            .register("ticks_in_air", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+            .register("ticks_in_air", () -> AttachmentType.builder(() -> ConfigRegistry.ICE_CUBE_LIFESPAN.get()).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
     public static void init() {}
