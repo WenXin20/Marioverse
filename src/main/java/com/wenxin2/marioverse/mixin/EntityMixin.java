@@ -51,6 +51,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Shadow public abstract BlockPos blockPosition();
     @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
+
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
