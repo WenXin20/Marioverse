@@ -253,7 +253,8 @@ public class EntityRegistry {
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
 
         event.put(EntityRegistry.ICE_CUBE.get(), PathfinderMob.createMobAttributes()
-                .add(Attributes.FOLLOW_RANGE, 0.0F).build());
+                .add(Attributes.FOLLOW_RANGE, 0.0F)
+                .add(Attributes.MAX_HEALTH, 2.0F).build());
 
         event.put(EntityRegistry.BOO.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 2.0F)
