@@ -57,6 +57,7 @@ dependencies {
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:jade-324717:6853386"
+    implementation "curse.maven:minecraft-comes-alive-reborn-535291:7204624"
     implementation "curse.maven:polytone-958094:6520025" // Requires Moonlight
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"

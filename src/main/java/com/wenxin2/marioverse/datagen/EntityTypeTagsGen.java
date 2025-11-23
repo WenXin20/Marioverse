@@ -15,8 +15,12 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class EntityTypeTagsGen extends EntityTypeTagsProvider {
-    private static ResourceLocation HAT_STAND = ResourceLocation.fromNamespaceAndPath("supplementaries", "hat_stand");
-    private static ResourceLocation TEST_DUMMY = ResourceLocation.fromNamespaceAndPath("dummmmmmy", "target_dummy");
+    private static final ResourceLocation FEMALE_VILLAGER = ResourceLocation.fromNamespaceAndPath("mca", "female_villager");
+    private static final ResourceLocation FEMALE_ZOMBIE_VILLAGER = ResourceLocation.fromNamespaceAndPath("mca", "female_zombie_villager");
+    private static final ResourceLocation HAT_STAND = ResourceLocation.fromNamespaceAndPath("supplementaries", "hat_stand");
+    private static final ResourceLocation MALE_VILLAGER = ResourceLocation.fromNamespaceAndPath("mca", "male_villager");
+    private static final ResourceLocation MALE_ZOMBIE_VILLAGER = ResourceLocation.fromNamespaceAndPath("mca", "male_zombie_villager");
+    private static final ResourceLocation TEST_DUMMY = ResourceLocation.fromNamespaceAndPath("dummmmmmy", "target_dummy");
 
     public EntityTypeTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -131,13 +135,17 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PIGLIN)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_COLLECT_STAR_COINS)
                 .add(EntityType.PIGLIN)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_CONSUME_FIRE_FLOWERS)
                 .addTag(Tags.EntityTypes.BOSSES)
@@ -167,6 +175,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIE_VILLAGER)
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
 
@@ -196,21 +208,30 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER)
                 .add(EntityType.WITCH)
                 .add(EntityType.ZOMBIE)
+                .add(EntityType.ZOMBIE_VILLAGER)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
 
         tag(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_CONSUME_ONE_UPS)
                 .add(EntityType.IRON_GOLEM)
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_CONSUME_SUPER_STARS)
                 .add(EntityType.IRON_GOLEM)
@@ -221,7 +242,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_LOWER_FLAGS)
                 .add(EntityType.PLAYER);
@@ -235,7 +258,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PIGLIN_BRUTE)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER);
 
         tag(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
@@ -247,12 +274,16 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_STOMP_ENEMIES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_WEAR_COSTUMES)
                 .addTag(Tags.EntityTypes.BOSSES)
@@ -274,6 +305,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
 
@@ -300,6 +335,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
 
@@ -323,6 +362,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CAN_WEAR_SHIRTS)
@@ -345,6 +388,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CAN_WEAR_SHOES)
@@ -367,6 +414,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ZOMBIFIED_PIGLIN)
                 .addOptionalTag(CompatRegistry.ACCESSORIES_DEFAULT_TARGETS)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(FEMALE_ZOMBIE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
+                .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
@@ -386,7 +437,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.DRY_BONES_TAIL.get());
 
         tag(TagRegistry.DRY_BONES_CAN_ATTACK)
-                .add(EntityType.PLAYER);
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.FIRE_GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)
@@ -451,7 +506,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.GOOMBA_CAN_RIDE)
                 .addTag(TagRegistry.GOOMBA_ENTITIES);
@@ -502,7 +559,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.GOLD_KOOPA_TROOPA_CAN_ATTACK)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
@@ -523,7 +582,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.RED_KOOPA_TROOPA_CAN_ATTACK)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES);
@@ -533,7 +594,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                 .add(EntityType.ARMOR_STAND)
@@ -543,6 +606,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.SNOW_GOLEM)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER)
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
@@ -554,7 +619,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM)
                 .add(EntityType.VILLAGER)
-                .add(EntityType.WANDERING_TRADER);
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
