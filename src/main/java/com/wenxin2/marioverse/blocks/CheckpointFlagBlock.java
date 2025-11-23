@@ -542,6 +542,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                     if (!(entity instanceof Player)) {
                         entity.level().broadcastEntityEvent(entity, (byte) 112);
+                        world.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
                     } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
 
                     if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
