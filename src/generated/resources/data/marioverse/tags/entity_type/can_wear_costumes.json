@@ -14,8 +14,10 @@
     "minecraft:player",
     "minecraft:skeleton",
     "minecraft:stray",
+    "minecraft:villager",
     "minecraft:wither_skeleton",
     "minecraft:zombie",
+    "minecraft:zombie_villager",
     "minecraft:zombified_piglin",
     {
       "id": "#accessories:defaulted_targets",
@@ -23,6 +25,10 @@
     },
     {
       "id": "#twilightforest:bosses",
+      "required": false
+    },
+    {
+      "id": "guardvillagers:guard",
       "required": false
     },
     {

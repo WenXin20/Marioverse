@@ -3,6 +3,10 @@
     "#marioverse:koopa_shells",
     "minecraft:player",
     "minecraft:villager",
-    "minecraft:wandering_trader"
+    "minecraft:wandering_trader",
+    {
+      "id": "guardvillagers:guard",
+      "required": false
+    }
   ]
 }

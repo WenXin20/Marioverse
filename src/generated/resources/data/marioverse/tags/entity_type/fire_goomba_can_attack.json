@@ -6,6 +6,10 @@
     "minecraft:player",
     "minecraft:snow_golem",
     "minecraft:villager",
-    "minecraft:wandering_trader"
+    "minecraft:wandering_trader",
+    {
+      "id": "guardvillagers:guard",
+      "required": false
+    }
   ]
 }

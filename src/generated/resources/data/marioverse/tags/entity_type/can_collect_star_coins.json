@@ -5,6 +5,10 @@
     "minecraft:villager",
     "minecraft:wandering_trader",
     {
+      "id": "guardvillagers:guard",
+      "required": false
+    },
+    {
       "id": "mca:female_villager",
       "required": false
     },

@@ -31,6 +31,10 @@
       "required": false
     },
     {
+      "id": "guardvillagers:guard",
+      "required": false
+    },
+    {
       "id": "mca:female_villager",
       "required": false
     },
