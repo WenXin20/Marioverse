@@ -307,6 +307,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     @Override
+    protected boolean wouldNotSuffocateAtTargetPose(Pose pose) {
+        return false;
+    }
+
+    @Override
     public boolean canCollideWith(Entity entity) {
         return super.canCollideWith(entity);
     }
