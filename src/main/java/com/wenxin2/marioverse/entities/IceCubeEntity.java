@@ -684,7 +684,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             handler.mv$setFreezeImmunityCooldown(20);
         this.ejectPassengers();
 
-        if (this.previousFallDistance > 3 || this.getEntityFrozenCooldown() == 0) {
+        if (this.previousFallDistance > 3 || attackingEntity != null || this.getEntityFrozenCooldown() == 0) {
             this.discard();
             this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
 
