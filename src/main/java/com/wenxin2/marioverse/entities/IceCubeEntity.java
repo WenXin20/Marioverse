@@ -389,7 +389,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     protected void positionRider(Entity riderEntity, MoveFunction moveFunction) {
         if (this.isAlive())
-            moveFunction.accept(riderEntity, this.getX(), this.getY(), this.getZ());
+            moveFunction.accept(riderEntity, this.getX(), this.getY() + riderEntity.getBbHeight() / 4, this.getZ());
         else super.positionRider(riderEntity, moveFunction);
 
         if (riderEntity instanceof Player player) {
