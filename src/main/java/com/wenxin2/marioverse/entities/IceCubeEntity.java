@@ -844,8 +844,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.setHeight(height);
         this.setWidth(width);
         this.refreshDimensions();
-        this.setBoundingBox(new AABB(this.getX() - width * 1.55F / 2, this.getY(), this.getZ() - width * 1.55F / 2,
-                this.getX() + width * 1.55F / 2, this.getY() + height * 1.55F, this.getZ() + width * 1.55F / 2));
+        this.setBoundingBox(new AABB(this.getX() - width / 2, this.getY(), this.getZ() - width / 2,
+                this.getX() + width / 2, this.getY() + height , this.getZ() + width / 2));
     }
 
     public float getHeight() {
