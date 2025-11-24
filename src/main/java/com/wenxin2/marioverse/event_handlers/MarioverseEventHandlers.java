@@ -158,9 +158,9 @@ public class MarioverseEventHandlers {
 
             if (!(mob instanceof KoopaShellEntity) && mob instanceof AbilitiesHandler) {
                 if (!(mob instanceof FireGoombaEntity)) {
-                    mob.goalSelector.addGoal(3, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
+                    mob.goalSelector.addGoal(5, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
                             0, true));
-                    mob.goalSelector.addGoal(3, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
+                    mob.goalSelector.addGoal(5, new ShootBouncingIceBallGoal(mob, ConfigRegistry.MAX_MOB_ICE_BALLS.get(),
                             0, true));
                 }
 
