@@ -69,6 +69,74 @@
 				}
 			}
 		},
+		"boo.hide": {
+			"loop": true,
+			"animation_length": 0.25,
+			"bones": {
+				"bipedBody": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.0833": {
+							"vector": [0, 0, -2.5]
+						},
+						"0.1667": {
+							"vector": [0, 0, 0]
+						},
+						"0.25": {
+							"vector": [0, 0, 2.5]
+						}
+					}
+				},
+				"tonuge": {
+					"rotation": {
+						"vector": [-55, 0, 0]
+					},
+					"position": {
+						"vector": [0, 0, 8]
+					},
+					"scale": {
+						"vector": [0, 0, 0]
+					}
+				},
+				"bipedLeftArm": {
+					"rotation": {
+						"vector": [75, 65, 135]
+					},
+					"position": {
+						"vector": [2, -1, -3]
+					}
+				},
+				"bipedRightArm": {
+					"rotation": {
+						"vector": [75, -65, -135]
+					},
+					"position": {
+						"vector": [-2, -1, -3]
+					}
+				}
+			}
+		},
+		"pokey.idle": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"bipedBody": {
+					"position": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0.5, 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
 		"attack.bite": {
 			"animation_length": 1,
 			"bones": {
@@ -167,55 +235,6 @@
 						"0.36": {
 							"vector": [0, 0, 0]
 						}
-					}
-				}
-			}
-		},
-		"boo.hide": {
-			"loop": true,
-			"animation_length": 0.25,
-			"bones": {
-				"bipedBody": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.0833": {
-							"vector": [0, 0, -2.5]
-						},
-						"0.1667": {
-							"vector": [0, 0, 0]
-						},
-						"0.25": {
-							"vector": [0, 0, 2.5]
-						}
-					}
-				},
-				"tonuge": {
-					"rotation": {
-						"vector": [-55, 0, 0]
-					},
-					"position": {
-						"vector": [0, 0, 8]
-					},
-					"scale": {
-						"vector": [0, 0, 0]
-					}
-				},
-				"bipedLeftArm": {
-					"rotation": {
-						"vector": [75, 65, 135]
-					},
-					"position": {
-						"vector": [2, -1, -3]
-					}
-				},
-				"bipedRightArm": {
-					"rotation": {
-						"vector": [75, -65, -135]
-					},
-					"position": {
-						"vector": [-2, -1, -3]
 					}
 				}
 			}
