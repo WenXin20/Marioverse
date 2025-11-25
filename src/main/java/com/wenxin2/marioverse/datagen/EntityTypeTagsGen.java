@@ -47,7 +47,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ICE_FLOWER.get());
 
         tag(EntityTypeTags.FROG_FOOD)
-                .add(EntityRegistry.MINI_GOOMBA.get());
+                .add(EntityRegistry.MINI_GOOMBA.get())
+                .add(EntityRegistry.POKEY.get());
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
@@ -240,8 +241,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
-                .add(EntityRegistry.BOO.get());
+                .add(EntityRegistry.POKEY.get());
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
@@ -259,6 +261,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.POKEY.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -284,6 +287,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
@@ -401,6 +405,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get())
+                .add(EntityRegistry.POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get());
 
         tag(TagRegistry.FIREBALL_IMMUNE)
