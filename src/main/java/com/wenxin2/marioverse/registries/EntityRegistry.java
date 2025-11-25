@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.RedKoopaShellEntity;
 import com.wenxin2.marioverse.entities.RedKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
@@ -124,6 +125,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
             Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
                     .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY =
+            Marioverse.ENTITIES.register("pokey", () -> EntityType.Builder.of(PokeyEntity::new, MobCategory.MONSTER)
+                    .sized(0.5F, 0.5F).eyeHeight(0.75F).build("pokey"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
             Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.AMBIENT)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
@@ -152,6 +156,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.PIRANHA_PLANT.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, PiranhaPlantEntity::checkPiranhaPlantSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.POKEY.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PokeyEntity::checkPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GREEN_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.RED_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
@@ -302,6 +308,14 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 12.0F).build());
+
+        event.put(EntityRegistry.POKEY.get(), Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.MAX_HEALTH, 6)
+                .add(Attributes.MOVEMENT_SPEED, 0.1F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
         event.put(EntityRegistry.SPLUNKIN.get(), Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
