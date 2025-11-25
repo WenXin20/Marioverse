@@ -69,8 +69,7 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-//                poseStack.scale(1.2F, 1.2F, 1.2F);
-//                poseStack.translate(0.0F, -0.2F, 0.0F);
+                poseStack.scale(1.2F, 1.2F, 1.2F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -104,7 +103,7 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, PokeyEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (stack.getItem() instanceof BlockItem) {
-                    poseStack.scale(0.75F, 0.75F, 0.75F);
+                    poseStack.scale(0.8F, 0.8F, 0.8F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 } else poseStack.translate(0.0F, 0.2F, 0.0F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);

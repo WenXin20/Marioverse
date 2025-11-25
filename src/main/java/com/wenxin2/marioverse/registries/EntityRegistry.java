@@ -127,7 +127,7 @@ public class EntityRegistry {
                     .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
     public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY =
             Marioverse.ENTITIES.register("pokey", () -> EntityType.Builder.of(PokeyEntity::new, MobCategory.MONSTER)
-                    .sized(0.5F, 0.5F).eyeHeight(0.75F).build("pokey"));
+                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
             Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.AMBIENT)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
