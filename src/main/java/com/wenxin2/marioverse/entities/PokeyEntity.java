@@ -1,18 +1,13 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
-import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
-import com.wenxin2.marioverse.entities.ai.goals.ChargeAttackGoal;
-import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
-import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +17,12 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
@@ -44,9 +37,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -55,20 +48,15 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.SpectralArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
 import net.minecraft.world.item.component.ResolvableProfile;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.pathfinder.PathType;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -78,7 +66,6 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
@@ -88,6 +75,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @Nullable private UUID persistentAngerTarget;
+    public int attackCooldown = 0;
 
     public PokeyEntity(EntityType<? extends PokeyEntity> type, Level world) {
         super(type, world);
@@ -160,6 +148,10 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     public void tick() {
         super.tick();
+        this.pokeEntity();
+
+        if (this.attackCooldown > 0)
+            this.attackCooldown--;
     }
 
     @Override
@@ -306,5 +298,42 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL
                 && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
                 && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
+    }
+
+    public void pokeEntity() {
+        if (this.attackCooldown > 0)
+            return;
+
+        List<Entity> nearbyEntities = this.level().getEntities(this,
+                this.getBoundingBox().inflate(0.01, 0.0, 0.01), entity -> !entity.isSpectator()
+                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
+                        && !this.level().isClientSide());
+
+        if (!nearbyEntities.isEmpty()) {
+            for (Entity collidingEntity : nearbyEntities) {
+                if (collidingEntity instanceof PokeyEntity)
+                    continue;
+
+                if (collidingEntity.getType().is(EntityTypeTags.SENSITIVE_TO_IMPALING)) // TODO
+                    continue;
+
+                this.swing(InteractionHand.MAIN_HAND);
+
+                float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
+                        : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
+                collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage); // TODO
+
+                if (collidingEntity instanceof NeutralMob neutralMob) {
+                    neutralMob.isAngryAt(this);
+                    neutralMob.setTarget(this);
+                    neutralMob.setPersistentAngerTarget(this.getUUID());
+                }
+
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F); // TODO
+                this.attackCooldown = 20;
+                break;
+            }
+        }
     }
 }
