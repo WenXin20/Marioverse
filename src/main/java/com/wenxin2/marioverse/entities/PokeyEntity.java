@@ -317,7 +317,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 if (collidingEntity.getType().is(EntityTypeTags.SENSITIVE_TO_IMPALING)) // TODO
                     continue;
 
-                this.swing(InteractionHand.MAIN_HAND);
+                if (collidingEntity.isSpectator() || collidingEntity instanceof Player player && player.isCreative()) // TODO
+                    continue;
+
 
                 float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
                         : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -330,6 +332,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                     neutralMob.setPersistentAngerTarget(this.getUUID());
                 }
 
+                this.swing(InteractionHand.MAIN_HAND);
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F); // TODO
                 this.attackCooldown = 20;
                 break;
