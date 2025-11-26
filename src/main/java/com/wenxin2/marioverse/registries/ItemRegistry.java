@@ -346,7 +346,7 @@ public class ItemRegistry {
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
                 () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         POKEY_SPAWN_EGG = registerItem("pokey_spawn_egg",
-                () -> new BetterSpawnEggItem(EntityRegistry.POKEY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BetterSpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SPLUNKIN_SPAWN_EGG = registerItem("splunkin_spawn_egg",

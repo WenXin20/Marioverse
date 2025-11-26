@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
@@ -52,11 +54,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -124,7 +129,8 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     protected <E extends GeoAnimatable> PlayState animController(final AnimationState<E> event) {
-        event.setAndContinue(IDLE);
+        if (this.getBottomSegment().getDeltaMovement().horizontalDistance() > 0)
+            event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
     }
 
@@ -152,6 +158,72 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
+
+        LivingEntity head = this.getHeadSegment();
+        if (this.isPassenger() && this == head) {
+            LivingEntity bottom = this.getBottomSegment();
+
+            this.setYRot(bottom.getYRot());
+            this.yRotO = bottom.yRotO;
+
+            this.setYHeadRot(bottom.getYHeadRot());
+            this.yHeadRotO = bottom.yHeadRotO;
+        }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!this.level().isClientSide()) {
+            Entity attacker = source.getEntity();
+
+            if (attacker instanceof LivingEntity livingEntity) {
+                LivingEntity bottomEntity = this.getBottomSegment();
+
+                if (bottomEntity instanceof NeutralMob neutral) {
+                    neutral.setPersistentAngerTarget(livingEntity.getUUID());
+                    neutral.startPersistentAngerTimer();
+                }
+            }
+        }
+
+        return super.hurt(source, amount);
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+
+        Entity vehicle = this.getVehicle();
+
+        while (vehicle instanceof PokeyEntity) {
+            Entity next = vehicle.getVehicle();
+            vehicle.kill();
+            vehicle = next;
+        }
+    }
+
+    @Override
+    public void knockback(double strength, double x, double z) {
+        Entity bottom = this.getBottomSegment();
+
+        if (bottom == this) {
+            super.knockback(strength, x, z);
+            return;
+        }
+
+        if (bottom instanceof LivingEntity livingEntity)
+            livingEntity.knockback(strength, x, z);
+    }
+
+    @Override
+    public void travel(Vec3 travelVector) {
+        if (this.isVehicle() && this.isInWater() // Copied from FloatGoal
+                && this.getFluidHeight(FluidTags.WATER) > this.getFluidJumpThreshold()) {
+            if (this.getRandom().nextFloat() < 0.8F)
+                this.getJumpControl().jump();
+            this.getNavigation().setCanFloat(true);
+        }
+        super.travel(travelVector);
     }
 
     @Override
@@ -178,6 +250,12 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     public void startPersistentAngerTimer() {
         this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getPickedResult(@NotNull HitResult target) {
+        return new ItemStack(ItemRegistry.POKEY_SPAWN_EGG.get());
     }
 
     @Override
@@ -338,5 +416,21 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 break;
             }
         }
+    }
+
+    public LivingEntity getHeadSegment() {
+        LivingEntity current = this;
+
+        while (current.getFirstPassenger() instanceof LivingEntity livingEntity && !current.isVehicle())
+            current = livingEntity;
+        return current;
+    }
+
+    public LivingEntity getBottomSegment() {
+        LivingEntity current = this;
+
+        while (current.getVehicle() instanceof LivingEntity livingEntity)
+            current = livingEntity;
+        return current;
     }
 }

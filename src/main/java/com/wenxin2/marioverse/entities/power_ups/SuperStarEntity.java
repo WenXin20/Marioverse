@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
+import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -79,7 +80,31 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
-            handler.applySuperStarPowerUp(this.level(), livingEntity, this);
+        Level world = this.level();
+        Entity vehicle = entity.getVehicle();
+
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+            handler.applySuperStarPowerUp(world, livingEntity, this);
+
+            while (vehicle instanceof AbilitiesHandler vehicleHandler) {
+                vehicleHandler.applySuperStarPowerUp(world, livingEntity, this);
+                vehicle = vehicle.getVehicle();
+            }
+
+            for (Entity passenger : entity.getPassengers()) {
+                this.applyToPokeyRiders(world, passenger);
+            }
+        }
+    }
+
+    private void applyToPokeyRiders(Level world, Entity firstEntity) {
+        Entity currentEntity = firstEntity;
+
+        while (currentEntity instanceof LivingEntity livingEntity) {
+            if (currentEntity instanceof AbilitiesHandler riderHandler)
+                riderHandler.applySuperStarPowerUp(world, livingEntity, this);
+
+            currentEntity = currentEntity.getPassengers().getFirst();
+        }
     }
 }
