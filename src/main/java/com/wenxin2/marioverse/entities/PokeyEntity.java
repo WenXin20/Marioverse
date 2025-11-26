@@ -125,7 +125,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+//        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
     }
 
     protected <E extends GeoAnimatable> PlayState animController(final AnimationState<E> event) {
@@ -163,8 +163,8 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         if (this.isPassenger() && this == head) {
             LivingEntity bottom = this.getBottomSegment();
 
-            this.setYRot(bottom.getYRot());
-            this.yRotO = bottom.yRotO;
+//            this.setYRot(bottom.getYRot());
+//            this.yRotO = bottom.yRotO;
 
             this.setYHeadRot(bottom.getYHeadRot());
             this.yHeadRotO = bottom.yHeadRotO;
@@ -421,7 +421,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     public LivingEntity getHeadSegment() {
         LivingEntity current = this;
 
-        while (current.getFirstPassenger() instanceof LivingEntity livingEntity && !current.isVehicle())
+        while (current.getFirstPassenger() instanceof LivingEntity livingEntity)
             current = livingEntity;
         return current;
     }

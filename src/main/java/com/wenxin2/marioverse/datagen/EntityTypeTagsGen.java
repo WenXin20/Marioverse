@@ -48,7 +48,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(EntityTypeTags.FROG_FOOD)
                 .add(EntityRegistry.MINI_GOOMBA.get())
-                .add(EntityRegistry.POKEY.get());
+                .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get());
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
@@ -243,7 +244,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
-                .add(EntityRegistry.POKEY.get());
+                .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get());
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
@@ -262,6 +264,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -288,6 +291,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
@@ -406,6 +410,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get())
                 .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get())
                 .add(EntityRegistry.SPLUNKIN.get());
 
         tag(TagRegistry.FIREBALL_IMMUNE)

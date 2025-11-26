@@ -11,6 +11,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -27,10 +29,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.PathType;
 import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMob {
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("pokey.idle");
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
@@ -67,6 +74,16 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     }
 
     @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+//        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
@@ -82,6 +99,24 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             this.setYHeadRot(bottom.getYHeadRot());
             this.yHeadRotO = bottom.yHeadRotO;
         }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (!this.level().isClientSide()) {
+            Entity attacker = source.getEntity();
+
+            if (attacker instanceof LivingEntity livingEntity) {
+                LivingEntity bottomEntity = this.getBottomSegment();
+
+                if (bottomEntity instanceof NeutralMob neutral) {
+                    neutral.setPersistentAngerTarget(livingEntity.getUUID());
+                    neutral.startPersistentAngerTimer();
+                }
+            }
+        }
+
+        return super.hurt(source, amount);
     }
 
     @Override
@@ -126,6 +161,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
                 continue;
 
             body.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+            body.setUUID(UUID.randomUUID());
             serverWorld.addFreshEntity(body);
             body.startRiding(currentTop, true);
             currentTop = body;
@@ -133,6 +169,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
         if (head != null) {
             head.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+            head.setUUID(UUID.randomUUID());
             serverWorld.addFreshEntity(head);
             head.startRiding(currentTop, true);
         }

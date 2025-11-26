@@ -319,7 +319,7 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
-                .add(Attributes.MAX_HEALTH, 6)
+                .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.1F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 
@@ -327,7 +327,7 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 1.0F)
-                .add(Attributes.MAX_HEALTH, 6)
+                .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.1F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F).build());
 

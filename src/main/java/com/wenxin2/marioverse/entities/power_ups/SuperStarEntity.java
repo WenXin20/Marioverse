@@ -104,7 +104,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
             if (currentEntity instanceof AbilitiesHandler riderHandler)
                 riderHandler.applySuperStarPowerUp(world, livingEntity, this);
 
-            currentEntity = currentEntity.getPassengers().getFirst();
+            currentEntity = currentEntity.getFirstPassenger();
         }
     }
 }
