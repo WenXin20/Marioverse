@@ -573,6 +573,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());
 
+        tag(TagRegistry.POKEYS)
+                .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get());
+
         tag(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
         tag(TagRegistry.SPIKE_PANEL_IMMUNE)
