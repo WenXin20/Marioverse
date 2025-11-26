@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
+import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
@@ -320,10 +321,32 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                             || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
                         iceCube.setFrozenEntity(livingEntity, 2);
                     else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+
                     iceCube.setTicksInAir(120);
                     iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
                     iceCube.setOwner(this.getOwner());
                     livingEntity.level().addFreshEntity(iceCube);
+
+                    if (livingEntity instanceof PokeyEntity) {
+                        Entity vehicle = livingEntity.getVehicle();
+
+                        while (vehicle instanceof LivingEntity vehicleLiving) {
+                            IceCubeEntity iceCubeVehicle = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
+                            if (vehicleLiving.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                                    || vehicleLiving.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
+                                iceCubeVehicle.setFrozenEntity(vehicleLiving, 2);
+                            } else iceCubeVehicle.setFrozenEntity(vehicleLiving, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+
+                            iceCubeVehicle.setTicksInAir(120);
+                            iceCubeVehicle.moveTo(vehicleLiving.getX(), vehicleLiving.getY(), vehicleLiving.getZ(), vehicleLiving.getYRot(), vehicleLiving.getXRot());
+                            iceCubeVehicle.setOwner(this.getOwner());
+                            vehicleLiving.level().addFreshEntity(iceCubeVehicle);
+                            vehicle = vehicle.getVehicle();
+                        }
+
+                        for (Entity passenger : entity.getPassengers())
+                            this.applyToPokeyRiders(passenger);
+                    }
                 }
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
@@ -417,6 +440,25 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         entity.getSoundSource(), 1.0F, 1.0F);
                 return;
             }
+        }
+    }
+
+    private void applyToPokeyRiders(Entity firstEntity) {
+        Entity currentEntity = firstEntity;
+
+        while (currentEntity instanceof LivingEntity livingEntity) {
+            IceCubeEntity iceCubeVehicle = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
+            if (currentEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                    || currentEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
+                iceCubeVehicle.setFrozenEntity(currentEntity, 2);
+            } else iceCubeVehicle.setFrozenEntity(currentEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+
+            iceCubeVehicle.setTicksInAir(120);
+            iceCubeVehicle.moveTo(currentEntity.getX(), currentEntity.getY(), currentEntity.getZ(), currentEntity.getYRot(), currentEntity.getXRot());
+            iceCubeVehicle.setOwner(this.getOwner());
+            currentEntity.level().addFreshEntity(iceCubeVehicle);
+
+            currentEntity = currentEntity.getFirstPassenger();
         }
     }
 }

@@ -163,9 +163,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         if (this.isPassenger() && this == head) {
             LivingEntity bottom = this.getBottomSegment();
 
-//            this.setYRot(bottom.getYRot());
-//            this.yRotO = bottom.yRotO;
-
             this.setYHeadRot(bottom.getYHeadRot());
             this.yHeadRotO = bottom.yHeadRotO;
         }
@@ -173,19 +170,19 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!this.level().isClientSide()) {
+        if (!this.level().isClientSide() && super.hurt(source, amount)) {
             Entity attacker = source.getEntity();
 
             if (attacker instanceof LivingEntity livingEntity) {
                 LivingEntity bottomEntity = this.getBottomSegment();
 
-                if (bottomEntity instanceof NeutralMob neutral) {
+                if (bottomEntity != this && bottomEntity instanceof NeutralMob neutral) {
                     neutral.setPersistentAngerTarget(livingEntity.getUUID());
                     neutral.startPersistentAngerTimer();
+                    neutral.setTarget(livingEntity);
                 }
             }
         }
-
         return super.hurt(source, amount);
     }
 
@@ -418,11 +415,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         }
     }
 
+    @Nullable
     public LivingEntity getHeadSegment() {
         LivingEntity current = this;
 
         while (current.getFirstPassenger() instanceof LivingEntity livingEntity)
             current = livingEntity;
+        if (current instanceof PokeyBodyEntity)
+            return null;
         return current;
     }
 
