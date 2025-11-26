@@ -555,11 +555,11 @@ public class ConfigRegistry
                     DISABLE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.disable_dry_bones_masks")
                             .comment("Ban Dry Bones from wearing masks on Halloween.")
                             .comment("§9[Default: false]")
-                            .define("disable_boo_masks", false);
+                            .define("disable_dry_bones_masks", false);
                     FORCE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.force_dry_bones_masks")
                             .comment("Force Dry Bones to spawn wearing masks at any time.")
                             .comment("§9[Default: false]")
-                            .define("force_boo_masks", false);
+                            .define("force_dry_bones_masks", false);
                     DISABLE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.disable_goomba_masks")
                             .comment("Ban Goombas from wearing masks on Halloween.")
                             .comment("§9[Default: false]")
