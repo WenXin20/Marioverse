@@ -1,6 +1,6 @@
 {
   "type": "minecraft:entity",
-  "random_sequence": "marioverse:entities/pokey",
+  "random_sequence": "marioverse:entities/pokey_body",
   "pools": [
     {
       "bonus_rolls": 0.0,
