@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.controls.FloatMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ChargeAttackGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FreezeWhenLookedAt;
-import com.wenxin2.marioverse.entities.ai.goals.LightAvoidingRandomMoveGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.RandomMoveGoal;

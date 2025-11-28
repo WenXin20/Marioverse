@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -26,10 +27,12 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
@@ -41,8 +44,6 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     @Nullable private UUID persistentAngerTarget;
     private int remainingPersistentAngerTime;
     public int deathCountdown = 0;
-    private boolean initialized = false;
-    private boolean createdStack = false;
 
     public PokeyBodyEntity(EntityType<? extends PokeyBodyEntity> type, Level world) {
         super(type, world);
@@ -91,7 +92,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         if (this.isPassenger())
             this.getLookControl().tick();
 
-        if (this.deathCountdown > 0)
+        if (this.deathCountdown > 0 && this.getHeadSegment() == null)
             this.deathCountdown--;
 
         if (this.getHeadSegment() == null && this.deathCountdown == 0)
@@ -138,43 +139,57 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
-        this.spawnPokeyStack(serverWorld.getLevel(), difficulty);
+        this.spawnPokeyStack(serverWorld.getLevel(), difficulty, spawnType);
         return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
     }
 
-    private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty) {
-        PokeyEntity head = EntityRegistry.POKEY.get().create(serverWorld);
-
+    private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType) {
         RandomSource random = serverWorld.getRandom();
-        int bodyCount = random.nextInt(10); // TODO: Add config
+        int bodyCount = random.nextInt(10);
         Mob currentTop = this;
+        if (!currentTop.getPassengers().isEmpty())
+            return;
 
-        for (int i = 0; i < bodyCount; i++) {
-            UUID uuid;
-            do uuid = UUID.randomUUID();
-            while (serverWorld.getEntity(uuid) != null);
+        for (int i = 0; i < bodyCount - 1; i++) {
+            double nextX = currentTop.getX();
+            double nextY = currentTop.getY() + currentTop.getBbHeight();
+            double nextZ = currentTop.getZ();
 
-            PokeyBodyEntity body = EntityRegistry.POKEY_BODY.get().create(serverWorld);
+            BlockPos pos = BlockPos.containing(nextX, nextY, nextZ);
+            BlockState state = serverWorld.getBlockState(pos);
+
+            if (state.isSolid())
+                break;
+            if (!currentTop.getPassengers().isEmpty())
+                break;
+
+            PokeyBodyEntity body = EntityRegistry.POKEY_BODY.get().create(this.level());
             if (body == null)
                 continue;
+            if (!body.getPassengers().isEmpty())
+                break;
 
-            body.setUUID(uuid);
-            body.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
-            serverWorld.addFreshEntity(body);
+            body.moveTo(nextX, nextY, nextZ, this.getYRot(), this.getXRot());
             body.startRiding(currentTop, true);
             body.deathCountdown = 2;
             currentTop = body;
         }
 
+        PokeyEntity head = EntityRegistry.POKEY.get().create(this.level());
         if (head != null) {
-            UUID uuid;
-            do uuid = UUID.randomUUID();
-            while (serverWorld.getLevel().getEntity(uuid) != null);
+            double x = currentTop.getX();
+            double y = currentTop.getY() + currentTop.getBbHeight();
+            double z = currentTop.getZ();
 
-            head.setUUID(uuid);
-            head.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
-            head.finalizeSpawn(serverWorld, difficulty, MobSpawnType.MOB_SUMMONED, null);
-            serverWorld.addFreshEntity(head);
+            BlockPos pos = BlockPos.containing(x, y, z);
+
+            while (serverWorld.getBlockState(pos).isSolid()) {
+                y += 1.0;
+                pos = BlockPos.containing(x, y, z);
+            }
+
+            head.moveTo(x, y, z, this.getYRot(), this.getXRot());
+            head.finalizeSpawn(serverWorld, difficulty, spawnType, null);
             head.startRiding(currentTop, true);
         }
     }
