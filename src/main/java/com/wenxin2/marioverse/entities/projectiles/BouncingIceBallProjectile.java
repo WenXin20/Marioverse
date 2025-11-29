@@ -271,10 +271,10 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                     if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                             || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                        iceCube.setFrozenCooldown(2);
+                        iceCube.setEntityFrozenCooldown(2);
                         handler.mv$setFrozenCooldown(2);
                     } else {
-                        iceCube.setFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        iceCube.setEntityFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                         handler.mv$setFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                     }
                     if (!player.onGround() && !player.isInWaterOrBubble())

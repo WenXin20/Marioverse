@@ -307,6 +307,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     @Override
+    protected boolean wouldNotSuffocateAtTargetPose(Pose pose) {
+        return false;
+    }
+
+    @Override
     public boolean canCollideWith(Entity entity) {
         return super.canCollideWith(entity);
     }
@@ -384,7 +389,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     @Override
     protected void positionRider(Entity riderEntity, MoveFunction moveFunction) {
         if (this.isAlive())
-            moveFunction.accept(riderEntity, this.getX(), this.getY(), this.getZ());
+            moveFunction.accept(riderEntity, this.getX(), this.getY() + riderEntity.getBbHeight() / 4, this.getZ());
         else super.positionRider(riderEntity, moveFunction);
 
         if (riderEntity instanceof Player player) {
@@ -415,6 +420,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        if (!this.getPassengers().isEmpty())
+            return false;
         return this.getFrozenEntityData() == null;
     }
 
@@ -663,11 +670,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 entity.setYHeadRot(this.getHeadRotation());
                 entity.setXRot(this.getPitch());
                 entity.setIsInPowderSnow(true);
+                this.discard();
                 if (entity.canFreeze())
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
 
-                this.level().playSound(entity, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
-                this.level().gameEvent(entity, GameEvent.BLOCK_DESTROY, this.blockPosition());
+                this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
                 if (useWaterParticles)
                     this.spawnShatterParticles(serverWorld, entity, ParticleTypes.SPLASH);
                 else this.spawnShatterParticles(serverWorld, entity, ParticleRegistry.ICE_CUBE_SHATTER.get());
@@ -676,8 +683,17 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (this.getControllingPassenger() instanceof AbilitiesHandler handler)
             handler.mv$setFreezeImmunityCooldown(20);
         this.ejectPassengers();
-        this.discard();
-        this.setRemoved(RemovalReason.DISCARDED);
+
+        if (this.previousFallDistance > 3 || attackingEntity != null || this.getEntityFrozenCooldown() == 0) {
+            this.discard();
+            this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
+
+            if (this.level() instanceof ServerLevel serverWorld) {
+                if (useWaterParticles)
+                    this.spawnShatterParticles(serverWorld, this, ParticleTypes.SPLASH);
+                else this.spawnShatterParticles(serverWorld, this, ParticleRegistry.ICE_CUBE_SHATTER.get());
+            }
+        }
     }
 
     private void collideWithFire(Level world) {
@@ -839,8 +855,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.setHeight(height);
         this.setWidth(width);
         this.refreshDimensions();
-        this.setBoundingBox(new AABB(this.getX() - width * 1.55F / 2, this.getY(), this.getZ() - width * 1.55F / 2,
-                this.getX() + width * 1.55F / 2, this.getY() + height * 1.55F, this.getZ() + width * 1.55F / 2));
+        this.setBoundingBox(new AABB(this.getX() - width / 2, this.getY(), this.getZ() - width / 2,
+                this.getX() + width / 2, this.getY() + height , this.getZ() + width / 2));
     }
 
     public float getHeight() {
@@ -888,10 +904,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setWidthScale(float widthScale) {
         this.setData(DataAttachmentRegistry.WIDTH_SCALE, widthScale);
-    }
-
-    public void setFrozenCooldown(int frozenCooldown) {
-        this.setData(DataAttachmentRegistry.FROZEN_COOLDOWN, frozenCooldown);
     }
 
     public int getEntityFrozenCooldown() {

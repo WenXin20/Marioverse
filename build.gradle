@@ -61,10 +61,13 @@ dependencies {
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:5699076"
-//    implementation "curse.maven:vista-1368607:7141238" // Requires Moonlight
+    implementation "curse.maven:vista-1368607:7141238" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:6778051"
     implementation "curse.maven:xaeros-world-map-317780:6778114"
+
+    implementation "curse.maven:guard-villagers-360203:6066966"
+    implementation "curse.maven:villager-armor-layer-843236:6325890"
 
     // Libraries
     implementation "curse.maven:architectury-api-${architectury_api_version}"

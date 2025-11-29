@@ -25,8 +25,29 @@
     "minecraft:wandering_trader",
     "minecraft:witch",
     "minecraft:zombie",
+    "minecraft:zombie_villager",
     {
       "id": "#twilightforest:bosses",
+      "required": false
+    },
+    {
+      "id": "guardvillagers:guard",
+      "required": false
+    },
+    {
+      "id": "mca:female_villager",
+      "required": false
+    },
+    {
+      "id": "mca:female_zombie_villager",
+      "required": false
+    },
+    {
+      "id": "mca:male_villager",
+      "required": false
+    },
+    {
+      "id": "mca:male_zombie_villager",
       "required": false
     },
     {
