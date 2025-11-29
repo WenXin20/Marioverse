@@ -77,7 +77,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-//        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
     }
 
     @Override

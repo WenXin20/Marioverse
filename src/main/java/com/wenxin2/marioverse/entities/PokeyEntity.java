@@ -125,7 +125,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-//        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
     }
 
     protected <E extends GeoAnimatable> PlayState animController(final AnimationState<E> event) {
@@ -174,9 +174,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             Entity attacker = source.getEntity();
 
             if (attacker instanceof LivingEntity livingEntity) {
-                LivingEntity bottomEntity = this.getBottomSegment();
+                LivingEntity headEntity = this.getHeadSegment();
 
-                if (bottomEntity != this && bottomEntity instanceof NeutralMob neutral) {
+                if (headEntity != this && headEntity instanceof NeutralMob neutral) {
                     neutral.setPersistentAngerTarget(livingEntity.getUUID());
                     neutral.startPersistentAngerTimer();
                     neutral.setTarget(livingEntity);
