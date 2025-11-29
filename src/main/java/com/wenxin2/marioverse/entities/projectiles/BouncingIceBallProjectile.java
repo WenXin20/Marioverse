@@ -317,15 +317,6 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity
                         || livingEntity instanceof BasePowerUpEntity || livingEntity instanceof BaseMushroomEntity) {
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-                    if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                            || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                        iceCube.setFrozenEntity(livingEntity, 2);
-                    else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-
-                    iceCube.setTicksInAir(120);
-                    iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
-                    iceCube.setOwner(this.getOwner());
-                    livingEntity.level().addFreshEntity(iceCube);
 
                     if (livingEntity instanceof PokeyEntity) {
                         Entity vehicle = livingEntity.getVehicle();
@@ -347,6 +338,16 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         for (Entity passenger : entity.getPassengers())
                             this.applyToPokeyRiders(passenger);
                     }
+
+                    if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                            || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
+                        iceCube.setFrozenEntity(livingEntity, 2);
+                    else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+
+                    iceCube.setTicksInAir(120);
+                    iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
+                    iceCube.setOwner(this.getOwner());
+                    livingEntity.level().addFreshEntity(iceCube);
                 }
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
