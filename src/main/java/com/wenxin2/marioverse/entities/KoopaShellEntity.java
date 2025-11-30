@@ -403,8 +403,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
                 this.setSliding(true);
                 this.hasImpulse = true;
-                
-                if (this.getOwner() == null) {
+
+                if (this.getOwner() == null || source.getEntity() instanceof Player) {
                     this.setOwner(source.getEntity());
                     this.leftOwner = false;
                 }
