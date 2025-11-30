@@ -4,6 +4,10 @@ import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -146,7 +150,10 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType) {
         RandomSource random = serverWorld.getRandom();
         int bodyCount = random.nextInt(10);
-        Mob currentTop = this;
+        List<UUID> uuidList = new ArrayList<>();
+        Mob bottom = this;
+        uuidList.add(bottom.getUUID());
+        Mob currentTop = bottom;
         if (!currentTop.getPassengers().isEmpty())
             return;
 
@@ -172,6 +179,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             body.moveTo(nextX, nextY, nextZ, this.getYRot(), this.getXRot());
             body.startRiding(currentTop, true);
             body.deathCountdown = 2;
+            uuidList.add(body.getUUID());
             currentTop = body;
         }
 
@@ -191,6 +199,8 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             head.moveTo(x, y, z, this.getYRot(), this.getXRot());
             head.finalizeSpawn(serverWorld, difficulty, spawnType, null);
             head.startRiding(currentTop, true);
+            uuidList.add(head.getUUID());
+            STACK_UUIDS.put(head.getUUID(), uuidList);
         }
     }
 }

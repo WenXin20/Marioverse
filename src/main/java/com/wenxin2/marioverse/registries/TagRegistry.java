@@ -241,7 +241,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
-    public static final TagKey<EntityType<?>> POKEYS = entityTypeTags("pokeys");
+    public static final TagKey<EntityType<?>> POKEY_ENTITIES = entityTypeTags("pokeys");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CANNOT_ATTACK = entityTypeTags("red_koopa_shell_cannot_attack");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");

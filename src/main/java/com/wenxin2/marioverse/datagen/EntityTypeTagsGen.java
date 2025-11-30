@@ -595,6 +595,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .addTag(TagRegistry.POKEY_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
@@ -610,6 +611,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .addTag(TagRegistry.POKEY_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
@@ -619,6 +621,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .addTag(TagRegistry.POKEY_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
@@ -677,7 +680,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());
 
-        tag(TagRegistry.POKEYS)
+        tag(TagRegistry.POKEY_ENTITIES)
                 .add(EntityRegistry.POKEY.get())
                 .add(EntityRegistry.POKEY_BODY.get());
 

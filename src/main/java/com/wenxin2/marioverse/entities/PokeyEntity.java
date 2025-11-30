@@ -11,7 +11,9 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -433,4 +435,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             current = livingEntity;
         return current;
     }
+
+    public static @Nullable List<UUID> getPokeyStackFromSegment(UUID uuid) {
+        for (Map.Entry<UUID, List<UUID>> entry : STACK_UUIDS.entrySet()) {
+            if (entry.getValue().contains(uuid))
+                return entry.getValue();
+        }
+        return null;
+    }
+
+    public static final Map<UUID, List<UUID>> STACK_UUIDS = new HashMap<>();
 }

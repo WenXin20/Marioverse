@@ -7,6 +7,8 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.List;
+import java.util.UUID;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -93,17 +95,28 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
             }
 
             for (Entity passenger : entity.getPassengers())
-                this.applyToPokeyRiders(world, passenger);
+                this.powerUpRiders(world, passenger);
+
+            if (livingEntity instanceof PokeyEntity && livingEntity.level() instanceof ServerLevel serverWorld) {
+                List<UUID> stack = PokeyEntity.getPokeyStackFromSegment(livingEntity.getUUID());
+                if (stack != null) {
+                    for (UUID uuid : stack) {
+                        Entity target = serverWorld.getEntity(uuid);
+
+                        if (target instanceof LivingEntity)
+                            handler.applySuperStarPowerUp(world, livingEntity, this);
+                    }
+                }
+            }
         }
     }
 
-    private void applyToPokeyRiders(Level world, Entity firstEntity) {
+    private void powerUpRiders(Level world, Entity firstEntity) {
         Entity currentEntity = firstEntity;
 
         while (currentEntity instanceof LivingEntity livingEntity) {
             if (currentEntity instanceof AbilitiesHandler riderHandler)
                 riderHandler.applySuperStarPowerUp(world, livingEntity, this);
-
             currentEntity = currentEntity.getFirstPassenger();
         }
     }

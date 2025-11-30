@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -318,25 +319,38 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         || livingEntity instanceof BasePowerUpEntity || livingEntity instanceof BaseMushroomEntity) {
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
 
-                    if (livingEntity instanceof PokeyEntity) {
-                        Entity vehicle = livingEntity.getVehicle();
+                    if (livingEntity instanceof PokeyEntity && !livingEntity.level().isClientSide) {
+                        List<UUID> stack = PokeyEntity.getPokeyStackFromSegment(livingEntity.getUUID());
+                        double baseX = livingEntity.getX();
+                        double baseZ = livingEntity.getZ();
+                        int index = 0;
 
-                        while (vehicle instanceof LivingEntity vehicleLiving) {
-                            IceCubeEntity iceCubeVehicle = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-                            if (vehicleLiving.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                                    || vehicleLiving.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                                iceCubeVehicle.setFrozenEntity(vehicleLiving, 2);
-                            } else iceCubeVehicle.setFrozenEntity(vehicleLiving, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        if (stack != null) {
+                            int total = stack.size();
 
-                            iceCubeVehicle.setTicksInAir(120);
-                            iceCubeVehicle.moveTo(vehicleLiving.getX(), vehicleLiving.getY(), vehicleLiving.getZ(), vehicleLiving.getYRot(), vehicleLiving.getXRot());
-                            iceCubeVehicle.setOwner(this.getOwner());
-                            vehicleLiving.level().addFreshEntity(iceCubeVehicle);
-                            vehicle = vehicle.getVehicle();
+                            for (UUID uuid : stack) {
+                                Entity target =  ((ServerLevel) livingEntity.level()).getEntity(uuid);
+
+                                if (target instanceof LivingEntity part) {
+                                    IceCubeEntity iceCubePart = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), part.level());
+                                    double dx = (part.getRandom().nextDouble() - 0.5) * 1.0;
+                                    double dz = (part.getRandom().nextDouble() - 0.5) * 1.0;
+
+                                    if (part.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                                            || part.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
+                                        iceCubePart.setFrozenEntity(part, 2);
+                                    else iceCubePart.setFrozenEntity(part, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+
+                                    iceCubePart.setTicksInAir(120);
+                                    iceCubePart.moveTo(part.getX(), part.getY(), part.getZ(), part.getYRot(), part.getXRot());
+                                    iceCubePart.setDeltaMovement(dx, iceCubePart.getDeltaMovement().y, dz);
+                                    iceCubePart.setOwner(this.getOwner());
+                                    part.level().addFreshEntity(iceCubePart);
+                                    index++;
+                                }
+                            }
                         }
-
-                        for (Entity passenger : entity.getPassengers())
-                            this.applyToPokeyRiders(passenger);
+                        return;
                     }
 
                     if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
