@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -56,7 +57,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -436,12 +436,12 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         return current;
     }
 
-    public static @Nullable List<UUID> getPokeyStackFromSegment(UUID uuid) {
-        for (Map.Entry<UUID, List<UUID>> entry : STACK_UUIDS.entrySet()) {
-            if (entry.getValue().contains(uuid))
-                return entry.getValue();
+    public static List<UUID> getPokeyStackFromSegment(PokeyEntity pokey) {
+        Entity bottom = pokey;
+        while (bottom.getVehicle() instanceof PokeyEntity v) {
+            bottom = v;
         }
-        return null;
+        return bottom.getData(DataAttachmentRegistry.POKEY_STACK.get());
     }
 
     public static final Map<UUID, List<UUID>> STACK_UUIDS = new HashMap<>();

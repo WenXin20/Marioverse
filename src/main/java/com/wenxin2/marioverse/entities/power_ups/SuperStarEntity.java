@@ -3,10 +3,12 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import it.unimi.dsi.fastutil.ints.IntList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.server.level.ServerLevel;
@@ -97,15 +99,14 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
             for (Entity passenger : entity.getPassengers())
                 this.powerUpRiders(world, passenger);
 
-            if (livingEntity instanceof PokeyEntity && livingEntity.level() instanceof ServerLevel serverWorld) {
-                List<UUID> stack = PokeyEntity.getPokeyStackFromSegment(livingEntity.getUUID());
-                if (stack != null) {
-                    for (UUID uuid : stack) {
-                        Entity target = serverWorld.getEntity(uuid);
+            if (livingEntity instanceof PokeyEntity pokey) {
+                List<Integer> ids = pokey.getData(DataAttachmentRegistry.POKEY_STACK_IDS.get());
 
-                        if (target instanceof LivingEntity)
-                            handler.applySuperStarPowerUp(world, livingEntity, this);
-                    }
+                for (int id : ids) {
+                    Entity target = pokey.level().getEntity(id);
+
+                    if (target instanceof LivingEntity)
+                        handler.applySuperStarPowerUp(world, livingEntity, this);
                 }
             }
         }
