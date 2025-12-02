@@ -325,17 +325,21 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         for (PokeyEntity segment : stackSegments) {
                             if (segment.isAlive()) {
                                 IceCubeEntity iceCubePokey = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), segment.level());
-//                                double cubeHeight = iceCubePokey.getBbHeight() / 2;
+//                                double cubeHeight = iceCubePokey.getHeight() / 4;
 //                                double yOffset = index * (cubeHeight);
-//                                double xOffset = (segment.getRandom().nextDouble() - 0.5) * 0.75;
-//                                double zOffset = (segment.getRandom().nextDouble() - 0.5) * 0.75;
+//                                double xOffset = (segment.getRandom().nextDouble() - 0.5) * 0.45;
+//                                double zOffset = (segment.getRandom().nextDouble() - 0.5) * 0.45;
 
+                                segment.ejectPassengers();
+//                                segment.moveTo(segment.getX() + xOffset, segment.getY() + yOffset,
+//                                        segment.getZ() + zOffset, segment.getYRot(), segment.getXRot());
                                 iceCubePokey.setFrozenEntity(segment, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                                 iceCubePokey.setOwner(this.getOwner());
                                 iceCubePokey.setTicksInAir(120);
-                                iceCubePokey.moveTo(segment.getX() /*+ xOffset*/, segment.getY() /*+ yOffset*/,
-                                        segment.getZ() /*+ zOffset*/, segment.getYRot(), segment.getXRot());
+                                iceCubePokey.moveTo(segment.getX(), segment.getY(), segment.getZ(), segment.getYRot(), segment.getXRot());
                                 segment.level().addFreshEntity(iceCubePokey);
+//                                iceCubePokey.moveTo(segment.getX() + xOffset, segment.getY() + yOffset,
+//                                        segment.getZ() + zOffset, segment.getYRot(), segment.getXRot());
 //                                index++;
                             }
                         }
