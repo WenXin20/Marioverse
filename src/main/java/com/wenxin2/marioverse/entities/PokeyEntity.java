@@ -6,15 +6,12 @@ import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -24,6 +21,9 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
@@ -436,13 +436,23 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         return current;
     }
 
-    public static List<UUID> getPokeyStackFromSegment(PokeyEntity pokey) {
-        Entity bottom = pokey;
-        while (bottom.getVehicle() instanceof PokeyEntity v) {
-            bottom = v;
+    public List<PokeyEntity> getEntireStack() {
+        List<PokeyEntity> result = new ArrayList<>();
+        PokeyEntity bottom = this;
+
+        while (bottom.getVehicle() instanceof PokeyEntity pe)
+            bottom = pe;
+
+        PokeyEntity current = bottom;
+        while (current != null) {
+            result.add(current);
+            current = current.getPassengers().stream()
+                    .filter(p -> p instanceof PokeyEntity)
+                    .map(p -> (PokeyEntity) p)
+                    .findFirst()
+                    .orElse(null);
         }
-        return bottom.getData(DataAttachmentRegistry.POKEY_STACK.get());
+        return result;
     }
 
-    public static final Map<UUID, List<UUID>> STACK_UUIDS = new HashMap<>();
 }

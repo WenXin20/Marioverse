@@ -2,12 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.utils.ListIntCodec;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import java.util.function.Supplier;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -102,23 +97,6 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> TICKS_IN_AIR = Marioverse.ATTACHMENT_TYPES
             .register("ticks_in_air", () -> AttachmentType.builder(() -> ConfigRegistry.ICE_CUBE_LIFESPAN.get()).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
-
-    public static final Supplier<AttachmentType<List<UUID>>> POKEY_STACK = Marioverse.ATTACHMENT_TYPES
-            .register("pokey_stack", () -> AttachmentType.builder((Supplier<List<UUID>>) ArrayList::new)
-                    .serialize(Codec.list(UUIDUtil.CODEC)).sync(ListIntCodec.STREAM_CODEC).build());
-    public static final Supplier<AttachmentType<List<Integer>>> POKEY_STACK_IDS = Marioverse.ATTACHMENT_TYPES
-            .register("pokey_stack_ids", () -> AttachmentType.builder((Supplier<List<Integer>>) ArrayList::new)
-                    .serialize(Codec.INT.listOf()).sync(StreamCodec.of(
-                            (buf, list) -> {
-                                buf.writeVarInt(list.size());
-                                for (int id : list) buf.writeVarInt(id);
-                            }, buf -> {
-                                int size = buf.readVarInt();
-                                List<Integer> list = new ArrayList<>(size);
-                                for (int i = 0; i < size; i++) list.add(buf.readVarInt());
-                                return list;
-                            }
-                    )).build());
 
 
     public static void init() {}

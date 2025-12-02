@@ -15,9 +15,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import it.unimi.dsi.fastutil.ints.IntList;
 import java.util.List;
-import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -321,32 +319,30 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
 
                     if (livingEntity instanceof PokeyEntity pokey) {
-                        List<Integer> ids = pokey.getData(DataAttachmentRegistry.POKEY_STACK_IDS.get());
+                        List<PokeyEntity> stackSegments = pokey.getEntireStack();
+//                        int index = 0;
 
-                        int index = 0;
-                        for (int id : ids) {
-                            Entity target = pokey.level().getEntity(id);
+                        for (PokeyEntity segment : stackSegments) {
+                            if (segment.isAlive()) {
+                                IceCubeEntity iceCubePokey = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), segment.level());
+//                                double cubeHeight = iceCubePokey.getBbHeight() / 2;
+//                                double yOffset = index * (cubeHeight);
+//                                double xOffset = (segment.getRandom().nextDouble() - 0.5) * 0.75;
+//                                double zOffset = (segment.getRandom().nextDouble() - 0.5) * 0.75;
 
-                            if (target instanceof LivingEntity part) {
-                                IceCubeEntity iceCubePart = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), part.level());
-                                double cubeHeight = iceCubePart.getBbHeight() * 1.55F;
-                                double margin = 0.00;
-                                double offsetY = index * (cubeHeight + margin);
-                                double dx = (part.getRandom().nextDouble() - 0.5) * 1.0;
-                                double dz = (part.getRandom().nextDouble() - 0.5) * 1.0;
-
-                                if (part.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                                        || part.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                                    iceCubePart.setFrozenEntity(part, 2);
-                                else iceCubePart.setFrozenEntity(part, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-
-                                iceCubePart.setTicksInAir(120);
-                                iceCubePart.moveTo(part.getX() + dx, part.getY() + offsetY, part.getZ() + dz, part.getYRot(), part.getXRot());
-                                iceCubePart.setOwner(this.getOwner());
-                                part.level().addFreshEntity(iceCubePart);
-                                index++;
+                                iceCubePokey.setFrozenEntity(segment, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                                iceCubePokey.setOwner(this.getOwner());
+                                iceCubePokey.setTicksInAir(120);
+                                iceCubePokey.moveTo(segment.getX() /*+ xOffset*/, segment.getY() /*+ yOffset*/,
+                                        segment.getZ() /*+ zOffset*/, segment.getYRot(), segment.getXRot());
+                                segment.level().addFreshEntity(iceCubePokey);
+//                                index++;
                             }
                         }
+                        world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
+                                SoundSource.AMBIENT, 1.0F, 1.0F);
+                        world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+                        this.remove(RemovalReason.DISCARDED);
                         return;
                     }
 
@@ -452,25 +448,6 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         entity.getSoundSource(), 1.0F, 1.0F);
                 return;
             }
-        }
-    }
-
-    private void applyToPokeyRiders(Entity firstEntity) {
-        Entity currentEntity = firstEntity;
-
-        while (currentEntity instanceof LivingEntity livingEntity) {
-            IceCubeEntity iceCubeVehicle = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
-            if (currentEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                    || currentEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                iceCubeVehicle.setFrozenEntity(currentEntity, 2);
-            } else iceCubeVehicle.setFrozenEntity(currentEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-
-            iceCubeVehicle.setTicksInAir(120);
-            iceCubeVehicle.moveTo(currentEntity.getX(), currentEntity.getY(), currentEntity.getZ(), currentEntity.getYRot(), currentEntity.getXRot());
-            iceCubeVehicle.setOwner(this.getOwner());
-            currentEntity.level().addFreshEntity(iceCubeVehicle);
-
-            currentEntity = currentEntity.getFirstPassenger();
         }
     }
 }
