@@ -325,6 +325,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         for (PokeyEntity segment : stackSegments) {
                             if (segment.isAlive()) {
                                 IceCubeEntity iceCubePokey = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), segment.level());
+                                // Disabled because of desync with client
 //                                double cubeHeight = iceCubePokey.getHeight() / 4;
 //                                double yOffset = index * (cubeHeight);
 //                                double xOffset = (segment.getRandom().nextDouble() - 0.5) * 0.45;
