@@ -21,9 +21,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
@@ -76,12 +73,14 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
-    public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("pokey.idle");
+    public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
+    public static final RawAnimation WALK_INVERSE = RawAnimation.begin().thenLoop("move.walk_inverse");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @Nullable private UUID persistentAngerTarget;
+    private RawAnimation currentAnimation = null;
     public int attackCooldown = 0;
 
     public PokeyEntity(EntityType<? extends PokeyEntity> type, Level world) {
@@ -127,18 +126,49 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
     }
 
-    protected <E extends GeoAnimatable> PlayState animController(final AnimationState<E> event) {
-        if (this.getBottomSegment().getDeltaMovement().horizontalDistance() > 0)
-            event.setAndContinue(IDLE);
+    protected <E extends GeoAnimatable> PlayState walkController(final AnimationState<E> event) {
+        LivingEntity bottomPokey = this.getBottomSegment();
+        boolean isBottom = (bottomPokey == this);
+
+        if (isBottom) {
+            if (this.getDeltaMovement().horizontalDistance() > 0.01) {
+                event.setAndContinue(WALK);
+                this.setCurrentAnimation(WALK);
+            } else this.setCurrentAnimation(null);
+            return PlayState.CONTINUE;
+        }
+
+        if (this.getVehicle() instanceof PokeyEntity pokeyVehicle
+                && bottomPokey.getDeltaMovement().horizontalDistance() > 0.01) {
+            if (pokeyVehicle.getCurrentAnimation() == WALK) {
+                this.setCurrentAnimation(WALK_INVERSE);
+                event.setAndContinue(WALK_INVERSE);
+                return PlayState.CONTINUE;
+            } else if (pokeyVehicle.getCurrentAnimation() == WALK_INVERSE) {
+                this.setCurrentAnimation(WALK);
+                event.setAndContinue(WALK);
+                return PlayState.CONTINUE;
+            }
+        } else this.setCurrentAnimation(null);
+
+        this.setCurrentAnimation(null);
         return PlayState.CONTINUE;
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    public RawAnimation getCurrentAnimation() {
+        return currentAnimation;
+    }
+
+    public void setCurrentAnimation(RawAnimation anim) {
+        this.currentAnimation = anim;
     }
 
     @Override

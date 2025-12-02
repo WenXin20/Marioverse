@@ -129,8 +129,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static final MapCodec<CheckpointFlagBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
-                    .apply(instance, (dyeColor, properties) -> new CheckpointFlagBlock(dyeColor.orElse(null), properties))
-    );
+                    .apply(instance, (dyeColor, properties) -> new CheckpointFlagBlock(dyeColor.orElse(null), properties)));
+
     public static final EnumProperty<TripleBlockStates> PART = EnumProperty.create("part", TripleBlockStates.class);
     public static final BooleanProperty CLAIMED = BooleanProperty.create("claimed");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;

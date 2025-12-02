@@ -15,7 +15,6 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -37,7 +36,6 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMob {
-    public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("pokey_body.idle");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
@@ -77,7 +75,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 5, this::animController));
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
     }
 
     @Override
