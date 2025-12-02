@@ -93,11 +93,11 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
             }
 
             for (Entity passenger : entity.getPassengers())
-                this.applyToPokeyRiders(world, passenger);
+                this.applyToRiders(world, passenger);
         }
     }
 
-    private void applyToPokeyRiders(Level world, Entity firstEntity) {
+    private void applyToRiders(Level world, Entity firstEntity) {
         Entity currentEntity = firstEntity;
 
         while (currentEntity instanceof LivingEntity livingEntity) {
