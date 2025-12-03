@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -346,8 +347,7 @@ public class ItemRegistry {
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
                 () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         POKEY_SPAWN_EGG = registerItem("pokey_spawn_egg",
-                () -> new BetterSpawnEggItem(ConfigRegistry.MAX_POKEY_HEIGHT.get() == 1
-                        ? EntityRegistry.POKEY : EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PokeySpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SPLUNKIN_SPAWN_EGG = registerItem("splunkin_spawn_egg",
