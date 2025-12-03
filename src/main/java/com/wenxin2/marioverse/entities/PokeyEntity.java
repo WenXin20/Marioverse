@@ -138,8 +138,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             if (this.getDeltaMovement().horizontalDistance() > 0.01) {
                 event.setAndContinue(WALK);
                 this.setCurrentAnimation(WALK);
+                return PlayState.CONTINUE;
             } else this.setCurrentAnimation(null);
-            return PlayState.CONTINUE;
+            return PlayState.STOP;
         }
 
         if (this.getVehicle() instanceof PokeyEntity pokeyVehicle
@@ -156,7 +157,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         } else this.setCurrentAnimation(null);
 
         this.setCurrentAnimation(null);
-        return PlayState.CONTINUE;
+        return PlayState.STOP;
     }
 
     @Override
