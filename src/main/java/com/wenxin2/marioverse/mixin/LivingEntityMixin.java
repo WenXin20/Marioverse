@@ -906,6 +906,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 ? EntityDimensions.fixed(newWidth, newHeight)
                 : EntityDimensions.scalable(newWidth, newHeight);
 
+        if (eyeScale == 1.0F && heightScale == 1.0F && widthScale == 1.0F)
+            return original;
+
         if (pose == Pose.SLEEPING)
             return original;
 

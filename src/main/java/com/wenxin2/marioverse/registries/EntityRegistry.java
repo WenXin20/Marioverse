@@ -125,7 +125,7 @@ public class EntityRegistry {
                     .nameTagOffset(-0.05F).build("mini_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
             Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
+                    .sized(1.0F, 2.3125F).eyeHeight(0.8F).ridingOffset(0.1F).build("piranha_plant"));
     public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY =
             Marioverse.ENTITIES.register("pokey", () -> EntityType.Builder.of(PokeyEntity::new, MobCategory.MONSTER)
                     .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey"));
