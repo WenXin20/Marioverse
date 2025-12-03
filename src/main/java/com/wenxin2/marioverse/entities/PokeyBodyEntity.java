@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.UUID;
@@ -143,7 +144,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType) {
         RandomSource random = serverWorld.getRandom();
-        int bodyCount = random.nextInt(10); // TODO config
+        int bodyCount = random.nextInt(ConfigRegistry.MAX_POKEY_HEIGHT.get());
         PokeyEntity currentTop = this;
         if (!currentTop.getPassengers().isEmpty())
             return;

@@ -52,6 +52,7 @@ public class ConfigRegistry
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
+    public static final String CATEGORY_POKEY = "pokey";
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
 
@@ -190,6 +191,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_ONE_UP_SHELL_KILL_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
+    public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_MOB_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS;
@@ -716,6 +718,12 @@ public class ConfigRegistry
                             .comment("Applies to any block in the '#marioverse:piranha_plant_can_hide' block tag.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("piranha_plant_hide_duration", 200, 80, 72000);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_POKEY);
+                    MAX_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_pokey_height")
+                            .comment("Max height Pokeys can be.§b")
+                            .defineInRange("max_pokey_height", 10, 0, 64);
                 BUILDER.pop();
 
             BUILDER.pop();

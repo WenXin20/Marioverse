@@ -330,7 +330,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get()); // TODO
+            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get());
             boolean forceMasks = ConfigRegistry.FORCE_MOB_MASKS.get();
 
             Optional<Item> randomMask = BuiltInRegistries.ITEM
