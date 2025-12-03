@@ -446,7 +446,26 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                         this.getX() - 1.8125 * width * scale, this.getY(), this.getZ() - 0.5 * width * scale,
                         this.getX() + 0.5 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.5 * width * scale);
             };
-        } else return new AABB(0, 0, 0, 0, 0, 0);
+        } else return switch (facing) {
+            case UP -> new AABB(
+                    this.getX() - 0.45 * width * scale, this.getY(), this.getZ() - 0.45 * width * scale,
+                    this.getX() + 0.45 * width * scale, this.getY() + 1.3125 * height * scale, this.getZ() + 0.45 * width * scale);
+            case DOWN -> new AABB(
+                    this.getX() - 0.45 * width * scale, this.getY() - 0.3125, this.getZ() - 0.45 * width * scale,
+                    this.getX() + 0.45 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.45 * width * scale);
+            case NORTH -> new AABB(
+                    this.getX() - 0.45 * width * scale, this.getY(), this.getZ() - 0.8125 * width * scale,
+                    this.getX() + 0.45 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.45 * width * scale);
+            case SOUTH -> new AABB(
+                    this.getX() - 0.45 * width * scale, this.getY(), this.getZ() - 0.45 * width * scale,
+                    this.getX() + 0.45 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.8125 * width * scale);
+            case EAST -> new AABB(
+                    this.getX() - 0.45 * width * scale, this.getY(), this.getZ() - 0.45 * width * scale,
+                    this.getX() + 0.8125 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.45 * width * scale);
+            case WEST -> new AABB(
+                    this.getX() - 0.8125 * width * scale, this.getY(), this.getZ() - 0.45 * width * scale,
+                    this.getX() + 0.45 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.45 * width * scale);
+        };
     }
 
     public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
