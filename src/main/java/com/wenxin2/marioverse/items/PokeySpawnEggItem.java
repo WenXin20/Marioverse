@@ -6,8 +6,9 @@ import java.util.function.Supplier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 
-public class PokeySpawnEggItem extends BetterSpawnEggItem {
+public class PokeySpawnEggItem extends DeferredSpawnEggItem {
     public PokeySpawnEggItem(Supplier<? extends EntityType<? extends Mob>> entityType,
                              int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
