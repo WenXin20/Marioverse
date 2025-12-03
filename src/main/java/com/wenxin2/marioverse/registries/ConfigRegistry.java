@@ -723,7 +723,7 @@ public class ConfigRegistry
                 BUILDER.push(CATEGORY_POKEY);
                     MAX_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_pokey_height")
                             .comment("Max height Pokeys can be.§b")
-                            .defineInRange("max_pokey_height", 10, 0, 64);
+                            .defineInRange("max_pokey_height", 10, 1, 16);
                 BUILDER.pop();
 
             BUILDER.pop();
