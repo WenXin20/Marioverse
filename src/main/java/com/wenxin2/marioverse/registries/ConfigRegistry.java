@@ -92,15 +92,12 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DECORATED_POT_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
-    public static ModConfigSpec.BooleanValue DISABLE_BOO_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
-    public static ModConfigSpec.BooleanValue DISABLE_DRY_BONES_MASKS;
-    public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
     public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
-    public static ModConfigSpec.BooleanValue DISABLE_KOOPA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
+    public static ModConfigSpec.BooleanValue DISABLE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
@@ -113,10 +110,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
-    public static ModConfigSpec.BooleanValue FORCE_BOO_MASKS;
-    public static ModConfigSpec.BooleanValue FORCE_DRY_BONES_MASKS;
-    public static ModConfigSpec.BooleanValue FORCE_GOOMBA_MASKS;
-    public static ModConfigSpec.BooleanValue FORCE_KOOPA_MASKS;
+    public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
@@ -544,38 +538,14 @@ public class ConfigRegistry
             BUILDER.push(CATEGORY_HOLIDAY);
 
                 BUILDER.push(CATEGORY_HALLOWEEN);
-                    DISABLE_BOO_MASKS = BUILDER.translation("configuration.marioverse.disable_boo_masks")
-                            .comment("Ban Boos from wearing masks on Halloween.")
+                    DISABLE_MOB_MASKS = BUILDER.translation("configuration.marioverse.disable_mob_masks")
+                            .comment("Ban Boos, Dry Bones, Goombas, Koopas, & Pokeys from wearing masks on Halloween.")
                             .comment("§9[Default: false]")
-                            .define("disable_boo_masks", false);
-                    FORCE_BOO_MASKS = BUILDER.translation("configuration.marioverse.force_boo_masks")
-                            .comment("Force Boos to spawn wearing masks at any time.")
+                            .define("disable_mob_masks", false);
+                    FORCE_MOB_MASKS = BUILDER.translation("configuration.marioverse.force_mob_masks")
+                            .comment("Force Boos, Dry Bones, Goombas, Koopas, & Pokeys to spawn wearing masks at any time.")
                             .comment("§9[Default: false]")
-                            .define("force_boo_masks", false);
-                    DISABLE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.disable_dry_bones_masks")
-                            .comment("Ban Dry Bones from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_dry_bones_masks", false);
-                    FORCE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.force_dry_bones_masks")
-                            .comment("Force Dry Bones to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_dry_bones_masks", false);
-                    DISABLE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.disable_goomba_masks")
-                            .comment("Ban Goombas from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_goomba_masks", false);
-                    FORCE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.force_goomba_masks")
-                            .comment("Force Goombas to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_goomba_masks", false);
-                    DISABLE_KOOPA_MASKS = BUILDER.translation("configuration.marioverse.disable_koopa_masks")
-                            .comment("Ban Koopa Troopas from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_koopa_masks", false);
-                    FORCE_KOOPA_MASKS = BUILDER.translation("configuration.marioverse.force_koopa_masks")
-                            .comment("Force Koopa Troopas to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_koopa_masks", false);
+                            .define("force_mob_masks", false);
                 BUILDER.pop();
 
             BUILDER.pop();

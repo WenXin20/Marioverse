@@ -356,8 +356,8 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_KOOPA_MASKS.get());
-            boolean forceMasks = ConfigRegistry.FORCE_KOOPA_MASKS.get();
+            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get());
+            boolean forceMasks = ConfigRegistry.FORCE_MOB_MASKS.get();
 
             Optional<Item> randomMask = BuiltInRegistries.ITEM
                     .getTag(TagRegistry.HALLOWEEN_MASKS)
