@@ -51,6 +51,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -866,6 +867,8 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
 
                 if (this.getOwner() != null)
                     collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
+                else if (collidingEntity instanceof Creeper)
+                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, collidingEntity), attackDamage);
                 else collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
 
                 if (collidingEntity instanceof NeutralMob neutralMob) {

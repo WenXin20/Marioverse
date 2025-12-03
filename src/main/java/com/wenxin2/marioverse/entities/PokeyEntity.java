@@ -48,6 +48,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -433,7 +434,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
                         : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-                collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage); // TODO
+                if (collidingEntity instanceof Creeper)
+                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, collidingEntity), attackDamage); // TODO
+                else collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
 
                 if (collidingEntity instanceof NeutralMob neutralMob) {
                     neutralMob.isAngryAt(this);
