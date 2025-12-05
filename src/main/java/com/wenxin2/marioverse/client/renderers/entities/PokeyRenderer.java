@@ -119,7 +119,7 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
                 spike.setHidden(true);
         });
-        
+
         this.model.getBone("flower").ifPresent(flower -> {
             flower.setPosY(0.75F);
             if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
