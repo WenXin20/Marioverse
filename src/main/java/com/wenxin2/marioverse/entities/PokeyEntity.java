@@ -131,14 +131,10 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
-        controllers.add(new AnimationController<>(this, "Bloom", 5, this::bloomController));
-    }
-
-    protected <E extends GeoAnimatable> PlayState bloomController(final AnimationState<E> event) {
-        if (this.getData(DataAttachmentRegistry.IS_BLOOMING))
-            event.setAndContinue(EMERGE);
-        else event.setAndContinue(HIDE);
-        return PlayState.CONTINUE;
+        controllers.add(new AnimationController<>(this, "bloom_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("bloom", EMERGE));
+        controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("hide", HIDE));
     }
 
     protected <E extends GeoAnimatable> PlayState walkController(final AnimationState<E> event) {
@@ -201,9 +197,15 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         super.tick();
         this.pokeEntity();
 
-        if (this.level().getGameTime() % 1000L < 200)
+        if (this.level().getGameTime() % 1000L < 200) {
             this.setData(DataAttachmentRegistry.IS_BLOOMING, true);
-        else this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
+            this.triggerAnim("bloom_controller", "bloom");
+            this.stopTriggeredAnim("hide_controller", "hide");
+        } else {
+            this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
+            this.triggerAnim("hide_controller", "hide");
+            this.stopTriggeredAnim("bloom_controller", "bloom");
+        }
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
