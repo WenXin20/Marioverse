@@ -354,6 +354,22 @@
 							}
 						}
 					]
+				},
+				{
+					"name": "leaves",
+					"parent": "bipedBody",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{
+							"origin": [1, 12, -11],
+							"size": [9, 0, 7],
+							"pivot": [5.5, 12, -6],
+							"rotation": [17.5, 0, 0],
+							"uv": {
+								"up": {"uv": [30, 50], "uv_size": [9, 7]}
+							}
+						}
+					]
 				}
 			]
 		}

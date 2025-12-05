@@ -110,4 +110,22 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             }
         });
     }
+
+    @Override
+    public void preRender(PoseStack poseStack, PokeyEntity animatable, BakedGeoModel model, @Nullable MultiBufferSource bufferSource,
+                          @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
+        this.model.getBone("spikes").ifPresent(spike -> {
+            spike.setHidden(false);
+            if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+                spike.setHidden(true);
+        });
+        
+        this.model.getBone("flower").ifPresent(flower -> {
+            flower.setPosY(0.75F);
+            if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+                flower.setPosY(0.8125F);
+            else flower.setPosY(0.75F);
+        });
+        super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
+    }
 }

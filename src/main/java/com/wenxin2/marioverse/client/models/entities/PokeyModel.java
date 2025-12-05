@@ -27,8 +27,6 @@ public class PokeyModel extends GeoModel<PokeyEntity> {
 
     @Override
     public ResourceLocation getTextureResource(PokeyEntity animatable) {
-//        if (animatable.getData(DataAttachmentRegistry.IS_HIDING.get()))
-//            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/pokey/pokey_hide.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/pokey/pokey.png");
     }
 
@@ -39,7 +37,7 @@ public class PokeyModel extends GeoModel<PokeyEntity> {
 
     @Override
     public void setCustomAnimations(PokeyEntity animatable, long instanceId, AnimationState<PokeyEntity> animationState) {
-        GeoBone head = this.getAnimationProcessor().getBone("head");
+        GeoBone head = this.getAnimationProcessor().getBone("bipedBody");
         if (head != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
             if (entityData != null) {

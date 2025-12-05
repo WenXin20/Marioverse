@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.PokeyBodyEntity;
+import com.wenxin2.marioverse.entities.PokeyEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.animation.AnimationState;
@@ -27,8 +28,6 @@ public class PokeyBodyModel extends GeoModel<PokeyBodyEntity> {
 
     @Override
     public ResourceLocation getTextureResource(PokeyBodyEntity animatable) {
-//        if (animatable.getData(DataAttachmentRegistry.IS_HIDING.get()))
-//            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/pokey/pokey_hide.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/pokey/pokey.png");
     }
 
@@ -39,13 +38,15 @@ public class PokeyBodyModel extends GeoModel<PokeyBodyEntity> {
 
     @Override
     public void setCustomAnimations(PokeyBodyEntity animatable, long instanceId, AnimationState<PokeyBodyEntity> animationState) {
-        GeoBone head = this.getAnimationProcessor().getBone("head");
-        if (head != null) {
+        GeoBone body = this.getAnimationProcessor().getBone("body");
+        int rotIndex = Math.floorMod(animatable.getUUID().hashCode(), 4);
+        float degrees = rotIndex * 90F;
+        float radians = (float) Math.toRadians(degrees);
+
+        if (body != null) {
             EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-            if (entityData != null) {
-                head.setRotX(entityData.headPitch() * 0.017453292F);
-                head.setRotY(entityData.netHeadYaw() * 0.017453292F);
-            }
+            if (entityData != null)
+                body.setRotY(radians);
         }
     }
 }
