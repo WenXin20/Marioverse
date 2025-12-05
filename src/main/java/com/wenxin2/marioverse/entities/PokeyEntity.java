@@ -197,7 +197,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         super.tick();
         this.pokeEntity();
 
-        if (this.level().getGameTime() % 1000L < 200) {
+        if (this.level().getGameTime() % 1000L < 200) { // TODO Config
             this.setData(DataAttachmentRegistry.IS_BLOOMING, true);
             this.triggerAnim("bloom_controller", "bloom");
             this.stopTriggeredAnim("hide_controller", "hide");
