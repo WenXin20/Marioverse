@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.PokeyModel;
 import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -118,13 +119,18 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             spike.setHidden(false);
             if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
                 spike.setHidden(true);
+
+//            spike.setHidden(animatable.getData(DataAttachmentRegistry.IS_BLOOMING));
         });
 
         this.model.getBone("flower").ifPresent(flower -> {
-            flower.setPosY(0.75F);
-            if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
-                flower.setPosY(0.8125F);
-            else flower.setPosY(0.75F);
+//            if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+//                flower.setPosY(0.8125F);
+//            else flower.setPosY(0.75F);
+
+//            if (animatable.getData(DataAttachmentRegistry.IS_BLOOMING))
+//                flower.setHidden(false);
+//            else flower.setHidden(true);
         });
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }

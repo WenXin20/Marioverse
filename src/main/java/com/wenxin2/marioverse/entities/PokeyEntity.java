@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -74,6 +75,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
+    public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("misc.emerge");
+    public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("misc.hide");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     public static final RawAnimation WALK_INVERSE = RawAnimation.begin().thenLoop("move.walk_inverse");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -128,6 +131,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
+        controllers.add(new AnimationController<>(this, "Bloom", 5, this::bloomController));
+    }
+
+    protected <E extends GeoAnimatable> PlayState bloomController(final AnimationState<E> event) {
+        if (this.getData(DataAttachmentRegistry.IS_BLOOMING))
+            event.setAndContinue(EMERGE);
+        else event.setAndContinue(HIDE);
+        return PlayState.CONTINUE;
     }
 
     protected <E extends GeoAnimatable> PlayState walkController(final AnimationState<E> event) {
@@ -189,6 +200,10 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     public void tick() {
         super.tick();
         this.pokeEntity();
+
+        if (this.level().getGameTime() % 500L < 200)
+            this.setData(DataAttachmentRegistry.IS_BLOOMING, true);
+        else this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
@@ -412,7 +427,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     public void pokeEntity() {
-        if (this.attackCooldown > 0)
+        if (this.attackCooldown > 0 || this.getData(DataAttachmentRegistry.IS_BLOOMING))
             return;
 
         List<Entity> nearbyEntities = this.level().getEntities(this,

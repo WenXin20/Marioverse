@@ -75,11 +75,6 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
-    }
-
-    @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
