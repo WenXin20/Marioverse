@@ -201,7 +201,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         super.tick();
         this.pokeEntity();
 
-        if (this.level().getGameTime() % 500L < 200)
+        if (this.level().getGameTime() % 1000L < 200)
             this.setData(DataAttachmentRegistry.IS_BLOOMING, true);
         else this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
 
