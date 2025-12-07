@@ -193,6 +193,8 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
+    public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
+    public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_MOB_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_TROOPA_HIDE_DURATION;
@@ -724,6 +726,18 @@ public class ConfigRegistry
                     MAX_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_pokey_height")
                             .comment("Max height Pokeys can be.§b")
                             .defineInRange("max_pokey_height", 10, 1, 16);
+                    POKEY_BLOOM_DURATION = BUILDER.translation("configuration.marioverse.pokey_bloom_duration")
+                            .comment("The time Pokeys will spend in bloom in ticks.")
+                            .comment("§cIf Duration > Frequency, it will never bloom.")
+                            .comment("§6Set to 0 to never bloom.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("pokey_bloom_duration", 200, 0, 6000);
+                    POKEY_BLOOM_FREQUENCY = BUILDER.translation("configuration.marioverse.pokey_bloom_frequency")
+                            .comment("The time Pokeys will spend in bloom in ticks.")
+                            .comment("§cIf Frequency < Duration, it will never bloom.")
+                            .comment("§6Set to 0 to always bloom.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("pokey_bloom_frequency", 1000, 0, 12000);
                 BUILDER.pop();
 
             BUILDER.pop();
