@@ -96,7 +96,7 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, PokeyEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (stack.getItem() instanceof BlockItem) {
-                    poseStack.scale(0.95F, 0.95F, 0.95F);
+                    poseStack.scale(1.15F, 1.15F, 1.15F);
                     poseStack.translate(0.0F, 0.5F, 0.0F);
                 } else poseStack.translate(0.0F, 0.2F, 0.0F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
