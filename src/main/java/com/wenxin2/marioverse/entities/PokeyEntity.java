@@ -86,6 +86,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     @Nullable private UUID persistentAngerTarget;
     private RawAnimation currentAnimation = null;
     public int attackCooldown = 0;
+    private boolean hasBloomed = false;
 
     public PokeyEntity(EntityType<? extends PokeyEntity> type, Level world) {
         super(type, world);
@@ -141,7 +142,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         LivingEntity bottomPokey = this.getBottomSegment();
 
         if (bottomPokey == this) {
-            if (this.getDeltaMovement().horizontalDistance() > 0.01) {
+            if (this.getDeltaMovement().horizontalDistance() > 0.001) {
                 event.setAndContinue(WALK);
                 this.setCurrentAnimation(WALK);
                 return PlayState.CONTINUE;
@@ -150,7 +151,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         }
 
         if (this.getVehicle() instanceof PokeyEntity pokeyVehicle
-                && bottomPokey.getDeltaMovement().horizontalDistance() > 0.01) {
+                && bottomPokey.getDeltaMovement().horizontalDistance() > 0.001) {
             if (pokeyVehicle.getCurrentAnimation() == WALK) {
                 this.setCurrentAnimation(WALK_INVERSE);
                 event.setAndContinue(WALK_INVERSE);
@@ -196,17 +197,25 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         super.tick();
         this.pokeEntity();
 
-        if (ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() == 0 ||
-                this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() < ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                && ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() > ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0) {
-            this.setData(DataAttachmentRegistry.IS_BLOOMING, true);
-            this.triggerAnim("bloom_controller", "bloom");
-            this.stopTriggeredAnim("hide_controller", "hide");
-        } else {
-            this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
-            this.triggerAnim("hide_controller", "hide");
-            this.stopTriggeredAnim("bloom_controller", "bloom");
+        boolean shouldBloom = ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() == 0
+                        || (this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get()
+                        < ConfigRegistry.POKEY_BLOOM_DURATION.get()
+                        && ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() > ConfigRegistry.POKEY_BLOOM_DURATION.get()
+                        && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0);
+
+        boolean currentBloom = this.getData(DataAttachmentRegistry.IS_BLOOMING);
+
+        if (shouldBloom != currentBloom || !hasBloomed) {
+            this.setData(DataAttachmentRegistry.IS_BLOOMING, shouldBloom);
+
+            if (shouldBloom) {
+                this.triggerAnim("bloom_controller", "bloom");
+                this.stopTriggeredAnim("hide_controller", "hide");
+            } else {
+                this.triggerAnim("hide_controller", "hide");
+                this.stopTriggeredAnim("bloom_controller", "bloom");
+            }
+            hasBloomed = true;
         }
 
         if (this.attackCooldown > 0)
