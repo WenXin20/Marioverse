@@ -139,9 +139,8 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
 
     protected <E extends GeoAnimatable> PlayState walkController(final AnimationState<E> event) {
         LivingEntity bottomPokey = this.getBottomSegment();
-        boolean isBottom = (bottomPokey == this);
 
-        if (isBottom) {
+        if (bottomPokey == this) {
             if (this.getDeltaMovement().horizontalDistance() > 0.01) {
                 event.setAndContinue(WALK);
                 this.setCurrentAnimation(WALK);
