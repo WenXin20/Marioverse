@@ -77,6 +77,10 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     public void triggerBloom() {
     }
 
+    @Override
+    public void pokeEntity() {
+    }
+
     public static boolean checkSnowPokeySpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL

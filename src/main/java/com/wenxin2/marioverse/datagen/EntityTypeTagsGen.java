@@ -54,7 +54,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.FROG_FOOD)
                 .add(EntityRegistry.MINI_GOOMBA.get())
                 .add(EntityRegistry.POKEY.get())
-                .add(EntityRegistry.POKEY_BODY.get());
+                .add(EntityRegistry.POKEY_BODY.get())
+                .add(EntityRegistry.SNOW_POKEY.get())
+                .add(EntityRegistry.SNOW_POKEY_BODY.get());
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
@@ -110,7 +112,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
                 .add(EntityRegistry.MEGA_GOOMBA.get())
-                .add(EntityRegistry.MINI_GOOMBA.get());
+                .add(EntityRegistry.MINI_GOOMBA.get())
+                .add(EntityRegistry.SNOW_POKEY.get());
 
         tag(TagRegistry.CAN_BE_STOMPED)
                 .addTag(TagRegistry.DRY_BONES_BONES)
@@ -118,6 +121,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.SLIME)
                 .add(EntityType.TURTLE)
@@ -283,7 +287,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.POKEY.get())
-                .add(EntityRegistry.POKEY_BODY.get());
+                .add(EntityRegistry.POKEY_BODY.get())
+                .add(EntityRegistry.SNOW_POKEY.get())
+                .add(EntityRegistry.SNOW_POKEY_BODY.get());
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
@@ -308,7 +314,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.POKEY.get())
-                .add(EntityRegistry.POKEY_BODY.get())
+                .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
                 .add(EntityType.DROWNED)
@@ -342,7 +348,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.POKEY.get())
-                .add(EntityRegistry.POKEY_BODY.get())
+                .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.BOGGED)
@@ -509,6 +515,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.ICE_CUBE.get())
                 .add(EntityRegistry.ICE_FLOWER.get())
+                .add(EntityRegistry.SNOW_POKEY.get())
+                .add(EntityRegistry.SNOW_POKEY_BODY.get())
                 .add(EntityType.ENDER_DRAGON);
 
         tag(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)
