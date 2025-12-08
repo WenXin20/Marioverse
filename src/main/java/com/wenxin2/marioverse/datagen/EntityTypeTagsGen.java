@@ -615,7 +615,13 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
-        tag(TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK);
+        tag(TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
@@ -672,6 +678,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(GUARD_VILLAGER)
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.POKEY_CAN_ATTACK)
+                .add(EntityType.PLAYER);
 
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())

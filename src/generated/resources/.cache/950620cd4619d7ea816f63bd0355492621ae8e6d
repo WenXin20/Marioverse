@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-29T21:53:46.3820369	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-12-07T21:00:50.7649944	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
@@ -44,7 +44,7 @@ c959718662e068d5a9673ddbab109b3434e0d089 data/marioverse/tags/entity_type/goomba
 1b74541f2ea56b1b75a2f92664fc134fcf56ee71 data/marioverse/tags/entity_type/goomba_can_attack.json
 40bb55cde13dbe6d01721ff5d5254c7e2faea019 data/marioverse/tags/entity_type/goomba_can_ride.json
 5f5ceabc4a530789ad2707af6c2d477e79ada55a data/marioverse/tags/entity_type/green_koopa_shell_can_instakill.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/green_koopa_troopa_can_attack.json
+aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/green_koopa_troopa_can_attack.json
 86a469d8e9ee317a1ca5b93bfed0be34ff5b0d89 data/marioverse/tags/entity_type/has_infinite_shell_ammo.json
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/has_no_delta_movement.json
 46f461d1de6e33ad08dd3e29a968fb47d1d48ce4 data/marioverse/tags/entity_type/hefty_goomba_can_attack.json
@@ -63,6 +63,7 @@ ad4b8aa42c1186a921a8ba5cbbbbd51e0272a618 data/marioverse/tags/entity_type/koopa_
 07ed73c99e2158c686bb232ddde29fed5cf22fbb data/marioverse/tags/entity_type/mini_goomba_can_attach.json
 ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
 45bbf1961986f223f34bd5fbba2dfde40ad2c7bc data/marioverse/tags/entity_type/pokeys.json
+6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/pokey_can_attack.json
 500c701bf75fe104b9c6ae696ad04e6856bbf8bc data/marioverse/tags/entity_type/power_ups.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json
