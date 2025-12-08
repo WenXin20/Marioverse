@@ -1,10 +1,8 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
-import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -29,11 +27,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMob {
@@ -52,24 +48,32 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Nullable
     @Override
-    protected SoundEvent getAmbientSound() {
+    protected SoundEvent getDeathSound() {
         return null;
     }
 
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound() {
-        return null;
+    @NotNull
+    public PokeyEntity getPokeyHeadEntity() {
+        return new PokeyEntity(EntityRegistry.POKEY.get(), this.level());
+    }
+
+    @NotNull
+    public PokeyBodyEntity getPokeyBodyEntity() {
+        return new PokeyBodyEntity(EntityRegistry.POKEY_BODY.get(), this.level());
+    }
+
+    @NotNull
+    public Integer getMaxHeightConfig() {
+        return ConfigRegistry.MAX_POKEY_HEIGHT.get();
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(2, new LookAtTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true)); // TODO
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
     }
@@ -139,7 +143,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType) {
         RandomSource random = serverWorld.getRandom();
-        int bodyCount = random.nextInt(ConfigRegistry.MAX_POKEY_HEIGHT.get());
+        int bodyCount = random.nextInt(this.getMaxHeightConfig());
         PokeyEntity currentTop = this;
         if (!currentTop.getPassengers().isEmpty())
             return;
@@ -157,9 +161,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             if (!currentTop.getPassengers().isEmpty())
                 break;
 
-            PokeyBodyEntity body = EntityRegistry.POKEY_BODY.get().create(this.level());
-            if (body == null)
-                continue;
+            PokeyBodyEntity body = this.getPokeyBodyEntity();
             if (!body.getPassengers().isEmpty())
                 break;
 
@@ -169,22 +171,20 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             currentTop = body;
         }
 
-        PokeyEntity head = EntityRegistry.POKEY.get().create(this.level());
-        if (head != null) {
-            double x = currentTop.getX();
-            double y = currentTop.getY() + currentTop.getBbHeight();
-            double z = currentTop.getZ();
+        PokeyEntity head = this.getPokeyHeadEntity();
+        double x = currentTop.getX();
+        double y = currentTop.getY() + currentTop.getBbHeight();
+        double z = currentTop.getZ();
 
-            BlockPos pos = BlockPos.containing(x, y, z);
+        BlockPos pos = BlockPos.containing(x, y, z);
 
-            while (serverWorld.getBlockState(pos).isSolid()) {
-                y += 1.0;
-                pos = BlockPos.containing(x, y, z);
-            }
-
-            head.moveTo(x, y, z, this.getYRot(), this.getXRot());
-            head.finalizeSpawn(serverWorld, difficulty, spawnType, null);
-            head.startRiding(currentTop, true);
+        while (serverWorld.getBlockState(pos).isSolid()) {
+            y += 1.0;
+            pos = BlockPos.containing(x, y, z);
         }
+
+        head.moveTo(x, y, z, this.getYRot(), this.getXRot());
+        head.finalizeSpawn(serverWorld, difficulty, spawnType, null);
+        head.startRiding(currentTop, true);
     }
 }

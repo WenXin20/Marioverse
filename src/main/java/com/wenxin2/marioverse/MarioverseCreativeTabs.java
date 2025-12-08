@@ -123,6 +123,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.DRY_BONES_SPAWN_EGG);
             add(event, ItemRegistry.POKEY_SPAWN_EGG);
+            add(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
             add(event, ItemRegistry.BOO_SPAWN_EGG);
         }
@@ -598,7 +599,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.DRY_BONES_SPAWN_EGG);
                 addAfter(event, ItemRegistry.DRY_BONES_SPAWN_EGG, ItemRegistry.POKEY_SPAWN_EGG);
-                addAfter(event, ItemRegistry.POKEY_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+                addAfter(event, ItemRegistry.POKEY_SPAWN_EGG, ItemRegistry.SNOW_POKEY_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
                 addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.BOO_SPAWN_EGG);
             }
 

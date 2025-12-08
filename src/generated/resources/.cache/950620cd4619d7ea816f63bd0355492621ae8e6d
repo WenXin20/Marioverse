@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-07T21:00:50.7649944	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-12-07T23:48:08.4965474	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
@@ -69,6 +69,7 @@ ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranh
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json
 5f5ceabc4a530789ad2707af6c2d477e79ada55a data/marioverse/tags/entity_type/red_koopa_shell_can_instakill.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/red_koopa_troopa_can_attack.json
+6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/snow_pokey_can_attack.json
 659f755db95cec7ee3f93718a8d2c79e50583b3e data/marioverse/tags/entity_type/spike_panel_immune.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/splunkin_can_attack.json
 a4f847c3081ba18874a22c7344ebfceea66563f6 data/marioverse/tags/entity_type/super_star_immune.json

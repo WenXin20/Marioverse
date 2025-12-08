@@ -1,0 +1,60 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.snow_pokey",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "root",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "bipedBody",
+					"parent": "root",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "head",
+					"parent": "bipedBody",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-6, 0, -6], "size": [12, 12, 12], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "nose",
+					"parent": "head",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-1, 4, -12], "size": [2, 2, 6], "uv": [48, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "bipedHead",
+					"parent": "head",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "armorBipedHead",
+					"parent": "bipedHead",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{
+							"origin": [-6, 4, -6],
+							"size": [12, 12, 12],
+							"inflate": 0.15,
+							"uv": {}
+						}
+					]
+				}
+			]
+		}
+	]
+}

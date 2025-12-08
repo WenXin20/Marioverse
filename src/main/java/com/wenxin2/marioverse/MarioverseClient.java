@@ -191,6 +191,8 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.POKEY_BODY.get(), PokeyBodyRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_SHELL.get(), KoopaShellRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SNOW_POKEY.get(), PokeyRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SNOW_POKEY_BODY.get(), PokeyBodyRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SPLUNKIN.get(), SplunkinRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.DRY_BONES_HEAD.get(), DryBonesPartRenderer::new);

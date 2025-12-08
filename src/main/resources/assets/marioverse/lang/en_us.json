@@ -622,6 +622,8 @@
   "entity.marioverse.pokey_body": "Pokey",
   "entity.marioverse.red_koopa_shell": "Red Koopa Shell",
   "entity.marioverse.red_koopa_troopa": "Red Koopa Troopa",
+  "entity.marioverse.snow_pokey": "Snow Pokey",
+  "entity.marioverse.snow_pokey_body": "Snow Pokey",
   "entity.marioverse.splunkin": "Splunkin",
 
   "item.marioverse.boo_spawn_egg": "Boo Spawn Egg",
@@ -636,6 +638,7 @@
   "item.marioverse.piranha_plant_spawn_egg": "Piranha Plant Spawn Egg",
   "item.marioverse.pokey_spawn_egg": "Pokey Spawn Egg",
   "item.marioverse.red_koopa_troopa_spawn_egg": "Red Troopa Koopa Spawn Egg",
+  "item.marioverse.snow_pokey_spawn_egg": "Snow Pokey Spawn Egg",
   "item.marioverse.splunkin_spawn_egg": "Splunkin Spawn Egg",
 
   "item.marioverse.bowser_banner_pattern": "Banner Pattern",

@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.PokeyBodyEntity;
-import com.wenxin2.marioverse.entities.PokeyEntity;
+import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.animation.AnimationState;
@@ -23,16 +23,22 @@ public class PokeyBodyModel extends GeoModel<PokeyBodyEntity> {
 
     @Override
     public ResourceLocation getModelResource(PokeyBodyEntity animatable) {
+        if (animatable instanceof SnowPokeyBodyEntity)
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/entity/pokey/snow_pokey_body.geo.json");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/entity/pokey/pokey_body.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(PokeyBodyEntity animatable) {
+        if (animatable instanceof SnowPokeyBodyEntity)
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/pokey/snow_pokey.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/pokey/pokey.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(PokeyBodyEntity animatable) {
+        if (animatable instanceof SnowPokeyBodyEntity)
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/pokey/snow_pokey_body.animation.json");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/pokey/pokey_body.animation.json");
     }
 

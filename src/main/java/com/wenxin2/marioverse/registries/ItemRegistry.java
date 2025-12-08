@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
+import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -103,6 +104,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
+    public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_MUSHROOM;
@@ -350,6 +352,8 @@ public class ItemRegistry {
                 () -> new PokeySpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",
+                () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SPLUNKIN_SPAWN_EGG = registerItem("splunkin_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.SPLUNKIN, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }

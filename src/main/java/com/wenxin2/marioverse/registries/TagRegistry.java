@@ -247,6 +247,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CANNOT_ATTACK = entityTypeTags("red_koopa_shell_cannot_attack");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
+    public static final TagKey<EntityType<?>> SNOW_POKEY_CAN_ATTACK = entityTypeTags("snow_pokey_can_attack");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");
     public static final TagKey<EntityType<?>> SPLUNKIN_CAN_ATTACK = entityTypeTags("splunkin_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");

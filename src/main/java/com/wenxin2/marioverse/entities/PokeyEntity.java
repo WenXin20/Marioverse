@@ -2,13 +2,11 @@ package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
-import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,10 +21,10 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -103,11 +101,15 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.POKEY_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(2, new LookAtTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(1, new ResetUniversalAngerTargetGoal<>(this, false));
+    }
+
+    public TagKey<EntityType<?>> getCanAttackTag() {
+        return TagRegistry.POKEY_CAN_ATTACK;
     }
 
     @Override
@@ -177,27 +179,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     public void tick() {
         super.tick();
         this.pokeEntity();
-
-        boolean shouldBloom = ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() == 0
-                        || (this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get()
-                        < ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                        && ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() > ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                        && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0);
-
-        boolean currentBloom = this.getData(DataAttachmentRegistry.IS_BLOOMING);
-
-        if (shouldBloom != currentBloom || !hasBloomed) {
-            this.setData(DataAttachmentRegistry.IS_BLOOMING, shouldBloom);
-
-            if (shouldBloom) {
-                this.triggerAnim("bloom_controller", "bloom");
-                this.stopTriggeredAnim("hide_controller", "hide");
-            } else {
-                this.triggerAnim("hide_controller", "hide");
-                this.stopTriggeredAnim("bloom_controller", "bloom");
-            }
-            hasBloomed = true;
-        }
+        this.triggerBloom();
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
@@ -420,6 +402,29 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
     }
 
+    public void triggerBloom() {
+        boolean shouldBloom = ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() == 0
+                || (this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get()
+                < ConfigRegistry.POKEY_BLOOM_DURATION.get()
+                && ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() > ConfigRegistry.POKEY_BLOOM_DURATION.get()
+                && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0);
+
+        boolean currentBloom = this.getData(DataAttachmentRegistry.IS_BLOOMING);
+
+        if (shouldBloom != currentBloom || !hasBloomed) {
+            this.setData(DataAttachmentRegistry.IS_BLOOMING, shouldBloom);
+
+            if (shouldBloom) {
+                this.triggerAnim("bloom_controller", "bloom");
+                this.stopTriggeredAnim("hide_controller", "hide");
+            } else {
+                this.triggerAnim("hide_controller", "hide");
+                this.stopTriggeredAnim("bloom_controller", "bloom");
+            }
+            hasBloomed = true;
+        }
+    }
+
     public void pokeEntity() {
         if (this.attackCooldown > 0 || this.getData(DataAttachmentRegistry.IS_BLOOMING))
             return;
@@ -437,7 +442,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 if (collidingEntity.getType().is(EntityTypeTags.SENSITIVE_TO_IMPALING)) // TODO
                     continue;
 
-                if (collidingEntity.isSpectator() || collidingEntity instanceof Player player && player.isCreative()) // TODO
+                if (collidingEntity.isSpectator() || collidingEntity instanceof Player player && player.isCreative())
                     continue;
 
 
@@ -454,8 +459,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                     neutralMob.setPersistentAngerTarget(this.getUUID());
                 }
 
-                this.swing(InteractionHand.MAIN_HAND);
-                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F); // TODO
+//                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F); // TODO
                 this.attackCooldown = 20;
                 break;
             }
@@ -499,5 +503,4 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         }
         return result;
     }
-
 }

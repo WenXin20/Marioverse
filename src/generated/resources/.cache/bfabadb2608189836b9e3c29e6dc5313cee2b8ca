@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-24T20:41:48.5104088	Item Models: marioverse
+// 1.21.1	2025-12-08T00:02:00.0982727	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -126,6 +126,7 @@ a0010b33d6cddd736c8043119a76aa310dc680dd assets/marioverse/models/item/purple_ch
 fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa_shell.json
 1bb9296c4bad5253a71afcc87d5c146e2090a88d assets/marioverse/models/item/red_koopa_shoes.json
 2b32499357745ee1294ba49c0e0cfd9f01d4344c assets/marioverse/models/item/red_koopa_troopa_spawn_egg.json
+9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
 9e1b3a21851c4ddcf4f584766f7f2b107fde06a9 assets/marioverse/models/item/splunkin_spawn_egg.json
 0d69b76d8f8eb602901b50db6df6d0ab6bf9d455 assets/marioverse/models/item/star_coin.json

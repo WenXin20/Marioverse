@@ -695,6 +695,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
+        tag(TagRegistry.SNOW_POKEY_CAN_ATTACK)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.SPIKE_PANEL_IMMUNE)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.BOO.get());
