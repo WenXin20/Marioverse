@@ -94,24 +94,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         this.xpReward = 2;
     }
 
-    @Nullable
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundRegistry.BOO_LAUGH.get();
-    } // TODO
-
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.BOO_HURT.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundRegistry.BOO_DEATH.get();
-    }
-
     @Override
     public int getAmbientSoundInterval() {
         return 360;
