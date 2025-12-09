@@ -7,7 +7,9 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -21,8 +23,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -57,15 +63,15 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         return TagRegistry.SNOW_POKEY_CAN_ATTACK;
     }
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
-    }
-
     @Nullable
     @Override
     public ItemStack getPickedResult(@NotNull HitResult target) {
         return new ItemStack(ItemRegistry.SNOW_POKEY_SPAWN_EGG.get());
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
     }
 
     @Override
@@ -74,6 +80,29 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
         if (this.getData(DataAttachmentRegistry.IS_BLOOMING))
             this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+
+        if (!this.level().isClientSide) {
+            if (!EventHooks.canEntityGrief(this.level(), this))
+                return;
+
+            BlockState blockstate = Blocks.SNOW.defaultBlockState();
+
+            for (int i = 0; i < 4; i++) {
+                int j = Mth.floor(this.getX() + (double)((float)(i % 2 * 2 - 1) * 0.25F));
+                int k = Mth.floor(this.getY());
+                int l = Mth.floor(this.getZ() + (double)((float)(i / 2 % 2 * 2 - 1) * 0.25F));
+                BlockPos blockpos = new BlockPos(j, k, l);
+                if (this.level().getBlockState(blockpos).isAir() && blockstate.canSurvive(this.level(), blockpos)) {
+                    this.level().setBlockAndUpdate(blockpos, blockstate);
+                    this.level().gameEvent(GameEvent.BLOCK_PLACE, blockpos, GameEvent.Context.of(this, blockstate));
+                }
+            }
+        }
     }
 
     @Override
