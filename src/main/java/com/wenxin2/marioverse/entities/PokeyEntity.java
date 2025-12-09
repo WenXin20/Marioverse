@@ -300,10 +300,12 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         super.populateDefaultEquipmentSlots(random, difficulty);
 
         if (!(this instanceof PokeyBodyEntity)) {
-            if (random.nextFloat() < 0.015F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
-            else if (random.nextFloat() < 0.05F && this.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+                if (random.nextFloat() < 0.015F)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+                else if (random.nextFloat() < 0.05F)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            }
         }
     }
 
@@ -426,7 +428,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     public void pokeEntity() {
-        if (this.attackCooldown > 0 || this.getData(DataAttachmentRegistry.IS_BLOOMING))
+        if (this.attackCooldown > 0 || !this.isAlive() || this.getData(DataAttachmentRegistry.IS_BLOOMING))
             return;
 
         List<Entity> nearbyEntities = this.level().getEntities(this,
@@ -459,7 +461,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                     neutralMob.setPersistentAngerTarget(this.getUUID());
                 }
 
-//                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F); // TODO
                 this.attackCooldown = 20;
                 break;
             }

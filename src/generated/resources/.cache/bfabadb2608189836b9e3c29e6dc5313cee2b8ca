@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-08T00:02:00.0982727	Item Models: marioverse
+// 1.21.1	2025-12-08T23:24:14.256356	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -116,6 +116,7 @@ d70405bdb8d83945129d347e173906c4da5f75dd assets/marioverse/models/item/pink_chec
 26c208a91f3f8be05f2b3a4c99ff8df35b60f4a8 assets/marioverse/models/item/pink_goal_pole.json
 a3411b47aefffde8184f581383b9e6ebb7905d8a assets/marioverse/models/item/piranha_plant_pod.json
 ffa903956aac57db582728ab8d44267e15a6e8dd assets/marioverse/models/item/piranha_plant_spawn_egg.json
+d1549e7b3ba30e6657183994065275430eb32a89 assets/marioverse/models/item/plastic_bucket.json
 d8a3acf65b44e338b04ea80adce5e17f5ce6d262 assets/marioverse/models/item/plumber_banner_pattern.json
 0d1fea66147a98e071d9361736d86ba391ed70c7 assets/marioverse/models/item/plumber_pottery_sherd.json
 fc029394ebf653775f7350dd93a119122ae1c02a assets/marioverse/models/item/pokey_spawn_egg.json

@@ -52,14 +52,12 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         return null;
     }
 
-    @NotNull
     public PokeyEntity getPokeyHeadEntity() {
-        return new PokeyEntity(EntityRegistry.POKEY.get(), this.level());
+        return EntityRegistry.POKEY.get().create(this.level());
     }
 
-    @NotNull
     public PokeyBodyEntity getPokeyBodyEntity() {
-        return new PokeyBodyEntity(EntityRegistry.POKEY_BODY.get(), this.level());
+        return EntityRegistry.POKEY_BODY.get().create(this.level());
     }
 
     @NotNull

@@ -10,12 +10,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -71,6 +74,16 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
         if (this.getData(DataAttachmentRegistry.IS_BLOOMING))
             this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
+    }
+
+    @Override
+    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+        super.populateDefaultEquipmentSlots(random, difficulty);
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            if (random.nextFloat() < 0.75F && this instanceof SnowPokeyEntity)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()));
+        }
     }
 
     @Override

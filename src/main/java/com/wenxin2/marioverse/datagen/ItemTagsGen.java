@@ -254,7 +254,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.HATS)
                 .addTag(TagRegistry.LUIGI_HATS)
                 .addTag(TagRegistry.MARIO_HATS)
-                .addTag(TagRegistry.PEACH_HATS);
+                .addTag(TagRegistry.PEACH_HATS)
+                .add(ItemRegistry.PLASTIC_BUCKET.get());
 
         tag(TagRegistry.PANTS)
                 .addTag(TagRegistry.LUIGI_PANTS)

@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
@@ -98,6 +99,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PEACH_SHOES;
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
+    public static final DeferredItem<Item> PLASTIC_BUCKET;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
@@ -160,6 +162,9 @@ public class ItemRegistry {
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
+        PLASTIC_BUCKET = registerItem("plastic_bucket",
+                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(12))));

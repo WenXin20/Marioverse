@@ -102,6 +102,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PEACH_ICE_DRESS);
             add(event, ItemRegistry.PEACH_ICE_SHOES);
 
+            add(event, ItemRegistry.PLASTIC_BUCKET);
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
             add(event, ItemRegistry.RED_KOOPA_SHOES);
             add(event, ItemRegistry.GOLDEN_KOOPA_SHOES);
@@ -537,7 +538,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PEACH_ICE_BODICE, ItemRegistry.PEACH_ICE_DRESS);
                 addAfter(event, ItemRegistry.PEACH_ICE_DRESS, ItemRegistry.PEACH_ICE_SHOES);
 
-                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.GREEN_KOOPA_SHOES);
+                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.GREEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHOES, ItemRegistry.GOLDEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GOLDEN_KOOPA_SHOES, ItemRegistry.WHITE_KOOPA_SHOES);
