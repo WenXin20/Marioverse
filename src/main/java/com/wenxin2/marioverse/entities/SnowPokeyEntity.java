@@ -81,7 +81,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         super.populateDefaultEquipmentSlots(random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-            if (random.nextFloat() < 0.75F && this instanceof SnowPokeyEntity)
+            if (random.nextFloat() < 0.60F && this instanceof SnowPokeyEntity)
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()));
         }
     }
