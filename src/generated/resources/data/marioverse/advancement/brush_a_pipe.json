@@ -25,7 +25,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.brush_a_pipe.description"
+      "translate": "advancements.marioverse.brush_a_pipe.description"
     },
     "frame": "goal",
     "icon": {
@@ -33,7 +33,7 @@
       "id": "minecraft:brush"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.brush_a_pipe.title"
+      "translate": "advancements.marioverse.brush_a_pipe.title"
     }
   },
   "requirements": [

@@ -25,7 +25,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.dye_a_pipe.description"
+      "translate": "advancements.marioverse.dye_a_pipe.description"
     },
     "frame": "goal",
     "icon": {
@@ -33,7 +33,7 @@
       "id": "minecraft:red_dye"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.dye_a_pipe.title"
+      "translate": "advancements.marioverse.dye_a_pipe.title"
     }
   },
   "requirements": [

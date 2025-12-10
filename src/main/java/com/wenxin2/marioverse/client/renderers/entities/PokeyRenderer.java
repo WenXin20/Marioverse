@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.models.entities.PokeyModel;
 import com.wenxin2.marioverse.entities.PokeyEntity;
+import com.wenxin2.marioverse.entities.SnowPokeyEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -112,6 +114,14 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             if (!animatable.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
                 spike.setHidden(true);
         });
+
+        if (animatable instanceof SnowPokeyEntity) {
+            this.model.getBone("nose").ifPresent(nose -> {
+                if (!animatable.getData(DataAttachmentRegistry.HAS_CARROT))
+                    nose.setHidden(true);
+                else nose.setHidden(false);
+            });
+        }
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 }

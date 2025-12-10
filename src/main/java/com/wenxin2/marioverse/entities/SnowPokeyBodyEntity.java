@@ -66,9 +66,6 @@ public class SnowPokeyBodyEntity extends PokeyBodyEntity implements GeoEntity, N
     @Override
     public void tick() {
         super.tick();
-
-        if (this.getData(DataAttachmentRegistry.IS_BLOOMING))
-            this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
     }
 
     @Override

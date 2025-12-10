@@ -1,0 +1,43 @@
+{
+  "parent": "marioverse:obtain_wrench",
+  "criteria": {
+    "got_your_nose": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "marioverse:snow_pokey"
+            }
+          }
+        ],
+        "item": {
+          "items": "minecraft:shears"
+        }
+      },
+      "trigger": "minecraft:player_interacted_with_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.got_your_nose.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:carrot"
+    },
+    "title": {
+      "translate": "advancements.marioverse.got_your_nose.title"
+    }
+  },
+  "requirements": [
+    [
+      "got_your_nose"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

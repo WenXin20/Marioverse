@@ -25,7 +25,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.make_a_pipe_glow.description"
+      "translate": "advancements.marioverse.make_a_pipe_glow.description"
     },
     "frame": "goal",
     "icon": {
@@ -33,7 +33,7 @@
       "id": "minecraft:glow_ink_sac"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.make_a_pipe_glow.title"
+      "translate": "advancements.marioverse.make_a_pipe_glow.title"
     }
   },
   "requirements": [

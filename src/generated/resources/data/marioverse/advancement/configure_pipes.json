@@ -25,14 +25,14 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.configure_pipes.description"
+      "translate": "advancements.marioverse.configure_pipes.description"
     },
     "icon": {
       "count": 1,
       "id": "marioverse:green_warp_pipe"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.configure_pipes.title"
+      "translate": "advancements.marioverse.configure_pipes.title"
     }
   },
   "requirements": [

@@ -201,11 +201,15 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             if (attacker instanceof LivingEntity livingEntity) {
                 LivingEntity headEntity = this.getHeadSegment();
 
-                if (headEntity != this && headEntity instanceof NeutralMob neutral) {
-                    neutral.setPersistentAngerTarget(livingEntity.getUUID());
-                    neutral.startPersistentAngerTimer();
-                    neutral.setTarget(livingEntity);
+                if (headEntity != this && headEntity instanceof NeutralMob neutralMob) {
+                    neutralMob.setPersistentAngerTarget(livingEntity.getUUID());
+                    neutralMob.startPersistentAngerTimer();
+                    neutralMob.setTarget(livingEntity);
                 }
+
+                this.setPersistentAngerTarget(livingEntity.getUUID());
+                this.startPersistentAngerTimer();
+                this.setTarget(livingEntity);
             }
         }
         return super.hurt(source, amount);
@@ -281,7 +285,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     @Override
-    public boolean canTakeItem(ItemStack stack) {
+    public boolean canTakeItem(ItemStack stack) { //TODO remove
         EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
         return this.getItemBySlot(equipmentslot).isEmpty();
     }

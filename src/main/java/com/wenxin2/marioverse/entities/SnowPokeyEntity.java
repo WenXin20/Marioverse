@@ -3,22 +3,36 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nullable;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -28,13 +42,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 
-public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMob {
+public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMob, IShearable {
     public SnowPokeyEntity(EntityType<? extends SnowPokeyEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
@@ -58,6 +74,10 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         return SoundEvents.SNOW_GOLEM_AMBIENT;
     }
 
+    protected Holder<SoundEvent> getEquipSound() {
+        return SoundEvents.ARMOR_EQUIP_GENERIC;
+    }
+
     @Override
     public TagKey<EntityType<?>> getCanAttackTag() {
         return TagRegistry.SNOW_POKEY_CAN_ATTACK;
@@ -78,8 +98,8 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     public void tick() {
         super.tick();
 
-        if (this.getData(DataAttachmentRegistry.IS_BLOOMING))
-            this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
+        if (!this.hasData(DataAttachmentRegistry.HAS_CARROT))
+            this.setData(DataAttachmentRegistry.HAS_CARROT, true);
     }
 
     @Override
@@ -87,7 +107,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         super.aiStep();
 
         if (!this.level().isClientSide) {
-            if (!EventHooks.canEntityGrief(this.level(), this))
+            if (!EventHooks.canEntityGrief(this.level(), this)) // TODO: add config
                 return;
 
             BlockState blockstate = Blocks.SNOW.defaultBlockState();
@@ -103,6 +123,33 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
                 }
             }
         }
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        Level world = this.level();
+        ItemStack stack = player.getItemInHand(hand);
+
+        if (stack.is(Tags.Items.TOOLS_SHEAR) && this.isShearable(player, stack, world, this.blockPosition())) {
+            this.gameEvent(GameEvent.SHEAR, player);
+            this.onSheared(player, stack, world, this.blockPosition());
+
+            if (!world.isClientSide)
+                stack.hurtAndBreak(1, player, getSlotForHand(hand));
+
+            return InteractionResult.sidedSuccess(world.isClientSide);
+        } else if (stack.is(Tags.Items.CROPS_CARROT) && !this.getData(DataAttachmentRegistry.HAS_CARROT)) {
+            this.level().playSound(null, this, SoundEvents.SNOW_PLACE, SoundSource.PLAYERS, 1.0F, 1.0F);
+            this.setData(DataAttachmentRegistry.HAS_CARROT, true);
+            this.gameEvent(GameEvent.EQUIP, player);
+            stack.consume(1, player);
+
+            if (player instanceof ServerPlayer serverPlayer) {
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, this.blockPosition(), stack);
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            }
+            return InteractionResult.sidedSuccess(world.isClientSide);
+        } else return InteractionResult.PASS;
     }
 
     @Override
@@ -128,5 +175,43 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL
                 && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
                 && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
+    }
+
+    @NotNull
+    @Override
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
+        List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, world, pos);
+        List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
+        LivingEntity headEntity = this.getHeadSegment();
+
+        this.level().playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F); // TODO
+        if (!this.level().isClientSide()) {
+            this.setData(DataAttachmentRegistry.HAS_CARROT, false);
+            this.spawnShearedDrop(world, pos, new ItemStack(Items.CARROT));
+            finalDrops.add(new ItemStack(Items.CARROT));
+        }
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, this.blockPosition(), stack);
+            player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+        }
+
+        if (headEntity != this && headEntity instanceof NeutralMob neutralMob) {
+            neutralMob.setPersistentAngerTarget(player.getUUID());
+            neutralMob.startPersistentAngerTimer();
+            neutralMob.setTarget(player);
+        }
+
+        this.setPersistentAngerTarget(player.getUUID());
+        this.startPersistentAngerTimer();
+        this.setTarget(player);
+
+        return finalDrops;
+    }
+
+    @Override
+    public boolean isShearable(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
+        return IShearable.super.isShearable(player, stack, world, pos)
+                && this.isAlive() && this.getData(DataAttachmentRegistry.HAS_CARROT);
     }
 }

@@ -14,14 +14,14 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.wrench.description"
+      "translate": "advancements.marioverse.wrench.description"
     },
     "icon": {
       "count": 1,
       "id": "marioverse:wrench"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.wrench.title"
+      "translate": "advancements.marioverse.wrench.title"
     }
   },
   "requirements": [
