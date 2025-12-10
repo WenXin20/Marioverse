@@ -88,10 +88,10 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         if (this.isPassenger())
             this.getLookControl().tick();
 
-        if (this.deathCountdown > 0 && this.getHeadSegment() == null)
+        if (this.deathCountdown > 0 && this.getHeadSegment() == null && !this.isNoAi())
             this.deathCountdown--;
 
-        if (this.getHeadSegment() == null && this.deathCountdown == 0)
+        if (this.getHeadSegment() == null && this.deathCountdown == 0 && !this.isNoAi())
             this.kill();
 
         if (this.isPassenger() && this.getVehicle() instanceof PokeyEntity) {

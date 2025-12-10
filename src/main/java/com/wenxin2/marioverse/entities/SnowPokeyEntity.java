@@ -31,6 +31,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.Shearable;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -157,9 +158,19 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         super.populateDefaultEquipmentSlots(random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-            if (random.nextFloat() < 0.60F && this instanceof SnowPokeyEntity)
+            if (random.nextFloat() < 0.60F)
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()));
         }
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+        if (this.getRandom().nextFloat() < 0.8F)
+            this.setData(DataAttachmentRegistry.HAS_CARROT, true);
+        else this.setData(DataAttachmentRegistry.HAS_CARROT, false);
+
+        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
     }
 
     @Override

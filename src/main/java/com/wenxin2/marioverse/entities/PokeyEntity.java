@@ -181,6 +181,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         this.pokeEntity();
         this.triggerBloom();
 
+        if (!this.hasData(DataAttachmentRegistry.IS_BLOOMING))
+            this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
+
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
@@ -413,7 +416,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 || (this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get()
                 < ConfigRegistry.POKEY_BLOOM_DURATION.get()
                 && ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() > ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0);
+                && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0
+                && !(this instanceof SnowPokeyEntity)
+                && !(this instanceof SnowPokeyBodyEntity));
 
         boolean currentBloom = this.getData(DataAttachmentRegistry.IS_BLOOMING);
 
