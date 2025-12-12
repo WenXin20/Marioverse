@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -54,7 +53,7 @@ public class SnowPokeyBodyEntity extends PokeyBodyEntity implements GeoEntity, N
 
     @NotNull
     public Integer getMaxHeightConfig() {
-        return ConfigRegistry.MAX_POKEY_HEIGHT.get(); //TODO
+        return ConfigRegistry.MAX_SNOW_POKEY_HEIGHT.get();
     }
 
     @Nullable

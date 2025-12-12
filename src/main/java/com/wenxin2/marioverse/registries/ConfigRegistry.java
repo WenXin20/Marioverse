@@ -55,6 +55,7 @@ public class ConfigRegistry
     public static final String CATEGORY_POKEY = "pokey";
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
+    public static final String CATEGORY_SNOW_POKEY = "snow_pokey";
 
     public static final String CATEGORY_DASH_MUSHROOM = "dash_mushroom";
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
@@ -126,6 +127,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
+    public static ModConfigSpec.BooleanValue SNOW_POKEY_TRAIL;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_IN_CREATIVE;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_ON_COLLISION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
@@ -192,6 +194,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
+    public static ModConfigSpec.IntValue MAX_SNOW_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
@@ -738,6 +741,16 @@ public class ConfigRegistry
                             .comment("§6Set to 0 to always bloom.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("pokey_bloom_frequency", 1000, 0, 12000);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_POKEY);
+                    MAX_SNOW_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_snow_pokey_height")
+                            .comment("Max height Snow Pokeys can be.§b")
+                            .defineInRange("max_snow_pokey_height", 10, 1, 16);
+                    SNOW_POKEY_TRAIL = BUILDER.translation("configuration.marioverse.snow_pokey_trail")
+                            .comment("Allow Snow Pokeys to leave a snow trail.")
+                            .comment("§9[Default: true]")
+                            .define("snow_pokey_trail", true);
                 BUILDER.pop();
 
             BUILDER.pop();

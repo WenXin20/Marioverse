@@ -16,7 +16,7 @@ public class SnowPokeySpawnEggItem extends DeferredSpawnEggItem {
 
     @Override
     public EntityType<?> getType(ItemStack stack) {
-        if (ConfigRegistry.MAX_POKEY_HEIGHT.get() == 1) //TODO
+        if (ConfigRegistry.MAX_SNOW_POKEY_HEIGHT.get() == 1)
             return EntityRegistry.SNOW_POKEY.get();
         return super.getType(stack);
     }

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -14,8 +15,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -24,13 +23,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -108,7 +105,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         super.aiStep();
 
         if (!this.level().isClientSide) {
-            if (!EventHooks.canEntityGrief(this.level(), this)) // TODO: add config
+            if (!EventHooks.canEntityGrief(this.level(), this) || !ConfigRegistry.SNOW_POKEY_TRAIL.get())
                 return;
 
             BlockState blockstate = Blocks.SNOW.defaultBlockState();
@@ -124,6 +121,11 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
                 }
             }
         }
+    }
+
+    @Override
+    protected void tickDeath() {
+        super.tickDeath();
     }
 
     @Override
@@ -165,7 +167,8 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType,
+                                        @Nullable SpawnGroupData groupData) {
         if (this.getRandom().nextFloat() < 0.8F)
             this.setData(DataAttachmentRegistry.HAS_CARROT, true);
         else this.setData(DataAttachmentRegistry.HAS_CARROT, false);
@@ -195,7 +198,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
         LivingEntity headEntity = this.getHeadSegment();
 
-        this.level().playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F); // TODO
+        this.level().playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
         if (!this.level().isClientSide()) {
             this.setData(DataAttachmentRegistry.HAS_CARROT, false);
             this.spawnShearedDrop(world, pos, new ItemStack(Items.CARROT));
