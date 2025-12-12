@@ -435,7 +435,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 if (collidingEntity instanceof PokeyEntity)
                     continue;
 
-                if (collidingEntity.getType().is(EntityTypeTags.SENSITIVE_TO_IMPALING)) // TODO
+                if (collidingEntity.getType().is(TagRegistry.THORNS_IMMUNE))
                     continue;
 
                 if (collidingEntity.isSpectator() || collidingEntity instanceof Player player && player.isCreative())
