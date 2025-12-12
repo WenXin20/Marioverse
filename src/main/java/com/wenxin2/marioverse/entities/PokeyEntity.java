@@ -288,21 +288,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     @Override
-    public boolean canTakeItem(ItemStack stack) { //TODO remove
-        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
-        return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    @NotNull
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.canTakeItem(player.getItemInHand(hand))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        } else return super.mobInteract(player, hand);
-    }
-
-    @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
 
