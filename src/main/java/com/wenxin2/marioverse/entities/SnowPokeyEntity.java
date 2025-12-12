@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -23,6 +24,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -85,6 +87,11 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     @Override
     public ItemStack getPickedResult(@NotNull HitResult target) {
         return new ItemStack(ItemRegistry.SNOW_POKEY_SPAWN_EGG.get());
+    }
+
+    @Override
+    public DamageSource getDamageSource(Entity collidingEntity) {
+        return DamageSourceRegistry.snowPokeyThorns(collidingEntity);
     }
 
     @Override

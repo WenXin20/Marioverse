@@ -21,7 +21,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -30,8 +29,6 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -95,6 +92,10 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     public int getAmbientSoundInterval() {
         return 360;
+    }
+
+    public DamageSource getDamageSource(Entity collidingEntity) {
+        return DamageSourceRegistry.pokeyThorns(collidingEntity);
     }
 
     @Override
@@ -442,12 +443,11 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                     continue;
 
 
-                float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
-                        : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+                float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 if (collidingEntity instanceof Creeper)
-                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, collidingEntity), attackDamage); // TODO
-                else collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
+                    collidingEntity.hurt(this.getDamageSource(collidingEntity), attackDamage); // TODO
+                else collidingEntity.hurt(this.getDamageSource(this), attackDamage);
 
                 if (collidingEntity instanceof NeutralMob neutralMob) {
                     neutralMob.isAngryAt(this);

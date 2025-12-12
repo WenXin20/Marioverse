@@ -1,0 +1,6 @@
+{
+  "effects": "thorns",
+  "exhaustion": 0.5,
+  "message_id": "marioverse.pokey_thorns",
+  "scaling": "when_caused_by_living_non_player"
+}

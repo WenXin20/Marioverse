@@ -99,4 +99,16 @@ public class DamageSourceRegistry {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PIRANHA_CHOMP), null, attackingEntity);
         } else return null;
     }
+
+    public static DamageSource pokeyThorns(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.POKEY_THORNS), attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource snowPokeyThorns(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.SNOW_POKEY_THORNS), attackingEntity);
+        } else return null;
+    }
 }

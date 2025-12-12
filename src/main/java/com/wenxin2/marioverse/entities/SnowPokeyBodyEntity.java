@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -11,6 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.item.ItemStack;
@@ -60,6 +62,11 @@ public class SnowPokeyBodyEntity extends PokeyBodyEntity implements GeoEntity, N
     @Override
     public ItemStack getPickedResult(@NotNull HitResult target) {
         return new ItemStack(ItemRegistry.SNOW_POKEY_SPAWN_EGG.get());
+    }
+
+    @Override
+    public DamageSource getDamageSource(Entity collidingEntity) {
+        return DamageSourceRegistry.snowPokeyThorns(collidingEntity);
     }
 
     @Override
