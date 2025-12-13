@@ -60,7 +60,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
-                .add(EntityRegistry.BOUNCING_ICE_BALL.get());
+                .add(EntityRegistry.BOUNCING_ICE_BALL.get())
+                .add(EntityRegistry.LARGE_SNOWBALL.get());
 
         tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH)
                 .addTag(TagRegistry.DRY_BONES_BONES)
@@ -71,6 +72,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOUNCING_ICE_BALL.get())
                 .add(EntityRegistry.GOLD_KOOPA_SHELL.get())
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
+                .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
 
         tag(EntityTypeTags.SKELETONS)
@@ -121,6 +123,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.SLIME)
@@ -129,6 +132,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_BONK_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)

@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -16,7 +15,6 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -27,7 +25,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.monster.breeze.Breeze;
@@ -91,7 +88,8 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+    }
 
     @Nullable
     @Override
@@ -102,6 +100,11 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     @Override
     public boolean isPushable() {
         return true;
+    }
+
+    @Override
+    public boolean isPickable() {
+        return super.isPickable();
     }
 
     @Override
@@ -195,7 +198,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
     public void discardEffectsOnSideHit(Level world, BlockPos hitPos) {
         if (world instanceof ServerLevel serverWorld)
-            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 15);
         world.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT);
         world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
         this.remove(RemovalReason.DISCARDED); // Despawn on side hit
@@ -229,20 +232,20 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
         if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)) { // TODO new tag
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
                     ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
         } else if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.getBlock() instanceof FireBlock) {
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
             world.removeBlock(hitPos, true);
             world.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
         } else if (stateAbove.is(TagRegistry.ICE_BALL_EXTINGUISHES) && stateAbove.getBlock() instanceof FireBlock) {
             if (this.level() instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos.above(), 0.25D, 10);
+                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos.above(), 0.25D, 15);
             world.removeBlock(hitPos.above(), true);
             world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
