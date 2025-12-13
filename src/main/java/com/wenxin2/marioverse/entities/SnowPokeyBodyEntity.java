@@ -74,11 +74,6 @@ public class SnowPokeyBodyEntity extends PokeyBodyEntity implements GeoEntity, N
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public void aiStep() {
         super.aiStep();
 

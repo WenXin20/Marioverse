@@ -115,7 +115,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     public void aiStep() {
         super.aiStep();
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide && this.isAlive()) {
             if (!EventHooks.canEntityGrief(this.level(), this) || !ConfigRegistry.SNOW_POKEY_TRAIL.get())
                 return;
 
