@@ -743,7 +743,7 @@ public class ConfigRegistry
                             .defineInRange("pokey_bloom_frequency", 1000, 0, 12000);
                 BUILDER.pop();
 
-                BUILDER.push(CATEGORY_POKEY);
+                BUILDER.push(CATEGORY_SNOW_POKEY);
                     MAX_SNOW_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_snow_pokey_height")
                             .comment("Max height Snow Pokeys can be.§b")
                             .defineInRange("max_snow_pokey_height", 10, 1, 16);
