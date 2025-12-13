@@ -4,13 +4,17 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -131,11 +135,6 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     }
 
     @Override
-    protected void tickDeath() {
-        super.tickDeath();
-    }
-
-    @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         Level world = this.level();
         ItemStack stack = player.getItemInHand(hand);
@@ -160,6 +159,26 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             }
             return InteractionResult.sidedSuccess(world.isClientSide);
         } else return InteractionResult.PASS;
+    }
+
+    @Override
+    public void die(DamageSource source) {
+        super.die(source);
+    }
+
+    @Override
+    protected void tickDeath() {
+        this.deathTime++;
+        if (this.deathTime >= 20 && !this.level().isClientSide() && !this.isRemoved()) {
+            this.remove(Entity.RemovalReason.KILLED);
+
+            if (this.level() instanceof ServerLevel serverWorld) {
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.SNOWFLAKE, serverWorld,
+                        this, 0.0, 35);
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.ICE_STAR.get(), serverWorld,
+                        this, 0.0, 15);
+            }
+        }
     }
 
     @Override

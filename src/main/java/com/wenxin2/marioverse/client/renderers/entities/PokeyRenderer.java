@@ -9,7 +9,6 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
@@ -123,5 +122,12 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
             });
         }
         super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
+    }
+
+    @Override
+    protected float getDeathMaxRotation(PokeyEntity animatable) {
+        if (animatable instanceof SnowPokeyEntity)
+            return 0.0F;
+        return super.getDeathMaxRotation(animatable);
     }
 }
