@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-26T13:36:07.3700842	Registries
+// 1.21.1	2025-12-12T20:53:57.5145099	Registries
 61b72938b4d73788d68c5721a35619b143f82eb2 data/marioverse/banner_pattern/bowser.json
 d4a73076526d03c9ff5d2be3525ff57d5d09ecaf data/marioverse/banner_pattern/plumber.json
 8ae0af93edd40ac1cb2f40b406efa8566285ffef data/marioverse/damage_type/bonked.json
@@ -17,7 +17,9 @@ b872b26c75bd1fc556eb7d20315dfd1bcd9cf038 data/marioverse/damage_type/player_ice_
 1b8ae3ae6512812a4ef8a01cb0d7af593c7ebbb0 data/marioverse/damage_type/player_shrapnel.json
 0f75cc39ca159195ea31c3a3c65a380d0d75d9cc data/marioverse/damage_type/player_stomp.json
 bc67876a234d2815baf1258a7196c9b745b22bb8 data/marioverse/damage_type/player_super_star.json
+b28217440ccf685db427004113bccb827d2020a8 data/marioverse/damage_type/pokey_thorns.json
 78d239612c3133487f3afd450aecb82febbf9a0b data/marioverse/damage_type/shrapnel.json
+db0aa45c0655ea8a0e111fc7e41f6ddf261a4a04 data/marioverse/damage_type/snow_pokey_thorns.json
 76bcadc650dc431760ac4ddd0033b8af1a68385b data/marioverse/damage_type/spiked.json
 0c92f4aae51ef79ff99f8fbb28072cdeaac7b5c0 data/marioverse/damage_type/stomp.json
 616e93eae16b46ee49f2a4da6717f85c8b5570ce data/marioverse/damage_type/super_star.json
