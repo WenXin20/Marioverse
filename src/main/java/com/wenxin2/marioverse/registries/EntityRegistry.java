@@ -30,6 +30,7 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,6 +54,8 @@ public class EntityRegistry {
             register("bouncing_fireball", BouncingFireballProjectile::new, MobCategory.MISC, 0.3f, 0.3f);
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL =
             register("bouncing_ice_ball", BouncingIceBallProjectile::new, MobCategory.MISC, 0.5f, 0.5f);
+    public static final DeferredHolder<EntityType<?>, EntityType<LargeSnowballProjectile>> LARGE_SNOWBALL =
+            register("large_snowball", LargeSnowballProjectile::new, MobCategory.MISC, 0.75F, 0.75F);
     public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE =
             Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new, MobCategory.MISC)
                     .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));

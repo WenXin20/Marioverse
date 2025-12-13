@@ -119,7 +119,6 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         if (this.onGround() || this.tickCount > 400)
             this.discardEffects(world);
 
-
         for (int i = 0; i < 1; i++) {
             double x = this.getX();
             double y = this.getY() + this.getBbHeight() / 2;

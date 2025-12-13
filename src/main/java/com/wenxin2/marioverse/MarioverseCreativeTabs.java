@@ -53,6 +53,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.ICE_FLOWER);
             add(event, ItemRegistry.SUPER_STAR);
 
+            add(event, ItemRegistry.LARGE_SNOWBALL);
             add(event, ItemRegistry.GREEN_KOOPA_SHELL);
             add(event, ItemRegistry.RED_KOOPA_SHELL);
             add(event, ItemRegistry.GOLD_KOOPA_SHELL);
@@ -577,6 +578,8 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+                addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
+
                 addAfter(event, Items.GUSTER_BANNER_PATTERN, ItemRegistry.BOWSER_BANNER_PATTERN);
                 addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN, ItemRegistry.PLUMBER_BANNER_PATTERN);
                 addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD);

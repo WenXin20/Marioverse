@@ -1,8 +1,10 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -162,15 +164,13 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     }
 
     @Override
-    public void die(DamageSource source) {
-        super.die(source);
-    }
-
-    @Override
     protected void tickDeath() {
         this.deathTime++;
         if (this.deathTime >= 20 && !this.level().isClientSide() && !this.isRemoved()) {
+            LargeSnowballProjectile snowball = new LargeSnowballProjectile(this.level(), this);
             this.remove(Entity.RemovalReason.KILLED);
+            this.level().addFreshEntity(snowball);
+            snowball.setYRot(this.getYRot());
 
             if (this.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.SNOWFLAKE, serverWorld,

@@ -293,7 +293,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
             Vec3 movement = slideDirection.scale(slideSpeed);
 
-            if (!isNoAi() && this.displayEntity instanceof Mob || !(this.displayEntity instanceof Mob)) {
+            if (!isNoAi() || !(this.displayEntity instanceof Mob)) {
                 this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
                 this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
                 this.hasImpulse = true;

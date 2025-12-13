@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
+import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
@@ -57,6 +58,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> LARGE_SNOWBALL;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_FIRE_HAT;
     public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
@@ -138,6 +140,8 @@ public class ItemRegistry {
         SUPER_STAR = registerItem("super_star",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
+        LARGE_SNOWBALL = registerItem("large_snowball",
+                () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
         GOLD_KOOPA_SHELL = registerItem("gold_koopa_shell",
                 () -> new KoopaShellItem(EntityRegistry.GOLD_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
