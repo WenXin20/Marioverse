@@ -28,6 +28,21 @@
               "function": "minecraft:enchanted_count_increase"
             }
           ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:carrot",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": -1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ]
         }
       ],
       "rolls": 1.0
