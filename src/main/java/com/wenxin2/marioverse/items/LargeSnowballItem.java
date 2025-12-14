@@ -27,7 +27,7 @@ public class LargeSnowballItem extends Item implements ProjectileItem {
                 SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!world.isClientSide) {
             LargeSnowballProjectile snowball = new LargeSnowballProjectile(world, player);
-            snowball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+            snowball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 0.5F, 1.0F);
             world.addFreshEntity(snowball);
         }
 
