@@ -17,10 +17,10 @@ public class LargeSnowballRenderer extends GeoEntityRenderer<LargeSnowballProjec
 
     @Override
     public void render(LargeSnowballProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        poseStack.pushPose();
-            poseStack.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
-            poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
-            super.render(entity, entityYaw, partialTicks, poseStack, buffer, LightTexture.FULL_BRIGHT);
-        poseStack.popPose();
+//        poseStack.pushPose();
+//            poseStack.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
+//            poseStack.mulPose(Axis.XP.rotationDegrees(entity.getXRot()));
+            super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+//        poseStack.popPose();
     }
 }
