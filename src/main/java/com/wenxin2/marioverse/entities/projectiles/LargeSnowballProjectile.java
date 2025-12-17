@@ -15,7 +15,6 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -41,6 +40,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -52,7 +52,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -61,9 +60,6 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class LargeSnowballProjectile extends ThrowableProjectile implements GeoEntity, TraceableEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    public Vec3 slidingMovement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
-    private boolean leftOwner;
-    protected boolean inGround;
 
     public LargeSnowballProjectile(EntityType<? extends LargeSnowballProjectile> entityType, Level world) {
         super(entityType, world);
@@ -119,6 +115,10 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         super.tick();
         Level world = this.level();
         Vec3 motion = this.getDeltaMovement();
+        BlockPos pos = this.blockPosition();
+        BlockPos posBelow = this.blockPosition().below();
+        BlockState state = world.getBlockState(pos);
+        BlockState stateBelow = world.getBlockState(posBelow);
 
         this.collideWithEntity();
         this.onHitFluid(world, this.blockPosition());
@@ -132,16 +132,22 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             }
         }
 
+        if (motion.lengthSqr() > 0.0001) {
+            this.setYRot((float) Math.toDegrees(Math.atan2(-motion.x, motion.z)));
+            this.setXRot((float) Math.toDegrees(Math.atan2(-motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z))));
+        }
+
         if (this.isSliding()) {
-            BlockPos posBelow = this.blockPosition().below();
-            BlockState stateBelow = world.getBlockState(posBelow);
-            float friction = stateBelow.getFriction(level(), posBelow, this);
-            double slideFriction = 0.4 + friction / 2.5;
-            Vec3 slideMotion = this.getDeltaMovement()/*.scale(friction * 0.02)*/;
+            float friction = stateBelow.getFriction(world, posBelow, this);
+            if (stateBelow.is(Blocks.SNOW_BLOCK)
+                    || state.getBlock() instanceof SnowLayerBlock
+                    || stateBelow.getBlock() instanceof SnowLayerBlock
+                    || stateBelow.getBlock() instanceof PowderSnowBlock)
+                friction *= 0.4F;
+            double slideFriction = Math.max(0.98F, 0.6 + friction / 2.5);
 
             if (this.getDeltaMovement().horizontalDistance() > 0.0001) {
-                this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
-//                this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
+                this.setDeltaMovement(this.getDeltaMovement().x * slideFriction, this.getDeltaMovement().y, this.getDeltaMovement().z * slideFriction);
                 this.hasImpulse = true;
             }
         }
@@ -178,11 +184,9 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             Vec3 movement = slideDirection.scale(friction);
 
             this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
-//            this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
             this.hasImpulse = true;
             this.setOwner(source.getEntity());
             this.setSliding(true);
-            this.leftOwner = false;
 
             return true;
         }
@@ -237,14 +241,12 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         BlockState stateAbove = world.getBlockState(hitPos.above());
         BlockPos posBelow = this.blockPosition().below();
         BlockState stateBelow = world.getBlockState(posBelow);
-        float friction = stateBelow.getFriction(world, posBelow, this);
         Vec3 horizontal = this.getDeltaMovement().multiply(1.0, 0.0, 1.0);
 
         if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z)
             this.discardEffectsOnSideHit(world, hitPos);
         else if (hit.getDirection().getAxis() == Direction.Axis.Y) {
             Vec3 correction = hit.getLocation().subtract(this.getX(), this.getY(), this.getZ());
-            horizontal = horizontal/*.scale(0.6F * friction)*/;
 
             this.setDeltaMovement(correction);
             Vec3 back = correction.normalize().scale(0.05F);
@@ -407,28 +409,6 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 this.level().playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
                         entity.getSoundSource(), 1.0F, 1.0F);
                 return;
-            }
-        }
-    }
-
-    protected void spawnSnowParticles() {
-        BlockPos posLegacy = this.getOnPosLegacy();
-        BlockState state = this.level().getBlockState(posLegacy);
-
-        if (!state.addRunningEffects(this.level(), posLegacy, this)) {
-            if (state.getRenderShape() != RenderShape.INVISIBLE) {
-                Vec3 vec3 = this.getDeltaMovement();
-                BlockPos pos = this.blockPosition();
-                double x = this.getX() + (this.random.nextDouble() - 0.5);
-                double z = this.getZ() + (this.random.nextDouble() - 0.5);
-                if (pos.getX() != posLegacy.getX())
-                    x = Mth.clamp(x, posLegacy.getX(), posLegacy.getX() + 1.0);
-
-                if (pos.getZ() != posLegacy.getZ())
-                    z = Mth.clamp(z, posLegacy.getZ(), posLegacy.getZ() + 1.0);
-
-                if (!this.isInWaterOrBubble())
-                    this.level().addParticle(ParticleTypes.SNOWFLAKE, x, this.getY() + 0.1, z, vec3.x * -2.0, 0, vec3.z * -2.0);
             }
         }
     }
