@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -58,6 +59,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class LargeSnowballProjectile extends ThrowableProjectile implements GeoEntity, TraceableEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    public float roll;
+    public float rollVelocity;
 
     public LargeSnowballProjectile(EntityType<? extends LargeSnowballProjectile> entityType, Level world) {
         super(entityType, world);
@@ -117,11 +120,12 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         BlockPos posBelow = this.blockPosition().below();
         BlockState state = world.getBlockState(pos);
         BlockState stateBelow = world.getBlockState(posBelow);
+        float horizontalSpeed = (float) this.getDeltaMovement().horizontalDistance();
 
         this.collideWithEntity();
         this.onHitFluid(world, this.blockPosition());
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.001) {
+        if (this.getDeltaMovement().horizontalDistance() > 0.01) {
             for (int i = 0; i < 1; i++) {
                 double x = this.getX();
                 double y = this.getY() + this.getBbHeight() / 2;
@@ -137,49 +141,57 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
         if (this.isSliding()) {
             float friction = stateBelow.getFriction(world, posBelow, this);
+            float reduceFriction = 1.0F;
             if (stateBelow.is(Blocks.SNOW_BLOCK)
                     || state.getBlock() instanceof SnowLayerBlock
                     || stateBelow.getBlock() instanceof SnowLayerBlock
                     || stateBelow.getBlock() instanceof PowderSnowBlock)
-                friction *= 0.4F;
+                reduceFriction *= 1.02F;
             double slideFriction = Math.max(0.98F, 0.6 + friction / 2.5);
 
             if (this.getDeltaMovement().horizontalDistance() > 0.0001) {
-                this.setDeltaMovement(this.getDeltaMovement().x * slideFriction, this.getDeltaMovement().y, this.getDeltaMovement().z * slideFriction);
+                this.setDeltaMovement(this.getDeltaMovement().x * slideFriction * reduceFriction,
+                        this.getDeltaMovement().y, this.getDeltaMovement().z * slideFriction * reduceFriction);
                 this.hasImpulse = true;
             }
         }
+
+        if (this.getDeltaMovement().horizontalDistance() > 0.01) {
+            float radius = 0.25F;
+            float maxRollSpeed = 0.2F;
+            rollVelocity = Mth.clamp(horizontalSpeed / radius, 0.0F, maxRollSpeed);
+        } else {
+            rollVelocity *= 0.85F;
+
+            if (Math.abs(rollVelocity) < 0.001F) {
+                float target = Math.round(roll / Mth.HALF_PI) * Mth.HALF_PI;
+                roll = Mth.approach(roll, target, 0.05F);
+                rollVelocity = 0.0F;
+                return;
+            }
+        }
+        roll += rollVelocity;
     }
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
         Level world = this.level();
         BlockPos posBelow = this.blockPosition().below();
-        BlockState stateBelow = world.getBlockState(posBelow);
 
         if (this.level().isClientSide || this.isRemoved()) {
             return true;
         } else if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            float friction = stateBelow.getFriction(world, posBelow, this);
-            double slideSpeed;
-
-            if (friction > 0.6)
-                slideSpeed = 0.4 + friction / 2.5;
-            else slideSpeed = 1.0;
-
-            Vec3 slideDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
+            Vec3 movement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
 
             if (source.getEntity() != null) {
                 Vec3 attackerPos = source.getEntity().position();
                 Vec3 hitPos = this.position();
                 Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
-                slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
+                movement = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
             } else if (source.getDirectEntity() != null)
-                slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
-
-            Vec3 movement = slideDirection.scale(friction);
+                movement = source.getDirectEntity().getDeltaMovement().normalize();
 
             this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
             this.hasImpulse = true;
