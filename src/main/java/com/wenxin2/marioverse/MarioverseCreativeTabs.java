@@ -491,6 +491,7 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
                 addBefore(event, Items.SHIELD, ItemRegistry.WRENCH);
+                addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
 
                 addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.SUPER_MUSHROOM);
                 addAfter(event, ItemRegistry.SUPER_MUSHROOM, ItemRegistry.DASH_MUSHROOM);
