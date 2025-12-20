@@ -51,6 +51,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -156,28 +157,25 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             }
         }
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.01) {
+        if (this.getDeltaMovement().horizontalDistance() > 0.25) {
             float radius = 0.25F;
             float maxRollSpeed = 0.2F;
-            rollVelocity = Mth.clamp(horizontalSpeed / radius, 0.0F, maxRollSpeed);
+            this.rollVelocity = Mth.clamp(horizontalSpeed / radius, 0.0F, maxRollSpeed);
         } else {
-            rollVelocity *= 0.85F;
+            this.rollVelocity *= 0.95F;
 
-            if (Math.abs(rollVelocity) < 0.001F) {
-                float target = Math.round(roll / Mth.HALF_PI) * Mth.HALF_PI;
-                roll = Mth.approach(roll, target, 0.05F);
-                rollVelocity = 0.0F;
+            if (Math.abs(this.rollVelocity) < 0.001F) {
+                float target = Math.round(this.roll / Mth.HALF_PI) * Mth.HALF_PI;
+                this.roll = Mth.approach(this.roll, target, 0.05F);
+                this.rollVelocity = 0.0F;
                 return;
             }
         }
-        roll += rollVelocity;
+        this.roll += this.rollVelocity;
     }
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
-        Level world = this.level();
-        BlockPos posBelow = this.blockPosition().below();
-
         if (this.level().isClientSide || this.isRemoved()) {
             return true;
         } else if (this.isInvulnerableTo(source)) {
@@ -212,11 +210,11 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         this.remove(RemovalReason.DISCARDED);
     }
 
-    public void discardEffectsOnSideHit(Level world, BlockPos hitPos) {
-        BlockPos pos = this.blockPosition();
-        BlockState state = world.getBlockState(pos);
-        BlockState stateAbove = world.getBlockState(pos.above());
-        BlockState stateBelow = world.getBlockState(pos.below());
+    public void discardEffectsOnSideHit(Level world, BlockPos hitPos, Direction direction) {
+        BlockPos posRelative = hitPos.relative(direction);
+        BlockState state = world.getBlockState(posRelative);
+        BlockState stateAbove = world.getBlockState(posRelative.above());
+        BlockState stateBelow = world.getBlockState(posRelative.below());
 
         if (world instanceof ServerLevel serverWorld)
             ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 15);
@@ -225,13 +223,13 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
         if (state.getBlock() instanceof SnowLayerBlock && state.getValue(SnowLayerBlock.LAYERS) != 8) {
             int i = state.getValue(SnowLayerBlock.LAYERS);
-            world.setBlock(pos, state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
+            world.setBlock(posRelative, state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
         } else if (state.getBlock() instanceof SnowLayerBlock && stateAbove.getBlock() instanceof SnowLayerBlock
                 && state.getValue(SnowLayerBlock.LAYERS) == 8) {
             int i = state.getValue(SnowLayerBlock.LAYERS);
-            world.setBlock(pos.above(), state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
-        } else if (!state.isSolid() && stateBelow.isSolid())
-            world.setBlock(pos, Blocks.SNOW.defaultBlockState(), 3);
+            world.setBlock(posRelative.above(), state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
+        } else if (state.canBeReplaced() && stateBelow.isSolid())
+            world.setBlock(posRelative, Blocks.SNOW.defaultBlockState(), 3);
 
         this.remove(RemovalReason.DISCARDED); // Despawn on side hit
     }
