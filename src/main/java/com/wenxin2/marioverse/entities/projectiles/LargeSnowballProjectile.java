@@ -242,18 +242,32 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     }
 
     @Override
+    public float maxUpStep() {
+        return 0.8F;
+    }
+
+    @Override
     public void onHitBlock(BlockHitResult hit) {
         Level world = this.level();
         BlockPos hitPos = hit.getBlockPos();
         BlockState state = world.getBlockState(hitPos);
         BlockState stateAbove = world.getBlockState(hitPos.above());
-        BlockPos posBelow = this.blockPosition().below();
-        BlockState stateBelow = world.getBlockState(posBelow);
         Vec3 horizontal = this.getDeltaMovement().multiply(1.0, 0.0, 1.0);
+        VoxelShape shape = state.getCollisionShape(world, hitPos);
 
-        if (hit.getDirection().getAxis() == Direction.Axis.X || hit.getDirection().getAxis() == Direction.Axis.Z)
-            this.discardEffectsOnSideHit(world, hitPos);
-        else if (hit.getDirection().getAxis() == Direction.Axis.Y) {
+        double entityBottomY = this.getBoundingBox().minY;
+        double posTop = hitPos.getY() + shape.max(Direction.Axis.Y);
+        double stepHeight = posTop - entityBottomY;
+
+        if (hit.getDirection().getAxis().isHorizontal() && stepHeight < this.maxUpStep()) {
+            this.setPos(this.getX(), posTop + 0.2F, this.getZ());
+            super.onHitBlock(hit);
+        } else if (hit.getDirection().getAxis().isHorizontal()) {
+            this.discardEffectsOnSideHit(world, hitPos, hit.getDirection());
+            super.onHitBlock(hit);
+        } else if (hit.getDirection() == Direction.DOWN)
+            this.discardEffects(world);
+        else if (hit.getDirection() == Direction.UP) {
             Vec3 correction = hit.getLocation().subtract(this.getX(), this.getY(), this.getZ());
 
             this.setDeltaMovement(correction);
