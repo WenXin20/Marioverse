@@ -157,14 +157,14 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             }
         }
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.25) {
+        if (this.getDeltaMovement().horizontalDistance() > 0.15) {
             float radius = 0.25F;
             float maxRollSpeed = 0.2F;
             this.rollVelocity = Mth.clamp(horizontalSpeed / radius, 0.0F, maxRollSpeed);
         } else {
             this.rollVelocity *= 0.95F;
 
-            if (Math.abs(this.rollVelocity) < 0.001F) {
+            if (Math.abs(this.rollVelocity) < 0.01F) {
                 float target = Math.round(this.roll / Mth.HALF_PI) * Mth.HALF_PI;
                 this.roll = Mth.approach(this.roll, target, 0.05F);
                 this.rollVelocity = 0.0F;
