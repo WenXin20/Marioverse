@@ -40,7 +40,7 @@ public abstract class PipeSpawner extends BaseSpawner {
     @Nullable private SpawnData nextSpawnData;
     private double oSpin;
     private double spin;
-    private int maxNearbyEntities = 1;
+    public int maxNearbyEntities = 1;
     private int maxSpawnDelay = 200;
     private int minSpawnDelay = 300;
     private int requiredPlayerRange = 16;
