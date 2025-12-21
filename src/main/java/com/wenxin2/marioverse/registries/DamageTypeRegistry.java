@@ -33,6 +33,11 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> PLAYER_ICE_CUBE_CRUSHED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_ice_cube_crushed"));
 
+    public static final ResourceKey<DamageType> LARGE_SNOWBALL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "large_snowball"));
+    public static final ResourceKey<DamageType> PLAYER_LARGE_SNOWBALL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_large_snowball"));
+
     public static final ResourceKey<DamageType> LIGHT =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "light"));
 

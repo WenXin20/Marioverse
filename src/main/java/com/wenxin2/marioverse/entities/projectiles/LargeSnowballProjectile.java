@@ -355,8 +355,8 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 this.deflectProjectile(livingEntity, shield, entity, world);
             else if (this.getOwner() != null) {
                 if (livingEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
-                    livingEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
-                else livingEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.LARGE_SNOWBALL_DAMAGE.get().floatValue());
+                    livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
+                else livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), ConfigRegistry.LARGE_SNOWBALL_DAMAGE.get().floatValue());
                 livingEntity.extinguishFire();
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(), SoundSource.AMBIENT); // TODO
