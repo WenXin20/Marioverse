@@ -273,7 +273,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
     @Override
     public float maxUpStep() {
-        return 0.8F;
+        return 0.4F;
     }
 
     @Override
@@ -362,7 +362,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 entity.setIsInPowderSnow(true);
                 livingEntity.extinguishFire();
             }
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(), SoundSource.AMBIENT); // TODO
+            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT);
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof PiranhaPlantPart partEntity
@@ -381,19 +381,19 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 entity.setIsInPowderSnow(true);
                 partEntity.extinguishFire();
             }
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
+            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK,
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof BouncingFireballProjectile fireball) {
             fireball.kill();
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
+            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_HIT,
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
         } else if (!(entity instanceof LargeSnowballProjectile)) {
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-            world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
+            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_HIT,
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
         }
@@ -435,8 +435,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     }
 
     private void deflectProjectile(LivingEntity livingEntity, ItemStack shield, Entity entity, Level world) {
-        if (shield.getItem() instanceof ShieldItem
-                || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
+        if (shield.getItem() instanceof ShieldItem) {
             this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
             this.setDeltaMovement(this.getDeltaMovement().reverse());
             shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
