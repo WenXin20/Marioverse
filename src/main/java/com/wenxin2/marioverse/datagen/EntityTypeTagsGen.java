@@ -523,7 +523,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ICE_FLOWER.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SNOW_POKEY_BODY.get())
-                .add(EntityType.ENDER_DRAGON);
+                .add(EntityType.BLAZE)
+                .add(EntityType.ENDER_DRAGON)
+                .add(EntityType.MAGMA_CUBE);
 
         tag(TagRegistry.ICE_CUBE_COLLISION_CANNOT_DAMAGE)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
@@ -711,6 +713,16 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.POKEY_BODY.get());
 
         tag(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
+
+        tag(TagRegistry.SNOWBALL_CAN_INSTAKILL)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.POKEY_ENTITIES)
+                .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
+                .add(EntityRegistry.PIRANHA_PLANT.get());
+
+        tag(TagRegistry.SNOWBALL_IMMUNE)
+                .add(EntityType.BLAZE)
+                .add(EntityType.MAGMA_CUBE);
 
         tag(TagRegistry.SNOW_POKEY_CAN_ATTACK)
                 .add(EntityType.PLAYER);

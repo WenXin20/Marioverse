@@ -310,24 +310,32 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             this.hasImpulse = true;
         }
 
-        if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)
-                && state.getValue(BlockStateProperties.LIT)) { // TODO new tag
+        if (state.is(TagRegistry.SNOWBALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)
+                && state.getValue(BlockStateProperties.LIT)) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
             world.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
                     ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
-        } else if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.getBlock() instanceof FireBlock) {
+        } else if (state.is(TagRegistry.SNOWBALL_EXTINGUISHES) && state.getBlock() instanceof FireBlock) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
             world.removeBlock(hitPos, true);
             world.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
-        } else if (stateAbove.is(TagRegistry.ICE_BALL_EXTINGUISHES) && stateAbove.getBlock() instanceof FireBlock) {
+        } else if (stateAbove.is(TagRegistry.SNOWBALL_EXTINGUISHES) && stateAbove.getBlock() instanceof FireBlock) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos.above(), 0.25D, 15);
             world.removeBlock(hitPos.above(), true);
+            world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+            this.discardEffects(world);
+        }
+
+        if (state.is(TagRegistry.MELTS_SNOWBALL) && state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT)) {
+            world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+            this.discardEffects(world);
+        } else if (state.is(TagRegistry.MELTS_SNOWBALL) && !state.hasProperty(BlockStateProperties.LIT)) {
             world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
         }
@@ -339,7 +347,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         Entity entity = hit.getEntity();
 
         if (entity instanceof LivingEntity livingEntity
-                && livingEntity != this.getOwner() /*&& !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)*/ // TODO
+                && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.SNOWBALL_IMMUNE)
                 && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = livingEntity.getUseItem();
             if ((livingEntity instanceof TamableAnimal tamableAnimal
@@ -351,7 +359,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner())))
                 this.deflectProjectile(livingEntity, shield, entity, world);
             else if (this.getOwner() != null) {
-                if (livingEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL)) // TODO
+                if (livingEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
                     livingEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), livingEntity.getHealth() * 1.25F); // TODO
                 else livingEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                 livingEntity.extinguishFire();
@@ -367,7 +375,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner())))
                 this.deflectProjectile(partEntity.getParent(), shield, entity, world);
             else if (this.getOwner() != null) {
-                if (partEntity.getType().is(TagRegistry.ICE_BALL_CAN_INSTAKILL))
+                if (partEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
                     partEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
                 else partEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                 partEntity.extinguishFire();
@@ -391,7 +399,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
         if (world instanceof ServerLevel serverWorld) {
             if (entity instanceof Player player && !player.isSpectator() && player.canFreeze() && player != this.getOwner()
-                    && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                    && !player.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL)
                     && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
             } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()

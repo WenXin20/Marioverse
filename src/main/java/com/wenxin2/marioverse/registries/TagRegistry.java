@@ -61,6 +61,7 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
+    public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
@@ -68,6 +69,7 @@ public class TagRegistry {
     public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
     public static final TagKey<Block> QUESTION_PANEL_BLOCKS = blockTags("question_panels");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
+    public static final TagKey<Block> SNOWBALL_EXTINGUISHES = blockTags("snowball_extinguishes");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
@@ -249,6 +251,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CANNOT_ATTACK = entityTypeTags("red_koopa_shell_cannot_attack");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
+    public static final TagKey<EntityType<?>> SNOWBALL_CAN_INSTAKILL = entityTypeTags("snowball_can_instakill");
+    public static final TagKey<EntityType<?>> SNOWBALL_IMMUNE = entityTypeTags("snowball_immune");
     public static final TagKey<EntityType<?>> SNOW_POKEY_CAN_ATTACK = entityTypeTags("snow_pokey_can_attack");
     public static final TagKey<EntityType<?>> SNOW_POKEY_ENTITIES = entityTypeTags("snow_pokeys");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");

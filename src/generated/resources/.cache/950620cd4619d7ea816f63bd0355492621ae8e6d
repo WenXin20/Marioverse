@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-13T14:50:09.7669695	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2025-12-20T20:57:33.5380111	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
@@ -49,7 +49,7 @@ aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/green_
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/has_no_delta_movement.json
 46f461d1de6e33ad08dd3e29a968fb47d1d48ce4 data/marioverse/tags/entity_type/hefty_goomba_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/ice_ball_can_instakill.json
-0b0503e6e42ac45653e6be1f73a5a1f37ed735d3 data/marioverse/tags/entity_type/ice_ball_immune.json
+9be1b1a7b32d3cbdc78c32a786b05b182a873909 data/marioverse/tags/entity_type/ice_ball_immune.json
 659f755db95cec7ee3f93718a8d2c79e50583b3e data/marioverse/tags/entity_type/ice_cube_collision_cannot_damage.json
 56d8bf6178d387fb9a693a40ab9a34d9453a4009 data/marioverse/tags/entity_type/ice_cube_shatters_instantly.json
 cb6692d9de98bf9616e20fb054a316698ef09b6c data/marioverse/tags/entity_type/ice_cube_shatter_cannot_damage.json
@@ -69,6 +69,8 @@ ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranh
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json
 bc66dace79cff32ccb4e0e38aa35946f0e97bfa4 data/marioverse/tags/entity_type/red_koopa_shell_can_instakill.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/red_koopa_troopa_can_attack.json
+1bd3ecb4829824abde0e348e130deedf158712f9 data/marioverse/tags/entity_type/snowball_can_instakill.json
+13bdbb8e4bc64dd2861b1fbb149d65c693bfd760 data/marioverse/tags/entity_type/snowball_immune.json
 c923c56ac30dbd17b4c64c0310356b47f160132e data/marioverse/tags/entity_type/snow_pokeys.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/snow_pokey_can_attack.json
 659f755db95cec7ee3f93718a8d2c79e50583b3e data/marioverse/tags/entity_type/spike_panel_immune.json

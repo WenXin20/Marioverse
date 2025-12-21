@@ -327,6 +327,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.FROSTED_ICE)
                 .add(Blocks.ICE);
 
+        tag(TagRegistry.MELTS_SNOWBALL)
+                .addTag(BlockTags.FIRE)
+                .addTag(BlockTags.CAMPFIRES)
+                .add(Blocks.MAGMA_BLOCK)
+                .addOptional(SUPP_FIRE_PIT);
+
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(Blocks.DECORATED_POT);
@@ -562,6 +568,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
+
+        tag(TagRegistry.SNOWBALL_EXTINGUISHES)
+                .addTag(BlockTags.FIRE)
+                .addTag(BlockTags.CANDLES)
+                .addTag(BlockTags.CAMPFIRES)
+                .addTag(BlockTags.CANDLE_CAKES)
+                .addOptionalTag(CompatRegistry.BUMBLEZONE_CANDLES)
+                .addOptionalTag(CompatRegistry.SUPP_CANDLE_HOLDERS)
+                .addOptionalTag(CompatRegistry.SUPP_SCONCES)
+                .addOptional(SUPP_FIRE_PIT);
 
         tag(BlockTags.STAIRS)
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
