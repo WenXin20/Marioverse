@@ -166,11 +166,12 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     protected void tickDeath() {
         this.deathTime++;
         if (this.deathTime >= 20 && !this.level().isClientSide() && !this.isRemoved()) {
+            this.remove(Entity.RemovalReason.KILLED);
+
             if (ConfigRegistry.SNOW_POKEY_DROPS_SNOWBALL.get()) {
                 LargeSnowballProjectile snowball = new LargeSnowballProjectile(this.level(), this);
-                this.remove(Entity.RemovalReason.KILLED);
-                this.level().addFreshEntity(snowball);
                 snowball.setYRot(this.getYRot());
+                this.level().addFreshEntity(snowball);
             }
 
             if (this.level() instanceof ServerLevel serverWorld) {
