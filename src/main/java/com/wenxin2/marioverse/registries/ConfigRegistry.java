@@ -571,7 +571,7 @@ public class ConfigRegistry
                     LARGE_SNOWBALL_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.large_snowball_freeze_duration")
                             .comment("Duration mobs experience the freeze effect in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
-                            .defineInRange("large_snowball_freeze_duration", 90, 0, 72000);
+                            .defineInRange("large_snowball_freeze_duration", 180, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DISRUPTOR);
