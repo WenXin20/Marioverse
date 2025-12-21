@@ -36,6 +36,7 @@ public class ConfigRegistry
     public static final String CATEGORY_WARP_TRAPDOORS = "warp_trapdoors";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
+    public static final String CATEGORY_LARGE_SNOWBALL = "large_snowball";
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
     public static final String CATEGORY_WRENCH = "wrench";
 
@@ -157,6 +158,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
+    public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
@@ -558,6 +560,13 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_ITEMS);
+
+                BUILDER.push(CATEGORY_LARGE_SNOWBALL);
+                    LARGE_SNOWBALL_DAMAGE = BUILDER.translation("configuration.marioverse.large_snowball_damage")
+                            .comment("Amount of damage large snowballs cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("large_snowball_damage", 2.0, 0.0, 16.0);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DISRUPTOR);
                     DISABLE_PLAYER_WARP_DISRUPTING = BUILDER.translation("configuration.marioverse.disable_player_warp_disrupting")

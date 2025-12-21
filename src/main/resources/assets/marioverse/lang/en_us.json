@@ -1105,6 +1105,7 @@
   "marioverse.configuration.warp_trapdoors": "Warp Trapdoors",
   "marioverse.configuration.water_spouts": "Water Spouts",
 
+  "marioverse.configuration.large_snowball": "Large Snowball",
   "marioverse.configuration.wrench": "Wrench",
   "marioverse.configuration.warp_disruptor": "Warp Disruptor",
 
@@ -1206,6 +1207,7 @@
   "configuration.marioverse.ice_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.iron_spike_damage": "Damage",
   "configuration.marioverse.koopa_shell_damage_from_kills": "Damage from Kills",
+  "configuration.marioverse.large_snowball_damage": "Damage",
   "configuration.marioverse.max_gold_koopa_shell_circle_coins": "Max Circle Coins Placed",
   "configuration.marioverse.max_gold_koopa_shell_trail_coins": "Max Trailing Coins Placed",
   "configuration.marioverse.max_goomba_stack": "Max Ride Stack",
