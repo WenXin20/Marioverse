@@ -310,7 +310,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             this.hasImpulse = true;
         }
 
-        if (state.is(TagRegistry.SNOWBALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)
+        if ((state.is(TagRegistry.SNOWBALL_EXTINGUISHES) || state.is(TagRegistry.MELTS_SNOWBALL)) && state.hasProperty(BlockStateProperties.LIT)
                 && state.getValue(BlockStateProperties.LIT)) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
@@ -328,11 +328,6 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos.above(), 0.25D, 15);
             world.removeBlock(hitPos.above(), true);
-            world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.discardEffects(world);
-        }
-
-        if (state.is(TagRegistry.MELTS_SNOWBALL) && state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT)) {
             world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
             this.discardEffects(world);
         } else if (state.is(TagRegistry.MELTS_SNOWBALL) && !state.hasProperty(BlockStateProperties.LIT)) {
