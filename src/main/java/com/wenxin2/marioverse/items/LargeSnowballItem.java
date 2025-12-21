@@ -63,7 +63,7 @@ public class LargeSnowballItem extends Item implements ProjectileItem {
 
             if (!world.isClientSide) {
                 LargeSnowballProjectile snowball = new LargeSnowballProjectile(world, player);
-                snowball.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                snowball.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 world.addFreshEntity(snowball);
                 return InteractionResult.SUCCESS;
             }
