@@ -128,6 +128,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
+    public static ModConfigSpec.BooleanValue SNOW_POKEY_DROPS_SNOWBALL;
     public static ModConfigSpec.BooleanValue SNOW_POKEY_TRAIL;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_IN_CREATIVE;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_ON_COLLISION;
@@ -761,6 +762,10 @@ public class ConfigRegistry
                     MAX_SNOW_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_snow_pokey_height")
                             .comment("Max height Snow Pokeys can be.§b")
                             .defineInRange("max_snow_pokey_height", 10, 1, 16);
+                    SNOW_POKEY_DROPS_SNOWBALL = BUILDER.translation("configuration.marioverse.snow_pokey_drops_snowball")
+                            .comment("Allow Snow Pokeys to drop a large snowball on death.")
+                            .comment("§9[Default: true]")
+                            .define("snow_pokey_drops_snowball", true);
                     SNOW_POKEY_TRAIL = BUILDER.translation("configuration.marioverse.snow_pokey_trail")
                             .comment("Allow Snow Pokeys to leave a snow trail.")
                             .comment("§9[Default: true]")
