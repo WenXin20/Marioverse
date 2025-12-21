@@ -390,7 +390,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_EXTINGUISHED_FIREBALL.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
-        } else {
+        } else if (!(entity instanceof LargeSnowballProjectile)) {
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_SHATTERED_ON_ENEMY.get(),
                     SoundSource.AMBIENT, 1.0F, 1.0F);
