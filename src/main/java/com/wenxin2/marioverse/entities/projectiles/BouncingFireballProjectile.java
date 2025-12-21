@@ -168,7 +168,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         Level world = this.level();
         BlockPos pos = this.blockPosition();
 
-        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
+        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && this.canHitEntity(player)
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             ItemStack shield = player.getUseItem();
             if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
@@ -195,7 +195,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
-        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
+        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && this.canHitEntity(livingEntity)
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             ItemStack shield = livingEntity.getUseItem();
             if ((livingEntity instanceof TamableAnimal tamableAnimal
@@ -224,7 +224,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     SoundSource.AMBIENT, 1.0F, 1.0F);
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
-        } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && partEntity != this.getOwner()
+        } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && this.canHitEntity(partEntity)
                 && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             ItemStack shield = partEntity.getParent().getUseItem();
 
@@ -267,13 +267,13 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
             this.remove(RemovalReason.DISCARDED);
         }
 
-        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && player != this.getOwner()
+        if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && this.canHitEntity(player)
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             if (this.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
             }
-        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && livingEntity != this.getOwner()
+        } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && this.canHitEntity(livingEntity)
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
             if (this.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
