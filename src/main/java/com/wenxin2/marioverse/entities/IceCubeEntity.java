@@ -698,13 +698,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     private void collideWithFire(Level world) {
         AABB box = this.getBoundingBox().inflate(0.05);
 
-        for (BlockPos hitPos : BlockPos
-                .betweenClosed(Mth.floor(box.minX),
-                        Mth.floor(box.minY),
-                        Mth.floor(box.minZ),
-                        Mth.floor(box.maxX),
-                        Mth.floor(box.maxY),
-                        Mth.floor(box.maxZ))) {
+        for (BlockPos hitPos : BlockPos.betweenClosed(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
+                Mth.floor(box.maxX), Mth.floor(box.maxY), Mth.floor(box.maxZ))) {
             BlockState state = world.getBlockState(hitPos);
 
             if (state.is(TagRegistry.ICE_CUBE_EXTINGUISHES) || state.getFluidState().is(FluidTags.LAVA)) {

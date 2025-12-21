@@ -357,6 +357,9 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 if (livingEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
                     livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
                 else livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), ConfigRegistry.LARGE_SNOWBALL_DAMAGE.get().floatValue());
+                if (entity.canFreeze())
+                    entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get()); // TODO
+                entity.setIsInPowderSnow(true);
                 livingEntity.extinguishFire();
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(), SoundSource.AMBIENT); // TODO
@@ -373,6 +376,9 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 if (partEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
                     partEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
                 else partEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), ConfigRegistry.LARGE_SNOWBALL_DAMAGE.get().floatValue());
+                if (entity.canFreeze())
+                    entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get()); // TODO
+                entity.setIsInPowderSnow(true);
                 partEntity.extinguishFire();
             }
             world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
