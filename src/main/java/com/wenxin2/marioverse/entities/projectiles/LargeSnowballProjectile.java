@@ -289,10 +289,10 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         double posTop = hitPos.getY() + shape.max(Direction.Axis.Y);
         double stepHeight = posTop - entityBottomY;
 
-        if (hit.getDirection().getAxis().isHorizontal() && stepHeight < this.maxUpStep()) {
+        if (hit.getDirection().getAxis().isHorizontal() && !shape.isEmpty() && stepHeight < this.maxUpStep()) {
             this.setPos(this.getX(), posTop + 0.2F, this.getZ());
             super.onHitBlock(hit);
-        } else if (hit.getDirection().getAxis().isHorizontal()) {
+        } else if (hit.getDirection().getAxis().isHorizontal() && state.isSolid()) {
             this.discardEffectsOnSideHit(world, hitPos, hit.getDirection());
             super.onHitBlock(hit);
         } else if (hit.getDirection() == Direction.DOWN)
