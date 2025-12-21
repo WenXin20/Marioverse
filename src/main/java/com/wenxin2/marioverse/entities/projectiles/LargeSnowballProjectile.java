@@ -358,7 +358,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                     livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
                 else livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), ConfigRegistry.LARGE_SNOWBALL_DAMAGE.get().floatValue());
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get()); // TODO
+                    entity.setTicksFrozen(ConfigRegistry.LARGE_SNOWBALL_FREEZE_DURATION.get());
                 entity.setIsInPowderSnow(true);
                 livingEntity.extinguishFire();
             }
@@ -377,7 +377,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                     partEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
                 else partEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), ConfigRegistry.LARGE_SNOWBALL_DAMAGE.get().floatValue());
                 if (entity.canFreeze())
-                    entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get()); // TODO
+                    entity.setTicksFrozen(ConfigRegistry.LARGE_SNOWBALL_FREEZE_DURATION.get());
                 entity.setIsInPowderSnow(true);
                 partEntity.extinguishFire();
             }

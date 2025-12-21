@@ -184,6 +184,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
     public static ModConfigSpec.IntValue KOOPA_SHELL_DAMAGE_FROM_KILLS;
+    public static ModConfigSpec.IntValue LARGE_SNOWBALL_FREEZE_DURATION;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_TRAIL_COINS;
     public static ModConfigSpec.IntValue MAX_GOOMBA_STACK;
@@ -566,6 +567,10 @@ public class ConfigRegistry
                             .comment("Amount of damage large snowballs cause.")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("large_snowball_damage", 2.0, 0.0, 16.0);
+                    LARGE_SNOWBALL_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.large_snowball_freeze_duration")
+                            .comment("Duration mobs experience the freeze effect in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("large_snowball_freeze_duration", 90, 0, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DISRUPTOR);
@@ -835,8 +840,7 @@ public class ConfigRegistry
                             .defineInRange("ice_cube_damage", 5.0, 0.0, 32.0);
                     ICE_CUBE_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.ice_cube_freeze_duration")
                             .comment("Duration mobs experience the freeze effect in ticks.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 180]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("ice_cube_freeze_duration", 180, 0, 72000);
                 BUILDER.pop();
 
