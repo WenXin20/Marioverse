@@ -208,9 +208,18 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 Vec3 attackerPos = source.getEntity().position();
                 Vec3 hitPos = this.position();
                 Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
-                movement = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
-            } else if (source.getDirectEntity() != null)
-                movement = source.getDirectEntity().getDeltaMovement().normalize();
+                movement = new Vec3(slideDirRaw.x * 0.35D, this.getDeltaMovement().y, slideDirRaw.z * 0.35D).normalize();
+            } else if (source.getDirectEntity() instanceof Projectile) {
+                Vec3 direct = source.getDirectEntity().getDeltaMovement();
+                double speed = direct.length();
+                double strength = Mth.clamp(speed * 0.6D, 0.05D, 0.8D);
+
+                movement = new Vec3(direct.x * strength, this.getDeltaMovement().y, direct.z * strength);
+            } else if (source.getDirectEntity() != null) {
+                Vec3 direct = source.getDirectEntity().getDeltaMovement();
+
+                movement = new Vec3(direct.x * 0.35D, this.getDeltaMovement().y, direct.z * 0.35D);
+            }
 
             this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
             this.hasImpulse = true;
