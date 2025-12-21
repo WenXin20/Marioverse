@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -31,6 +32,7 @@ import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
@@ -60,8 +62,10 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class LargeSnowballProjectile extends ThrowableProjectile implements GeoEntity, TraceableEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
+    public float prevVisualYaw;
     public float roll;
     public float rollVelocity;
+    public float visualYaw;
 
     public LargeSnowballProjectile(EntityType<? extends LargeSnowballProjectile> entityType, Level world) {
         super(entityType, world);
@@ -96,6 +100,19 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
     }
 
+    @Override
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("VisualYaw", this.visualYaw);
+    }
+
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.visualYaw = tag.getFloat("VisualYaw");
+        this.prevVisualYaw = this.visualYaw;
+    }
+
     @Nullable
     @Override
     public ItemStack getPickedResult(@NotNull HitResult target) {
@@ -121,10 +138,14 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         BlockPos posBelow = this.blockPosition().below();
         BlockState state = world.getBlockState(pos);
         BlockState stateBelow = world.getBlockState(posBelow);
-        float horizontalSpeed = (float) this.getDeltaMovement().horizontalDistance();
+        float horizontalSpeed = (float) motion.horizontalDistance();
 
         this.collideWithEntity();
         this.onHitFluid(world, this.blockPosition());
+        this.prevVisualYaw = this.visualYaw;
+
+        float targetYaw = (float) Math.atan2(motion.x, motion.z);
+        this.visualYaw = Mth.lerp(0.25F, this.visualYaw, targetYaw);
 
         if (this.getDeltaMovement().horizontalDistance() > 0.01) {
             for (int i = 0; i < 1; i++) {

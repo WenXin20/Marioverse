@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.client.models.entities.projectiles.LargeSnowballMo
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
@@ -21,10 +21,9 @@ public class LargeSnowballRenderer extends GeoEntityRenderer<LargeSnowballProjec
                           @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, boolean isReRender,
                           float partialTick, int packedLight, int packedOverlay, int colour) {
         this.model.getBone("root").ifPresent(root -> {
-            Vec3 velocity = animatable.getDeltaMovement();
-            float yawRad = (float) Math.atan2(velocity.x, velocity.z);
+            float yaw = Mth.lerp(partialTick, animatable.prevVisualYaw, animatable.visualYaw);
 
-            root.setRotY(yawRad);
+            root.setRotY(yaw);
             root.setRotX(-animatable.roll);
             root.setRotZ(0.0F);
         });
