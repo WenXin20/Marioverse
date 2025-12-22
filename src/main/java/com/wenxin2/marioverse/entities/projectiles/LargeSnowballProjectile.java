@@ -6,9 +6,7 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -16,8 +14,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -125,8 +125,18 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     }
 
     @Override
+    public boolean isPickable() {
+        return true;
+    }
+
+    @Override
     public float getPickRadius() {
         return 0.01F;
+    }
+
+    @Override
+    public float maxUpStep() {
+        return 0.6F;
     }
 
     @Override
@@ -140,6 +150,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         BlockState stateBelow = world.getBlockState(posBelow);
         float horizontalSpeed = (float) motion.horizontalDistance();
 
+        this.stompSnowball();
         this.collideWithEntity();
         this.onHitFluid(world, this.blockPosition());
         this.prevVisualYaw = this.visualYaw;
@@ -269,11 +280,6 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
         if (fluidStateBelow.getType().is(FluidTags.LAVA))
             this.discardEffects(world);
-    }
-
-    @Override
-    public float maxUpStep() {
-        return 0.4F;
     }
 
     @Override
@@ -472,4 +478,50 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             }
         }
     }
+
+    public void stompSnowball() {
+        Level world = this.level();
+        BlockPos pos = this.blockPosition();
+
+        List<Entity> nearbyEntities = world.getEntities(this, this.getBoundingBox()
+                .inflate(0.5, 1.25, 0.5));
+
+        if (nearbyEntities.isEmpty())
+            return;
+
+        for (Entity entity : nearbyEntities) {
+            if (!(entity instanceof LivingEntity stompingEntity))
+                continue;
+            if (stompingEntity instanceof Player)
+                continue;
+            if (stompingEntity.isSpectator())
+                continue;
+            if (!(stompingEntity.fallDistance > 0 || stompingEntity.isInWaterOrBubble()))
+                continue;
+            if (stompingEntity.getY() < this.getY() + this.getBbHeight())
+                continue;
+            if (stompingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
+                return;
+
+            double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
+            double gravity = 0.08;
+            double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
+
+            stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+            stompingEntity.hasImpulse = true;
+
+            if (stompingEntity instanceof ServerPlayer serverPlayer)
+                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(stompingEntity));
+
+            double radius = this.getBbWidth() / 2;
+            int numParticles = Math.max(5, (int) (this.getBbWidth() * 20));
+
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, this, radius, 0, numParticles);
+
+            this.discardEffects(world);
+            break;
+        }
+    }
+
 }
