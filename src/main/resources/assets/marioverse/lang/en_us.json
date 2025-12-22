@@ -1135,6 +1135,7 @@
   "marioverse.configuration.super_mushroom": "Super Mushroom",
   "marioverse.configuration.super_star": "Super Star",
 
+  "marioverse.configuration.christmas": "Christmas",
   "marioverse.configuration.halloween": "Halloween",
 
   "configuration.marioverse.all_mobs_can_stomp": "All Mobs Can Stomp",
@@ -1168,6 +1169,7 @@
   "configuration.marioverse.decorated_pot_bucket_tweaks": "Buckets Place Liquids",
   "configuration.marioverse.decorated_pot_spawns_mobs": "Spawn Mobs",
   "configuration.marioverse.decorated_pot_spawns_power_ups": "Spawn Power Ups",
+  "configuration.marioverse.disable_christmas_hats": "Disable Christmas Hats",
   "configuration.marioverse.disable_consecutive_bouncing": "Disable Consecutive Bouncing",
   "configuration.marioverse.disable_decorated_pot_tweaks": "Disable All Tweaks",
   "configuration.marioverse.disable_jeb_shader": "Disable jeb_ Shader",
@@ -1190,6 +1192,7 @@
   "configuration.marioverse.fire_flower_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.fireball_cooldown": "Fireball Cooldown",
   "configuration.marioverse.fireball_damage": "Fireball Damage",
+  "configuration.marioverse.force_christmas_hats": "Force Christmas Hats",
   "configuration.marioverse.force_mob_masks": "Force Mob Masks",
   "configuration.marioverse.gold_koopa_shell_coin_circle_radius": "Coin Circle Radius",
   "configuration.marioverse.gold_koopa_shell_damage": "Shell Damage",

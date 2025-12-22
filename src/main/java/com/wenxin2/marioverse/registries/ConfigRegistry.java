@@ -65,6 +65,7 @@ public class ConfigRegistry
     public static final String CATEGORY_SUPER_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_SUPER_STAR = "super_star";
 
+    public static final String CATEGORY_CHRISTMAS = "christmas";
     public static final String CATEGORY_HALLOWEEN = "halloween";
 
     private final ModConfigSpec CONFIG_SPEC;
@@ -95,6 +96,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DECORATED_POT_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
+    public static ModConfigSpec.BooleanValue DISABLE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
@@ -113,6 +115,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue FORCE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
@@ -547,6 +550,17 @@ public class ConfigRegistry
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_HOLIDAY);
+
+                BUILDER.push(CATEGORY_CHRISTMAS);
+                    DISABLE_CHRISTMAS_HATS = BUILDER.translation("configuration.marioverse.disable_christmas_hats")
+                            .comment("Ban Dry Bones, Goombas, Koopas, & Pokeys from wearing hats on Christmas.")
+                            .comment("§9[Default: false]")
+                            .define("disable_christmas_hats", false);
+                    FORCE_CHRISTMAS_HATS = BUILDER.translation("configuration.marioverse.force_christmas_hats")
+                            .comment("Force Dry Bones, Goombas, Koopas, & Pokeys to spawn wearing Christmas hats at any time.")
+                            .comment("§9[Default: false]")
+                            .define("force_christmas_hats", false);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_HALLOWEEN);
                     DISABLE_MOB_MASKS = BUILDER.translation("configuration.marioverse.disable_mob_masks")
