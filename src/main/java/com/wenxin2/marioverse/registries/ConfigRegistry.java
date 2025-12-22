@@ -553,11 +553,11 @@ public class ConfigRegistry
 
                 BUILDER.push(CATEGORY_CHRISTMAS);
                     DISABLE_CHRISTMAS_HATS = BUILDER.translation("configuration.marioverse.disable_christmas_hats")
-                            .comment("Ban Dry Bones, Goombas, Koopas, & Pokeys from wearing hats on Christmas.")
+                            .comment("Ban Dry Bones, Goombas, Koopas, & Snow Pokeys from wearing hats on Christmas.")
                             .comment("§9[Default: false]")
                             .define("disable_christmas_hats", false);
                     FORCE_CHRISTMAS_HATS = BUILDER.translation("configuration.marioverse.force_christmas_hats")
-                            .comment("Force Dry Bones, Goombas, Koopas, & Pokeys to spawn wearing Christmas hats at any time.")
+                            .comment("Force Dry Bones, Goombas, Koopas, & Snow Pokeys to spawn wearing Christmas hats at any time.")
                             .comment("§9[Default: false]")
                             .define("force_christmas_hats", false);
                 BUILDER.pop();

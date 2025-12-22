@@ -1,8 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
-import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
-import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -13,22 +11,17 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -46,15 +39,11 @@ import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PlayerHeadItem;
-import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -219,22 +208,21 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             int month = localDate.getMonth().getValue();
 
             boolean isChristmas = ((month == 12 && day >= 25) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
-            boolean forceMasks = ConfigRegistry.FORCE_CHRISTMAS_HATS.get();
+            boolean forceHats = ConfigRegistry.FORCE_CHRISTMAS_HATS.get();
 
-            if (isChristmas || forceMasks) {
-                boolean appliedMask = false;
+            if (isChristmas || forceHats) {
+                boolean appliedHat = false;
 
                 if (random.nextFloat() < 0.15F) {
                     ItemStack hat = new ItemStack(ItemRegistry.CHRISTMAS_HAT.get());
                     this.setItemSlot(EquipmentSlot.HEAD, hat);
-                    appliedMask = true;
+                    appliedHat = true;
                 }
 
-                if (appliedMask)
+                if (appliedHat)
                     this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.25F;
             }
         }
-
         return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
     }
 

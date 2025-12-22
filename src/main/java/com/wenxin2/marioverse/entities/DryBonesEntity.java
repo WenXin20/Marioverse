@@ -297,6 +297,28 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             LocalDate localDate = LocalDate.now();
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
+
+            boolean isChristmas = ((month == 12 && day >= 25) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
+            boolean forceHats = ConfigRegistry.FORCE_CHRISTMAS_HATS.get();
+
+            if (isChristmas || forceHats) {
+                boolean appliedHat = false;
+
+                if (random.nextFloat() < 0.15F) {
+                    ItemStack hat = new ItemStack(ItemRegistry.CHRISTMAS_HAT.get());
+                    this.setItemSlot(EquipmentSlot.HEAD, hat);
+                    appliedHat = true;
+                }
+
+                if (appliedHat)
+                    this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.25F;
+            }
+        }
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            LocalDate localDate = LocalDate.now();
+            int day = localDate.getDayOfMonth();
+            int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
             boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get());
