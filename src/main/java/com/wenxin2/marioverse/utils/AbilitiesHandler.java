@@ -211,7 +211,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void mv$hitQuestionBlock(Level world, BlockPos pos, LivingEntity entity, QuestionBlockEntity questionBlockEntity) {
+    default void mv$hitQuestionBlock(Level world, BlockPos pos, Entity entity, QuestionBlockEntity questionBlockEntity) {
         if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getTheItem();
 
@@ -258,7 +258,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void mv$smashBlock(Level world, BlockPos pos, BlockState state, LivingEntity entity) {
+    default void mv$smashBlock(Level world, BlockPos pos, BlockState state, Entity entity) {
         BlockState stateAbove = world.getBlockState(pos.above());
         ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
 
@@ -302,7 +302,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void mv$hitEntityAbove(BlockPos pos, Level world, LivingEntity attackingEntity) {
+    default void mv$hitEntityAbove(BlockPos pos, Level world, Entity attackingEntity) {
         AABB boundingBox = new AABB(pos.above()).inflate(0.01);
         List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
 

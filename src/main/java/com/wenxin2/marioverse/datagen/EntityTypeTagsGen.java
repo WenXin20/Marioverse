@@ -259,6 +259,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
