@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-12T22:47:08.1354431	Item Models: marioverse
+// 1.21.1	2025-12-21T22:50:15.1415561	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -8,6 +8,7 @@ d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goa
 afffda4529829c1e11ca56b1133f78c0e10f226f assets/marioverse/models/item/bowser_pottery_sherd.json
 a4039ddc2fad9a1de52448498fc66c86accc0c37 assets/marioverse/models/item/brown_checkpoint_flag.json
 9f1f87f6f5deb9d3975b8e55376168fd538c2685 assets/marioverse/models/item/brown_goal_pole.json
+07180ddfc65fb552e8b77669c67c0a06ffdf1cd7 assets/marioverse/models/item/christmas_hat.json
 b1cd1be888b03a01af8bf7f52ee0734a988ea971 assets/marioverse/models/item/classic_checkpoint_flag.json
 406af49b0154b1ca3e79bcff3013f086cd9d1c7e assets/marioverse/models/item/classic_goal_pole.json
 fb209281fa76443b140297c0ff36c8fa23f5d6ce assets/marioverse/models/item/coin.json

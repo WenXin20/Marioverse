@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
+import com.wenxin2.marioverse.items.ChristmasHatItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
@@ -42,6 +43,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> CHRISTMAS_HAT;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
@@ -169,6 +171,9 @@ public class ItemRegistry {
         PLASTIC_BUCKET = registerItem("plastic_bucket",
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        CHRISTMAS_HAT = registerItem("christmas_hat",
+                () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(8))));
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(12))));
