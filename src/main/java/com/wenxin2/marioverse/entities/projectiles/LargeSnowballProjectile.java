@@ -519,7 +519,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, this, radius, 0, numParticles);
 
-            this.discardEffects(world);
+            this.discardEffectsOnSideHit(world, pos, Direction.UP);
             break;
         }
     }

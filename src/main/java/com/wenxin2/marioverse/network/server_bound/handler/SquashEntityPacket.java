@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.List;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -56,8 +57,7 @@ public class SquashEntityPacket {
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity damagedEntity : nearbyEntities) {
-                if (/*damagedEntity instanceof LivingEntity damagedEntity &&*/ !damagedEntity.isVehicle()
-                        && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                if (!damagedEntity.isVehicle() && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                             || stompingPlayer.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
@@ -96,7 +96,7 @@ public class SquashEntityPacket {
                             ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, damagedEntity, radius, 0, numParticles);
 
                         if (damagedEntity instanceof LargeSnowballProjectile snowball)
-                            snowball.discardEffects(damagedEntity.level());
+                            snowball.discardEffectsOnSideHit(damagedEntity.level(), damagedEntity.blockPosition(), Direction.UP);
 
                         boolean hasNoArmor = true;
                         if (damagedEntity instanceof LivingEntity livingEntity) {
