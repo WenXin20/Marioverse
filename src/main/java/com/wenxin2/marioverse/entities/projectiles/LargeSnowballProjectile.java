@@ -183,9 +183,18 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             double slideFriction = Math.max(0.98F, 0.6 + friction / 2.5);
 
             if (this.getDeltaMovement().horizontalDistance() > 0.0001) {
-                this.setDeltaMovement(this.getDeltaMovement().x * slideFriction * reduceFriction,
-                        this.getDeltaMovement().y, this.getDeltaMovement().z * slideFriction * reduceFriction);
+                this.setDeltaMovement(motion.x * slideFriction * reduceFriction,
+                        motion.y, motion.z * slideFriction * reduceFriction);
                 this.hasImpulse = true;
+            }
+        }
+
+        if (this.isSliding()) {
+            for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(0.1D, 0.0D, 0.1D))) {
+                if (this.canHitEntity(entity)) {
+                    this.onHitEntity(new EntityHitResult(entity));
+                    break;
+                }
             }
         }
 
