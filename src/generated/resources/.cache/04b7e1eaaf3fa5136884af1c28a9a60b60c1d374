@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-21T22:50:15.1600098	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-12-22T21:29:10.2634696	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -106,7 +106,7 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/minecraft/tags/item/enchantable/vanishing.json
 391d783fca840d39745b17abeffb24ba90843808 data/minecraft/tags/item/enchantable/weapon.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json
-5f58a6058f6b5c0fa49549b59017732c7d3130e4 data/minecraft/tags/item/freeze_immune_wearables.json
+b16cb4a8b1a3db7bb88132d3a4831d0120ba599c data/minecraft/tags/item/freeze_immune_wearables.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/minecraft/tags/item/head_armor.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
 d81ff390eb607f163e038b57b32e094bd314f763 data/minecraft/tags/item/non_flammable_wood.json
