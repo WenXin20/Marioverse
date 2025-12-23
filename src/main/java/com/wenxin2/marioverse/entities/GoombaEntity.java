@@ -476,7 +476,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
             if (isChristmas || forceHats) {
                 boolean appliedHat = false;
 
-                if (random.nextFloat() < 0.15F) {
+                if (random.nextFloat() < 0.40F) {
                     ItemStack hat = new ItemStack(ItemRegistry.CHRISTMAS_HAT.get());
                     this.setItemSlot(EquipmentSlot.HEAD, hat);
                     appliedHat = true;
