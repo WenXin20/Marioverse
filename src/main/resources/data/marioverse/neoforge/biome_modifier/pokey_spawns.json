@@ -4,13 +4,13 @@
   "spawners": [
     {
       "type": "marioverse:pokey_body",
-      "weight": 30,
+      "weight": 40,
       "minCount": 1,
       "maxCount": 4
     },
     {
       "type": "marioverse:pokey",
-      "weight": 5,
+      "weight": 30,
       "minCount": 1,
       "maxCount": 1
     }
