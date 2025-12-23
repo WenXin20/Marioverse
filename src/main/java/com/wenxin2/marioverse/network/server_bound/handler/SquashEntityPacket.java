@@ -96,7 +96,7 @@ public class SquashEntityPacket {
                             ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, damagedEntity, radius, 0, numParticles);
 
                         if (damagedEntity instanceof LargeSnowballProjectile snowball)
-                            snowball.discardEffectsOnSideHit(damagedEntity.level(), damagedEntity.blockPosition(), Direction.UP);
+                            snowball.discardEffectsOnSideHit(damagedEntity.level(), damagedEntity.blockPosition(), null);
 
                         boolean hasNoArmor = true;
                         if (damagedEntity instanceof LivingEntity livingEntity) {

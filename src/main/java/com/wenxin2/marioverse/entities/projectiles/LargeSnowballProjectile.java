@@ -260,8 +260,10 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         this.remove(RemovalReason.DISCARDED);
     }
 
-    public void discardEffectsOnSideHit(Level world, BlockPos hitPos, Direction direction) {
-        BlockPos posRelative = hitPos.relative(direction);
+    public void discardEffectsOnSideHit(Level world, BlockPos hitPos, @Nullable Direction direction) {
+        BlockPos posRelative = hitPos;
+        if (direction != null)
+            posRelative = hitPos.relative(direction);
         BlockState state = world.getBlockState(posRelative);
         BlockState stateAbove = world.getBlockState(posRelative.above());
         BlockState stateBelow = world.getBlockState(posRelative.below());
@@ -528,7 +530,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, this, radius, 0, numParticles);
 
-            this.discardEffectsOnSideHit(world, pos, Direction.UP);
+            this.discardEffectsOnSideHit(world, pos, null);
             break;
         }
     }
