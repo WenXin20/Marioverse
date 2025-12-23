@@ -189,8 +189,8 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             }
         }
 
-        if (this.isSliding()) {
-            for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(0.1D, 0.0D, 0.1D))) {
+        if (this.isSliding() && !world.isClientSide) {
+            for (Entity entity : world.getEntities(this, this.getBoundingBox().inflate(0.1D, 0.0D, 0.1D))) {
                 if (this.canHitEntity(entity)) {
                     this.onHitEntity(new EntityHitResult(entity));
                     break;
