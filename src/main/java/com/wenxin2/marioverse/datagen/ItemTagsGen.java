@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -98,14 +97,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                .add(ItemRegistry.LUIGI_ICE_HAT.get())
-                .add(ItemRegistry.LUIGI_ICE_PANTS.get())
-                .add(ItemRegistry.LUIGI_ICE_SHIRT.get())
-                .add(ItemRegistry.LUIGI_ICE_SHOES.get())
-                .add(ItemRegistry.MARIO_ICE_HAT.get())
-                .add(ItemRegistry.MARIO_ICE_PANTS.get())
-                .add(ItemRegistry.MARIO_ICE_SHIRT.get())
-                .add(ItemRegistry.MARIO_ICE_SHOES.get());
+                .addTag(TagRegistry.ICE_COSTUMES)
+                .add(ItemRegistry.CHRISTMAS_HAT.get());
 
         tag(ItemTags.NON_FLAMMABLE_WOOD)
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE.asItem())
@@ -254,7 +247,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.HATS)
                 .addTag(TagRegistry.LUIGI_HATS)
                 .addTag(TagRegistry.MARIO_HATS)
-                .addTag(TagRegistry.PEACH_HATS);
+                .addTag(TagRegistry.PEACH_HATS)
+                .add(ItemRegistry.CHRISTMAS_HAT.get())
+                .add(ItemRegistry.PLASTIC_BUCKET.get());
 
         tag(TagRegistry.PANTS)
                 .addTag(TagRegistry.LUIGI_PANTS)

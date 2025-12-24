@@ -164,7 +164,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.dyeable_warp_pipes.description"
+      "translate": "advancements.marioverse.dyeable_warp_pipes.description"
     },
     "frame": "challenge",
     "icon": {
@@ -172,7 +172,7 @@
       "id": "marioverse:red_warp_pipe"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.dyeable_warp_pipes.title"
+      "translate": "advancements.marioverse.dyeable_warp_pipes.title"
     }
   },
   "requirements": [

@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.registries;
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
 import java.util.function.Supplier;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -12,8 +11,17 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> CRACKED = Marioverse.ATTACHMENT_TYPES
             .register("cracked", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_CARROT = Marioverse.ATTACHMENT_TYPES
+            .register("has_carrot", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_FLOWER = Marioverse.ATTACHMENT_TYPES
+            .register("has_flower", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_ATTACKING = Marioverse.ATTACHMENT_TYPES
             .register("is_attacking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_BLOOMING = Marioverse.ATTACHMENT_TYPES
+            .register("is_blooming", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_CHARGING = Marioverse.ATTACHMENT_TYPES
             .register("is_charging", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
@@ -98,6 +106,7 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> TICKS_IN_AIR = Marioverse.ATTACHMENT_TYPES
             .register("ticks_in_air", () -> AttachmentType.builder(() -> ConfigRegistry.ICE_CUBE_LIFESPAN.get()).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+
 
     public static void init() {}
 }

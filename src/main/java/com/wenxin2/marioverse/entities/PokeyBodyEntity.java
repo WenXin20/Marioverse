@@ -1,0 +1,188 @@
+package com.wenxin2.marioverse.entities;
+
+import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
+import java.util.UUID;
+import javax.annotation.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.util.GeckoLibUtil;
+
+public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMob {
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+
+    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+    @Nullable private UUID persistentAngerTarget;
+    private int remainingPersistentAngerTime;
+    public int deathCountdown = 0;
+
+    public PokeyBodyEntity(EntityType<? extends PokeyBodyEntity> type, Level world) {
+        super(type, world);
+        this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
+        this.xpReward = 2;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return null;
+    }
+
+    public PokeyEntity getPokeyHeadEntity() {
+        return EntityRegistry.POKEY.get().create(this.level());
+    }
+
+    public PokeyBodyEntity getPokeyBodyEntity() {
+        return EntityRegistry.POKEY_BODY.get().create(this.level());
+    }
+
+    @NotNull
+    public Integer getMaxHeightConfig() {
+        return ConfigRegistry.MAX_POKEY_HEIGHT.get();
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(2, new LookAtTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.isPassenger())
+            this.getLookControl().tick();
+
+        if (this.deathCountdown > 0 && this.getHeadSegment() == null && !this.isNoAi())
+            this.deathCountdown--;
+
+        if (this.getHeadSegment() == null && this.deathCountdown == 0 && !this.isNoAi())
+            this.kill();
+
+        if (this.isPassenger() && this.getVehicle() instanceof PokeyEntity) {
+            LivingEntity bottom = this.getBottomSegment();
+
+            this.setYRot(bottom.getYRot());
+            this.yRotO = bottom.yRotO;
+
+            this.setYHeadRot(bottom.getYHeadRot());
+            this.yHeadRotO = bottom.yHeadRotO;
+        }
+    }
+
+    @Override
+    public int getRemainingPersistentAngerTime() {
+        return this.remainingPersistentAngerTime;
+    }
+
+    @Override
+    public void setRemainingPersistentAngerTime(int angerTime) {
+        this.remainingPersistentAngerTime = angerTime;
+    }
+
+    @Nullable
+    @Override
+    public UUID getPersistentAngerTarget() {
+        return this.persistentAngerTarget;
+    }
+
+    @Override
+    public void setPersistentAngerTarget(@Nullable UUID angerTarget) {
+        this.persistentAngerTarget = angerTarget;
+    }
+
+    @Override
+    public void startPersistentAngerTimer() {
+        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
+        this.spawnPokeyStack(serverWorld.getLevel(), difficulty, spawnType);
+        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+    }
+
+    private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType) {
+        RandomSource random = serverWorld.getRandom();
+        int bodyCount = random.nextInt(this.getMaxHeightConfig());
+        PokeyEntity currentTop = this;
+        if (!currentTop.getPassengers().isEmpty())
+            return;
+
+        for (int i = 0; i < bodyCount - 1; i++) {
+            double nextX = currentTop.getX();
+            double nextY = currentTop.getY() + currentTop.getBbHeight();
+            double nextZ = currentTop.getZ();
+
+            BlockPos pos = BlockPos.containing(nextX, nextY, nextZ);
+            BlockState state = serverWorld.getBlockState(pos);
+
+            if (state.isSolid())
+                break;
+            if (!currentTop.getPassengers().isEmpty())
+                break;
+
+            PokeyBodyEntity body = this.getPokeyBodyEntity();
+            if (!body.getPassengers().isEmpty())
+                break;
+
+            body.moveTo(nextX, nextY, nextZ, this.getYRot(), this.getXRot());
+            body.startRiding(currentTop, true);
+            body.deathCountdown = 2;
+            currentTop = body;
+        }
+
+        PokeyEntity head = this.getPokeyHeadEntity();
+        double x = currentTop.getX();
+        double y = currentTop.getY() + currentTop.getBbHeight();
+        double z = currentTop.getZ();
+
+        BlockPos pos = BlockPos.containing(x, y, z);
+
+        while (serverWorld.getBlockState(pos).isSolid()) {
+            y += 1.0;
+            pos = BlockPos.containing(x, y, z);
+        }
+
+        head.moveTo(x, y, z, this.getYRot(), this.getXRot());
+        head.finalizeSpawn(serverWorld, difficulty, spawnType, null);
+        head.startRiding(currentTop, true);
+    }
+}

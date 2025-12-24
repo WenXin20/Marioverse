@@ -7,6 +7,8 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
+import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -41,12 +43,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
@@ -133,7 +137,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public boolean displayTextAbove;
     public boolean displayTextBelow;
 
-    private final PipeSpawner spawner = new PipeSpawner() {
+    private final PipeSpawner pipeSpawner = new PipeSpawner() {
         @Override
         public void broadcastEvent(Level world, BlockPos pos, int eventId) {
             if (world.getBlockState(pos).getBlock() instanceof WarpPipeBlock block) {
@@ -181,7 +185,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
         this.lockKey.addToTag(tag);
-        this.spawner.save(tag);
+        this.pipeSpawner.save(tag);
         tag.putShort("SpawnItemDelay", (short) this.spawnItemDelay);
         tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
         tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
@@ -207,7 +211,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
         this.lockKey = LockCode.fromTag(tag);
-        this.spawner.load(this.level, this.worldPosition, tag);
+        this.pipeSpawner.load(this.level, this.worldPosition, tag);
         this.spawnItemDelay = tag.getShort("SpawnItemDelay");
         this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
@@ -305,12 +309,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     public static void clientTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
-        warpPipeBE.spawner.clientTick(world, pos);
+        warpPipeBE.pipeSpawner.clientTick(world, pos);
     }
 
     public static void serverTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
         if (world instanceof ServerLevel serverWorld)
-            warpPipeBE.spawner.serverTick(serverWorld, pos);
+            warpPipeBE.pipeSpawner.serverTick(serverWorld, pos);
 
         if (state.hasProperty(WarpPipeBlock.CLOSED) && !state.getValue(WarpPipeBlock.CLOSED)) {
             if (warpPipeBE.spawnItemDelay > 0 && !warpPipeBE.getTheItem().isEmpty()) {
@@ -327,7 +331,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     @Override
     public boolean triggerEvent(int id, int type) {
-        return this.level != null ? this.spawner.onEventTriggered(this.level, id) : super.triggerEvent(id, type);
+        return this.level != null ? this.pipeSpawner.onEventTriggered(this.level, id) : super.triggerEvent(id, type);
     }
 
     @Override
@@ -337,12 +341,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     @Override
     public void setEntityId(@NotNull EntityType<?> entityType, RandomSource random) {
-        this.spawner.setEntityId(entityType, this.level, random, this.worldPosition);
+        this.pipeSpawner.setEntityId(entityType, this.level, random, this.worldPosition);
         this.setChanged();
     }
 
-    public BaseSpawner getSpawner() {
-        return this.spawner;
+    public BaseSpawner getPipeSpawner() {
+        return this.pipeSpawner;
     }
 
     public void setCustomName(Component name) {
@@ -801,52 +805,68 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     private void spawnItemEntity(Level world, ItemStack stack, ServerLevel serverWorld, BlockPos spawnPos) {
-        if (stack.getItem() instanceof ArmorStandItem) {
+         if (stack.getItem() instanceof LargeSnowballItem) {
+            LargeSnowballProjectile snowball = new LargeSnowballProjectile(serverWorld, spawnPos.getX() + 0.5D,
+                    spawnPos.getY(), spawnPos.getZ() + 0.5D);
+             int nearbyEntities = serverWorld.getEntities(snowball, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
+
+            if (!snowball.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN) && nearbyEntities < pipeSpawner.maxNearbyEntities) {
+                snowball.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
+                world.addFreshEntity(snowball);
+                stack.copyWithCount(1);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
+        } else if (stack.getItem() instanceof ArmorStandItem) {
             Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
             ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, spawnPos, MobSpawnType.SPAWN_EGG, true, true);
+             int nearbyEntities = serverWorld.getEntities(armorStand, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
-            if (armorStand != null && !armorStand.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (armorStand != null && !armorStand.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)
+                    && nearbyEntities < pipeSpawner.maxNearbyEntities) {
                 if (!world.getEntitiesOfClass(ArmorStand.class, new AABB(spawnPos)).isEmpty())
                     return;
                 armorStand.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(armorStand);
                 stack.copyWithCount(1);
-            } else this.spawnItem(world, spawnPos, stack);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
 
         } else if (stack.getItem() instanceof MinecartItem cart) {
             AbstractMinecart abstractMinecart =
-                    AbstractMinecart.createMinecart(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D, cart.type, stack, null);
+                    AbstractMinecart.createMinecart(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D,
+                            spawnPos.getZ() + 0.5D, cart.type, stack, null);
+             int nearbyEntities = serverWorld.getEntities(abstractMinecart, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
-            if (!abstractMinecart.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (!abstractMinecart.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN) && nearbyEntities < pipeSpawner.maxNearbyEntities) {
                 if (!world.getEntitiesOfClass(AbstractMinecart.class, new AABB(spawnPos)).isEmpty())
                     return;
                 abstractMinecart.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(abstractMinecart);
                 stack.copyWithCount(1);
-            } else this.spawnItem(world, spawnPos, stack);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
 
         } else if (stack.getItem() instanceof BoatItem boatItem) {
             Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D)
                     : new Boat(serverWorld, spawnPos.getX() + 0.5D, spawnPos.getY() + 1.0D, spawnPos.getZ() + 0.5D);
+             int nearbyEntities = serverWorld.getEntities(boat, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
-            if (!boat.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (!boat.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN) && nearbyEntities < pipeSpawner.maxNearbyEntities) {
                 if (!world.getEntitiesOfClass(Boat.class, new AABB(spawnPos)).isEmpty())
                     return;
                 boat.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 boat.setVariant(boatItem.type);
                 world.addFreshEntity(boat);
                 stack.copyWithCount(1);
-            } else this.spawnItem(world, spawnPos, stack);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
 
         } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
             PrimedTnt primedtnt = new PrimedTnt(serverWorld, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, null);
+             int nearbyEntities = serverWorld.getEntities(primedtnt, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
-            if (!primedtnt.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (!primedtnt.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN) && nearbyEntities < pipeSpawner.maxNearbyEntities) {
                 primedtnt.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(primedtnt);
                 stack.copyWithCount(1);
                 serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, spawnPos);
-            } else this.spawnItem(world, spawnPos, stack);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
 
         } else if (stack.getItem() instanceof WindChargeItem) {
             WindCharge windCharge = new WindCharge(serverWorld, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5,
@@ -890,15 +910,16 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
         } else if (stack.getItem() instanceof EndCrystalItem) {
             EndCrystal endCrystal = new EndCrystal(serverWorld, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
+             int nearbyEntities = serverWorld.getEntities(endCrystal, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
-            if (!endCrystal.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (!endCrystal.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN) && nearbyEntities < pipeSpawner.maxNearbyEntities) {
                 endCrystal.setPos(spawnPos.getX() + 0.5D, spawnPos.getY() - endCrystal.getBbHeight(), spawnPos.getZ() + 0.5D);
                 endCrystal.setDeltaMovement(new Vec3(0, -1.0, 0));
                 endCrystal.setShowBottom(false);
                 world.addFreshEntity(endCrystal);
                 world.gameEvent(null, GameEvent.ENTITY_PLACE, spawnPos);
                 stack.copyWithCount(1);
-            } else this.spawnItem(world, spawnPos, stack);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
 
         } else if (stack.getItem() instanceof FireworkRocketItem) {
             FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, stack);
@@ -921,12 +942,13 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
         } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
             Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
+             int nearbyEntities = serverWorld.getEntities(entity, new AABB(spawnPos).inflate(1), EntitySelector.NO_SPECTATORS).size();
 
-            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN)) {
+            if (entity != null && !entity.getType().is(TagRegistry.WARP_PIPE_CANNOT_SPAWN) && nearbyEntities < pipeSpawner.maxNearbyEntities) {
                 entity.setPos(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D);
                 world.addFreshEntity(entity);
                 stack.copyWithCount(1);
-            } else this.spawnItem(world, spawnPos, stack);
+            } else if (nearbyEntities < pipeSpawner.maxNearbyEntities) this.spawnItem(world, spawnPos, stack);
 
         } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
             Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
@@ -984,7 +1006,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 stack.copyWithCount(1);
             } else this.spawnItem(world, spawnPos, stack);
 
-        } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
+        } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get() && world.getDifficulty() != Difficulty.PEACEFUL) {
             Creeper entity = EntityType.CREEPER.create(serverWorld);
 
             if (entity != null) {

@@ -79,7 +79,32 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
-            handler.applySuperStarPowerUp(this.level(), livingEntity, this);
+        Level world = this.level();
+        Entity vehicle = entity.getVehicle();
+
+        if (!world.isClientSide && entity instanceof LivingEntity livingEntity
+                && entity instanceof AbilitiesHandler handler) {
+            handler.applySuperStarPowerUp(world, livingEntity, this);
+
+            while (vehicle instanceof AbilitiesHandler vehicleHandler
+                    && vehicle instanceof LivingEntity livingVehicle) {
+                vehicleHandler.applySuperStarPowerUp(world, livingVehicle, this);
+                vehicle = vehicle.getVehicle();
+            }
+
+            for (Entity passenger : entity.getPassengers())
+                this.applyToRiders(world, passenger);
+        }
+    }
+
+    private void applyToRiders(Level world, Entity firstEntity) {
+        Entity currentEntity = firstEntity;
+
+        while (currentEntity instanceof LivingEntity livingEntity) {
+            if (currentEntity instanceof AbilitiesHandler riderHandler)
+                riderHandler.applySuperStarPowerUp(world, livingEntity, this);
+
+            currentEntity = currentEntity.getFirstPassenger();
+        }
     }
 }

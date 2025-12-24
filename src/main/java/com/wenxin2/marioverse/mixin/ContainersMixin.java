@@ -4,7 +4,9 @@ import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -132,6 +134,14 @@ public class ContainersMixin {
 
                 if (!entityType.is(cannotSpawn)) {
                     entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+                    stack.copyWithCount(1);
+                } else mv$spawnItem(world, pos, stack);
+            } else if (stack.getItem() instanceof LargeSnowballItem) {
+                LargeSnowballProjectile snowball = new LargeSnowballProjectile(serverWorld, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+
+                if (!snowball.getType().is(cannotSpawn)) {
+                    snowball.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
+                    world.addFreshEntity(snowball);
                     stack.copyWithCount(1);
                 } else mv$spawnItem(world, pos, stack);
             } else if (stack.getItem() instanceof ArmorStandItem) {

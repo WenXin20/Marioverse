@@ -2,7 +2,11 @@
   "values": [
     "#marioverse:goombas",
     "#marioverse:koopa_troopas",
+    "marioverse:boo",
     "marioverse:dry_bones",
-    "marioverse:boo"
+    "marioverse:pokey",
+    "marioverse:pokey_body",
+    "marioverse:snow_pokey",
+    "marioverse:snow_pokey_body"
   ]
 }

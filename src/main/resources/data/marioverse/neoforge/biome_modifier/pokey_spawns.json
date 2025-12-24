@@ -1,0 +1,18 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#marioverse:has_pokey",
+  "spawners": [
+    {
+      "type": "marioverse:pokey_body",
+      "weight": 40,
+      "minCount": 1,
+      "maxCount": 4
+    },
+    {
+      "type": "marioverse:pokey",
+      "weight": 30,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

@@ -5,12 +5,17 @@ import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
+import com.wenxin2.marioverse.items.ChristmasHatItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
+import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
+import com.wenxin2.marioverse.items.PokeySpawnEggItem;
+import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
@@ -38,6 +43,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> CHRISTMAS_HAT;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
@@ -54,6 +60,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> LARGE_SNOWBALL;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_FIRE_HAT;
     public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
@@ -96,11 +103,14 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PEACH_SHOES;
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
+    public static final DeferredItem<Item> PLASTIC_BUCKET;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
+    public static final DeferredItem<Item> POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
+    public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_MUSHROOM;
@@ -132,6 +142,8 @@ public class ItemRegistry {
         SUPER_STAR = registerItem("super_star",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
+        LARGE_SNOWBALL = registerItem("large_snowball",
+                () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
         GOLD_KOOPA_SHELL = registerItem("gold_koopa_shell",
                 () -> new KoopaShellItem(EntityRegistry.GOLD_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
@@ -156,6 +168,12 @@ public class ItemRegistry {
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
+        PLASTIC_BUCKET = registerItem("plastic_bucket",
+                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        CHRISTMAS_HAT = registerItem("christmas_hat",
+                () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(8))));
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(12))));
@@ -344,8 +362,12 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
                 () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        POKEY_SPAWN_EGG = registerItem("pokey_spawn_egg",
+                () -> new PokeySpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",
+                () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SPLUNKIN_SPAWN_EGG = registerItem("splunkin_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.SPLUNKIN, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }

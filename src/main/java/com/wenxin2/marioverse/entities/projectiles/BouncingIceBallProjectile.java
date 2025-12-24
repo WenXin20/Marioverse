@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
+import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
@@ -110,14 +111,13 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.04D, 0)); // Gravity
         else this.setDeltaMovement(this.getDeltaMovement().add(motion.x, -0.04D, motion.y)); // Gravity
 
-        if (motion.length() > 0) {
-            this.setYRot((float) Math.toDegrees(Math.atan2(motion.z, motion.x)) + 270);
+        if (motion.lengthSqr() > 0.0001) {
+            this.setYRot((float) Math.toDegrees(Math.atan2(-motion.x, motion.z)));
             this.setXRot((float) Math.toDegrees(Math.atan2(-motion.y, Math.sqrt(motion.x * motion.x + motion.z * motion.z))));
         }
 
         if (this.onGround() || this.tickCount > 400)
             this.discardEffects(world);
-
 
         for (int i = 0; i < 1; i++) {
             double x = this.getX();
@@ -211,7 +211,8 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
         else if (state.is(TagRegistry.MELTS_INTO_PACKED_ICE))
             world.setBlock(hitPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
-        else if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)) {
+        else if (state.is(TagRegistry.ICE_BALL_EXTINGUISHES) && state.hasProperty(BlockStateProperties.LIT)
+                && state.getValue(BlockStateProperties.LIT)) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
             world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
@@ -240,7 +241,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         Entity entity = hit.getEntity();
 
         if (entity instanceof Player player && player instanceof AbilitiesHandler handler && !player.isSpectator()
-                && player != this.getOwner() && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                && this.canHitEntity(player) && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)
                 && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = player.getUseItem();
             float width = player.getBbWidth() * 2.55F;
@@ -289,7 +290,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof LivingEntity livingEntity
-                && livingEntity != this.getOwner() && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                && this.canHitEntity(livingEntity) && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
                 && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = livingEntity.getUseItem();
             if ((livingEntity instanceof TamableAnimal tamableAnimal
@@ -316,10 +317,45 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 if (livingEntity.isAlive() || livingEntity instanceof MiniGoombaEntity
                         || livingEntity instanceof BasePowerUpEntity || livingEntity instanceof BaseMushroomEntity) {
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), livingEntity.level());
+
+                    if (livingEntity instanceof PokeyEntity pokey) {
+                        List<PokeyEntity> stackSegments = pokey.getEntireStack();
+//                        int index = 0;
+
+                        for (PokeyEntity segment : stackSegments) {
+                            if (segment.isAlive()) {
+                                IceCubeEntity iceCubePokey = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), segment.level());
+                                // Disabled because of desync with client
+//                                double cubeHeight = iceCubePokey.getHeight() / 4;
+//                                double yOffset = index * (cubeHeight);
+//                                double xOffset = (segment.getRandom().nextDouble() - 0.5) * 0.45;
+//                                double zOffset = (segment.getRandom().nextDouble() - 0.5) * 0.45;
+
+                                segment.ejectPassengers();
+//                                segment.moveTo(segment.getX() + xOffset, segment.getY() + yOffset,
+//                                        segment.getZ() + zOffset, segment.getYRot(), segment.getXRot());
+                                iceCubePokey.setFrozenEntity(segment, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                                iceCubePokey.setOwner(this.getOwner());
+                                iceCubePokey.setTicksInAir(120);
+                                iceCubePokey.moveTo(segment.getX(), segment.getY(), segment.getZ(), segment.getYRot(), segment.getXRot());
+                                segment.level().addFreshEntity(iceCubePokey);
+//                                iceCubePokey.moveTo(segment.getX() + xOffset, segment.getY() + yOffset,
+//                                        segment.getZ() + zOffset, segment.getYRot(), segment.getXRot());
+//                                index++;
+                            }
+                        }
+                        world.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),
+                                SoundSource.AMBIENT, 1.0F, 1.0F);
+                        world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+                        this.remove(RemovalReason.DISCARDED);
+                        return;
+                    }
+
                     if (livingEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                             || livingEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
                         iceCube.setFrozenEntity(livingEntity, 2);
                     else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+
                     iceCube.setTicksInAir(120);
                     iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
                     iceCube.setOwner(this.getOwner());
@@ -331,7 +367,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
             world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof PiranhaPlantPart partEntity
-                && partEntity != this.getOwner() && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
+                && this.canHitEntity(partEntity) && !partEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
                 && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             ItemStack shield = partEntity.getParent().getUseItem();
 
@@ -379,11 +415,11 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         }
 
         if (world instanceof ServerLevel serverWorld) {
-            if (entity instanceof Player player && !player.isSpectator() && player.canFreeze() && player != this.getOwner()
+            if (entity instanceof Player player && !player.isSpectator() && player.canFreeze() && this.canHitEntity(player)
                     && !player.getType().is(TagRegistry.ICE_BALL_IMMUNE)
                     && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && livingEntity != this.getOwner()
+            } else if (entity instanceof LivingEntity livingEntity && livingEntity.canFreeze() && this.canHitEntity(livingEntity)
                     && !livingEntity.getType().is(TagRegistry.ICE_BALL_IMMUNE)
                     && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);

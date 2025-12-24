@@ -84,7 +84,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Shadow public abstract void handleEntityEvent(byte entityEvent);
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique private boolean mv$playedDamagedSound;
     @Unique private double mv$currentEyeHeightScale = 1.0;
     @Unique private double mv$currentHeightScale = 1.0;
     @Unique private double mv$currentWidthScale = 1.0;
@@ -906,6 +905,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 ? EntityDimensions.fixed(newWidth, newHeight)
                 : EntityDimensions.scalable(newWidth, newHeight);
 
+        if (eyeScale == 1.0F && heightScale == 1.0F && widthScale == 1.0F)
+            return original;
+
         if (pose == Pose.SLEEPING)
             return original;
 
@@ -1098,17 +1100,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
             mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
             mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-
-            if (!mv$playedDamagedSound && !this.mv$hasSuperMushroomOverride()) {
-                mv$playedDamagedSound = true;
-                SoundSource soundSource = isPlayer ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
-                world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, 1.0F);
-            }
         }
 
         if (shouldReset && mv$currentEyeHeightScale != targetEyeHeightScale
                 && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            mv$playedDamagedSound = false;
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
                 mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
             if (heightScale != null && heightScale.getValue() != 1.0D)

@@ -27,6 +27,9 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_KOOPA_TROOPA_RARE = biomeTags("has_koopa_troopa_rare");
     public static final TagKey<Biome> HAS_PIPE_TOWERS = biomeTags("has_pipe_towers");
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
+    public static final TagKey<Biome> HAS_POKEY = biomeTags("has_pokey");
+    public static final TagKey<Biome> HAS_POKEY_RARE = biomeTags("has_pokey_rare");
+    public static final TagKey<Biome> HAS_SNOW_POKEY = biomeTags("has_snow_pokey");
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
 
@@ -58,6 +61,7 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
+    public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
@@ -65,6 +69,7 @@ public class TagRegistry {
     public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
     public static final TagKey<Block> QUESTION_PANEL_BLOCKS = blockTags("question_panels");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
+    public static final TagKey<Block> SNOWBALL_EXTINGUISHES = blockTags("snowball_extinguishes");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
@@ -230,6 +235,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CAN_INSTAKILL = entityTypeTags("ice_cube_shatter_can_instakill");
+    public static final TagKey<EntityType<?>> THORNS_IMMUNE = entityTypeTags("thorns_immune");
     public static final TagKey<EntityType<?>> IRON_SPIKE_IMMUNE = entityTypeTags("iron_spike_immune");
     public static final TagKey<EntityType<?>> KOOPA_CAN_RIDE = entityTypeTags("koopa_can_ride");
     public static final TagKey<EntityType<?>> KOOPA_SHELL_CANNOT_DAMAGE = entityTypeTags("koopa_shell_cannot_damage");
@@ -238,11 +244,17 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
+    public static final TagKey<EntityType<?>> POKEY_CAN_ATTACK = entityTypeTags("pokey_can_attack");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
+    public static final TagKey<EntityType<?>> POKEY_ENTITIES = entityTypeTags("pokeys");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CANNOT_ATTACK = entityTypeTags("red_koopa_shell_cannot_attack");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
+    public static final TagKey<EntityType<?>> SNOWBALL_CAN_INSTAKILL = entityTypeTags("snowball_can_instakill");
+    public static final TagKey<EntityType<?>> SNOWBALL_IMMUNE = entityTypeTags("snowball_immune");
+    public static final TagKey<EntityType<?>> SNOW_POKEY_CAN_ATTACK = entityTypeTags("snow_pokey_can_attack");
+    public static final TagKey<EntityType<?>> SNOW_POKEY_ENTITIES = entityTypeTags("snow_pokeys");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");
     public static final TagKey<EntityType<?>> SPLUNKIN_CAN_ATTACK = entityTypeTags("splunkin_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");

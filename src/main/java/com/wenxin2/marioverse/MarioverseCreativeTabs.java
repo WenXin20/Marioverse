@@ -56,6 +56,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GREEN_KOOPA_SHELL);
             add(event, ItemRegistry.RED_KOOPA_SHELL);
             add(event, ItemRegistry.GOLD_KOOPA_SHELL);
+            add(event, ItemRegistry.LARGE_SNOWBALL);
+            add(event, ItemRegistry.PLASTIC_BUCKET);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
@@ -64,6 +66,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
+
+            add(event, ItemRegistry.CHRISTMAS_HAT);
 
             add(event, ItemRegistry.MARIO_HAT);
             add(event, ItemRegistry.MARIO_SHIRT);
@@ -122,6 +126,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
             add(event, ItemRegistry.DRY_BONES_SPAWN_EGG);
+            add(event, ItemRegistry.POKEY_SPAWN_EGG);
+            add(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
             add(event, ItemRegistry.BOO_SPAWN_EGG);
         }
@@ -487,6 +493,7 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
                 addBefore(event, Items.SHIELD, ItemRegistry.WRENCH);
+                addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
 
                 addAfter(event, Items.TOTEM_OF_UNDYING, ItemRegistry.SUPER_MUSHROOM);
                 addAfter(event, ItemRegistry.SUPER_MUSHROOM, ItemRegistry.DASH_MUSHROOM);
@@ -535,7 +542,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PEACH_ICE_BODICE, ItemRegistry.PEACH_ICE_DRESS);
                 addAfter(event, ItemRegistry.PEACH_ICE_DRESS, ItemRegistry.PEACH_ICE_SHOES);
 
-                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.GREEN_KOOPA_SHOES);
+                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.CHRISTMAS_HAT);
+                addAfter(event, ItemRegistry.CHRISTMAS_HAT, ItemRegistry.GREEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHOES, ItemRegistry.GOLDEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GOLDEN_KOOPA_SHOES, ItemRegistry.WHITE_KOOPA_SHOES);
@@ -573,6 +582,8 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+                addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
+
                 addAfter(event, Items.GUSTER_BANNER_PATTERN, ItemRegistry.BOWSER_BANNER_PATTERN);
                 addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN, ItemRegistry.PLUMBER_BANNER_PATTERN);
                 addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD);
@@ -596,7 +607,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.DRY_BONES_SPAWN_EGG);
-                addAfter(event, ItemRegistry.DRY_BONES_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+                addAfter(event, ItemRegistry.DRY_BONES_SPAWN_EGG, ItemRegistry.POKEY_SPAWN_EGG);
+                addAfter(event, ItemRegistry.POKEY_SPAWN_EGG, ItemRegistry.SNOW_POKEY_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
                 addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.BOO_SPAWN_EGG);
             }
 

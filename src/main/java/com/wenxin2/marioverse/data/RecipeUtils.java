@@ -276,6 +276,25 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void christmasHatRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
+                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern("  W")
+                .pattern("RR ")
+                .pattern("WW ")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'R', input1);
+        defineIngredient(builder, 'W', input2);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+
+        if (uniqueFileName && input1 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
     public void classicCheckpointFlagRecipe(int outputAmt, ItemLike outputItem, TagKey<Item> inputItemTag, ItemLike inputItem,
                                             ItemLike inputItem2, ItemLike inputItem3, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
@@ -540,6 +559,23 @@ public class RecipeUtils extends RecipeProvider {
         builder.save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
     }
 
+    public void oneToOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                               Object input1, RecipeOutput output) {
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
+
+        if (input1 instanceof ItemLike itemLike)
+            builder.requires(itemLike);
+        else if (input1 instanceof TagKey<?> itemLike && itemLike.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) itemLike;
+            builder.requires(tag);
+        }
+
+        builder.save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_" + getRecipeItemName(input1));
+    }
+
     public void questionBlockRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, TagKey<Item> itemTag, RecipeOutput output) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .requires(inputItem)
@@ -747,6 +783,14 @@ public class RecipeUtils extends RecipeProvider {
             return getHasName(item);
         else if (ingredient instanceof TagKey<?> tag)
             return "has_" + tag.location().getPath();
+        throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    private String getRecipeItemName(Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            return getItemName(item);
+        else if (ingredient instanceof TagKey<?> tag)
+            return tag.location().getPath();
         throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
     }
 

@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
-import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -34,6 +33,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -59,6 +59,7 @@ import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -140,12 +141,16 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, 8.0F, 1.0F));
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK, true));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, false));
+        this.goalSelector.addGoal(3, new LookAtTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+    }
+
+    public TagKey<EntityType<?>> getCanAttackTag() {
+        return TagRegistry.GREEN_KOOPA_TROOPA_CAN_ATTACK;
     }
 
     @Override
@@ -354,10 +359,32 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             LocalDate localDate = LocalDate.now();
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
+
+            boolean isChristmas = ((month == 12 && day >= 25) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
+            boolean forceHats = ConfigRegistry.FORCE_CHRISTMAS_HATS.get();
+
+            if (isChristmas || forceHats) {
+                boolean appliedHat = false;
+
+                if (random.nextFloat() < 0.40F) {
+                    ItemStack hat = new ItemStack(ItemRegistry.CHRISTMAS_HAT.get());
+                    this.setItemSlot(EquipmentSlot.HEAD, hat);
+                    appliedHat = true;
+                }
+
+                if (appliedHat)
+                    this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.25F;
+            }
+        }
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            LocalDate localDate = LocalDate.now();
+            int day = localDate.getDayOfMonth();
+            int month = localDate.getMonth().getValue();
             List<ServerPlayer> players = serverWorld.getLevel().players();
 
-            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_KOOPA_MASKS.get());
-            boolean forceMasks = ConfigRegistry.FORCE_KOOPA_MASKS.get();
+            boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get());
+            boolean forceMasks = ConfigRegistry.FORCE_MOB_MASKS.get();
 
             Optional<Item> randomMask = BuiltInRegistries.ITEM
                     .getTag(TagRegistry.HALLOWEEN_MASKS)

@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.network.server_bound.handler;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -15,6 +16,7 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.List;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -54,9 +56,8 @@ public class SquashEntityPacket {
         List<Entity> nearbyEntities = stompingPlayer.level().getEntities(stompingPlayer, stompingPlayer.getBoundingBox().inflate(0, 0.5, 0));
 
         if (!nearbyEntities.isEmpty()) {
-            for (Entity entity : nearbyEntities) {
-                if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
-                        && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+            for (Entity damagedEntity : nearbyEntities) {
+                if (!damagedEntity.isVehicle() && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                             || stompingPlayer.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
@@ -94,21 +95,25 @@ public class SquashEntityPacket {
                         if (stompingPlayer.level() instanceof ServerLevel serverWorld)
                             ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, damagedEntity, radius, 0, numParticles);
 
+                        if (damagedEntity instanceof LargeSnowballProjectile snowball)
+                            snowball.discardEffectsOnSideHit(damagedEntity.level(), damagedEntity.blockPosition(), null);
+
                         boolean hasNoArmor = true;
-                        for (ItemStack armorSlot : damagedEntity.getArmorSlots()) {
-                            if (!armorSlot.isEmpty()) {
-                                hasNoArmor = false;
-                                break;
+                        if (damagedEntity instanceof LivingEntity livingEntity) {
+                            for (ItemStack armorSlot : livingEntity.getArmorSlots()) {
+                                if (!armorSlot.isEmpty()) {
+                                    hasNoArmor = false;
+                                    break;
+                                }
                             }
                         }
 
-                        if (!stompingPlayer.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
-                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
-                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), damagedEntity.getHealth());
+                        if (!stompingPlayer.level().isClientSide() && damagedEntity.isAlive()) {
+                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor && damagedEntity instanceof LivingEntity livingEntity)
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), livingEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
-                                if (damagedEntity instanceof KoopaTroopaEntity
-                                        || damagedEntity instanceof KoopaShellEntity)
+                                if (damagedEntity instanceof KoopaTroopaEntity || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
@@ -123,7 +128,7 @@ public class SquashEntityPacket {
     }
 
     @Unique
-    public void consecutiveReward(Player attackingPlayer, LivingEntity damagedEntity) {
+    public void consecutiveReward(Player attackingPlayer, Entity damagedEntity) {
 
         if (attackingPlayer instanceof AbilitiesHandler handler) {
             int oneUpsRewarded = handler.mv$getOneUpsRewarded();
@@ -198,7 +203,6 @@ public class SquashEntityPacket {
             else if (offhandStack.getCount() >= 1)
                 player.addItem(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             player.level().playSound(null, player.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-
         }
     }
 }

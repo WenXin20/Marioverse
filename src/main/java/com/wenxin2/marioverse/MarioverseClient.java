@@ -28,6 +28,8 @@ import com.wenxin2.marioverse.client.renderers.entities.KoopaTroopaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MegaGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.MiniGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PiranhaPlantRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.PokeyBodyRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.PokeyRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
@@ -38,6 +40,7 @@ import com.wenxin2.marioverse.client.renderers.entities.power_ups.OneUpMushroomR
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -80,6 +83,8 @@ public class MarioverseClient {
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
 
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CHRISTMAS_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PLASTIC_BUCKET.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
@@ -165,6 +170,7 @@ public class MarioverseClient {
     private static void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBALL.get(), BouncingFireballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.BOUNCING_ICE_BALL.get(), BouncingIceBallRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.LARGE_SNOWBALL.get(), LargeSnowballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_CUBE.get(), IceCubeRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
@@ -185,8 +191,12 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.MEGA_GOOMBA.get(), MegaGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MINI_GOOMBA.get(), MiniGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.PIRANHA_PLANT.get(), PiranhaPlantRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.POKEY.get(), PokeyRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.POKEY_BODY.get(), PokeyBodyRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_SHELL.get(), KoopaShellRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SNOW_POKEY.get(), PokeyRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SNOW_POKEY_BODY.get(), PokeyBodyRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SPLUNKIN.get(), SplunkinRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.DRY_BONES_HEAD.get(), DryBonesPartRenderer::new);

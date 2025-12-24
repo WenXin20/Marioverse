@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks.behaviors;
 
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,6 +23,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 public class DispenserBehaviors {
     public static void register() {
+        DispenserBlock.registerProjectileBehavior(ItemRegistry.LARGE_SNOWBALL);
+
         DispenserBlock.registerBehavior(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), new OptionalDispenseItemBehavior() {
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {

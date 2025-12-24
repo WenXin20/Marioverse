@@ -36,6 +36,7 @@ public class ConfigRegistry
     public static final String CATEGORY_WARP_TRAPDOORS = "warp_trapdoors";
     public static final String CATEGORY_WATER_SPOUTS = "water_spouts";
 
+    public static final String CATEGORY_LARGE_SNOWBALL = "large_snowball";
     public static final String CATEGORY_WARP_DISRUPTOR = "warp_disruptor";
     public static final String CATEGORY_WRENCH = "wrench";
 
@@ -52,8 +53,10 @@ public class ConfigRegistry
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
+    public static final String CATEGORY_POKEY = "pokey";
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
+    public static final String CATEGORY_SNOW_POKEY = "snow_pokey";
 
     public static final String CATEGORY_DASH_MUSHROOM = "dash_mushroom";
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
@@ -62,6 +65,7 @@ public class ConfigRegistry
     public static final String CATEGORY_SUPER_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_SUPER_STAR = "super_star";
 
+    public static final String CATEGORY_CHRISTMAS = "christmas";
     public static final String CATEGORY_HALLOWEEN = "halloween";
 
     private final ModConfigSpec CONFIG_SPEC;
@@ -92,15 +96,13 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue DECORATED_POT_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
-    public static ModConfigSpec.BooleanValue DISABLE_BOO_MASKS;
+    public static ModConfigSpec.BooleanValue DISABLE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
-    public static ModConfigSpec.BooleanValue DISABLE_DRY_BONES_MASKS;
-    public static ModConfigSpec.BooleanValue DISABLE_GOOMBA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
     public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
-    public static ModConfigSpec.BooleanValue DISABLE_KOOPA_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
+    public static ModConfigSpec.BooleanValue DISABLE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue DISABLE_PLAYER_WARP_DISRUPTING;
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
@@ -113,10 +115,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
-    public static ModConfigSpec.BooleanValue FORCE_BOO_MASKS;
-    public static ModConfigSpec.BooleanValue FORCE_DRY_BONES_MASKS;
-    public static ModConfigSpec.BooleanValue FORCE_GOOMBA_MASKS;
-    public static ModConfigSpec.BooleanValue FORCE_KOOPA_MASKS;
+    public static ModConfigSpec.BooleanValue FORCE_CHRISTMAS_HATS;
+    public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
@@ -131,6 +131,8 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
+    public static ModConfigSpec.BooleanValue SNOW_POKEY_DROPS_SNOWBALL;
+    public static ModConfigSpec.BooleanValue SNOW_POKEY_TRAIL;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_IN_CREATIVE;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_ON_COLLISION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
@@ -160,6 +162,7 @@ public class ConfigRegistry
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
+    public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
@@ -185,6 +188,7 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
     public static ModConfigSpec.IntValue KOOPA_SHELL_DAMAGE_FROM_KILLS;
+    public static ModConfigSpec.IntValue LARGE_SNOWBALL_FREEZE_DURATION;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_TRAIL_COINS;
     public static ModConfigSpec.IntValue MAX_GOOMBA_STACK;
@@ -196,7 +200,11 @@ public class ConfigRegistry
     public static ModConfigSpec.IntValue MAX_ONE_UP_SHELL_KILL_REWARD;
     public static ModConfigSpec.IntValue MAX_PLAYER_FIREBALLS;
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
+    public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
+    public static ModConfigSpec.IntValue MAX_SNOW_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
+    public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
+    public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_MOB_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_TROOPA_HIDE_DURATION;
@@ -543,44 +551,42 @@ public class ConfigRegistry
 
             BUILDER.push(CATEGORY_HOLIDAY);
 
+                BUILDER.push(CATEGORY_CHRISTMAS);
+                    DISABLE_CHRISTMAS_HATS = BUILDER.translation("configuration.marioverse.disable_christmas_hats")
+                            .comment("Ban Boos, Dry Bones, Goombas, Koopas, & Snow Pokeys from wearing hats on Christmas.")
+                            .comment("§9[Default: false]")
+                            .define("disable_christmas_hats", false);
+                    FORCE_CHRISTMAS_HATS = BUILDER.translation("configuration.marioverse.force_christmas_hats")
+                            .comment("Force Boos, Dry Bones, Goombas, Koopas, & Snow Pokeys to spawn wearing Christmas hats at any time.")
+                            .comment("§9[Default: false]")
+                            .define("force_christmas_hats", false);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_HALLOWEEN);
-                    DISABLE_BOO_MASKS = BUILDER.translation("configuration.marioverse.disable_boo_masks")
-                            .comment("Ban Boos from wearing masks on Halloween.")
+                    DISABLE_MOB_MASKS = BUILDER.translation("configuration.marioverse.disable_mob_masks")
+                            .comment("Ban Boos, Dry Bones, Goombas, Koopas, & Pokeys from wearing masks on Halloween.")
                             .comment("§9[Default: false]")
-                            .define("disable_boo_masks", false);
-                    FORCE_BOO_MASKS = BUILDER.translation("configuration.marioverse.force_boo_masks")
-                            .comment("Force Boos to spawn wearing masks at any time.")
+                            .define("disable_mob_masks", false);
+                    FORCE_MOB_MASKS = BUILDER.translation("configuration.marioverse.force_mob_masks")
+                            .comment("Force Boos, Dry Bones, Goombas, Koopas, & Pokeys to spawn wearing masks at any time.")
                             .comment("§9[Default: false]")
-                            .define("force_boo_masks", false);
-                    DISABLE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.disable_dry_bones_masks")
-                            .comment("Ban Dry Bones from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_boo_masks", false);
-                    FORCE_DRY_BONES_MASKS = BUILDER.translation("configuration.marioverse.force_dry_bones_masks")
-                            .comment("Force Dry Bones to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_boo_masks", false);
-                    DISABLE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.disable_goomba_masks")
-                            .comment("Ban Goombas from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_goomba_masks", false);
-                    FORCE_GOOMBA_MASKS = BUILDER.translation("configuration.marioverse.force_goomba_masks")
-                            .comment("Force Goombas to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_goomba_masks", false);
-                    DISABLE_KOOPA_MASKS = BUILDER.translation("configuration.marioverse.disable_koopa_masks")
-                            .comment("Ban Koopa Troopas from wearing masks on Halloween.")
-                            .comment("§9[Default: false]")
-                            .define("disable_koopa_masks", false);
-                    FORCE_KOOPA_MASKS = BUILDER.translation("configuration.marioverse.force_koopa_masks")
-                            .comment("Force Koopa Troopas to spawn wearing masks at any time.")
-                            .comment("§9[Default: false]")
-                            .define("force_koopa_masks", false);
+                            .define("force_mob_masks", false);
                 BUILDER.pop();
 
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_ITEMS);
+
+                BUILDER.push(CATEGORY_LARGE_SNOWBALL);
+                    LARGE_SNOWBALL_DAMAGE = BUILDER.translation("configuration.marioverse.large_snowball_damage")
+                            .comment("Amount of damage large snowballs cause.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("large_snowball_damage", 2.0, 0.0, 16.0);
+                    LARGE_SNOWBALL_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.large_snowball_freeze_duration")
+                            .comment("Duration mobs experience the freeze effect in ticks.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("large_snowball_freeze_duration", 180, 0, 72000);
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DISRUPTOR);
                     DISABLE_PLAYER_WARP_DISRUPTING = BUILDER.translation("configuration.marioverse.disable_player_warp_disrupting")
@@ -748,6 +754,38 @@ public class ConfigRegistry
                             .defineInRange("piranha_plant_hide_duration", 200, 80, 72000);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_POKEY);
+                    MAX_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_pokey_height")
+                            .comment("Max height Pokeys can be.§b")
+                            .defineInRange("max_pokey_height", 10, 1, 16);
+                    POKEY_BLOOM_DURATION = BUILDER.translation("configuration.marioverse.pokey_bloom_duration")
+                            .comment("The time Pokeys will spend in bloom in ticks.")
+                            .comment("§cIf Duration > Frequency, it will never bloom.")
+                            .comment("§6Set to 0 to never bloom.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("pokey_bloom_duration", 200, 0, 6000);
+                    POKEY_BLOOM_FREQUENCY = BUILDER.translation("configuration.marioverse.pokey_bloom_frequency")
+                            .comment("The time Pokeys will spend in bloom in ticks.")
+                            .comment("§cIf Frequency < Duration, it will never bloom.")
+                            .comment("§6Set to 0 to always bloom.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("pokey_bloom_frequency", 1000, 0, 12000);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_SNOW_POKEY);
+                    MAX_SNOW_POKEY_HEIGHT = BUILDER.translation("configuration.marioverse.max_snow_pokey_height")
+                            .comment("Max height Snow Pokeys can be.§b")
+                            .defineInRange("max_snow_pokey_height", 10, 1, 16);
+                    SNOW_POKEY_DROPS_SNOWBALL = BUILDER.translation("configuration.marioverse.snow_pokey_drops_snowball")
+                            .comment("Allow Snow Pokeys to drop a large snowball on death.")
+                            .comment("§9[Default: true]")
+                            .define("snow_pokey_drops_snowball", true);
+                    SNOW_POKEY_TRAIL = BUILDER.translation("configuration.marioverse.snow_pokey_trail")
+                            .comment("Allow Snow Pokeys to leave a snow trail.")
+                            .comment("§9[Default: true]")
+                            .define("snow_pokey_trail", true);
+                BUILDER.pop();
+
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_POWER_UPS);
@@ -821,8 +859,7 @@ public class ConfigRegistry
                             .defineInRange("ice_cube_damage", 5.0, 0.0, 32.0);
                     ICE_CUBE_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.ice_cube_freeze_duration")
                             .comment("Duration mobs experience the freeze effect in ticks.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 180]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("ice_cube_freeze_duration", 180, 0, 72000);
                 BUILDER.pop();
 

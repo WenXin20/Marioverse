@@ -33,6 +33,11 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> PLAYER_ICE_CUBE_CRUSHED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_ice_cube_crushed"));
 
+    public static final ResourceKey<DamageType> LARGE_SNOWBALL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "large_snowball"));
+    public static final ResourceKey<DamageType> PLAYER_LARGE_SNOWBALL =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_large_snowball"));
+
     public static final ResourceKey<DamageType> LIGHT =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "light"));
 
@@ -46,10 +51,16 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> PLAYER_PIRANHA_CHOMP =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_piranha_chomp"));
 
+    public static final ResourceKey<DamageType> POKEY_THORNS =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "pokey_thorns"));
+
     public static final ResourceKey<DamageType> SHRAPNEL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "shrapnel"));
     public static final ResourceKey<DamageType> PLAYER_SHRAPNEL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_shrapnel"));
+
+    public static final ResourceKey<DamageType> SNOW_POKEY_THORNS =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "snow_pokey_thorns"));
 
     public static final ResourceKey<DamageType> SPIKED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spiked"));
@@ -107,10 +118,16 @@ public class DamageTypeRegistry extends DamageSources {
         context.register(PLAYER_PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp.player",
                 DamageScaling.ALWAYS, 0.5f, DamageEffects.THORNS));
 
+        context.register(POKEY_THORNS, new DamageType(Marioverse.MOD_ID + ".pokey_thorns",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
+
         context.register(SHRAPNEL, new DamageType(Marioverse.MOD_ID + ".shrapnel",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.THORNS));
         context.register(PLAYER_SHRAPNEL, new DamageType(Marioverse.MOD_ID + ".shrapnel.player",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.THORNS));
+
+        context.register(SNOW_POKEY_THORNS, new DamageType(Marioverse.MOD_ID + ".snow_pokey_thorns",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
 
         context.register(SPIKED, new DamageType(Marioverse.MOD_ID + ".spiked",
                 DamageScaling.ALWAYS, 0.1f, DamageEffects.THORNS));

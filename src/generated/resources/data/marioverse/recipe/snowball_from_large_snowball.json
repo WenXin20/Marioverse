@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "marioverse:snowballs",
+  "ingredients": [
+    {
+      "item": "marioverse:large_snowball"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "minecraft:snowball"
+  }
+}

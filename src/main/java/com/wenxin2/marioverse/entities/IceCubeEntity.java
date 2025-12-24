@@ -64,7 +64,6 @@ import net.minecraft.world.level.block.CandleCakeBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
@@ -294,7 +293,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
             Vec3 movement = slideDirection.scale(slideSpeed);
 
-            if (!isNoAi() && this.displayEntity instanceof Mob || !(this.displayEntity instanceof Mob)) {
+            if (!isNoAi() || !(this.displayEntity instanceof Mob)) {
                 this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
                 this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
                 this.hasImpulse = true;
@@ -699,13 +698,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     private void collideWithFire(Level world) {
         AABB box = this.getBoundingBox().inflate(0.05);
 
-        for (BlockPos hitPos : BlockPos
-                .betweenClosed(Mth.floor(box.minX),
-                        Mth.floor(box.minY),
-                        Mth.floor(box.minZ),
-                        Mth.floor(box.maxX),
-                        Mth.floor(box.maxY),
-                        Mth.floor(box.maxZ))) {
+        for (BlockPos hitPos : BlockPos.betweenClosed(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
+                Mth.floor(box.maxX), Mth.floor(box.maxY), Mth.floor(box.maxZ))) {
             BlockState state = world.getBlockState(hitPos);
 
             if (state.is(TagRegistry.ICE_CUBE_EXTINGUISHES) || state.getFluidState().is(FluidTags.LAVA)) {

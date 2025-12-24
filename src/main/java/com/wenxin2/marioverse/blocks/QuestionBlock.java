@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
+import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -312,6 +314,17 @@ public class QuestionBlock extends BaseEntityBlock {
                                     BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
                                     MobSpawnType.SPAWN_EGG, true, false);
                     }
+                    stack.copyWithCount(1);
+                } else this.spawnItem(world, pos, stack, dropItemsAtPos);
+            } else if (stack.getItem() instanceof LargeSnowballItem) {
+                LargeSnowballProjectile snowball = new LargeSnowballProjectile(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+
+                if (!snowball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
+                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
+                        snowball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    else snowball.setPos(pos.getX() + 0.5D, pos.getY() - snowball.getBbHeight(), pos.getZ() + 0.5D);
+                    world.addFreshEntity(snowball);
                     stack.copyWithCount(1);
                 } else this.spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof ArmorStandItem) {

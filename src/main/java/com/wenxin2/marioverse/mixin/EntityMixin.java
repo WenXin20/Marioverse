@@ -249,7 +249,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     }
 
     @Inject(method = "isInWall", at = @At("HEAD"), cancellable = true)
-    public void modifyIsInWall(CallbackInfoReturnable<Boolean> cir) {
+    public void isInWall(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
         if (entity.noPhysics) {
             cir.setReturnValue(false);

@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-02T22:19:05.7800641	Tags for minecraft:worldgen/biome mod id marioverse
+// 1.21.1	2025-12-12T20:53:57.4944152	Tags for minecraft:worldgen/biome mod id marioverse
 7acd972b7a034b9ad9e174b14c2d0693c3d4481d data/marioverse/tags/worldgen/biome/has_boo.json
 7acd972b7a034b9ad9e174b14c2d0693c3d4481d data/marioverse/tags/worldgen/biome/has_dry_bones.json
 a24545b58f3f91c6c033586e2b2ae12f1e8131b1 data/marioverse/tags/worldgen/biome/has_fire_goomba.json
@@ -7,6 +7,9 @@ ffeac0eb2f16f41a9287b9ec7716ce8d288ab6de data/marioverse/tags/worldgen/biome/has
 868e8d8091dbe0b4265aeed4297eb599de3e03eb data/marioverse/tags/worldgen/biome/has_koopa_troopa_rare.json
 ebf8fcf19de8793fb2f5aab5b14d1b39b9746809 data/marioverse/tags/worldgen/biome/has_pipe_towers.json
 5c43e677ff5da6aec01ddd40a426512e3b3d09d2 data/marioverse/tags/worldgen/biome/has_piranha_plant.json
+98c40a2126e570e3f8487652d336ef244659db8a data/marioverse/tags/worldgen/biome/has_pokey.json
+c782b9e9919e6c5261aafe5b694fd163a8c2c1d9 data/marioverse/tags/worldgen/biome/has_pokey_rare.json
+a48029d72d285a436bb103f8d8bf49ac23feb122 data/marioverse/tags/worldgen/biome/has_snow_pokey.json
 a2ef6080d33c29a10db059a25ae7597166de66e0 data/marioverse/tags/worldgen/biome/has_splunkin.json
 3a53f3923b276caad9ab6a93a0242761f2aa1ce5 data/marioverse/tags/worldgen/biome/has_structure/has_brick_lanes.json
 f5975c55240e9fe09edb81c0e15335e7b385cf1e data/marioverse/tags/worldgen/biome/has_structure/has_classic_underground.json

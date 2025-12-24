@@ -49,7 +49,7 @@ dependencies {
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
 
     implementation "curse.maven:aether-255308:6389857"
-    implementation "curse.maven:amendments-896746:6919475" // Requires Moonlight
+    implementation "curse.maven:amendments-896746:7352178" // Requires Moonlight
     implementation "curse.maven:copycats-968398:6650033" // Requires Create
     implementation "curse.maven:create-328085:6641610"
     implementation "curse.maven:deep-aether-852465:6839619"
@@ -57,11 +57,10 @@ dependencies {
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:jade-324717:6853386"
-    implementation "curse.maven:polytone-958094:6520025" // Requires Moonlight
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:5699076"
-    implementation "curse.maven:vista-1368607:7141238" // Requires Moonlight
+    implementation "curse.maven:vista-1368607:7168947" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:6778051"
     implementation "curse.maven:xaeros-world-map-317780:6778114"

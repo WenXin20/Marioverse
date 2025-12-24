@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -147,6 +149,8 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null
                 && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_COINS))
             StarCoinBlock.collectCoin(this, world, state, pos, koopaShell.getOwner(), coinItem);
+        else if (entity instanceof Projectile projectile && projectile.getOwner() != null)
+            StarCoinBlock.collectCoin(this, world, state, pos, projectile.getOwner(), coinItem);
         else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS) && ConfigRegistry.STAR_COINS_COLLECTED_ON_COLLISION.get()) {
             if (entity instanceof Player player && player.isCreative() && !ConfigRegistry.STAR_COINS_COLLECTED_IN_CREATIVE.get())
                 return;

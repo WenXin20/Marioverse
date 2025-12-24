@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:christmas_hats",
+  "key": {
+    "R": {
+      "item": "minecraft:red_wool"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "  W",
+    "RR ",
+    "WW "
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:christmas_hat"
+  }
+}

@@ -10,7 +10,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.adventure.marioverse.travel_in_clear_pipe.description"
+      "translate": "advancements.marioverse.travel_in_clear_pipe.description"
     },
     "frame": "challenge",
     "icon": {
@@ -18,7 +18,7 @@
       "id": "marioverse:clear_warp_pipe"
     },
     "title": {
-      "translate": "advancements.adventure.marioverse.travel_in_clear_pipe.title"
+      "translate": "advancements.marioverse.travel_in_clear_pipe.title"
     }
   },
   "requirements": [

@@ -3,6 +3,10 @@
     "marioverse:boo",
     "marioverse:ice_cube",
     "marioverse:ice_flower",
-    "minecraft:ender_dragon"
+    "marioverse:snow_pokey",
+    "marioverse:snow_pokey_body",
+    "minecraft:blaze",
+    "minecraft:ender_dragon",
+    "minecraft:magma_cube"
   ]
 }

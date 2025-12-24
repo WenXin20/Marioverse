@@ -16,8 +16,12 @@ import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.MegaGoombaEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.PokeyBodyEntity;
+import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.RedKoopaShellEntity;
 import com.wenxin2.marioverse.entities.RedKoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
+import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
@@ -26,6 +30,7 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
+import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,6 +54,8 @@ public class EntityRegistry {
             register("bouncing_fireball", BouncingFireballProjectile::new, MobCategory.MISC, 0.3f, 0.3f);
     public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL =
             register("bouncing_ice_ball", BouncingIceBallProjectile::new, MobCategory.MISC, 0.5f, 0.5f);
+    public static final DeferredHolder<EntityType<?>, EntityType<LargeSnowballProjectile>> LARGE_SNOWBALL =
+            register("large_snowball", LargeSnowballProjectile::new, MobCategory.MISC, 0.75F, 0.75F);
     public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE =
             Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new, MobCategory.MISC)
                     .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
@@ -123,13 +130,25 @@ public class EntityRegistry {
                     .nameTagOffset(-0.05F).build("mini_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
             Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 2.3125F).eyeHeight(2.0F).ridingOffset(0.1F).build("piranha_plant"));
+                    .sized(1.0F, 2.3125F).eyeHeight(0.8F).ridingOffset(0.1F).build("piranha_plant"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY =
+            Marioverse.ENTITIES.register("pokey", () -> EntityType.Builder.of(PokeyEntity::new, MobCategory.MONSTER)
+                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PokeyBodyEntity>> POKEY_BODY =
+            Marioverse.ENTITIES.register("pokey_body", () -> EntityType.Builder.of(PokeyBodyEntity::new, MobCategory.MONSTER)
+                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey_body"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
             Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.AMBIENT)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA =
             Marioverse.ENTITIES.register("red_koopa_troopa", () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
                     .sized(0.8F, 1.65F).eyeHeight(1.4F).build("red_koopa_troopa"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyEntity>> SNOW_POKEY =
+            Marioverse.ENTITIES.register("snow_pokey", () -> EntityType.Builder.of(SnowPokeyEntity::new, MobCategory.MONSTER)
+                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyBodyEntity>> SNOW_POKEY_BODY =
+            Marioverse.ENTITIES.register("snow_pokey_body", () -> EntityType.Builder.of(SnowPokeyBodyEntity::new, MobCategory.MONSTER)
+                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey_body"));
     public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
@@ -152,12 +171,20 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GoombaEntity::checkGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.PIRANHA_PLANT.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, PiranhaPlantEntity::checkPiranhaPlantSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.POKEY.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PokeyEntity::checkPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.POKEY_BODY.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PokeyEntity::checkPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GREEN_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.RED_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GOLD_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.SNOW_POKEY.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SnowPokeyEntity::checkSnowPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.SNOW_POKEY_BODY.get(), SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SnowPokeyEntity::checkSnowPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.SPLUNKIN.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SplunkinEntity::checkSplunkinSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
@@ -218,6 +245,13 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 20.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.0F);
+        AttributeSupplier.Builder pokeyAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.0F)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
+                .add(Attributes.ATTACK_SPEED, 1.0F)
+                .add(Attributes.MAX_HEALTH, 8)
+                .add(Attributes.MOVEMENT_SPEED, 0.1F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
         AttributeSupplier.Builder powerUpAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
@@ -251,6 +285,10 @@ public class EntityRegistry {
         event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
 
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
+        event.put(EntityRegistry.POKEY.get(), pokeyAttributes.build());
+        event.put(EntityRegistry.POKEY_BODY.get(), pokeyAttributes.build());
+        event.put(EntityRegistry.SNOW_POKEY.get(), pokeyAttributes.build());
+        event.put(EntityRegistry.SNOW_POKEY_BODY.get(), pokeyAttributes.build());
 
         event.put(EntityRegistry.ICE_CUBE.get(), PathfinderMob.createMobAttributes()
                 .add(Attributes.FOLLOW_RANGE, 0.0F)
@@ -313,9 +351,10 @@ public class EntityRegistry {
     }
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity,
-                                                                                            MobCategory category, float width, float height) {
+            MobCategory category, float width, float height) {
         return Marioverse.ENTITIES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(name));
     }
 
-    public static void init() {}
+    public static void init() {
+    }
 }
