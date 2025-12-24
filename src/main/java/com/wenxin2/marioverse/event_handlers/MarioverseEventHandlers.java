@@ -227,6 +227,7 @@ public class MarioverseEventHandlers {
         if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())
                 && player instanceof AbilitiesHandler handler) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
+            SoundSource soundSource = event.getEntity() instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
             if (world instanceof ServerLevel serverWorld) {
                 if (handler.mv$hasFireFlower() || handler.mv$hasIceFlower())
@@ -236,13 +237,13 @@ public class MarioverseEventHandlers {
             if (handler.mv$hasFireFlower()) {
                 handler.mv$setFireFlower(false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                        soundSource, 1.0F, 1.0F);
             }
 
             if (handler.mv$hasIceFlower()) {
                 handler.mv$setIceFlower(false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.PLAYERS, 1.0F, 1.0F);
+                        soundSource, 1.0F, 1.0F);
             }
 
             if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
@@ -250,8 +251,12 @@ public class MarioverseEventHandlers {
                     event.setCanceled(true);
             }
 
-            if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+            if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()) {
                 handler.mv$setSuperMushroom(false);
+                if (handler.mv$hasSuperMushroom())
+                    world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                            soundSource, 1.0F, 1.0F);
+            }
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
