@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.BridgeStairBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.DangoBlossomBlock;
 import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
@@ -130,6 +131,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> DANGO_BLOSSOM;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
@@ -404,6 +406,9 @@ public class BlockRegistry {
         SPLUNKIN_O_LANTERN = registerBlock("splunkin_o_lantern",
                 () -> new SplunkinCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JACK_O_LANTERN)
                         .lightLevel(state -> state.getValue(SplunkinCarvedPumpkinBlock.CRACKED) ? 15 : 10)));
+
+        DANGO_BLOSSOM = registerBlock("dango_blossom",
+                () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",

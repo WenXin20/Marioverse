@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-15T22:39:19.0665811	Loot Tables
+// 1.21.1	2025-12-24T23:31:21.926084	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -109,6 +109,7 @@ fea441c9af543a58cb7cb1114448a6e7ad926f11 data/marioverse/loot_table/blocks/cyan_
 c790f7222ef90174d0c92aa3ed53d11899b32c22 data/marioverse/loot_table/blocks/cyan_checkpoint_flag.json
 2b467ec5f88690624b563af0494718704e426c83 data/marioverse/loot_table/blocks/cyan_goal_pole.json
 cf7ad7ca64e6da9b03bbf269c9783efa32b38e1f data/marioverse/loot_table/blocks/cyan_warp_pipe.json
+9925a3aec73261c4decbb98f771717ed76eeb650 data/marioverse/loot_table/blocks/dango_blossom.json
 9ca49467cd851a1b500835f4ad0e05c880b836a1 data/marioverse/loot_table/blocks/dark_oak_log_bridge.json
 b33867af1e54d4c8a8ff4c44e92eeee7146d470a data/marioverse/loot_table/blocks/dark_oak_log_bridge_stairs.json
 290651d3453e63c0676c3c83aca2f20bfe8d18d4 data/marioverse/loot_table/blocks/dark_prismarine_pedestal.json

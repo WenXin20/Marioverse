@@ -57,6 +57,7 @@ public class BlockStateGen extends BlockStateProvider {
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
+        String dangoBlossomName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DANGO_BLOSSOM.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
@@ -71,6 +72,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
+        this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
+                modLoc("block/" + dangoBlossomName + "_leaves"));
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
@@ -694,6 +697,19 @@ public class BlockStateGen extends BlockStateProvider {
                 }
             }
         }));
+    }
+
+    private void blossomModel(Block block, ResourceLocation blossomTexture, ResourceLocation leavesTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_blossom"))
+                .texture("blossom", blossomTexture).texture("leaves", leavesTexture);
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().addModels(new ConfiguredModel(model));
+
+        this.simpleBlockItem(block, model);
     }
 
     private void bambooBridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation sideBridgeTexture,

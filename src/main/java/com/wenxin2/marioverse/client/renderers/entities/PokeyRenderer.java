@@ -114,6 +114,14 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
                 spike.setHidden(true);
         });
 
+        if (animatable instanceof PokeyEntity) {
+            this.model.getBone("flower").ifPresent(flower -> {
+                if (!animatable.getData(DataAttachmentRegistry.HAS_FLOWER))
+                    flower.setHidden(true);
+                else flower.setHidden(false);
+            });
+        }
+
         if (animatable instanceof SnowPokeyEntity) {
             this.model.getBone("nose").ifPresent(nose -> {
                 if (!animatable.getData(DataAttachmentRegistry.HAS_CARROT))

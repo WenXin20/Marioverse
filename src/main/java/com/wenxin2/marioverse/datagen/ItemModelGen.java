@@ -30,6 +30,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.genStorageBrickVariants();
 
         this.basicItem(BlockRegistry.COIN.asItem());
+        this.basicItem(BlockRegistry.DANGO_BLOSSOM.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());

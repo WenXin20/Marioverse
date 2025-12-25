@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_blossom",
+  "textures": {
+    "blossom": "marioverse:block/dango_blossom",
+    "leaves": "marioverse:block/dango_blossom_leaves"
+  }
+}

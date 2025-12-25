@@ -531,6 +531,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS);
 
+        tag(BlockTags.FLOWERS)
+                .add(BlockRegistry.DANGO_BLOSSOM.get());
+
         tag(BlockTags.GUARDED_BY_PIGLINS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)

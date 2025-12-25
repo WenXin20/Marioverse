@@ -139,6 +139,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         }
     }
 
+    @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         Level world = this.level();
@@ -269,7 +270,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     @NotNull
     @Override
     public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
-        List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, world, pos);
+        List<ItemStack> defaultDrops = super.onSheared(player, stack, world, pos);
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
         LivingEntity headEntity = this.getHeadSegment();
 
@@ -307,7 +308,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Override
     public boolean isShearable(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
-        return IShearable.super.isShearable(player, stack, world, pos) && this.isAlive()
+        return super.isShearable(player, stack, world, pos) && this.isAlive()
                 && (this.getData(DataAttachmentRegistry.HAS_CARROT)|| this.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT));
     }
 }

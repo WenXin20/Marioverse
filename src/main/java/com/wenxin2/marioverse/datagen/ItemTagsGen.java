@@ -64,6 +64,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
 
+        copy(BlockTags.FLOWERS, ItemTags.FLOWERS);
         copy(BlockTags.SLABS, ItemTags.SLABS);
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);

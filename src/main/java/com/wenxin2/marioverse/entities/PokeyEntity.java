@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -21,6 +23,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -29,6 +34,8 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -55,9 +62,12 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -69,7 +79,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
+public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShearable {
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlayAndHold("misc.emerge");
     public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("misc.hide");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
@@ -182,6 +192,9 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
         this.pokeEntity();
         this.triggerBloom();
 
+        if (!this.hasData(DataAttachmentRegistry.HAS_FLOWER.get()))
+            this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
+
         if (!this.hasData(DataAttachmentRegistry.IS_BLOOMING))
             this.setData(DataAttachmentRegistry.IS_BLOOMING, false);
 
@@ -195,6 +208,24 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             this.setYHeadRot(bottom.getYHeadRot());
             this.yHeadRotO = bottom.yHeadRotO;
         }
+    }
+
+    @NotNull
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        Level world = this.level();
+        ItemStack stack = player.getItemInHand(hand);
+
+        if (stack.is(Tags.Items.TOOLS_SHEAR) && this.isShearable(player, stack, world, this.blockPosition())) {
+            this.gameEvent(GameEvent.SHEAR, player);
+            this.onSheared(player, stack, world, this.blockPosition());
+
+            if (!world.isClientSide)
+                stack.hurtAndBreak(1, player, getSlotForHand(hand));
+
+            return InteractionResult.sidedSuccess(world.isClientSide);
+        }
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -397,6 +428,44 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
                 && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
     }
 
+    @NotNull
+    @Override
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
+        List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, world, pos);
+        List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
+        LivingEntity headEntity = this.getHeadSegment();
+
+        if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_FLOWER.get())) {
+            world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+            this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
+            this.spawnShearedDrop(world, pos, new ItemStack(BlockRegistry.DANGO_BLOSSOM));
+            finalDrops.add(new ItemStack(BlockRegistry.DANGO_BLOSSOM));
+        }
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, this.blockPosition(), stack);
+            player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+        }
+
+        if (headEntity != this && headEntity instanceof NeutralMob neutralMob) {
+            neutralMob.setPersistentAngerTarget(player.getUUID());
+            neutralMob.startPersistentAngerTimer();
+            neutralMob.setTarget(player);
+        }
+
+        this.setPersistentAngerTarget(player.getUUID());
+        this.startPersistentAngerTimer();
+        this.setTarget(player);
+
+        return finalDrops;
+    }
+
+    @Override
+    public boolean isShearable(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
+        return IShearable.super.isShearable(player, stack, world, pos)
+                && this.isAlive() && this.getData(DataAttachmentRegistry.HAS_FLOWER);
+    }
+
     public void triggerBloom() {
         boolean shouldBloom = ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() == 0
                 || (this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get()
@@ -414,9 +483,13 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob {
             if (shouldBloom) {
                 this.triggerAnim("bloom_controller", "bloom");
                 this.stopTriggeredAnim("hide_controller", "hide");
+                if (!this.getData(DataAttachmentRegistry.HAS_FLOWER))
+                    this.setData(DataAttachmentRegistry.HAS_FLOWER, true);
             } else {
                 this.triggerAnim("hide_controller", "hide");
                 this.stopTriggeredAnim("bloom_controller", "bloom");
+                if (this.getData(DataAttachmentRegistry.HAS_FLOWER))
+                    this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
             }
             hasBloomed = true;
         }
