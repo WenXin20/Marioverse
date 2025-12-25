@@ -216,7 +216,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
                                         @Nullable SpawnGroupData groupData) {
         float roll = this.getRandom().nextFloat();
 
-        if (roll < 0.05F) {
+        if (roll < 0.10F) {
             this.setData(DataAttachmentRegistry.HAS_GOLDEN_CARROT, true);
             this.setData(DataAttachmentRegistry.HAS_CARROT, false);
         } else if (roll < 0.8F) {
@@ -232,7 +232,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
 
-            boolean isChristmas = ((month == 12 && day >= 25) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
+            boolean isChristmas = ((month == 12 && day >= 24) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
             boolean forceHats = ConfigRegistry.FORCE_CHRISTMAS_HATS.get();
 
             if (isChristmas || forceHats) {

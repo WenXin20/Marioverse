@@ -470,7 +470,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
 
-            boolean isChristmas = ((month == 12 && day >= 25) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
+            boolean isChristmas = ((month == 12 && day >= 24) || (month == 1 && day <= 6)) && !ConfigRegistry.DISABLE_CHRISTMAS_HATS.get();
             boolean forceHats = ConfigRegistry.FORCE_CHRISTMAS_HATS.get();
 
             if (isChristmas || forceHats) {
