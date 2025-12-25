@@ -1,0 +1,44 @@
+{
+  "parent": "marioverse:got_your_nose",
+  "criteria": {
+    "doubloon_nose": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "marioverse:snow_pokey"
+            }
+          }
+        ],
+        "item": {
+          "items": "minecraft:golden_carrot"
+        }
+      },
+      "trigger": "minecraft:player_interacted_with_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.doubloon_nose.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:golden_carrot"
+    },
+    "title": {
+      "translate": "advancements.marioverse.doubloon_nose.title"
+    }
+  },
+  "requirements": [
+    [
+      "doubloon_nose"
+    ]
+  ],
+  "rewards": {
+    "experience": 120
+  },
+  "sends_telemetry_event": true
+}

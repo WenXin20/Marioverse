@@ -216,7 +216,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
                                         @Nullable SpawnGroupData groupData) {
         float roll = this.getRandom().nextFloat();
 
-        if (roll < 0.01F) {
+        if (roll < 0.05F) {
             this.setData(DataAttachmentRegistry.HAS_GOLDEN_CARROT, true);
             this.setData(DataAttachmentRegistry.HAS_CARROT, false);
         } else if (roll < 0.8F) {

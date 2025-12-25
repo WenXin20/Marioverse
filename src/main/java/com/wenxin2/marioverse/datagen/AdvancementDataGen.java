@@ -61,6 +61,17 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(100))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "got_your_nose"), existingFileHelper);
 
+            AdvancementHolder DOUBLOON_NOSE = Advancement.Builder.advancement().parent(GOT_YOUR_NOSE)
+                    .display(new ItemStack(Items.GOLDEN_CARROT),
+                            Component.translatable("advancements.marioverse.doubloon_nose.title"),
+                            Component.translatable("advancements.marioverse.doubloon_nose.description"),
+                            null, AdvancementType.GOAL, true, true, false)
+                    .addCriterion("doubloon_nose", PlayerInteractTrigger.TriggerInstance
+                            .itemUsedOnEntity(ItemPredicate.Builder.item().of(Items.GOLDEN_CARROT),
+                                    Optional.of(EntityPredicate.wrap(EntityPredicate.Builder.entity().of(EntityRegistry.SNOW_POKEY.get())))))
+                    .rewards(AdvancementRewards.Builder.experience(120))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "doubloon_nose"), existingFileHelper);
+
             AdvancementHolder CONFIGURE_PIPES = Advancement.Builder.advancement().parent(WRENCH)
                     .display(new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.GREEN)),
                             Component.translatable("advancements.marioverse.configure_pipes.title"),

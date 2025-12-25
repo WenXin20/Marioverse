@@ -120,6 +120,7 @@ public class PokeyRenderer extends GeoEntityRenderer<PokeyEntity> {
                     nose.setHidden(true);
                 else nose.setHidden(false);
             });
+
             this.model.getBone("golden_nose").ifPresent(nose -> {
                 if (!animatable.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT))
                     nose.setHidden(true);
