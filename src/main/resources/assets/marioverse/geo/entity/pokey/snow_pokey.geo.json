@@ -37,6 +37,14 @@
 					]
 				},
 				{
+					"name": "golden_nose",
+					"parent": "head",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-1, 4, -12], "size": [2, 2, 6], "uv": [48, 9], "mirror": true}
+					]
+				},
+				{
 					"name": "bipedHead",
 					"parent": "head",
 					"pivot": [0, 0, 0]
