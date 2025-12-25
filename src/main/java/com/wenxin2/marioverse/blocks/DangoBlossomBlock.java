@@ -33,7 +33,7 @@ public class DangoBlossomBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     protected static final VoxelShape SHAPE =
-            Shapes.or(Block.box(1, 1, 1, 15, 15, 15)).optimize();
+            Shapes.or(Block.box(1, 0, 1, 15, 6, 15)).optimize();
 
     @Override
     public MapCodec<DangoBlossomBlock> codec() {
