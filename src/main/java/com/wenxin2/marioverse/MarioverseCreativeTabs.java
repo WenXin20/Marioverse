@@ -137,6 +137,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.COIN);
             add(event, BlockRegistry.IRON_SPIKE);
             add(event, BlockRegistry.SPIKE_PANEL);
+            add(event, BlockRegistry.DANGO_BLOSSOM);
             add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
             addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
@@ -464,6 +465,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
 
                 addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
+                addAfter(event, Items.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
 
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
 
