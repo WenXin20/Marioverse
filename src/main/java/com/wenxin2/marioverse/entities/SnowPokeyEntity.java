@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -186,7 +187,9 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         if (this.deathTime >= 20 && !this.level().isClientSide() && !this.isRemoved()) {
             this.remove(Entity.RemovalReason.KILLED);
 
-            if (ConfigRegistry.SNOW_POKEY_DROPS_SNOWBALL.get()) {
+            if (this.getLastDamageSource() != null
+                    && !this.getLastDamageSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                    && ConfigRegistry.SNOW_POKEY_DROPS_SNOWBALL.get()) {
                 LargeSnowballProjectile snowball = new LargeSnowballProjectile(this.level(), this);
                 snowball.setYRot(this.getYRot());
                 this.level().addFreshEntity(snowball);
