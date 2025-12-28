@@ -67,7 +67,9 @@ public class DangoBlossomBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader worldReader, BlockPos pos) {
-        return Block.canSupportCenter(worldReader, pos.below(), Direction.UP);
+        return Block.canSupportCenter(worldReader, pos.below(), Direction.UP)
+                || worldReader.getBiome(pos.below()) instanceof CactusBlock
+                || worldReader.getBiome(pos.below()) instanceof LeavesBlock;
     }
 
     @Override
