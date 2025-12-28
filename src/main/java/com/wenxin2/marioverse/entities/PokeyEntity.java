@@ -134,12 +134,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
     protected <E extends GeoAnimatable> PlayState walkController(final AnimationState<E> event) {
         LivingEntity bottomPokey = this.getBottomSegment();
-        RawAnimation animation = event.getController().getCurrentRawAnimation();
-
-        if (animation != null && animation == EMERGE && event.getController().hasAnimationFinished())
-            this.setData(DataAttachmentRegistry.HAS_FLOWER, true);
-        if (animation != null && animation == HIDE && event.getController().hasAnimationFinished())
-            this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
 
         if (bottomPokey == this) {
             if (this.getDeltaMovement().horizontalDistance() > 0.001) {
@@ -198,7 +192,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
         this.pokeEntity();
         this.triggerBloom();
 
-        if (!this.hasData(DataAttachmentRegistry.HAS_FLOWER.get()))
+        if (!this.hasData(DataAttachmentRegistry.HAS_FLOWER.get()) && !(this instanceof PokeyBodyEntity))
             this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
 
         if (!this.hasData(DataAttachmentRegistry.IS_BLOOMING))
@@ -434,7 +428,8 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
         LivingEntity headEntity = this.getHeadSegment();
 
-        if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_FLOWER.get())) {
+        if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_FLOWER.get())
+                && !(this instanceof PokeyBodyEntity)) {
             world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
             this.spawnShearedDrop(world, pos, new ItemStack(BlockRegistry.DANGO_BLOSSOM));
@@ -494,7 +489,8 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
         if (shouldBloom != currentBloom || !hasBloomed) {
             this.setData(DataAttachmentRegistry.IS_BLOOMING, shouldBloom);
-            this.setData(DataAttachmentRegistry.HAS_FLOWER, shouldBloom);
+            if (!(this instanceof PokeyBodyEntity))
+                this.setData(DataAttachmentRegistry.HAS_FLOWER, shouldBloom);
             hasBloomed = true;
         }
     }
