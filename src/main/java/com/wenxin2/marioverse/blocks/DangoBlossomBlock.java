@@ -106,6 +106,9 @@ public class DangoBlossomBlock extends Block implements SimpleWaterloggedBlock {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
+        world.addParticle(ParticleRegistry.GOLD_POLLEN.get(),
+                x + random.nextDouble(), y + 0.25, z + random.nextDouble(),
+                0.0, 0.0, 0.0);
 
         for (int amt = 0; amt < 14; amt++) {
             posMutable.set(x + Mth.nextInt(random, -10, 10), y + random.nextInt(10), z + Mth.nextInt(random, -10, 10));
