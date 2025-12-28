@@ -1,18 +1,25 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -100,5 +107,26 @@ public class DangoBlossomBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 100;
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+        BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        for (int amt = 0; amt < 14; amt++) {
+            posMutable.set(x + Mth.nextInt(random, -10, 10), y + random.nextInt(10), z + Mth.nextInt(random, -10, 10));
+            BlockState stateMutable = world.getBlockState(posMutable);
+
+            if (!stateMutable.isCollisionShapeFullBlock(world, posMutable)) {
+                world.addParticle(ParticleRegistry.GOLD_POLLEN.get(),
+                        (double) posMutable.getX() + random.nextDouble(),
+                        (double) posMutable.getY() + random.nextDouble(),
+                        (double) posMutable.getZ() + random.nextDouble(),
+                        0.0, 0.0, 0.0);
+            }
+        }
     }
 }
