@@ -272,7 +272,6 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
         List<ItemStack> defaultDrops = super.onSheared(player, stack, world, pos);
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
-        LivingEntity headEntity = this.getHeadSegment();
 
         if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_CARROT)) {
             world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -287,28 +286,12 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
             this.spawnShearedDrop(world, pos, new ItemStack(Items.GOLDEN_CARROT));
             finalDrops.add(new ItemStack(Items.GOLDEN_CARROT));
         }
-
-        if (player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, this.blockPosition(), stack);
-            player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-        }
-
-        if (headEntity != this && headEntity instanceof NeutralMob neutralMob) {
-            neutralMob.setPersistentAngerTarget(player.getUUID());
-            neutralMob.startPersistentAngerTimer();
-            neutralMob.setTarget(player);
-        }
-
-        this.setPersistentAngerTarget(player.getUUID());
-        this.startPersistentAngerTimer();
-        this.setTarget(player);
-
         return finalDrops;
     }
 
     @Override
     public boolean isShearable(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
-        return super.isShearable(player, stack, world, pos) && this.isAlive()
+        return this.isAlive()
                 && (this.getData(DataAttachmentRegistry.HAS_CARROT)|| this.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT));
     }
 }
