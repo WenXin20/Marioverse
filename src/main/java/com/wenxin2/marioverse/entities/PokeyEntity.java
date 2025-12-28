@@ -126,7 +126,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 5, this::walkController));
-        controllers.add(new AnimationController<>(this, "bloom_controller", 5, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "bloom_controller", 5,  state -> PlayState.STOP)
                 .triggerableAnim("bloom", EMERGE));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
@@ -134,6 +134,12 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
     protected <E extends GeoAnimatable> PlayState walkController(final AnimationState<E> event) {
         LivingEntity bottomPokey = this.getBottomSegment();
+        RawAnimation animation = event.getController().getCurrentRawAnimation();
+
+        if (animation != null && animation == EMERGE && event.getController().hasAnimationFinished())
+            this.setData(DataAttachmentRegistry.HAS_FLOWER, true);
+        if (animation != null && animation == HIDE && event.getController().hasAnimationFinished())
+            this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
 
         if (bottomPokey == this) {
             if (this.getDeltaMovement().horizontalDistance() > 0.001) {
@@ -467,33 +473,39 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
     }
 
     public void triggerBloom() {
-        boolean shouldBloom = ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() == 0
-                || (this.level().getGameTime() % ConfigRegistry.POKEY_BLOOM_FREQUENCY.get()
-                < ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                && ConfigRegistry.POKEY_BLOOM_FREQUENCY.get() > ConfigRegistry.POKEY_BLOOM_DURATION.get()
-                && ConfigRegistry.POKEY_BLOOM_DURATION.get() != 0
-                && !(this instanceof SnowPokeyEntity)
-                && !(this instanceof SnowPokeyBodyEntity));
+        if (this instanceof SnowPokeyEntity || this instanceof SnowPokeyBodyEntity)
+            return;
+
+        int frequency = ConfigRegistry.POKEY_BLOOM_FREQUENCY.get();
+        int duration  = ConfigRegistry.POKEY_BLOOM_DURATION.get();
+
+        boolean infinite = frequency == 0;
+        boolean isValid = duration != 0 && frequency > duration;
+
+        long time = this.level().getGameTime();
+        long phase = infinite ? 0 : time % frequency;
+
+        boolean shouldBloomAnim = infinite || (isValid && phase < duration);
+
+        boolean shouldBloom = infinite || (isValid && phase - 10 < duration + 10
+                        && frequency - 10 > duration + 10);
 
         boolean currentBloom = this.getData(DataAttachmentRegistry.IS_BLOOMING);
 
+        if (shouldBloomAnim != currentBloom || !hasBloomed) {
+            this.triggerAnim(shouldBloomAnim ? "bloom_controller" : "hide_controller",
+                    shouldBloomAnim ? "bloom" : "hide");
+            this.stopTriggeredAnim(shouldBloomAnim ? "hide_controller" : "bloom_controller",
+                    shouldBloomAnim ? "hide" : "bloom");
+        }
+
         if (shouldBloom != currentBloom || !hasBloomed) {
             this.setData(DataAttachmentRegistry.IS_BLOOMING, shouldBloom);
-
-            if (shouldBloom) {
-                this.triggerAnim("bloom_controller", "bloom");
-                this.stopTriggeredAnim("hide_controller", "hide");
-                if (!this.getData(DataAttachmentRegistry.HAS_FLOWER))
-                    this.setData(DataAttachmentRegistry.HAS_FLOWER, true);
-            } else {
-                this.triggerAnim("hide_controller", "hide");
-                this.stopTriggeredAnim("bloom_controller", "bloom");
-                if (this.getData(DataAttachmentRegistry.HAS_FLOWER))
-                    this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
-            }
+            this.setData(DataAttachmentRegistry.HAS_FLOWER, shouldBloom);
             hasBloomed = true;
         }
     }
+
 
     public void pokeEntity() {
         if (this.attackCooldown > 0 || !this.isAlive() || this.getData(DataAttachmentRegistry.IS_BLOOMING))
