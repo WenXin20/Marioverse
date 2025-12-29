@@ -60,7 +60,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(50))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_wrench"), existingFileHelper);
 
-            AdvancementHolder DANGO_IT = Advancement.Builder.advancement().parent(WRENCH)
+            AdvancementHolder DANGO_IT = Advancement.Builder.advancement().parent(ROOT)
                     .display(new ItemStack(BlockRegistry.DANGO_BLOSSOM),
                             Component.translatable("advancements.marioverse.dango_it.title"),
                             Component.translatable("advancements.marioverse.dango_it.description"),
@@ -141,7 +141,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(125))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dye_a_pipe"), existingFileHelper);
 
-            AdvancementHolder ALL_DYEABLE_WARP_PIPES = Advancement.Builder.advancement().parent(CONFIGURE_PIPES)
+            AdvancementHolder ALL_DYEABLE_WARP_PIPES = Advancement.Builder.advancement().parent(DYE_A_PIPE)
                     .display(new ItemStack(BlockRegistry.WARP_PIPES.get(DyeColor.RED)),
                             Component.translatable("advancements.marioverse.dyeable_warp_pipes.title"),
                             Component.translatable("advancements.marioverse.dyeable_warp_pipes.description"),
@@ -165,7 +165,7 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(150))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_all_dyeable_warp_pipes"), existingFileHelper);
 
-            AdvancementHolder TRAVEL_IN_CLEAR_PIPE = Advancement.Builder.advancement().parent(ALL_DYEABLE_WARP_PIPES)
+            AdvancementHolder TRAVEL_IN_CLEAR_PIPE = Advancement.Builder.advancement().parent(CONFIGURE_PIPES)
                     .display(new ItemStack(BlockRegistry.CLEAR_WARP_PIPE.get()),
                             Component.translatable("advancements.marioverse.travel_in_clear_pipe.title"),
                             Component.translatable("advancements.marioverse.travel_in_clear_pipe.description"),

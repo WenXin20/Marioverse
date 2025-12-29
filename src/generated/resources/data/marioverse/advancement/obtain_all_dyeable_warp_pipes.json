@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:configure_pipes",
+  "parent": "marioverse:dye_a_pipe",
   "criteria": {
     "marioverse:black_warp_pipe": {
       "conditions": {

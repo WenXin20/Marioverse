@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:obtain_all_dyeable_warp_pipes",
+  "parent": "marioverse:configure_pipes",
   "criteria": {
     "travel_in_clear_pipe": {
       "conditions": {
