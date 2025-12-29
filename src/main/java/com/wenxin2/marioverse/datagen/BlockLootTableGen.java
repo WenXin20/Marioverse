@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.List;
@@ -26,6 +27,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -68,12 +70,14 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
-                    else if (block instanceof PottedPiranhaPlantBlock)
-                        this.add(block, this.createPotFlowerItemTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof StarCoinBlock)
                         this.add(block, this.createStarCoinDrop(block));
                     else if (block instanceof WarpPipeBlock)
                         this.add(block, this.createNameableWarpPipeBEDrop(block));
+                    else if (block instanceof PottedPiranhaPlantBlock)
+                        this.add(block, this.createPotFlowerItemTable(ItemRegistry.PIRANHA_PLANT_POD));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.DANGO_BLOSSOM.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.DANGO_BLOSSOM.get()));
                     else this.dropSelf(block);
                 }
             });

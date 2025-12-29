@@ -1,7 +1,7 @@
 {
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/slab",
+	"parent": "minecraft:block/cross",
 	"render_type": "cutout_mipped",
 	"textures": {
 		"particle": "marioverse:block/dango_blossom",

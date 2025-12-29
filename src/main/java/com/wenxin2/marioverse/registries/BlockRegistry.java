@@ -40,6 +40,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -241,6 +242,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
+    public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
@@ -366,11 +368,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
 
     static {
-        POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
-                () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
-                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
-
-
         STAR_COIN = registerNoItemBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)
@@ -409,6 +406,14 @@ public class BlockRegistry {
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
+
+        POTTED_DANGO_BLOSSOM = registerNoItemBlock("potted_dango_blossom",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.DANGO_BLOSSOM,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
+                () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
@@ -1344,6 +1349,11 @@ public class BlockRegistry {
 
     public static <T extends Block> DeferredBlock<T> registerNoItemBlock(String name, Supplier<T> block) {
         return Marioverse.BLOCKS.register(name, block);
+    }
+
+    public static void registerFlowerPots() {
+        FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
+        pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
     }
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {

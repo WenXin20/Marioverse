@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_potted_blossom",
+  "textures": {
+    "blossom": "marioverse:block/potted_dango_blossom",
+    "dirt": "minecraft:block/dirt",
+    "flower_pot": "minecraft:block/flower_pot",
+    "leaves": "marioverse:block/potted_dango_blossom_leaves"
+  }
+}

@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-24T23:31:21.9816811	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-12-28T19:57:25.8919723	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 f1c13174eb66d8e3579ac0d3975e6780bca03d80 data/create/tags/block/movable_empty_collider.json
@@ -73,6 +73,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_ov
 2b735420cb1b262020d7d1554cac6f926a2966d5 data/minecraft/tags/block/enderman_holdable.json
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
+af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json

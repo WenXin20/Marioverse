@@ -85,6 +85,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
+        this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/" + "potted_" + dangoBlossomName),
+                modLoc("block/" + "potted_" + dangoBlossomName + "_leaves"));
         this.splunkinOLanternModel(BlockRegistry.SPLUNKIN_O_LANTERN.get(), modLoc("block/" + splunkinOLanternName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"),
                 modLoc("block/" + splunkinOLanternName + "_cracked"),
@@ -1053,6 +1055,19 @@ public class BlockStateGen extends BlockStateProvider {
     private void pipeBubblesModel(Block block) {
         ModelFile model = models().getExistingFile(ResourceLocation
                 .fromNamespaceAndPath("minecraft", "block/water"));
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().addModels(new ConfiguredModel(model));
+    }
+
+    private void pottedBlossomModel(Block block, ResourceLocation blossomTexture, ResourceLocation leavesTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_potted_blossom"))
+                .texture("blossom", blossomTexture).texture("leaves", leavesTexture)
+                .texture("flower_pot", mcLoc("block/flower_pot"))
+                .texture("dirt", mcLoc("block/dirt"));
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));

@@ -27,6 +27,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
@@ -131,6 +133,7 @@ public class Marioverse {
     public static GameRules.Key<GameRules.BooleanValue> STOMP_ALL_MOBS;
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(BlockRegistry::registerFlowerPots);
         event.enqueueWork(() -> {
             ALL_MOBS_CAN_STOMP = GameRules.register("marioverse:all_mobs_can_stomp",
                     GameRules.Category.MOBS, GameRules.BooleanValue.create(false));
@@ -140,6 +143,7 @@ public class Marioverse {
                     GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
             STOMP_ALL_MOBS = GameRules.register("marioverse:stomp_all_mobs",
                     GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
+
         });
     }
 
