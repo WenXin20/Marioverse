@@ -1,15 +1,16 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.mojang.serialization.MapCodec;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -25,53 +26,36 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
-import net.minecraft.world.level.block.PowderSnowBlock;
+import net.minecraft.world.level.block.ColoredFallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
-public class QuicksandBlock extends PowderSnowBlock implements BucketPickup {
-    public static final MapCodec<PowderSnowBlock> CODEC = simpleCodec(PowderSnowBlock::new);
+public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup {
     private static final VoxelShape FALLING_COLLISION_SHAPE =
             Shapes.box(0.0, 0.0, 0.0, 1.0, 0.9F, 1.0);
 
-    @Override
-    public MapCodec<PowderSnowBlock> codec() {
-        return CODEC;
-    }
-
-    public QuicksandBlock(Properties properties) {
-        super(properties);
+    public QuicksandBlock(Properties properties, ColorRGBA dustColor) {
+        super(dustColor, properties);
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (!(entity instanceof LivingEntity) || entity.getInBlockState().is(this)) {
-            entity.makeStuckInBlock(state, new Vec3(0.9F, 0.5, 0.9F));
-            if (level.isClientSide) {
-                RandomSource random = level.getRandom();
-                boolean isNotOld = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
-                if (isNotOld && random.nextBoolean()) {
-                    level.addParticle(new DustParticleOptions(
-                            new Vector3f(Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F,
-                                    0.05F,
-                                    Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F),
-                                    14406560), // TODO
-                            entity.getX(), pos.getY() + 1, entity.getZ(),
-                            Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F,
-                            0.05F,
-                            Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F);
-                }
-            }
-        }
-        entity.setIsInPowderSnow(true);
+    protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
+        return neighborState.is(this) ? true : super.skipRendering(state, neighborState, direction);
     }
 
+    @NotNull
+    @Override
+    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return Shapes.empty();
+    }
+
+    @NotNull
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext entityCollisionContext) {
@@ -89,6 +73,47 @@ public class QuicksandBlock extends PowderSnowBlock implements BucketPickup {
         return Shapes.empty();
     }
 
+    @NotNull
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
+    }
+
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        Vec3 motion = entity.getDeltaMovement();
+
+        if (!(entity instanceof LivingEntity) || entity.getInBlockState().is(this)) {
+            entity.makeStuckInBlock(state, new Vec3(0.9F, 0.25, 0.9F));
+
+            if (level.isClientSide) {
+                RandomSource random = level.getRandom();
+                boolean isNotOld = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
+                if (isNotOld && random.nextBoolean()) {
+                    level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state),
+                            entity.getX(), pos.getY() + 1, entity.getZ(),
+                            Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F,
+                            0.05F,
+                            Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F);
+                }
+            }
+        }
+        entity.setIsInPowderSnow(true);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        if (!((double) fallDistance < 4.0) && entity instanceof LivingEntity livingentity) {
+            LivingEntity.Fallsounds $$7 = livingentity.getFallSounds();
+            SoundEvent soundevent = (double) fallDistance < 7.0 ? $$7.small() : $$7.big();
+            entity.playSound(soundevent, 1.0F, 1.0F);
+        }
+    }
+
     public static boolean canEntityWalkOnQuicksand(Entity entity) {
         if (entity.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) // TODO
             return true;
@@ -96,6 +121,7 @@ public class QuicksandBlock extends PowderSnowBlock implements BucketPickup {
                 && livingEntity.getItemBySlot(EquipmentSlot.FEET).canWalkOnPowderedSnow(livingEntity);
     }
 
+    @NotNull
     @Override
     public ItemStack pickupBlock(@Nullable Player player, LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
         levelAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
@@ -109,5 +135,10 @@ public class QuicksandBlock extends PowderSnowBlock implements BucketPickup {
     @Override
     public Optional<SoundEvent> getPickupSound() {
         return Optional.of(SoundEvents.BUCKET_FILL_POWDER_SNOW); // TODO
+    }
+
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType path) {
+        return true;
     }
 }

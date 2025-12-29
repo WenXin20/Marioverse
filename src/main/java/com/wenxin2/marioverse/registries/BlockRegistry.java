@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -803,7 +804,7 @@ public class BlockRegistry {
 
 
         QUICKSAND = registerBlock("quicksand",
-                () -> new QuicksandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SAND)));
+                () -> new QuicksandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SAND), new ColorRGBA(14406560)));
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE)));
