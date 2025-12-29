@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
+import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
@@ -251,6 +252,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUARTZ_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
+    public static final DeferredBlock<Block> QUICKSAND;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
@@ -799,6 +801,9 @@ public class BlockRegistry {
         INVISIBLE_CALCITE_QUESTION_BLOCK = registerBlock("invisible_calcite_question_block",
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
 
+
+        QUICKSAND = registerBlock("quicksand",
+                () -> new QuicksandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SAND)));
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE)));

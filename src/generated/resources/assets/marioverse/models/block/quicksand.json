@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/quicksand_top",
+    "side": "marioverse:block/quicksand",
+    "top": "marioverse:block/quicksand_top"
+  }
+}

@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-28T20:01:25.4862303	Block States: marioverse
+// 1.21.1	2025-12-29T12:45:43.1849817	Block States: marioverse
 d1717a729a26a5dd7dafa52989ecc31e34effcd1 assets/marioverse/blockstates/acacia_log_bridge.json
 e4d20594d7136755ae656526e1cf307ac2049b4b assets/marioverse/blockstates/acacia_log_bridge_stairs.json
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
@@ -296,6 +296,7 @@ dfa8d4543cd9bd0003d2f8d66307f895c379d9e5 assets/marioverse/blockstates/purple_wa
 dee9d75d2e19eb326cdf833d47cc8ba7e1b881af assets/marioverse/blockstates/quartz_brick_pedestal.json
 e6c68564847ee4d04477e5450756d930e14a58f2 assets/marioverse/blockstates/quartz_question_bricks.json
 2dfb061b0814d71589a608834489094d7517c47b assets/marioverse/blockstates/question_bricks.json
+fd3e474907cb1d063552a6c651c8c3d1c5a38eec assets/marioverse/blockstates/quicksand.json
 8e8f73719bc21affed77a9846531fadf140267ac assets/marioverse/blockstates/red_calcite.json
 466d244653a8a965a968219cda5200d4f374ac48 assets/marioverse/blockstates/red_calcite_bricks.json
 48a94820c44bdd543f1afa16bb2ec03c3d8070ad assets/marioverse/blockstates/red_calcite_brick_pedestal.json
@@ -1009,6 +1010,7 @@ fab1e4795da67bf73688fea59e4d0afe67ce7faa assets/marioverse/models/block/purpur_b
 57bba31f41455f332688b1998c29c7dee20c042f assets/marioverse/models/block/quartz_brick_pedestal_top.json
 48d855a6675772d457b6ff8e2e2cc3808955f262 assets/marioverse/models/block/quartz_question_bricks.json
 ea982a8ed66dfef7d322fe7645f94bb23ec28865 assets/marioverse/models/block/question_bricks.json
+6045e5d5d2380abae9de812221ba286a8186f4de assets/marioverse/models/block/quicksand.json
 b2e2bf6a615d0862f68e7c0db57bae0e14a7d321 assets/marioverse/models/block/red_calcite.json
 32b694953870deb954be7e5cfca83b6ecef45e69 assets/marioverse/models/block/red_calcite_bricks.json
 173ecf719054f860ddb352de6478eb10018c4156 assets/marioverse/models/block/red_calcite_brick_pedestal.json
@@ -1466,6 +1468,7 @@ c5d98cd1abe90a7f865051a3683baff42c1137eb assets/marioverse/models/item/purple_wa
 3967b65d1208184898967786655acbd2df6b19c4 assets/marioverse/models/item/quartz_brick_pedestal.json
 b90e5f68e48e0b7906b3b2a202f0c5fe4debfe05 assets/marioverse/models/item/quartz_question_bricks.json
 500ef2aeea4fbe75fc0f82305b9466f1ce53aaa4 assets/marioverse/models/item/question_bricks.json
+0e6da71d4397569d480c64ec442f7d1c92157f3a assets/marioverse/models/item/quicksand.json
 c91b90cf378011c8ea7473efe22e15be63f37a60 assets/marioverse/models/item/red_calcite.json
 6a49ef86bdf228fc32d5cfbe1e0a38d84fa60dca assets/marioverse/models/item/red_calcite_bricks.json
 9d2f9d346a481964a9fc93295e9c5cf8778d5a56 assets/marioverse/models/item/red_calcite_brick_pedestal.json
