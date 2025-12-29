@@ -108,8 +108,8 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         if (!((double) fallDistance < 4.0) && entity instanceof LivingEntity livingentity) {
-            LivingEntity.Fallsounds $$7 = livingentity.getFallSounds();
-            SoundEvent soundevent = (double) fallDistance < 7.0 ? $$7.small() : $$7.big();
+            LivingEntity.Fallsounds soundType = livingentity.getFallSounds();
+            SoundEvent soundevent = (double) fallDistance < 7.0 ? soundType.small() : soundType.big();
             entity.playSound(soundevent, 1.0F, 1.0F);
         }
     }
