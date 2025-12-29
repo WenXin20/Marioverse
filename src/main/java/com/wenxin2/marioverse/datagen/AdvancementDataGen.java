@@ -21,6 +21,7 @@ import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.advancements.critereon.PlayerInteractTrigger;
+import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementSubProvider;
@@ -41,7 +42,16 @@ public class AdvancementDataGen extends AdvancementProvider {
     private static final class MyAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
         @Override
         public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
-            AdvancementHolder WRENCH = Advancement.Builder.advancement().parent(AdvancementSubProvider.createPlaceholder("minecraft:adventure/root"))
+            AdvancementHolder ROOT = Advancement.Builder.advancement()
+                    .display(new ItemStack(BlockRegistry.FUNGAL_QUESTION_BLOCK),
+                            Component.translatable("advancements.marioverse.root.title"),
+                            Component.translatable("advancements.marioverse.root.description"),
+                            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/advancements/backgrounds/marioverse.png"),
+                            AdvancementType.TASK, false, false, false)
+                    .addCriterion("tick", PlayerTrigger.TriggerInstance.tick())
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "root"), existingFileHelper);
+
+            AdvancementHolder WRENCH = Advancement.Builder.advancement().parent(ROOT)
                     .display(new ItemStack(ItemRegistry.WRENCH.get()),
                             Component.translatable("advancements.marioverse.wrench.title"),
                             Component.translatable("advancements.marioverse.wrench.description"),
@@ -50,7 +60,18 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(50))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_wrench"), existingFileHelper);
 
-            AdvancementHolder GOT_YOUR_NOSE = Advancement.Builder.advancement().parent(WRENCH)
+            AdvancementHolder DANGO_IT = Advancement.Builder.advancement().parent(WRENCH)
+                    .display(new ItemStack(BlockRegistry.DANGO_BLOSSOM),
+                            Component.translatable("advancements.marioverse.dango_it.title"),
+                            Component.translatable("advancements.marioverse.dango_it.description"),
+                            null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("dango_it", PlayerInteractTrigger.TriggerInstance
+                            .itemUsedOnEntity(ItemPredicate.Builder.item().of(Items.SHEARS),
+                                    Optional.of(EntityPredicate.wrap(EntityPredicate.Builder.entity().of(EntityRegistry.POKEY.get())))))
+                    .rewards(AdvancementRewards.Builder.experience(100))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dango_it"), existingFileHelper);
+
+            AdvancementHolder GOT_YOUR_NOSE = Advancement.Builder.advancement().parent(DANGO_IT)
                     .display(new ItemStack(Items.CARROT),
                             Component.translatable("advancements.marioverse.got_your_nose.title"),
                             Component.translatable("advancements.marioverse.got_your_nose.description"),

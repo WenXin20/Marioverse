@@ -1,14 +1,14 @@
 {
-  "parent": "marioverse:dango_it",
+  "parent": "marioverse:obtain_wrench",
   "criteria": {
-    "got_your_nose": {
+    "dango_it": {
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "entity": "this",
             "predicate": {
-              "type": "marioverse:snow_pokey"
+              "type": "marioverse:pokey"
             }
           }
         ],
@@ -21,19 +21,19 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.marioverse.got_your_nose.description"
+      "translate": "advancements.marioverse.dango_it.description"
     },
     "icon": {
       "count": 1,
-      "id": "minecraft:carrot"
+      "id": "marioverse:dango_blossom"
     },
     "title": {
-      "translate": "advancements.marioverse.got_your_nose.title"
+      "translate": "advancements.marioverse.dango_it.title"
     }
   },
   "requirements": [
     [
-      "got_your_nose"
+      "dango_it"
     ]
   ],
   "rewards": {

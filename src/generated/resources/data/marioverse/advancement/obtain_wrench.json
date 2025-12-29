@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:adventure/root",
+  "parent": "marioverse:root",
   "criteria": {
     "wrench": {
       "conditions": {

@@ -1,0 +1,28 @@
+{
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "marioverse:textures/gui/advancements/backgrounds/marioverse.png",
+    "description": {
+      "translate": "advancements.marioverse.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "marioverse:fungal_question_block"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.marioverse.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
