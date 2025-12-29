@@ -1,7 +1,7 @@
 {
-	"format_version": "1.21.6",
+	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"parent": "minecraft:block/slab",
+	"parent": "minecraft:block/flower_pot",
 	"render_type": "cutout_mipped",
 	"textures": {
 		"blossom": "marioverse:block/potted_dango_blossom",
@@ -55,7 +55,7 @@
 			"from": [0, 5, 3],
 			"to": [8, 5, 13],
 			"shade": false,
-			"rotation": {"angle": -27.5, "axis": "z", "origin": [8, 5, 11]},
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 5, 11]},
 			"faces": {
 				"up": {"uv": [3, 8, 13, 16], "rotation": 270, "texture": "#leaves"},
 				"down": {"uv": [3, 8, 13, 16], "rotation": 270, "texture": "#leaves"}
@@ -65,7 +65,7 @@
 			"from": [8, 5, 3],
 			"to": [16, 5, 13],
 			"shade": false,
-			"rotation": {"angle": 27.5, "axis": "z", "origin": [8, 5, 11]},
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 5, 11]},
 			"faces": {
 				"up": {"uv": [3, 8, 13, 16], "rotation": 90, "texture": "#leaves"},
 				"down": {"uv": [3, 8, 13, 16], "rotation": 90, "texture": "#leaves"}
@@ -75,7 +75,7 @@
 			"from": [3, 5, 8],
 			"to": [13, 5, 16],
 			"shade": false,
-			"rotation": {"angle": -27.5, "axis": "x", "origin": [11, 5, 8]},
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [11, 5, 8]},
 			"faces": {
 				"up": {"uv": [3, 8, 13, 16], "rotation": 180, "texture": "#leaves"},
 				"down": {"uv": [3, 8, 13, 16], "texture": "#leaves"}
@@ -85,7 +85,7 @@
 			"from": [3, 5, 0],
 			"to": [13, 5, 8],
 			"shade": false,
-			"rotation": {"angle": 27.5, "axis": "x", "origin": [11, 5, 8]},
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [11, 5, 8]},
 			"faces": {
 				"up": {"uv": [3, 8, 13, 16], "texture": "#leaves"},
 				"down": {"uv": [3, 8, 13, 16], "rotation": 180, "texture": "#leaves"}
