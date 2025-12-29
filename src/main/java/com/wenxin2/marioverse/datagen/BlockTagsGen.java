@@ -700,6 +700,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.CRACKED_SANDSTONE_BRICKS.get())
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
@@ -759,7 +760,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
+
+        tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
+                .add(BlockRegistry.DANGO_BLOSSOM.get());
     }
 }

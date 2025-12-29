@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-28T19:57:25.8919723	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-12-28T23:33:12.6469251	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 f1c13174eb66d8e3579ac0d3975e6780bca03d80 data/create/tags/block/movable_empty_collider.json
@@ -78,14 +78,15 @@ af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.j
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-148e895a03ae63b65d28770e444b5b45fd623bf0 data/minecraft/tags/block/mineable/pickaxe.json
+320a8cdce9ca9231ad5ca279dd8551f21a6be83c data/minecraft/tags/block/mineable/pickaxe.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 8f2a21fd51e60bd26df382e3cd61d959ee3c226d data/minecraft/tags/block/slabs.json
 3223c0ac80c228b7211696c27c13272e7e3288a8 data/minecraft/tags/block/stairs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/block/stone_buttons.json
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
-3ff6d12e3568c33331f086da2de27da8a70039d8 data/minecraft/tags/block/sword_efficient.json
+9c7cad7c07468ee7043f7335f4e991578026c807 data/minecraft/tags/block/sword_efficient.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json
+97fa6660afa1714986f92195d903bbdd2c119f6c data/twilightforest/tags/block/portal/generated_decoration.json
