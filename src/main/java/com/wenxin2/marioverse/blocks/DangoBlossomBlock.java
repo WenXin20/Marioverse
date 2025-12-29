@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -106,20 +107,23 @@ public class DangoBlossomBlock extends Block implements SimpleWaterloggedBlock {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        world.addParticle(ParticleRegistry.GOLD_POLLEN.get(),
-                x + random.nextDouble(), y + 0.25, z + random.nextDouble(),
-                0.0, 0.0, 0.0);
 
-        for (int amt = 0; amt < 14; amt++) {
-            posMutable.set(x + Mth.nextInt(random, -10, 10), y + random.nextInt(10), z + Mth.nextInt(random, -10, 10));
-            BlockState stateMutable = world.getBlockState(posMutable);
+        if (ConfigRegistry.DANGO_BLOSSOM_PARTICLES.get()) {
+            world.addParticle(ParticleRegistry.GOLD_POLLEN.get(),
+                    x + random.nextDouble(), y + 0.25, z + random.nextDouble(),
+                    0.0, 0.0, 0.0);
 
-            if (!stateMutable.isCollisionShapeFullBlock(world, posMutable)) {
-                world.addParticle(ParticleRegistry.GOLD_POLLEN.get(),
-                        (double) posMutable.getX() + random.nextDouble(),
-                        (double) posMutable.getY() + random.nextDouble(),
-                        (double) posMutable.getZ() + random.nextDouble(),
-                        0.0, 0.0, 0.0);
+            for (int amt = 0; amt < 14; amt++) {
+                posMutable.set(x + Mth.nextInt(random, -10, 10), y + random.nextInt(10), z + Mth.nextInt(random, -10, 10));
+                BlockState stateMutable = world.getBlockState(posMutable);
+
+                if (!stateMutable.isCollisionShapeFullBlock(world, posMutable)) {
+                    world.addParticle(ParticleRegistry.GOLD_POLLEN.get(),
+                            (double) posMutable.getX() + random.nextDouble(),
+                            (double) posMutable.getY() + random.nextDouble(),
+                            (double) posMutable.getZ() + random.nextDouble(),
+                            0.0, 0.0, 0.0);
+                }
             }
         }
     }

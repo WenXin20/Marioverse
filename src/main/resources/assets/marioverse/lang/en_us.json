@@ -1163,6 +1163,7 @@
   "configuration.marioverse.creative_wrench_linking": "Require Creative to Link",
   "configuration.marioverse.damage_shrinks_all_mobs": "Damage Shrinks All Mobs",
   "configuration.marioverse.damage_shrinks_players": "Damage Shrinks Player",
+  "configuration.marioverse.dango_blossom_particles": "Dango Blossom Particles",
   "configuration.marioverse.dash_mushroom_boost_duration": "Boost Duration",
   "configuration.marioverse.dash_mushroom_boost_strength": "Boost Strength",
   "configuration.marioverse.dash_mushroom_health_healed": "Health Healed",

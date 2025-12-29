@@ -89,6 +89,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_LINKING;
     public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_PLAYERS;
+    public static ModConfigSpec.BooleanValue DANGO_BLOSSOM_PARTICLES;
     public static ModConfigSpec.BooleanValue DEBUG_PIPE_BUBBLES_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX_CREATIVE;
@@ -222,6 +223,10 @@ public class ConfigRegistry
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
         BUILDER.push(CATEGORY_CLIENT);
+            DANGO_BLOSSOM_PARTICLES = BUILDER.translation("configuration.marioverse.dango_blossom_particles")
+                    .comment("Enables particles for the Dango Blossom.")
+                    .comment("§9[Default: true]")
+                    .define("dango_blossom_particles", true);
             DISABLE_JEB_SHADER = BUILDER.translation("configuration.marioverse.disable_jeb_shader")
                     .comment("Display the rainbow shader on mobs named \"jeb_\".")
                     .comment("§9[Default: false]")
