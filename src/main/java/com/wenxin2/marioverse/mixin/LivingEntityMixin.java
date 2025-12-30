@@ -894,9 +894,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @ModifyReturnValue(method = "handleRelativeFrictionAndCalculateMovement", at = @At("RETURN"))
     private Vec3 mv$handleRelativeFrictionAndCalculateMovement(Vec3 motion) {
-        if (this.horizontalCollision || this.jumping
+        if ((this.horizontalCollision || this.jumping)
                 && (this.getInBlockState().is(BlockRegistry.QUICKSAND)))
-            return new Vec3(motion.x, motion.y * 1.2D, motion.z);
+            return new Vec3(motion.x, motion.y * 20.0D, motion.z);
         return motion;
     }
 

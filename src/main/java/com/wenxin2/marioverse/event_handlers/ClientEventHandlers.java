@@ -80,8 +80,9 @@ public class ClientEventHandlers {
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
         float alpha = QuicksandClient.getOverlayProgress();
-        if (alpha <= 0.01F)
+        if (alpha <= 0.001F)
             return;
 
         GuiGraphics gui = event.getGuiGraphics();
