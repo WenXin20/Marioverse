@@ -30,7 +30,8 @@ public class SolidPlasticBucketItem extends SolidBucketItem implements Dispensib
             newStack.applyComponents(stack.getComponents());
 
             player.awardStat(Stats.ITEM_USED.get(this));
-            player.setItemInHand(context.getHand(), newStack);
+            if (!player.isCreative())
+                player.setItemInHand(context.getHand(), newStack);
             stack.consume(1, player);
             this.place(new BlockPlaceContext(context));
             return InteractionResult.SUCCESS;
