@@ -1,16 +1,11 @@
 package com.wenxin2.marioverse.event_handlers;
 
-import com.aetherteam.aether.client.event.listeners.GuiListener;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
-import com.wenxin2.marioverse.client.QuicksandClient;
+import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -21,7 +16,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import net.mehvahdjukaar.amendments.reg.ModRegistry;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -43,12 +37,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
-import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.client.gui.GuiLayerManager;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
@@ -81,7 +73,7 @@ public class ClientEventHandlers {
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
-        float alpha = QuicksandClient.getOverlayProgress();
+        float alpha = QuicksandOverlay.getOverlayProgress();
         if (alpha <= 0.001F)
             return;
 
@@ -134,7 +126,7 @@ public class ClientEventHandlers {
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        QuicksandClient.clientTick(Minecraft.getInstance());
+        QuicksandOverlay.clientTick(Minecraft.getInstance());
     }
 
     @SubscribeEvent

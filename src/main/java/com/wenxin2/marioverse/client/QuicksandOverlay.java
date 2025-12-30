@@ -2,14 +2,13 @@ package com.wenxin2.marioverse.client;
 
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public final class QuicksandClient {
+public final class QuicksandOverlay {
     private static float overlayProgress = 0.0F;
-    private static final float FADE_TIME = 25.0F;
+    private static final float FADE_TIME = 40.0F;
 
     public static void clientTick(Minecraft mc) {
         if (mc.player == null) return;
