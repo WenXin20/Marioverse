@@ -3,11 +3,13 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -64,7 +66,9 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DecoratedPotBlock;
+import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -82,6 +86,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
     @Shadow public abstract void setSpeed(float speed);
     @Shadow public abstract void handleEntityEvent(byte entityEvent);
+    @Shadow protected boolean jumping;
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
     @Unique private double mv$currentEyeHeightScale = 1.0;
@@ -885,6 +890,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         original.add(AttributesRegistry.WIDTH_SCALE);
 
         return original;
+    }
+
+    @ModifyReturnValue(method = "handleRelativeFrictionAndCalculateMovement", at = @At("RETURN"))
+    private Vec3 mv$handleRelativeFrictionAndCalculateMovement(Vec3 motion) {
+        if (this.horizontalCollision || this.jumping
+                && (this.getInBlockState().is(BlockRegistry.QUICKSAND)))
+            return new Vec3(motion.x, motion.y * 1.2D, motion.z);
+        return motion;
     }
 
     @ModifyReturnValue(method = "getDimensions", at = @At("TAIL"))

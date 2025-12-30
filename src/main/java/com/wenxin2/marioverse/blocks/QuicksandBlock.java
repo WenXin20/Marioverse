@@ -40,7 +40,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
     private static final VoxelShape FALLING_COLLISION_SHAPE =
             Shapes.box(0.0, 0.0, 0.0, 1.0, 0.9F, 1.0);
 
-    public QuicksandBlock(Properties properties, ColorRGBA dustColor) {
+    public QuicksandBlock(ColorRGBA dustColor, Properties properties) {
         super(dustColor, properties);
     }
 
@@ -93,7 +93,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
             if (level.isClientSide) {
                 RandomSource random = level.getRandom();
                 boolean isNotOld = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
-                if (isNotOld && random.nextBoolean()) {
+                if (isNotOld && random.nextFloat() < 0.5F) {
                     level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state),
                             entity.getX(), pos.getY() + 1, entity.getZ(),
                             Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F,
@@ -102,7 +102,6 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
                 }
             }
         }
-        entity.setIsInPowderSnow(true);
     }
 
     @Override
@@ -117,8 +116,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
     public static boolean canEntityWalkOnQuicksand(Entity entity) {
         if (entity.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) // TODO
             return true;
-        else return entity instanceof LivingEntity livingEntity
-                && livingEntity.getItemBySlot(EquipmentSlot.FEET).canWalkOnPowderedSnow(livingEntity);
+        else return false;
     }
 
     @NotNull

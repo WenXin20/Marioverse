@@ -40,7 +40,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
@@ -804,7 +803,8 @@ public class BlockRegistry {
 
 
         QUICKSAND = registerBlock("quicksand",
-                () -> new QuicksandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SAND), new ColorRGBA(14406560)));
+                () -> new QuicksandBlock(new ColorRGBA(14406560), BlockBehaviour.Properties.ofFullCopy(Blocks.SAND)
+                        .dynamicShape().isRedstoneConductor(BlockRegistry::never)));
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE)));

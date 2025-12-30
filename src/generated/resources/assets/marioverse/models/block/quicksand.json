@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "marioverse:block/template_inner_overlay",
   "textures": {
     "bottom": "marioverse:block/quicksand_top",
     "side": "marioverse:block/quicksand",

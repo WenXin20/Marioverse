@@ -72,7 +72,7 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
-        this.cubeBottomTopModel(BlockRegistry.QUICKSAND.get(), modLoc("block/" + quicksandName + "_top"),
+        this.cubeInnerOverlayModel(BlockRegistry.QUICKSAND.get(), modLoc("block/" + quicksandName + "_top"),
                 modLoc("block/" + quicksandName), modLoc("block/" + quicksandName + "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
         this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
@@ -866,6 +866,18 @@ public class BlockStateGen extends BlockStateProvider {
 
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture);
+
+        simpleBlockWithItem(block, model);
+    }
+
+    private void cubeInnerOverlayModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                    ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_inner_overlay"))
                 .texture("bottom", bottomTexture)
                 .texture("side", sideTexture)
                 .texture("top", topTexture);

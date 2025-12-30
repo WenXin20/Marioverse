@@ -1,9 +1,16 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.aetherteam.aether.client.event.listeners.GuiListener;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.client.QuicksandClient;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -14,6 +21,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.mehvahdjukaar.amendments.reg.ModRegistry;
+import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,35 +41,99 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.neoforge.client.event.RenderBlockScreenEffectEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.gui.GuiLayerManager;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandlers {
     public static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
-    private static final ResourceLocation OVERLAY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
+    private static final ResourceLocation SPLUNKIN_OVERLAY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
+    public static final ResourceLocation QUICKSAND_OVERLAY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/quicksand_overlay.png");
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
         event.registerShader(new ShaderInstance(event.getResourceProvider(),
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
-                DefaultVertexFormat.POSITION_TEX_COLOR
-        ), shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+                DefaultVertexFormat.POSITION_TEX_COLOR),
+                shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
     }
 
     @SubscribeEvent
     public static void onClientExtensions(RegisterClientExtensionsEvent event) {
-        event.registerItem(new IClientItemExtensions() {
-                               @Override
-                               public void renderHelmetOverlay(ItemStack stack, Player player, GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-                                   renderCustomOverlay(guiGraphics, OVERLAY, 1.0F);
-                               }
-                           },
-                BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get().asItem()
+        event.registerItem(
+                new IClientItemExtensions() {
+                    @Override
+                    public void renderHelmetOverlay(ItemStack stack, Player player, GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+                        renderCustomOverlay(guiGraphics, SPLUNKIN_OVERLAY, 1.0F);
+                    }
+                }, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get().asItem()
         );
+    }
+
+    @SubscribeEvent
+    public static void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
+        float alpha = QuicksandClient.getOverlayProgress();
+        if (alpha <= 0.01F)
+            return;
+
+        GuiGraphics gui = event.getGuiGraphics();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
+
+        int w = gui.guiWidth();
+        int h = gui.guiHeight();
+
+        gui.blit(QUICKSAND_OVERLAY, 0, 0, 0, 0, w, h, w, h);
+
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        RenderSystem.disableBlend();
+    }
+
+    private static boolean isInQuicksand(Camera camera) {
+        BlockPos pos = BlockPos.containing(camera.getPosition());
+        return camera.getEntity().level().getBlockState(pos)
+                .is(BlockRegistry.QUICKSAND.get());
+    }
+
+    @SubscribeEvent
+    public static void onRenderFog(ViewportEvent.RenderFog event) {
+        if (!isInQuicksand(event.getCamera())) return;
+
+        event.setNearPlaneDistance(0.0F);
+        event.setFarPlaneDistance(1.8F);
+        event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onFogColor(ViewportEvent.ComputeFogColor event) {
+        Camera camera = event.getCamera();
+        Level level = camera.getEntity().level();
+
+        BlockPos pos = BlockPos.containing(camera.getPosition());
+        BlockState state = level.getBlockState(pos);
+
+        if (!(state.getBlock() instanceof QuicksandBlock quicksand)) return;
+
+        int rgba = quicksand.getDustColor(state, level, pos);
+
+        event.setRed(((rgba >> 16) & 0xFF) / 255F);
+        event.setGreen(((rgba >> 8) & 0xFF) / 255F);
+        event.setBlue((rgba & 0xFF) / 255F);
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        QuicksandClient.clientTick(Minecraft.getInstance());
     }
 
     @SubscribeEvent
