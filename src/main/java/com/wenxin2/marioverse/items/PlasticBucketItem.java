@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.client.renderers.costumes.PlasticBucketRenderer;
-import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.function.Consumer;
@@ -11,12 +10,13 @@ import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -75,29 +77,50 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
 
     @NotNull
     @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        HitResult hit = player.pick(5.0D, 0.0F, false);
+        if (hit.getType() == HitResult.Type.BLOCK) {
+            BlockHitResult blockHit = (BlockHitResult) hit;
+            BlockState state = level.getBlockState(blockHit.getBlockPos());
+
+            if (state.getBlock() instanceof BucketPickup)
+                return InteractionResultHolder.pass(player.getItemInHand(hand));
+        }
+
+        if (player.isShiftKeyDown())
+            return InteractionResultHolder.pass(player.getItemInHand(hand));
+        return this.swapWithEquipmentSlot(this, level, player, hand);
+    }
+
+    @NotNull
+    @Override
     public InteractionResult useOn(UseOnContext context) {
-        Level world = context.getLevel();
-        BlockPos pos = context.getClickedPos().relative(context.getClickedFace());
-        BlockState state = world.getBlockState(pos);
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        BlockState state = level.getBlockState(pos);
         Player player = context.getPlayer();
         ItemStack stack = context.getItemInHand();
 
         if (player != null && state.getBlock() instanceof BucketPickup) {
+            ItemStack newStack;
             if (state.is(BlockRegistry.QUICKSAND.get()))
-                player.setItemInHand(context.getHand(), new ItemStack(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get()));
+                newStack = new ItemStack(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get());
             else if (state.is(Blocks.POWDER_SNOW))
-                player.setItemInHand(context.getHand(), new ItemStack(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get()));
+                newStack = new ItemStack(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get());
             else return InteractionResult.PASS;
+            newStack.applyComponents(stack.getComponents());
 
-            world.playSound(null, player.getX(), player.getY(), player.getZ(),
+            level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.BUCKET_FILL_POWDER_SNOW, SoundSource.NEUTRAL, 0.5F,
-                    0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
+                    0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
             player.awardStat(Stats.ITEM_USED.get(this));
+            player.setItemInHand(context.getHand(), newStack);
             stack.consume(1, player);
 
-            if (!world.isClientSide())
-                world.levelEvent(2001, pos, Block.getId(state));
+            if (!level.isClientSide())
+                level.levelEvent(2001, pos, Block.getId(state));
 
             return InteractionResult.SUCCESS;
         }
