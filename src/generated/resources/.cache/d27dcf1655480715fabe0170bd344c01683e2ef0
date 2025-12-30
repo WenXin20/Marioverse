@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-29T22:23:10.3409924	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-12-29T22:36:56.1858524	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 03018ac27c4e502e2eccf0784fb2a850ef03ba9b data/create/tags/block/movable_empty_collider.json
@@ -81,6 +81,7 @@ af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.j
 e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 320a8cdce9ca9231ad5ca279dd8551f21a6be83c data/minecraft/tags/block/mineable/pickaxe.json
+9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/minecraft/tags/block/mineable/shovel.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/minecraft/tags/block/sand.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json

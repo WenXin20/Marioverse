@@ -769,6 +769,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
+        tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(BlockRegistry.QUICKSAND.get());
+
         tag(BlockTags.SWORD_EFFICIENT)
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
