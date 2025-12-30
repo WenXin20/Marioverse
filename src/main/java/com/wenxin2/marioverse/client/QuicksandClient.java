@@ -9,7 +9,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public final class QuicksandClient {
     private static float overlayProgress = 0.0F;
-    private static final float FADE_TIME = 40.0F;
+    private static final float FADE_TIME = 25.0F;
 
     public static void clientTick(Minecraft mc) {
         if (mc.player == null) return;
