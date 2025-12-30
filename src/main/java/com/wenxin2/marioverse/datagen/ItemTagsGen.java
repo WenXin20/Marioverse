@@ -104,6 +104,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.WEAPON_ENCHANTABLE)
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(Tags.Items.BUCKETS)
+                .addTag(TagRegistry.itemTags("c", "buckets/quicksand"));
+
         tag(Tags.Items.BUCKETS_EMPTY)
                 .add(ItemRegistry.PLASTIC_BUCKET.get());
 
