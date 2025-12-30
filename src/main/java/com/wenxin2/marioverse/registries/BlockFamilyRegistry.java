@@ -491,6 +491,10 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .wall(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
             .getFamily();
 
+    public static final BlockFamilyExtended SAND = familyBuilder(Blocks.SAND)
+            .quicksand(BlockRegistry.QUICKSAND.get())
+            .getFamily();
+
     public static final BlockFamilyExtended CUT_SANDSTONE = familyBuilder(Blocks.CUT_SANDSTONE)
             .bricks(BlockRegistry.SANDSTONE_BRICKS.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_SANDSTONE_QUESTION_BLOCK.get())

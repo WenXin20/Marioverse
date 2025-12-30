@@ -144,7 +144,8 @@ public class ItemRegistry {
                 () -> new SolidBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
-                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
+                        new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         POWDER_SNOW_PLASTIC_BUCKET = registerItem("powder_snow_plastic_bucket",
                 () -> new SolidPlasticBucketItem(Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,

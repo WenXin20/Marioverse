@@ -72,8 +72,6 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof PipeBubblesBlock)
                         this.add(block, this.createNoLootDrop());
-                    else if (block instanceof QuicksandBlock)
-                        this.add(block, this.createNoLootDrop());
                     else if (block instanceof StarCoinBlock)
                         this.add(block, this.createStarCoinDrop(block));
                     else if (block instanceof WarpPipeBlock)
@@ -102,10 +100,13 @@ public class BlockLootTableGen extends LootTableProvider {
         private void genBlockVariants() {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
+                    BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
                     BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
-                    if (variant == smashableBlocks)
+                    if (variant == quicksand)
+                        dropOther(variantBlock, blockFamily.getBaseBlock());
+                    else if (variant == smashableBlocks)
                         add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
                     else if (variant == slabs)
                         add(variantBlock, this.createSlabItemTable(variantBlock));

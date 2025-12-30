@@ -130,6 +130,21 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder pedestal(Block block) {
+            this.family.variants.put(Variant.PEDESTAL, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder polished(Block block) {
+            this.family.variants.put(Variant.POLISHED, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder pressurePlate(Block block) {
+            this.family.variants.put(Variant.PRESSURE_PLATE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder questionBlock(Block block) {
             this.family.variants.put(Variant.QUESTION_BLOCK, block);
             return this;
@@ -145,18 +160,8 @@ public class BlockFamilyExtended {
             return this;
         }
 
-        public BlockFamilyExtended.Builder pedestal(Block block) {
-            this.family.variants.put(Variant.PEDESTAL, block);
-            return this;
-        }
-
-        public BlockFamilyExtended.Builder polished(Block block) {
-            this.family.variants.put(Variant.POLISHED, block);
-            return this;
-        }
-
-        public BlockFamilyExtended.Builder pressurePlate(Block block) {
-            this.family.variants.put(Variant.PRESSURE_PLATE, block);
+        public BlockFamilyExtended.Builder quicksand(Block block) {
+            this.family.variants.put(Variant.QUICKSAND, block);
             return this;
         }
 
@@ -236,8 +241,9 @@ public class BlockFamilyExtended {
         POLISHED("polished"),
         PRESSURE_PLATE("pressure_plate"),
         QUESTION_BLOCK("question_block"),
-        QUESTION_PANEL("question_panel"),
         QUESTION_BLOCK_TAG("question_block_tag"),
+        QUESTION_PANEL("question_panel"),
+        QUICKSAND("quicksand"),
         SIGN("sign"),
         SLAB("slab"),
         SMASHABLE_BLOCKS("smashable_blocks"),
