@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
+import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
@@ -62,18 +63,23 @@ public class BlockLootTableGen extends LootTableProvider {
         protected void generate() {
             Marioverse.BLOCKS.getEntries().forEach(deferredHolder -> {
                 Block block = deferredHolder.get();
-                if (block.getLootTable() != BuiltInLootTables.EMPTY && !(block instanceof PipeBubblesBlock)
-                        && !(block instanceof WaterSpoutBlock)) {
+                if (block.getLootTable() != BuiltInLootTables.EMPTY) {
                     if (isBlockInVariants(block))
                         this.genBlockVariants();
                     else if (block instanceof CheckpointFlagBlock)
                         this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
+                    else if (block instanceof PipeBubblesBlock)
+                        this.add(block, this.createNoLootDrop());
+                    else if (block instanceof QuicksandBlock)
+                        this.add(block, this.createNoLootDrop());
                     else if (block instanceof StarCoinBlock)
                         this.add(block, this.createStarCoinDrop(block));
                     else if (block instanceof WarpPipeBlock)
                         this.add(block, this.createNameableWarpPipeBEDrop(block));
+                    else if (block instanceof WaterSpoutBlock)
+                        this.add(block, this.createNoLootDrop());
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPotFlowerItemTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.DANGO_BLOSSOM.get())
@@ -131,6 +137,10 @@ public class BlockLootTableGen extends LootTableProvider {
                                             .include(DataComponents.CUSTOM_NAME)
                                             .include(DataComponentRegistry.PIPE_NAME.get()))))
             );
+        }
+
+        protected LootTable.Builder createNoLootDrop() {
+            return LootTable.lootTable();
         }
 
         protected LootTable.Builder createStarCoinDrop(Block block) {

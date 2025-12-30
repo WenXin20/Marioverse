@@ -94,6 +94,16 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.WEAPON_ENCHANTABLE)
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(Tags.Items.BUCKETS_EMPTY)
+                .add(ItemRegistry.PLASTIC_BUCKET.get());
+
+        tag(Tags.Items.BUCKETS_POWDER_SNOW)
+                .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get());
+
+        tag(TagRegistry.itemTags("c", "buckets/quicksand"))
+                .add(ItemRegistry.QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get());
+
         tag(Tags.Items.ENCHANTABLES)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 

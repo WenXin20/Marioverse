@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -85,8 +86,6 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        Vec3 motion = entity.getDeltaMovement();
-
         if (!(entity instanceof LivingEntity) || entity.getInBlockState().is(this)) {
             entity.makeStuckInBlock(state, new Vec3(0.9F, 0.25, 0.9F));
 
@@ -126,7 +125,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
         if (!levelAccessor.isClientSide())
             levelAccessor.levelEvent(2001, pos, Block.getId(state));
 
-        return new ItemStack(Items.POWDER_SNOW_BUCKET); // TODO
+        return new ItemStack(ItemRegistry.QUICKSAND_BUCKET.get());
     }
 
     @NotNull

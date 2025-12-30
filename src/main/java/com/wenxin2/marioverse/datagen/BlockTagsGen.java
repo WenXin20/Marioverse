@@ -73,6 +73,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
@@ -488,6 +489,9 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS)
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
+        tag(Tags.Blocks.SANDS_COLORLESS)
+                .add(BlockRegistry.QUICKSAND.get());
+
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get());
@@ -548,8 +552,14 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.IMPERMEABLE)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
+        tag(BlockTags.INSIDE_STEP_SOUND_BLOCKS)
+                .add(BlockRegistry.QUICKSAND.get());
+
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS);
+
+        tag(BlockTags.SAND)
+                .add(BlockRegistry.QUICKSAND.get());
 
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())

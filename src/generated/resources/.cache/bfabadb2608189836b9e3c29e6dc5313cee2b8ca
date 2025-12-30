@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-24T23:31:21.9457495	Item Models: marioverse
+// 1.21.1	2025-12-29T21:59:53.7016067	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -123,8 +123,11 @@ d1549e7b3ba30e6657183994065275430eb32a89 assets/marioverse/models/item/plastic_b
 d8a3acf65b44e338b04ea80adce5e17f5ce6d262 assets/marioverse/models/item/plumber_banner_pattern.json
 0d1fea66147a98e071d9361736d86ba391ed70c7 assets/marioverse/models/item/plumber_pottery_sherd.json
 fc029394ebf653775f7350dd93a119122ae1c02a assets/marioverse/models/item/pokey_spawn_egg.json
+309accdf538e222055a3fb908055343f9e62e58d assets/marioverse/models/item/powder_snow_plastic_bucket.json
 a0010b33d6cddd736c8043119a76aa310dc680dd assets/marioverse/models/item/purple_checkpoint_flag.json
 4191c90bfd84ea70c786494d1d4e166b2430aff7 assets/marioverse/models/item/purple_goal_pole.json
+36ae02ca8f637450363dd0388eccaedf018b4dc1 assets/marioverse/models/item/quicksand_bucket.json
+fc2f72191e048d700b8ff33d6a462e72b5f33f20 assets/marioverse/models/item/quicksand_plastic_bucket.json
 53a67fb262abd99c15e0509a6f3ed9956f667cc5 assets/marioverse/models/item/red_checkpoint_flag.json
 86c5bcd807697a8e28d82cee40ee733573fb7046 assets/marioverse/models/item/red_goal_pole.json
 fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa_shell.json

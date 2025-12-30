@@ -802,7 +802,7 @@ public class BlockRegistry {
                 () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
 
 
-        QUICKSAND = registerBlock("quicksand",
+        QUICKSAND = registerNoItemBlock("quicksand",
                 () -> new QuicksandBlock(new ColorRGBA(14406560), BlockBehaviour.Properties.ofFullCopy(Blocks.SAND)
                         .dynamicShape().isRedstoneConductor(BlockRegistry::never)));
 

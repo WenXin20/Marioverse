@@ -16,12 +16,14 @@ import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
+import com.wenxin2.marioverse.items.SolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
@@ -30,6 +32,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -107,6 +110,9 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> POWDER_SNOW_PLASTIC_BUCKET;
+    public static final DeferredItem<Item> QUICKSAND_BUCKET;
+    public static final DeferredItem<Item> QUICKSAND_PLASTIC_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
@@ -132,6 +138,19 @@ public class ItemRegistry {
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
+
+        QUICKSAND_BUCKET = registerItem("quicksand_bucket",
+                () -> new SolidBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                        new Item.Properties().stacksTo(1)));
+        PLASTIC_BUCKET = registerItem("plastic_bucket",
+                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        POWDER_SNOW_PLASTIC_BUCKET = registerItem("powder_snow_plastic_bucket",
+                () -> new SolidPlasticBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                        new Item.Properties().stacksTo(1)));
+        QUICKSAND_PLASTIC_BUCKET = registerItem("quicksand_plastic_bucket",
+                () -> new SolidPlasticBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                        new Item.Properties().stacksTo(1)));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
@@ -168,9 +187,6 @@ public class ItemRegistry {
         ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
                 CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
-        PLASTIC_BUCKET = registerItem("plastic_bucket",
-                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
         CHRISTMAS_HAT = registerItem("christmas_hat",
                 () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(8))));

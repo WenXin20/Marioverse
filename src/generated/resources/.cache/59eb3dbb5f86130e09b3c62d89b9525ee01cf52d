@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-29T12:45:43.2323492	Loot Tables
+// 1.21.1	2025-12-29T22:20:02.8914596	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -297,7 +297,7 @@ bdd6f26e8ba17e7dba59f43779cc5e5e44a959f9 data/marioverse/loot_table/blocks/purpu
 31984202feab393f179d3d7768c63abff9b290b4 data/marioverse/loot_table/blocks/quartz_brick_pedestal.json
 924fd79f68ab853f5edd3ed3e80242e7b0c0a5ac data/marioverse/loot_table/blocks/quartz_question_bricks.json
 95fb7914e61d335c9243af46120c052b224baa88 data/marioverse/loot_table/blocks/question_bricks.json
-bf0f088a63a069d051f03ee33efe974b81cf6b4e data/marioverse/loot_table/blocks/quicksand.json
+dde25abc5605233f24d97a73b3481925f6db2606 data/marioverse/loot_table/blocks/quicksand.json
 fb59c512a2e22f10acf4deac1c89733c4427cead data/marioverse/loot_table/blocks/red_calcite.json
 39778f1acbe003f50cc32d25b1e02ff242f5fde5 data/marioverse/loot_table/blocks/red_calcite_bricks.json
 4c04ed8527914c5eca802aa9d4f3e5af2659afa1 data/marioverse/loot_table/blocks/red_calcite_brick_pedestal.json

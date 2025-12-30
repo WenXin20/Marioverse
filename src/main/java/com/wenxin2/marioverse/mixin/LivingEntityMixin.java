@@ -872,7 +872,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @ModifyReturnValue(method = "isDamageSourceBlocked", at = @At("RETURN"))
     public boolean isDamageSourceBlocked(boolean original, DamageSource source) {
-        LivingEntity livingEntity = (LivingEntity)(Object)this;
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
 
         if (source.is(TagRegistry.SHIELD_BLOCKS) && livingEntity.isBlocking()) {
             Vec3 vec32 = source.getSourcePosition();
@@ -894,9 +894,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @ModifyReturnValue(method = "handleRelativeFrictionAndCalculateMovement", at = @At("RETURN"))
     private Vec3 mv$handleRelativeFrictionAndCalculateMovement(Vec3 motion) {
-        if ((this.horizontalCollision || this.jumping)
-                && (this.getInBlockState().is(BlockRegistry.QUICKSAND)))
-            return new Vec3(motion.x, motion.y * 20.0D, motion.z);
+        LivingEntity livingEntity = (LivingEntity) (Object) this;
+        BlockState state = livingEntity.level().getBlockState(this.blockPosition());
+
+        if ((this.horizontalCollision || this.jumping) && (state.is(BlockRegistry.QUICKSAND)))
+            return new Vec3(motion.x, 0.2D, motion.z);
         return motion;
     }
 
