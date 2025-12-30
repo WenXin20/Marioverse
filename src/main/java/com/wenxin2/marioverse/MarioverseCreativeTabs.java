@@ -582,7 +582,7 @@ public class MarioverseCreativeTabs {
                 addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
 
                 addAfter(event, Items.POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_BUCKET);
-                addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET);
+                addAfter(event, Items.MILK_BUCKET, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET);
                 addAfter(event, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET, ItemRegistry.QUICKSAND_PLASTIC_BUCKET);
             }
 
