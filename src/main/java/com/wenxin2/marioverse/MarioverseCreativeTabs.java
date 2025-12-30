@@ -58,6 +58,9 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GOLD_KOOPA_SHELL);
             add(event, ItemRegistry.LARGE_SNOWBALL);
             add(event, ItemRegistry.PLASTIC_BUCKET);
+            add(event, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET);
+            add(event, ItemRegistry.QUICKSAND_PLASTIC_BUCKET);
+            add(event, ItemRegistry.QUICKSAND_BUCKET);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
@@ -577,6 +580,10 @@ public class MarioverseCreativeTabs {
             if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
                 addAfter(event, Items.FISHING_ROD, ItemRegistry.WRENCH);
                 addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
+
+                addAfter(event, Items.POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET, ItemRegistry.QUICKSAND_PLASTIC_BUCKET);
             }
 
             if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
