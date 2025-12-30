@@ -313,6 +313,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
 
+        tag(TagRegistry.CAN_WALK_ON_QUICKSAND)
+                .addTag(TagRegistry.POKEY_ENTITIES)
+                .add(EntityType.HUSK);
+
         tag(TagRegistry.CAN_WEAR_COSTUMES)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)

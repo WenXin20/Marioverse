@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -113,9 +114,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
     }
 
     public static boolean canEntityWalkOnQuicksand(Entity entity) {
-        if (entity.getType().is(EntityTypeTags.POWDER_SNOW_WALKABLE_MOBS)) // TODO
-            return true;
-        else return false;
+        return entity.getType().is(TagRegistry.CAN_WALK_ON_QUICKSAND);
     }
 
     @NotNull
@@ -131,7 +130,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
     @NotNull
     @Override
     public Optional<SoundEvent> getPickupSound() {
-        return Optional.of(SoundEvents.BUCKET_FILL_POWDER_SNOW); // TODO
+        return Optional.of(SoundEvents.BUCKET_FILL_POWDER_SNOW);
     }
 
     @Override
