@@ -76,12 +76,14 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
                 BlockPos posFluid = canBlockContainFluid(player, level, pos, state) ? pos : posRelative;
                 if (this.emptyContents(player, level, posFluid, hitResult, stack)) {
                     this.checkExtraContent(player, level, stack, posFluid);
+                    ItemStack newStack = ItemUtils.createFilledResult(stack, player, FluidPlasticBucketItem.getEmptySuccessItem(stack, player));
+                    newStack.applyComponents(stack.getComponents());
+
                     if (player instanceof ServerPlayer)
                         CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, posFluid, stack);
-
                     player.awardStat(Stats.ITEM_USED.get(this));
-                    ItemStack itemstack1 = ItemUtils.createFilledResult(stack, player, FluidPlasticBucketItem.getEmptySuccessItem(stack, player));
-                    return InteractionResultHolder.sidedSuccess(itemstack1, level.isClientSide());
+
+                    return InteractionResultHolder.sidedSuccess(newStack, level.isClientSide());
                 } else return InteractionResultHolder.fail(stack);
             }
         }
