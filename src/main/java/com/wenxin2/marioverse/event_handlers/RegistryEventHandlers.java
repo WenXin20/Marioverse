@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
+import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -42,6 +43,8 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -89,6 +92,14 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), new FluidTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new RecipeGen(output, lookupProvider));
+    }
+
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_BUCKET);
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_WATER_BUCKET);
     }
 
     @SubscribeEvent

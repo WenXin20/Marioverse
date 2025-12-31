@@ -77,7 +77,6 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
                 if (this.emptyContents(player, level, posFluid, hitResult, stack)) {
                     this.checkExtraContent(player, level, stack, posFluid);
                     ItemStack newStack = ItemUtils.createFilledResult(stack, player, FluidPlasticBucketItem.getEmptySuccessItem(stack, player));
-                    newStack.applyComponents(stack.getComponents());
 
                     if (player instanceof ServerPlayer)
                         CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, posFluid, stack);
@@ -90,6 +89,8 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
     }
 
     public static ItemStack getEmptySuccessItem(ItemStack stack, Player player) {
-        return !player.hasInfiniteMaterials() ? new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()) : stack;
+        ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+        newStack.applyComponents(stack.getComponents());
+        return !player.hasInfiniteMaterials() ? newStack : stack;
     }
 }

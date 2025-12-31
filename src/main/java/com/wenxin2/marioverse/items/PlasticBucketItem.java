@@ -20,8 +20,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ClipContext;
@@ -31,9 +33,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -163,5 +168,20 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
+    }
+
+    public static ItemStack getPlasticBucketForFluid(FluidStack fluid) {
+        if (fluid.isEmpty())
+            return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+
+        ItemStack vanillaBucket = FluidUtil.getFilledBucket(fluid);
+
+        if (vanillaBucket.is(Items.WATER_BUCKET))
+            return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+
+//        if (vanillaBucket.is(Items.LAVA_BUCKET))
+//            return new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.);
+
+        return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
     }
 }
