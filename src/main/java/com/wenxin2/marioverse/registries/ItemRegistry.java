@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.ChristmasHatItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.items.FluidPlasticBucketItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
@@ -36,6 +37,8 @@ import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -125,6 +128,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
+    public static final DeferredItem<Item> PLASTIC_WATER_BUCKET;
     public static final DeferredItem<Item> WHITE_KOOPA_SHOES;
     public static final DeferredItem<Item> WRENCH;
 
@@ -152,6 +156,9 @@ public class ItemRegistry {
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
                         new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
+                () -> new FluidPlasticBucketItem(Fluids.WATER, new Item.Properties().stacksTo(1)
+                        .durability(128)));
         POWDER_SNOW_PLASTIC_BUCKET = registerItem("powder_snow_plastic_bucket",
                 () -> new SolidPlasticBucketItem(Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)

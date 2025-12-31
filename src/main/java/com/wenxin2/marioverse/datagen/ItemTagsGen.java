@@ -77,7 +77,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.ARMOR_ENCHANTABLE)
                 .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get());
+                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
         tag(ItemTags.DECORATED_POT_SHERDS)
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
@@ -87,6 +88,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
@@ -94,6 +96,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
@@ -103,6 +106,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.WEAPON_ENCHANTABLE)
@@ -122,6 +126,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.RED_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get());
+
+        tag(Tags.Items.BUCKETS_WATER)
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
         tag(Tags.Items.ENCHANTABLES)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());

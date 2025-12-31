@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-30T21:02:29.9735744	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-12-30T21:58:28.6915196	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -8,6 +8,7 @@ c0f4685b342c133937969cb5a2c80e7ee93e1ce0 data/c/tags/item/buckets.json
 1d9f59c8c89ea3b59ff39d20864ab894d79e0b18 data/c/tags/item/buckets/empty.json
 3e51f1af2fd0dbe6eafc65933389fcc212059001 data/c/tags/item/buckets/powder_snow.json
 38577a49cb884797ffc83cd4d4502bbc1ad264c3 data/c/tags/item/buckets/quicksand.json
+c2dde9a3c935edfd74c8048c963710b698d7d47e data/c/tags/item/buckets/water.json
 b9d9cc831a6042e5223db19ac2a19f42d323c048 data/c/tags/item/dyed/black.json
 4e5371c760ea1d48d247c2fbff06a74f093cfac7 data/c/tags/item/dyed/blue.json
 30fcc2d3340ca8f3367ddaf4efb557dfafc863cd data/c/tags/item/dyed/brown.json
@@ -104,11 +105,11 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/item/wooden_bridge_stairs.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
-532e872403aa544188f07e6de29a6fe73640e755 data/minecraft/tags/item/enchantable/armor.json
-0ec447bba75fb96978c4ba5fb744d2469ae19a34 data/minecraft/tags/item/enchantable/durability.json
-7206e9db10a9c6aa2baec0ee4a8ba1400f72fd66 data/minecraft/tags/item/enchantable/equippable.json
+71c8178df587cd5c11ab83c6cbc21050bd62cc36 data/minecraft/tags/item/enchantable/armor.json
+eb0cb34ee598ebf68cbad038602b734a7fc1aefa data/minecraft/tags/item/enchantable/durability.json
+1665cd7399ed1f43bfed0c926630bb3a4e9b9ceb data/minecraft/tags/item/enchantable/equippable.json
 391d783fca840d39745b17abeffb24ba90843808 data/minecraft/tags/item/enchantable/fire_aspect.json
-7206e9db10a9c6aa2baec0ee4a8ba1400f72fd66 data/minecraft/tags/item/enchantable/vanishing.json
+1665cd7399ed1f43bfed0c926630bb3a4e9b9ceb data/minecraft/tags/item/enchantable/vanishing.json
 391d783fca840d39745b17abeffb24ba90843808 data/minecraft/tags/item/enchantable/weapon.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/item/flowers.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json

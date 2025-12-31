@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -83,7 +84,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             BlockHitResult blockHit = (BlockHitResult) hit;
             BlockState state = level.getBlockState(blockHit.getBlockPos());
 
-            if (state.getBlock() instanceof BucketPickup)
+            if (state.getBlock() instanceof BucketPickup
+                    || state.getFluidState().is(Fluids.WATER))
                 return InteractionResultHolder.pass(player.getItemInHand(hand));
         }
 
@@ -109,10 +111,16 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
                 newStack = new ItemStack(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get());
             else if (state.is(Blocks.POWDER_SNOW))
                 newStack = new ItemStack(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get());
+            else if (state.getFluidState().is(Fluids.WATER))
+                newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
             else return InteractionResult.PASS;
             newStack.applyComponents(stack.getComponents());
 
-            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+            if (state.getFluidState().is(Fluids.WATER))
+                level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                        SoundEvents.BUCKET_FILL, SoundSource.NEUTRAL, 0.5F,
+                        0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
+            else level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.BUCKET_FILL_POWDER_SNOW, SoundSource.NEUTRAL, 0.5F,
                     0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
 
