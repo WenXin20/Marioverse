@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "marioverse:item/quicksand_plastic_bucket"
+    "layer0": "marioverse:item/plastic_quicksand_bucket"
   }
 }

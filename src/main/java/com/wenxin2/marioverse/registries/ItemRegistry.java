@@ -114,14 +114,14 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
-    public static final DeferredItem<Item> POWDER_SNOW_PLASTIC_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_POWDER_SNOW_BUCKET;
     public static final DeferredItem<Item> QUICKSAND_BUCKET;
-    public static final DeferredItem<Item> QUICKSAND_PLASTIC_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
-    public static final DeferredItem<Item> RED_QUICKSAND_PLASTIC_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_RED_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
@@ -159,15 +159,15 @@ public class ItemRegistry {
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
                 () -> new FluidPlasticBucketItem(Fluids.WATER, new Item.Properties().stacksTo(1)
                         .durability(128)));
-        POWDER_SNOW_PLASTIC_BUCKET = registerItem("powder_snow_plastic_bucket",
+        PLASTIC_POWDER_SNOW_BUCKET = registerItem("plastic_powder_snow_bucket",
                 () -> new SolidPlasticBucketItem(Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
-        QUICKSAND_PLASTIC_BUCKET = registerItem("quicksand_plastic_bucket",
+        PLASTIC_QUICKSAND_BUCKET = registerItem("plastic_quicksand_bucket",
                 () -> new SolidPlasticBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
-        RED_QUICKSAND_PLASTIC_BUCKET = registerItem("red_quicksand_plastic_bucket",
+        PLASTIC_RED_QUICKSAND_BUCKET = registerItem("plastic_red_quicksand_bucket",
                 () -> new SolidPlasticBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));

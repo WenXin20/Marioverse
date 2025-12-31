@@ -59,9 +59,9 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_SNOWBALL);
             add(event, ItemRegistry.PLASTIC_BUCKET);
             add(event, ItemRegistry.PLASTIC_WATER_BUCKET);
-            add(event, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET);
-            add(event, ItemRegistry.QUICKSAND_PLASTIC_BUCKET);
-            add(event, ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET);
+            add(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
+            add(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
+            add(event, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
             add(event, ItemRegistry.QUICKSAND_BUCKET);
             add(event, ItemRegistry.RED_QUICKSAND_BUCKET);
 
@@ -588,9 +588,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.QUICKSAND_BUCKET, ItemRegistry.RED_QUICKSAND_BUCKET);
                 addAfter(event, Items.MILK_BUCKET, ItemRegistry.PLASTIC_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.PLASTIC_WATER_BUCKET);
-                addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET);
-                addAfter(event, ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET, ItemRegistry.QUICKSAND_PLASTIC_BUCKET);
-                addAfter(event, ItemRegistry.QUICKSAND_PLASTIC_BUCKET, ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
             }
 
             if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {

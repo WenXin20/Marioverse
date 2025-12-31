@@ -75,9 +75,9 @@ public class ItemTagsGen extends ItemTagsProvider {
             copy(TagRegistry.blockTags("c", "dyed/" + color), TagRegistry.itemTags("c", "dyed/" + color));
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
-                .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
         tag(ItemTags.DECORATED_POT_SHERDS)
@@ -85,17 +85,17 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
         tag(ItemTags.DURABILITY_ENCHANTABLE)
-                .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
         tag(ItemTags.EQUIPPABLE_ENCHANTABLE)
-                .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
@@ -103,9 +103,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WRENCH.get());
 
         tag(ItemTags.VANISHING_ENCHANTABLE)
-                .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
@@ -119,13 +119,13 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLASTIC_BUCKET.get());
 
         tag(Tags.Items.BUCKETS_POWDER_SNOW)
-                .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get());
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
 
         tag(TagRegistry.itemTags("c", "buckets/quicksand"))
                 .add(ItemRegistry.QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.RED_QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get());
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
 
         tag(Tags.Items.BUCKETS_WATER)
                 .add(ItemRegistry.PLASTIC_WATER_BUCKET.get());

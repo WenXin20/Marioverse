@@ -64,10 +64,10 @@ public class DispenserBehaviors {
 
         DispenserBlock.registerProjectileBehavior(ItemRegistry.LARGE_SNOWBALL);
         DispenserBlock.registerBehavior(ItemRegistry.QUICKSAND_BUCKET, dispenseBucketBehavior);
-        DispenserBlock.registerBehavior(ItemRegistry.QUICKSAND_PLASTIC_BUCKET, dispensePlasticBucketBehavior);
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_QUICKSAND_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.RED_QUICKSAND_BUCKET, dispenseBucketBehavior);
-        DispenserBlock.registerBehavior(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET, dispensePlasticBucketBehavior);
-        DispenserBlock.registerBehavior(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET, dispensePlasticBucketBehavior);
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET, dispensePlasticBucketBehavior);
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, dispensePlasticBucketBehavior);
 
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET, new DefaultDispenseItemBehavior() {
             @Override
@@ -82,11 +82,11 @@ public class DispenserBehaviors {
 
                 ItemStack newStack;
                 if (state.is(BlockRegistry.QUICKSAND.get()))
-                    newStack = new ItemStack(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get());
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get());
                 else if (state.is(BlockRegistry.RED_QUICKSAND.get()))
-                    newStack = new ItemStack(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get());
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
                 else if (state.is(Blocks.POWDER_SNOW))
-                    newStack = new ItemStack(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get());
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
                 else return super.execute(blockSource, stack);
                 newStack.applyComponents(stack.getComponents());
 

@@ -1,8 +1,8 @@
 {
   "values": [
     "marioverse:quicksand_bucket",
-    "marioverse:quicksand_plastic_bucket",
+    "marioverse:plastic_quicksand_bucket",
     "marioverse:red_quicksand_bucket",
-    "marioverse:red_quicksand_plastic_bucket"
+    "marioverse:plastic_red_quicksand_bucket"
   ]
 }

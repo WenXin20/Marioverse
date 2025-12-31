@@ -101,14 +101,14 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.POKEY_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get());
+        this.basicItem(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
         this.basicItem(ItemRegistry.QUICKSAND_BUCKET.get());
-        this.basicItem(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get());
+        this.basicItem(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.RED_QUICKSAND_BUCKET.get());
-        this.basicItem(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get());
+        this.basicItem(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.SNOW_POKEY_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SPLUNKIN_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
