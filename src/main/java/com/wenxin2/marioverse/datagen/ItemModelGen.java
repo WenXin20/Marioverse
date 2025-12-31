@@ -13,9 +13,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
@@ -97,7 +100,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PEACH_SHOES.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.PLASTIC_BUCKET.get());
         this.basicItem(ItemRegistry.PLUMBER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.POKEY_SPAWN_EGG.get());
@@ -113,13 +115,16 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.SPLUNKIN_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
-        this.basicItem(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+        this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
         this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem());
         this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem());
         this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
+
+        this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
+        this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
             this.handheldItem(entry.getValue().asItem());
@@ -128,15 +133,43 @@ public class ItemModelGen extends ItemModelProvider {
             this.handheldItem(entry.getValue().asItem());
     }
 
-    public ItemModelBuilder largeItem(Item item) {
-        return largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
+    public void largeItem(Item item) {
+        largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
     }
 
-    public ItemModelBuilder largeItem(ResourceLocation item) {
-        return getBuilder(item.toString())
+    public void plasticFluidBucketItem(Item item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
+        plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
+    }
+
+
+    public void largeItem(ResourceLocation item) {
+        getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
+
+    public void plasticFluidBucketItem(ResourceLocation item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
+        ItemModelBuilder builder = getBuilder(item.getPath())
+                .parent(new ModelFile.UncheckedModelFile("neoforge:item/default"))
+                .texture("base", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()))
+                .texture("fluid", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid"));
+
+        if (coverIsMask)
+            builder.texture("cover", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid_cover"));
+
+        builder.customLoader((parent, existingFileHelper) ->
+                DynamicFluidContainerModelBuilder.begin(parent, existingFileHelper)
+                        .applyTint(applyTint)
+                        .coverIsMask(coverIsMask)
+                        .fluid(fluid));
+    }
+
+//    private void plasticFluidBucket(ResourceLocation itemId) {
+//        withExistingParent(itemId.getPath(), ResourceLocation("builtin/entity"))
+//                .customLoader(FluidContainerModelBuilder::new)
+//                .baseTexture(modLoc("item/" + itemId.getPath()))
+//                .end();
+//    }
 
     public void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
         getBuilder(modelName).parent(getExistingFile(modLoc("block/template_storage_bricks")))

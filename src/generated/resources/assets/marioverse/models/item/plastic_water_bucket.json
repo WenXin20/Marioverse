@@ -1,6 +1,11 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "neoforge:item/default",
+  "apply_tint": true,
+  "cover_is_mask": false,
+  "fluid": "minecraft:water",
+  "loader": "neoforge:fluid_container",
   "textures": {
-    "layer0": "marioverse:item/plastic_water_bucket"
+    "base": "marioverse:item/plastic_water_bucket",
+    "fluid": "marioverse:item/mask/plastic_bucket_fluid"
   }
 }
