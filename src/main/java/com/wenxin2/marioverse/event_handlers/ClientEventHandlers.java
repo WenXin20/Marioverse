@@ -122,7 +122,7 @@ public class ClientEventHandlers {
         if (!isInQuicksand(event.getCamera())) return;
 
         event.setNearPlaneDistance(0.0F);
-        event.setFarPlaneDistance(2.0F);
+        event.setFarPlaneDistance(3.0F);
         event.setCanceled(true);
     }
 
