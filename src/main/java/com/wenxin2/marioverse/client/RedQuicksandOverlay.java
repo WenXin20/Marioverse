@@ -2,22 +2,19 @@ package com.wenxin2.marioverse.client;
 
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.client.Minecraft;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
-public final class QuicksandOverlay {
+public final class RedQuicksandOverlay {
     private static float overlayProgress = 0.0F;
     private static final float FADE_TIME = 40.0F;
 
     public static void clientTick(Minecraft mc) {
         if (mc.player == null) return;
 
-        boolean inQuicksand = mc.level != null && mc.level.getBlockStates(mc.player.getBoundingBox())
-                        .anyMatch(state -> state.is(BlockRegistry.QUICKSAND.get()));
+        boolean inRedQuicksand = mc.level != null && mc.level.getBlockStates(mc.player.getBoundingBox())
+                        .anyMatch(state -> state.is(BlockRegistry.RED_QUICKSAND.get()));
         float step = 1.0F / (FADE_TIME * 20.0F);
 
-        if (inQuicksand)
+        if (inRedQuicksand)
             overlayProgress = Math.min(1.0F, overlayProgress + step);
         else overlayProgress = Math.max(0.0F, overlayProgress - step);
     }

@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
+import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -47,8 +48,12 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandlers {
     public static final Map<UUID, FadeInAndOutSoundInstance> ACTIVE_PIPE_SOUNDS = new HashMap<>();
-    private static final ResourceLocation SPLUNKIN_OVERLAY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
-    public static final ResourceLocation QUICKSAND_OVERLAY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/quicksand_overlay.png");
+    public static final ResourceLocation QUICKSAND_OVERLAY = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/quicksand_overlay.png");
+    public static final ResourceLocation RED_QUICKSAND_OVERLAY = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/red_quicksand_overlay.png");
+    public static final ResourceLocation SPLUNKIN_OVERLAY = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
@@ -71,31 +76,45 @@ public class ClientEventHandlers {
     }
 
     @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        QuicksandOverlay.clientTick(Minecraft.getInstance());
+        RedQuicksandOverlay.clientTick(Minecraft.getInstance());
+    }
+
+    @SubscribeEvent
     public static void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
-        Minecraft mc = Minecraft.getInstance();
-        float alpha = QuicksandOverlay.getOverlayProgress();
-        if (alpha <= 0.001F)
-            return;
-
         GuiGraphics gui = event.getGuiGraphics();
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
-
         int w = gui.guiWidth();
         int h = gui.guiHeight();
 
-        gui.blit(QUICKSAND_OVERLAY, 0, 0, 0, 0, w, h, w, h);
+        float alpha = QuicksandOverlay.getOverlayProgress();
+        if (alpha > 0.001F) {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
 
-        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-        RenderSystem.disableBlend();
+            gui.blit(QUICKSAND_OVERLAY, 0, 0, 0, 0, w, h, w, h);
+
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+            RenderSystem.disableBlend();
+        }
+
+        float redAlpha = RedQuicksandOverlay.getOverlayProgress();
+        if (redAlpha > 0.001F) {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShaderColor(1F, 1F, 1F, redAlpha);
+
+            gui.blit(RED_QUICKSAND_OVERLAY, 0, 0, 0, 0, w, h, w, h);
+
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+            RenderSystem.disableBlend();
+        }
     }
 
     private static boolean isInQuicksand(Camera camera) {
         BlockPos pos = BlockPos.containing(camera.getPosition());
-        return camera.getEntity().level().getBlockState(pos)
-                .is(BlockRegistry.QUICKSAND.get());
+        return camera.getEntity().level().getBlockState(pos).getBlock() instanceof QuicksandBlock;
     }
 
     @SubscribeEvent
@@ -103,7 +122,7 @@ public class ClientEventHandlers {
         if (!isInQuicksand(event.getCamera())) return;
 
         event.setNearPlaneDistance(0.0F);
-        event.setFarPlaneDistance(1.8F);
+        event.setFarPlaneDistance(2.0F);
         event.setCanceled(true);
     }
 
@@ -122,11 +141,6 @@ public class ClientEventHandlers {
         event.setRed(((rgba >> 16) & 0xFF) / 255F);
         event.setGreen(((rgba >> 8) & 0xFF) / 255F);
         event.setBlue((rgba & 0xFF) / 255F);
-    }
-
-    @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
-        QuicksandOverlay.clientTick(Minecraft.getInstance());
     }
 
     @SubscribeEvent

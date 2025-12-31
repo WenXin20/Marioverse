@@ -51,8 +51,6 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import java.util.List;
 import java.util.stream.Collectors;
-import net.minecraft.client.particle.SuspendedParticle;
-import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
