@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
@@ -124,6 +125,8 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup 
         if (!levelAccessor.isClientSide())
             levelAccessor.levelEvent(2001, pos, Block.getId(state));
 
+        if (state.is(BlockRegistry.RED_QUICKSAND))
+            return new ItemStack(ItemRegistry.RED_QUICKSAND_BUCKET.get());
         return new ItemStack(ItemRegistry.QUICKSAND_BUCKET.get());
     }
 

@@ -74,6 +74,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
                 .add(BlockRegistry.QUICKSAND.get())
+                .add(BlockRegistry.RED_QUICKSAND.get())
                 .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
@@ -492,6 +493,9 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(Tags.Blocks.SANDS_COLORLESS)
                 .add(BlockRegistry.QUICKSAND.get());
 
+        tag(Tags.Blocks.SANDS_RED)
+                .add(BlockRegistry.RED_QUICKSAND.get());
+
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get());
@@ -553,13 +557,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
         tag(BlockTags.INSIDE_STEP_SOUND_BLOCKS)
-                .add(BlockRegistry.QUICKSAND.get());
+                .add(BlockRegistry.QUICKSAND.get())
+                .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS);
 
         tag(BlockTags.SAND)
-                .add(BlockRegistry.QUICKSAND.get());
+                .add(BlockRegistry.QUICKSAND.get())
+                .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
@@ -770,7 +776,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
-                .add(BlockRegistry.QUICKSAND.get());
+                .add(BlockRegistry.QUICKSAND.get())
+                .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
                 .add(BlockRegistry.DANGO_BLOSSOM.get())

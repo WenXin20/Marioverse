@@ -117,6 +117,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
+    public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
+    public static final DeferredItem<Item> RED_QUICKSAND_PLASTIC_BUCKET;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
@@ -143,6 +145,9 @@ public class ItemRegistry {
         QUICKSAND_BUCKET = registerItem("quicksand_bucket",
                 () -> new SolidBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1)));
+        RED_QUICKSAND_BUCKET = registerItem("red_quicksand_bucket",
+                () -> new SolidBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                        new Item.Properties().stacksTo(1)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
                         new Item.Properties().stacksTo(1)
@@ -152,6 +157,9 @@ public class ItemRegistry {
                         new Item.Properties().stacksTo(1).durability(128)));
         QUICKSAND_PLASTIC_BUCKET = registerItem("quicksand_plastic_bucket",
                 () -> new SolidPlasticBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                        new Item.Properties().stacksTo(1).durability(128)));
+        RED_QUICKSAND_PLASTIC_BUCKET = registerItem("red_quicksand_plastic_bucket",
+                () -> new SolidPlasticBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",

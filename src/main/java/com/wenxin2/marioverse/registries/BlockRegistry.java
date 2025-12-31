@@ -255,6 +255,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUICKSAND;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_SLAB;
@@ -835,6 +836,10 @@ public class BlockRegistry {
         STORAGE_SANDSTONE_BRICKS = registerBlock("storage_sandstone_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
+
+        RED_QUICKSAND = registerNoItemBlock("red_quicksand",
+                () -> new QuicksandBlock(new ColorRGBA(11098145), BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SAND)
+                        .dynamicShape().isRedstoneConductor(BlockRegistry::never)));
 
         RED_SANDSTONE_BRICKS = registerBlock("red_sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SANDSTONE)));

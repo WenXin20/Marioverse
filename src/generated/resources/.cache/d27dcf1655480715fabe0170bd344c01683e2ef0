@@ -1,7 +1,7 @@
-// 1.21.1	2025-12-29T22:36:56.1858524	Tags for minecraft:block mod id marioverse
+// 1.21.1	2025-12-30T19:51:59.1390355	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
-03018ac27c4e502e2eccf0784fb2a850ef03ba9b data/create/tags/block/movable_empty_collider.json
+8af1dce4fda0e4688dffa31e7838e65be06b926f data/create/tags/block/movable_empty_collider.json
 00bb39c3198e6bd8dd33609a66e9709e352ed95c data/create/tags/block/safe_nbt.json
 ecfeee518c416bd32efc627b1048c1423205f086 data/create/tags/block/simple_mounted_storage.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/create/tags/block/single_block_inventories.json
@@ -24,6 +24,7 @@ f94c0b6ce1981e49f0c7656ee7cf0559cc5eed94 data/c/tags/block/dyed/yellow.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/block/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/block/pumpkins/jack_o_lanterns.json
 9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/c/tags/block/sands/colorless.json
+e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/block/bonkable_blocks.json
 64f942d5c0d54f783d51cbea3b6aa6e53e6343d0 data/marioverse/tags/block/bouncy_blocks.json
@@ -77,13 +78,13 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_ov
 af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
-9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/minecraft/tags/block/inside_step_sound_blocks.json
+28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
 e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 320a8cdce9ca9231ad5ca279dd8551f21a6be83c data/minecraft/tags/block/mineable/pickaxe.json
-9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/minecraft/tags/block/mineable/shovel.json
+28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
-9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/minecraft/tags/block/sand.json
+28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 8f2a21fd51e60bd26df382e3cd61d959ee3c226d data/minecraft/tags/block/slabs.json
 3223c0ac80c228b7211696c27c13272e7e3288a8 data/minecraft/tags/block/stairs.json

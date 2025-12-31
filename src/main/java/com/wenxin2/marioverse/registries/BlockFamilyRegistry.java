@@ -517,6 +517,10 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .questionBlock(BlockRegistry.RED_SANDSTONE_QUESTION_BLOCK.get())
             .getFamily();
 
+    public static final BlockFamilyExtended RED_SAND = familyBuilder(Blocks.RED_SAND)
+            .quicksand(BlockRegistry.RED_QUICKSAND.get())
+            .getFamily();
+
     public static final BlockFamilyExtended RED_SANDSTONE_BRICKS = familyBuilder(BlockRegistry.RED_SANDSTONE_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_RED_SANDSTONE_BRICKS.get())
