@@ -144,23 +144,26 @@ public class ItemRegistry {
 
         QUICKSAND_BUCKET = registerItem("quicksand_bucket",
                 () -> new SolidBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
-                        new Item.Properties().stacksTo(1)));
+                        new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         RED_QUICKSAND_BUCKET = registerItem("red_quicksand_bucket",
                 () -> new SolidBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
-                        new Item.Properties().stacksTo(1)));
+                        new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
                         new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         POWDER_SNOW_PLASTIC_BUCKET = registerItem("powder_snow_plastic_bucket",
                 () -> new SolidPlasticBucketItem(Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
-                        new Item.Properties().stacksTo(1).durability(128)));
+                        new Item.Properties().stacksTo(1).durability(128)
+                                .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
         QUICKSAND_PLASTIC_BUCKET = registerItem("quicksand_plastic_bucket",
                 () -> new SolidPlasticBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
-                        new Item.Properties().stacksTo(1).durability(128)));
+                        new Item.Properties().stacksTo(1).durability(128)
+                                .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
         RED_QUICKSAND_PLASTIC_BUCKET = registerItem("red_quicksand_plastic_bucket",
                 () -> new SolidPlasticBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
-                        new Item.Properties().stacksTo(1).durability(128)));
+                        new Item.Properties().stacksTo(1).durability(128)
+                                .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
