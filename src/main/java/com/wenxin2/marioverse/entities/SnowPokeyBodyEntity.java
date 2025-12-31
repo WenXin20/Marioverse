@@ -68,6 +68,7 @@ public class SnowPokeyBodyEntity extends PokeyBodyEntity implements GeoEntity, N
         return new ItemStack(ItemRegistry.SNOW_POKEY_SPAWN_EGG.get());
     }
 
+    @NotNull
     @Override
     public DamageSource getDamageSource(Entity collidingEntity) {
         return DamageSourceRegistry.snowPokeyThorns(collidingEntity);

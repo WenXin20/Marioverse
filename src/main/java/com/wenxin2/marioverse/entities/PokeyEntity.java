@@ -104,6 +104,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
         return 360;
     }
 
+    @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
         return DamageSourceRegistry.pokeyThorns(collidingEntity);
     }
@@ -520,7 +521,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
                 float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 if (collidingEntity instanceof Creeper)
-                    collidingEntity.hurt(this.getDamageSource(collidingEntity), attackDamage); // TODO
+                    collidingEntity.hurt(this.getDamageSource(collidingEntity), attackDamage);
                 else collidingEntity.hurt(this.getDamageSource(this), attackDamage);
 
                 if (collidingEntity instanceof NeutralMob neutralMob) {
